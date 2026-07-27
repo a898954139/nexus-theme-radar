@@ -19,6 +19,55 @@ such as `https://news.cnyes.com/news/id/6546775`. Cnyes remains a
 media-discovery source; material signals should still be checked against
 official disclosures.
 
+v0.5 adds MOPS as a separate official-evidence source through the official
+TWSE OpenAPI transport:
+
+```text
+catalog: https://openapi.twse.com.tw/v1/swagger.json
+base:    https://openapi.twse.com.tw/v1
+```
+
+The reviewable selection is stored in `config/mops_datasets.tw.json`. Its
+2026-07-27 catalog capture has SHA-256
+`2c2cecccb7a220ac9e263228a7659aa49b1ada5aea397650e601ad3dfcc48043`.
+The upstream capture contains 143 paths, including 94 `/opendata/` paths and
+91 `t187` paths, but v0.5 onboards exactly these 12 core event datasets:
+
+- `t187ap04_L`: daily material information
+- `t187ap12_L`: insider share-transfer advance declarations
+- `t187ap13_L`: declared but untransferred insider shares
+- `t187ap16_L`: actual/forecast earnings variance above the official threshold
+- `t187ap22_L`: FSC/SFB penalties
+- `t187ap23_L`: disclosure, material-information, and press-conference violations
+- `t187ap24_L`: control-right changes
+- `t187ap25_L`: major business-scope changes
+- `t187ap26_L`: trading suspension caused by control or business changes
+- `t187ap27_L`: altered-trading classification caused by control or business changes
+- `t187ap38_L`: shareholder meeting announcements
+- `t187ap45_L`: dividend distributions
+
+The catalog records all other upstream datasets as deferred categories instead
+of maintaining an endpoint-by-endpoint exclusion list. Deferred work includes
+routine company and operating snapshots; revenue and broad financial
+statements; ESG and sustainability disclosures; detailed ownership,
+governance, board, and personnel data; auxiliary disclosure variants; and
+broker, trading, quote, order-book, warrant, ETF, fund, and general exchange
+datasets.
+
+Cadence remains catalog-driven. `t187ap04_L`, `t187ap26_L`, and `t187ap27_L`
+run hourly; `t187ap12_L`, `t187ap13_L`, `t187ap22_L`, `t187ap23_L`,
+`t187ap24_L`, `t187ap25_L`, `t187ap38_L`, and `t187ap45_L` run daily; and
+`t187ap16_L` is quarter-aware. Manual workflow dispatch can request one full
+refresh without adding another workflow or updater command.
+Every official row stays in bounded `data/official-evidence.json`; official
+rows never enter the public theme list directly. They can only confirm or
+conflict with an independently discovered, theme-relevant event.
+
+Test fixtures under `tests/fixtures/mops/` are minimized from archived HTTP
+200 responses returned by the official endpoints. Each fixture records the
+endpoint, response capture date, source row count, canonical response-body
+SHA-256, Swagger SHA-256, and exact minimization performed.
+
 ## Product Model
 
 Use a two-layer model:

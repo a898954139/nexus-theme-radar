@@ -1,5 +1,5 @@
 {
-  "version": "mvp-2",
+  "version": "v0.5",
   "market": "TW",
   "market_id": "TW_EQUITY",
   "market_scope": ["TW_EQUITY"],
@@ -80,8 +80,14 @@
       "market_scope": ["TW_EQUITY"],
       "role": "上市櫃公司重大訊息與財務揭露",
       "trust": "highest",
-      "fetch_method": "official_open_data_or_manual_export",
-      "status": "planned",
+      "fetch_method": "twse_openapi",
+      "status": "active",
+      "base_url": "https://openapi.twse.com.tw/v1",
+      "catalog_path": "config/mops_datasets.tw.json",
+      "timeout_seconds": 20,
+      "max_attempts": 2,
+      "max_response_bytes": 67108864,
+      "max_dataset_rows": 100000,
       "homepage": "https://mops.twse.com.tw/"
     },
     {

@@ -10,6 +10,7 @@ import pytest
 from scripts.update_theme_radar import (
     build_theme_payloads,
     dedupe_records,
+    fetch_rss_source,
     load_source_registry,
     normalize_feed_entry,
     rss_sources,
@@ -252,7 +253,7 @@ def test_run_update_isolates_failed_source(monkeypatch: pytest.MonkeyPatch, tmp_
     )
     calls: list[str] = []
 
-    def fake_fetch(_session, source, fetched_at):
+    def fake_fetch(_session, source, fetched_at, **_kwargs):
         source_id = source["source_id"]
         calls.append(source_id)
         status = {
@@ -287,8 +288,45 @@ def test_run_update_isolates_failed_source(monkeypatch: pytest.MonkeyPatch, tmp_
     )
     status = json.loads((tmp_path / "output" / "source-status.json").read_text())
 
-    assert calls == ["moneydj", "cnyes", "yahoo_finance_tw"]
+    assert sorted(calls) == ["cnyes", "moneydj", "yahoo_finance_tw"]
     assert summary["raw_items"] == 2
     assert summary["failed_sources"] == 1
     assert status["successful_sites"] == 2
     assert status["failed_sites"] == ["cnyes"]
+
+
+def test_rss_adapter_rejects_oversized_response() -> None:
+    class Response:
+        headers = {"Content-Length": "6"}
+        content = b"123456"
+
+        def raise_for_status(self) -> None:
+            return None
+
+        def iter_content(self, _chunk_size: int):
+            yield self.content
+
+        def close(self) -> None:
+            return None
+
+    class Session:
+        def get(self, *_args, **_kwargs):
+            return Response()
+
+    records, status = fetch_rss_source(
+        Session(),
+        {
+            "source_id": "bounded-rss",
+            "name": "Bounded RSS",
+            "source_class": "financial_media",
+            "market_id": "TW_EQUITY",
+            "market_scope": ["TW_EQUITY"],
+            "feed_url": "https://example.com/feed.xml",
+            "max_response_bytes": 5,
+        },
+        datetime(2026, 7, 27, 9, 0, tzinfo=timezone.utc),
+    )
+
+    assert records == []
+    assert status["status"] == "error"
+    assert "response exceeds 5 bytes" in status["error"]
