@@ -18,8 +18,7 @@ const state = {
   authorFilter: "",
   query: "",
   // 单层信息架构：category（内容 tab） x mode（精选/全量全局开关）两个维度。
-  // mode=selected 主列表读 mergedStories()（AI 相关合并事件池，纯时间倒序）；
-  // mode=all 主列表读 itemsAllRaw/itemsAll（全量原始条目池）。
+  // 精选与全量主列表同读 theme-events.json；精选额外应用题材分数与关联标的门槛。
   mode: "all",
   waytoagiMode: "today",
   waytoagiData: null,
@@ -402,10 +401,10 @@ function computeSiteStats(items) {
   return Array.from(m.values()).sort((a, b) => b.count - a.count || a.site_name.localeCompare(b.site_name, "zh-CN"));
 }
 
-// 具体来源下拉/站点 pill 的统计口径跟随当前模式：精选=AI 相关池，全量=原始条目池。
+// 具体来源下拉/站点 pill 的统计口径跟随当前题材事件模式。
 function currentSiteStats() {
   if (state.mode === "all") return computeSiteStats(effectiveAllItems());
-  return safeAiSiteStats().filter((site) => site.count > 0);
+  return computeSiteStats(selectedThemeEvents());
 }
 
 function creatorHotScore(item) {
@@ -423,12 +422,8 @@ function isHighPriorityItem(item) {
 
 // tab 计数跟随当前模式的可见集合（忽略当前已选栏目本身，展示"如果点这个 tab 会有多少条"）
 function sectionTabCount(sectionId) {
-  if (state.mode === "all") {
-    const pool = mainListRawItemsBase();
-    return sectionId === "all" ? pool.length : pool.filter((item) => itemSection(item) === sectionId).length;
-  }
-  const pool = mainListStoriesBase();
-  return sectionId === "all" ? pool.length : pool.filter((story) => storySectionOf(story) === sectionId).length;
+  const pool = mainListItemsBase();
+  return sectionId === "all" ? pool.length : pool.filter((item) => itemMatchesSection(item, sectionId)).length;
 }
 
 function renderSectionTabs() {
@@ -484,7 +479,7 @@ function renderSiteFilters() {
   siteSelectEl.value = state.siteFilter;
 }
 
-// 全局 精选/全量 开关：热点排行区只在精选模式显示；主列表两种模式共用同一套时间序+日期分组模板。
+// 全局 精选/全量 开关：主列表两种模式共用同一套时间序+日期分组模板。
 function renderModeSwitch() {
   if (modeSelectedBtnEl) {
     modeSelectedBtnEl.classList.toggle("active", state.mode === "selected");
@@ -494,7 +489,8 @@ function renderModeSwitch() {
     modeAllBtnEl.classList.toggle("active", state.mode === "all");
     modeAllBtnEl.setAttribute("aria-pressed", state.mode === "all" ? "true" : "false");
   }
-  if (hotBoardWrapEl) hotBoardWrapEl.hidden = state.mode !== "selected";
+  if (hotBoardWrapEl) hotBoardWrapEl.hidden = true;
+  if (top3BoardWrapEl) top3BoardWrapEl.hidden = true;
   if (allDedupeWrapEl) allDedupeWrapEl.classList.toggle("show", state.mode === "all");
   if (allDedupeToggleEl) allDedupeToggleEl.checked = state.allDedup;
   if (allDedupeLabelEl) allDedupeLabelEl.textContent = state.allDedup ? "去重开" : "去重关";
@@ -516,6 +512,20 @@ function listTitleText() {
 // 全量模式条目池：去重开=itemsAll（已去重），去重关=itemsAllRaw（原始单条池）
 function effectiveAllItems() {
   return safeItems(state.allDedup ? state.itemsAll : state.itemsAllRaw);
+}
+
+const SELECTED_THEME_SCORE_MIN = 0.3;
+
+function isSelectedThemeEvent(item) {
+  return (
+    Number(item?.theme_score) >= SELECTED_THEME_SCORE_MIN &&
+    Array.isArray(item?.related_symbols) &&
+    item.related_symbols.length > 0
+  );
+}
+
+function selectedThemeEvents() {
+  return safeItems(state.itemsAll).filter(isSelectedThemeEvent);
 }
 
 function repairDisplayedTitle(original, translated) {
@@ -1249,22 +1259,15 @@ function hotBoardStories() {
 }
 
 function hotBoardEntries() {
-  if (state.mode !== "selected") return [];
-  return hotBoardStories()
-    .filter((story) => storyMatchesSection(story))
-    .slice(0, HOT_BOARD_LIMIT)
-    .map((story, index) => storyToRow(story, index));
+  return [];
 }
 
-// ---- 主列表数据池：精选模式=mergedStories() 全量（纯时间倒序），全量模式=原始条目池 ----
+// ---- 主列表数据池：两种模式同源于 theme-events，精选仅增加资格门槛 ----
 
-function mainListStoriesBase() {
-  return mergedStories().filter((story) => storyMatchesSiteFilter(story) && storyMatchesQuery(story));
-}
-
-function mainListRawItemsBase() {
+function mainListItemsBase() {
   const q = state.query.trim().toLowerCase();
-  return effectiveAllItems().filter((item) => {
+  const pool = state.mode === "selected" ? selectedThemeEvents() : effectiveAllItems();
+  return pool.filter((item) => {
     if (state.siteFilter && item.site_id !== state.siteFilter) return false;
     if (state.authorFilter && itemXAuthor(item) !== state.authorFilter) return false;
     if (!q) return true;
@@ -1272,12 +1275,8 @@ function mainListRawItemsBase() {
   });
 }
 
-function mainListStories() {
-  return mainListStoriesBase().filter((story) => storyMatchesSection(story));
-}
-
-function mainListRawItems() {
-  return mainListRawItemsBase().filter((item) => itemMatchesSection(item));
+function mainListItems() {
+  return mainListItemsBase().filter((item) => itemMatchesSection(item));
 }
 
 // 故事 → 统一行模型（供 renderItemNode 消费）：代表条目 + 全部信源信号 + 故事引用
@@ -1319,15 +1318,9 @@ function itemToRow(item, index = 0) {
 }
 
 function mainListEntries() {
-  if (state.mode === "all") {
-    return mainListRawItems().map((item, index) => {
-      const ms = timelineMs(item);
-      return { row: itemToRow(item, index), timeMs: ms };
-    }).sort((a, b) => b.timeMs - a.timeMs);
-  }
-  return mainListStories().map((story, index) => {
-    const ms = storyTimeMs(story, "latest_at") || storyTimeMs(story, "earliest_at");
-    return { row: storyToRow(story, index), timeMs: ms };
+  return mainListItems().map((item, index) => {
+    const ms = timelineMs(item);
+    return { row: itemToRow(item, index), timeMs: ms };
   }).sort((a, b) => b.timeMs - a.timeMs);
 }
 
@@ -1755,16 +1748,7 @@ function renderMainList() {
 }
 
 function top3BoardEntries() {
-  if (state.mode !== "selected") return [];
-  const t3 = state.top3Personas?.items;
-  if (!Array.isArray(t3) || !t3.length) return [];
-  const byId = new Map(mergedStories().map((s) => [s.story_id, s]));
-  return t3
-    .slice()
-    .sort((a, b) => (Number(a.rank) || 0) - (Number(b.rank) || 0))
-    .map((entry) => byId.get(entry?.story_id))
-    .filter(Boolean)
-    .map((story, index) => storyToRow(story, index));
+  return [];
 }
 
 // 今日 TOP3 板块：三口味并排锐评的固定展示入口。TOP3 卡片在主列表里按时间排序，
@@ -1784,7 +1768,7 @@ function renderTop3Board() {
 function renderHotBoard() {
   renderTop3Board();
   if (!hotBoardListEl) return;
-  const show = state.mode === "selected";
+  const show = hotBoardEntries().length > 0;
   if (hotBoardWrapEl) hotBoardWrapEl.hidden = !show;
   if (!show) return;
   hotBoardListEl.innerHTML = "";
@@ -2308,7 +2292,7 @@ async function init() {
   document.dispatchEvent(new CustomEvent("aiRadar:ready"));
 }
 
-// 搜索：精选模式按故事标题/来源过滤（storyMatchesQuery），全量模式按条目过滤（itemHaystack）
+// 搜索：精选与全量模式都按题材事件字段过滤（itemHaystack）。
 searchInputEl.addEventListener("input", (e) => {
   state.query = e.target.value;
   state.mainListVisibleCount = MAIN_LIST_PAGE_SIZE;
