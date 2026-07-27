@@ -212,6 +212,9 @@ def test_dataset_catalog_rejects_invalid_entries(tmp_path: Path, mutate, message
                 "status": "active",
                 "refresh_class": "hourly",
                 "public_projection": "theme_relevant_only",
+                "allocation_tier": "critical",
+                "allocation_weight": 5,
+                "minimum_reservation": 20,
             }
         ],
     }
@@ -263,6 +266,66 @@ def test_checked_in_catalog_contains_only_approved_active_mops_datasets() -> Non
     assert actual_refresh_classes == expected_refresh_classes
 
 
+def test_checked_in_catalog_has_event_value_allocation_policy() -> None:
+    catalog = load_dataset_catalog(CATALOG_PATH)
+    policies = {
+        dataset["dataset_id"]: (
+            dataset["allocation_tier"],
+            dataset["allocation_weight"],
+            dataset["minimum_reservation"],
+        )
+        for dataset in catalog["datasets"]
+    }
+
+    assert set(policies) == {
+        "t187ap04_L",
+        "t187ap12_L",
+        "t187ap13_L",
+        "t187ap16_L",
+        "t187ap22_L",
+        "t187ap23_L",
+        "t187ap24_L",
+        "t187ap25_L",
+        "t187ap26_L",
+        "t187ap27_L",
+        "t187ap38_L",
+        "t187ap45_L",
+    }
+    assert {policies[dataset_id] for dataset_id in {
+        "t187ap04_L", "t187ap22_L", "t187ap23_L", "t187ap26_L", "t187ap27_L"
+    }} == {("critical", 5, 20)}
+    assert {policies[dataset_id] for dataset_id in {
+        "t187ap12_L", "t187ap13_L", "t187ap16_L", "t187ap24_L", "t187ap25_L"
+    }} == {("high", 3, 10)}
+    assert {policies[dataset_id] for dataset_id in {
+        "t187ap38_L", "t187ap45_L"
+    }} == {("normal", 1, 5)}
+
+
+@pytest.mark.parametrize(
+    ("field", "value"),
+    [
+        ("allocation_tier", "urgent"),
+        ("allocation_weight", 0),
+        ("allocation_weight", 1.5),
+        ("minimum_reservation", -1),
+        ("minimum_reservation", 1.5),
+    ],
+)
+def test_dataset_catalog_rejects_invalid_allocation_policy(
+    tmp_path: Path,
+    field: str,
+    value: object,
+) -> None:
+    catalog = json.loads(CATALOG_PATH.read_text(encoding="utf-8"))
+    catalog["datasets"][0][field] = value
+    path = tmp_path / "catalog.json"
+    path.write_text(json.dumps(catalog), encoding="utf-8")
+
+    with pytest.raises(ValueError, match="allocation"):
+        load_dataset_catalog(path)
+
+
 def test_twse_adapter_rejects_nonofficial_base_url() -> None:
     source = {
         **_source("mops", "twse_openapi"),
@@ -289,6 +352,9 @@ def test_twse_adapter_isolates_dataset_failures_and_caps_attempts(tmp_path: Path
                         "status": "active",
                         "refresh_class": "hourly",
                         "public_projection": "theme_relevant_only",
+                        "allocation_tier": "critical",
+                        "allocation_weight": 5,
+                        "minimum_reservation": 20,
                     }
                     for dataset_id in ("healthy", "broken")
                 ],
@@ -354,6 +420,9 @@ def test_twse_adapter_rejects_oversized_dataset_response(tmp_path: Path) -> None
                         "status": "active",
                         "refresh_class": "hourly",
                         "public_projection": "theme_relevant_only",
+                        "allocation_tier": "critical",
+                        "allocation_weight": 5,
+                        "minimum_reservation": 20,
                     }
                 ],
             }
@@ -410,6 +479,9 @@ def test_twse_adapter_rejects_dataset_row_overflow(tmp_path: Path) -> None:
                         "status": "active",
                         "refresh_class": "hourly",
                         "public_projection": "theme_relevant_only",
+                        "allocation_tier": "critical",
+                        "allocation_weight": 5,
+                        "minimum_reservation": 20,
                     }
                 ],
             }
@@ -531,6 +603,136 @@ def test_official_evidence_payload_is_bounded_and_deterministic() -> None:
     assert payload["total_items"] == 2
     assert payload["total_items_available"] == 3
     assert [item["evidence_id"] for item in payload["items"]] == ["mops-0", "mops-1"]
+
+
+def _evidence_record(dataset_id: str, index: int, *, symbol: str = "2330") -> dict[str, object]:
+    return {
+        "evidence_id": f"{dataset_id}-{index:04d}",
+        "dataset_id": dataset_id,
+        "symbol": symbol,
+        "published_at": f"2026-07-27T{8 - (index % 8):02d}:{59 - (index % 60):02d}:00Z",
+    }
+
+
+def test_balanced_official_evidence_allocation_reserves_and_redistributes() -> None:
+    catalog = load_dataset_catalog(CATALOG_PATH)
+    records = [
+        *[_evidence_record("t187ap45_L", index) for index in range(1000)],
+        *[_evidence_record("t187ap04_L", index) for index in range(30)],
+        *[_evidence_record("t187ap22_L", index) for index in range(4)],
+        *[_evidence_record("t187ap24_L", index) for index in range(15)],
+        *[_evidence_record("t187ap38_L", index) for index in range(2)],
+    ]
+
+    payload = build_official_evidence_payload(
+        records,
+        generated_at=ANCHOR,
+        window_hours=72,
+        max_items=100,
+        dataset_policies=catalog["datasets"],
+    )
+
+    assert payload["allocation_policy"] == "event_value_weighted_v1"
+    assert payload["total_items"] == 100
+    assert payload["total_items_available"] == len(records)
+    assert payload["datasets_represented"] == 5
+    assert payload["dataset_distribution"] == {
+        dataset_id: sum(item["dataset_id"] == dataset_id for item in payload["items"])
+        for dataset_id in sorted({item["dataset_id"] for item in payload["items"]})
+    }
+    assert payload["dataset_distribution"]["t187ap22_L"] == 4
+    assert payload["dataset_distribution"]["t187ap38_L"] == 2
+    assert payload["dataset_distribution"]["t187ap04_L"] >= 20
+    assert payload["dataset_distribution"]["t187ap24_L"] >= 10
+    assert payload["dataset_distribution"]["t187ap45_L"] < 50
+
+
+def test_balanced_official_evidence_allocation_is_permutation_invariant() -> None:
+    catalog = load_dataset_catalog(CATALOG_PATH)
+    records = [
+        *[_evidence_record("t187ap04_L", index) for index in range(20)],
+        *[_evidence_record("t187ap12_L", index) for index in range(20)],
+        *[_evidence_record("t187ap45_L", index) for index in range(40)],
+    ]
+    forward = build_official_evidence_payload(
+        records,
+        generated_at=ANCHOR,
+        window_hours=72,
+        max_items=35,
+        dataset_policies=catalog["datasets"],
+    )
+    reversed_payload = build_official_evidence_payload(
+        list(reversed(records)),
+        generated_at=ANCHOR,
+        window_hours=72,
+        max_items=35,
+        dataset_policies=list(reversed(catalog["datasets"])),
+    )
+
+    assert [item["evidence_id"] for item in forward["items"]] == [
+        item["evidence_id"] for item in reversed_payload["items"]
+    ]
+    assert forward["dataset_distribution"] == reversed_payload["dataset_distribution"]
+
+
+def test_balanced_official_evidence_small_cap_follows_tier_then_dataset_id() -> None:
+    catalog = load_dataset_catalog(CATALOG_PATH)
+    records = [
+        _evidence_record("t187ap45_L", 0),
+        _evidence_record("t187ap12_L", 0),
+        _evidence_record("t187ap22_L", 0),
+        _evidence_record("t187ap04_L", 0),
+    ]
+
+    payload = build_official_evidence_payload(
+        records,
+        generated_at=ANCHOR,
+        window_hours=72,
+        max_items=2,
+        dataset_policies=catalog["datasets"],
+    )
+
+    assert {item["dataset_id"] for item in payload["items"]} == {
+        "t187ap04_L",
+        "t187ap22_L",
+    }
+
+
+def test_balanced_official_evidence_keeps_non_dividend_records_matchable() -> None:
+    catalog = load_dataset_catalog(CATALOG_PATH)
+    material = {
+        **_evidence_record("t187ap04_L", 0),
+        "evidence_id": "mops-material-match",
+        "company_name": "台積電",
+        "title": "重大投資案",
+    }
+    payload = build_official_evidence_payload(
+        [
+            *[_evidence_record("t187ap45_L", index) for index in range(1000)],
+            material,
+        ],
+        generated_at=ANCHOR,
+        window_hours=72,
+        max_items=500,
+        dataset_policies=catalog["datasets"],
+    )
+    attached = attach_official_evidence(
+        [
+            {
+                "id": "event",
+                "published_at": "2026-07-27T08:00:00Z",
+                "title_zh": "台積電重大投資案",
+                "related_symbols": [{"instrument_id": "TWSE:2330", "symbol": "2330"}],
+            }
+        ],
+        payload["items"],
+        official_available=True,
+    )
+
+    assert material in payload["items"]
+    assert payload["dataset_distribution"]["t187ap45_L"] == 499
+    assert attached[0]["confirmation_status"] == "confirmed"
+    assert attached[0]["official_evidence_ids"] == ["mops-material-match"]
 
 
 def test_matching_attaches_deterministic_confirmation_states() -> None:

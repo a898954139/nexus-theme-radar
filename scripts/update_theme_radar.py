@@ -20,6 +20,7 @@ try:
         CONFLICT_TERMS,
         build_official_evidence_payload,
         fetch_twse_openapi_source,
+        load_dataset_catalog,
         read_bounded_response,
     )
     from scripts.theme_relevance import enrich_item_with_themes, load_theme_taxonomy
@@ -28,6 +29,7 @@ except ModuleNotFoundError:
         CONFLICT_TERMS,
         build_official_evidence_payload,
         fetch_twse_openapi_source,
+        load_dataset_catalog,
         read_bounded_response,
     )
     from theme_relevance import enrich_item_with_themes, load_theme_taxonomy
@@ -551,11 +553,26 @@ def run_update(
         for record in result["records"]
     ]
     statuses = [result["status"] for result in results]
+    mops_source = next(
+        (
+            source
+            for source in sources
+            if source.get("fetch_method") == "twse_openapi"
+            and source.get("catalog_path")
+        ),
+        None,
+    )
+    dataset_policies = (
+        load_dataset_catalog(str(mops_source["catalog_path"]))["datasets"]
+        if mops_source
+        else []
+    )
     official_payload = build_official_evidence_payload(
         [*_previous_official_records(output_dir), *current_official_records],
         generated_at=anchor,
         window_hours=official_window_hours,
         max_items=max_official_items,
+        dataset_policies=dataset_policies,
     )
     official_statuses = [
         status

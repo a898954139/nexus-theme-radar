@@ -15,6 +15,7 @@ import requests
 
 SUPPORTED_REFRESH_CLASSES = {"hourly", "daily", "monthly", "quarterly"}
 SUPPORTED_DATASET_STATUSES = {"active", "inactive"}
+ALLOCATION_TIER_RANK = {"critical": 0, "high": 1, "normal": 2}
 TRANSIENT_HTTP_STATUSES = {408, 429, 500, 502, 503, 504}
 DEFAULT_TIMEOUT_SECONDS = 20
 DEFAULT_MAX_ATTEMPTS = 2
@@ -65,6 +66,22 @@ def load_dataset_catalog(path: str | Path) -> dict[str, Any]:
             raise ValueError(f"invalid public projection: {dataset_id}")
         if not str(dataset.get("category") or ""):
             raise ValueError(f"dataset category is required: {dataset_id}")
+        if dataset.get("allocation_tier") not in ALLOCATION_TIER_RANK:
+            raise ValueError(f"invalid allocation tier: {dataset_id}")
+        allocation_weight = dataset.get("allocation_weight")
+        if (
+            not isinstance(allocation_weight, int)
+            or isinstance(allocation_weight, bool)
+            or allocation_weight <= 0
+        ):
+            raise ValueError(f"invalid allocation weight: {dataset_id}")
+        minimum_reservation = dataset.get("minimum_reservation")
+        if (
+            not isinstance(minimum_reservation, int)
+            or isinstance(minimum_reservation, bool)
+            or minimum_reservation < 0
+        ):
+            raise ValueError(f"invalid allocation reservation: {dataset_id}")
         validated.append(dataset)
 
     return {**payload, "datasets": sorted(validated, key=lambda item: item["dataset_id"])}
@@ -393,12 +410,112 @@ def fetch_twse_openapi_source(
     }
 
 
+def _evidence_sort_key(item: dict[str, Any]) -> tuple[str, str]:
+    return (
+        str(
+            item.get("published_at")
+            or item.get("effective_at")
+            or item.get("fetched_at")
+            or ""
+        ),
+        str(item["evidence_id"]),
+    )
+
+
+def allocate_evidence_records(
+    records: list[dict[str, Any]],
+    dataset_policies: list[dict[str, Any]],
+    max_items: int,
+) -> list[dict[str, Any]]:
+    policies = {
+        str(policy["dataset_id"]): policy
+        for policy in dataset_policies
+        if policy.get("dataset_id")
+    }
+    groups: dict[str, list[dict[str, Any]]] = {}
+    for record in records:
+        dataset_id = str(record.get("dataset_id") or "")
+        groups.setdefault(dataset_id, []).append(record)
+    for group in groups.values():
+        group.sort(key=_evidence_sort_key, reverse=True)
+
+    def policy_for(dataset_id: str) -> dict[str, Any]:
+        return policies.get(
+            dataset_id,
+            {
+                "allocation_tier": "normal",
+                "allocation_weight": 1,
+                "minimum_reservation": 0,
+            },
+        )
+
+    dataset_ids = sorted(
+        groups,
+        key=lambda dataset_id: (
+            ALLOCATION_TIER_RANK.get(
+                str(policy_for(dataset_id).get("allocation_tier")),
+                len(ALLOCATION_TIER_RANK),
+            ),
+            dataset_id,
+        ),
+    )
+    offsets = {dataset_id: 0 for dataset_id in dataset_ids}
+    selected: list[dict[str, Any]] = []
+
+    reservation_round = 0
+    while len(selected) < max_items:
+        progressed = False
+        for dataset_id in dataset_ids:
+            policy = policy_for(dataset_id)
+            if reservation_round >= int(policy.get("minimum_reservation") or 0):
+                continue
+            offset = offsets[dataset_id]
+            if offset >= len(groups[dataset_id]):
+                continue
+            selected.append(groups[dataset_id][offset])
+            offsets[dataset_id] += 1
+            progressed = True
+            if len(selected) == max_items:
+                break
+        if not progressed:
+            break
+        reservation_round += 1
+
+    while len(selected) < max_items:
+        progressed = False
+        for dataset_id in dataset_ids:
+            weight = int(policy_for(dataset_id).get("allocation_weight") or 1)
+            for _ in range(weight):
+                offset = offsets[dataset_id]
+                if offset >= len(groups[dataset_id]):
+                    break
+                selected.append(groups[dataset_id][offset])
+                offsets[dataset_id] += 1
+                progressed = True
+                if len(selected) == max_items:
+                    break
+            if len(selected) == max_items:
+                break
+        if not progressed:
+            break
+    return sorted(selected, key=_evidence_sort_key, reverse=True)
+
+
+def evidence_distribution(items: list[dict[str, Any]]) -> dict[str, int]:
+    distribution: dict[str, int] = {}
+    for item in items:
+        dataset_id = str(item.get("dataset_id") or "")
+        distribution[dataset_id] = distribution.get(dataset_id, 0) + 1
+    return dict(sorted(distribution.items()))
+
+
 def build_official_evidence_payload(
     records: list[dict[str, Any]],
     *,
     generated_at: datetime,
     window_hours: int,
     max_items: int,
+    dataset_policies: list[dict[str, Any]] | None = None,
 ) -> dict[str, Any]:
     if window_hours <= 0 or max_items <= 0:
         raise ValueError("official evidence bounds must be positive")
@@ -415,21 +532,26 @@ def build_official_evidence_payload(
         timestamp = datetime.fromisoformat(str(timestamp_text).replace("Z", "+00:00"))
         if cutoff <= timestamp <= generated_at:
             deduped.setdefault(str(record["evidence_id"]), record)
-    ordered = sorted(
+    eligible = sorted(
         deduped.values(),
-        key=lambda item: (
-            item.get("published_at") or item.get("effective_at") or item.get("fetched_at") or "",
-            item["evidence_id"],
-        ),
+        key=_evidence_sort_key,
         reverse=True,
     )
-    items = ordered[:max_items]
+    items = allocate_evidence_records(
+        eligible,
+        dataset_policies or [],
+        max_items,
+    )
+    distribution = evidence_distribution(items)
     return {
         "generated_at": _utc_text(generated_at),
         "market_id": "TW_EQUITY",
         "window_hours": window_hours,
         "max_items": max_items,
         "total_items": len(items),
-        "total_items_available": len(ordered),
+        "total_items_available": len(eligible),
+        "allocation_policy": "event_value_weighted_v1",
+        "datasets_represented": len(distribution),
+        "dataset_distribution": distribution,
         "items": items,
     }
