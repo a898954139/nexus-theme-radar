@@ -1,0 +1,73 @@
+name: Nexus/Taiwan Theme Radar
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "17 * * * *"
+
+concurrency:
+  group: update-taiwan-theme-radar-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: write
+
+jobs:
+  update:
+    timeout-minutes: 40
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Setup Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.11"
+          cache: "pip"
+          cache-dependency-path: "requirements.txt"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Update data
+        run: |
+          python scripts/update_theme_radar.py --output-dir data --window-hours 72 --max-events 500 --max-candidates 200
+
+      - name: Commit and push changes
+        env:
+          EMAIL_DIGEST_PUBLISH: ${{ secrets.EMAIL_DIGEST_PUBLISH || vars.EMAIL_DIGEST_PUBLISH }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          # Stage the whole data dir so newly added output files can never be
+          # silently dropped again (the daily-brief/stories-merged freeze was
+          # caused by a stale filename whitelist here). .gitignore keeps
+          # data/email-digest.json out of this add.
+          # Includes theme-events.json, tracking-candidates.json, source-status.json.
+          git add data/
+          if [ -f data/email-digest.json ] && [ "$EMAIL_DIGEST_PUBLISH" = "1" ]; then
+            git add -f data/email-digest.json
+          fi
+          # Self-check: fail loudly if anything under data/ is still unstaged,
+          # instead of green-but-stale runs.
+          if [ -n "$(git status --porcelain --untracked-files=all -- data/ | grep -v '^[MADRC]' || true)" ]; then
+            echo "::error::Generated files under data/ were not staged:"
+            git status --porcelain --untracked-files=all -- data/ | grep -v '^[MADRC]'
+            exit 1
+          fi
+          if git diff --cached --quiet; then
+            echo "No changes to commit"
+            exit 0
+          fi
+          git commit -m "chore: update taiwan theme radar snapshot"
+          # 运行期间有人推了同分支时裸 push 会被拒(non-fast-forward),整轮数据白跑。
+          # rebase 到最新远端再推,最多重试 3 次;数据文件都是本轮生成的快照,rebase 无冲突风险。
+          for attempt in 1 2 3; do
+            git push && exit 0
+            echo "push rejected (attempt $attempt), rebasing onto latest remote..."
+            git pull --rebase origin "${GITHUB_REF_NAME}" || { git rebase --abort || true; exit 1; }
+          done
+          git push

@@ -1,0 +1,120 @@
+{
+  "version": "mvp-2",
+  "market": "TW",
+  "market_id": "TW_EQUITY",
+  "market_scope": ["TW_EQUITY"],
+  "source_classes": {
+    "financial_media": {
+      "role": "題材發現與市場敘事",
+      "default_trust": "medium",
+      "verification": "重要訊號需回查官方揭露"
+    },
+    "industry_research": {
+      "role": "供應鏈、報價與產業趨勢",
+      "default_trust": "high",
+      "verification": "區分公開摘要與付費研究"
+    },
+    "official_disclosure": {
+      "role": "公司揭露、交易所公告與市場資料",
+      "default_trust": "highest",
+      "verification": "作為事實確認的優先來源"
+    },
+    "market_data_portal": {
+      "role": "行情、基本面與交叉查核",
+      "default_trust": "medium",
+      "verification": "回查交易所或公開資訊觀測站"
+    }
+  },
+  "sources": [
+    {
+      "source_id": "moneydj",
+      "name": "MoneyDJ",
+      "source_class": "financial_media",
+      "market_scope": ["TW_EQUITY"],
+      "role": "產業新聞與台股供應鏈線索",
+      "trust": "medium_high",
+      "fetch_method": "rss",
+      "status": "active",
+      "feed_url": "https://www.moneydj.com/KMDJ/RssCenter.aspx?svc=NW&a=MB010000",
+      "homepage": "https://www.moneydj.com/"
+    },
+    {
+      "source_id": "cnyes",
+      "name": "鉅亨網 Cnyes",
+      "source_class": "financial_media",
+      "market_scope": ["TW_EQUITY"],
+      "role": "即時財經新聞與公司動態",
+      "trust": "medium_high",
+      "fetch_method": "public_feed_or_registry_adapter",
+      "status": "planned",
+      "homepage": "https://www.cnyes.com/"
+    },
+    {
+      "source_id": "trendforce",
+      "name": "TrendForce",
+      "source_class": "industry_research",
+      "market_scope": ["TW_EQUITY"],
+      "role": "半導體、記憶體與科技供應鏈研究",
+      "trust": "high",
+      "fetch_method": "public_research_feed_or_manual_adapter",
+      "status": "planned",
+      "homepage": "https://www.trendforce.com.tw/"
+    },
+    {
+      "source_id": "yahoo_finance_tw",
+      "name": "Yahoo Finance Taiwan",
+      "source_class": "financial_media",
+      "market_scope": ["TW_EQUITY"],
+      "role": "市場新聞與個股事件補充",
+      "trust": "medium",
+      "fetch_method": "rss",
+      "status": "active",
+      "feed_url": "https://tw.stock.yahoo.com/rss",
+      "homepage": "https://tw.stock.yahoo.com/"
+    },
+    {
+      "source_id": "mops",
+      "name": "公開資訊觀測站 MOPS",
+      "source_class": "official_disclosure",
+      "market_scope": ["TW_EQUITY"],
+      "role": "上市櫃公司重大訊息與財務揭露",
+      "trust": "highest",
+      "fetch_method": "official_open_data_or_manual_export",
+      "status": "planned",
+      "homepage": "https://mops.twse.com.tw/"
+    },
+    {
+      "source_id": "twse",
+      "name": "臺灣證券交易所 TWSE",
+      "source_class": "official_disclosure",
+      "market_scope": ["TW_EQUITY"],
+      "role": "上市市場公告與官方交易資料",
+      "trust": "highest",
+      "fetch_method": "official_open_data",
+      "status": "planned",
+      "homepage": "https://www.twse.com.tw/"
+    },
+    {
+      "source_id": "tpex",
+      "name": "證券櫃檯買賣中心 TPEx",
+      "source_class": "official_disclosure",
+      "market_scope": ["TW_EQUITY"],
+      "role": "上櫃市場公告與官方交易資料",
+      "trust": "highest",
+      "fetch_method": "official_open_data",
+      "status": "planned",
+      "homepage": "https://www.tpex.org.tw/"
+    },
+    {
+      "source_id": "goodinfo",
+      "name": "Goodinfo! 台灣股市資訊網",
+      "source_class": "market_data_portal",
+      "market_scope": ["TW_EQUITY"],
+      "role": "基本面、籌碼與歷史資料交叉查核",
+      "trust": "medium",
+      "fetch_method": "registry_only",
+      "status": "planned",
+      "homepage": "https://goodinfo.tw/"
+    }
+  ]
+}

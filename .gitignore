@@ -1,0 +1,39 @@
+# Local environment and secrets
+.env
+.env.*
+*.pem
+*.key
+*.p12
+*.pfx
+*.crt
+*.cert
+*token*
+*cookie*
+cookies.json
+
+# Python / tooling
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
+.venv/
+venv/
+
+# Local agent / workflow state
+.omx/
+Vault/
+.gitnexus.json
+
+# Private source inputs
+feeds/follow.opml
+feeds/*.private.opml
+feeds/private*.opml
+
+# Optional private/generated digests
+data/email-digest.json
+
+# Local OS/editor noise
+.DS_Store
+.idea/
+.vscode/
+.gstack/
