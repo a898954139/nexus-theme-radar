@@ -1,22 +1,118 @@
 {
-  "generated_at": "2026-07-27T16:34:57.609821Z",
+  "generated_at": "2026-07-27T18:49:05.564527Z",
   "market_id": "TW_EQUITY",
   "market_scope": [
     "TW_EQUITY"
   ],
   "window_hours": 72,
   "max_items": 200,
-  "total_items": 0,
-  "total_items_available": 0,
-  "items": [],
-  "pre_cluster_items": 7,
+  "total_items": 1,
+  "total_items_available": 1,
+  "items": [
+    {
+      "id": "cnyes-b22dde3f0dbf",
+      "title_zh": "福特重返國防市場！F系列皮卡變身美軍戰術車",
+      "summary": "福特汽車 (F-US) 宣布加入美國陸軍新一代戰術卡車競標，爭取公司自冷戰結束以來規模最大的軍事合約。這款皮卡除了能在崎嶇地形快速運送士兵，也可化身戰場上的「大型移動電源」，替無人機及指揮管制系統供電。",
+      "source": "鉅亨網 Cnyes",
+      "source_id": "cnyes",
+      "source_class": "financial_media",
+      "market_id": "TW_EQUITY",
+      "market_scope": [
+        "TW_EQUITY"
+      ],
+      "published_at": "2026-07-27T18:30:05Z",
+      "url": "https://news.cnyes.com/news/id/6547341",
+      "extraction_method": "rss",
+      "fetched_at": "2026-07-27T18:49:05.564527Z",
+      "matched_themes": [
+        {
+          "theme_id": "defense_drone",
+          "name_zh": "國防與無人機",
+          "score": 0.5,
+          "signals": [
+            "國防",
+            "無人機"
+          ],
+          "reason": "title_zh: 國防; summary: 無人機"
+        }
+      ],
+      "primary_theme_id": "defense_drone",
+      "theme_score": 0.5,
+      "direct_symbols": [],
+      "symbol_evidence": {},
+      "related_symbols": [
+        {
+          "instrument_id": "TWSE:2634",
+          "market_id": "TW_EQUITY",
+          "asset_class": "equity",
+          "symbol": "2634",
+          "exchange": "TWSE",
+          "name_zh": "漢翔",
+          "evidence": "taxonomy seed: defense_drone",
+          "reason": "theme seed symbol"
+        },
+        {
+          "instrument_id": "TPEX:5371",
+          "market_id": "TW_EQUITY",
+          "asset_class": "equity",
+          "symbol": "5371",
+          "exchange": "TPEX",
+          "name_zh": "中光電",
+          "evidence": "taxonomy seed: defense_drone",
+          "reason": "theme seed symbol"
+        },
+        {
+          "instrument_id": "TPEX:8033",
+          "market_id": "TW_EQUITY",
+          "asset_class": "equity",
+          "symbol": "8033",
+          "exchange": "TPEX",
+          "name_zh": "雷虎",
+          "evidence": "taxonomy seed: defense_drone",
+          "reason": "theme seed symbol"
+        }
+      ],
+      "related_symbol_codes": [
+        "2634",
+        "5371",
+        "8033"
+      ],
+      "decision": "track_watch",
+      "tw_relevance_status": "supply_chain",
+      "tw_relevance_reason": "configured theme defense_drone; strong signal: 國防",
+      "tw_related_symbols": [
+        "TPEX:5371",
+        "TPEX:8033",
+        "TWSE:2634"
+      ],
+      "cluster_id": "cluster-a87a0ae8f657b78e",
+      "cluster_size": 1,
+      "cluster_event_ids": [
+        "cnyes-b22dde3f0dbf"
+      ],
+      "cluster_sources": [
+        {
+          "source_id": "cnyes",
+          "source": "鉅亨網 Cnyes",
+          "title": "福特重返國防市場！F系列皮卡變身美軍戰術車",
+          "url": "https://news.cnyes.com/news/id/6547341",
+          "published_at": "2026-07-27T18:30:05Z"
+        }
+      ],
+      "tracking_reason": "title_zh: 國防; summary: 無人機",
+      "confirmation_status": "unconfirmed",
+      "official_evidence_ids": [],
+      "official_evidence_count": 0
+    }
+  ],
+  "pre_cluster_items": 8,
   "excluded_items": 6,
   "tw_relevance_distribution": {
     "direct": 1,
-    "supply_chain": 6
+    "supply_chain": 7
   },
   "tw_relevance_reason_distribution": {
-    "configured theme defense_drone; strong signal: 國防": 2,
+    "configured theme defense_drone; strong signal: 國防": 3,
     "configured theme defense_drone; strong signal: 無人機": 1,
     "configured theme energy_grid; strong signal: 儲能": 1,
     "configured theme optical_cpo; strong signal: cpo": 1,
