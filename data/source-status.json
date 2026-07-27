@@ -1,43 +1,186 @@
 {
-  "generated_at": "2026-07-27T10:51:15.495701Z",
-  "fetched_raw_items": 161,
-  "items_before_topic_filter": 161,
-  "successful_sites": 3,
+  "generated_at": "2026-07-27T11:54:32.652093Z",
+  "fetched_raw_items": 166,
+  "items_before_topic_filter": 166,
+  "successful_sites": 4,
   "failed_count": 0,
   "failed_sites": [],
   "sites": [
     {
-      "source_id": "moneydj",
-      "name": "MoneyDJ",
-      "source_class": "financial_media",
-      "fetch_method": "rss",
-      "feed_url": "https://www.moneydj.com/KMDJ/RssCenter.aspx?svc=NW&a=MB010000",
-      "status": "ok",
-      "items": 20,
-      "error": null,
-      "elapsed_ms": 822
-    },
-    {
       "source_id": "cnyes",
       "name": "鉅亨網 Cnyes",
       "source_class": "financial_media",
+      "adapter": "rss",
       "fetch_method": "rss",
-      "feed_url": "https://news.cnyes.com/rss/v1/news/category/all",
       "status": "ok",
-      "items": 91,
+      "items": 96,
       "error": null,
-      "elapsed_ms": 923
+      "feed_url": "https://news.cnyes.com/rss/v1/news/category/all",
+      "elapsed_ms": 1001
+    },
+    {
+      "source_id": "moneydj",
+      "name": "MoneyDJ",
+      "source_class": "financial_media",
+      "adapter": "rss",
+      "fetch_method": "rss",
+      "status": "ok",
+      "items": 20,
+      "error": null,
+      "feed_url": "https://www.moneydj.com/KMDJ/RssCenter.aspx?svc=NW&a=MB010000",
+      "elapsed_ms": 920
+    },
+    {
+      "source_id": "mops",
+      "name": "公開資訊觀測站 MOPS",
+      "source_class": "official_disclosure",
+      "adapter": "twse_openapi",
+      "fetch_method": "twse_openapi",
+      "status": "ok",
+      "items": 2333,
+      "error": null,
+      "endpoint": "https://openapi.twse.com.tw/v1",
+      "catalog_path": "config/mops_datasets.tw.json",
+      "catalog_sha256": "2c2cecccb7a220ac9e263228a7659aa49b1ada5aea397650e601ad3dfcc48043",
+      "datasets_due": 12,
+      "datasets_ok": 12,
+      "datasets_failed": 0,
+      "datasets_skipped": 0,
+      "datasets": [
+        {
+          "dataset_id": "t187ap04_L",
+          "path": "/opendata/t187ap04_L",
+          "category": "material_information",
+          "refresh_class": "hourly",
+          "status": "ok",
+          "items": 4,
+          "error": null,
+          "elapsed_ms": 814
+        },
+        {
+          "dataset_id": "t187ap12_L",
+          "path": "/opendata/t187ap12_L",
+          "category": "insider_major_shareholders",
+          "refresh_class": "daily",
+          "status": "ok",
+          "items": 3,
+          "error": null,
+          "elapsed_ms": 197
+        },
+        {
+          "dataset_id": "t187ap13_L",
+          "path": "/opendata/t187ap13_L",
+          "category": "insider_major_shareholders",
+          "refresh_class": "daily",
+          "status": "ok",
+          "items": 1,
+          "error": null,
+          "elapsed_ms": 192
+        },
+        {
+          "dataset_id": "t187ap16_L",
+          "path": "/opendata/t187ap16_L",
+          "category": "financial_statements",
+          "refresh_class": "quarterly",
+          "status": "ok",
+          "items": 6,
+          "error": null,
+          "elapsed_ms": 193
+        },
+        {
+          "dataset_id": "t187ap22_L",
+          "path": "/opendata/t187ap22_L",
+          "category": "governance_compliance",
+          "refresh_class": "daily",
+          "status": "ok",
+          "items": 21,
+          "error": null,
+          "elapsed_ms": 193
+        },
+        {
+          "dataset_id": "t187ap23_L",
+          "path": "/opendata/t187ap23_L",
+          "category": "governance_compliance",
+          "refresh_class": "daily",
+          "status": "ok",
+          "items": 31,
+          "error": null,
+          "elapsed_ms": 194
+        },
+        {
+          "dataset_id": "t187ap24_L",
+          "path": "/opendata/t187ap24_L",
+          "category": "operational_control",
+          "refresh_class": "daily",
+          "status": "ok",
+          "items": 17,
+          "error": null,
+          "elapsed_ms": 193
+        },
+        {
+          "dataset_id": "t187ap25_L",
+          "path": "/opendata/t187ap25_L",
+          "category": "operational_control",
+          "refresh_class": "daily",
+          "status": "ok",
+          "items": 1,
+          "error": null,
+          "elapsed_ms": 195
+        },
+        {
+          "dataset_id": "t187ap26_L",
+          "path": "/opendata/t187ap26_L",
+          "category": "operational_control",
+          "refresh_class": "hourly",
+          "status": "ok",
+          "items": 0,
+          "error": null,
+          "elapsed_ms": 193
+        },
+        {
+          "dataset_id": "t187ap27_L",
+          "path": "/opendata/t187ap27_L",
+          "category": "operational_control",
+          "refresh_class": "hourly",
+          "status": "ok",
+          "items": 0,
+          "error": null,
+          "elapsed_ms": 192
+        },
+        {
+          "dataset_id": "t187ap38_L",
+          "path": "/opendata/t187ap38_L",
+          "category": "dividends_shareholder_meetings",
+          "refresh_class": "daily",
+          "status": "ok",
+          "items": 1108,
+          "error": null,
+          "elapsed_ms": 414
+        },
+        {
+          "dataset_id": "t187ap45_L",
+          "path": "/opendata/t187ap45_L",
+          "category": "dividends_shareholder_meetings",
+          "refresh_class": "daily",
+          "status": "ok",
+          "items": 1141,
+          "error": null,
+          "elapsed_ms": 1001
+        }
+      ],
+      "elapsed_ms": 3976
     },
     {
       "source_id": "yahoo_finance_tw",
       "name": "Yahoo Finance Taiwan",
       "source_class": "financial_media",
+      "adapter": "rss",
       "fetch_method": "rss",
-      "feed_url": "https://tw.stock.yahoo.com/rss",
       "status": "ok",
       "items": 50,
       "error": null,
-      "elapsed_ms": 506
+      "feed_url": "https://tw.stock.yahoo.com/rss",
+      "elapsed_ms": 394
     }
   ]
 }
