@@ -25,6 +25,7 @@ try:
         read_bounded_response,
     )
     from scripts.theme_relevance import enrich_item_with_themes, load_theme_taxonomy
+    from scripts.symbol_mapping import instrument_for_symbol, load_symbol_aliases
 except ModuleNotFoundError:
     from source_adapters import (
         CONFLICT_TERMS,
@@ -34,6 +35,7 @@ except ModuleNotFoundError:
         read_bounded_response,
     )
     from theme_relevance import enrich_item_with_themes, load_theme_taxonomy
+    from symbol_mapping import instrument_for_symbol, load_symbol_aliases
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -46,6 +48,16 @@ MAX_SOURCE_WORKERS = 5
 UNKNOWN_AUTHORITY_RANK = 99
 DEFAULT_CLUSTER_WINDOW_HOURS = 36
 TITLE_TOKEN_SIMILARITY_THRESHOLD = 0.35
+SELECTED_THEME_SCORE_MIN = 0.3
+CANDIDATE_THEME_SCORE_MIN = 0.5
+GENERIC_SUPPLY_CHAIN_SIGNALS = {
+    "ai",
+    "科技",
+    "科技股",
+    "記憶體",
+    "半導體",
+    "市場",
+}
 ENTITY_NOISE_TERMS = (
     "ai",
     "科技",
@@ -675,6 +687,126 @@ def cluster_theme_events(
     )
 
 
+def _configured_instrument_ids(
+    values: list[Any],
+    symbol_aliases: dict[str, Any],
+) -> list[str]:
+    instruments: dict[str, str] = {}
+    for value in values:
+        if isinstance(value, dict):
+            symbol = str(
+                value.get("symbol")
+                or str(value.get("instrument_id") or "").split(":")[-1]
+            )
+        else:
+            symbol = str(value).split(":")[-1]
+        if symbol not in symbol_aliases["symbols"]:
+            continue
+        instrument = instrument_for_symbol(
+            symbol,
+            symbol_aliases,
+            evidence="existing related_symbols mapping",
+            reason="existing Taiwan symbol mapping",
+        )
+        instruments[instrument["instrument_id"]] = instrument["instrument_id"]
+    return sorted(instruments)
+
+
+def classify_taiwan_relevance(
+    record: dict[str, Any],
+    taxonomy: dict[str, Any],
+    symbol_aliases: dict[str, Any] | None = None,
+) -> dict[str, Any]:
+    aliases = symbol_aliases or load_symbol_aliases()
+    public_record = {
+        key: value
+        for key, value in record.items()
+        if key != "_input_related_symbols"
+    }
+    direct_ids = _configured_instrument_ids(
+        list(record.get("direct_symbols") or []),
+        aliases,
+    )
+    if direct_ids:
+        return {
+            **public_record,
+            "tw_relevance_status": "direct",
+            "tw_relevance_reason": f"direct Taiwan symbol: {', '.join(direct_ids)}",
+            "tw_related_symbols": direct_ids,
+        }
+
+    existing_ids = _configured_instrument_ids(
+        list(record.get("_input_related_symbols") or []),
+        aliases,
+    )
+    if existing_ids:
+        return {
+            **public_record,
+            "tw_relevance_status": "direct",
+            "tw_relevance_reason": (
+                f"existing Taiwan related_symbols mapping: {', '.join(existing_ids)}"
+            ),
+            "tw_related_symbols": existing_ids,
+        }
+
+    phase = _event_phase(record)
+    if phase in {"listing", "market_wrap", "price_performance", "target_price"}:
+        return {
+            **public_record,
+            "tw_relevance_status": "excluded",
+            "tw_relevance_reason": f"unsupported overseas event phase: {phase}",
+            "tw_related_symbols": [],
+        }
+
+    themes_by_id = {
+        str(theme["theme_id"]): theme
+        for theme in taxonomy.get("themes", [])
+    }
+    for match in record.get("matched_themes", []):
+        theme_id = str(match.get("theme_id") or "")
+        strong_signals = sorted(
+            {
+                str(signal).strip()
+                for signal in match.get("signals", [])
+                if str(signal).strip()
+                and str(signal).strip().casefold()
+                not in {term.casefold() for term in GENERIC_SUPPLY_CHAIN_SIGNALS}
+            },
+            key=str.casefold,
+        )
+        theme = themes_by_id.get(theme_id)
+        if not theme or not strong_signals:
+            continue
+        related_ids = _configured_instrument_ids(
+            list(theme.get("seed_symbols") or []),
+            aliases,
+        )
+        if related_ids:
+            return {
+                **public_record,
+                "tw_relevance_status": "supply_chain",
+                "tw_relevance_reason": (
+                    f"configured theme {theme_id}; strong signal: {strong_signals[0]}"
+                ),
+                "tw_related_symbols": related_ids,
+            }
+
+    return {
+        **public_record,
+        "tw_relevance_status": "excluded",
+        "tw_relevance_reason": "no direct Taiwan symbol or strong configured supply-chain signal",
+        "tw_related_symbols": [],
+    }
+
+
+def _count_values(records: list[dict[str, Any]], field: str) -> dict[str, int]:
+    counts: dict[str, int] = {}
+    for record in records:
+        value = str(record.get(field) or "")
+        counts[value] = counts.get(value, 0) + 1
+    return dict(sorted(counts.items()))
+
+
 def build_theme_payloads(
     records: list[dict[str, Any]],
     taxonomy: dict[str, Any],
@@ -693,21 +825,46 @@ def build_theme_payloads(
         for record in dedupe_records(records)
         if record.get("published_at") and cutoff <= parse_timestamp(str(record["published_at"])) <= anchor
     ]
-    enriched = [enrich_item_with_themes(record, taxonomy) for record in in_window]
-    matched = [item for item in enriched if item["matched_themes"]]
+    enriched = [
+        {
+            **enrich_item_with_themes(record, taxonomy),
+            "_input_related_symbols": list(record.get("related_symbols") or []),
+        }
+        for record in in_window
+    ]
+    matched = [
+        item
+        for item in enriched
+        if item["matched_themes"]
+        and item["theme_score"] >= SELECTED_THEME_SCORE_MIN
+    ]
+    classified = [
+        classify_taiwan_relevance(item, taxonomy)
+        for item in matched
+    ]
+    retained = [
+        item
+        for item in classified
+        if item["tw_relevance_status"] != "excluded"
+    ]
+    excluded = [
+        item
+        for item in classified
+        if item["tw_relevance_status"] == "excluded"
+    ]
     clustered = cluster_theme_events(
-        matched,
+        retained,
         source_authority=source_authority or {},
     )
     candidates = [
         {**item, "tracking_reason": item["matched_themes"][0]["reason"]}
         for item in clustered
-        if item["theme_score"] >= 0.5 and item.get("related_symbols")
+        if item["theme_score"] >= CANDIDATE_THEME_SCORE_MIN
+        and item.get("related_symbols")
     ]
     market_id = str(taxonomy.get("market_id") or "TW_EQUITY")
     market_scope = list(taxonomy.get("market_scope") or [market_id])
-    return (
-        _payload(
+    event_payload = _payload(
             items=clustered[:max_events],
             available_count=len(clustered),
             generated_at=anchor,
@@ -715,8 +872,8 @@ def build_theme_payloads(
             max_items=max_events,
             market_id=market_id,
             market_scope=market_scope,
-        ),
-        _payload(
+        )
+    candidate_payload = _payload(
             items=candidates[:max_candidates],
             available_count=len(candidates),
             generated_at=anchor,
@@ -724,8 +881,21 @@ def build_theme_payloads(
             max_items=max_candidates,
             market_id=market_id,
             market_scope=market_scope,
-        ),
+        )
+    relevance_distribution = _count_values(retained, "tw_relevance_status")
+    relevance_reason_distribution = _count_values(
+        classified,
+        "tw_relevance_reason",
     )
+    diagnostics = {
+        "pre_cluster_items": len(retained),
+        "excluded_items": len(excluded),
+        "tw_relevance_distribution": relevance_distribution,
+        "tw_relevance_reason_distribution": relevance_reason_distribution,
+        "selected_theme_score_min": SELECTED_THEME_SCORE_MIN,
+        "candidate_theme_score_min": CANDIDATE_THEME_SCORE_MIN,
+    }
+    return ({**event_payload, **diagnostics}, {**candidate_payload, **diagnostics})
 
 
 def _event_symbols(event: dict[str, Any]) -> set[str]:
@@ -973,6 +1143,10 @@ def run_update(
         "official_evidence": official_payload["total_items"],
         "official_evidence_available": official_payload["total_items_available"],
         "theme_events": events["total_items"],
+        "pre_cluster_events": events["pre_cluster_items"],
+        "excluded_events": events["excluded_items"],
+        "taiwan_relevance_states": events["tw_relevance_distribution"],
+        "taiwan_relevance_reasons": events["tw_relevance_reason_distribution"],
         "tracking_candidates": candidates["total_items"],
         "failed_sources": status_payload["failed_count"],
         "confirmation_states": {
