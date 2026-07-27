@@ -1077,9 +1077,11 @@ function storySourceCount(story) {
 // 那种情况说明所有信源 url 都和主条目一致，只能保留原始 sources 列表兜底展示。
 function dedupedStorySources(row) {
   const story = row && row.story;
-  if (!story) return [];
-  const sources = Array.isArray(story.sources) ? story.sources : [];
-  const primaryUrl = (row.item && row.item.url) || story.primary_url || story.url || "";
+  const item = row && row.item;
+  const sources = story
+    ? (Array.isArray(story.sources) ? story.sources : [])
+    : (Array.isArray(item?.cluster_sources) ? item.cluster_sources : []);
+  const primaryUrl = (item && item.url) || story?.primary_url || story?.url || "";
   const filtered = primaryUrl ? sources.filter((src) => src && src.url !== primaryUrl) : sources;
   return filtered.length ? filtered : sources;
 }
@@ -1305,14 +1307,24 @@ function storyToRow(story, index = 0) {
 
 // 原始条目 → 统一行模型：无故事引用，渲染时优雅降级（不展示精选徽章/分数/为什么重要）
 function itemToRow(item, index = 0) {
+  const clusterSources = Array.isArray(item.cluster_sources)
+    ? item.cluster_sources.map((source) => ({
+      ...source,
+      title_zh: source.title,
+    }))
+    : [];
   return {
     item,
     index,
     story: null,
-    rows: [{ item }],
-    sourceSignals: [sourceSignal(item)],
-    sourceCount: 1,
-    mergedCount: 1,
+    rows: clusterSources.length
+      ? clusterSources.map((source) => ({ item: source }))
+      : [{ item }],
+    sourceSignals: clusterSources.length
+      ? Array.from(new Set(clusterSources.map(sourceSignal)))
+      : [sourceSignal(item)],
+    sourceCount: Math.max(1, Number(item.cluster_size || clusterSources.length)),
+    mergedCount: Math.max(1, Number(item.cluster_size || clusterSources.length)),
     score: Math.round(Number(item.theme_score || 0) * 100),
   };
 }
@@ -1449,9 +1461,9 @@ function renderItemNode(row) {
 
   // 多源 chip：source_count>=2 时出现，紧跟通道/子来源 chip 之后，同时充当"同一事件"展开/收起触发器
   // （取代旧的独立 event-expand-toggle）。子列表挂在 news-card-body 末尾，首次点击才建 DOM，之后本地 toggle。
-  if (row.story && storySourceCount(row.story) >= 2) {
+  if (rowSourceCount(row) >= 2) {
     const bodyEl = node.querySelector(".news-card-body") || node;
-    const eventCount = storySourceCount(row.story);
+    const eventCount = rowSourceCount(row);
     const collapsedLabel = `多源 ${fmtNumber(eventCount)} ▸`;
     const expandedLabel = `多源 ${fmtNumber(eventCount)} ▾`;
     const multiChip = document.createElement("button");

@@ -5,6 +5,7 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+import re
 import time
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from datetime import datetime, timedelta, timezone
@@ -42,6 +43,32 @@ REQUEST_TIMEOUT_SECONDS = 20
 MAX_RSS_RESPONSE_BYTES = 8 * 1024 * 1024
 USER_AGENT = "TaiwanEquityThemeRadar/0.1 (+https://github.com/)"
 MAX_SOURCE_WORKERS = 5
+UNKNOWN_AUTHORITY_RANK = 99
+DEFAULT_CLUSTER_WINDOW_HOURS = 36
+TITLE_TOKEN_SIMILARITY_THRESHOLD = 0.35
+ENTITY_NOISE_TERMS = (
+    "ai",
+    "科技",
+    "產業",
+    "市場",
+    "記憶體",
+    "伺服器",
+    "載板",
+    "產能",
+    "投產",
+    "上市",
+    "ipo",
+    "a股",
+    "股價",
+    "目標價",
+    "里程碑",
+    "正式",
+    "完成",
+    "啟動",
+    "公布",
+    "需求",
+    "新高",
+)
 
 
 def now_utc() -> datetime:
@@ -71,7 +98,25 @@ def load_source_registry(path: str | Path = DEFAULT_REGISTRY_PATH) -> dict[str, 
     sources = payload.get("sources")
     if not isinstance(sources, list) or not sources:
         raise ValueError("source registry must contain a non-empty sources array")
+    for source in sources:
+        authority_rank = source.get("authority_rank")
+        if authority_rank is not None and (
+            not isinstance(authority_rank, int)
+            or isinstance(authority_rank, bool)
+            or authority_rank < 0
+        ):
+            raise ValueError(f"invalid source authority rank: {source.get('source_id')}")
     return payload
+
+
+def source_authority_ranks(registry: dict[str, Any]) -> dict[str, int]:
+    return {
+        str(source["source_id"]): int(
+            source.get("authority_rank", UNKNOWN_AUTHORITY_RANK)
+        )
+        for source in registry.get("sources", [])
+        if source.get("source_id")
+    }
 
 
 def active_sources(registry: dict[str, Any]) -> list[dict[str, Any]]:
@@ -334,7 +379,312 @@ def _payload(
     }
 
 
-def build_theme_payloads(records: list[dict[str, Any]], taxonomy: dict[str, Any], *, anchor: datetime, window_hours: int, max_events: int, max_candidates: int) -> tuple[dict[str, Any], dict[str, Any]]:
+def _event_title(record: dict[str, Any]) -> str:
+    return str(record.get("title_zh") or record.get("title") or "")
+
+
+def normalized_event_tokens(record: dict[str, Any]) -> set[str]:
+    title = _event_title(record).casefold()
+    tokens = {
+        token
+        for token in re.findall(r"[a-z0-9]+", title)
+        if len(token) >= 2
+    }
+    for sequence in re.findall(r"[\u3400-\u9fff]+", title):
+        for size in (2, 3):
+            tokens.update(
+                sequence[index:index + size]
+                for index in range(len(sequence) - size + 1)
+            )
+    return tokens
+
+
+def _event_entities(record: dict[str, Any]) -> set[str]:
+    entities = {
+        f"symbol:{item.get('symbol') or str(item.get('instrument_id') or '').split(':')[-1]}"
+        for item in record.get("direct_symbols", [])
+        if isinstance(item, dict)
+        and (item.get("symbol") or item.get("instrument_id"))
+    }
+    for field in ("company_name", "entity", "product", "technology", "policy"):
+        value = str(record.get(field) or "").strip().casefold()
+        if value:
+            entities.add(f"named:{value}")
+    combined_text = f"{_event_title(record)} {record.get('summary') or ''}".casefold()
+    for match in record.get("matched_themes", []):
+        for signal in match.get("signals", []):
+            normalized = str(signal).strip().casefold()
+            if len(normalized) >= 2 and normalized in combined_text:
+                entities.add(f"signal:{normalized}")
+    entity_text = "".join(
+        re.findall(r"[\u3400-\u9fff]+", _event_title(record).casefold())
+    )
+    for noise_term in ENTITY_NOISE_TERMS:
+        entity_text = entity_text.replace(noise_term, "")
+    for size in (2, 3, 4):
+        entities.update(
+            f"namegram:{entity_text[index:index + size]}"
+            for index in range(len(entity_text) - size + 1)
+        )
+    return entities
+
+
+def _event_company_entities(record: dict[str, Any]) -> set[str]:
+    entities = {
+        f"symbol:{item.get('symbol') or str(item.get('instrument_id') or '').split(':')[-1]}"
+        for item in record.get("direct_symbols", [])
+        if isinstance(item, dict)
+        and (item.get("symbol") or item.get("instrument_id"))
+    }
+    for field in ("company_name", "entity"):
+        value = str(record.get(field) or "").strip().casefold()
+        if value:
+            entities.add(f"company:{value}")
+    if entities:
+        return entities
+
+    title = _event_title(record).casefold()
+    signal_positions = [
+        title.index(signal)
+        for match in record.get("matched_themes", [])
+        for raw_signal in match.get("signals", [])
+        if (signal := str(raw_signal).strip().casefold()) and signal in title
+    ]
+    if not signal_positions:
+        return set()
+
+    prefix = title[:min(signal_positions)]
+    for noise_term in ENTITY_NOISE_TERMS:
+        prefix = prefix.replace(noise_term, "")
+    chinese_prefix = "".join(re.findall(r"[\u3400-\u9fff]+", prefix))
+    if 2 <= len(chinese_prefix) <= 6:
+        return {
+            f"company-hint:{chinese_prefix[index:index + 2]}"
+            for index in range(len(chinese_prefix) - 1)
+        }
+    latin_prefix = re.findall(r"[a-z0-9]+", prefix)
+    if 1 <= len(latin_prefix) <= 3 and all(len(token) >= 2 for token in latin_prefix):
+        return {f"company-hint:{latin_prefix[0]}"}
+    return set()
+
+
+def _company_entities_are_compatible(left: set[str], right: set[str]) -> bool:
+    if not left.isdisjoint(right):
+        return True
+    left_names = [
+        tuple(re.findall(r"[a-z0-9]+|[\u3400-\u9fff]+", entity.removeprefix("company:")))
+        for entity in left
+        if entity.startswith("company:")
+    ]
+    right_names = [
+        tuple(re.findall(r"[a-z0-9]+|[\u3400-\u9fff]+", entity.removeprefix("company:")))
+        for entity in right
+        if entity.startswith("company:")
+    ]
+    return any(
+        shorter and longer[:len(shorter)] == shorter
+        for left_name in left_names
+        for right_name in right_names
+        for shorter, longer in ((left_name, right_name), (right_name, left_name))
+    )
+
+
+def _event_phase(record: dict[str, Any]) -> str:
+    text = _event_title(record).casefold()
+    phase_patterns = (
+        ("market_wrap", ("盤勢", "市場綜述", "market wrap", "韓股", "港股")),
+        ("target_price", ("目標價", "target price", "評等")),
+        ("price_performance", ("股價", "市值", "漲停", "創新高", "price record")),
+        ("prediction", ("預估", "預測", "可望", "將於", "forecast")),
+        ("realized", ("完成", "正式", "投產", "已經", "達成")),
+        ("listing", ("上市", "ipo", "掛牌", "募資")),
+        ("earnings", ("獲利", "財報", "營收", "earnings")),
+        ("corporate_action", ("投資", "併購", "擴產", "增資")),
+    )
+    return next(
+        (
+            phase
+            for phase, patterns in phase_patterns
+            if any(pattern in text for pattern in patterns)
+        ),
+        "generic",
+    )
+
+
+def _title_similarity(left: dict[str, Any], right: dict[str, Any]) -> float:
+    left_tokens = normalized_event_tokens(left)
+    right_tokens = normalized_event_tokens(right)
+    if not left_tokens or not right_tokens:
+        return 0.0
+    return len(left_tokens & right_tokens) / len(left_tokens | right_tokens)
+
+
+def events_are_cluster_compatible(
+    left: dict[str, Any],
+    right: dict[str, Any],
+    *,
+    window_hours: int,
+) -> bool:
+    if (
+        not left.get("primary_theme_id")
+        or left.get("primary_theme_id") != right.get("primary_theme_id")
+    ):
+        return False
+    if not left.get("published_at") or not right.get("published_at"):
+        return False
+    try:
+        left_at = parse_timestamp(str(left.get("published_at") or ""))
+        right_at = parse_timestamp(str(right.get("published_at") or ""))
+    except (TypeError, ValueError):
+        return False
+    if abs((left_at - right_at).total_seconds()) > window_hours * 3600:
+        return False
+    if _event_phase(left) != _event_phase(right):
+        return False
+    left_symbols = {
+        entity
+        for entity in _event_entities(left)
+        if entity.startswith("symbol:")
+    }
+    right_symbols = {
+        entity
+        for entity in _event_entities(right)
+        if entity.startswith("symbol:")
+    }
+    if left_symbols and right_symbols and left_symbols.isdisjoint(right_symbols):
+        return False
+    left_companies = _event_company_entities(left)
+    right_companies = _event_company_entities(right)
+    if (
+        left_companies
+        and right_companies
+        and not _company_entities_are_compatible(left_companies, right_companies)
+    ):
+        return False
+    if _event_entities(left).isdisjoint(_event_entities(right)):
+        return False
+    return _title_similarity(left, right) >= TITLE_TOKEN_SIMILARITY_THRESHOLD
+
+
+def _published_epoch(record: dict[str, Any]) -> float:
+    try:
+        return parse_timestamp(str(record.get("published_at") or "")).timestamp()
+    except (TypeError, ValueError):
+        return 0.0
+
+
+def _representative_key(
+    record: dict[str, Any],
+    source_authority: dict[str, int],
+) -> tuple[int, int, float, str]:
+    completeness = sum(
+        bool(str(record.get(field) or "").strip())
+        for field in ("title_zh", "summary", "content")
+    )
+    completeness += min(len(str(record.get("summary") or "")), 500)
+    return (
+        source_authority.get(
+            str(record.get("source_id") or ""),
+            UNKNOWN_AUTHORITY_RANK,
+        ),
+        -completeness,
+        -_published_epoch(record),
+        str(record.get("url") or ""),
+    )
+
+
+def _cluster_member_id(record: dict[str, Any]) -> str:
+    return str(
+        record.get("id")
+        or record.get("url")
+        or stable_id(
+            str(record.get("source_id") or ""),
+            str(record.get("url") or ""),
+            _event_title(record),
+        )
+    )
+
+
+def cluster_theme_events(
+    records: list[dict[str, Any]],
+    *,
+    source_authority: dict[str, int],
+    window_hours: int = DEFAULT_CLUSTER_WINDOW_HOURS,
+) -> list[dict[str, Any]]:
+    ordered = sorted(
+        records,
+        key=lambda record: (
+            _cluster_member_id(record),
+            str(record.get("url") or ""),
+        ),
+    )
+    clusters: list[list[dict[str, Any]]] = []
+    for record in ordered:
+        cluster = next(
+            (
+                members
+                for members in clusters
+                if all(
+                    events_are_cluster_compatible(
+                        record,
+                        member,
+                        window_hours=window_hours,
+                    )
+                    for member in members
+                )
+            ),
+            None,
+        )
+        if cluster is None:
+            clusters.append([record])
+        else:
+            cluster.append(record)
+
+    projected: list[dict[str, Any]] = []
+    for members in clusters:
+        ranked = sorted(
+            members,
+            key=lambda record: _representative_key(record, source_authority),
+        )
+        representative = ranked[0]
+        member_ids = sorted(_cluster_member_id(member) for member in members)
+        cluster_hash = hashlib.sha256(
+            "\n".join(member_ids).encode("utf-8")
+        ).hexdigest()[:16]
+        projected.append(
+            {
+                **representative,
+                "cluster_id": f"cluster-{cluster_hash}",
+                "cluster_size": len(members),
+                "cluster_event_ids": member_ids,
+                "cluster_sources": [
+                    {
+                        "source_id": str(member.get("source_id") or ""),
+                        "source": str(member.get("source") or member.get("source_id") or ""),
+                        "title": _event_title(member),
+                        "url": str(member.get("url") or ""),
+                        "published_at": member.get("published_at"),
+                    }
+                    for member in ranked
+                ],
+            }
+        )
+    return sorted(
+        projected,
+        key=lambda record: (-_published_epoch(record), str(record["cluster_id"])),
+    )
+
+
+def build_theme_payloads(
+    records: list[dict[str, Any]],
+    taxonomy: dict[str, Any],
+    *,
+    anchor: datetime,
+    window_hours: int,
+    max_events: int,
+    max_candidates: int,
+    source_authority: dict[str, int] | None = None,
+) -> tuple[dict[str, Any], dict[str, Any]]:
     if window_hours <= 0 or max_events <= 0 or max_candidates <= 0:
         raise ValueError("window and item bounds must be positive")
     cutoff = anchor - timedelta(hours=window_hours)
@@ -345,17 +695,21 @@ def build_theme_payloads(records: list[dict[str, Any]], taxonomy: dict[str, Any]
     ]
     enriched = [enrich_item_with_themes(record, taxonomy) for record in in_window]
     matched = [item for item in enriched if item["matched_themes"]]
+    clustered = cluster_theme_events(
+        matched,
+        source_authority=source_authority or {},
+    )
     candidates = [
         {**item, "tracking_reason": item["matched_themes"][0]["reason"]}
-        for item in matched
+        for item in clustered
         if item["theme_score"] >= 0.5 and item.get("related_symbols")
     ]
     market_id = str(taxonomy.get("market_id") or "TW_EQUITY")
     market_scope = list(taxonomy.get("market_scope") or [market_id])
     return (
         _payload(
-            items=matched[:max_events],
-            available_count=len(matched),
+            items=clustered[:max_events],
+            available_count=len(clustered),
             generated_at=anchor,
             window_hours=window_hours,
             max_items=max_events,
@@ -591,6 +945,7 @@ def run_update(
         window_hours=window_hours,
         max_events=max_events,
         max_candidates=max_candidates,
+        source_authority=source_authority_ranks(registry),
     )
     events = {
         **events,
