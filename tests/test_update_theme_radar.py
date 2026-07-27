@@ -1,8 +1,10 @@
 from __future__ import annotations
 
+import json
 from datetime import datetime, timezone
 from pathlib import Path
 
+import feedparser
 import pytest
 
 from scripts.update_theme_radar import (
@@ -11,6 +13,7 @@ from scripts.update_theme_radar import (
     load_source_registry,
     normalize_feed_entry,
     rss_sources,
+    run_update,
     source_status_payload,
 )
 from scripts.theme_relevance import load_theme_taxonomy
@@ -19,6 +22,7 @@ from scripts.theme_relevance import load_theme_taxonomy
 ROOT = Path(__file__).resolve().parents[1]
 REGISTRY_PATH = ROOT / "config" / "source_registry.tw.json"
 TAXONOMY_PATH = ROOT / "config" / "theme_taxonomy.tw.json"
+CNYES_FIXTURE_PATH = ROOT / "tests" / "fixtures" / "cnyes_rss.xml"
 
 
 class Entry:
@@ -34,10 +38,58 @@ def test_registry_exposes_only_active_rss_sources() -> None:
 
     assert registry["market_id"] == "TW_EQUITY"
     assert registry["market_scope"] == ["TW_EQUITY"]
-    assert {source["source_id"] for source in sources} == {"moneydj", "yahoo_finance_tw"}
+    assert {source["source_id"] for source in sources} == {
+        "moneydj",
+        "yahoo_finance_tw",
+        "cnyes",
+    }
     assert all(source["feed_url"].startswith("https://") for source in sources)
     assert all(source["fetch_method"] == "rss" for source in sources)
     assert all(source["market_scope"] == ["TW_EQUITY"] for source in sources)
+    cnyes = next(source for source in sources if source["source_id"] == "cnyes")
+    assert cnyes["status"] == "active"
+    assert cnyes["feed_url"] == "https://news.cnyes.com/rss/v1/news/category/all"
+
+
+def test_cnyes_fixture_uses_generic_rss_article_contract() -> None:
+    parsed = feedparser.parse(CNYES_FIXTURE_PATH.read_bytes())
+    fetched_at = datetime(2026, 7, 27, 8, 10, tzinfo=timezone.utc)
+    source = {
+        "source_id": "cnyes",
+        "name": "鉅亨網 Cnyes",
+        "source_class": "financial_media",
+        "market_id": "TW_EQUITY",
+        "market_scope": ["TW_EQUITY"],
+    }
+
+    assert parsed.bozo is False
+    assert parsed.version == "rss20"
+    assert len(parsed.entries) == 1
+
+    record = normalize_feed_entry(parsed.entries[0], source, fetched_at)
+
+    assert record is not None
+    assert set(record) == {
+        "id",
+        "title_zh",
+        "summary",
+        "source",
+        "source_id",
+        "source_class",
+        "market_id",
+        "market_scope",
+        "published_at",
+        "url",
+        "extraction_method",
+        "fetched_at",
+    }
+    assert record["id"].startswith("cnyes-")
+    assert record["title_zh"] == "投資雷達》韓股為何急跌？科技股還能抱嗎？"
+    assert record["source"] == "鉅亨網 Cnyes"
+    assert record["source_id"] == "cnyes"
+    assert record["published_at"] == "2026-07-27T08:02:09Z"
+    assert record["url"] == "https://news.cnyes.com/news/id/6546775"
+    assert record["extraction_method"] == "rss"
 
 
 def test_normalize_feed_entry_returns_article_contract() -> None:
@@ -174,3 +226,69 @@ def test_source_status_payload_matches_existing_frontend_contract() -> None:
     assert payload["fetched_raw_items"] == 3
     assert payload["items_before_topic_filter"] == 3
     assert len(payload["sites"]) == 2
+
+
+def test_run_update_isolates_failed_source(monkeypatch: pytest.MonkeyPatch, tmp_path: Path) -> None:
+    registry_path = tmp_path / "registry.json"
+    registry_path.write_text(
+        json.dumps(
+            {
+                "market_id": "TW_EQUITY",
+                "market_scope": ["TW_EQUITY"],
+                "sources": [
+                    {
+                        "source_id": source_id,
+                        "name": source_id,
+                        "source_class": "financial_media",
+                        "fetch_method": "rss",
+                        "status": "active",
+                        "feed_url": f"https://example.com/{source_id}.xml",
+                    }
+                    for source_id in ("moneydj", "cnyes", "yahoo_finance_tw")
+                ],
+            }
+        ),
+        encoding="utf-8",
+    )
+    calls: list[str] = []
+
+    def fake_fetch(_session, source, fetched_at):
+        source_id = source["source_id"]
+        calls.append(source_id)
+        status = {
+            "source_id": source_id,
+            "name": source_id,
+            "status": "ok",
+            "items": 1,
+            "error": None,
+        }
+        if source_id == "cnyes":
+            return [], {**status, "status": "error", "items": 0, "error": "fixture failure"}
+        return [
+            {
+                "id": f"{source_id}-item",
+                "title_zh": "一般市場新聞",
+                "summary": "",
+                "source": source_id,
+                "source_id": source_id,
+                "published_at": fetched_at.isoformat().replace("+00:00", "Z"),
+                "url": f"https://example.com/{source_id}/item",
+            }
+        ], status
+
+    monkeypatch.setattr("scripts.update_theme_radar.fetch_rss_source", fake_fetch)
+
+    summary = run_update(
+        registry_path=registry_path,
+        output_dir=tmp_path / "output",
+        window_hours=24,
+        max_events=10,
+        max_candidates=10,
+    )
+    status = json.loads((tmp_path / "output" / "source-status.json").read_text())
+
+    assert calls == ["moneydj", "cnyes", "yahoo_finance_tw"]
+    assert summary["raw_items"] == 2
+    assert summary["failed_sources"] == 1
+    assert status["successful_sites"] == 2
+    assert status["failed_sites"] == ["cnyes"]

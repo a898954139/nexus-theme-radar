@@ -3,6 +3,22 @@
 This project should help ordinary AI enthusiasts scan high-signal updates
 without forcing them to follow noisy timelines or manage many source choices.
 
+## Taiwan Equity Theme Radar Sources
+
+The v0.4 initial source slice uses the existing registry-driven generic RSS
+path for MoneyDJ, Yahoo Finance Taiwan, and Cnyes. Cnyes is active at:
+
+```text
+https://news.cnyes.com/rss/v1/news/category/all
+```
+
+The endpoint was verified on 2026-07-27 at 08:08:57 UTC: HTTP 200,
+`application/rss+xml; charset=utf-8`, valid UTF-8 RSS 2.0, and 100 entries.
+Entries expose RFC 822 `pubDate` values and stable permalink GUID/link values
+such as `https://news.cnyes.com/news/id/6546775`. Cnyes remains a
+media-discovery source; material signals should still be checked against
+official disclosures.
+
 ## Product Model
 
 Use a two-layer model:
