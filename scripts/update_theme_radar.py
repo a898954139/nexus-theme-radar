@@ -24,7 +24,11 @@ try:
         load_dataset_catalog,
         read_bounded_response,
     )
-    from scripts.theme_relevance import enrich_item_with_themes, load_theme_taxonomy
+    from scripts.theme_relevance import (
+        enrich_item_with_themes,
+        load_theme_taxonomy,
+        score_theme_relevance,
+    )
     from scripts.symbol_mapping import instrument_for_symbol, load_symbol_aliases
 except ModuleNotFoundError:
     from source_adapters import (
@@ -34,7 +38,11 @@ except ModuleNotFoundError:
         load_dataset_catalog,
         read_bounded_response,
     )
-    from theme_relevance import enrich_item_with_themes, load_theme_taxonomy
+    from theme_relevance import (
+        enrich_item_with_themes,
+        load_theme_taxonomy,
+        score_theme_relevance,
+    )
     from symbol_mapping import instrument_for_symbol, load_symbol_aliases
 
 
@@ -807,6 +815,41 @@ def _count_values(records: list[dict[str, Any]], field: str) -> dict[str, int]:
     return dict(sorted(counts.items()))
 
 
+def _derive_matcher_mode(theme: dict[str, Any]) -> str:
+    explicit = str(theme.get("matcher_mode") or "").strip() or None
+    has_legacy = "keywords" in theme
+    has_structured = any(field in theme for field in ("required_any", "optional", "excluded"))
+    if has_legacy and has_structured:
+        raise ValueError("theme contains mixed matcher schema fields")
+    if not has_legacy and not has_structured:
+        raise ValueError("theme schema mode cannot be inferred")
+
+    derived = "legacy" if has_legacy else "structured"
+    if explicit is not None and explicit != derived:
+        raise ValueError("theme.matcher_mode must match derived schema mode theme fields")
+    return derived
+
+
+def _normalize_matcher_mode(themes: list[dict[str, Any]]) -> tuple[int, int, str]:
+    legacy_count = 0
+    structured_count = 0
+
+    for theme in themes:
+        mode = _derive_matcher_mode(theme)
+        if mode == "legacy":
+            legacy_count += 1
+        elif mode == "structured":
+            structured_count += 1
+        else:
+            raise ValueError("unsupported matcher mode")
+
+    return legacy_count, structured_count, "hybrid_required_any_v1"
+
+
+def _sort_counts(values: dict[str, int]) -> dict[str, int]:
+    return dict(sorted(values.items()))
+
+
 def build_theme_payloads(
     records: list[dict[str, Any]],
     taxonomy: dict[str, Any],
@@ -818,13 +861,19 @@ def build_theme_payloads(
     source_authority: dict[str, int] | None = None,
 ) -> tuple[dict[str, Any], dict[str, Any]]:
     if window_hours <= 0 or max_events <= 0 or max_candidates <= 0:
-        raise ValueError("window and item bounds must be positive")
+        raise ValueError("window item bounds must be positive")
+
     cutoff = anchor - timedelta(hours=window_hours)
     in_window = [
         record
         for record in dedupe_records(records)
         if record.get("published_at") and cutoff <= parse_timestamp(str(record["published_at"])) <= anchor
     ]
+
+    legacy_theme_count, structured_theme_count, matcher_contract = _normalize_matcher_mode(
+        [dict(theme) for theme in taxonomy.get("themes", [])]
+    )
+
     enriched = [
         {
             **enrich_item_with_themes(record, taxonomy),
@@ -832,26 +881,27 @@ def build_theme_payloads(
         }
         for record in in_window
     ]
+
+    theme_veto_distribution: dict[str, int] = {}
+    for record in in_window:
+        matcher_record = {
+            **record,
+            "summary": record.get("summary") or record.get("description", ""),
+        }
+        score = score_theme_relevance(matcher_record, taxonomy=taxonomy)
+        for theme_id in score.get("vetoed_theme_ids", []):
+            theme_veto_distribution[str(theme_id)] = (
+                theme_veto_distribution.get(str(theme_id), 0) + 1
+            )
+
     matched = [
         item
         for item in enriched
-        if item["matched_themes"]
-        and item["theme_score"] >= SELECTED_THEME_SCORE_MIN
+        if item["matched_themes"] and item["theme_score"] >= SELECTED_THEME_SCORE_MIN
     ]
-    classified = [
-        classify_taiwan_relevance(item, taxonomy)
-        for item in matched
-    ]
-    retained = [
-        item
-        for item in classified
-        if item["tw_relevance_status"] != "excluded"
-    ]
-    excluded = [
-        item
-        for item in classified
-        if item["tw_relevance_status"] == "excluded"
-    ]
+    classified = [classify_taiwan_relevance(item, taxonomy) for item in matched]
+    retained = [item for item in classified if item["tw_relevance_status"] != "excluded"]
+    excluded = [item for item in classified if item["tw_relevance_status"] == "excluded"]
     clustered = cluster_theme_events(
         retained,
         source_authority=source_authority or {},
@@ -859,33 +909,36 @@ def build_theme_payloads(
     candidates = [
         {**item, "tracking_reason": item["matched_themes"][0]["reason"]}
         for item in clustered
-        if item["theme_score"] >= CANDIDATE_THEME_SCORE_MIN
-        and item.get("related_symbols")
+        if item["theme_score"] >= CANDIDATE_THEME_SCORE_MIN and item.get("related_symbols")
     ]
+
     market_id = str(taxonomy.get("market_id") or "TW_EQUITY")
     market_scope = list(taxonomy.get("market_scope") or [market_id])
+
     event_payload = _payload(
-            items=clustered[:max_events],
-            available_count=len(clustered),
-            generated_at=anchor,
-            window_hours=window_hours,
-            max_items=max_events,
-            market_id=market_id,
-            market_scope=market_scope,
-        )
+        items=clustered[:max_events],
+        available_count=len(clustered),
+        generated_at=anchor,
+        window_hours=window_hours,
+        max_items=max_events,
+        market_id=market_id,
+        market_scope=market_scope,
+    )
     candidate_payload = _payload(
-            items=candidates[:max_candidates],
-            available_count=len(candidates),
-            generated_at=anchor,
-            window_hours=window_hours,
-            max_items=max_candidates,
-            market_id=market_id,
-            market_scope=market_scope,
-        )
+        items=candidates[:max_candidates],
+        available_count=len(candidates),
+        generated_at=anchor,
+        window_hours=window_hours,
+        max_items=max_candidates,
+        market_id=market_id,
+        market_scope=market_scope,
+    )
+
     relevance_distribution = _count_values(retained, "tw_relevance_status")
-    relevance_reason_distribution = _count_values(
-        classified,
-        "tw_relevance_reason",
+    relevance_reason_distribution = _count_values(classified, "tw_relevance_reason")
+    theme_match_distribution = _count_values(
+        [item for item in retained if item.get("primary_theme_id")],
+        "primary_theme_id",
     )
     diagnostics = {
         "pre_cluster_items": len(retained),
@@ -894,7 +947,14 @@ def build_theme_payloads(
         "tw_relevance_reason_distribution": relevance_reason_distribution,
         "selected_theme_score_min": SELECTED_THEME_SCORE_MIN,
         "candidate_theme_score_min": CANDIDATE_THEME_SCORE_MIN,
+        "matcher_contract": matcher_contract,
+        "taxonomy_version": "v0.7",
+        "legacy_theme_count": legacy_theme_count,
+        "structured_theme_count": structured_theme_count,
+        "theme_match_distribution": _sort_counts(theme_match_distribution),
+        "theme_veto_distribution": _sort_counts(theme_veto_distribution),
     }
+
     return ({**event_payload, **diagnostics}, {**candidate_payload, **diagnostics})
 
 

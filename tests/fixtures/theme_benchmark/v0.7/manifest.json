@@ -1,0 +1,127 @@
+{
+  "benchmark_version": "v0.7-slice-b",
+  "taxonomy_version": "v0.7",
+  "real_records_path": "real-records.json",
+  "synthetic_records_path": "synthetic-cases.json",
+  "themes": [
+    {
+      "theme_id": "semicon_foundry_advanced",
+      "name_zh": "進階先進製程主題",
+      "matcher_mode": "structured",
+      "required_any": [
+        "foundry",
+        "fab expansion",
+        "advanced node"
+      ],
+      "optional": [
+        "euv",
+        "backside power"
+      ],
+      "excluded": [
+        "foplp",
+        "cowos"
+      ],
+      "related_industries": [
+        "半導體",
+        "先進製程"
+      ],
+      "seed_symbols": [
+        "2330",
+        "3711"
+      ]
+    },
+    {
+      "theme_id": "ic_design_edge_ai",
+      "name_zh": "邊緣 AI IC 設計",
+      "matcher_mode": "structured",
+      "required_any": [
+        "edge ai",
+        "npu",
+        "ai mcu",
+        "ai asic"
+      ],
+      "optional": [
+        "accelerator",
+        "risc-v"
+      ],
+      "excluded": [
+        "general ai",
+        "driver ic"
+      ],
+      "related_industries": [
+        "半導體",
+        "AI 晶片"
+      ],
+      "seed_symbols": [
+        "3697",
+        "3583"
+      ]
+    },
+    {
+      "theme_id": "semicon_equipment",
+      "name_zh": "半導體設備",
+      "matcher_mode": "structured",
+      "required_any": [
+        "semiconductor equipment",
+        "半導體設備",
+        "設備採購"
+      ],
+      "optional": [
+        "lead time",
+        "交期",
+        "設備交期",
+        "設備供應"
+      ],
+      "excluded": [
+        "cowos",
+        "co-wos",
+        "foundry"
+      ],
+      "related_industries": [
+        "半導體"
+      ],
+      "seed_symbols": [
+        "9008",
+        "2330"
+      ]
+    },
+    {
+      "theme_id": "semicon_materials",
+      "name_zh": "半導體材料",
+      "matcher_mode": "structured",
+      "required_any": [
+        "semiconductor materials",
+        "半導體材料",
+        "晶圓材料",
+        "silicon",
+        "wafer"
+      ],
+      "optional": [
+        "chemical",
+        "chemistry",
+        "wafer start"
+      ],
+      "excluded": [
+        "cowos",
+        "co-wos"
+      ],
+      "related_industries": [
+        "半導體"
+      ],
+      "seed_symbols": [
+        "3231",
+        "2360"
+      ]
+    }
+  ],
+  "fixtures": {
+    "real_records": {
+      "path": "real-records.json",
+      "sha256": "8415ee835f32c6e83bd3b487c4ab6c983569cca6e69199407d6b11e2d1b81260"
+    },
+    "synthetic_records": {
+      "path": "synthetic-cases.json",
+      "sha256": "37de7f38ae3176b44dc4b6f4cf518c628fbbecac23d1b66f19960d8a18b3eab4"
+    }
+  }
+}

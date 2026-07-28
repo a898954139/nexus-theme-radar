@@ -1,7 +1,10 @@
 from __future__ import annotations
 
+import json
 from datetime import datetime, timezone
 from pathlib import Path
+
+import pytest
 
 from scripts.generate_theme_demo import build_demo_payloads
 from scripts.theme_relevance import (
@@ -156,3 +159,188 @@ def test_demo_payloads_apply_sliding_window_and_item_bounds() -> None:
     assert len(candidates["items"]) == 1
     assert candidates["items"][0]["primary_theme_id"] == "thermal_cooling"
     assert candidates["items"][0]["decision"] == "track_watch"
+
+
+def test_theme_taxonomy_validation_supports_dual_schema_contract() -> None:
+    payload = {
+        "version": "mvp-2",
+        "market": "TW",
+        "market_id": "TW_EQUITY",
+        "market_scope": ["TW_EQUITY"],
+        "themes": [
+            {
+                "theme_id": "legacy_cpu",
+                "name_zh": "舊版主題",
+                "keywords": ["old keyword", "legacy"],
+                "related_industries": ["IC"],
+                "seed_symbols": ["2382"],
+            },
+            {
+                "theme_id": "candidate_foundry",
+                "name_zh": "先進製程",
+                "required_any": ["foundry", "fab"],
+                "optional": ["euv"],
+                "excluded": ["cofos"],
+                "related_industries": ["半導體"],
+                "seed_symbols": ["2330"],
+            },
+        ],
+    }
+    tmp_path = Path("/tmp/nexus-theme-radar-v07-schema")
+    tmp_path.mkdir(parents=True, exist_ok=True)
+    custom_path = tmp_path / "theme_taxonomy.tw.json"
+    custom_path.write_text(json.dumps(payload, ensure_ascii=False, indent=2), encoding="utf-8")
+
+    loaded = load_theme_taxonomy(custom_path)
+
+    assert loaded["themes"][0]["matcher_mode"] == "legacy"
+    assert loaded["themes"][1]["matcher_mode"] == "structured"
+
+
+def test_theme_taxonomy_requires_explicit_matcher_mode_to_match_derived_schema() -> None:
+    payload = {
+        "themes": [
+            {
+                "theme_id": "mismatch_legacy",
+                "name_zh": "錯位舊欄位",
+                "keywords": ["foundry"],
+                "related_industries": ["IC"],
+                "seed_symbols": ["2330"],
+                "matcher_mode": "structured",
+            },
+            {
+                "theme_id": "mismatch_structured",
+                "name_zh": "錯位新欄位",
+                "required_any": ["foundry"],
+                "optional": ["fab"],
+                "excluded": ["cowos"],
+                "related_industries": ["IC"],
+                "seed_symbols": ["2330"],
+                "matcher_mode": "legacy",
+            },
+        ]
+    }
+    tmp_path = Path("/tmp/nexus-theme-radar-v07-schema-mismatch")
+    tmp_path.mkdir(parents=True, exist_ok=True)
+    custom_path = tmp_path / "theme_taxonomy.tw.json"
+    custom_path.write_text(json.dumps(payload, ensure_ascii=False, indent=2), encoding="utf-8")
+
+    with pytest.raises(ValueError, match="matcher_mode must match derived schema mode"):
+        load_theme_taxonomy(custom_path)
+
+
+def test_theme_taxonomy_validation_rejects_schema_mix_and_missing_fields() -> None:
+    payload = {
+        "version": "mvp-2",
+        "market": "TW",
+        "market_id": "TW_EQUITY",
+        "market_scope": ["TW_EQUITY"],
+        "themes": [
+            {
+                "theme_id": "mixed",
+                "name_zh": "混合主題",
+                "keywords": ["mixed"],
+                "required_any": ["foundry"],
+                "optional": ["fab"],
+                "excluded": ["cowos"],
+                "related_industries": ["IC"],
+                "seed_symbols": ["2382"],
+            },
+            {
+                "theme_id": "missing-required_any",
+                "name_zh": "缺欄位",
+                "required_any": ["foundry"],
+                "optional": ["fab"],
+                "related_industries": ["IC"],
+                "seed_symbols": ["2382"],
+            },
+        ],
+    }
+    tmp_path = Path("/tmp/nexus-theme-radar-v07-schema-invalid")
+    tmp_path.mkdir(parents=True, exist_ok=True)
+    custom_path = tmp_path / "theme_taxonomy.tw.json"
+    custom_path.write_text(json.dumps(payload, ensure_ascii=False, indent=2), encoding="utf-8")
+
+    with pytest.raises(ValueError):
+        load_theme_taxonomy(custom_path)
+
+
+def test_structured_matching_order_and_exclusion_rules_are_deterministic() -> None:
+    taxonomy = {
+        "themes": [
+            {
+                "theme_id": "foundry",
+                "name_zh": "Foundry",
+                "required_any": ["foundry", "fab"],
+                "optional": ["euv"],
+                "excluded": ["cowos"],
+                "related_industries": ["IC"],
+                "seed_symbols": ["2330"],
+            }
+        ]
+    }
+
+    required_match = score_theme_relevance(
+        {
+            "title_zh": "Foundry announces fab expansion",
+            "summary": "Company confirms advanced node capacity expansion.",
+        },
+        taxonomy,
+    )
+    optional_only = score_theme_relevance(
+        {
+            "summary": "EUV equipment demand increases",
+        },
+        taxonomy,
+    )
+    vetoed = score_theme_relevance(
+        {
+            "title_zh": "Foundry announces fab expansion",
+            "summary": "CoWoS supply update",
+            "source": "source should never influence score",
+        },
+        taxonomy,
+    )
+
+    reverse = score_theme_relevance(
+        {
+            "summary": "Company confirms advanced node capacity expansion.",
+            "title_zh": "Foundry announces fab expansion",
+        },
+        taxonomy,
+    )
+
+    assert required_match["matched_themes"][0]["theme_id"] == "foundry"
+    assert required_match["theme_score"] == reverse["theme_score"]
+    assert required_match["matched_themes"] == reverse["matched_themes"]
+    assert optional_only["matched_themes"] == []
+    assert vetoed["matched_themes"] == []
+
+
+def test_structured_match_reports_veto_ids_additively() -> None:
+    taxonomy = {
+        "themes": [
+            {
+                "theme_id": "vetoed_foundry",
+                "name_zh": "Foundry Veto",
+                "required_any": ["foundry"],
+                "optional": ["fab"],
+                "excluded": ["cowos"],
+                "related_industries": ["IC"],
+                "seed_symbols": ["2330"],
+                "matcher_mode": "structured",
+            }
+        ]
+    }
+
+    result = score_theme_relevance(
+        {
+            "title_zh": "Foundry plans with CoWoS excluded mention",
+            "summary": "Foundry team disclosed expansion in fab area.",
+            "source": "source should not leak",
+        },
+        taxonomy,
+    )
+
+    assert result["matched_themes"] == []
+    assert result["vetoed_theme_ids"] == ["vetoed_foundry"]
