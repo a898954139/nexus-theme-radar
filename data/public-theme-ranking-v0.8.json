@@ -2,16 +2,16 @@
   "schema_version": "nexus_public_theme_ranking.v0.8",
   "ranking_rule_version": "public_theme_heat_v0.8",
   "company_rule_version": "public_company_evidence_v0.8",
-  "generated_at": "2026-07-29T17:39:40.905137Z",
+  "generated_at": "2026-07-29T19:45:38.208141Z",
   "market_id": "TW_EQUITY",
   "market_scope": [
     "TW_EQUITY"
   ],
   "window_hours": 72,
   "max_themes": 5,
-  "qualified_theme_count": 6,
-  "displayed_theme_count": 5,
-  "threshold_note": null,
+  "qualified_theme_count": 4,
+  "displayed_theme_count": 4,
+  "threshold_note": "目前僅 4 個題材達到上榜門檻",
   "generation_status": "complete",
   "failed_source_count": 0,
   "official_evidence_status": "available",
@@ -20,19 +20,19 @@
       "rank": 1,
       "theme_id": "memory_hbm",
       "name_zh": "記憶體與 HBM",
-      "heat_score": 79,
+      "heat_score": 78,
       "summaries": {
-        "event_count": 6,
+        "event_count": 5,
         "source_count": 2,
-        "tracking_candidate_count": 5,
-        "taiwan_mapping_count": 4
+        "tracking_candidate_count": 3,
+        "taiwan_mapping_count": 5
       },
       "heat_reason": {
         "rule_version": "public_theme_heat_v0.8",
         "event_component": {
-          "input": 6,
-          "normalized": 100.0,
-          "weighted": 25.0
+          "input": 5,
+          "normalized": 83.333,
+          "weighted": 20.833
         },
         "source_component": {
           "input": 2,
@@ -40,28 +40,36 @@
           "weighted": 12.5
         },
         "candidate_component": {
-          "input": 5,
-          "normalized": 100.0,
-          "weighted": 20.0
+          "input": 3,
+          "normalized": 75.0,
+          "weighted": 15.0
         },
         "mapping_component": {
-          "mapping_count": 4,
-          "direct_mapping_event_count": 1,
-          "normalized": 80.0,
-          "weighted": 24.0
+          "mapping_count": 5,
+          "direct_mapping_event_count": 2,
+          "normalized": 100.0,
+          "weighted": 30.0
         },
-        "single_source_concentration": 0.667,
-        "concentration_penalty": 2.5,
-        "raw_score": 79.0
+        "single_source_concentration": 0.6,
+        "concentration_penalty": 0.0,
+        "raw_score": 78.333
       },
       "direct_mentions": [
         {
-          "instrument_id": "TPEX:5371",
-          "symbol": "5371",
-          "exchange": "TPEX",
-          "name_zh": "中光電",
+          "instrument_id": "TWSE:1519",
+          "symbol": "1519",
+          "exchange": "TWSE",
+          "name_zh": "華城",
           "direct_event_count": 1,
-          "latest_mentioned_at": "2026-07-28T18:45:54Z"
+          "latest_mentioned_at": "2026-07-29T18:45:37Z"
+        },
+        {
+          "instrument_id": "TWSE:2330",
+          "symbol": "2330",
+          "exchange": "TWSE",
+          "name_zh": "台積電",
+          "direct_event_count": 1,
+          "latest_mentioned_at": "2026-07-29T18:12:24Z"
         }
       ],
       "supply_chain_candidates": [
@@ -100,33 +108,33 @@
         }
       ],
       "representative_news": {
-        "cluster_id": "cluster-8e5283994c354a91",
-        "id": "digitimes_tw-f42d3d3c034b",
-        "title_zh": "【Amy & Dr. Chip】SK Siltron突然不賣？　誰讓矽晶圓包袱變王牌",
-        "summary": "原本被列為組織重整待售資產的SK Siltron，隨著人工智慧（AI）、高頻寬記憶體（HBM）與高階DRAM需求升溫，戰略地位出現大翻轉，企業價值傳由5兆韓元（約34億美元）上看7兆韓元。SK海力士（SK Hynix）也可能主張重新檢討出售，甚至不排除納入旗下，以強化矽晶圓供應與材料合作綜效。加上近期SK集團（SK",
+        "cluster_id": "cluster-6fd21e4f708eca50",
+        "id": "digitimes_tw-b92391a651cd",
+        "title_zh": "HBM4催生專用測試設備需求　韓廠搶進愛德萬測試主導市場",
+        "summary": "高頻寬記憶體（HBM）市場持續擴大，過去由日本愛德萬測試（Advantest）主導的晶圓測試設備市場似乎開始出現變化。不僅南韓設備業者陸續打入供應鏈，隨著檢測方式改變，設備競爭也將從通用型DRAM設備，逐步轉向HBM專用平台。據韓媒Dealsite引述業界觀察，在HBM市場發展初期，由於產量有限，且多採抽樣檢測，因",
         "source_id": "digitimes_tw",
         "source": "DIGITIMES",
-        "published_at": "2026-07-28T18:22:07Z",
-        "canonical_url": "https://www.digitimes.com.tw/tech/dt/n/shwnws.asp?id=0000762560_G4443CLM76RMW9LULI67K"
+        "published_at": "2026-07-29T18:21:04Z",
+        "canonical_url": "https://www.digitimes.com.tw/tech/dt/n/shwnws.asp?id=0000763332_TNB2UYZD4R36BP17240IW"
       }
     },
     {
       "rank": 2,
-      "theme_id": "robotics",
-      "name_zh": "機器人",
-      "heat_score": 57,
+      "theme_id": "cowos_supply_chain",
+      "name_zh": "CoWoS 先進封裝",
+      "heat_score": 53,
       "summaries": {
-        "event_count": 6,
+        "event_count": 4,
         "source_count": 2,
-        "tracking_candidate_count": 2,
-        "taiwan_mapping_count": 3
+        "tracking_candidate_count": 1,
+        "taiwan_mapping_count": 4
       },
       "heat_reason": {
         "rule_version": "public_theme_heat_v0.8",
         "event_component": {
-          "input": 6,
-          "normalized": 100.0,
-          "weighted": 25.0
+          "input": 4,
+          "normalized": 66.667,
+          "weighted": 16.667
         },
         "source_component": {
           "input": 2,
@@ -134,9 +142,111 @@
           "weighted": 12.5
         },
         "candidate_component": {
+          "input": 1,
+          "normalized": 25.0,
+          "weighted": 5.0
+        },
+        "mapping_component": {
+          "mapping_count": 4,
+          "direct_mapping_event_count": 1,
+          "normalized": 80.0,
+          "weighted": 24.0
+        },
+        "single_source_concentration": 0.75,
+        "concentration_penalty": 5.625,
+        "raw_score": 52.542
+      },
+      "direct_mentions": [
+        {
+          "instrument_id": "TWSE:2330",
+          "symbol": "2330",
+          "exchange": "TWSE",
+          "name_zh": "台積電",
+          "direct_event_count": 1,
+          "latest_mentioned_at": "2026-07-29T18:19:43Z"
+        },
+        {
+          "instrument_id": "TWSE:3037",
+          "symbol": "3037",
+          "exchange": "TWSE",
+          "name_zh": "欣興",
+          "direct_event_count": 1,
+          "latest_mentioned_at": "2026-07-29T18:19:43Z"
+        }
+      ],
+      "supply_chain_candidates": [
+        {
+          "instrument_id": "TWSE:2330",
+          "symbol": "2330",
+          "exchange": "TWSE",
+          "name_zh": "台積電",
+          "direct_event_count": 1,
+          "official_evidence_count": 0,
+          "company_rank_score": 5,
+          "latest_mentioned_at": "2026-07-29T18:19:43Z",
+          "latest_official_at": null
+        },
+        {
+          "instrument_id": "TWSE:2449",
+          "symbol": "2449",
+          "exchange": "TWSE",
+          "name_zh": "京元電子",
+          "direct_event_count": 0,
+          "official_evidence_count": 0,
+          "company_rank_score": 1,
+          "latest_mentioned_at": null,
+          "latest_official_at": null
+        },
+        {
+          "instrument_id": "TWSE:3711",
+          "symbol": "3711",
+          "exchange": "TWSE",
+          "name_zh": "日月光投控",
+          "direct_event_count": 0,
+          "official_evidence_count": 0,
+          "company_rank_score": 1,
+          "latest_mentioned_at": null,
+          "latest_official_at": null
+        }
+      ],
+      "representative_news": {
+        "cluster_id": "cluster-6f7685744b17c7a3",
+        "id": "digitimes_tw-30551b7070f2",
+        "title_zh": "EMIB-T先進封裝2027年邁量產　3家載板供應商先拚50%良率",
+        "summary": "台積電CoWoS先進封裝產能持續吃緊，市場對第二供應路徑需求殷切，IC載板大廠欣興透露，英特爾（Intel）EMIB-T平台真正量產落在2027年，目前客戶共選定3家載板供應商，初期均以良率50%",
+        "source_id": "digitimes_tw",
+        "source": "DIGITIMES",
+        "published_at": "2026-07-29T18:19:43Z",
+        "canonical_url": "https://www.digitimes.com.tw/tech/dt/n/shwnws.asp?id=0000763376_BVN4H9ZY62DCRZ7OE27Y2"
+      }
+    },
+    {
+      "rank": 3,
+      "theme_id": "robotics",
+      "name_zh": "機器人",
+      "heat_score": 49,
+      "summaries": {
+        "event_count": 5,
+        "source_count": 2,
+        "tracking_candidate_count": 1,
+        "taiwan_mapping_count": 3
+      },
+      "heat_reason": {
+        "rule_version": "public_theme_heat_v0.8",
+        "event_component": {
+          "input": 5,
+          "normalized": 83.333,
+          "weighted": 20.833
+        },
+        "source_component": {
           "input": 2,
           "normalized": 50.0,
-          "weighted": 10.0
+          "weighted": 12.5
+        },
+        "candidate_component": {
+          "input": 1,
+          "normalized": 25.0,
+          "weighted": 5.0
         },
         "mapping_component": {
           "mapping_count": 3,
@@ -144,9 +254,9 @@
           "normalized": 60.0,
           "weighted": 18.0
         },
-        "single_source_concentration": 0.833,
-        "concentration_penalty": 8.75,
-        "raw_score": 56.75
+        "single_source_concentration": 0.8,
+        "concentration_penalty": 7.5,
+        "raw_score": 48.833
       },
       "direct_mentions": [],
       "supply_chain_candidates": [
@@ -185,200 +295,21 @@
         }
       ],
       "representative_news": {
-        "cluster_id": "cluster-2fa612e08b017c03",
-        "id": "digitimes_tw-aa4e82af5157",
-        "title_zh": "美國FCC禁止人形機器人進口　進一步打擊宇樹等中國業者",
-        "summary": "為確保國家安全以及人工智慧（AI）供應鏈發展，美國禁止先進人形機器人進口，此舉被視為是進一步打擊中國業者，包括與NVIDIA有合作關係的宇樹科技。美國聯邦通訊委員會於7月28日公告，涵蓋清單（Covered",
+        "cluster_id": "cluster-5f8ab42a8f7364f4",
+        "id": "digitimes_tw-8959424c4a37",
+        "title_zh": "圓剛科技推出人形機器人一站式整合方案  加速具身智慧應用落地",
+        "summary": "隨著生成式AI與具身智慧（Embodied AI）快速發展，人形機器人正加速走向商業應用。具身智慧讓AI",
         "source_id": "digitimes_tw",
         "source": "DIGITIMES",
-        "published_at": "2026-07-29T03:35:48Z",
-        "canonical_url": "https://www.digitimes.com.tw/tech/dt/n/shwnws.asp?id=0000763323_6F92FLU33XFVUE2V3TXFC"
-      }
-    },
-    {
-      "rank": 3,
-      "theme_id": "defense_drone",
-      "name_zh": "國防與無人機",
-      "heat_score": 55,
-      "summaries": {
-        "event_count": 5,
-        "source_count": 2,
-        "tracking_candidate_count": 1,
-        "taiwan_mapping_count": 3
-      },
-      "heat_reason": {
-        "rule_version": "public_theme_heat_v0.8",
-        "event_component": {
-          "input": 5,
-          "normalized": 83.333,
-          "weighted": 20.833
-        },
-        "source_component": {
-          "input": 2,
-          "normalized": 50.0,
-          "weighted": 12.5
-        },
-        "candidate_component": {
-          "input": 1,
-          "normalized": 25.0,
-          "weighted": 5.0
-        },
-        "mapping_component": {
-          "mapping_count": 3,
-          "direct_mapping_event_count": 1,
-          "normalized": 80.0,
-          "weighted": 24.0
-        },
-        "single_source_concentration": 0.8,
-        "concentration_penalty": 7.5,
-        "raw_score": 54.833
-      },
-      "direct_mentions": [
-        {
-          "instrument_id": "TPEX:5371",
-          "symbol": "5371",
-          "exchange": "TPEX",
-          "name_zh": "中光電",
-          "direct_event_count": 1,
-          "latest_mentioned_at": "2026-07-28T18:58:30Z"
-        }
-      ],
-      "supply_chain_candidates": [
-        {
-          "instrument_id": "TPEX:5371",
-          "symbol": "5371",
-          "exchange": "TPEX",
-          "name_zh": "中光電",
-          "direct_event_count": 1,
-          "official_evidence_count": 0,
-          "company_rank_score": 5,
-          "latest_mentioned_at": "2026-07-28T18:58:30Z",
-          "latest_official_at": null
-        },
-        {
-          "instrument_id": "TPEX:8033",
-          "symbol": "8033",
-          "exchange": "TPEX",
-          "name_zh": "雷虎",
-          "direct_event_count": 0,
-          "official_evidence_count": 0,
-          "company_rank_score": 1,
-          "latest_mentioned_at": null,
-          "latest_official_at": null
-        },
-        {
-          "instrument_id": "TWSE:2634",
-          "symbol": "2634",
-          "exchange": "TWSE",
-          "name_zh": "漢翔",
-          "direct_event_count": 0,
-          "official_evidence_count": 0,
-          "company_rank_score": 1,
-          "latest_mentioned_at": null,
-          "latest_official_at": null
-        }
-      ],
-      "representative_news": {
-        "cluster_id": "cluster-4233a66be3094b7d",
-        "id": "digitimes_tw-f37b2fb883a1",
-        "title_zh": "北約擴軍引爆新瓶頸　軍規線纜供應吃緊",
-        "summary": "北約（NATO）在安卡拉峰會端出超過500億美元新增國防採購案，並宣布20個會員國加入為期5年的「Drone Edge」反無人機投資計畫，總額達400億美元，顯示聯盟正把軍備擴張快速轉化為實際訂單。不過，真正牽動交期與產能的，並不只是飛彈、裝甲車或無人機本身，而是鮮少被外界注意的線纜、電纜與連接器。Defence",
-        "source_id": "digitimes_tw",
-        "source": "DIGITIMES",
-        "published_at": "2026-07-28T18:47:29Z",
-        "canonical_url": "https://www.digitimes.com.tw/tech/dt/n/shwnws.asp?id=0000763260_57733FFN5P9DVB1Q1Q6US"
+        "published_at": "2026-07-29T19:19:03Z",
+        "canonical_url": "https://www.digitimes.com.tw/tech/dt/n/shwnws.asp?id=0000763333_PDY2YAAE49TQBZ2GFN4ZG"
       }
     },
     {
       "rank": 4,
-      "theme_id": "cowos_supply_chain",
-      "name_zh": "CoWoS 先進封裝",
-      "heat_score": 53,
-      "summaries": {
-        "event_count": 4,
-        "source_count": 3,
-        "tracking_candidate_count": 0,
-        "taiwan_mapping_count": 3
-      },
-      "heat_reason": {
-        "rule_version": "public_theme_heat_v0.8",
-        "event_component": {
-          "input": 4,
-          "normalized": 66.667,
-          "weighted": 16.667
-        },
-        "source_component": {
-          "input": 3,
-          "normalized": 75.0,
-          "weighted": 18.75
-        },
-        "candidate_component": {
-          "input": 0,
-          "normalized": 0.0,
-          "weighted": 0.0
-        },
-        "mapping_component": {
-          "mapping_count": 3,
-          "direct_mapping_event_count": 0,
-          "normalized": 60.0,
-          "weighted": 18.0
-        },
-        "single_source_concentration": 0.5,
-        "concentration_penalty": 0.0,
-        "raw_score": 53.417
-      },
-      "direct_mentions": [],
-      "supply_chain_candidates": [
-        {
-          "instrument_id": "TWSE:2330",
-          "symbol": "2330",
-          "exchange": "TWSE",
-          "name_zh": "台積電",
-          "direct_event_count": 0,
-          "official_evidence_count": 0,
-          "company_rank_score": 1,
-          "latest_mentioned_at": null,
-          "latest_official_at": null
-        },
-        {
-          "instrument_id": "TWSE:2449",
-          "symbol": "2449",
-          "exchange": "TWSE",
-          "name_zh": "京元電子",
-          "direct_event_count": 0,
-          "official_evidence_count": 0,
-          "company_rank_score": 1,
-          "latest_mentioned_at": null,
-          "latest_official_at": null
-        },
-        {
-          "instrument_id": "TWSE:3711",
-          "symbol": "3711",
-          "exchange": "TWSE",
-          "name_zh": "日月光投控",
-          "direct_event_count": 0,
-          "official_evidence_count": 0,
-          "company_rank_score": 1,
-          "latest_mentioned_at": null,
-          "latest_official_at": null
-        }
-      ],
-      "representative_news": {
-        "cluster_id": "cluster-82d0cf501c9c0980",
-        "id": "cnyes-9a232752c379",
-        "title_zh": "〈聯電法說〉AI營收三年拚逾10億美元 搶先進封裝、矽光子商機",
-        "summary": "聯電 (2303-TW)(UMC-US) 今 (29) 日召開法說會，執行長王石表示，受惠通訊及特殊製程需求回升，預期晶圓出貨量將季增 4% 至 6%，整體產能利用率將升至 90% 以上，並看好 AI 相關營收今年接近",
-        "source_id": "cnyes",
-        "source": "鉅亨網 Cnyes",
-        "published_at": "2026-07-29T10:56:10Z",
-        "canonical_url": "https://news.cnyes.com/news/id/6550989"
-      }
-    },
-    {
-      "rank": 5,
-      "theme_id": "optical_cpo",
-      "name_zh": "光通訊與 CPO",
-      "heat_score": 47,
+      "theme_id": "energy_grid",
+      "name_zh": "能源與電網",
+      "heat_score": 41,
       "summaries": {
         "event_count": 3,
         "source_count": 2,
@@ -404,41 +335,21 @@
         },
         "mapping_component": {
           "mapping_count": 3,
-          "direct_mapping_event_count": 1,
-          "normalized": 80.0,
-          "weighted": 24.0
+          "direct_mapping_event_count": 0,
+          "normalized": 60.0,
+          "weighted": 18.0
         },
         "single_source_concentration": 0.667,
         "concentration_penalty": 2.5,
-        "raw_score": 46.5
+        "raw_score": 40.5
       },
-      "direct_mentions": [
-        {
-          "instrument_id": "TPEX:3081",
-          "symbol": "3081",
-          "exchange": "TPEX",
-          "name_zh": "聯亞",
-          "direct_event_count": 1,
-          "latest_mentioned_at": "2026-07-29T04:38:15Z"
-        }
-      ],
+      "direct_mentions": [],
       "supply_chain_candidates": [
         {
-          "instrument_id": "TPEX:3081",
-          "symbol": "3081",
-          "exchange": "TPEX",
-          "name_zh": "聯亞",
-          "direct_event_count": 1,
-          "official_evidence_count": 0,
-          "company_rank_score": 5,
-          "latest_mentioned_at": "2026-07-29T04:38:15Z",
-          "latest_official_at": null
-        },
-        {
-          "instrument_id": "TPEX:3363",
-          "symbol": "3363",
-          "exchange": "TPEX",
-          "name_zh": "上詮",
+          "instrument_id": "TWSE:1503",
+          "symbol": "1503",
+          "exchange": "TWSE",
+          "name_zh": "士電",
           "direct_event_count": 0,
           "official_evidence_count": 0,
           "company_rank_score": 1,
@@ -446,10 +357,21 @@
           "latest_official_at": null
         },
         {
-          "instrument_id": "TPEX:4979",
-          "symbol": "4979",
-          "exchange": "TPEX",
-          "name_zh": "華星光",
+          "instrument_id": "TWSE:1513",
+          "symbol": "1513",
+          "exchange": "TWSE",
+          "name_zh": "中興電",
+          "direct_event_count": 0,
+          "official_evidence_count": 0,
+          "company_rank_score": 1,
+          "latest_mentioned_at": null,
+          "latest_official_at": null
+        },
+        {
+          "instrument_id": "TWSE:1519",
+          "symbol": "1519",
+          "exchange": "TWSE",
+          "name_zh": "華城",
           "direct_event_count": 0,
           "official_evidence_count": 0,
           "company_rank_score": 1,
@@ -458,14 +380,14 @@
         }
       ],
       "representative_news": {
-        "cluster_id": "cluster-58095152a9677717",
-        "id": "digitimes_tw-9d32b3b36b57",
-        "title_zh": "因應客戶矽光子、AI需求　聯電宣布新加坡擴產、南科蓋新廠",
-        "summary": "聯電7月29日宣布，董事會通過分階段擴產計畫，以因應客戶持續成長的需求，將擴建新加坡廠區無塵室產能，並同步於南科開新廠外殼工程。聯電說明，雙軌並進主要滿足近期客戶需求，同時奠定長期產能版圖，以掌握AI與",
+        "cluster_id": "cluster-8a5d0f2cb87eaafb",
+        "id": "digitimes_tw-80cdf888d487",
+        "title_zh": "美國逆變器圍堵戰進入終局　FCC從設備認證全面封堵中國產品",
+        "summary": "在能源轉型與電網升級的浪潮下，逆變器（Inverter）扮演著將太陽能與儲能系統（ESS）產生的直流電（DC）轉換為電網交流電（AC）的關鍵角色。美國歷經多年對中國逆變器的防堵後，如今不再採取漸進式措施，而是由聯邦通訊委員會（FCC）直接祭出行政命令「一劍封喉」，從設備認證層面切斷中國產品進入美國市場，以確保國家能源、電",
         "source_id": "digitimes_tw",
         "source": "DIGITIMES",
-        "published_at": "2026-07-29T09:20:38Z",
-        "canonical_url": "https://www.digitimes.com.tw/tech/dt/n/shwnws.asp?id=0000763410_GCZ3PFHX22VVUDL3XJYPB"
+        "published_at": "2026-07-29T18:22:47Z",
+        "canonical_url": "https://www.digitimes.com.tw/tech/dt/n/shwnws.asp?id=0000763350_8FL4ABX2446EY31UXU1A1"
       }
     }
   ]
