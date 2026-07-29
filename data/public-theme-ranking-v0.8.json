@@ -2,14 +2,14 @@
   "schema_version": "nexus_public_theme_ranking.v0.8",
   "ranking_rule_version": "public_theme_heat_v0.8",
   "company_rule_version": "public_company_evidence_v0.8",
-  "generated_at": "2026-07-29T16:05:17.586994Z",
+  "generated_at": "2026-07-29T17:39:40.905137Z",
   "market_id": "TW_EQUITY",
   "market_scope": [
     "TW_EQUITY"
   ],
   "window_hours": 72,
   "max_themes": 5,
-  "qualified_theme_count": 5,
+  "qualified_theme_count": 6,
   "displayed_theme_count": 5,
   "threshold_note": null,
   "generation_status": "complete",
@@ -293,24 +293,24 @@
       "rank": 4,
       "theme_id": "cowos_supply_chain",
       "name_zh": "CoWoS 先進封裝",
-      "heat_score": 41,
+      "heat_score": 53,
       "summaries": {
-        "event_count": 3,
-        "source_count": 2,
+        "event_count": 4,
+        "source_count": 3,
         "tracking_candidate_count": 0,
         "taiwan_mapping_count": 3
       },
       "heat_reason": {
         "rule_version": "public_theme_heat_v0.8",
         "event_component": {
-          "input": 3,
-          "normalized": 50.0,
-          "weighted": 12.5
+          "input": 4,
+          "normalized": 66.667,
+          "weighted": 16.667
         },
         "source_component": {
-          "input": 2,
-          "normalized": 50.0,
-          "weighted": 12.5
+          "input": 3,
+          "normalized": 75.0,
+          "weighted": 18.75
         },
         "candidate_component": {
           "input": 0,
@@ -323,9 +323,9 @@
           "normalized": 60.0,
           "weighted": 18.0
         },
-        "single_source_concentration": 0.667,
-        "concentration_penalty": 2.5,
-        "raw_score": 40.5
+        "single_source_concentration": 0.5,
+        "concentration_penalty": 0.0,
+        "raw_score": 53.417
       },
       "direct_mentions": [],
       "supply_chain_candidates": [
@@ -364,23 +364,23 @@
         }
       ],
       "representative_news": {
-        "cluster_id": "cluster-267d815e0270ae18",
-        "id": "technews-1240ec12ff06",
-        "title_zh": "瞄準矽光子與先進封裝需求，聯電宣布新加坡擴產及台南興建新廠",
-        "summary": "晶圓代工大廠聯電宣布，董事會通過分階段擴產計畫，以因應客戶持續成長的需求。聯電將擴建新加坡廠區無塵室產能，並同 [&#8230;]",
-        "source_id": "technews",
-        "source": "TechNews",
-        "published_at": "2026-07-29T09:10:28Z",
-        "canonical_url": "https://finance.technews.tw/2026/07/29/umc-announces-capacity-expansion-in-singapore-and-construction-of-new-plant-in-tainan/"
+        "cluster_id": "cluster-82d0cf501c9c0980",
+        "id": "cnyes-9a232752c379",
+        "title_zh": "〈聯電法說〉AI營收三年拚逾10億美元 搶先進封裝、矽光子商機",
+        "summary": "聯電 (2303-TW)(UMC-US) 今 (29) 日召開法說會，執行長王石表示，受惠通訊及特殊製程需求回升，預期晶圓出貨量將季增 4% 至 6%，整體產能利用率將升至 90% 以上，並看好 AI 相關營收今年接近",
+        "source_id": "cnyes",
+        "source": "鉅亨網 Cnyes",
+        "published_at": "2026-07-29T10:56:10Z",
+        "canonical_url": "https://news.cnyes.com/news/id/6550989"
       }
     },
     {
       "rank": 5,
-      "theme_id": "energy_grid",
-      "name_zh": "能源與電網",
-      "heat_score": 39,
+      "theme_id": "optical_cpo",
+      "name_zh": "光通訊與 CPO",
+      "heat_score": 47,
       "summaries": {
-        "event_count": 2,
+        "event_count": 3,
         "source_count": 2,
         "tracking_candidate_count": 0,
         "taiwan_mapping_count": 3
@@ -388,9 +388,9 @@
       "heat_reason": {
         "rule_version": "public_theme_heat_v0.8",
         "event_component": {
-          "input": 2,
-          "normalized": 33.333,
-          "weighted": 8.333
+          "input": 3,
+          "normalized": 50.0,
+          "weighted": 12.5
         },
         "source_component": {
           "input": 2,
@@ -404,21 +404,41 @@
         },
         "mapping_component": {
           "mapping_count": 3,
-          "direct_mapping_event_count": 0,
-          "normalized": 60.0,
-          "weighted": 18.0
+          "direct_mapping_event_count": 1,
+          "normalized": 80.0,
+          "weighted": 24.0
         },
-        "single_source_concentration": 0.5,
-        "concentration_penalty": 0.0,
-        "raw_score": 38.833
+        "single_source_concentration": 0.667,
+        "concentration_penalty": 2.5,
+        "raw_score": 46.5
       },
-      "direct_mentions": [],
+      "direct_mentions": [
+        {
+          "instrument_id": "TPEX:3081",
+          "symbol": "3081",
+          "exchange": "TPEX",
+          "name_zh": "聯亞",
+          "direct_event_count": 1,
+          "latest_mentioned_at": "2026-07-29T04:38:15Z"
+        }
+      ],
       "supply_chain_candidates": [
         {
-          "instrument_id": "TWSE:1503",
-          "symbol": "1503",
-          "exchange": "TWSE",
-          "name_zh": "士電",
+          "instrument_id": "TPEX:3081",
+          "symbol": "3081",
+          "exchange": "TPEX",
+          "name_zh": "聯亞",
+          "direct_event_count": 1,
+          "official_evidence_count": 0,
+          "company_rank_score": 5,
+          "latest_mentioned_at": "2026-07-29T04:38:15Z",
+          "latest_official_at": null
+        },
+        {
+          "instrument_id": "TPEX:3363",
+          "symbol": "3363",
+          "exchange": "TPEX",
+          "name_zh": "上詮",
           "direct_event_count": 0,
           "official_evidence_count": 0,
           "company_rank_score": 1,
@@ -426,21 +446,10 @@
           "latest_official_at": null
         },
         {
-          "instrument_id": "TWSE:1513",
-          "symbol": "1513",
-          "exchange": "TWSE",
-          "name_zh": "中興電",
-          "direct_event_count": 0,
-          "official_evidence_count": 0,
-          "company_rank_score": 1,
-          "latest_mentioned_at": null,
-          "latest_official_at": null
-        },
-        {
-          "instrument_id": "TWSE:1519",
-          "symbol": "1519",
-          "exchange": "TWSE",
-          "name_zh": "華城",
+          "instrument_id": "TPEX:4979",
+          "symbol": "4979",
+          "exchange": "TPEX",
+          "name_zh": "華星光",
           "direct_event_count": 0,
           "official_evidence_count": 0,
           "company_rank_score": 1,
@@ -449,14 +458,14 @@
         }
       ],
       "representative_news": {
-        "cluster_id": "cluster-42f2d29dab38cd70",
-        "id": "yahoo_finance_tw-f73a1143e79b",
-        "title_zh": "中國六大充電品牌布局全球市場 從行動電源到儲能設備產品線持續擴張",
-        "summary": "圖／本報資料庫商傳媒｜責任編輯／綜合外電報導隨著智慧型手機、平板電腦及筆記型電腦普及，行動電源與快速充電器已成為消費者日常不可或缺的配件。外媒近期盤點全球市場具代表性的充電品牌，其中Anker、Bas",
-        "source_id": "yahoo_finance_tw",
-        "source": "Yahoo Finance Taiwan",
-        "published_at": "2026-07-29T14:32:00Z",
-        "canonical_url": "https://tw.stock.yahoo.com/news/%E4%B8%AD%E5%9C%8B%E5%85%AD%E5%A4%A7%E5%85%85%E9%9B%BB%E5%93%81%E7%89%8C%E5%B8%83%E5%B1%80%E5%85%A8%E7%90%83%E5%B8%82%E5%A0%B4-%E5%BE%9E%E8%A1%8C%E5%8B%95%E9%9B%BB%E6%BA%90%E5%88%B0%E5%84%B2%E8%83%BD%E8%A8%AD%E5%82%99%E7%94%A2%E5%93%81%E7%B7%9A%E6%8C%81%E7%BA%8C%E6%93%B4%E5%BC%B5-143200798.html"
+        "cluster_id": "cluster-58095152a9677717",
+        "id": "digitimes_tw-9d32b3b36b57",
+        "title_zh": "因應客戶矽光子、AI需求　聯電宣布新加坡擴產、南科蓋新廠",
+        "summary": "聯電7月29日宣布，董事會通過分階段擴產計畫，以因應客戶持續成長的需求，將擴建新加坡廠區無塵室產能，並同步於南科開新廠外殼工程。聯電說明，雙軌並進主要滿足近期客戶需求，同時奠定長期產能版圖，以掌握AI與",
+        "source_id": "digitimes_tw",
+        "source": "DIGITIMES",
+        "published_at": "2026-07-29T09:20:38Z",
+        "canonical_url": "https://www.digitimes.com.tw/tech/dt/n/shwnws.asp?id=0000763410_GCZ3PFHX22VVUDL3XJYPB"
       }
     }
   ]
