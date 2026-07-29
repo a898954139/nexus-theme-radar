@@ -144,14 +144,11 @@ const result = vm.runInContext(`
       state.siteFilter = "";
       state.activeSection = "all";
       const primaryIds = mainListEntries().map((entry) => entry.row.item.id);
-      const hotBoardIds = hotBoardEntries().map((row) => row.item.id);
       const top3BoardIds = top3BoardEntries().map((row) => row.item.id);
-      renderHotBoard();
+      renderModeSwitch();
       return {{
         primaryIds,
-        hotBoardIds,
         top3BoardIds,
-        hotBoardHidden: hotBoardWrapEl.hidden,
         top3BoardHidden: top3BoardWrapEl.hidden,
       }};
     }})(),
@@ -299,12 +296,9 @@ def test_selected_primary_ui_hides_all_legacy_story_panels() -> None:
     ]
 
     panel = _probe_primary_mode_pools(theme_events, legacy_stories)["selectedPanel"]
-    visible_entry_ids = (
-        panel["primaryIds"] + panel["hotBoardIds"] + panel["top3BoardIds"]
-    )
+    visible_entry_ids = panel["primaryIds"] + panel["top3BoardIds"]
 
     assert visible_entry_ids == ["selected-theme-event"]
-    assert panel["hotBoardHidden"] is True
     assert panel["top3BoardHidden"] is True
 
 

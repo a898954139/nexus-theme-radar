@@ -10,9 +10,12 @@ import feedparser
 import pytest
 import requests
 
+import scripts.update_theme_radar as updater
+from scripts.public_theme_ranking import build_public_theme_ranking
 from scripts.update_theme_radar import (
     CANDIDATE_THEME_SCORE_MIN,
     SELECTED_THEME_SCORE_MIN,
+    build_theme_projection,
     build_theme_payloads,
     classify_taiwan_relevance,
     cluster_theme_events,
@@ -24,6 +27,8 @@ from scripts.update_theme_radar import (
     run_update,
     source_authority_ranks,
     source_status_payload,
+    validate_payload_set,
+    write_payload_set,
 )
 from scripts.theme_relevance import load_theme_taxonomy
 
@@ -40,6 +45,14 @@ DIGITIMES_FIXTURE_MANIFEST_PATH = (
 )
 LEGACY_REGRESSION_FIXTURE = (
     ROOT / "tests" / "fixtures" / "theme_benchmark" / "v0.7" / "legacy-regression.json"
+)
+EXISTING_PAYLOAD_CONTRACT_FIXTURE = (
+    ROOT
+    / "tests"
+    / "fixtures"
+    / "public_theme_ranking"
+    / "v0.8"
+    / "existing-payload-contracts.json"
 )
 
 PRE_V0_7_TOPLEVEL_KEYS = {
@@ -1873,3 +1886,1042 @@ def test_build_theme_payloads_maps_rss_description_to_score_theme_relevance_summ
     assert calls, "score_theme_relevance should be invoked during build_theme_payloads"
     assert any(call.get("summary") == "Detailed DIGITIMES description" for call in calls)
     assert events["total_items"] == 1
+
+
+def _projection_contract_inputs() -> tuple[
+    dict[str, object],
+    list[dict[str, object]],
+    datetime,
+]:
+    taxonomy: dict[str, object] = {
+        "market_id": "TW_EQUITY",
+        "market_scope": ["TW_EQUITY"],
+        "themes": [
+            {
+                "theme_id": "alpha_foundry",
+                "name_zh": "Alpha",
+                "keywords": ["alpha", "foundry"],
+                "related_industries": ["IC"],
+                "seed_symbols": ["2330"],
+            },
+            {
+                "theme_id": "beta_server",
+                "name_zh": "Beta",
+                "keywords": ["beta", "server"],
+                "related_industries": ["Server"],
+                "seed_symbols": ["2382"],
+            },
+        ],
+    }
+    records: list[dict[str, object]] = [
+        {
+            "id": "alpha-representative",
+            "title_zh": "alpha foundry expansion advances",
+            "summary": "capacity",
+            "source": "MoneyDJ",
+            "source_id": "moneydj",
+            "source_class": "financial_media",
+            "market_id": "TW_EQUITY",
+            "market_scope": ["TW_EQUITY"],
+            "published_at": "2026-07-29T08:00:00Z",
+            "url": "https://example.com/alpha-a",
+            "extraction_method": "rss",
+            "fetched_at": "2026-07-29T09:00:00Z",
+        },
+        {
+            "id": "alpha-member",
+            "title_zh": "台積電 alpha foundry expansion advances",
+            "summary": "capacity",
+            "source": "Unknown",
+            "source_id": "unknown",
+            "source_class": "financial_media",
+            "market_id": "TW_EQUITY",
+            "market_scope": ["TW_EQUITY"],
+            "published_at": "2026-07-29T08:10:00Z",
+            "url": "https://example.com/alpha-b",
+            "extraction_method": "rss",
+            "fetched_at": "2026-07-29T09:00:00Z",
+        },
+        {
+            "id": "beta-one",
+            "title_zh": "廣達 beta server demand expands",
+            "summary": "capacity",
+            "source": "Cnyes",
+            "source_id": "cnyes",
+            "source_class": "financial_media",
+            "market_id": "TW_EQUITY",
+            "market_scope": ["TW_EQUITY"],
+            "published_at": "2026-07-29T07:00:00Z",
+            "url": "https://example.com/beta",
+            "extraction_method": "rss",
+            "fetched_at": "2026-07-29T09:00:00Z",
+        },
+    ]
+    return taxonomy, records, datetime(2026, 7, 29, 9, 0, tzinfo=timezone.utc)
+
+
+def test_build_theme_projection_exposes_full_collections_before_caps() -> None:
+    taxonomy, records, anchor = _projection_contract_inputs()
+
+    events, candidates, projection = build_theme_projection(
+        records,
+        taxonomy,
+        anchor=anchor,
+        window_hours=72,
+        max_events=1,
+        max_candidates=1,
+        source_authority={"moneydj": 1, "cnyes": 2, "unknown": 99},
+    )
+
+    assert len(events["items"]) == 1
+    assert len(candidates["items"]) == 1
+    assert len(projection["retained_records"]) == 3
+    assert len(projection["clustered_events"]) == 2
+    assert len(projection["candidate_clusters"]) == 2
+    assert projection["market_id"] == "TW_EQUITY"
+    assert projection["market_scope"] == ["TW_EQUITY"]
+
+
+def test_projection_maps_every_cluster_member_to_one_cluster() -> None:
+    taxonomy, records, anchor = _projection_contract_inputs()
+
+    _, _, projection = build_theme_projection(
+        records,
+        taxonomy,
+        anchor=anchor,
+        window_hours=72,
+        max_events=1,
+        max_candidates=1,
+        source_authority={"moneydj": 1, "cnyes": 2, "unknown": 99},
+    )
+
+    members_by_id = projection["cluster_members_by_id"]
+    clustered = projection["clustered_events"]
+    expected_member_ids = {
+        member_id
+        for event in clustered
+        for member_id in event["cluster_event_ids"]
+    }
+    actual_member_ids = {
+        member["id"]
+        for members in members_by_id.values()
+        for member in members
+    }
+    alpha_cluster = next(
+        event for event in clustered if event["primary_theme_id"] == "alpha_foundry"
+    )
+    alpha_member = next(
+        member
+        for member in members_by_id[alpha_cluster["cluster_id"]]
+        if member["id"] == "alpha-member"
+    )
+
+    assert set(members_by_id) == {event["cluster_id"] for event in clustered}
+    assert actual_member_ids == expected_member_ids
+    assert len(actual_member_ids) == sum(len(members) for members in members_by_id.values())
+    assert alpha_cluster["id"] == "alpha-representative"
+    assert [symbol["instrument_id"] for symbol in alpha_member["direct_symbols"]] == [
+        "TWSE:2330"
+    ]
+
+
+def test_build_theme_payloads_keeps_two_value_compatibility() -> None:
+    taxonomy, records, anchor = _projection_contract_inputs()
+
+    result = build_theme_payloads(
+        records,
+        taxonomy,
+        anchor=anchor,
+        window_hours=72,
+        max_events=1,
+        max_candidates=1,
+        source_authority={"moneydj": 1, "cnyes": 2, "unknown": 99},
+    )
+
+    assert isinstance(result, tuple)
+    assert len(result) == 2
+
+
+def test_projection_does_not_rerun_matcher_or_clustering(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    taxonomy, records, anchor = _projection_contract_inputs()
+    matcher_calls = 0
+    clustering_calls = 0
+    original_matcher = updater.enrich_item_with_themes
+    original_clustering = updater.cluster_theme_events
+
+    def count_matcher(*args: object, **kwargs: object) -> dict[str, object]:
+        nonlocal matcher_calls
+        matcher_calls += 1
+        return original_matcher(*args, **kwargs)
+
+    def count_clustering(*args: object, **kwargs: object) -> list[dict[str, object]]:
+        nonlocal clustering_calls
+        clustering_calls += 1
+        return original_clustering(*args, **kwargs)
+
+    monkeypatch.setattr(updater, "enrich_item_with_themes", count_matcher)
+    monkeypatch.setattr(updater, "cluster_theme_events", count_clustering)
+
+    build_theme_projection(
+        records,
+        taxonomy,
+        anchor=anchor,
+        window_hours=72,
+        max_events=1,
+        max_candidates=1,
+        source_authority={"moneydj": 1, "cnyes": 2, "unknown": 99},
+    )
+
+    assert matcher_calls == len(records)
+    assert clustering_calls == 1
+
+
+PUBLIC_ANCHOR = datetime(2026, 7, 29, 9, 0, tzinfo=timezone.utc)
+PUBLIC_THEME_ID = "memory_hbm"
+PUBLIC_ALIASES = {
+    "market_id": "TW_EQUITY",
+    "market_scope": ["TW_EQUITY"],
+    "symbols": {
+        "2330": {
+            "name_zh": "台積電",
+            "exchange": "TWSE",
+            "aliases": ["台積電"],
+        },
+        "NVDA": {
+            "name_zh": "NVIDIA",
+            "exchange": "NASDAQ",
+            "aliases": ["NVIDIA"],
+        },
+    },
+}
+PUBLIC_TAXONOMY = {
+    "market_id": "TW_EQUITY",
+    "market_scope": ["TW_EQUITY"],
+    "themes": [
+        {
+            "theme_id": PUBLIC_THEME_ID,
+            "name_zh": "記憶體與 HBM",
+            "seed_symbols": ["2330", "NVDA"],
+        }
+    ],
+}
+
+
+def _public_integration_cluster(
+    cluster_id: str,
+    *,
+    source_id: str,
+    published_at: str,
+) -> dict[str, object]:
+    return {
+        "cluster_id": cluster_id,
+        "cluster_event_ids": [f"member-{cluster_id}"],
+        "cluster_size": 1,
+        "id": f"event-{cluster_id}",
+        "title_zh": f"台積電 HBM {cluster_id}",
+        "summary": "記憶體需求增加",
+        "source_id": source_id,
+        "source": source_id,
+        "published_at": published_at,
+        "url": f"https://example.com/{cluster_id}",
+        "primary_theme_id": PUBLIC_THEME_ID,
+        "matched_themes": [{"theme_id": PUBLIC_THEME_ID, "score": 0.8}],
+        "theme_score": 0.8,
+        "tw_related_symbols": ["TWSE:2330", "NASDAQ:NVDA"],
+        "related_symbols": [
+            {
+                "instrument_id": "TWSE:2330",
+                "symbol": "2330",
+                "exchange": "TWSE",
+                "name_zh": "台積電",
+                "evidence": f"taxonomy seed: {PUBLIC_THEME_ID}",
+            },
+            {
+                "instrument_id": "NASDAQ:NVDA",
+                "symbol": "NVDA",
+                "exchange": "NASDAQ",
+                "name_zh": "NVIDIA",
+                "evidence": f"taxonomy seed: {PUBLIC_THEME_ID}",
+            },
+        ],
+        "cluster_sources": [
+            {
+                "source_id": source_id,
+                "source": source_id,
+                "title": f"台積電 HBM {cluster_id}",
+                "url": f"https://example.com/{cluster_id}",
+                "published_at": published_at,
+            }
+        ],
+    }
+
+
+def _public_integration_projection(cluster_count: int = 2) -> dict[str, object]:
+    clusters = [
+        _public_integration_cluster(
+            "cluster-a",
+            source_id="publisher-a",
+            published_at="2026-07-29T08:00:00Z",
+        ),
+        _public_integration_cluster(
+            "cluster-b",
+            source_id="publisher-b",
+            published_at="2026-07-29T07:00:00Z",
+        ),
+    ][:cluster_count]
+    members_by_id = {
+        cluster["cluster_id"]: [
+            {
+                "id": cluster["cluster_event_ids"][0],
+                "published_at": cluster["published_at"],
+                "direct_symbols": [
+                    {
+                        "instrument_id": "TWSE:2330",
+                        "symbol": "2330",
+                        "exchange": "TWSE",
+                        "name_zh": "台積電",
+                    },
+                    {
+                        "instrument_id": "NASDAQ:NVDA",
+                        "symbol": "NVDA",
+                        "exchange": "NASDAQ",
+                        "name_zh": "NVIDIA",
+                    },
+                ],
+                "related_symbols": deepcopy(cluster["related_symbols"]),
+            }
+        ]
+        for cluster in clusters
+    }
+    return {
+        "retained_records": [
+            deepcopy(member)
+            for cluster_id in sorted(members_by_id)
+            for member in members_by_id[cluster_id]
+        ],
+        "clustered_events": deepcopy(clusters),
+        "candidate_clusters": deepcopy(clusters),
+        "cluster_members_by_id": members_by_id,
+        "market_id": "TW_EQUITY",
+        "market_scope": ["TW_EQUITY"],
+    }
+
+
+def _legacy_integration_payload(
+    items: list[dict[str, object]],
+    *,
+    available_count: int,
+    max_items: int,
+) -> dict[str, object]:
+    return {
+        "generated_at": PUBLIC_ANCHOR.isoformat().replace("+00:00", "Z"),
+        "market_id": "TW_EQUITY",
+        "market_scope": ["TW_EQUITY"],
+        "window_hours": 72,
+        "max_items": max_items,
+        "total_items": len(items),
+        "total_items_available": available_count,
+        "items": deepcopy(items),
+        "pre_cluster_items": available_count,
+        "excluded_items": 0,
+        "tw_relevance_distribution": {"direct": available_count},
+        "tw_relevance_reason_distribution": {"direct Taiwan symbol match": available_count},
+        "selected_theme_score_min": 0.3,
+        "candidate_theme_score_min": 0.5,
+        "matcher_contract": "hybrid_required_any_v1",
+        "taxonomy_version": "v0.7",
+        "legacy_theme_count": 1,
+        "structured_theme_count": 0,
+        "theme_match_distribution": {PUBLIC_THEME_ID: available_count},
+        "theme_veto_distribution": {},
+    }
+
+
+def _official_integration_payload() -> dict[str, object]:
+    return {
+        "generated_at": PUBLIC_ANCHOR.isoformat().replace("+00:00", "Z"),
+        "window_hours": 72,
+        "max_items": 500,
+        "total_items": 1,
+        "total_items_available": 1,
+        "items": [
+            {
+                "evidence_id": "official-2330",
+                "instrument_id": "TWSE:2330",
+                "symbol": "2330",
+                "exchange": "TWSE",
+                "company_name": "台積電",
+                "title": "台積電 HBM",
+                "summary": "記憶體需求增加",
+                "published_at": "2026-07-29T06:00:00Z",
+            }
+        ],
+    }
+
+
+def _public_integration_registry() -> dict[str, object]:
+    return {
+        "market_id": "TW_EQUITY",
+        "market_scope": ["TW_EQUITY"],
+        "sources": [
+            {
+                "source_id": "publisher-a",
+                "name": "Publisher A",
+                "source_class": "financial_media",
+                "fetch_method": "rss",
+                "status": "active",
+                "authority_rank": 1,
+            },
+            {
+                "source_id": "publisher-b",
+                "name": "Publisher B",
+                "source_class": "financial_media",
+                "fetch_method": "rss",
+                "status": "active",
+                "authority_rank": 2,
+            },
+            {
+                "source_id": "mops",
+                "name": "MOPS",
+                "source_class": "official_disclosure",
+                "fetch_method": "rss",
+                "status": "active",
+                "authority_rank": 3,
+            },
+        ],
+    }
+
+
+def _public_integration_results(
+    *,
+    discovery_failure: bool = False,
+    official_available: bool = True,
+) -> list[dict[str, object]]:
+    return [
+        {
+            "records": [{"id": "raw-a"}],
+            "status": {
+                "source_id": "publisher-a",
+                "source_class": "financial_media",
+                "status": "ok",
+                "items": 1,
+            },
+        },
+        {
+            "records": [] if discovery_failure else [{"id": "raw-b"}],
+            "status": {
+                "source_id": "publisher-b",
+                "source_class": "financial_media",
+                "status": "error" if discovery_failure else "ok",
+                "items": 0 if discovery_failure else 1,
+                "error": "fixture failure" if discovery_failure else None,
+            },
+        },
+        {
+            "records": [{"evidence_id": "official-2330"}] if official_available else [],
+            "status": {
+                "source_id": "mops",
+                "source_class": "official_disclosure",
+                "status": "ok" if official_available else "error",
+                "items": 1 if official_available else 0,
+                "datasets_ok": 1 if official_available else 0,
+                "error": None if official_available else "fixture failure",
+            },
+        },
+    ]
+
+
+def _install_public_integration_fakes(
+    monkeypatch: pytest.MonkeyPatch,
+    *,
+    cluster_count: int = 2,
+    discovery_failure: bool = False,
+    official_available: bool = True,
+) -> dict[str, object]:
+    calls: dict[str, object] = {
+        "projection": 0,
+        "attach_sizes": [],
+        "projector": 0,
+        "aliases": 0,
+    }
+    projection = _public_integration_projection(cluster_count)
+
+    def fake_projection(*_args: object, **_kwargs: object) -> tuple[
+        dict[str, object],
+        dict[str, object],
+        dict[str, object],
+    ]:
+        calls["projection"] = int(calls["projection"]) + 1
+        clusters = projection["clustered_events"]
+        candidates = projection["candidate_clusters"]
+        return (
+            _legacy_integration_payload(
+                clusters[:1],
+                available_count=len(clusters),
+                max_items=1,
+            ),
+            _legacy_integration_payload(
+                candidates[:1],
+                available_count=len(candidates),
+                max_items=1,
+            ),
+            deepcopy(projection),
+        )
+
+    def fake_attach(
+        events: list[dict[str, object]],
+        _evidence: list[dict[str, object]],
+        *,
+        official_available: bool,
+        **_kwargs: object,
+    ) -> list[dict[str, object]]:
+        calls["attach_sizes"].append(len(events))
+        evidence_ids = ["official-2330"] if official_available else []
+        return [
+            {
+                **event,
+                "confirmation_status": (
+                    "confirmed" if official_available else "unavailable"
+                ),
+                "official_evidence_ids": evidence_ids,
+                "official_evidence_count": len(evidence_ids),
+            }
+            for event in events
+        ]
+
+    def fake_aliases(*_args: object, **_kwargs: object) -> dict[str, object]:
+        calls["aliases"] = int(calls["aliases"]) + 1
+        return deepcopy(PUBLIC_ALIASES)
+
+    def count_projector(*args: object, **kwargs: object) -> tuple[
+        dict[str, object],
+        dict[str, object],
+    ]:
+        calls["projector"] = int(calls["projector"]) + 1
+        return build_public_theme_ranking(*args, **kwargs)
+
+    monkeypatch.setattr(updater, "now_utc", lambda: PUBLIC_ANCHOR)
+    monkeypatch.setattr(
+        updater,
+        "load_source_registry",
+        lambda _path: deepcopy(_public_integration_registry()),
+    )
+    monkeypatch.setattr(
+        updater,
+        "load_theme_taxonomy",
+        lambda: deepcopy(PUBLIC_TAXONOMY),
+    )
+    monkeypatch.setattr(updater, "load_symbol_aliases", fake_aliases)
+    monkeypatch.setattr(
+        updater,
+        "dispatch_sources",
+        lambda *_args, **_kwargs: deepcopy(
+            _public_integration_results(
+                discovery_failure=discovery_failure,
+                official_available=official_available,
+            )
+        ),
+    )
+    monkeypatch.setattr(updater, "build_theme_projection", fake_projection)
+    monkeypatch.setattr(updater, "attach_official_evidence", fake_attach)
+    monkeypatch.setattr(
+        updater,
+        "build_official_evidence_payload",
+        lambda *_args, **_kwargs: deepcopy(_official_integration_payload()),
+    )
+    monkeypatch.setattr(updater, "build_public_theme_ranking", count_projector)
+    return calls
+
+
+def test_run_update_public_ranking_integration_uses_full_collections_once(
+    monkeypatch: pytest.MonkeyPatch,
+    tmp_path: Path,
+) -> None:
+    calls = _install_public_integration_fakes(monkeypatch)
+    output_dir = tmp_path / "output"
+
+    summary = run_update(
+        registry_path=tmp_path / "registry.json",
+        output_dir=output_dir,
+        window_hours=72,
+        max_events=1,
+        max_candidates=1,
+    )
+
+    public_payload = json.loads(
+        (output_dir / "public-theme-ranking-v0.8.json").read_text(encoding="utf-8")
+    )
+    legacy_events = json.loads(
+        (output_dir / "theme-events.json").read_text(encoding="utf-8")
+    )
+    legacy_candidates = json.loads(
+        (output_dir / "tracking-candidates.json").read_text(encoding="utf-8")
+    )
+
+    assert calls == {
+        "projection": 1,
+        "attach_sizes": [2, 2],
+        "projector": 1,
+        "aliases": 1,
+    }
+    assert len(legacy_events["items"]) == 1
+    assert len(legacy_candidates["items"]) == 1
+    assert public_payload["generated_at"] == "2026-07-29T09:00:00Z"
+    assert public_payload["market_id"] == "TW_EQUITY"
+    assert public_payload["market_scope"] == ["TW_EQUITY"]
+    assert public_payload["window_hours"] == 72
+    assert public_payload["qualified_theme_count"] == 1
+    assert public_payload["themes"][0]["summaries"]["event_count"] == 2
+    assert public_payload["themes"][0]["summaries"]["tracking_candidate_count"] == 2
+    assert all(
+        company["exchange"] in {"TWSE", "TPEX"}
+        for key in ("direct_mentions", "supply_chain_candidates")
+        for company in public_payload["themes"][0][key]
+    )
+    assert "NVDA" not in json.dumps(public_payload, ensure_ascii=False)
+    assert summary["public_themes_qualified"] == 1
+
+
+def test_discovery_failure_is_partial_without_lowering_public_eligibility(
+    monkeypatch: pytest.MonkeyPatch,
+    tmp_path: Path,
+) -> None:
+    _install_public_integration_fakes(
+        monkeypatch,
+        cluster_count=1,
+        discovery_failure=True,
+    )
+    output_dir = tmp_path / "output"
+
+    run_update(
+        registry_path=tmp_path / "registry.json",
+        output_dir=output_dir,
+        window_hours=72,
+        max_events=1,
+        max_candidates=1,
+    )
+
+    payload = json.loads(
+        (output_dir / "public-theme-ranking-v0.8.json").read_text(encoding="utf-8")
+    )
+    assert payload["generation_status"] == "partial"
+    assert payload["failed_source_count"] == 1
+    assert payload["qualified_theme_count"] == 0
+    assert payload["themes"] == []
+
+
+def test_official_unavailable_changes_only_company_official_state(
+    monkeypatch: pytest.MonkeyPatch,
+    tmp_path: Path,
+) -> None:
+    state = {"available": True}
+    calls = _install_public_integration_fakes(monkeypatch)
+
+    def dispatch_for_state(*_args: object, **_kwargs: object) -> list[dict[str, object]]:
+        return deepcopy(
+            _public_integration_results(official_available=state["available"])
+        )
+
+    monkeypatch.setattr(updater, "dispatch_sources", dispatch_for_state)
+    available_dir = tmp_path / "available"
+    run_update(
+        registry_path=tmp_path / "registry.json",
+        output_dir=available_dir,
+        window_hours=72,
+        max_events=1,
+        max_candidates=1,
+    )
+    state["available"] = False
+    unavailable_dir = tmp_path / "unavailable"
+    run_update(
+        registry_path=tmp_path / "registry.json",
+        output_dir=unavailable_dir,
+        window_hours=72,
+        max_events=1,
+        max_candidates=1,
+    )
+
+    available = json.loads(
+        (available_dir / "public-theme-ranking-v0.8.json").read_text(encoding="utf-8")
+    )
+    unavailable = json.loads(
+        (unavailable_dir / "public-theme-ranking-v0.8.json").read_text(
+            encoding="utf-8"
+        )
+    )
+    available_theme = available["themes"][0]
+    unavailable_theme = unavailable["themes"][0]
+
+    assert calls["projection"] == 2
+    assert calls["projector"] == 2
+    assert available["official_evidence_status"] == "available"
+    assert unavailable["official_evidence_status"] == "unavailable"
+    assert unavailable["generation_status"] == "complete"
+    assert unavailable["failed_source_count"] == 0
+    assert available_theme["theme_id"] == unavailable_theme["theme_id"]
+    assert available_theme["heat_score"] == unavailable_theme["heat_score"]
+    assert available_theme["summaries"] == unavailable_theme["summaries"]
+    assert available_theme["representative_news"] == unavailable_theme[
+        "representative_news"
+    ]
+    assert any(
+        company.get("official_marker") == "近期官方佐證"
+        for company in available_theme["supply_chain_candidates"]
+    )
+    assert all(
+        "official_marker" not in company
+        for company in unavailable_theme["supply_chain_candidates"]
+    )
+
+
+def _json_type(value: object) -> str:
+    if value is None:
+        return "null"
+    if isinstance(value, bool):
+        return "boolean"
+    if isinstance(value, int):
+        return "integer"
+    if isinstance(value, float):
+        return "number"
+    if isinstance(value, str):
+        return "string"
+    if isinstance(value, list):
+        return "array"
+    if isinstance(value, dict):
+        return "object"
+    raise AssertionError(f"unsupported fixture value type: {type(value).__name__}")
+
+
+def _existing_contract_payloads() -> dict[str, dict[str, object]]:
+    taxonomy, records, anchor = _projection_contract_inputs()
+    events, candidates, _ = build_theme_projection(
+        records,
+        taxonomy,
+        anchor=anchor,
+        window_hours=72,
+        max_events=1,
+        max_candidates=1,
+        source_authority={"moneydj": 1, "cnyes": 2, "unknown": 99},
+    )
+    events = {
+        **events,
+        "items": updater.attach_official_evidence(
+            events["items"],
+            [],
+            official_available=False,
+        ),
+    }
+    candidates = {
+        **candidates,
+        "items": updater.attach_official_evidence(
+            candidates["items"],
+            [],
+            official_available=False,
+        ),
+    }
+    source_status = source_status_payload(
+        [
+            {
+                "source_id": "moneydj",
+                "name": "MoneyDJ",
+                "source_class": "financial_media",
+                "adapter": "generic_rss",
+                "fetch_method": "rss",
+                "status": "ok",
+                "items": 3,
+                "error": None,
+                "feed_url": "https://example.com/feed.xml",
+                "elapsed_ms": 10,
+            }
+        ],
+        anchor,
+        3,
+    )
+    official_evidence = {
+        "generated_at": anchor.isoformat().replace("+00:00", "Z"),
+        "market_id": "TW_EQUITY",
+        "window_hours": 72,
+        "max_items": 500,
+        "total_items": 1,
+        "total_items_available": 1,
+        "allocation_policy": "dataset_round_robin_v1",
+        "datasets_represented": 1,
+        "dataset_distribution": {"material_information": 1},
+        "items": [
+            {
+                "evidence_id": "official-contract",
+                "source_id": "mops",
+                "source_class": "official_disclosure",
+                "adapter": "twse_openapi",
+                "dataset_id": "material_information",
+                "category": "material_information",
+                "market_id": "TW_EQUITY",
+                "instrument_id": "TWSE:2330",
+                "symbol": "2330",
+                "company_name": "台積電",
+                "title": "台積電重大訊息",
+                "summary": None,
+                "published_at": "2026-07-29T08:00:00Z",
+                "effective_at": None,
+                "canonical_url": "https://mops.twse.com.tw/example",
+                "raw_reference": "fixture",
+                "fetched_at": "2026-07-29T09:00:00Z",
+            }
+        ],
+    }
+    return {
+        "theme-events.json": events,
+        "tracking-candidates.json": candidates,
+        "source-status.json": source_status,
+        "official-evidence.json": official_evidence,
+    }
+
+
+def _valid_payload_set() -> dict[str, dict[str, object]]:
+    payloads = _existing_contract_payloads()
+    public_payload, _ = build_public_theme_ranking(
+        _public_integration_projection(),
+        taxonomy=deepcopy(PUBLIC_TAXONOMY),
+        symbol_aliases=deepcopy(PUBLIC_ALIASES),
+        official_evidence_by_id={},
+        source_status={"failed_count": 0},
+        generated_at=PUBLIC_ANCHOR,
+        window_hours=72,
+        official_evidence_status="unavailable",
+    )
+    return {**payloads, "public-theme-ranking-v0.8.json": public_payload}
+
+
+def test_existing_payload_contract_fixture_freezes_keys_types_thresholds_and_caps() -> None:
+    fixture = json.loads(EXISTING_PAYLOAD_CONTRACT_FIXTURE.read_text(encoding="utf-8"))
+    payloads = _existing_contract_payloads()
+
+    for filename, payload in payloads.items():
+        expected = fixture[filename]
+        assert {key: _json_type(value) for key, value in payload.items()} == expected[
+            "top_level"
+        ]
+        collection = payload["sites"] if filename == "source-status.json" else payload["items"]
+        assert {
+            key: _json_type(value) for key, value in collection[0].items()
+        } == expected["item"]
+
+    constants = fixture["constants"]
+    assert payloads["theme-events.json"]["selected_theme_score_min"] == constants[
+        "selected_theme_score_min"
+    ]
+    assert payloads["theme-events.json"]["candidate_theme_score_min"] == constants[
+        "candidate_theme_score_min"
+    ]
+    assert payloads["theme-events.json"]["max_items"] == constants["event_cap"]
+    assert payloads["tracking-candidates.json"]["max_items"] == constants[
+        "candidate_cap"
+    ]
+    assert payloads["theme-events.json"]["total_items_available"] == 2
+    assert payloads["tracking-candidates.json"]["total_items_available"] == 2
+
+
+def test_validate_payload_set_requires_exact_five_shared_payloads() -> None:
+    payloads = _valid_payload_set()
+
+    validate_payload_set(
+        payloads,
+        generated_at=PUBLIC_ANCHOR,
+        market_id="TW_EQUITY",
+        market_scope=["TW_EQUITY"],
+        window_hours=72,
+    )
+
+    for filename, field, invalid in (
+        ("source-status.json", "generated_at", "2026-07-29T08:00:00Z"),
+        ("theme-events.json", "market_id", "US_EQUITY"),
+        ("tracking-candidates.json", "market_scope", ["US_EQUITY"]),
+        ("official-evidence.json", "window_hours", 24),
+    ):
+        changed = deepcopy(payloads)
+        changed[filename][field] = invalid
+        with pytest.raises(ValueError):
+            validate_payload_set(
+                changed,
+                generated_at=PUBLIC_ANCHOR,
+                market_id="TW_EQUITY",
+                market_scope=["TW_EQUITY"],
+                window_hours=72,
+            )
+
+    missing = deepcopy(payloads)
+    missing.pop("source-status.json")
+    with pytest.raises(ValueError):
+        validate_payload_set(
+            missing,
+            generated_at=PUBLIC_ANCHOR,
+            market_id="TW_EQUITY",
+            market_scope=["TW_EQUITY"],
+            window_hours=72,
+        )
+
+
+def test_write_failure_before_replacement_preserves_all_destination_bytes(
+    tmp_path: Path,
+) -> None:
+    payloads = _valid_payload_set()
+    expected_bytes = {}
+    for filename in payloads:
+        path = tmp_path / filename
+        original = f"original:{filename}\n".encode()
+        path.write_bytes(original)
+        expected_bytes[filename] = original
+    payloads["source-status.json"]["sites"].append({"not_serializable": {1, 2}})
+
+    with pytest.raises(TypeError):
+        write_payload_set(tmp_path, payloads)
+
+    assert {
+        filename: (tmp_path / filename).read_bytes() for filename in payloads
+    } == expected_bytes
+    assert sorted(path.name for path in tmp_path.iterdir()) == sorted(payloads)
+
+
+def test_write_payload_set_replaces_in_fixed_order_and_cleans_temps(
+    monkeypatch: pytest.MonkeyPatch,
+    tmp_path: Path,
+) -> None:
+    payloads = _valid_payload_set()
+    replacement_order: list[str] = []
+    original_replace = Path.replace
+
+    def track_replace(path: Path, target: Path) -> Path:
+        replacement_order.append(Path(target).name)
+        return original_replace(path, target)
+
+    monkeypatch.setattr(Path, "replace", track_replace)
+    write_payload_set(tmp_path, payloads)
+
+    assert replacement_order == [
+        "theme-events.json",
+        "tracking-candidates.json",
+        "source-status.json",
+        "official-evidence.json",
+        "public-theme-ranking-v0.8.json",
+    ]
+    assert sorted(path.name for path in tmp_path.iterdir()) == sorted(payloads)
+    for filename, payload in payloads.items():
+        assert json.loads((tmp_path / filename).read_text(encoding="utf-8")) == payload
+        assert (tmp_path / filename).read_bytes().endswith(b"\n")
+
+
+def test_write_failure_during_first_replacement_cleans_temp_siblings(
+    monkeypatch: pytest.MonkeyPatch,
+    tmp_path: Path,
+) -> None:
+    payloads = _valid_payload_set()
+    expected_bytes = {}
+    for filename in payloads:
+        path = tmp_path / filename
+        original = f"original:{filename}\n".encode()
+        path.write_bytes(original)
+        expected_bytes[filename] = original
+
+    def fail_replace(_path: Path, _target: Path) -> Path:
+        raise OSError("fixture replacement failure")
+
+    monkeypatch.setattr(Path, "replace", fail_replace)
+
+    with pytest.raises(OSError, match="fixture replacement failure"):
+        write_payload_set(tmp_path, payloads)
+
+    assert {
+        filename: (tmp_path / filename).read_bytes() for filename in payloads
+    } == expected_bytes
+    assert sorted(path.name for path in tmp_path.iterdir()) == sorted(payloads)
+
+
+def test_run_update_validates_complete_payload_set_before_first_replacement(
+    monkeypatch: pytest.MonkeyPatch,
+    tmp_path: Path,
+) -> None:
+    _install_public_integration_fakes(monkeypatch)
+    trace: list[str] = []
+    original_validate = updater.validate_payload_set
+    original_replace = Path.replace
+
+    def track_validate(*args: object, **kwargs: object) -> None:
+        trace.append("validate")
+        original_validate(*args, **kwargs)
+
+    def track_replace(path: Path, target: Path) -> Path:
+        trace.append(f"replace:{Path(target).name}")
+        return original_replace(path, target)
+
+    monkeypatch.setattr(updater, "validate_payload_set", track_validate)
+    monkeypatch.setattr(Path, "replace", track_replace)
+
+    run_update(
+        registry_path=tmp_path / "registry.json",
+        output_dir=tmp_path / "output",
+        window_hours=72,
+        max_events=1,
+        max_candidates=1,
+    )
+
+    assert trace == [
+        "validate",
+        "replace:theme-events.json",
+        "replace:tracking-candidates.json",
+        "replace:source-status.json",
+        "replace:official-evidence.json",
+        "replace:public-theme-ranking-v0.8.json",
+    ]
+
+
+def test_public_observability_summary_and_failure_logging_are_bounded(
+    monkeypatch: pytest.MonkeyPatch,
+    tmp_path: Path,
+    caplog: pytest.LogCaptureFixture,
+) -> None:
+    _install_public_integration_fakes(
+        monkeypatch,
+        cluster_count=1,
+        discovery_failure=True,
+    )
+    caplog.set_level("WARNING")
+
+    summary = run_update(
+        registry_path=tmp_path / "registry.json",
+        output_dir=tmp_path / "output",
+        window_hours=72,
+        max_events=1,
+        max_candidates=1,
+    )
+
+    observability_fields = {
+        "public_themes_qualified",
+        "public_themes_displayed",
+        "public_themes_omitted_invalid",
+        "public_direct_company_count",
+        "public_supply_chain_company_count",
+        "public_derivation_error_count",
+        "public_generation_status",
+    }
+    assert observability_fields <= set(summary)
+    assert "eligibility_failures" not in summary
+    messages = [
+        record.getMessage()
+        for record in caplog.records
+        if record.getMessage().startswith("public_theme_eligibility_failure ")
+    ]
+    assert messages
+    assert all(
+        message.split()
+        == [
+            "public_theme_eligibility_failure",
+            f"theme_id={PUBLIC_THEME_ID}",
+            message.split()[2],
+        ]
+        and message.split()[2].startswith("rule_code=")
+        and message.split()[2][len("rule_code=") :].replace("_", "").isalnum()
+        for message in messages
+    )
+    assert all("https://" not in message and "HBM" not in message for message in messages)

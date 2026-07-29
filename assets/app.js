@@ -28,6 +28,7 @@ const state = {
   top3Personas: null,
   storiesMerged: null,
   storiesDataUrl: "data/stories-merged.json",
+  publicThemeRanking: null,
   // 内容 tab：单值，默认 "all"（全部，无过滤）
   activeSection: "all",
   mainListVisibleCount: 0,
@@ -78,9 +79,9 @@ const listTitleEl = document.getElementById("listTitle");
 const itemTpl = document.getElementById("itemTpl");
 const modeSelectedBtnEl = document.getElementById("modeSelectedBtn");
 const modeAllBtnEl = document.getElementById("modeAllBtn");
-const hotBoardWrapEl = document.getElementById("hotBoardWrap");
-const hotBoardListEl = document.getElementById("hotBoardList");
-const hotBoardMetaEl = document.getElementById("hotBoardMeta");
+const publicThemeRankingNoteEl = document.getElementById("publicThemeRankingNote");
+const publicThemeRankingStatusEl = document.getElementById("publicThemeRankingStatus");
+const publicThemeRankingListEl = document.getElementById("publicThemeRankingList");
 const top3BoardWrapEl = document.getElementById("top3BoardWrap");
 const top3BoardListEl = document.getElementById("top3BoardList");
 const top3BoardMetaEl = document.getElementById("top3BoardMeta");
@@ -444,7 +445,6 @@ function renderSectionTabs() {
       renderSectionTabs();
       renderModeSwitch();
       renderSiteFilters();
-      renderHotBoard();
       if (state.waytoagiData) renderWaytoagi(state.waytoagiData);
       renderMainList();
     });
@@ -489,7 +489,6 @@ function renderModeSwitch() {
     modeAllBtnEl.classList.toggle("active", state.mode === "all");
     modeAllBtnEl.setAttribute("aria-pressed", state.mode === "all" ? "true" : "false");
   }
-  if (hotBoardWrapEl) hotBoardWrapEl.hidden = true;
   if (top3BoardWrapEl) top3BoardWrapEl.hidden = true;
   if (allDedupeWrapEl) allDedupeWrapEl.classList.toggle("show", state.mode === "all");
   if (allDedupeToggleEl) allDedupeToggleEl.checked = state.allDedup;
@@ -1195,38 +1194,6 @@ function buildPersonaPanel(entry) {
 }
 
 const HOT_DECAY_HOURS = 12;
-const HOT_SCORE_SCALE = 60;
-
-function storyHotness(story) {
-  const sources = storySourceCount(story);
-  if (sources < 2) return 0;
-  const latest = storyTimeMs(story, "latest_at") || storyTimeMs(story, "earliest_at");
-  const ageHours = latest ? Math.max(0, (Date.now() - latest) / 3600000) : 24;
-  return (sources - 1) * Math.exp(-ageHours / HOT_DECAY_HOURS);
-}
-
-function storyHotScore(story) {
-  const raw = storyHotness(story);
-  if (raw <= 0) return 0;
-  return Math.max(1, Math.min(100, Math.round(raw * HOT_SCORE_SCALE)));
-}
-
-function hotStories(stories) {
-  return stories
-    .filter((story) => storyHotness(story) > 0)
-    .sort((a, b) => {
-      const byHotScore = storyHotScore(b) - storyHotScore(a);
-      if (byHotScore !== 0) return byHotScore;
-      const byHotRaw = storyHotness(b) - storyHotness(a);
-      if (byHotRaw !== 0) return byHotRaw;
-      const byEditorial = storyScore(b) - storyScore(a);
-      if (byEditorial !== 0) return byEditorial;
-      return storyTimeMs(b, "latest_at") - storyTimeMs(a, "latest_at");
-    });
-}
-
-const HOT_BOARD_LIMIT = 20;
-
 function briefStories() {
   return (Array.isArray(state.dailyBrief?.items) ? state.dailyBrief.items : []).filter((story) => !isUnsafeStory(story));
 }
@@ -1250,18 +1217,6 @@ function isStoryCurated(story) {
 function isCuratedSourceRef(ref) {
   if (!ref) return false;
   return ref.site_id === "official_ai" || ref.site_id === "aihot" || ref.source_tier === "official" || ref.source_tier === "curated";
-}
-
-// 热点排行区候选池：stories-merged 中 source_count>=2，按热度降序（不含栏目过滤，供 tab 计数复用）
-function hotBoardStories() {
-  return hotStories(mergedStories().filter((story) =>
-    storySourceCount(story) >= 2 &&
-    storyMatchesSiteFilter(story) &&
-    storyMatchesQuery(story)));
-}
-
-function hotBoardEntries() {
-  return [];
 }
 
 // ---- 主列表数据池：两种模式同源于 theme-events，精选仅增加资格门槛 ----
@@ -1426,7 +1381,7 @@ function feedSummaryText(item) {
 
 // 共享卡片组件：唯一渲染入口，主列表（精选/全量）共用同一基础变体。
 // row.story 存在时展示精选徽章/分数/为什么重要/persona 面板；row.story 为空（全量原始条目）时优雅降级，跳过这些区块。
-// 热点排行区改用 buildHotRow（单行行式渲染），不再走这个卡片模板。
+// 下方事件列表沿用完整卡片模板。
 function renderItemNode(row) {
   const node = itemTpl.content.firstElementChild.cloneNode(true);
   const item = row.item || {};
@@ -1574,68 +1529,6 @@ function renderItemNode(row) {
   return node;
 }
 
-// 热点排行区：一行一条（rank + 标题链接 + 信源数 · 相对时间），不复用卡片模板——
-// 避免和下方精选列表的完整卡片重复展示摘要/标签/为什么重要。
-function buildHotRow(row, rank) {
-  const item = row.item || {};
-  const el = document.createElement("div");
-  el.className = "hot-row";
-
-  const rankEl = document.createElement("span");
-  rankEl.className = "hot-row-rank";
-  rankEl.textContent = `#${rank}`;
-
-  const titleEl = document.createElement("a");
-  titleEl.className = "hot-row-title";
-  titleEl.target = "_blank";
-  titleEl.rel = "noopener noreferrer";
-  const displayTitle = row.story ? storyPrimaryTitleText(row.story) : itemTitleText(item);
-  titleEl.textContent = displayTitle;
-  titleEl.title = displayTitle;
-  titleEl.href = item.url || row.story?.primary_url || row.story?.url || "#";
-
-  const metaEl = document.createElement("span");
-  metaEl.className = "hot-row-meta";
-  const sourceCount = rowSourceCount(row);
-  const relTime = fmtRelativeTime(timelineMs(item) || storyTimeMs(row.story, "latest_at"));
-
-  // 同一事件展开：热点行的"N 个信源"变成可点击项，点击在 .hot-row 正下方插入/移除同一份子列表组件。
-  const expandable = row.story && storySourceCount(row.story) >= 2;
-  if (expandable) {
-    const sourceToggle = document.createElement("button");
-    sourceToggle.type = "button";
-    sourceToggle.className = "hot-row-source-toggle";
-    sourceToggle.textContent = `${fmtNumber(sourceCount)} 个信源`;
-    sourceToggle.setAttribute("aria-expanded", "false");
-    let sourceList = null;
-    sourceToggle.addEventListener("click", (evt) => {
-      evt.preventDefault();
-      evt.stopPropagation();
-      if (sourceList) {
-        sourceList.remove();
-        sourceList = null;
-        sourceToggle.setAttribute("aria-expanded", "false");
-        return;
-      }
-      sourceList = buildEventSourceList(row);
-      if (!sourceList) return;
-      sourceList.classList.add("hot-row-source-list");
-      sourceToggle.setAttribute("aria-expanded", "true");
-      el.insertAdjacentElement("afterend", sourceList);
-    });
-    const sep = document.createElement("span");
-    sep.textContent = " · ";
-    const timeEl = document.createElement("span");
-    timeEl.textContent = relTime;
-    metaEl.append(sourceToggle, sep, timeEl);
-  } else {
-    metaEl.textContent = `${fmtNumber(sourceCount)} 个信源 · ${relTime}`;
-  }
-
-  el.append(rankEl, titleEl, metaEl);
-  return el;
-}
-
 function renderLoadingNotice(label, count) {
   const loading = document.createElement("div");
   loading.className = "list-loading";
@@ -1776,41 +1669,12 @@ function renderTop3Board() {
   rows.forEach((row) => top3BoardListEl.appendChild(renderItemNode(row)));
 }
 
-// 热点排行区：不设固定条数，展示条数取决于当前有多少条满足多信源热度阈值（HOT_BOARD_LIMIT 只是技术兜底）。
-function renderHotBoard() {
-  renderTop3Board();
-  if (!hotBoardListEl) return;
-  const show = hotBoardEntries().length > 0;
-  if (hotBoardWrapEl) hotBoardWrapEl.hidden = !show;
-  if (!show) return;
-  hotBoardListEl.innerHTML = "";
-
-  const rows = hotBoardEntries();
-  if (hotBoardMetaEl) {
-    hotBoardMetaEl.textContent = rows.length
-      ? `当前 ${fmtNumber(rows.length)} 条热点 · 按热度降序`
-      : "按热度排序";
-  }
-
-  if (!rows.length) {
-    const empty = document.createElement("div");
-    empty.className = "bole-empty";
-    empty.textContent = "当前筛选下没有 2 个以上信源交叉的热点，可切换筛选或查看全量。";
-    hotBoardListEl.appendChild(empty);
-    return;
-  }
-
-  rows.forEach((row, index) => {
-    hotBoardListEl.appendChild(buildHotRow(row, index + 1));
-  });
-}
-
 function rerenderCurrentView() {
   state.mainListVisibleCount = MAIN_LIST_PAGE_SIZE;
   renderSectionTabs();
   renderModeSwitch();
   renderSiteFilters();
-  renderHotBoard();
+  renderTop3Board();
   if (state.waytoagiData) renderWaytoagi(state.waytoagiData);
   renderMainList();
 }
@@ -1933,7 +1797,7 @@ function selectSocialdataAuthor(author) {
   renderSectionTabs();
   renderModeSwitch();
   renderSiteFilters();
-  renderHotBoard();
+  renderTop3Board();
   renderMainList();
   renderSourceHealth();
   document.querySelector(".list-wrap")?.scrollIntoView({ behavior: "smooth", block: "start" });
@@ -2156,6 +2020,421 @@ function renderSourceHealth(errorMessage = "") {
   renderClearFiltersButton();
 }
 
+const PUBLIC_THEME_RANKING_CONTRACT = Object.freeze({
+  schemaVersion: "nexus_public_theme_ranking.v0.8",
+  rankingRuleVersion: "public_theme_heat_v0.8",
+  companyRuleVersion: "public_company_evidence_v0.8",
+  marketId: "TW_EQUITY",
+  windowHours: 72,
+  maxThemes: 5,
+});
+const PUBLIC_THEME_RANKING_ERROR = "題材排行暫時無法更新，請稍後再試";
+const PUBLIC_THEME_RANKING_PARTIAL = "部分資料來源暫時無法更新，排行門檻維持不變";
+const PUBLIC_THEME_OFFICIAL_UNAVAILABLE = "官方佐證暫時無法更新";
+
+function isPlainRecord(value) {
+  return Boolean(value) && typeof value === "object" && !Array.isArray(value);
+}
+
+function hasExactKeys(record, requiredKeys, optionalKeys = []) {
+  if (!isPlainRecord(record)) return false;
+  const allowedKeys = new Set([...requiredKeys, ...optionalKeys]);
+  const keys = Object.keys(record);
+  return requiredKeys.every((key) => Object.hasOwn(record, key))
+    && keys.every((key) => allowedKeys.has(key));
+}
+
+function isNonEmptyString(value) {
+  return typeof value === "string" && value.trim().length > 0;
+}
+
+function isBoundedNumber(value, minimum, maximum) {
+  return Number.isFinite(value) && value >= minimum && value <= maximum;
+}
+
+function isNonNegativeInteger(value) {
+  return Number.isInteger(value) && value >= 0;
+}
+
+function isPublicTimestamp(value) {
+  return isNonEmptyString(value) && Number.isFinite(Date.parse(value));
+}
+
+function isNullablePublicTimestamp(value) {
+  return value === null || isPublicTimestamp(value);
+}
+
+function isPublicHttpUrl(value) {
+  if (!isNonEmptyString(value)) return false;
+  try {
+    const parsed = new URL(value);
+    return (parsed.protocol === "http:" || parsed.protocol === "https:")
+      && Boolean(parsed.hostname);
+  } catch {
+    return false;
+  }
+}
+
+function isPublicHeatComponent(component) {
+  return hasExactKeys(component, ["input", "normalized", "weighted"])
+    && isNonNegativeInteger(component.input)
+    && isBoundedNumber(component.normalized, 0, 100)
+    && isBoundedNumber(component.weighted, 0, 30);
+}
+
+function isPublicMappingComponent(component) {
+  return hasExactKeys(component, [
+    "mapping_count",
+    "direct_mapping_event_count",
+    "normalized",
+    "weighted",
+  ])
+    && isNonNegativeInteger(component.mapping_count)
+    && isNonNegativeInteger(component.direct_mapping_event_count)
+    && isBoundedNumber(component.normalized, 0, 100)
+    && isBoundedNumber(component.weighted, 0, 30);
+}
+
+function isPublicHeatReason(reason) {
+  if (!hasExactKeys(reason, [
+    "rule_version",
+    "event_component",
+    "source_component",
+    "candidate_component",
+    "mapping_component",
+    "single_source_concentration",
+    "concentration_penalty",
+    "raw_score",
+  ])) return false;
+  return reason.rule_version === PUBLIC_THEME_RANKING_CONTRACT.rankingRuleVersion
+    && isPublicHeatComponent(reason.event_component)
+    && isPublicHeatComponent(reason.source_component)
+    && isPublicHeatComponent(reason.candidate_component)
+    && isPublicMappingComponent(reason.mapping_component)
+    && isBoundedNumber(reason.single_source_concentration, 0, 1)
+    && isBoundedNumber(reason.concentration_penalty, 0, 15)
+    && isBoundedNumber(reason.raw_score, 0, 100);
+}
+
+function isTaiwanPublicCompany(company, kind) {
+  const directKeys = [
+    "instrument_id",
+    "symbol",
+    "exchange",
+    "name_zh",
+    "direct_event_count",
+    "latest_mentioned_at",
+  ];
+  const supplyKeys = [
+    ...directKeys,
+    "official_evidence_count",
+    "company_rank_score",
+    "latest_official_at",
+  ];
+  const requiredKeys = kind === "direct" ? directKeys : supplyKeys;
+  const optionalKeys = kind === "supply" ? ["official_marker"] : [];
+  if (!hasExactKeys(company, requiredKeys, optionalKeys)) return false;
+  if (!["TWSE", "TPEX"].includes(company.exchange)) return false;
+  if (!isNonEmptyString(company.symbol) || !/^[A-Z0-9]+$/.test(company.symbol)) return false;
+  if (company.instrument_id !== `${company.exchange}:${company.symbol}`) return false;
+  if (!isNonEmptyString(company.name_zh)) return false;
+  if (!isNonNegativeInteger(company.direct_event_count)) return false;
+  if (!isNullablePublicTimestamp(company.latest_mentioned_at)) return false;
+  if (kind === "direct") return true;
+  if (!isNonNegativeInteger(company.official_evidence_count)) return false;
+  if (!isNonNegativeInteger(company.company_rank_score)) return false;
+  if (!isNullablePublicTimestamp(company.latest_official_at)) return false;
+  const hasOfficialMarker = Object.hasOwn(company, "official_marker");
+  return hasOfficialMarker === (company.official_evidence_count > 0)
+    && (!hasOfficialMarker || company.official_marker === "近期官方佐證");
+}
+
+function isPublicRepresentativeNews(news) {
+  return hasExactKeys(news, [
+    "cluster_id",
+    "id",
+    "title_zh",
+    "summary",
+    "source_id",
+    "source",
+    "published_at",
+    "canonical_url",
+  ])
+    && isNonEmptyString(news.cluster_id)
+    && isNonEmptyString(news.id)
+    && isNonEmptyString(news.title_zh)
+    && typeof news.summary === "string"
+    && isNonEmptyString(news.source_id)
+    && isNonEmptyString(news.source)
+    && isPublicTimestamp(news.published_at)
+    && isPublicHttpUrl(news.canonical_url);
+}
+
+function hasUniqueInstruments(companies) {
+  const instruments = companies.map((company) => company.instrument_id);
+  return new Set(instruments).size === instruments.length;
+}
+
+function isPublicTheme(theme, expectedRank) {
+  if (!hasExactKeys(theme, [
+    "rank",
+    "theme_id",
+    "name_zh",
+    "heat_score",
+    "summaries",
+    "heat_reason",
+    "direct_mentions",
+    "supply_chain_candidates",
+    "representative_news",
+  ])) return false;
+  if (theme.rank !== expectedRank) return false;
+  if (!isNonEmptyString(theme.theme_id) || !/^[a-z0-9_-]+$/.test(theme.theme_id)) return false;
+  if (!isNonEmptyString(theme.name_zh)) return false;
+  if (!Number.isInteger(theme.heat_score) || !isBoundedNumber(theme.heat_score, 0, 100)) {
+    return false;
+  }
+  if (!hasExactKeys(theme.summaries, [
+    "event_count",
+    "source_count",
+    "tracking_candidate_count",
+    "taiwan_mapping_count",
+  ])) return false;
+  if (!Object.values(theme.summaries).every(isNonNegativeInteger)) return false;
+  if (!isPublicHeatReason(theme.heat_reason)) return false;
+  if (!Array.isArray(theme.direct_mentions)) return false;
+  if (!theme.direct_mentions.every((company) => isTaiwanPublicCompany(company, "direct"))) {
+    return false;
+  }
+  if (!hasUniqueInstruments(theme.direct_mentions)) return false;
+  if (!Array.isArray(theme.supply_chain_candidates)
+      || theme.supply_chain_candidates.length > 3) return false;
+  if (!theme.supply_chain_candidates.every(
+    (company) => isTaiwanPublicCompany(company, "supply"),
+  )) return false;
+  if (!hasUniqueInstruments(theme.supply_chain_candidates)) return false;
+  return isPublicRepresentativeNews(theme.representative_news);
+}
+
+function validatePublicThemeRankingPayload(payload) {
+  if (!hasExactKeys(payload, [
+    "schema_version",
+    "ranking_rule_version",
+    "company_rule_version",
+    "generated_at",
+    "market_id",
+    "market_scope",
+    "window_hours",
+    "max_themes",
+    "qualified_theme_count",
+    "displayed_theme_count",
+    "threshold_note",
+    "generation_status",
+    "failed_source_count",
+    "official_evidence_status",
+    "themes",
+  ])) return false;
+  if (payload.schema_version !== PUBLIC_THEME_RANKING_CONTRACT.schemaVersion) return false;
+  if (payload.ranking_rule_version !== PUBLIC_THEME_RANKING_CONTRACT.rankingRuleVersion) {
+    return false;
+  }
+  if (payload.company_rule_version !== PUBLIC_THEME_RANKING_CONTRACT.companyRuleVersion) {
+    return false;
+  }
+  if (!isPublicTimestamp(payload.generated_at)) return false;
+  if (payload.market_id !== PUBLIC_THEME_RANKING_CONTRACT.marketId) return false;
+  if (!Array.isArray(payload.market_scope)
+      || payload.market_scope.length !== 1
+      || payload.market_scope[0] !== PUBLIC_THEME_RANKING_CONTRACT.marketId) return false;
+  if (payload.window_hours !== PUBLIC_THEME_RANKING_CONTRACT.windowHours) return false;
+  if (payload.max_themes !== PUBLIC_THEME_RANKING_CONTRACT.maxThemes) return false;
+  if (!Array.isArray(payload.themes)
+      || payload.themes.length > PUBLIC_THEME_RANKING_CONTRACT.maxThemes) return false;
+  if (!isNonNegativeInteger(payload.qualified_theme_count)
+      || !isNonNegativeInteger(payload.displayed_theme_count)) return false;
+  if (payload.displayed_theme_count !== payload.themes.length
+      || payload.qualified_theme_count < payload.displayed_theme_count) return false;
+  const expectedNote = payload.displayed_theme_count < PUBLIC_THEME_RANKING_CONTRACT.maxThemes
+    ? `目前僅 ${payload.displayed_theme_count} 個題材達到上榜門檻`
+    : null;
+  if (payload.threshold_note !== expectedNote) return false;
+  if (!["complete", "partial"].includes(payload.generation_status)) return false;
+  if (!isNonNegativeInteger(payload.failed_source_count)) return false;
+  if (payload.generation_status === "complete" && payload.failed_source_count !== 0) return false;
+  if (payload.generation_status === "partial" && payload.failed_source_count === 0) return false;
+  if (!["available", "unavailable"].includes(payload.official_evidence_status)) return false;
+  if (!payload.themes.every((theme, index) => isPublicTheme(theme, index + 1))) return false;
+  const themeIds = payload.themes.map((theme) => theme.theme_id);
+  return new Set(themeIds).size === themeIds.length;
+}
+
+function appendPublicText(parent, tagName, className, text) {
+  const element = document.createElement(tagName);
+  element.className = className;
+  element.textContent = text;
+  parent.appendChild(element);
+  return element;
+}
+
+function buildPublicCompanyItem(company, showOfficialMarker) {
+  const item = document.createElement("li");
+  item.className = "public-theme-company";
+  const identity = document.createElement("span");
+  identity.className = "public-theme-company-identity";
+  appendPublicText(identity, "strong", "public-theme-company-name", company.name_zh);
+  appendPublicText(identity, "span", "public-theme-company-code", company.instrument_id);
+  item.appendChild(identity);
+  if (showOfficialMarker && company.official_marker === "近期官方佐證") {
+    appendPublicText(item, "span", "public-theme-official-marker", company.official_marker);
+  }
+  return item;
+}
+
+function buildPublicCompanyGroup(title, companies, emptyCopy, officialEvidenceAvailable) {
+  const group = document.createElement("section");
+  group.className = "public-theme-company-group";
+  appendPublicText(group, "h4", "public-theme-company-title", title);
+  if (!companies.length) {
+    appendPublicText(group, "p", "public-theme-company-empty", emptyCopy);
+    return group;
+  }
+  const list = document.createElement("ul");
+  list.className = "public-theme-company-list";
+  companies.forEach((company) => {
+    list.appendChild(buildPublicCompanyItem(company, officialEvidenceAvailable));
+  });
+  group.appendChild(list);
+  return group;
+}
+
+function buildPublicThemeSummaries(summaries) {
+  const definitions = [
+    ["題材事件", summaries.event_count],
+    ["獨立來源", summaries.source_count],
+    ["追蹤候選", summaries.tracking_candidate_count],
+    ["台股映射", summaries.taiwan_mapping_count],
+  ];
+  const list = document.createElement("dl");
+  list.className = "public-theme-summary-grid";
+  definitions.forEach(([label, value]) => {
+    const item = document.createElement("div");
+    appendPublicText(item, "dt", "public-theme-summary-label", label);
+    appendPublicText(item, "dd", "public-theme-summary-value", String(value));
+    list.appendChild(item);
+  });
+  return list;
+}
+
+function buildPublicRepresentativeNews(news) {
+  const group = document.createElement("div");
+  group.className = "public-theme-representative";
+  appendPublicText(group, "span", "public-theme-representative-label", "代表新聞");
+  const link = document.createElement("a");
+  link.className = "public-theme-news-link";
+  link.href = news.canonical_url;
+  link.target = "_blank";
+  link.rel = "noopener noreferrer";
+  link.textContent = news.title_zh;
+  group.appendChild(link);
+  const meta = document.createElement("div");
+  meta.className = "public-theme-news-meta";
+  appendPublicText(meta, "span", "", news.source);
+  const time = appendPublicText(meta, "time", "", fmtTime(news.published_at));
+  time.dateTime = news.published_at;
+  group.appendChild(meta);
+  return group;
+}
+
+function buildPublicThemeCard(theme, officialEvidenceAvailable) {
+  const card = document.createElement("article");
+  card.className = "public-theme-card";
+  const titleId = `public-theme-${theme.theme_id}`;
+  card.setAttribute("aria-labelledby", titleId);
+  const header = document.createElement("header");
+  header.className = "public-theme-card-head";
+  appendPublicText(header, "span", "public-theme-rank", `#${theme.rank}`);
+  const title = appendPublicText(header, "h3", "public-theme-name", theme.name_zh);
+  title.id = titleId;
+  appendPublicText(
+    header,
+    "strong",
+    "public-theme-heat",
+    `熱度 ${theme.heat_score} / 100`,
+  );
+  card.append(header, buildPublicThemeSummaries(theme.summaries));
+  const evidence = document.createElement("div");
+  evidence.className = "public-theme-evidence-grid";
+  evidence.append(
+    buildPublicCompanyGroup(
+      "新聞直接提及",
+      theme.direct_mentions,
+      "暫無新聞直接提及",
+      false,
+    ),
+    buildPublicCompanyGroup(
+      "題材／供應鏈候選",
+      theme.supply_chain_candidates,
+      "暫無題材／供應鏈候選",
+      officialEvidenceAvailable,
+    ),
+  );
+  card.append(evidence, buildPublicRepresentativeNews(theme.representative_news));
+  return card;
+}
+
+function publicThemeRankingStatusText(payload) {
+  const notices = [];
+  if (payload.generation_status === "partial") notices.push(PUBLIC_THEME_RANKING_PARTIAL);
+  if (payload.official_evidence_status === "unavailable") {
+    notices.push(PUBLIC_THEME_OFFICIAL_UNAVAILABLE);
+  }
+  return notices.length ? notices.join("；") : "資料更新完成";
+}
+
+function renderPublicThemeRankingError() {
+  state.publicThemeRanking = null;
+  if (publicThemeRankingListEl) {
+    publicThemeRankingListEl.textContent = "";
+    publicThemeRankingListEl.setAttribute("aria-busy", "false");
+  }
+  if (publicThemeRankingNoteEl) {
+    publicThemeRankingNoteEl.textContent = "";
+    publicThemeRankingNoteEl.hidden = true;
+  }
+  if (publicThemeRankingStatusEl) {
+    publicThemeRankingStatusEl.textContent = PUBLIC_THEME_RANKING_ERROR;
+  }
+}
+
+function renderPublicThemeRanking(payload) {
+  if (!validatePublicThemeRankingPayload(payload)) {
+    renderPublicThemeRankingError();
+    return;
+  }
+  state.publicThemeRanking = payload;
+  publicThemeRankingListEl.textContent = "";
+  payload.themes.forEach((theme) => {
+    publicThemeRankingListEl.appendChild(
+      buildPublicThemeCard(theme, payload.official_evidence_status === "available"),
+    );
+  });
+  publicThemeRankingListEl.setAttribute("aria-busy", "false");
+  publicThemeRankingNoteEl.textContent = payload.threshold_note || "";
+  publicThemeRankingNoteEl.hidden = payload.threshold_note === null;
+  publicThemeRankingStatusEl.textContent = publicThemeRankingStatusText(payload);
+}
+
+async function loadPublicThemeRankingData() {
+  const response = await fetch(
+    `${dataUrl("data/public-theme-ranking-v0.8.json")}?t=${Date.now()}`,
+  );
+  if (!response.ok) throw new Error(`載入題材排行失敗: ${response.status}`);
+  const payload = await response.json();
+  if (!validatePublicThemeRankingPayload(payload)) {
+    throw new Error("題材排行資料格式錯誤");
+  }
+  return payload;
+}
+
 async function loadNewsData() {
   const res = await fetch(`${dataUrl("data/theme-events.json")}?t=${Date.now()}`);
   if (!res.ok) throw new Error(`加载 theme-events.json 失败: ${res.status}`);
@@ -2216,7 +2495,16 @@ async function loadStoriesData() {
 }
 
 async function init() {
-  const [newsResult, waytoagiResult, statusResult, briefResult, storiesResult, personasResult] = await Promise.allSettled([
+  const [
+    rankingResult,
+    newsResult,
+    waytoagiResult,
+    statusResult,
+    briefResult,
+    storiesResult,
+    personasResult,
+  ] = await Promise.allSettled([
+    loadPublicThemeRankingData(),
     loadNewsData(),
     loadWaytoagiData(),
     loadSourceStatusData(),
@@ -2224,6 +2512,12 @@ async function init() {
     loadStoriesData(),
     loadTop3PersonasData(),
   ]);
+
+  if (rankingResult.status === "fulfilled") {
+    renderPublicThemeRanking(rankingResult.value);
+  } else {
+    renderPublicThemeRankingError();
+  }
 
   if (briefResult.status === "fulfilled") {
     state.dailyBrief = briefResult.value;
@@ -2277,7 +2571,7 @@ async function init() {
     renderSectionTabs();
     renderModeSwitch();
     renderSiteFilters();
-    renderHotBoard();
+    renderTop3Board();
     renderMainList();
     updatedAtEl.textContent = fmtTime(state.generatedAt);
   } else {
@@ -2310,7 +2604,7 @@ searchInputEl.addEventListener("input", (e) => {
   state.mainListVisibleCount = MAIN_LIST_PAGE_SIZE;
   renderSectionTabs();
   renderModeSwitch();
-  renderHotBoard();
+  renderTop3Board();
   renderMainList();
 });
 
@@ -2323,7 +2617,7 @@ siteSelectEl.addEventListener("change", (e) => {
   if (state.siteFilter !== "socialdata_x") state.authorFilter = "";
   state.mainListVisibleCount = MAIN_LIST_PAGE_SIZE;
   renderSiteFilters();
-  renderHotBoard();
+  renderTop3Board();
   renderMainList();
 });
 

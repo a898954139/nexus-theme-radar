@@ -1,0 +1,123 @@
+{
+  "schema_version": "nexus_public_theme_ranking.v0.8",
+  "ranking_rule_version": "public_theme_heat_v0.8",
+  "company_rule_version": "public_company_evidence_v0.8",
+  "generated_at": "2026-07-28T09:00:00Z",
+  "market_id": "TW_EQUITY",
+  "market_scope": [
+    "TW_EQUITY"
+  ],
+  "window_hours": 72,
+  "max_themes": 5,
+  "qualified_theme_count": 1,
+  "displayed_theme_count": 1,
+  "threshold_note": "目前僅 1 個題材達到上榜門檻",
+  "generation_status": "complete",
+  "failed_source_count": 0,
+  "official_evidence_status": "available",
+  "themes": [
+    {
+      "rank": 1,
+      "theme_id": "memory_hbm",
+      "name_zh": "題材 memory_hbm",
+      "heat_score": 56,
+      "summaries": {
+        "event_count": 2,
+        "source_count": 2,
+        "tracking_candidate_count": 1,
+        "taiwan_mapping_count": 3
+      },
+      "heat_reason": {
+        "rule_version": "public_theme_heat_v0.8",
+        "event_component": {
+          "input": 2,
+          "normalized": 33.333,
+          "weighted": 8.333
+        },
+        "source_component": {
+          "input": 2,
+          "normalized": 50.0,
+          "weighted": 12.5
+        },
+        "candidate_component": {
+          "input": 1,
+          "normalized": 25.0,
+          "weighted": 5.0
+        },
+        "mapping_component": {
+          "mapping_count": 3,
+          "direct_mapping_event_count": 2,
+          "normalized": 100.0,
+          "weighted": 30.0
+        },
+        "single_source_concentration": 0.5,
+        "concentration_penalty": 0.0,
+        "raw_score": 55.833
+      },
+      "direct_mentions": [
+        {
+          "instrument_id": "TWSE:2382",
+          "symbol": "2382",
+          "exchange": "TWSE",
+          "name_zh": "廣達",
+          "direct_event_count": 1,
+          "latest_mentioned_at": "2026-07-28T08:00:00Z"
+        },
+        {
+          "instrument_id": "TWSE:2330",
+          "symbol": "2330",
+          "exchange": "TWSE",
+          "name_zh": "台積電",
+          "direct_event_count": 1,
+          "latest_mentioned_at": "2026-07-28T07:00:00Z"
+        }
+      ],
+      "supply_chain_candidates": [
+        {
+          "instrument_id": "TWSE:2330",
+          "symbol": "2330",
+          "exchange": "TWSE",
+          "name_zh": "台積電",
+          "direct_event_count": 1,
+          "official_evidence_count": 1,
+          "company_rank_score": 8,
+          "latest_mentioned_at": "2026-07-28T07:00:00Z",
+          "latest_official_at": "2026-07-28T06:00:00Z",
+          "official_marker": "近期官方佐證"
+        },
+        {
+          "instrument_id": "TWSE:2382",
+          "symbol": "2382",
+          "exchange": "TWSE",
+          "name_zh": "廣達",
+          "direct_event_count": 1,
+          "official_evidence_count": 0,
+          "company_rank_score": 5,
+          "latest_mentioned_at": "2026-07-28T08:00:00Z",
+          "latest_official_at": null
+        },
+        {
+          "instrument_id": "TWSE:6669",
+          "symbol": "6669",
+          "exchange": "TWSE",
+          "name_zh": "緯穎",
+          "direct_event_count": 0,
+          "official_evidence_count": 0,
+          "company_rank_score": 1,
+          "latest_mentioned_at": null,
+          "latest_official_at": null
+        }
+      ],
+      "representative_news": {
+        "cluster_id": "cluster-a",
+        "id": "event-cluster-a",
+        "title_zh": "Title cluster-a",
+        "summary": "Summary cluster-a",
+        "source_id": "publisher-a",
+        "source": "Publisher publisher-a",
+        "published_at": "2026-07-28T07:00:00Z",
+        "canonical_url": "https://example.com/cluster-a"
+      }
+    }
+  ]
+}

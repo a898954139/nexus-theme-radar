@@ -38,7 +38,7 @@
     <link rel="stylesheet" href="./assets/view-switch.css?v=dual-view-0713b" />
   </head>
   <body>
-    <a class="skip-link" href="#hotBoardWrap">跳到当前热点</a>
+    <a class="skip-link" href="#publicThemeRankingWrap">跳到台股題材排行</a>
     <main class="shell">
       <header class="hero">
         <div class="hero-main">
@@ -75,6 +75,35 @@
           <div class="section-scroll-hint" aria-hidden="true">左右滑动，查看更多栏目 →</div>
         </section>
       </header>
+
+      <section
+        class="public-theme-ranking"
+        id="publicThemeRankingWrap"
+        aria-labelledby="publicThemeRankingTitle"
+      >
+        <div class="public-theme-ranking-head">
+          <div>
+            <h2 id="publicThemeRankingTitle">台股題材 TOP 5</h2>
+            <p>
+              熱度採 v0.8 deterministic product rule，依 72 小時題材事件、來源、追蹤候選與台股映射整理。
+              卡片分列「新聞直接提及」與「題材／供應鏈候選」。
+            </p>
+          </div>
+          <span class="public-theme-ranking-note" id="publicThemeRankingNote" hidden></span>
+        </div>
+        <div
+          class="public-theme-ranking-status"
+          id="publicThemeRankingStatus"
+          role="status"
+          aria-live="polite"
+        >題材排行載入中</div>
+        <div
+          class="public-theme-grid"
+          id="publicThemeRankingList"
+          aria-live="polite"
+          aria-busy="true"
+        ></div>
+      </section>
 
       <section class="primary-controls">
         <div class="mode-switch curation-mode-switch" role="group" aria-label="精选/全量切换">
@@ -116,14 +145,6 @@
             </details>
           </div>
       </details>
-
-      <section class="list-wrap hot-board-wrap" id="hotBoardWrap" aria-label="当前热点">
-        <div class="list-head">
-          <h2>当前热点</h2>
-          <span id="hotBoardMeta">按热度排序</span>
-        </div>
-        <div id="hotBoardList" class="hot-board-list"></div>
-      </section>
 
       <section class="list-wrap top3-board-wrap" id="top3BoardWrap" aria-label="今日 TOP3 · 三口味锐评" hidden>
         <div class="list-head">

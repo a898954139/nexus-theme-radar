@@ -5,8 +5,11 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+import logging
 import re
+import tempfile
 import time
+from collections.abc import Mapping
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from datetime import datetime, timedelta, timezone
 from email.utils import parsedate_to_datetime
@@ -17,6 +20,11 @@ import feedparser
 import requests
 
 try:
+    from scripts.public_theme_ranking import (
+        PUBLIC_WINDOW_HOURS,
+        build_public_theme_ranking,
+        validate_public_theme_ranking,
+    )
     from scripts.source_adapters import (
         CONFLICT_TERMS,
         build_official_evidence_payload,
@@ -31,6 +39,11 @@ try:
     )
     from scripts.symbol_mapping import instrument_for_symbol, load_symbol_aliases
 except ModuleNotFoundError:
+    from public_theme_ranking import (
+        PUBLIC_WINDOW_HOURS,
+        build_public_theme_ranking,
+        validate_public_theme_ranking,
+    )
     from source_adapters import (
         CONFLICT_TERMS,
         build_official_evidence_payload,
@@ -58,6 +71,23 @@ DEFAULT_CLUSTER_WINDOW_HOURS = 36
 TITLE_TOKEN_SIMILARITY_THRESHOLD = 0.35
 SELECTED_THEME_SCORE_MIN = 0.3
 CANDIDATE_THEME_SCORE_MIN = 0.5
+PAYLOAD_FILENAMES = (
+    "theme-events.json",
+    "tracking-candidates.json",
+    "source-status.json",
+    "official-evidence.json",
+    "public-theme-ranking-v0.8.json",
+)
+PUBLIC_OBSERVABILITY_FIELDS = (
+    "public_themes_qualified",
+    "public_themes_displayed",
+    "public_themes_omitted_invalid",
+    "public_direct_company_count",
+    "public_supply_chain_company_count",
+    "public_derivation_error_count",
+    "public_generation_status",
+)
+LOGGER = logging.getLogger(__name__)
 GENERIC_SUPPLY_CHAIN_SIGNALS = {
     "ai",
     "科技",
@@ -850,7 +880,7 @@ def _sort_counts(values: dict[str, int]) -> dict[str, int]:
     return dict(sorted(values.items()))
 
 
-def build_theme_payloads(
+def build_theme_projection(
     records: list[dict[str, Any]],
     taxonomy: dict[str, Any],
     *,
@@ -859,7 +889,7 @@ def build_theme_payloads(
     max_events: int,
     max_candidates: int,
     source_authority: dict[str, int] | None = None,
-) -> tuple[dict[str, Any], dict[str, Any]]:
+) -> tuple[dict[str, Any], dict[str, Any], dict[str, Any]]:
     if window_hours <= 0 or max_events <= 0 or max_candidates <= 0:
         raise ValueError("window item bounds must be positive")
 
@@ -955,7 +985,75 @@ def build_theme_payloads(
         "theme_veto_distribution": _sort_counts(theme_veto_distribution),
     }
 
-    return ({**event_payload, **diagnostics}, {**candidate_payload, **diagnostics})
+    retained_by_id: dict[str, dict[str, Any]] = {}
+    for record in retained:
+        member_id = _cluster_member_id(record).strip()
+        if not member_id or member_id in retained_by_id:
+            raise ValueError("projection member IDs must be non-empty and unique")
+        retained_by_id[member_id] = record
+
+    mapped_member_ids: set[str] = set()
+    cluster_members_by_id: dict[str, list[dict[str, Any]]] = {}
+    for event in clustered:
+        cluster_id = str(event.get("cluster_id") or "").strip()
+        member_ids = event.get("cluster_event_ids")
+        if (
+            not cluster_id
+            or cluster_id in cluster_members_by_id
+            or not isinstance(member_ids, list)
+            or not member_ids
+        ):
+            raise ValueError("projection clusters require unique IDs and members")
+        members: list[dict[str, Any]] = []
+        for raw_member_id in member_ids:
+            member_id = str(raw_member_id or "").strip()
+            if not member_id or member_id in mapped_member_ids:
+                raise ValueError("each projection member must map to one cluster")
+            member = retained_by_id.get(member_id)
+            if member is None:
+                raise ValueError("projection cluster references an unknown member")
+            mapped_member_ids.add(member_id)
+            members.append(member)
+        cluster_members_by_id[cluster_id] = members
+
+    if mapped_member_ids != set(retained_by_id):
+        raise ValueError("every retained projection member must belong to a cluster")
+
+    projection = {
+        "retained_records": list(retained),
+        "clustered_events": list(clustered),
+        "candidate_clusters": list(candidates),
+        "cluster_members_by_id": cluster_members_by_id,
+        "market_id": market_id,
+        "market_scope": list(market_scope),
+    }
+    return (
+        {**event_payload, **diagnostics},
+        {**candidate_payload, **diagnostics},
+        projection,
+    )
+
+
+def build_theme_payloads(
+    records: list[dict[str, Any]],
+    taxonomy: dict[str, Any],
+    *,
+    anchor: datetime,
+    window_hours: int,
+    max_events: int,
+    max_candidates: int,
+    source_authority: dict[str, int] | None = None,
+) -> tuple[dict[str, Any], dict[str, Any]]:
+    events, candidates, _ = build_theme_projection(
+        records,
+        taxonomy,
+        anchor=anchor,
+        window_hours=window_hours,
+        max_events=max_events,
+        max_candidates=max_candidates,
+        source_authority=source_authority,
+    )
+    return events, candidates
 
 
 def _event_symbols(event: dict[str, Any]) -> set[str]:
@@ -1081,9 +1179,81 @@ def source_status_payload(statuses: list[dict[str, Any]], generated_at: datetime
     }
 
 
-def write_json(path: Path, payload: dict[str, Any]) -> None:
-    path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text(json.dumps(payload, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+def validate_payload_set(
+    payloads: Mapping[str, Mapping[str, Any]],
+    *,
+    generated_at: datetime,
+    market_id: str,
+    market_scope: list[str],
+    window_hours: int,
+) -> None:
+    if set(payloads) != set(PAYLOAD_FILENAMES):
+        raise ValueError("payload set must contain exactly five approved files")
+    if (
+        generated_at.tzinfo is None
+        or market_id != "TW_EQUITY"
+        or market_scope != ["TW_EQUITY"]
+        or window_hours != PUBLIC_WINDOW_HOURS
+    ):
+        raise ValueError("payload set requires the v0.8 Taiwan 72-hour envelope")
+
+    generated_text = (
+        generated_at.astimezone(timezone.utc).isoformat().replace("+00:00", "Z")
+    )
+    for filename in PAYLOAD_FILENAMES:
+        payload = payloads[filename]
+        if not isinstance(payload, Mapping):
+            raise ValueError(f"{filename} must contain an object")
+        if payload.get("generated_at") != generated_text:
+            raise ValueError(f"{filename} generated_at does not match the run anchor")
+        if "market_id" in payload and payload.get("market_id") != market_id:
+            raise ValueError(f"{filename} market_id is incompatible")
+        if "market_scope" in payload and payload.get("market_scope") != market_scope:
+            raise ValueError(f"{filename} market_scope is incompatible")
+        if "window_hours" in payload and payload.get("window_hours") != window_hours:
+            raise ValueError(f"{filename} window_hours is incompatible")
+
+    validate_public_theme_ranking(payloads["public-theme-ranking-v0.8.json"])
+
+
+def write_payload_set(
+    output_dir: Path,
+    payloads: Mapping[str, Mapping[str, Any]],
+) -> None:
+    if set(payloads) != set(PAYLOAD_FILENAMES):
+        raise ValueError("payload set must contain exactly five approved files")
+
+    serialized = {
+        filename: json.dumps(
+            payloads[filename],
+            ensure_ascii=False,
+            indent=2,
+        )
+        + "\n"
+        for filename in PAYLOAD_FILENAMES
+    }
+    output_dir.mkdir(parents=True, exist_ok=True)
+    temporary_paths: dict[str, Path] = {}
+    try:
+        for filename in PAYLOAD_FILENAMES:
+            with tempfile.NamedTemporaryFile(
+                mode="w",
+                encoding="utf-8",
+                dir=output_dir,
+                prefix=f".{filename}.",
+                suffix=".tmp",
+                delete=False,
+            ) as temporary:
+                temporary_paths[filename] = Path(temporary.name)
+                temporary.write(serialized[filename])
+                temporary.flush()
+
+        for filename in PAYLOAD_FILENAMES:
+            temporary_paths[filename].replace(output_dir / filename)
+            del temporary_paths[filename]
+    finally:
+        for path in temporary_paths.values():
+            path.unlink(missing_ok=True)
 
 
 def _previous_official_records(output_dir: Path) -> list[dict[str, Any]]:
@@ -1110,6 +1280,8 @@ def run_update(
     max_workers: int = 4,
     full_refresh: bool = False,
 ) -> dict[str, Any]:
+    # v0.8 fixes the public run window while retaining the existing caller signature.
+    window_hours = PUBLIC_WINDOW_HOURS
     anchor = now_utc()
     registry = load_source_registry(registry_path)
     taxonomy = load_theme_taxonomy()
@@ -1168,7 +1340,7 @@ def run_update(
         for status in official_statuses
     )
 
-    events, candidates = build_theme_payloads(
+    events, candidates, projection = build_theme_projection(
         discovery_records,
         taxonomy,
         anchor=anchor,
@@ -1177,27 +1349,76 @@ def run_update(
         max_candidates=max_candidates,
         source_authority=source_authority_ranks(registry),
     )
+    attached_events = attach_official_evidence(
+        projection["clustered_events"],
+        official_payload["items"],
+        official_available=official_available,
+    )
+    attached_candidates = attach_official_evidence(
+        projection["candidate_clusters"],
+        official_payload["items"],
+        official_available=official_available,
+    )
+    projection = {
+        **projection,
+        "clustered_events": attached_events,
+        "candidate_clusters": attached_candidates,
+    }
     events = {
         **events,
-        "items": attach_official_evidence(
-            events["items"],
-            official_payload["items"],
-            official_available=official_available,
-        ),
+        "items": attached_events[:max_events],
     }
     candidates = {
         **candidates,
-        "items": attach_official_evidence(
-            candidates["items"],
-            official_payload["items"],
-            official_available=official_available,
-        ),
+        "items": attached_candidates[:max_candidates],
     }
     status_payload = source_status_payload(statuses, anchor, len(discovery_records))
-    write_json(output_dir / "theme-events.json", events)
-    write_json(output_dir / "tracking-candidates.json", candidates)
-    write_json(output_dir / "source-status.json", status_payload)
-    write_json(output_dir / "official-evidence.json", official_payload)
+    discovery_statuses = [
+        status
+        for status in statuses
+        if status.get("source_class") != "official_disclosure"
+    ]
+    public_source_status = source_status_payload(
+        discovery_statuses,
+        anchor,
+        len(discovery_records),
+    )
+    official_evidence_by_id = {
+        str(item["evidence_id"]): item
+        for item in official_payload["items"]
+        if isinstance(item, dict) and item.get("evidence_id")
+    }
+    public_payload, public_diagnostics = build_public_theme_ranking(
+        projection,
+        taxonomy=taxonomy,
+        symbol_aliases=load_symbol_aliases(),
+        official_evidence_by_id=official_evidence_by_id,
+        source_status=public_source_status,
+        generated_at=anchor,
+        window_hours=window_hours,
+        official_evidence_status="available" if official_available else "unavailable",
+    )
+    payloads = {
+        "theme-events.json": events,
+        "tracking-candidates.json": candidates,
+        "source-status.json": status_payload,
+        "official-evidence.json": official_payload,
+        "public-theme-ranking-v0.8.json": public_payload,
+    }
+    validate_payload_set(
+        payloads,
+        generated_at=anchor,
+        market_id=str(projection["market_id"]),
+        market_scope=list(projection["market_scope"]),
+        window_hours=window_hours,
+    )
+    write_payload_set(output_dir, payloads)
+    for failure in public_diagnostics["eligibility_failures"]:
+        LOGGER.warning(
+            "public_theme_eligibility_failure theme_id=%s rule_code=%s",
+            failure["theme_id"],
+            failure["rule_code"],
+        )
     return {
         "raw_items": len(discovery_records),
         "official_evidence": official_payload["total_items"],
@@ -1209,6 +1430,9 @@ def run_update(
         "taiwan_relevance_reasons": events["tw_relevance_reason_distribution"],
         "tracking_candidates": candidates["total_items"],
         "failed_sources": status_payload["failed_count"],
+        **{
+            key: public_diagnostics[key] for key in PUBLIC_OBSERVABILITY_FIELDS
+        },
         "confirmation_states": {
             state: sum(
                 item.get("confirmation_status") == state
@@ -1229,7 +1453,7 @@ def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--registry", type=Path, default=DEFAULT_REGISTRY_PATH)
     parser.add_argument("--output-dir", type=Path, default=DEFAULT_OUTPUT_DIR)
-    parser.add_argument("--window-hours", type=int, default=48)
+    parser.add_argument("--window-hours", type=int, default=PUBLIC_WINDOW_HOURS)
     parser.add_argument("--max-events", type=int, default=500)
     parser.add_argument("--max-candidates", type=int, default=200)
     parser.add_argument("--official-window-hours", type=int, default=72)

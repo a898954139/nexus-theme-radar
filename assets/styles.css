@@ -1735,60 +1735,11 @@ summary:focus-visible {
 /* ---- AIHOT 式单层信息架构：热点排行区 + 共享卡片组件（v0.9 重构）---- */
 /* 红线：单强调色 var(--accent)、0 圆角、1px 边框、无渐变无阴影 */
 
-.hot-board-list {
-  display: flex;
-  flex-direction: column;
-}
-
 /* 今日 TOP3 板块：复用完整精选卡片（含三口味并排面板），卡片间留缝即可 */
 .top3-board-list {
   display: flex;
   flex-direction: column;
   gap: 10px;
-}
-
-/* 热点排行区：一行一条（AIHOT 式），不复用下方精选列表的完整卡片，避免摘要/标签重复展示 */
-.hot-row {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  min-height: 40px;
-  padding: 0 12px;
-  border-top: 1px solid rgba(23, 23, 23, 0.06);
-}
-
-.hot-row:first-child {
-  border-top: 0;
-}
-
-.hot-row-rank {
-  flex: 0 0 auto;
-  min-width: 24px;
-  color: var(--accent);
-  font-weight: 800;
-  font-variant-numeric: tabular-nums;
-}
-
-.hot-row-title {
-  min-width: 0;
-  flex: 1 1 auto;
-  overflow: hidden;
-  color: var(--ink);
-  font-size: 14px;
-  text-decoration: none;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-.hot-row-title:hover {
-  color: var(--accent);
-}
-
-.hot-row-meta {
-  flex: 0 0 auto;
-  color: var(--muted);
-  font-size: 12px;
-  white-space: nowrap;
 }
 
 /* 精选/全量全局开关，紧挨搜索框；min-width 与 .section-tabs 的 全部/模型 按钮宽度对齐 */
@@ -1974,7 +1925,7 @@ summary:focus-visible {
 }
 
 /* 同一事件展开：时间线卡片内联子列表 + 热点行内联子列表，共用同一套行样式。
-   触发器现在是 meta-row 里的 .multi-chip（时间线卡片）/ .hot-row-source-toggle（热点行）。
+   触发器现在是 meta-row 里的 .multi-chip（时间线卡片）。
    红线：单强调色 var(--accent)、0 圆角、1px 边框，不新增色彩。 */
 .event-expand-list {
   display: grid;
@@ -2024,29 +1975,6 @@ summary:focus-visible {
   white-space: nowrap;
 }
 
-/* 热点行的信源数变成按钮：子列表插在 .hot-row 正下方，作为独立一行，靠标题列缩进对齐 */
-.hot-row-source-toggle {
-  border: 0;
-  background: transparent;
-  padding: 0;
-  margin: 0;
-  color: inherit;
-  font: inherit;
-  cursor: pointer;
-  text-decoration: underline dotted;
-  text-underline-offset: 2px;
-}
-
-.hot-row-source-toggle:hover {
-  color: var(--accent);
-}
-
-.hot-row-source-list.event-expand-list {
-  margin: 0 0 0 34px;
-  padding: 8px 12px 10px;
-  border-top: 1px solid rgba(23, 23, 23, 0.06);
-}
-
 /* DATA_BASE_URL 数据同源开关：非空时展示一行提示 + 恢复本地按钮 */
 .data-source-indicator {
   display: flex;
@@ -2073,3 +2001,304 @@ summary:focus-visible {
   border-color: var(--accent);
 }
 
+/* Public v0.8 ranking: a bounded first-page section within the existing visual system. */
+.public-theme-ranking {
+  margin-top: 18px;
+  border: 1px solid var(--line-soft);
+  border-radius: var(--radius);
+  background: var(--surface);
+  overflow: hidden;
+}
+
+.public-theme-ranking-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 18px;
+  border-bottom: 1px solid var(--line-soft);
+}
+
+.public-theme-ranking-head h2 {
+  margin: 0;
+  font-size: 20px;
+  line-height: 1.25;
+}
+
+.public-theme-ranking-head p {
+  max-width: 72ch;
+  margin: 7px 0 0;
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.public-theme-ranking-note {
+  flex: 0 0 auto;
+  border: 1px solid rgba(154, 103, 0, 0.24);
+  border-radius: var(--radius);
+  padding: 6px 9px;
+  color: var(--warn);
+  background: rgba(154, 103, 0, 0.07);
+  font-size: 12px;
+  font-weight: 740;
+  line-height: 1.4;
+}
+
+.public-theme-ranking-note[hidden] {
+  display: none;
+}
+
+.public-theme-ranking-status {
+  min-height: 34px;
+  padding: 9px 18px;
+  border-bottom: 1px solid var(--line-soft);
+  color: var(--muted);
+  background: var(--surface-soft);
+  font-size: 12px;
+  line-height: 1.4;
+}
+
+.public-theme-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  padding: 12px;
+}
+
+.public-theme-card {
+  min-width: 0;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 16px;
+  background: var(--surface);
+}
+
+.public-theme-card-head {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  gap: 10px;
+  align-items: baseline;
+}
+
+.public-theme-rank {
+  color: var(--accent);
+  font-size: 14px;
+  font-weight: 820;
+  font-variant-numeric: tabular-nums;
+}
+
+.public-theme-name {
+  min-width: 0;
+  margin: 0;
+  font-size: 18px;
+  line-height: 1.35;
+  overflow-wrap: anywhere;
+}
+
+.public-theme-heat {
+  color: var(--ink);
+  font-size: 13px;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.public-theme-summary-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  margin: 14px 0 0;
+  border: 1px solid var(--line-soft);
+  border-radius: var(--radius);
+  background: var(--surface-soft);
+}
+
+.public-theme-summary-grid > div {
+  min-width: 0;
+  padding: 9px 8px;
+}
+
+.public-theme-summary-grid > div + div {
+  border-left: 1px solid var(--line-soft);
+}
+
+.public-theme-summary-label,
+.public-theme-summary-value {
+  margin: 0;
+  text-align: center;
+}
+
+.public-theme-summary-label {
+  color: var(--muted);
+  font-size: 11px;
+  line-height: 1.3;
+}
+
+.public-theme-summary-value {
+  margin-top: 3px;
+  color: var(--ink);
+  font-size: 16px;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+}
+
+.public-theme-evidence-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+  margin-top: 16px;
+}
+
+.public-theme-company-group {
+  min-width: 0;
+}
+
+.public-theme-company-title {
+  margin: 0 0 7px;
+  color: var(--ink-soft);
+  font-size: 12px;
+  line-height: 1.4;
+}
+
+.public-theme-company-list {
+  display: grid;
+  gap: 6px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.public-theme-company {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  min-width: 0;
+}
+
+.public-theme-company-identity {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  min-width: 0;
+}
+
+.public-theme-company-name {
+  min-width: 0;
+  font-size: 13px;
+  overflow-wrap: anywhere;
+}
+
+.public-theme-company-code {
+  flex: 0 0 auto;
+  color: var(--muted);
+  font-size: 11px;
+  font-variant-numeric: tabular-nums;
+}
+
+.public-theme-official-marker {
+  flex: 0 0 auto;
+  border: 1px solid rgba(18, 106, 115, 0.22);
+  border-radius: var(--radius);
+  padding: 2px 5px;
+  color: var(--accent);
+  background: rgba(18, 106, 115, 0.06);
+  font-size: 10px;
+  font-weight: 740;
+}
+
+.public-theme-company-empty {
+  margin: 0;
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.public-theme-representative {
+  display: grid;
+  gap: 5px;
+  margin-top: 16px;
+  padding-top: 12px;
+  border-top: 1px solid var(--line-soft);
+}
+
+.public-theme-representative-label {
+  color: var(--muted);
+  font-size: 11px;
+  font-weight: 740;
+}
+
+.public-theme-news-link {
+  color: var(--ink);
+  font-size: 13px;
+  font-weight: 720;
+  line-height: 1.45;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+  overflow-wrap: anywhere;
+}
+
+.public-theme-news-link:hover {
+  color: var(--accent);
+}
+
+.public-theme-news-link:focus-visible {
+  border-radius: 2px;
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+
+.public-theme-news-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 10px;
+  color: var(--muted);
+  font-size: 11px;
+}
+
+@media (max-width: 720px) {
+  .public-theme-ranking-head {
+    display: grid;
+    padding: 15px;
+  }
+
+  .public-theme-ranking-note {
+    justify-self: start;
+  }
+
+  .public-theme-ranking-status {
+    padding-inline: 15px;
+  }
+
+  .public-theme-grid,
+  .public-theme-evidence-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .public-theme-card {
+    padding: 14px;
+  }
+
+  .public-theme-card-head {
+    grid-template-columns: auto minmax(0, 1fr);
+  }
+
+  .public-theme-heat {
+    grid-column: 2;
+  }
+
+  .public-theme-summary-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .public-theme-summary-grid > div + div {
+    border-left: 0;
+  }
+
+  .public-theme-summary-grid > div:nth-child(even) {
+    border-left: 1px solid var(--line-soft);
+  }
+
+  .public-theme-summary-grid > div:nth-child(n + 3) {
+    border-top: 1px solid var(--line-soft);
+  }
+}
