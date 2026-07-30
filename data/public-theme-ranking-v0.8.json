@@ -2,7 +2,7 @@
   "schema_version": "nexus_public_theme_ranking.v0.8",
   "ranking_rule_version": "public_theme_heat_v0.8",
   "company_rule_version": "public_company_evidence_v0.8",
-  "generated_at": "2026-07-30T09:43:49.953557Z",
+  "generated_at": "2026-07-30T12:04:52.713745Z",
   "market_id": "TW_EQUITY",
   "market_scope": [
     "TW_EQUITY"
@@ -14,30 +14,30 @@
   "threshold_note": "目前僅 4 個題材達到上榜門檻",
   "generation_status": "complete",
   "failed_source_count": 0,
-  "official_evidence_status": "available",
+  "official_evidence_status": "unavailable",
   "themes": [
     {
       "rank": 1,
       "theme_id": "memory_hbm",
       "name_zh": "記憶體與 HBM",
-      "heat_score": 85,
+      "heat_score": 95,
       "summaries": {
-        "event_count": 5,
-        "source_count": 3,
+        "event_count": 6,
+        "source_count": 4,
         "tracking_candidate_count": 3,
         "taiwan_mapping_count": 5
       },
       "heat_reason": {
         "rule_version": "public_theme_heat_v0.8",
         "event_component": {
-          "input": 5,
-          "normalized": 83.333,
-          "weighted": 20.833
+          "input": 6,
+          "normalized": 100.0,
+          "weighted": 25.0
         },
         "source_component": {
-          "input": 3,
-          "normalized": 75.0,
-          "weighted": 18.75
+          "input": 4,
+          "normalized": 100.0,
+          "weighted": 25.0
         },
         "candidate_component": {
           "input": 3,
@@ -46,15 +46,23 @@
         },
         "mapping_component": {
           "mapping_count": 5,
-          "direct_mapping_event_count": 2,
+          "direct_mapping_event_count": 3,
           "normalized": 100.0,
           "weighted": 30.0
         },
-        "single_source_concentration": 0.6,
+        "single_source_concentration": 0.375,
         "concentration_penalty": 0.0,
-        "raw_score": 84.583
+        "raw_score": 95.0
       },
       "direct_mentions": [
+        {
+          "instrument_id": "TWSE:2408",
+          "symbol": "2408",
+          "exchange": "TWSE",
+          "name_zh": "南亞科",
+          "direct_event_count": 1,
+          "latest_mentioned_at": "2026-07-30T11:52:46Z"
+        },
         {
           "instrument_id": "TWSE:1519",
           "symbol": "1519",
@@ -73,6 +81,17 @@
         }
       ],
       "supply_chain_candidates": [
+        {
+          "instrument_id": "TWSE:2408",
+          "symbol": "2408",
+          "exchange": "TWSE",
+          "name_zh": "南亞科",
+          "direct_event_count": 1,
+          "official_evidence_count": 0,
+          "company_rank_score": 5,
+          "latest_mentioned_at": "2026-07-30T11:52:46Z",
+          "latest_official_at": null
+        },
         {
           "instrument_id": "TPEX:8299",
           "symbol": "8299",
@@ -94,52 +113,41 @@
           "company_rank_score": 1,
           "latest_mentioned_at": null,
           "latest_official_at": null
-        },
-        {
-          "instrument_id": "TWSE:2408",
-          "symbol": "2408",
-          "exchange": "TWSE",
-          "name_zh": "南亞科",
-          "direct_event_count": 0,
-          "official_evidence_count": 0,
-          "company_rank_score": 1,
-          "latest_mentioned_at": null,
-          "latest_official_at": null
         }
       ],
       "representative_news": {
-        "cluster_id": "cluster-c3fc765e4ef1adf8",
-        "id": "cnyes-7432ae0a00e3",
-        "title_zh": "AI需求推升記憶體！高盛喊買三星：DRAM連兩季雙位數漲價 HBM明年估飆87%",
-        "summary": "高盛最新研討會指出，AI 伺服器需求持續推升記憶體市場，傳統 DRAM 今年下半年可望連續兩季雙位數漲價，HBM 明年甚至存在價格翻倍空間。隨著長約覆蓋率持續提高，供需結構改善，也讓記憶體大廠獲利前景更加穩固。",
+        "cluster_id": "cluster-81dc1a1a8a322b4a",
+        "id": "cnyes-190a40903275",
+        "title_zh": "2027年記憶體市況分化 DRAM吃緊、NAND Flash恐反轉向下",
+        "summary": "TrendForce 最新記憶體產業研究，2027 年記憶體需求維持由 AI 應用主導，DRAM 因 HBM 持續排擠產能、AI 伺服器需求強勁，CPU 所用的記憶體與 HBM 採購動能持續增加，維持供給緊張格局，價格走勢偏強。NAND Fl",
         "source_id": "cnyes",
         "source": "鉅亨網 Cnyes",
-        "published_at": "2026-07-30T03:20:05Z",
-        "canonical_url": "https://news.cnyes.com/news/id/6551994"
+        "published_at": "2026-07-30T10:45:50Z",
+        "canonical_url": "https://news.cnyes.com/news/id/6552821"
       }
     },
     {
       "rank": 2,
       "theme_id": "robotics",
       "name_zh": "機器人",
-      "heat_score": 76,
+      "heat_score": 66,
       "summaries": {
-        "event_count": 8,
-        "source_count": 3,
+        "event_count": 7,
+        "source_count": 2,
         "tracking_candidate_count": 3,
         "taiwan_mapping_count": 3
       },
       "heat_reason": {
         "rule_version": "public_theme_heat_v0.8",
         "event_component": {
-          "input": 8,
+          "input": 7,
           "normalized": 100.0,
           "weighted": 25.0
         },
         "source_component": {
-          "input": 3,
-          "normalized": 75.0,
-          "weighted": 18.75
+          "input": 2,
+          "normalized": 50.0,
+          "weighted": 12.5
         },
         "candidate_component": {
           "input": 3,
@@ -152,9 +160,9 @@
           "normalized": 60.0,
           "weighted": 18.0
         },
-        "single_source_concentration": 0.625,
-        "concentration_penalty": 0.938,
-        "raw_score": 75.813
+        "single_source_concentration": 0.714,
+        "concentration_penalty": 4.286,
+        "raw_score": 66.214
       },
       "direct_mentions": [],
       "supply_chain_candidates": [
@@ -207,10 +215,10 @@
       "rank": 3,
       "theme_id": "optical_cpo",
       "name_zh": "光通訊與 CPO",
-      "heat_score": 44,
+      "heat_score": 50,
       "summaries": {
         "event_count": 2,
-        "source_count": 2,
+        "source_count": 3,
         "tracking_candidate_count": 1,
         "taiwan_mapping_count": 3
       },
@@ -222,9 +230,9 @@
           "weighted": 8.333
         },
         "source_component": {
-          "input": 2,
-          "normalized": 50.0,
-          "weighted": 12.5
+          "input": 3,
+          "normalized": 75.0,
+          "weighted": 18.75
         },
         "candidate_component": {
           "input": 1,
@@ -237,9 +245,9 @@
           "normalized": 60.0,
           "weighted": 18.0
         },
-        "single_source_concentration": 0.5,
+        "single_source_concentration": 0.333,
         "concentration_penalty": 0.0,
-        "raw_score": 43.833
+        "raw_score": 50.083
       },
       "direct_mentions": [],
       "supply_chain_candidates": [
