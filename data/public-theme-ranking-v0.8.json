@@ -2,149 +2,47 @@
   "schema_version": "nexus_public_theme_ranking.v0.8",
   "ranking_rule_version": "public_theme_heat_v0.8",
   "company_rule_version": "public_company_evidence_v0.8",
-  "generated_at": "2026-07-31T03:55:28.695102Z",
+  "generated_at": "2026-07-31T07:15:42.609315Z",
   "market_id": "TW_EQUITY",
   "market_scope": [
     "TW_EQUITY"
   ],
   "window_hours": 72,
   "max_themes": 5,
-  "qualified_theme_count": 4,
-  "displayed_theme_count": 4,
-  "threshold_note": "目前僅 4 個題材達到上榜門檻",
+  "qualified_theme_count": 3,
+  "displayed_theme_count": 3,
+  "threshold_note": "目前僅 3 個題材達到上榜門檻",
   "generation_status": "complete",
   "failed_source_count": 0,
   "official_evidence_status": "available",
   "themes": [
     {
       "rank": 1,
-      "theme_id": "cowos_supply_chain",
-      "name_zh": "CoWoS 先進封裝",
-      "heat_score": 63,
-      "summaries": {
-        "event_count": 5,
-        "source_count": 2,
-        "tracking_candidate_count": 0,
-        "taiwan_mapping_count": 3
-      },
-      "heat_reason": {
-        "rule_version": "public_theme_heat_v0.8",
-        "event_component": {
-          "input": 5,
-          "normalized": 83.333,
-          "weighted": 20.833
-        },
-        "source_component": {
-          "input": 2,
-          "normalized": 50.0,
-          "weighted": 12.5
-        },
-        "candidate_component": {
-          "input": 0,
-          "normalized": 0.0,
-          "weighted": 0.0
-        },
-        "mapping_component": {
-          "mapping_count": 3,
-          "direct_mapping_event_count": 4,
-          "normalized": 100.0,
-          "weighted": 30.0
-        },
-        "single_source_concentration": 0.6,
-        "concentration_penalty": 0.0,
-        "raw_score": 63.333
-      },
-      "direct_mentions": [
-        {
-          "instrument_id": "TWSE:2330",
-          "symbol": "2330",
-          "exchange": "TWSE",
-          "name_zh": "台積電",
-          "direct_event_count": 3,
-          "latest_mentioned_at": "2026-07-31T03:07:33Z"
-        },
-        {
-          "instrument_id": "TWSE:3711",
-          "symbol": "3711",
-          "exchange": "TWSE",
-          "name_zh": "日月光投控",
-          "direct_event_count": 1,
-          "latest_mentioned_at": "2026-07-31T01:10:18Z"
-        }
-      ],
-      "supply_chain_candidates": [
-        {
-          "instrument_id": "TWSE:2330",
-          "symbol": "2330",
-          "exchange": "TWSE",
-          "name_zh": "台積電",
-          "direct_event_count": 3,
-          "official_evidence_count": 0,
-          "company_rank_score": 13,
-          "latest_mentioned_at": "2026-07-31T03:07:33Z",
-          "latest_official_at": null
-        },
-        {
-          "instrument_id": "TWSE:3711",
-          "symbol": "3711",
-          "exchange": "TWSE",
-          "name_zh": "日月光投控",
-          "direct_event_count": 1,
-          "official_evidence_count": 0,
-          "company_rank_score": 5,
-          "latest_mentioned_at": "2026-07-31T01:10:18Z",
-          "latest_official_at": null
-        },
-        {
-          "instrument_id": "TWSE:2449",
-          "symbol": "2449",
-          "exchange": "TWSE",
-          "name_zh": "京元電子",
-          "direct_event_count": 0,
-          "official_evidence_count": 0,
-          "company_rank_score": 1,
-          "latest_mentioned_at": null,
-          "latest_official_at": null
-        }
-      ],
-      "representative_news": {
-        "cluster_id": "cluster-29cf44139f43cdb5",
-        "id": "digitimes_tw-8aa81c381963",
-        "title_zh": "台積電傳攜景碩開發「類EMIB」先進封裝　防堵英特爾分食AI訂單",
-        "summary": "據知情人士消息，台積電正祕密研發一項與英特爾（Intel）現有技術類似的先進晶片封裝技術。The Information報導稱，這顯示台積電正對來自英特爾的挑戰感到擔憂。The Information報導，在人工智慧（AI）需求激",
-        "source_id": "digitimes_tw",
-        "source": "DIGITIMES",
-        "published_at": "2026-07-31T03:07:33Z",
-        "canonical_url": "https://www.digitimes.com.tw/tech/dt/n/shwnws.asp?id=0000763611_I6M5HYDU2JS1EF0QHGEQ7"
-      }
-    },
-    {
-      "rank": 2,
       "theme_id": "robotics",
       "name_zh": "機器人",
-      "heat_score": 59,
+      "heat_score": 88,
       "summaries": {
-        "event_count": 5,
-        "source_count": 2,
-        "tracking_candidate_count": 3,
+        "event_count": 7,
+        "source_count": 4,
+        "tracking_candidate_count": 4,
         "taiwan_mapping_count": 3
       },
       "heat_reason": {
         "rule_version": "public_theme_heat_v0.8",
         "event_component": {
-          "input": 5,
-          "normalized": 83.333,
-          "weighted": 20.833
+          "input": 7,
+          "normalized": 100.0,
+          "weighted": 25.0
         },
         "source_component": {
-          "input": 2,
-          "normalized": 50.0,
-          "weighted": 12.5
+          "input": 4,
+          "normalized": 100.0,
+          "weighted": 25.0
         },
         "candidate_component": {
-          "input": 3,
-          "normalized": 75.0,
-          "weighted": 15.0
+          "input": 4,
+          "normalized": 100.0,
+          "weighted": 20.0
         },
         "mapping_component": {
           "mapping_count": 3,
@@ -152,9 +50,9 @@
           "normalized": 60.0,
           "weighted": 18.0
         },
-        "single_source_concentration": 0.8,
-        "concentration_penalty": 7.5,
-        "raw_score": 58.833
+        "single_source_concentration": 0.571,
+        "concentration_penalty": 0.0,
+        "raw_score": 88.0
       },
       "direct_mentions": [],
       "supply_chain_candidates": [
@@ -193,123 +91,38 @@
         }
       ],
       "representative_news": {
-        "cluster_id": "cluster-45136a2df519c9ae",
-        "id": "technews-0ab2c102be45",
-        "title_zh": "Google DeepMind 發表 Gemini Robotics 2，人型機器人迎來「全身協調」新進化",
-        "summary": "Google DeepMind 於 7 月 30 日發表了新一代機器人人工智慧模型 Gemini Roboti [&#8230;]",
-        "source_id": "technews",
-        "source": "TechNews",
-        "published_at": "2026-07-31T03:30:13Z",
-        "canonical_url": "https://technews.tw/2026/07/31/google-unveils-gemini-ai-for-robots-struggling-with-dexterity/"
+        "cluster_id": "cluster-272d0df9a09e7860",
+        "id": "cnyes-5efe6229b619",
+        "title_zh": "谷歌機器人技術大突破！Gemini Robotics 2實現全身控制 進軍物理世界",
+        "summary": "Alphabet(GOOGL-US) 旗下 Google DeepMind 於本週正式推出新一代機器人人工智能模型 Gemini Robotics 2，該突破性進展使人形機器人具備了從頭到腳的全身動作協調能力，象徵著這家科技巨頭在將人工智能能力延伸至物理世界的競賽中，邁出了關鍵性的一步。  Gemi",
+        "source_id": "cnyes",
+        "source": "鉅亨網 Cnyes",
+        "published_at": "2026-07-31T02:50:45Z",
+        "canonical_url": "https://news.cnyes.com/news/id/6553939"
       }
     },
     {
-      "rank": 3,
-      "theme_id": "memory_hbm",
-      "name_zh": "記憶體與 HBM",
-      "heat_score": 51,
-      "summaries": {
-        "event_count": 3,
-        "source_count": 2,
-        "tracking_candidate_count": 2,
-        "taiwan_mapping_count": 3
-      },
-      "heat_reason": {
-        "rule_version": "public_theme_heat_v0.8",
-        "event_component": {
-          "input": 3,
-          "normalized": 50.0,
-          "weighted": 12.5
-        },
-        "source_component": {
-          "input": 2,
-          "normalized": 50.0,
-          "weighted": 12.5
-        },
-        "candidate_component": {
-          "input": 2,
-          "normalized": 50.0,
-          "weighted": 10.0
-        },
-        "mapping_component": {
-          "mapping_count": 3,
-          "direct_mapping_event_count": 0,
-          "normalized": 60.0,
-          "weighted": 18.0
-        },
-        "single_source_concentration": 0.667,
-        "concentration_penalty": 2.5,
-        "raw_score": 50.5
-      },
-      "direct_mentions": [],
-      "supply_chain_candidates": [
-        {
-          "instrument_id": "TPEX:8299",
-          "symbol": "8299",
-          "exchange": "TPEX",
-          "name_zh": "群聯",
-          "direct_event_count": 0,
-          "official_evidence_count": 0,
-          "company_rank_score": 1,
-          "latest_mentioned_at": null,
-          "latest_official_at": null
-        },
-        {
-          "instrument_id": "TWSE:2344",
-          "symbol": "2344",
-          "exchange": "TWSE",
-          "name_zh": "華邦電",
-          "direct_event_count": 0,
-          "official_evidence_count": 0,
-          "company_rank_score": 1,
-          "latest_mentioned_at": null,
-          "latest_official_at": null
-        },
-        {
-          "instrument_id": "TWSE:2408",
-          "symbol": "2408",
-          "exchange": "TWSE",
-          "name_zh": "南亞科",
-          "direct_event_count": 0,
-          "official_evidence_count": 0,
-          "company_rank_score": 1,
-          "latest_mentioned_at": null,
-          "latest_official_at": null
-        }
-      ],
-      "representative_news": {
-        "cluster_id": "cluster-8ea98036b9b3ac9b",
-        "id": "technews-d2e685d51ce9",
-        "title_zh": "美國議員反對也沒用，蘋果證實正評估中國記憶體",
-        "summary": "全球高頻寬記憶體（HBM）、DRAM 與 NAND Flash 供應持續緊繃，蘋果在最新一季財報會議中坦言，記 [&#8230;]",
-        "source_id": "technews",
-        "source": "TechNews",
-        "published_at": "2026-07-31T01:48:24Z",
-        "canonical_url": "https://finance.technews.tw/2026/07/31/apple-china-dram/"
-      }
-    },
-    {
-      "rank": 4,
+      "rank": 2,
       "theme_id": "optical_cpo",
       "name_zh": "光通訊與 CPO",
-      "heat_score": 39,
+      "heat_score": 66,
       "summaries": {
-        "event_count": 2,
-        "source_count": 2,
+        "event_count": 4,
+        "source_count": 4,
         "tracking_candidate_count": 0,
         "taiwan_mapping_count": 3
       },
       "heat_reason": {
         "rule_version": "public_theme_heat_v0.8",
         "event_component": {
-          "input": 2,
-          "normalized": 33.333,
-          "weighted": 8.333
+          "input": 4,
+          "normalized": 66.667,
+          "weighted": 16.667
         },
         "source_component": {
-          "input": 2,
-          "normalized": 50.0,
-          "weighted": 12.5
+          "input": 4,
+          "normalized": 100.0,
+          "weighted": 25.0
         },
         "candidate_component": {
           "input": 0,
@@ -318,25 +131,34 @@
         },
         "mapping_component": {
           "mapping_count": 3,
-          "direct_mapping_event_count": 0,
-          "normalized": 60.0,
-          "weighted": 18.0
+          "direct_mapping_event_count": 1,
+          "normalized": 80.0,
+          "weighted": 24.0
         },
-        "single_source_concentration": 0.5,
+        "single_source_concentration": 0.25,
         "concentration_penalty": 0.0,
-        "raw_score": 38.833
+        "raw_score": 65.667
       },
-      "direct_mentions": [],
+      "direct_mentions": [
+        {
+          "instrument_id": "TPEX:3081",
+          "symbol": "3081",
+          "exchange": "TPEX",
+          "name_zh": "聯亞",
+          "direct_event_count": 1,
+          "latest_mentioned_at": "2026-07-31T05:24:20Z"
+        }
+      ],
       "supply_chain_candidates": [
         {
           "instrument_id": "TPEX:3081",
           "symbol": "3081",
           "exchange": "TPEX",
           "name_zh": "聯亞",
-          "direct_event_count": 0,
+          "direct_event_count": 1,
           "official_evidence_count": 0,
-          "company_rank_score": 1,
-          "latest_mentioned_at": null,
+          "company_rank_score": 5,
+          "latest_mentioned_at": "2026-07-31T05:24:20Z",
           "latest_official_at": null
         },
         {
@@ -363,14 +185,108 @@
         }
       ],
       "representative_news": {
-        "cluster_id": "cluster-bed0877739b834d2",
-        "id": "moneydj-9b5ef5decdf4",
-        "title_zh": "前鼎Q2每股賺0.66元，AI高速光通訊擴產",
-        "summary": "<a href=\"https://www.moneydj.com/kmdj/news/newsviewer.aspx?a=2ceddb99-a995-4a31-a761-e52d4d144456&amp;utm_source=965916571859685796595657966616&amp;utm_medium=RSS\">內文連結</a>",
-        "source_id": "moneydj",
-        "source": "MoneyDJ",
-        "published_at": "2026-07-31T03:22:00Z",
-        "canonical_url": "https://www.moneydj.com/kmdj/news/newsviewer.aspx?a=2ceddb99-a995-4a31-a761-e52d4d144456&utm_source=965916571859685796595657966616&utm_medium=RSS"
+        "cluster_id": "cluster-a4c04b32054122fb",
+        "id": "yahoo_finance_tw-63d91cdcb6b0",
+        "title_zh": "光寶科策略投資新加坡InP光通訊元件廠DenseLight，深化光通訊布局",
+        "summary": "【財訊快報／記者劉居全報導】光寶科技(2301)總經理邱森彬今(31)日表示，光寶科董事會宣布策略投資新加坡InP（磷化銦）光通訊元件廠DenseLight Photonics (DenseLight",
+        "source_id": "yahoo_finance_tw",
+        "source": "Yahoo Finance Taiwan",
+        "published_at": "2026-07-31T06:45:35Z",
+        "canonical_url": "https://tw.stock.yahoo.com/news/%E5%85%89%E5%AF%B6%E7%A7%91%E7%AD%96%E7%95%A5%E6%8A%95%E8%B3%87%E6%96%B0%E5%8A%A0%E5%9D%A1inp%E5%85%89%E9%80%9A%E8%A8%8A%E5%85%83%E4%BB%B6%E5%BB%A0denselight-%E6%B7%B1%E5%8C%96%E5%85%89%E9%80%9A%E8%A8%8A%E5%B8%83%E5%B1%80-064535895.html"
+      }
+    },
+    {
+      "rank": 3,
+      "theme_id": "cowos_supply_chain",
+      "name_zh": "CoWoS 先進封裝",
+      "heat_score": 59,
+      "summaries": {
+        "event_count": 4,
+        "source_count": 2,
+        "tracking_candidate_count": 0,
+        "taiwan_mapping_count": 3
+      },
+      "heat_reason": {
+        "rule_version": "public_theme_heat_v0.8",
+        "event_component": {
+          "input": 4,
+          "normalized": 66.667,
+          "weighted": 16.667
+        },
+        "source_component": {
+          "input": 2,
+          "normalized": 50.0,
+          "weighted": 12.5
+        },
+        "candidate_component": {
+          "input": 0,
+          "normalized": 0.0,
+          "weighted": 0.0
+        },
+        "mapping_component": {
+          "mapping_count": 3,
+          "direct_mapping_event_count": 2,
+          "normalized": 100.0,
+          "weighted": 30.0
+        },
+        "single_source_concentration": 0.5,
+        "concentration_penalty": 0.0,
+        "raw_score": 59.167
+      },
+      "direct_mentions": [
+        {
+          "instrument_id": "TWSE:2330",
+          "symbol": "2330",
+          "exchange": "TWSE",
+          "name_zh": "台積電",
+          "direct_event_count": 2,
+          "latest_mentioned_at": "2026-07-31T03:07:33Z"
+        }
+      ],
+      "supply_chain_candidates": [
+        {
+          "instrument_id": "TWSE:2330",
+          "symbol": "2330",
+          "exchange": "TWSE",
+          "name_zh": "台積電",
+          "direct_event_count": 2,
+          "official_evidence_count": 0,
+          "company_rank_score": 9,
+          "latest_mentioned_at": "2026-07-31T03:07:33Z",
+          "latest_official_at": null
+        },
+        {
+          "instrument_id": "TWSE:2449",
+          "symbol": "2449",
+          "exchange": "TWSE",
+          "name_zh": "京元電子",
+          "direct_event_count": 0,
+          "official_evidence_count": 0,
+          "company_rank_score": 1,
+          "latest_mentioned_at": null,
+          "latest_official_at": null
+        },
+        {
+          "instrument_id": "TWSE:3711",
+          "symbol": "3711",
+          "exchange": "TWSE",
+          "name_zh": "日月光投控",
+          "direct_event_count": 0,
+          "official_evidence_count": 0,
+          "company_rank_score": 1,
+          "latest_mentioned_at": null,
+          "latest_official_at": null
+        }
+      ],
+      "representative_news": {
+        "cluster_id": "cluster-c77ac140995f35f7",
+        "id": "technews-95d8b315fa84",
+        "title_zh": "直取 CoWoS 測試核心！中探針攜半導體巨頭開發 MEMS 與清針紙",
+        "summary": "中探針今日宣布半導體大廠共同研發微機電探針（MEMS）、清針紙（clean sheet），預計未來開發完成後， [&#8230;]",
+        "source_id": "technews",
+        "source": "TechNews",
+        "published_at": "2026-07-31T07:03:23Z",
+        "canonical_url": "https://finance.technews.tw/2026/07/31/clean-sheet/"
       }
     }
   ]
