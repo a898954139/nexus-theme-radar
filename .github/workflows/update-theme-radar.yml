@@ -8,6 +8,15 @@ on:
         required: false
         default: false
         type: boolean
+      db_history_environment:
+        description: DB history target; requires separate authorization and a matching branch
+        required: false
+        default: disabled
+        type: choice
+        options:
+          - disabled
+          - preview
+          - production
   schedule:
     - cron: "17 * * * *"
 
@@ -41,6 +50,17 @@ jobs:
       - name: Update data
         env:
           FULL_REFRESH: ${{ inputs.full_refresh || 'false' }}
+          # Dedicated server-side direct-Postgres credential; value is managed
+          # outside the repository and remains blocked pending authorization.
+          THEME_RADAR_DATABASE_URL: >-
+            ${{ github.event_name == 'workflow_dispatch'
+                && inputs.db_history_environment != 'disabled'
+                && vars.THEME_RADAR_DB_HISTORY_AUTHORIZED_ENVIRONMENT == inputs.db_history_environment
+                && vars.THEME_RADAR_DB_HISTORY_AUTHORIZED_BRANCH == github.ref_name
+                && github.ref_type == 'branch'
+                && ((inputs.db_history_environment == 'preview' && github.ref_name != 'master')
+                    || (inputs.db_history_environment == 'production' && github.ref_name == 'master'))
+                && secrets.THEME_RADAR_DATABASE_URL || '' }}
         run: |
           args=()
           if [ "$FULL_REFRESH" = "true" ]; then

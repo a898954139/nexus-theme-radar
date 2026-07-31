@@ -6,9 +6,11 @@ import argparse
 import hashlib
 import json
 import logging
+import os
 import re
 import tempfile
 import time
+import uuid
 from collections.abc import Mapping
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from datetime import datetime, timedelta, timezone
@@ -22,8 +24,19 @@ import requests
 try:
     from scripts.public_theme_ranking import (
         PUBLIC_WINDOW_HOURS,
+        build_public_theme_signals,
         build_public_theme_ranking,
         validate_public_theme_ranking,
+    )
+    from scripts.public_theme_momentum import build_public_theme_momentum
+    from scripts.theme_heat_history_store import (
+        delete_expired_observations,
+        load_momentum_baselines,
+        write_theme_observations,
+    )
+    from scripts.materialize_public_theme_history import (
+        load_history_rows,
+        materialize_public_theme_history,
     )
     from scripts.source_adapters import (
         CONFLICT_TERMS,
@@ -41,8 +54,19 @@ try:
 except ModuleNotFoundError:
     from public_theme_ranking import (
         PUBLIC_WINDOW_HOURS,
+        build_public_theme_signals,
         build_public_theme_ranking,
         validate_public_theme_ranking,
+    )
+    from public_theme_momentum import build_public_theme_momentum
+    from theme_heat_history_store import (
+        delete_expired_observations,
+        load_momentum_baselines,
+        write_theme_observations,
+    )
+    from materialize_public_theme_history import (
+        load_history_rows,
+        materialize_public_theme_history,
     )
     from source_adapters import (
         CONFLICT_TERMS,
@@ -87,6 +111,8 @@ PUBLIC_OBSERVABILITY_FIELDS = (
     "public_derivation_error_count",
     "public_generation_status",
 )
+MOMENTUM_LATEST_FILENAME = "public-theme-momentum-latest-v0.9.json"
+MOMENTUM_HISTORY_FILENAME = "public-theme-momentum-history-v0.9.json"
 LOGGER = logging.getLogger(__name__)
 GENERIC_SUPPLY_CHAIN_SIGNALS = {
     "ai",
@@ -1256,6 +1282,178 @@ def write_payload_set(
             path.unlink(missing_ok=True)
 
 
+def write_momentum_latest(output_dir: Path, payload: Mapping[str, Any]) -> None:
+    """Atomically publish v0.9 latest without changing the v0.8 payload set."""
+
+    output_dir.mkdir(parents=True, exist_ok=True)
+    destination = output_dir / MOMENTUM_LATEST_FILENAME
+    temporary_path: Path | None = None
+    serialized = json.dumps(payload, ensure_ascii=False, indent=2) + "\n"
+    try:
+        with tempfile.NamedTemporaryFile(
+            mode="w",
+            encoding="utf-8",
+            dir=output_dir,
+            prefix=f".{MOMENTUM_LATEST_FILENAME}.",
+            suffix=".tmp",
+            delete=False,
+        ) as temporary:
+            temporary_path = Path(temporary.name)
+            temporary.write(serialized)
+            temporary.flush()
+        if json.loads(temporary_path.read_text(encoding="utf-8")) != payload:
+            raise ValueError("momentum latest temporary validation failed")
+        temporary_path.replace(destination)
+        temporary_path = None
+    finally:
+        if temporary_path is not None:
+            temporary_path.unlink(missing_ok=True)
+
+
+def history_connection_factory_from_environment() -> Any | None:
+    """Return a lazy direct-Postgres factory only when the scoped URL is set."""
+
+    database_url = os.environ.get("THEME_RADAR_DATABASE_URL", "").strip()
+    if not database_url:
+        return None
+
+    def connect() -> Any:
+        try:
+            import psycopg
+            from psycopg.rows import dict_row
+        except ModuleNotFoundError as error:
+            raise RuntimeError(
+                "psycopg dependency authorization is required for live theme history"
+            ) from error
+        return psycopg.connect(database_url, row_factory=dict_row)
+
+    return connect
+
+
+def run_momentum_side_paths(
+    *,
+    output_dir: Path,
+    projection: Mapping[str, Any],
+    taxonomy: Mapping[str, Any],
+    symbol_aliases: Mapping[str, Any],
+    observed_hour: datetime,
+    generated_at: datetime,
+    producer_run_id: str,
+    connection_factory: Any | None,
+) -> dict[str, Any]:
+    """Publish v0.9 latest and run optional DB/history side paths."""
+
+    result = {
+        "producer_run_id": producer_run_id,
+        "momentum_latest_published": False,
+        "history_rows_upserted": 0,
+        "retention_succeeded": False,
+        "history_materialized": False,
+    }
+    connection: Any | None = None
+    baselines: list[dict[str, Any]] = []
+    if connection_factory is None:
+        LOGGER.warning(
+            "theme_momentum_side_path_failed producer_run_id=%s phase=connection error=credential_unavailable",
+            producer_run_id,
+        )
+    else:
+        try:
+            connection = connection_factory()
+        except Exception as error:  # noqa: BLE001 - optional connection stays isolated
+            LOGGER.warning(
+                "theme_momentum_side_path_failed producer_run_id=%s phase=connection error=%s",
+                producer_run_id,
+                error,
+            )
+
+    try:
+        try:
+            if connection is not None:
+                baselines = load_momentum_baselines(connection, observed_hour)
+            signals = build_public_theme_signals(
+                projection,
+                taxonomy=taxonomy,
+                symbol_aliases=symbol_aliases,
+            )
+            latest_payload, observations = build_public_theme_momentum(
+                signals,
+                baseline_rows=baselines,
+                observed_hour=observed_hour,
+                generated_at=generated_at,
+            )
+        except Exception as error:  # noqa: BLE001 - query/validation is fail closed
+            LOGGER.warning(
+                "theme_momentum_side_path_failed producer_run_id=%s phase=baseline_or_projection error=%s",
+                producer_run_id,
+                error,
+            )
+            return result
+
+        try:
+            write_momentum_latest(output_dir, latest_payload)
+            result = {**result, "momentum_latest_published": True}
+        except Exception as error:  # noqa: BLE001 - DB history may still be stored
+            LOGGER.warning(
+                "theme_momentum_side_path_failed producer_run_id=%s phase=latest_publish error=%s",
+                producer_run_id,
+                error,
+            )
+
+        if connection is None:
+            return result
+
+        try:
+            written = write_theme_observations(
+                connection,
+                observations,
+                producer_run_id=producer_run_id,
+            )
+            result = {**result, "history_rows_upserted": written}
+        except Exception as error:  # noqa: BLE001 - downstream requires current rows
+            LOGGER.warning(
+                "theme_momentum_side_path_failed producer_run_id=%s phase=upsert error=%s",
+                producer_run_id,
+                error,
+            )
+            return result
+
+        try:
+            delete_expired_observations(connection, observed_hour)
+            result = {**result, "retention_succeeded": True}
+        except Exception as error:  # noqa: BLE001 - extra old rows are repairable
+            LOGGER.warning(
+                "theme_momentum_side_path_failed producer_run_id=%s phase=retention error=%s",
+                producer_run_id,
+                error,
+            )
+
+        try:
+            materialize_public_theme_history(
+                output_dir / MOMENTUM_HISTORY_FILENAME,
+                current_observed_hour=observed_hour,
+                generated_at=generated_at,
+                row_loader=lambda oldest, newest: load_history_rows(
+                    connection,
+                    oldest,
+                    newest,
+                ),
+            )
+            result = {**result, "history_materialized": True}
+        except Exception as error:  # noqa: BLE001 - prior history bytes remain valid
+            LOGGER.warning(
+                "theme_momentum_side_path_failed producer_run_id=%s phase=materialize error=%s",
+                producer_run_id,
+                error,
+            )
+        return result
+    finally:
+        if connection is not None:
+            close = getattr(connection, "close", None)
+            if callable(close):
+                close()
+
+
 def _previous_official_records(output_dir: Path) -> list[dict[str, Any]]:
     path = output_dir / "official-evidence.json"
     if not path.exists():
@@ -1279,12 +1477,14 @@ def run_update(
     max_official_items: int = 500,
     max_workers: int = 4,
     full_refresh: bool = False,
+    history_connection_factory: Any | None = None,
 ) -> dict[str, Any]:
     # v0.8 fixes the public run window while retaining the existing caller signature.
     window_hours = PUBLIC_WINDOW_HOURS
     anchor = now_utc()
     registry = load_source_registry(registry_path)
     taxonomy = load_theme_taxonomy()
+    symbol_aliases = load_symbol_aliases()
     sources = active_sources(registry)
     session = requests.Session()
     session.headers.update({"User-Agent": USER_AGENT})
@@ -1391,7 +1591,7 @@ def run_update(
     public_payload, public_diagnostics = build_public_theme_ranking(
         projection,
         taxonomy=taxonomy,
-        symbol_aliases=load_symbol_aliases(),
+        symbol_aliases=symbol_aliases,
         official_evidence_by_id=official_evidence_by_id,
         source_status=public_source_status,
         generated_at=anchor,
@@ -1413,6 +1613,39 @@ def run_update(
         window_hours=window_hours,
     )
     write_payload_set(output_dir, payloads)
+    producer_run_id = f"{anchor.strftime('%Y%m%dT%H%M%SZ')}-{uuid.uuid4().hex}"
+    try:
+        momentum_summary = run_momentum_side_paths(
+            output_dir=output_dir,
+            projection=projection,
+            taxonomy=taxonomy,
+            symbol_aliases=symbol_aliases,
+            observed_hour=anchor.astimezone(timezone.utc).replace(
+                minute=0,
+                second=0,
+                microsecond=0,
+            ),
+            generated_at=anchor,
+            producer_run_id=producer_run_id,
+            connection_factory=(
+                history_connection_factory
+                if history_connection_factory is not None
+                else history_connection_factory_from_environment()
+            ),
+        )
+    except Exception as error:  # noqa: BLE001 - main snapshots are already valid
+        LOGGER.warning(
+            "theme_momentum_side_path_failed producer_run_id=%s phase=unexpected error=%s",
+            producer_run_id,
+            error,
+        )
+        momentum_summary = {
+            "producer_run_id": producer_run_id,
+            "momentum_latest_published": False,
+            "history_rows_upserted": 0,
+            "retention_succeeded": False,
+            "history_materialized": False,
+        }
     for failure in public_diagnostics["eligibility_failures"]:
         LOGGER.warning(
             "public_theme_eligibility_failure theme_id=%s rule_code=%s",
@@ -1430,6 +1663,7 @@ def run_update(
         "taiwan_relevance_reasons": events["tw_relevance_reason_distribution"],
         "tracking_candidates": candidates["total_items"],
         "failed_sources": status_payload["failed_count"],
+        **momentum_summary,
         **{
             key: public_diagnostics[key] for key in PUBLIC_OBSERVABILITY_FIELDS
         },

@@ -2,6 +2,8 @@ from __future__ import annotations
 
 import json
 import hashlib
+import inspect
+import logging
 from datetime import datetime, timezone
 from pathlib import Path
 from copy import deepcopy
@@ -25,6 +27,7 @@ from scripts.update_theme_radar import (
     normalize_feed_entry,
     rss_sources,
     run_update,
+    run_momentum_side_paths,
     source_authority_ranks,
     source_status_payload,
     validate_payload_set,
@@ -1144,6 +1147,345 @@ def test_source_status_payload_matches_existing_frontend_contract() -> None:
     assert payload["fetched_raw_items"] == 3
     assert payload["items_before_topic_filter"] == 3
     assert len(payload["sites"]) == 2
+
+
+def _momentum_signal() -> dict[str, object]:
+    return {
+        "theme_id": "thermal",
+        "name_zh": "液冷散熱",
+        "heat_score": 70,
+        "heat_raw_score": 70.0,
+        "event_count": 2,
+        "source_count": 2,
+        "tracking_candidate_count": 1,
+        "taiwan_mapping_count": 1,
+        "direct_mapping_event_count": 1,
+        "single_source_concentration": 0.5,
+        "latest_qualifying_event_at": "2026-07-31T03:30:00Z",
+    }
+
+
+def test_momentum_latest_publishes_without_database_credentials(
+    monkeypatch: pytest.MonkeyPatch,
+    tmp_path: Path,
+    caplog: pytest.LogCaptureFixture,
+) -> None:
+    monkeypatch.setattr(
+        updater,
+        "build_public_theme_signals",
+        lambda *_args, **_kwargs: [_momentum_signal()],
+    )
+
+    def fail_if_called(*_args: object, **_kwargs: object) -> None:
+        raise AssertionError("database history path must remain unavailable")
+
+    for function_name in (
+        "load_momentum_baselines",
+        "write_theme_observations",
+        "delete_expired_observations",
+        "load_history_rows",
+        "materialize_public_theme_history",
+    ):
+        monkeypatch.setattr(updater, function_name, fail_if_called)
+
+    with caplog.at_level(logging.WARNING):
+        result = run_momentum_side_paths(
+            output_dir=tmp_path,
+            projection={},
+            taxonomy={},
+            symbol_aliases={},
+            observed_hour=datetime(2026, 7, 31, 4, tzinfo=timezone.utc),
+            generated_at=datetime(2026, 7, 31, 4, 8, tzinfo=timezone.utc),
+            producer_run_id="run-without-db",
+            connection_factory=None,
+        )
+
+    latest = json.loads(
+        (tmp_path / updater.MOMENTUM_LATEST_FILENAME).read_text(encoding="utf-8")
+    )
+    theme = latest["themes"][0]
+    assert theme["lifecycle_stage"] == "new"
+    assert theme["heat_change_24h"] is None
+    assert theme["source_change_24h"] is None
+    assert theme["momentum_score"] == 35
+    assert result == {
+        "producer_run_id": "run-without-db",
+        "momentum_latest_published": True,
+        "history_rows_upserted": 0,
+        "retention_succeeded": False,
+        "history_materialized": False,
+    }
+    assert any(
+        "phase=connection error=credential_unavailable" in record.getMessage()
+        for record in caplog.records
+    )
+
+
+def test_momentum_latest_publishes_when_connection_factory_raises(
+    monkeypatch: pytest.MonkeyPatch,
+    tmp_path: Path,
+    caplog: pytest.LogCaptureFixture,
+) -> None:
+    calls: list[str] = []
+    monkeypatch.setattr(
+        updater,
+        "build_public_theme_signals",
+        lambda *_args, **_kwargs: [_momentum_signal()],
+    )
+
+    def fail_if_called(*_args: object, **_kwargs: object) -> None:
+        raise AssertionError("database history work must remain skipped")
+
+    for function_name in (
+        "load_momentum_baselines",
+        "write_theme_observations",
+        "delete_expired_observations",
+        "load_history_rows",
+        "materialize_public_theme_history",
+    ):
+        monkeypatch.setattr(updater, function_name, fail_if_called)
+
+    def fail_connection() -> None:
+        calls.append("connection")
+        raise RuntimeError("connection refused")
+
+    with caplog.at_level(logging.WARNING):
+        result = run_momentum_side_paths(
+            output_dir=tmp_path,
+            projection={},
+            taxonomy={},
+            symbol_aliases={},
+            observed_hour=datetime(2026, 7, 31, 4, tzinfo=timezone.utc),
+            generated_at=datetime(2026, 7, 31, 4, 8, tzinfo=timezone.utc),
+            producer_run_id="run-connection-failure",
+            connection_factory=fail_connection,
+        )
+
+    latest = json.loads(
+        (tmp_path / updater.MOMENTUM_LATEST_FILENAME).read_text(encoding="utf-8")
+    )
+    theme = latest["themes"][0]
+    assert calls == ["connection"]
+    assert theme["lifecycle_stage"] == "new"
+    assert theme["heat_change_24h"] is None
+    assert theme["source_change_24h"] is None
+    assert theme["momentum_score"] == 35
+    assert result == {
+        "producer_run_id": "run-connection-failure",
+        "momentum_latest_published": True,
+        "history_rows_upserted": 0,
+        "retention_succeeded": False,
+        "history_materialized": False,
+    }
+    assert "phase=connection error=connection refused" in caplog.text
+
+
+def test_momentum_side_path_runs_upsert_retention_and_materializer_in_order(
+    monkeypatch: pytest.MonkeyPatch,
+    tmp_path: Path,
+) -> None:
+    calls: list[str] = []
+    connection = object()
+    monkeypatch.setattr(
+        updater,
+        "build_public_theme_signals",
+        lambda *_args, **_kwargs: [_momentum_signal()],
+    )
+    monkeypatch.setattr(
+        updater,
+        "load_momentum_baselines",
+        lambda *_args, **_kwargs: calls.append("baseline") or [],
+    )
+    monkeypatch.setattr(
+        updater,
+        "write_momentum_latest",
+        lambda *_args, **_kwargs: calls.append("latest"),
+    )
+    monkeypatch.setattr(
+        updater,
+        "write_theme_observations",
+        lambda *_args, **_kwargs: calls.append("upsert") or 1,
+    )
+    monkeypatch.setattr(
+        updater,
+        "delete_expired_observations",
+        lambda *_args, **_kwargs: calls.append("retention") or 0,
+    )
+    monkeypatch.setattr(
+        updater,
+        "load_history_rows",
+        lambda *_args, **_kwargs: calls.append("history_query") or [],
+    )
+
+    def materialize(_path, *, row_loader, **_kwargs):
+        calls.append("materialize")
+        row_loader(datetime(2026, 7, 1, tzinfo=timezone.utc), datetime(2026, 7, 31, tzinfo=timezone.utc))
+        return {}
+
+    monkeypatch.setattr(updater, "materialize_public_theme_history", materialize)
+
+    result = run_momentum_side_paths(
+        output_dir=tmp_path,
+        projection={},
+        taxonomy={},
+        symbol_aliases={},
+        observed_hour=datetime(2026, 7, 31, 4, tzinfo=timezone.utc),
+        generated_at=datetime(2026, 7, 31, 4, 8, tzinfo=timezone.utc),
+        producer_run_id="run-123",
+        connection_factory=lambda: connection,
+    )
+
+    assert calls == [
+        "baseline",
+        "latest",
+        "upsert",
+        "retention",
+        "materialize",
+        "history_query",
+    ]
+    assert result == {
+        "producer_run_id": "run-123",
+        "momentum_latest_published": True,
+        "history_rows_upserted": 1,
+        "retention_succeeded": True,
+        "history_materialized": True,
+    }
+
+
+def test_upsert_failure_is_truthful_and_skips_retention_and_materialization(
+    monkeypatch: pytest.MonkeyPatch,
+    tmp_path: Path,
+    caplog: pytest.LogCaptureFixture,
+) -> None:
+    calls: list[str] = []
+    monkeypatch.setattr(
+        updater,
+        "build_public_theme_signals",
+        lambda *_args, **_kwargs: [_momentum_signal()],
+    )
+    monkeypatch.setattr(updater, "load_momentum_baselines", lambda *_args: [])
+    monkeypatch.setattr(updater, "write_momentum_latest", lambda *_args: calls.append("latest"))
+
+    def fail_upsert(*_args, **_kwargs):
+        calls.append("upsert")
+        raise RuntimeError("db unavailable")
+
+    monkeypatch.setattr(updater, "write_theme_observations", fail_upsert)
+    monkeypatch.setattr(
+        updater,
+        "delete_expired_observations",
+        lambda *_args: calls.append("retention"),
+    )
+    monkeypatch.setattr(
+        updater,
+        "materialize_public_theme_history",
+        lambda *_args, **_kwargs: calls.append("materialize"),
+    )
+
+    with caplog.at_level(logging.WARNING):
+        result = run_momentum_side_paths(
+            output_dir=tmp_path,
+            projection={},
+            taxonomy={},
+            symbol_aliases={},
+            observed_hour=datetime(2026, 7, 31, 4, tzinfo=timezone.utc),
+            generated_at=datetime(2026, 7, 31, 4, 8, tzinfo=timezone.utc),
+            producer_run_id="run-123",
+            connection_factory=lambda: object(),
+        )
+
+    assert calls == ["latest", "upsert"]
+    assert result["history_rows_upserted"] == 0
+    assert not result["retention_succeeded"]
+    assert not result["history_materialized"]
+    assert "phase=upsert" in caplog.text
+    assert "producer_run_id=run-123" in caplog.text
+    assert "succeeded" not in caplog.text
+
+
+def test_retention_failure_warns_but_materialization_continues(
+    monkeypatch: pytest.MonkeyPatch,
+    tmp_path: Path,
+    caplog: pytest.LogCaptureFixture,
+) -> None:
+    calls: list[str] = []
+    monkeypatch.setattr(
+        updater,
+        "build_public_theme_signals",
+        lambda *_args, **_kwargs: [_momentum_signal()],
+    )
+    monkeypatch.setattr(updater, "load_momentum_baselines", lambda *_args: [])
+    monkeypatch.setattr(updater, "write_momentum_latest", lambda *_args: None)
+    monkeypatch.setattr(updater, "write_theme_observations", lambda *_args, **_kwargs: 1)
+
+    def fail_retention(*_args):
+        raise RuntimeError("retention failed")
+
+    monkeypatch.setattr(updater, "delete_expired_observations", fail_retention)
+    monkeypatch.setattr(updater, "load_history_rows", lambda *_args: [])
+    monkeypatch.setattr(
+        updater,
+        "materialize_public_theme_history",
+        lambda *_args, **_kwargs: calls.append("materialize") or {},
+    )
+
+    with caplog.at_level(logging.WARNING):
+        result = run_momentum_side_paths(
+            output_dir=tmp_path,
+            projection={},
+            taxonomy={},
+            symbol_aliases={},
+            observed_hour=datetime(2026, 7, 31, 4, tzinfo=timezone.utc),
+            generated_at=datetime(2026, 7, 31, 4, 8, tzinfo=timezone.utc),
+            producer_run_id="run-123",
+            connection_factory=lambda: object(),
+        )
+
+    assert calls == ["materialize"]
+    assert not result["retention_succeeded"]
+    assert result["history_materialized"]
+    assert "phase=retention" in caplog.text
+
+
+def test_existing_payload_publication_precedes_non_blocking_momentum_side_path() -> None:
+    source = inspect.getsource(updater.run_update)
+    assert source.index("write_payload_set(output_dir, payloads)") < source.index(
+        "run_momentum_side_paths("
+    )
+
+
+def test_workflow_gates_history_database_credential_by_environment_and_branch() -> None:
+    workflow = (ROOT / ".github" / "workflows" / "update-theme-radar.yml").read_text(
+        encoding="utf-8"
+    )
+    compact_workflow = " ".join(workflow.split())
+
+    assert "db_history_environment:" in workflow
+    assert "default: disabled" in workflow
+    assert "github.event_name == 'workflow_dispatch'" in workflow
+    assert (
+        "vars.THEME_RADAR_DB_HISTORY_AUTHORIZED_ENVIRONMENT "
+        "== inputs.db_history_environment"
+        in workflow
+    )
+    assert "vars.THEME_RADAR_DB_HISTORY_AUTHORIZED_BRANCH == github.ref_name" in workflow
+    assert "github.ref_type == 'branch'" in workflow
+    assert (
+        "inputs.db_history_environment == 'preview' && github.ref_name != 'master'"
+        in compact_workflow
+    )
+    assert (
+        "inputs.db_history_environment == 'production' && github.ref_name == 'master'"
+        in compact_workflow
+    )
+    assert "&& secrets.THEME_RADAR_DATABASE_URL || ''" in compact_workflow
+    assert (
+        "THEME_RADAR_DATABASE_URL: ${{ secrets.THEME_RADAR_DATABASE_URL }}"
+        not in workflow
+    )
+    assert "service_role" not in workflow.casefold()
+    assert "supabase_url" not in workflow.casefold()
+    assert "supabase_key" not in workflow.casefold()
 
 
 def test_run_update_isolates_failed_source(monkeypatch: pytest.MonkeyPatch, tmp_path: Path) -> None:
@@ -2873,6 +3215,7 @@ def test_run_update_validates_complete_payload_set_before_first_replacement(
         "replace:source-status.json",
         "replace:official-evidence.json",
         "replace:public-theme-ranking-v0.8.json",
+        "replace:public-theme-momentum-latest-v0.9.json",
     ]
 
 

@@ -565,17 +565,20 @@ def _cluster_groups(
     return grouped, observed, invalid_themes, errors
 
 
-def _derive_theme(
+def _derive_theme_signal(
     theme: Mapping[str, Any],
     events: list[Mapping[str, Any]],
     *,
     candidates: set[tuple[str, str]],
-    candidate_clusters: list[Any],
     members_by_id: Mapping[str, Any],
     symbol_aliases: Mapping[str, Any],
-    official_evidence_by_id: Mapping[str, Mapping[str, Any]],
-    official_available: bool,
-) -> tuple[dict[str, Any] | None, list[str], int]:
+    allow_near_threshold: bool,
+) -> tuple[
+    dict[str, Any] | None,
+    dict[str, dict[str, Any]],
+    list[str],
+    int,
+]:
     theme_id = str(theme["theme_id"])
     publisher_event_count: dict[str, int] = {}
     mappings: set[str] = set()
@@ -617,14 +620,71 @@ def _derive_theme(
         failures.append("publishers_lt_2")
     if counts["taiwan_mapping_count"] < 1:
         failures.append("mapping_lt_1")
-    if failures:
-        return None, failures, errors
+    qualified = not failures
+    near_threshold = allow_near_threshold and counts["taiwan_mapping_count"] >= 1 and (
+        (counts["event_count"] == 1 and counts["source_count"] >= 2)
+        or (counts["event_count"] >= 2 and counts["source_count"] == 1)
+    )
+    if not qualified and not near_threshold:
+        return None, direct_stats, failures, errors
 
     representative = _representative(theme_id, events, candidates)
     if representative is None:
-        return None, ["representative_missing"], errors + 1
-    raw_score, heat_score, heat_reason = _heat_values(counts)
+        return None, direct_stats, ["representative_missing"], errors + 1
+    raw_score, heat_score, _ = _heat_values(counts)
     newest = max(_timestamp(event["published_at"], "published_at") for event in events)
+    signal = {
+        "theme_id": theme_id,
+        "name_zh": str(theme["name_zh"]),
+        "heat_score": heat_score,
+        "heat_raw_score": raw_score,
+        **counts,
+        "latest_qualifying_event_at": newest.isoformat().replace("+00:00", "Z"),
+    }
+    return signal, direct_stats, failures, errors
+
+
+def _derive_theme(
+    theme: Mapping[str, Any],
+    events: list[Mapping[str, Any]],
+    *,
+    candidates: set[tuple[str, str]],
+    candidate_clusters: list[Any],
+    members_by_id: Mapping[str, Any],
+    symbol_aliases: Mapping[str, Any],
+    official_evidence_by_id: Mapping[str, Mapping[str, Any]],
+    official_available: bool,
+) -> tuple[dict[str, Any] | None, list[str], int]:
+    signal, direct_stats, failures, errors = _derive_theme_signal(
+        theme,
+        events,
+        candidates=candidates,
+        members_by_id=members_by_id,
+        symbol_aliases=symbol_aliases,
+        allow_near_threshold=False,
+    )
+    if signal is None:
+        return None, failures, errors
+    theme_id = signal["theme_id"]
+    counts = {
+        key: signal[key]
+        for key in (
+            "event_count",
+            "source_count",
+            "tracking_candidate_count",
+            "taiwan_mapping_count",
+            "direct_mapping_event_count",
+            "single_source_concentration",
+        )
+    }
+    raw_score, heat_score, heat_reason = _heat_values(counts)
+    newest = _timestamp(
+        signal["latest_qualifying_event_at"],
+        "latest_qualifying_event_at",
+    )
+    representative = _representative(theme_id, events, candidates)
+    if representative is None:
+        return None, ["representative_missing"], errors + 1
     direct_mentions = _direct_companies(direct_stats)
     supply_chain, supply_errors = _supply_chain_companies(
         theme,
@@ -657,6 +717,50 @@ def _derive_theme(
         },
     }
     return projected, [], errors
+
+
+def build_public_theme_signals(
+    projection: Mapping[str, Any],
+    *,
+    taxonomy: Mapping[str, Any],
+    symbol_aliases: Mapping[str, Any],
+) -> list[dict[str, Any]]:
+    """Return the uncapped shared v0.8 heat signals used by v0.9 momentum."""
+
+    _exact_keys(projection, _PROJECTION_KEYS, "projection")
+    if projection.get("market_id") != MARKET_ID or projection.get("market_scope") != MARKET_SCOPE:
+        raise ValueError("projection must be TW_EQUITY only")
+    if symbol_aliases.get("market_id") != MARKET_ID or symbol_aliases.get("market_scope") != MARKET_SCOPE:
+        raise ValueError("symbol_aliases must be TW_EQUITY only")
+    clustered_events = projection.get("clustered_events")
+    candidate_clusters = projection.get("candidate_clusters")
+    members_by_id = projection.get("cluster_members_by_id")
+    retained_records = projection.get("retained_records")
+    if not isinstance(clustered_events, list) or not isinstance(candidate_clusters, list):
+        raise ValueError("projection event collections must be arrays")
+    if not isinstance(members_by_id, Mapping) or not isinstance(retained_records, list):
+        raise ValueError("projection member collections are invalid")
+
+    themes = _theme_definitions(taxonomy)
+    grouped, observed, _, _ = _cluster_groups(
+        clustered_events,
+        members_by_id,
+        themes,
+    )
+    candidate_pairs = _candidate_pairs(candidate_clusters)
+    signals = []
+    for theme_id in sorted(observed & set(themes)):
+        signal, _, _, _ = _derive_theme_signal(
+            themes[theme_id],
+            grouped.get(theme_id, []),
+            candidates=candidate_pairs,
+            members_by_id=members_by_id,
+            symbol_aliases=symbol_aliases,
+            allow_near_threshold=True,
+        )
+        if signal is not None:
+            signals.append(signal)
+    return signals
 
 
 def build_public_theme_ranking(

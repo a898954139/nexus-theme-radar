@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="zh-TW">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>題材動能｜Taiwan Equity Theme Radar</title>
+    <meta
+      name="description"
+      content="公開查看台股題材目前熱度、24 小時動能與獨立來源擴張。"
+    />
+    <link rel="icon" href="./assets/logo.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="./assets/theme-momentum.css" />
+    <script src="./assets/theme-momentum.js" defer></script>
+  </head>
+  <body>
+    <a class="skip-link" href="#momentumMain">跳到題材動能內容</a>
+    <header class="site-header">
+      <a class="brand" href="./index.html">
+        <img src="./assets/logo.svg" alt="" width="40" height="40" />
+        <span>Taiwan Equity Theme Radar</span>
+      </a>
+      <a class="back-link" href="./index.html">返回題材雷達</a>
+    </header>
+
+    <main id="momentumMain" class="shell">
+      <section class="intro" aria-labelledby="momentumTitle">
+        <p class="eyebrow">PUBLIC THEME MOMENTUM · v0.9</p>
+        <h1 id="momentumTitle">哪些台股題材正在升溫？</h1>
+        <p>
+          依目前熱度、24 小時熱度加速度與獨立來源擴張排序。資料只呈現公開彙總結果，
+          不代表投資建議。
+        </p>
+        <div class="range-controls" role="group" aria-label="題材動能時間範圍">
+          <button type="button" data-range-hours="24" aria-pressed="false">24h</button>
+          <button class="active" type="button" data-range-hours="72" aria-pressed="true">72h</button>
+          <button type="button" data-range-hours="168" aria-pressed="false">7d</button>
+        </div>
+      </section>
+
+      <div
+        id="momentumStatus"
+        class="status-panel"
+        role="status"
+        aria-live="polite"
+        data-state="loading"
+      >題材動能載入中…</div>
+
+      <section class="latest-section" aria-labelledby="latestTitle">
+        <div class="section-heading">
+          <div>
+            <p class="section-kicker">LATEST</p>
+            <h2 id="latestTitle">最新題材動能</h2>
+          </div>
+          <time id="latestObservedAt"></time>
+        </div>
+        <div id="latestThemes" class="theme-grid" aria-busy="true"></div>
+      </section>
+
+      <section class="history-section" aria-labelledby="historyTitle">
+        <div class="section-heading">
+          <div>
+            <p class="section-kicker">HISTORY</p>
+            <h2 id="historyTitle">動能走勢</h2>
+          </div>
+          <p id="historyMeta">等待歷史資料</p>
+        </div>
+        <div class="chart-frame">
+          <svg
+            id="momentumChart"
+            viewBox="0 0 900 280"
+            role="img"
+            aria-labelledby="chartTitle chartDescription"
+          >
+            <title id="chartTitle">題材動能分數歷史圖</title>
+            <desc id="chartDescription">資料載入後顯示；缺少的小時會保留為斷點。</desc>
+          </svg>
+        </div>
+
+        <div class="table-scroll">
+          <table id="historyTable">
+            <caption>題材動能歷史文字替代資料</caption>
+            <thead>
+              <tr>
+                <th scope="col">時間</th>
+                <th scope="col">題材</th>
+                <th scope="col">動能</th>
+                <th scope="col">熱度</th>
+                <th scope="col">階段</th>
+              </tr>
+            </thead>
+            <tbody id="historyTableBody"></tbody>
+          </table>
+        </div>
+      </section>
+    </main>
+  </body>
+</html>
