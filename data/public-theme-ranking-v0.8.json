@@ -2,16 +2,16 @@
   "schema_version": "nexus_public_theme_ranking.v0.8",
   "ranking_rule_version": "public_theme_heat_v0.8",
   "company_rule_version": "public_company_evidence_v0.8",
-  "generated_at": "2026-07-30T22:20:06.172334Z",
+  "generated_at": "2026-07-31T00:15:58.719951Z",
   "market_id": "TW_EQUITY",
   "market_scope": [
     "TW_EQUITY"
   ],
   "window_hours": 72,
   "max_themes": 5,
-  "qualified_theme_count": 4,
-  "displayed_theme_count": 4,
-  "threshold_note": "目前僅 4 個題材達到上榜門檻",
+  "qualified_theme_count": 2,
+  "displayed_theme_count": 2,
+  "threshold_note": "目前僅 2 個題材達到上榜門檻",
   "generation_status": "complete",
   "failed_source_count": 0,
   "official_evidence_status": "available",
@@ -20,24 +20,24 @@
       "rank": 1,
       "theme_id": "memory_hbm",
       "name_zh": "記憶體與 HBM",
-      "heat_score": 69,
+      "heat_score": 51,
       "summaries": {
-        "event_count": 4,
-        "source_count": 3,
+        "event_count": 3,
+        "source_count": 2,
         "tracking_candidate_count": 2,
         "taiwan_mapping_count": 3
       },
       "heat_reason": {
         "rule_version": "public_theme_heat_v0.8",
         "event_component": {
-          "input": 4,
-          "normalized": 66.667,
-          "weighted": 16.667
+          "input": 3,
+          "normalized": 50.0,
+          "weighted": 12.5
         },
         "source_component": {
-          "input": 3,
-          "normalized": 75.0,
-          "weighted": 18.75
+          "input": 2,
+          "normalized": 50.0,
+          "weighted": 12.5
         },
         "candidate_component": {
           "input": 2,
@@ -46,36 +46,16 @@
         },
         "mapping_component": {
           "mapping_count": 3,
-          "direct_mapping_event_count": 1,
-          "normalized": 80.0,
-          "weighted": 24.0
+          "direct_mapping_event_count": 0,
+          "normalized": 60.0,
+          "weighted": 18.0
         },
-        "single_source_concentration": 0.4,
-        "concentration_penalty": 0.0,
-        "raw_score": 69.417
+        "single_source_concentration": 0.667,
+        "concentration_penalty": 2.5,
+        "raw_score": 50.5
       },
-      "direct_mentions": [
-        {
-          "instrument_id": "TWSE:2408",
-          "symbol": "2408",
-          "exchange": "TWSE",
-          "name_zh": "南亞科",
-          "direct_event_count": 1,
-          "latest_mentioned_at": "2026-07-30T11:52:46Z"
-        }
-      ],
+      "direct_mentions": [],
       "supply_chain_candidates": [
-        {
-          "instrument_id": "TWSE:2408",
-          "symbol": "2408",
-          "exchange": "TWSE",
-          "name_zh": "南亞科",
-          "direct_event_count": 1,
-          "official_evidence_count": 0,
-          "company_rank_score": 5,
-          "latest_mentioned_at": "2026-07-30T11:52:46Z",
-          "latest_official_at": null
-        },
         {
           "instrument_id": "TPEX:8299",
           "symbol": "8299",
@@ -97,191 +77,32 @@
           "company_rank_score": 1,
           "latest_mentioned_at": null,
           "latest_official_at": null
+        },
+        {
+          "instrument_id": "TWSE:2408",
+          "symbol": "2408",
+          "exchange": "TWSE",
+          "name_zh": "南亞科",
+          "direct_event_count": 0,
+          "official_evidence_count": 0,
+          "company_rank_score": 1,
+          "latest_mentioned_at": null,
+          "latest_official_at": null
         }
       ],
       "representative_news": {
-        "cluster_id": "cluster-3cb2f4ca07cf31ea",
-        "id": "cnyes-190a40903275",
-        "title_zh": "2027年記憶體市況分化 DRAM吃緊、NAND Flash恐反轉向下",
-        "summary": "TrendForce 最新記憶體產業研究，2027 年記憶體需求維持由 AI 應用主導，DRAM 因 HBM 持續排擠產能、AI 伺服器需求強勁，CPU 所用的記憶體與 HBM 採購動能持續增加，維持供給緊張格局，價格走勢偏強。NAND Fl",
-        "source_id": "cnyes",
-        "source": "鉅亨網 Cnyes",
-        "published_at": "2026-07-30T10:45:50Z",
-        "canonical_url": "https://news.cnyes.com/news/id/6552821"
+        "cluster_id": "cluster-8e5396a14b9d9066",
+        "id": "technews-780655eef6f8",
+        "title_zh": "2027 年記憶體市況分化，DRAM 供給持續吃緊、NAND Flash 轉趨寬鬆",
+        "summary": "TrendForce 最新記憶體產業研究，2027 年記憶體需求繼續由 AI 應用主導，DRAM 因 HBM  [&#8230;]",
+        "source_id": "technews",
+        "source": "TechNews",
+        "published_at": "2026-07-30T06:39:06Z",
+        "canonical_url": "https://technews.tw/2026/07/30/2027-dram-nand-flash-market/"
       }
     },
     {
       "rank": 2,
-      "theme_id": "robotics",
-      "name_zh": "機器人",
-      "heat_score": 61,
-      "summaries": {
-        "event_count": 5,
-        "source_count": 2,
-        "tracking_candidate_count": 2,
-        "taiwan_mapping_count": 3
-      },
-      "heat_reason": {
-        "rule_version": "public_theme_heat_v0.8",
-        "event_component": {
-          "input": 5,
-          "normalized": 83.333,
-          "weighted": 20.833
-        },
-        "source_component": {
-          "input": 2,
-          "normalized": 50.0,
-          "weighted": 12.5
-        },
-        "candidate_component": {
-          "input": 2,
-          "normalized": 50.0,
-          "weighted": 10.0
-        },
-        "mapping_component": {
-          "mapping_count": 3,
-          "direct_mapping_event_count": 0,
-          "normalized": 60.0,
-          "weighted": 18.0
-        },
-        "single_source_concentration": 0.6,
-        "concentration_penalty": 0.0,
-        "raw_score": 61.333
-      },
-      "direct_mentions": [],
-      "supply_chain_candidates": [
-        {
-          "instrument_id": "TWSE:2049",
-          "symbol": "2049",
-          "exchange": "TWSE",
-          "name_zh": "上銀",
-          "direct_event_count": 0,
-          "official_evidence_count": 0,
-          "company_rank_score": 1,
-          "latest_mentioned_at": null,
-          "latest_official_at": null
-        },
-        {
-          "instrument_id": "TWSE:2395",
-          "symbol": "2395",
-          "exchange": "TWSE",
-          "name_zh": "研華",
-          "direct_event_count": 0,
-          "official_evidence_count": 0,
-          "company_rank_score": 1,
-          "latest_mentioned_at": null,
-          "latest_official_at": null
-        },
-        {
-          "instrument_id": "TWSE:4576",
-          "symbol": "4576",
-          "exchange": "TWSE",
-          "name_zh": "大銀微系統",
-          "direct_event_count": 0,
-          "official_evidence_count": 0,
-          "company_rank_score": 1,
-          "latest_mentioned_at": null,
-          "latest_official_at": null
-        }
-      ],
-      "representative_news": {
-        "cluster_id": "cluster-e101f9ace274f35b",
-        "id": "digitimes_tw-2887e73713a6",
-        "title_zh": "南韓PCB業首例　大德電子擬投入人形機器人提升製程彈性",
-        "summary": "南韓大德電子（Daeduck",
-        "source_id": "digitimes_tw",
-        "source": "DIGITIMES",
-        "published_at": "2026-07-30T18:36:57Z",
-        "canonical_url": "https://www.digitimes.com.tw/tech/dt/n/shwnws.asp?id=0000763382_29747CNO77G0PZ3QNF2ZL"
-      }
-    },
-    {
-      "rank": 3,
-      "theme_id": "defense_drone",
-      "name_zh": "國防與無人機",
-      "heat_score": 44,
-      "summaries": {
-        "event_count": 2,
-        "source_count": 2,
-        "tracking_candidate_count": 1,
-        "taiwan_mapping_count": 3
-      },
-      "heat_reason": {
-        "rule_version": "public_theme_heat_v0.8",
-        "event_component": {
-          "input": 2,
-          "normalized": 33.333,
-          "weighted": 8.333
-        },
-        "source_component": {
-          "input": 2,
-          "normalized": 50.0,
-          "weighted": 12.5
-        },
-        "candidate_component": {
-          "input": 1,
-          "normalized": 25.0,
-          "weighted": 5.0
-        },
-        "mapping_component": {
-          "mapping_count": 3,
-          "direct_mapping_event_count": 0,
-          "normalized": 60.0,
-          "weighted": 18.0
-        },
-        "single_source_concentration": 0.5,
-        "concentration_penalty": 0.0,
-        "raw_score": 43.833
-      },
-      "direct_mentions": [],
-      "supply_chain_candidates": [
-        {
-          "instrument_id": "TPEX:5371",
-          "symbol": "5371",
-          "exchange": "TPEX",
-          "name_zh": "中光電",
-          "direct_event_count": 0,
-          "official_evidence_count": 0,
-          "company_rank_score": 1,
-          "latest_mentioned_at": null,
-          "latest_official_at": null
-        },
-        {
-          "instrument_id": "TPEX:8033",
-          "symbol": "8033",
-          "exchange": "TPEX",
-          "name_zh": "雷虎",
-          "direct_event_count": 0,
-          "official_evidence_count": 0,
-          "company_rank_score": 1,
-          "latest_mentioned_at": null,
-          "latest_official_at": null
-        },
-        {
-          "instrument_id": "TWSE:2634",
-          "symbol": "2634",
-          "exchange": "TWSE",
-          "name_zh": "漢翔",
-          "direct_event_count": 0,
-          "official_evidence_count": 0,
-          "company_rank_score": 1,
-          "latest_mentioned_at": null,
-          "latest_official_at": null
-        }
-      ],
-      "representative_news": {
-        "cluster_id": "cluster-115a92e967d99762",
-        "id": "yahoo_finance_tw-d862eb8dc8c5",
-        "title_zh": "全球無人機市場上看405億美元 AI與軍民應用推動強勁增長",
-        "summary": "圖／示意圖商傳媒｜林昭衡／綜合外電報導全球無人航空載具（UAV）市場正迎來爆炸性成長。最新報告預測，到2030年，全球無人機市場價值將達到405.6億美元，從2025年到2030年間的年複合成長率（C",
-        "source_id": "yahoo_finance_tw",
-        "source": "Yahoo Finance Taiwan",
-        "published_at": "2026-07-30T15:59:12Z",
-        "canonical_url": "https://tw.stock.yahoo.com/news/%E5%85%A8%E7%90%83%E7%84%A1%E4%BA%BA%E6%A9%9F%E5%B8%82%E5%A0%B4%E4%B8%8A%E7%9C%8B405%E5%84%84%E7%BE%8E%E5%85%83-ai%E8%88%87%E8%BB%8D%E6%B0%91%E6%87%89%E7%94%A8%E6%8E%A8%E5%8B%95%E5%BC%B7%E5%8B%81%E5%A2%9E%E9%95%B7-155912683.html"
-      }
-    },
-    {
-      "rank": 4,
       "theme_id": "optical_cpo",
       "name_zh": "光通訊與 CPO",
       "heat_score": 39,
