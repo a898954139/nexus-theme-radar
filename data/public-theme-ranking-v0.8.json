@@ -2,22 +2,209 @@
   "schema_version": "nexus_public_theme_ranking.v0.8",
   "ranking_rule_version": "public_theme_heat_v0.8",
   "company_rule_version": "public_company_evidence_v0.8",
-  "generated_at": "2026-07-31T00:15:58.719951Z",
+  "generated_at": "2026-07-31T03:55:28.695102Z",
   "market_id": "TW_EQUITY",
   "market_scope": [
     "TW_EQUITY"
   ],
   "window_hours": 72,
   "max_themes": 5,
-  "qualified_theme_count": 2,
-  "displayed_theme_count": 2,
-  "threshold_note": "目前僅 2 個題材達到上榜門檻",
+  "qualified_theme_count": 4,
+  "displayed_theme_count": 4,
+  "threshold_note": "目前僅 4 個題材達到上榜門檻",
   "generation_status": "complete",
   "failed_source_count": 0,
   "official_evidence_status": "available",
   "themes": [
     {
       "rank": 1,
+      "theme_id": "cowos_supply_chain",
+      "name_zh": "CoWoS 先進封裝",
+      "heat_score": 63,
+      "summaries": {
+        "event_count": 5,
+        "source_count": 2,
+        "tracking_candidate_count": 0,
+        "taiwan_mapping_count": 3
+      },
+      "heat_reason": {
+        "rule_version": "public_theme_heat_v0.8",
+        "event_component": {
+          "input": 5,
+          "normalized": 83.333,
+          "weighted": 20.833
+        },
+        "source_component": {
+          "input": 2,
+          "normalized": 50.0,
+          "weighted": 12.5
+        },
+        "candidate_component": {
+          "input": 0,
+          "normalized": 0.0,
+          "weighted": 0.0
+        },
+        "mapping_component": {
+          "mapping_count": 3,
+          "direct_mapping_event_count": 4,
+          "normalized": 100.0,
+          "weighted": 30.0
+        },
+        "single_source_concentration": 0.6,
+        "concentration_penalty": 0.0,
+        "raw_score": 63.333
+      },
+      "direct_mentions": [
+        {
+          "instrument_id": "TWSE:2330",
+          "symbol": "2330",
+          "exchange": "TWSE",
+          "name_zh": "台積電",
+          "direct_event_count": 3,
+          "latest_mentioned_at": "2026-07-31T03:07:33Z"
+        },
+        {
+          "instrument_id": "TWSE:3711",
+          "symbol": "3711",
+          "exchange": "TWSE",
+          "name_zh": "日月光投控",
+          "direct_event_count": 1,
+          "latest_mentioned_at": "2026-07-31T01:10:18Z"
+        }
+      ],
+      "supply_chain_candidates": [
+        {
+          "instrument_id": "TWSE:2330",
+          "symbol": "2330",
+          "exchange": "TWSE",
+          "name_zh": "台積電",
+          "direct_event_count": 3,
+          "official_evidence_count": 0,
+          "company_rank_score": 13,
+          "latest_mentioned_at": "2026-07-31T03:07:33Z",
+          "latest_official_at": null
+        },
+        {
+          "instrument_id": "TWSE:3711",
+          "symbol": "3711",
+          "exchange": "TWSE",
+          "name_zh": "日月光投控",
+          "direct_event_count": 1,
+          "official_evidence_count": 0,
+          "company_rank_score": 5,
+          "latest_mentioned_at": "2026-07-31T01:10:18Z",
+          "latest_official_at": null
+        },
+        {
+          "instrument_id": "TWSE:2449",
+          "symbol": "2449",
+          "exchange": "TWSE",
+          "name_zh": "京元電子",
+          "direct_event_count": 0,
+          "official_evidence_count": 0,
+          "company_rank_score": 1,
+          "latest_mentioned_at": null,
+          "latest_official_at": null
+        }
+      ],
+      "representative_news": {
+        "cluster_id": "cluster-29cf44139f43cdb5",
+        "id": "digitimes_tw-8aa81c381963",
+        "title_zh": "台積電傳攜景碩開發「類EMIB」先進封裝　防堵英特爾分食AI訂單",
+        "summary": "據知情人士消息，台積電正祕密研發一項與英特爾（Intel）現有技術類似的先進晶片封裝技術。The Information報導稱，這顯示台積電正對來自英特爾的挑戰感到擔憂。The Information報導，在人工智慧（AI）需求激",
+        "source_id": "digitimes_tw",
+        "source": "DIGITIMES",
+        "published_at": "2026-07-31T03:07:33Z",
+        "canonical_url": "https://www.digitimes.com.tw/tech/dt/n/shwnws.asp?id=0000763611_I6M5HYDU2JS1EF0QHGEQ7"
+      }
+    },
+    {
+      "rank": 2,
+      "theme_id": "robotics",
+      "name_zh": "機器人",
+      "heat_score": 59,
+      "summaries": {
+        "event_count": 5,
+        "source_count": 2,
+        "tracking_candidate_count": 3,
+        "taiwan_mapping_count": 3
+      },
+      "heat_reason": {
+        "rule_version": "public_theme_heat_v0.8",
+        "event_component": {
+          "input": 5,
+          "normalized": 83.333,
+          "weighted": 20.833
+        },
+        "source_component": {
+          "input": 2,
+          "normalized": 50.0,
+          "weighted": 12.5
+        },
+        "candidate_component": {
+          "input": 3,
+          "normalized": 75.0,
+          "weighted": 15.0
+        },
+        "mapping_component": {
+          "mapping_count": 3,
+          "direct_mapping_event_count": 0,
+          "normalized": 60.0,
+          "weighted": 18.0
+        },
+        "single_source_concentration": 0.8,
+        "concentration_penalty": 7.5,
+        "raw_score": 58.833
+      },
+      "direct_mentions": [],
+      "supply_chain_candidates": [
+        {
+          "instrument_id": "TWSE:2049",
+          "symbol": "2049",
+          "exchange": "TWSE",
+          "name_zh": "上銀",
+          "direct_event_count": 0,
+          "official_evidence_count": 0,
+          "company_rank_score": 1,
+          "latest_mentioned_at": null,
+          "latest_official_at": null
+        },
+        {
+          "instrument_id": "TWSE:2395",
+          "symbol": "2395",
+          "exchange": "TWSE",
+          "name_zh": "研華",
+          "direct_event_count": 0,
+          "official_evidence_count": 0,
+          "company_rank_score": 1,
+          "latest_mentioned_at": null,
+          "latest_official_at": null
+        },
+        {
+          "instrument_id": "TWSE:4576",
+          "symbol": "4576",
+          "exchange": "TWSE",
+          "name_zh": "大銀微系統",
+          "direct_event_count": 0,
+          "official_evidence_count": 0,
+          "company_rank_score": 1,
+          "latest_mentioned_at": null,
+          "latest_official_at": null
+        }
+      ],
+      "representative_news": {
+        "cluster_id": "cluster-45136a2df519c9ae",
+        "id": "technews-0ab2c102be45",
+        "title_zh": "Google DeepMind 發表 Gemini Robotics 2，人型機器人迎來「全身協調」新進化",
+        "summary": "Google DeepMind 於 7 月 30 日發表了新一代機器人人工智慧模型 Gemini Roboti [&#8230;]",
+        "source_id": "technews",
+        "source": "TechNews",
+        "published_at": "2026-07-31T03:30:13Z",
+        "canonical_url": "https://technews.tw/2026/07/31/google-unveils-gemini-ai-for-robots-struggling-with-dexterity/"
+      }
+    },
+    {
+      "rank": 3,
       "theme_id": "memory_hbm",
       "name_zh": "記憶體與 HBM",
       "heat_score": 51,
@@ -91,18 +278,18 @@
         }
       ],
       "representative_news": {
-        "cluster_id": "cluster-8e5396a14b9d9066",
-        "id": "technews-780655eef6f8",
-        "title_zh": "2027 年記憶體市況分化，DRAM 供給持續吃緊、NAND Flash 轉趨寬鬆",
-        "summary": "TrendForce 最新記憶體產業研究，2027 年記憶體需求繼續由 AI 應用主導，DRAM 因 HBM  [&#8230;]",
+        "cluster_id": "cluster-8ea98036b9b3ac9b",
+        "id": "technews-d2e685d51ce9",
+        "title_zh": "美國議員反對也沒用，蘋果證實正評估中國記憶體",
+        "summary": "全球高頻寬記憶體（HBM）、DRAM 與 NAND Flash 供應持續緊繃，蘋果在最新一季財報會議中坦言，記 [&#8230;]",
         "source_id": "technews",
         "source": "TechNews",
-        "published_at": "2026-07-30T06:39:06Z",
-        "canonical_url": "https://technews.tw/2026/07/30/2027-dram-nand-flash-market/"
+        "published_at": "2026-07-31T01:48:24Z",
+        "canonical_url": "https://finance.technews.tw/2026/07/31/apple-china-dram/"
       }
     },
     {
-      "rank": 2,
+      "rank": 4,
       "theme_id": "optical_cpo",
       "name_zh": "光通訊與 CPO",
       "heat_score": 39,
@@ -176,14 +363,14 @@
         }
       ],
       "representative_news": {
-        "cluster_id": "cluster-54a8d80387f2abab",
-        "id": "digitimes_tw-42caedf96fde",
-        "title_zh": "瑞儀插旗AI光通訊「不與既有廠商競爭」　王昱超看長不看短",
-        "summary": "瑞儀透過購併，擁有不少與光通訊相關的技術，但談及插旗光通訊領域，董事長王昱超卻不著急，他著眼於中長期的微型化光通訊領域，希望瑞儀在光通訊賽道中，提供完全不同的解決方案。王昱超說，AI伺服器如火如荼地建立，算力需求提升，需要更好的傳輸方案，帶動光通訊的剛性需求。短期而言，目前市場主要需求仍集中於SA、光纖陣列單元（Fib",
-        "source_id": "digitimes_tw",
-        "source": "DIGITIMES",
-        "published_at": "2026-07-30T18:14:05Z",
-        "canonical_url": "https://www.digitimes.com.tw/tech/dt/n/shwnws.asp?id=0000763459_R8E5NEK04DUWE8LJ362PX"
+        "cluster_id": "cluster-bed0877739b834d2",
+        "id": "moneydj-9b5ef5decdf4",
+        "title_zh": "前鼎Q2每股賺0.66元，AI高速光通訊擴產",
+        "summary": "<a href=\"https://www.moneydj.com/kmdj/news/newsviewer.aspx?a=2ceddb99-a995-4a31-a761-e52d4d144456&amp;utm_source=965916571859685796595657966616&amp;utm_medium=RSS\">內文連結</a>",
+        "source_id": "moneydj",
+        "source": "MoneyDJ",
+        "published_at": "2026-07-31T03:22:00Z",
+        "canonical_url": "https://www.moneydj.com/kmdj/news/newsviewer.aspx?a=2ceddb99-a995-4a31-a761-e52d4d144456&utm_source=965916571859685796595657966616&utm_medium=RSS"
       }
     }
   ]
