@@ -2020,6 +2020,304 @@ function renderSourceHealth(errorMessage = "") {
   renderClearFiltersButton();
 }
 
+const HOMEPAGE_MOMENTUM_CONTRACT = Object.freeze({
+  latestUrl: "./data/public-theme-momentum-latest-v0.9.json",
+  historyUrl: "./data/public-theme-momentum-history-v0.9.json",
+  latestSchemaVersion: "nexus_public_theme_momentum_latest.v0.9",
+  historySchemaVersion: "nexus_public_theme_momentum_history.v0.9",
+  rankingRuleVersion: "public_theme_momentum_v0.9",
+  inclusionRuleVersion: "public_theme_momentum_inclusion_v0.9",
+  heatRuleVersion: "public_theme_heat_v0.8",
+  marketId: "TW_EQUITY",
+  latestWindowHours: 72,
+  latestFreshnessStatus: "current",
+  historyRetentionHours: 720,
+  windows: Object.freeze(["24h", "72h", "7d"]),
+});
+
+const HOMEPAGE_MOMENTUM_FALLBACK = Object.freeze({
+  title: "追蹤熱門題材走勢",
+  description: "開啟完整動能儀表板",
+});
+
+function isHomepageMomentumRecord(value) {
+  return Boolean(value) && typeof value === "object" && !Array.isArray(value);
+}
+
+function hasHomepageMomentumKeys(record, requiredKeys) {
+  if (!isHomepageMomentumRecord(record)) return false;
+  const keys = Object.keys(record);
+  return keys.length === requiredKeys.length
+    && requiredKeys.every((key) => Object.hasOwn(record, key));
+}
+
+function isHomepageMomentumString(value) {
+  return typeof value === "string" && value.trim().length > 0;
+}
+
+function isHomepageMomentumTimestamp(value) {
+  return isHomepageMomentumString(value) && Number.isFinite(Date.parse(value));
+}
+
+function isHomepageMomentumInteger(value) {
+  return Number.isInteger(value) && value >= 0;
+}
+
+function isHomepageMomentumNumber(value) {
+  return Number.isFinite(value);
+}
+
+function hasHomepageMomentumVersions(payload, schemaVersion) {
+  return payload.schema_version === schemaVersion
+    && payload.ranking_rule_version === HOMEPAGE_MOMENTUM_CONTRACT.rankingRuleVersion
+    && payload.inclusion_rule_version === HOMEPAGE_MOMENTUM_CONTRACT.inclusionRuleVersion
+    && payload.heat_rule_version === HOMEPAGE_MOMENTUM_CONTRACT.heatRuleVersion;
+}
+
+function hasHomepageMomentumMarket(payload) {
+  return payload.market_id === HOMEPAGE_MOMENTUM_CONTRACT.marketId
+    && Array.isArray(payload.market_scope)
+    && payload.market_scope.length === 1
+    && payload.market_scope[0] === HOMEPAGE_MOMENTUM_CONTRACT.marketId;
+}
+
+function validateHomepageMomentumLatestTheme(theme, expectedRank) {
+  if (!hasHomepageMomentumKeys(theme, [
+    "rank",
+    "theme_id",
+    "name_zh",
+    "qualification_status",
+    "near_threshold_reason",
+    "momentum_score",
+    "lifecycle_stage",
+    "heat_score",
+    "heat_change_24h",
+    "source_change_24h",
+    "event_count",
+    "source_count",
+    "tracking_candidate_count",
+    "taiwan_mapping_count",
+    "direct_mapping_event_count",
+    "single_source_concentration",
+    "latest_qualifying_event_at",
+  ])) return false;
+  return theme.rank === expectedRank
+    && isHomepageMomentumString(theme.theme_id)
+    && isHomepageMomentumString(theme.name_zh)
+    && ["qualified", "near_threshold"].includes(theme.qualification_status)
+    && (theme.near_threshold_reason === null
+      || isHomepageMomentumString(theme.near_threshold_reason))
+    && isHomepageMomentumNumber(theme.momentum_score)
+    && isHomepageMomentumString(theme.lifecycle_stage)
+    && isHomepageMomentumNumber(theme.heat_score)
+    && (theme.heat_change_24h === null
+      || isHomepageMomentumNumber(theme.heat_change_24h))
+    && (theme.source_change_24h === null
+      || isHomepageMomentumNumber(theme.source_change_24h))
+    && [
+      theme.event_count,
+      theme.source_count,
+      theme.tracking_candidate_count,
+      theme.taiwan_mapping_count,
+      theme.direct_mapping_event_count,
+    ].every(isHomepageMomentumInteger)
+    && isHomepageMomentumNumber(theme.single_source_concentration)
+    && theme.single_source_concentration >= 0
+    && theme.single_source_concentration <= 1
+    && (theme.latest_qualifying_event_at === null
+      || isHomepageMomentumTimestamp(theme.latest_qualifying_event_at));
+}
+
+function validateHomepageMomentumLatestPayload(payload) {
+  if (!hasHomepageMomentumKeys(payload, [
+    "schema_version",
+    "ranking_rule_version",
+    "inclusion_rule_version",
+    "heat_rule_version",
+    "generated_at",
+    "observed_hour",
+    "market_id",
+    "market_scope",
+    "window_hours",
+    "freshness_status",
+    "theme_count",
+    "themes",
+  ])) return false;
+  if (!hasHomepageMomentumVersions(
+    payload,
+    HOMEPAGE_MOMENTUM_CONTRACT.latestSchemaVersion,
+  )) return false;
+  if (!hasHomepageMomentumMarket(payload)) return false;
+  if (!isHomepageMomentumTimestamp(payload.generated_at)
+      || !isHomepageMomentumTimestamp(payload.observed_hour)) return false;
+  if (payload.window_hours !== HOMEPAGE_MOMENTUM_CONTRACT.latestWindowHours) return false;
+  if (payload.freshness_status !== HOMEPAGE_MOMENTUM_CONTRACT.latestFreshnessStatus) {
+    return false;
+  }
+  if (!Array.isArray(payload.themes)
+      || payload.themes.length === 0
+      || payload.theme_count !== payload.themes.length) return false;
+  return payload.themes.every(
+    (theme, index) => validateHomepageMomentumLatestTheme(theme, index + 1),
+  );
+}
+
+function validateHomepageMomentumHistoryTheme(theme) {
+  if (!hasHomepageMomentumKeys(theme, [
+    "theme_id",
+    "rank",
+    "qualification_status",
+    "near_threshold_reason",
+    "momentum_score",
+    "lifecycle_stage",
+    "heat_score",
+    "event_count",
+    "source_count",
+    "tracking_candidate_count",
+    "taiwan_mapping_count",
+    "direct_mapping_event_count",
+    "single_source_concentration",
+    "latest_qualifying_event_at",
+    "observation_provenance",
+  ])) return false;
+  return isHomepageMomentumString(theme.theme_id)
+    && Number.isInteger(theme.rank)
+    && theme.rank > 0
+    && ["qualified", "near_threshold"].includes(theme.qualification_status)
+    && (theme.near_threshold_reason === null
+      || isHomepageMomentumString(theme.near_threshold_reason))
+    && isHomepageMomentumNumber(theme.momentum_score)
+    && isHomepageMomentumString(theme.lifecycle_stage)
+    && isHomepageMomentumNumber(theme.heat_score)
+    && [
+      theme.event_count,
+      theme.source_count,
+      theme.tracking_candidate_count,
+      theme.taiwan_mapping_count,
+      theme.direct_mapping_event_count,
+    ].every(isHomepageMomentumInteger)
+    && isHomepageMomentumNumber(theme.single_source_concentration)
+    && theme.single_source_concentration >= 0
+    && theme.single_source_concentration <= 1
+    && (theme.latest_qualifying_event_at === null
+      || isHomepageMomentumTimestamp(theme.latest_qualifying_event_at))
+    && ["observed", "reconstructed"].includes(theme.observation_provenance);
+}
+
+function validateHomepageMomentumHistoryObservation(observation) {
+  return hasHomepageMomentumKeys(observation, ["observed_hour", "themes"])
+    && isHomepageMomentumTimestamp(observation.observed_hour)
+    && Array.isArray(observation.themes)
+    && observation.themes.every(validateHomepageMomentumHistoryTheme);
+}
+
+function validateHomepageMomentumHistoryPayload(payload) {
+  if (!hasHomepageMomentumKeys(payload, [
+    "schema_version",
+    "ranking_rule_version",
+    "inclusion_rule_version",
+    "heat_rule_version",
+    "generated_at",
+    "market_id",
+    "market_scope",
+    "retention_hours",
+    "oldest_observed_hour",
+    "newest_observed_hour",
+    "observation_count",
+    "observations",
+  ])) return false;
+  if (!hasHomepageMomentumVersions(
+    payload,
+    HOMEPAGE_MOMENTUM_CONTRACT.historySchemaVersion,
+  )) return false;
+  if (!hasHomepageMomentumMarket(payload)) return false;
+  if (!isHomepageMomentumTimestamp(payload.generated_at)
+      || !isHomepageMomentumTimestamp(payload.oldest_observed_hour)
+      || !isHomepageMomentumTimestamp(payload.newest_observed_hour)) return false;
+  if (payload.retention_hours !== HOMEPAGE_MOMENTUM_CONTRACT.historyRetentionHours) {
+    return false;
+  }
+  if (!Array.isArray(payload.observations)
+      || payload.observation_count !== payload.observations.length) return false;
+  return payload.observations.every(validateHomepageMomentumHistoryObservation);
+}
+
+function homepageMomentumElements() {
+  return {
+    entry: document.getElementById("themeMomentumEntry"),
+    title: document.getElementById("themeMomentumEntryTitle"),
+    description: document.getElementById("themeMomentumEntryDescription"),
+    data: document.getElementById("themeMomentumEntryData"),
+    updatedAt: document.getElementById("themeMomentumEntryUpdatedAt"),
+    windows: document.getElementById("themeMomentumEntryWindows"),
+  };
+}
+
+function hasHomepageMomentumElements(elements) {
+  return Object.values(elements).every(Boolean);
+}
+
+function renderHomepageMomentumFallback() {
+  const elements = homepageMomentumElements();
+  if (!hasHomepageMomentumElements(elements)) return;
+  elements.title.textContent = HOMEPAGE_MOMENTUM_FALLBACK.title;
+  elements.description.textContent = HOMEPAGE_MOMENTUM_FALLBACK.description;
+  elements.updatedAt.textContent = "";
+  elements.updatedAt.dateTime = "";
+  elements.windows.textContent = "";
+  elements.data.hidden = true;
+  elements.entry.dataset.state = "fallback";
+}
+
+function renderHomepageMomentumSummary(summary) {
+  const elements = homepageMomentumElements();
+  if (!hasHomepageMomentumElements(elements)) return;
+  elements.title.textContent = `目前最熱：${summary.themeName}`;
+  elements.description.textContent = "最新排行與多時段走勢";
+  elements.updatedAt.textContent = `更新 ${fmtTime(summary.updatedAt)}`;
+  elements.updatedAt.dateTime = summary.updatedAt;
+  elements.windows.textContent = summary.windows.join(" / ");
+  elements.data.hidden = false;
+  elements.entry.dataset.state = "ready";
+}
+
+async function loadHomepageMomentumSummary() {
+  const cacheToken = Date.now();
+  const [latestResponse, historyResponse] = await Promise.all([
+    fetch(`${HOMEPAGE_MOMENTUM_CONTRACT.latestUrl}?t=${cacheToken}`),
+    fetch(`${HOMEPAGE_MOMENTUM_CONTRACT.historyUrl}?t=${cacheToken}`),
+  ]);
+  if (!latestResponse.ok || !historyResponse.ok) {
+    throw new Error("題材動能摘要載入失敗");
+  }
+  const [latestPayload, historyPayload] = await Promise.all([
+    latestResponse.json(),
+    historyResponse.json(),
+  ]);
+  if (!validateHomepageMomentumLatestPayload(latestPayload)
+      || !validateHomepageMomentumHistoryPayload(historyPayload)) {
+    throw new Error("題材動能摘要資料格式錯誤");
+  }
+  return Object.freeze({
+    themeName: latestPayload.themes[0].name_zh,
+    updatedAt: latestPayload.generated_at,
+    windows: HOMEPAGE_MOMENTUM_CONTRACT.windows,
+  });
+}
+
+async function initHomepageMomentumEntry() {
+  const entry = document.getElementById("themeMomentumEntry");
+  if (!entry || typeof entry.removeAttribute !== "function") return;
+  try {
+    const summary = await loadHomepageMomentumSummary();
+    renderHomepageMomentumSummary(summary);
+  } catch {
+    renderHomepageMomentumFallback();
+  } finally {
+    entry.removeAttribute("aria-busy");
+  }
+}
+
 const PUBLIC_THEME_RANKING_CONTRACT = Object.freeze({
   schemaVersion: "nexus_public_theme_ranking.v0.8",
   rankingRuleVersion: "public_theme_heat_v0.8",
@@ -2595,7 +2893,9 @@ async function init() {
     waytoagiListEl.innerHTML = `<div class="waytoagi-error">${waytoagiResult.reason.message}</div>`;
   }
 
-  document.dispatchEvent(new CustomEvent("aiRadar:ready"));
+  if (typeof document.dispatchEvent === "function" && typeof CustomEvent === "function") {
+    document.dispatchEvent(new CustomEvent("aiRadar:ready"));
+  }
 }
 
 // 搜索：精选与全量模式都按题材事件字段过滤（itemHaystack）。
@@ -2685,4 +2985,5 @@ if (dataSourceResetBtnEl) {
 }
 
 renderDataSourceIndicator();
+initHomepageMomentumEntry();
 init();

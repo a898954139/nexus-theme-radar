@@ -95,7 +95,15 @@ def test_page_and_styles_include_accessibility_and_responsive_contracts() -> Non
 
 def test_homepage_adds_only_the_approved_momentum_destination() -> None:
     html = (ROOT / "index.html").read_text(encoding="utf-8")
-    assert html.count('href="./theme-momentum.html"') == 1
+    assert html.count('href="./theme-momentum.html"') == 2
+    assert re.search(
+        r'class="hero-link"\s+href="\./theme-momentum\.html"',
+        html,
+    )
+    assert re.search(
+        r'class="theme-momentum-entry"[^>]+href="\./theme-momentum\.html"',
+        html,
+    )
     assert "題材動能" in html
 
 
