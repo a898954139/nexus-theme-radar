@@ -1,14 +1,213 @@
 {
-  "generated_at": "2026-08-01T03:54:09.004208Z",
+  "generated_at": "2026-08-01T06:41:38.850008Z",
   "market_id": "TW_EQUITY",
   "market_scope": [
     "TW_EQUITY"
   ],
   "window_hours": 72,
   "max_items": 200,
-  "total_items": 5,
-  "total_items_available": 5,
+  "total_items": 7,
+  "total_items_available": 7,
   "items": [
+    {
+      "id": "cnyes-15772cfd5bfa",
+      "title_zh": "高盛：台積電2027年或漲價近10%！AI ASIC將超越GPU、PCB與ABF恐成新瓶頸",
+      "summary": "高盛最新閉門會議指出，AI 基礎建設需求仍強勁，預估台積電 2027 年先進製程與先進封裝價格可望調漲近 10%，AI ASIC 成長將超越 GPU，聯發科受惠 Google TPU 專案，PCB、ABF 載板及 AI 伺服器供應鏈也將迎來新",
+      "source": "鉅亨網 Cnyes",
+      "source_id": "cnyes",
+      "source_class": "financial_media",
+      "market_id": "TW_EQUITY",
+      "market_scope": [
+        "TW_EQUITY"
+      ],
+      "published_at": "2026-08-01T05:50:04Z",
+      "url": "https://news.cnyes.com/news/id/6555691",
+      "extraction_method": "rss",
+      "fetched_at": "2026-08-01T06:41:38.850008Z",
+      "matched_themes": [
+        {
+          "theme_id": "pcb_abf_hdi",
+          "name_zh": "PCB／ABF／HDI",
+          "score": 0.833,
+          "signals": [
+            "abf",
+            "pcb",
+            "載板"
+          ],
+          "reason": "title_zh: abf, pcb; summary: abf, pcb, 載板"
+        },
+        {
+          "theme_id": "ai_server",
+          "name_zh": "AI 伺服器",
+          "score": 0.167,
+          "signals": [
+            "ai 伺服器"
+          ],
+          "reason": "summary: ai 伺服器"
+        },
+        {
+          "theme_id": "cowos_supply_chain",
+          "name_zh": "CoWoS 先進封裝",
+          "score": 0.167,
+          "signals": [
+            "先進封裝"
+          ],
+          "reason": "summary: 先進封裝"
+        }
+      ],
+      "primary_theme_id": "pcb_abf_hdi",
+      "theme_score": 0.833,
+      "direct_symbols": [
+        {
+          "instrument_id": "TWSE:2330",
+          "market_id": "TW_EQUITY",
+          "asset_class": "equity",
+          "symbol": "2330",
+          "exchange": "TWSE",
+          "name_zh": "台積電",
+          "evidence": "title_zh: 台積電",
+          "reason": "direct company alias mention"
+        }
+      ],
+      "symbol_evidence": {
+        "2330": "title_zh: 台積電"
+      },
+      "related_symbols": [
+        {
+          "instrument_id": "TWSE:2330",
+          "market_id": "TW_EQUITY",
+          "asset_class": "equity",
+          "symbol": "2330",
+          "exchange": "TWSE",
+          "name_zh": "台積電",
+          "evidence": "taxonomy seed: cowos_supply_chain",
+          "reason": "theme seed symbol"
+        },
+        {
+          "instrument_id": "TWSE:3037",
+          "market_id": "TW_EQUITY",
+          "asset_class": "equity",
+          "symbol": "3037",
+          "exchange": "TWSE",
+          "name_zh": "欣興",
+          "evidence": "taxonomy seed: pcb_abf_hdi",
+          "reason": "theme seed symbol"
+        },
+        {
+          "instrument_id": "TWSE:8046",
+          "market_id": "TW_EQUITY",
+          "asset_class": "equity",
+          "symbol": "8046",
+          "exchange": "TWSE",
+          "name_zh": "南電",
+          "evidence": "taxonomy seed: pcb_abf_hdi",
+          "reason": "theme seed symbol"
+        },
+        {
+          "instrument_id": "TWSE:2368",
+          "market_id": "TW_EQUITY",
+          "asset_class": "equity",
+          "symbol": "2368",
+          "exchange": "TWSE",
+          "name_zh": "金像電",
+          "evidence": "taxonomy seed: pcb_abf_hdi",
+          "reason": "theme seed symbol"
+        },
+        {
+          "instrument_id": "TWSE:2382",
+          "market_id": "TW_EQUITY",
+          "asset_class": "equity",
+          "symbol": "2382",
+          "exchange": "TWSE",
+          "name_zh": "廣達",
+          "evidence": "taxonomy seed: ai_server",
+          "reason": "theme seed symbol"
+        },
+        {
+          "instrument_id": "TWSE:3231",
+          "market_id": "TW_EQUITY",
+          "asset_class": "equity",
+          "symbol": "3231",
+          "exchange": "TWSE",
+          "name_zh": "緯創",
+          "evidence": "taxonomy seed: ai_server",
+          "reason": "theme seed symbol"
+        },
+        {
+          "instrument_id": "TWSE:6669",
+          "market_id": "TW_EQUITY",
+          "asset_class": "equity",
+          "symbol": "6669",
+          "exchange": "TWSE",
+          "name_zh": "緯穎",
+          "evidence": "taxonomy seed: ai_server",
+          "reason": "theme seed symbol"
+        },
+        {
+          "instrument_id": "TWSE:3711",
+          "market_id": "TW_EQUITY",
+          "asset_class": "equity",
+          "symbol": "3711",
+          "exchange": "TWSE",
+          "name_zh": "日月光投控",
+          "evidence": "taxonomy seed: cowos_supply_chain",
+          "reason": "theme seed symbol"
+        },
+        {
+          "instrument_id": "TWSE:2449",
+          "market_id": "TW_EQUITY",
+          "asset_class": "equity",
+          "symbol": "2449",
+          "exchange": "TWSE",
+          "name_zh": "京元電子",
+          "evidence": "taxonomy seed: cowos_supply_chain",
+          "reason": "theme seed symbol"
+        }
+      ],
+      "related_symbol_codes": [
+        "2330",
+        "3037",
+        "8046",
+        "2368",
+        "2382",
+        "3231",
+        "6669",
+        "3711",
+        "2449"
+      ],
+      "decision": "track_watch",
+      "tw_relevance_status": "direct",
+      "tw_relevance_reason": "direct Taiwan symbol: TWSE:2330",
+      "tw_related_symbols": [
+        "TWSE:2330"
+      ],
+      "cluster_id": "cluster-ccfdb7a05d38a290",
+      "cluster_size": 2,
+      "cluster_event_ids": [
+        "cnyes-15772cfd5bfa",
+        "yahoo_finance_tw-260317e35621"
+      ],
+      "cluster_sources": [
+        {
+          "source_id": "cnyes",
+          "source": "鉅亨網 Cnyes",
+          "title": "高盛：台積電2027年或漲價近10%！AI ASIC將超越GPU、PCB與ABF恐成新瓶頸",
+          "url": "https://news.cnyes.com/news/id/6555691",
+          "published_at": "2026-08-01T05:50:04Z"
+        },
+        {
+          "source_id": "yahoo_finance_tw",
+          "source": "Yahoo Finance Taiwan",
+          "title": "高盛：台積電2027年或漲價近10%！AI ASIC將超越GPU、PCB與ABF恐成新瓶頸",
+          "url": "https://tw.stock.yahoo.com/news/%E9%AB%98%E7%9B%9B-%E5%8F%B0%E7%A9%8D%E9%9B%BB2027%E5%B9%B4%E6%88%96%E6%BC%B2%E5%83%B9%E8%BF%9110-ai-asic%E5%B0%87%E8%B6%85%E8%B6%8Agpu-pcb%E8%88%87abf%E6%81%90%E6%88%90%E6%96%B0%E7%93%B6%E9%A0%B8-055004570.html",
+          "published_at": "2026-08-01T05:50:04Z"
+        }
+      ],
+      "tracking_reason": "title_zh: abf, pcb; summary: abf, pcb, 載板",
+      "confirmation_status": "unconfirmed",
+      "official_evidence_ids": [],
+      "official_evidence_count": 0
+    },
     {
       "id": "cnyes-d4c12fcbd0ea",
       "title_zh": "蘋果稱記憶體價格暴漲如「百年洪災」暗示DRAM市場需要更多供應商",
@@ -23,7 +222,7 @@
       "published_at": "2026-08-01T01:00:05Z",
       "url": "https://news.cnyes.com/news/id/6555553",
       "extraction_method": "rss",
-      "fetched_at": "2026-08-01T03:54:09.004208Z",
+      "fetched_at": "2026-08-01T06:41:38.850008Z",
       "matched_themes": [
         {
           "theme_id": "memory_hbm",
@@ -85,11 +284,10 @@
         "TWSE:2344",
         "TWSE:2408"
       ],
-      "cluster_id": "cluster-986d8dcbd1990596",
-      "cluster_size": 2,
+      "cluster_id": "cluster-3bc909566d1ecd29",
+      "cluster_size": 1,
       "cluster_event_ids": [
-        "cnyes-d4c12fcbd0ea",
-        "yahoo_finance_tw-8aa434317bc6"
+        "cnyes-d4c12fcbd0ea"
       ],
       "cluster_sources": [
         {
@@ -98,16 +296,115 @@
           "title": "蘋果稱記憶體價格暴漲如「百年洪災」暗示DRAM市場需要更多供應商",
           "url": "https://news.cnyes.com/news/id/6555553",
           "published_at": "2026-08-01T01:00:05Z"
-        },
-        {
-          "source_id": "yahoo_finance_tw",
-          "source": "Yahoo Finance Taiwan",
-          "title": "蘋果稱記憶體價格暴漲如「百年洪災」暗示DRAM市場需要更多供應商",
-          "url": "https://tw.stock.yahoo.com/news/%E8%98%8B%E6%9E%9C%E7%A8%B1%E8%A8%98%E6%86%B6%E9%AB%94%E5%83%B9%E6%A0%BC%E6%9A%B4%E6%BC%B2%E5%A6%82-%E7%99%BE%E5%B9%B4%E6%B4%AA%E7%81%BD-%E6%9A%97%E7%A4%BAdram%E5%B8%82%E5%A0%B4%E9%9C%80%E8%A6%81%E6%9B%B4%E5%A4%9A%E4%BE%9B%E6%87%89%E5%95%86-010005388.html",
-          "published_at": "2026-08-01T01:00:05Z"
         }
       ],
       "tracking_reason": "title_zh: dram, 記憶體; summary: dram, 記憶體",
+      "confirmation_status": "unconfirmed",
+      "official_evidence_ids": [],
+      "official_evidence_count": 0
+    },
+    {
+      "id": "cnyes-29903d289291",
+      "title_zh": "下周一再新增8檔股票抓去關 ABF股王南電關至8/18處置最久",
+      "summary": "證交所與櫃買中心新增 8 檔處置股，共 4 檔上市、4 檔上櫃股，包括 ABF 載板股王南電、禾伸堂等 8 檔，南電自下周一 (8 月 3 日) 處置至 8 月 18 日最久，其餘 7 檔則禁閉至 8 月 14 日為止，",
+      "source": "鉅亨網 Cnyes",
+      "source_id": "cnyes",
+      "source_class": "financial_media",
+      "market_id": "TW_EQUITY",
+      "market_scope": [
+        "TW_EQUITY"
+      ],
+      "published_at": "2026-07-31T12:23:14Z",
+      "url": "https://news.cnyes.com/news/id/6555240",
+      "extraction_method": "rss",
+      "fetched_at": "2026-08-01T06:41:38.850008Z",
+      "matched_themes": [
+        {
+          "theme_id": "pcb_abf_hdi",
+          "name_zh": "PCB／ABF／HDI",
+          "score": 0.5,
+          "signals": [
+            "abf",
+            "載板"
+          ],
+          "reason": "title_zh: abf; summary: abf, 載板"
+        }
+      ],
+      "primary_theme_id": "pcb_abf_hdi",
+      "theme_score": 0.5,
+      "direct_symbols": [
+        {
+          "instrument_id": "TWSE:8046",
+          "market_id": "TW_EQUITY",
+          "asset_class": "equity",
+          "symbol": "8046",
+          "exchange": "TWSE",
+          "name_zh": "南電",
+          "evidence": "title_zh: 南電",
+          "reason": "direct company alias mention"
+        }
+      ],
+      "symbol_evidence": {
+        "8046": "title_zh: 南電"
+      },
+      "related_symbols": [
+        {
+          "instrument_id": "TWSE:8046",
+          "market_id": "TW_EQUITY",
+          "asset_class": "equity",
+          "symbol": "8046",
+          "exchange": "TWSE",
+          "name_zh": "南電",
+          "evidence": "taxonomy seed: pcb_abf_hdi",
+          "reason": "theme seed symbol"
+        },
+        {
+          "instrument_id": "TWSE:3037",
+          "market_id": "TW_EQUITY",
+          "asset_class": "equity",
+          "symbol": "3037",
+          "exchange": "TWSE",
+          "name_zh": "欣興",
+          "evidence": "taxonomy seed: pcb_abf_hdi",
+          "reason": "theme seed symbol"
+        },
+        {
+          "instrument_id": "TWSE:2368",
+          "market_id": "TW_EQUITY",
+          "asset_class": "equity",
+          "symbol": "2368",
+          "exchange": "TWSE",
+          "name_zh": "金像電",
+          "evidence": "taxonomy seed: pcb_abf_hdi",
+          "reason": "theme seed symbol"
+        }
+      ],
+      "related_symbol_codes": [
+        "8046",
+        "3037",
+        "2368"
+      ],
+      "decision": "track_watch",
+      "tw_relevance_status": "direct",
+      "tw_relevance_reason": "direct Taiwan symbol: TWSE:8046",
+      "tw_related_symbols": [
+        "TWSE:8046"
+      ],
+      "cluster_id": "cluster-3b668e064b40c05d",
+      "cluster_size": 1,
+      "cluster_event_ids": [
+        "cnyes-29903d289291"
+      ],
+      "cluster_sources": [
+        {
+          "source_id": "cnyes",
+          "source": "鉅亨網 Cnyes",
+          "title": "下周一再新增8檔股票抓去關 ABF股王南電關至8/18處置最久",
+          "url": "https://news.cnyes.com/news/id/6555240",
+          "published_at": "2026-07-31T12:23:14Z"
+        }
+      ],
+      "tracking_reason": "title_zh: abf; summary: abf, 載板",
       "confirmation_status": "unconfirmed",
       "official_evidence_ids": [],
       "official_evidence_count": 0
@@ -126,7 +423,7 @@
       "published_at": "2026-07-31T04:02:18Z",
       "url": "https://www.digitimes.com.tw/tech/dt/n/shwnws.asp?id=0000763621_JMR7K67W1X3M7I206WJUD",
       "extraction_method": "rss",
-      "fetched_at": "2026-08-01T03:54:09.004208Z",
+      "fetched_at": "2026-08-01T06:41:38.850008Z",
       "matched_themes": [
         {
           "theme_id": "memory_hbm",
@@ -222,7 +519,7 @@
       "published_at": "2026-07-31T02:46:59Z",
       "url": "https://www.digitimes.com.tw/tech/dt/n/shwnws.asp?id=0000763619_KD059RIP284WB38DOOFJ3",
       "extraction_method": "rss",
-      "fetched_at": "2026-08-01T03:54:09.004208Z",
+      "fetched_at": "2026-08-01T06:41:38.850008Z",
       "matched_themes": [
         {
           "theme_id": "robotics",
@@ -317,7 +614,7 @@
       "published_at": "2026-07-30T18:45:53Z",
       "url": "https://www.digitimes.com.tw/tech/dt/n/shwnws.asp?id=0000763512_NWE4N7H5228XFS1QL14FM",
       "extraction_method": "rss",
-      "fetched_at": "2026-08-01T03:54:09.004208Z",
+      "fetched_at": "2026-08-01T06:41:38.850008Z",
       "matched_themes": [
         {
           "theme_id": "memory_hbm",
@@ -412,7 +709,7 @@
       "published_at": "2026-07-30T18:36:57Z",
       "url": "https://www.digitimes.com.tw/tech/dt/n/shwnws.asp?id=0000763382_29747CNO77G0PZ3QNF2ZL",
       "extraction_method": "rss",
-      "fetched_at": "2026-08-01T03:54:09.004208Z",
+      "fetched_at": "2026-08-01T06:41:38.850008Z",
       "matched_themes": [
         {
           "theme_id": "robotics",
@@ -536,24 +833,27 @@
       "official_evidence_count": 0
     }
   ],
-  "pre_cluster_items": 19,
-  "excluded_items": 6,
+  "pre_cluster_items": 26,
+  "excluded_items": 9,
   "tw_relevance_distribution": {
-    "direct": 1,
-    "supply_chain": 18
+    "direct": 5,
+    "supply_chain": 21
   },
   "tw_relevance_reason_distribution": {
-    "configured theme ai_server; strong signal: ai伺服器": 3,
+    "configured theme ai_server; strong signal: ai伺服器": 4,
     "configured theme cowos_supply_chain; strong signal: cowos": 1,
     "configured theme cowos_supply_chain; strong signal: 先進封裝": 1,
-    "configured theme memory_hbm; strong signal: dram": 4,
+    "configured theme defense_drone; strong signal: 國防": 2,
+    "configured theme memory_hbm; strong signal: dram": 3,
     "configured theme memory_hbm; strong signal: hbm": 2,
-    "configured theme optical_cpo; strong signal: 光通訊": 3,
+    "configured theme optical_cpo; strong signal: 光通訊": 4,
     "configured theme robotics; strong signal: 人形機器人": 2,
     "configured theme robotics; strong signal: 機器人": 2,
-    "direct Taiwan symbol: TWSE:2330": 1,
-    "no direct Taiwan symbol or strong configured supply-chain signal": 5,
-    "unsupported overseas event phase: listing": 1
+    "direct Taiwan symbol: TWSE:2330": 4,
+    "direct Taiwan symbol: TWSE:8046": 1,
+    "no direct Taiwan symbol or strong configured supply-chain signal": 7,
+    "unsupported overseas event phase: listing": 1,
+    "unsupported overseas event phase: market_wrap": 1
   },
   "selected_theme_score_min": 0.3,
   "candidate_theme_score_min": 0.5,
@@ -562,10 +862,12 @@
   "legacy_theme_count": 10,
   "structured_theme_count": 0,
   "theme_match_distribution": {
-    "ai_server": 2,
-    "cowos_supply_chain": 3,
-    "memory_hbm": 7,
-    "optical_cpo": 3,
+    "ai_server": 3,
+    "cowos_supply_chain": 4,
+    "defense_drone": 2,
+    "memory_hbm": 6,
+    "optical_cpo": 4,
+    "pcb_abf_hdi": 3,
     "robotics": 4
   },
   "theme_veto_distribution": {}

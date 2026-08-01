@@ -2,28 +2,122 @@
   "schema_version": "nexus_public_theme_ranking.v0.8",
   "ranking_rule_version": "public_theme_heat_v0.8",
   "company_rule_version": "public_company_evidence_v0.8",
-  "generated_at": "2026-08-01T03:54:09.004208Z",
+  "generated_at": "2026-08-01T06:41:38.850008Z",
   "market_id": "TW_EQUITY",
   "market_scope": [
     "TW_EQUITY"
   ],
   "window_hours": 72,
   "max_themes": 5,
-  "qualified_theme_count": 2,
-  "displayed_theme_count": 2,
-  "threshold_note": "目前僅 2 個題材達到上榜門檻",
+  "qualified_theme_count": 6,
+  "displayed_theme_count": 5,
+  "threshold_note": null,
   "generation_status": "complete",
   "failed_source_count": 0,
   "official_evidence_status": "available",
   "themes": [
     {
       "rank": 1,
+      "theme_id": "cowos_supply_chain",
+      "name_zh": "CoWoS 先進封裝",
+      "heat_score": 65,
+      "summaries": {
+        "event_count": 4,
+        "source_count": 3,
+        "tracking_candidate_count": 0,
+        "taiwan_mapping_count": 3
+      },
+      "heat_reason": {
+        "rule_version": "public_theme_heat_v0.8",
+        "event_component": {
+          "input": 4,
+          "normalized": 66.667,
+          "weighted": 16.667
+        },
+        "source_component": {
+          "input": 3,
+          "normalized": 75.0,
+          "weighted": 18.75
+        },
+        "candidate_component": {
+          "input": 0,
+          "normalized": 0.0,
+          "weighted": 0.0
+        },
+        "mapping_component": {
+          "mapping_count": 3,
+          "direct_mapping_event_count": 2,
+          "normalized": 100.0,
+          "weighted": 30.0
+        },
+        "single_source_concentration": 0.5,
+        "concentration_penalty": 0.0,
+        "raw_score": 65.417
+      },
+      "direct_mentions": [
+        {
+          "instrument_id": "TWSE:2330",
+          "symbol": "2330",
+          "exchange": "TWSE",
+          "name_zh": "台積電",
+          "direct_event_count": 2,
+          "latest_mentioned_at": "2026-07-31T08:59:21Z"
+        }
+      ],
+      "supply_chain_candidates": [
+        {
+          "instrument_id": "TWSE:2330",
+          "symbol": "2330",
+          "exchange": "TWSE",
+          "name_zh": "台積電",
+          "direct_event_count": 2,
+          "official_evidence_count": 0,
+          "company_rank_score": 9,
+          "latest_mentioned_at": "2026-07-31T08:59:21Z",
+          "latest_official_at": null
+        },
+        {
+          "instrument_id": "TWSE:2449",
+          "symbol": "2449",
+          "exchange": "TWSE",
+          "name_zh": "京元電子",
+          "direct_event_count": 0,
+          "official_evidence_count": 0,
+          "company_rank_score": 1,
+          "latest_mentioned_at": null,
+          "latest_official_at": null
+        },
+        {
+          "instrument_id": "TWSE:3711",
+          "symbol": "3711",
+          "exchange": "TWSE",
+          "name_zh": "日月光投控",
+          "direct_event_count": 0,
+          "official_evidence_count": 0,
+          "company_rank_score": 1,
+          "latest_mentioned_at": null,
+          "latest_official_at": null
+        }
+      ],
+      "representative_news": {
+        "cluster_id": "cluster-d61ebd48b47643c7",
+        "id": "cnyes-a3a5062a6601",
+        "title_zh": "台積電「親兒子」光環加持 創意明年產能取得「很樂觀、很樂觀」",
+        "summary": "創意 (3443-TW) 今 (31) 日召開法說會，法人關注創意明年先進製程及先進封裝產能取得狀況，總經理戴尚義表示，以目前情況來看，公司對明年產能取得「非常樂觀」；市場看好，由於創意為台積電 (2330-TW)(TSM-US",
+        "source_id": "cnyes",
+        "source": "鉅亨網 Cnyes",
+        "published_at": "2026-07-31T08:59:21Z",
+        "canonical_url": "https://news.cnyes.com/news/id/6554789"
+      }
+    },
+    {
+      "rank": 2,
       "theme_id": "memory_hbm",
       "name_zh": "記憶體與 HBM",
-      "heat_score": 72,
+      "heat_score": 62,
       "summaries": {
         "event_count": 6,
-        "source_count": 3,
+        "source_count": 2,
         "tracking_candidate_count": 3,
         "taiwan_mapping_count": 6
       },
@@ -35,9 +129,9 @@
           "weighted": 25.0
         },
         "source_component": {
-          "input": 3,
-          "normalized": 75.0,
-          "weighted": 18.75
+          "input": 2,
+          "normalized": 50.0,
+          "weighted": 12.5
         },
         "candidate_component": {
           "input": 3,
@@ -50,9 +144,9 @@
           "normalized": 60.0,
           "weighted": 18.0
         },
-        "single_source_concentration": 0.714,
-        "concentration_penalty": 4.286,
-        "raw_score": 72.464
+        "single_source_concentration": 0.833,
+        "concentration_penalty": 8.75,
+        "raw_score": 61.75
       },
       "direct_mentions": [],
       "supply_chain_candidates": [
@@ -91,7 +185,7 @@
         }
       ],
       "representative_news": {
-        "cluster_id": "cluster-986d8dcbd1990596",
+        "cluster_id": "cluster-3bc909566d1ecd29",
         "id": "cnyes-d4c12fcbd0ea",
         "title_zh": "蘋果稱記憶體價格暴漲如「百年洪災」暗示DRAM市場需要更多供應商",
         "summary": "蘋果執行長庫克（Tim Cook）將記憶體價格飆升形容為一場「百年洪災」，並暗示 DRAM 產業需要更多供應商。",
@@ -102,10 +196,197 @@
       }
     },
     {
-      "rank": 2,
-      "theme_id": "cowos_supply_chain",
-      "name_zh": "CoWoS 先進封裝",
-      "heat_score": 47,
+      "rank": 3,
+      "theme_id": "pcb_abf_hdi",
+      "name_zh": "PCB／ABF／HDI",
+      "heat_score": 52,
+      "summaries": {
+        "event_count": 2,
+        "source_count": 2,
+        "tracking_candidate_count": 2,
+        "taiwan_mapping_count": 2
+      },
+      "heat_reason": {
+        "rule_version": "public_theme_heat_v0.8",
+        "event_component": {
+          "input": 2,
+          "normalized": 33.333,
+          "weighted": 8.333
+        },
+        "source_component": {
+          "input": 2,
+          "normalized": 50.0,
+          "weighted": 12.5
+        },
+        "candidate_component": {
+          "input": 2,
+          "normalized": 50.0,
+          "weighted": 10.0
+        },
+        "mapping_component": {
+          "mapping_count": 2,
+          "direct_mapping_event_count": 2,
+          "normalized": 80.0,
+          "weighted": 24.0
+        },
+        "single_source_concentration": 0.667,
+        "concentration_penalty": 2.5,
+        "raw_score": 52.333
+      },
+      "direct_mentions": [
+        {
+          "instrument_id": "TWSE:2330",
+          "symbol": "2330",
+          "exchange": "TWSE",
+          "name_zh": "台積電",
+          "direct_event_count": 1,
+          "latest_mentioned_at": "2026-08-01T05:50:04Z"
+        },
+        {
+          "instrument_id": "TWSE:8046",
+          "symbol": "8046",
+          "exchange": "TWSE",
+          "name_zh": "南電",
+          "direct_event_count": 1,
+          "latest_mentioned_at": "2026-07-31T12:23:14Z"
+        }
+      ],
+      "supply_chain_candidates": [
+        {
+          "instrument_id": "TWSE:8046",
+          "symbol": "8046",
+          "exchange": "TWSE",
+          "name_zh": "南電",
+          "direct_event_count": 1,
+          "official_evidence_count": 0,
+          "company_rank_score": 5,
+          "latest_mentioned_at": "2026-07-31T12:23:14Z",
+          "latest_official_at": null
+        },
+        {
+          "instrument_id": "TWSE:2368",
+          "symbol": "2368",
+          "exchange": "TWSE",
+          "name_zh": "金像電",
+          "direct_event_count": 0,
+          "official_evidence_count": 0,
+          "company_rank_score": 1,
+          "latest_mentioned_at": null,
+          "latest_official_at": null
+        },
+        {
+          "instrument_id": "TWSE:3037",
+          "symbol": "3037",
+          "exchange": "TWSE",
+          "name_zh": "欣興",
+          "direct_event_count": 0,
+          "official_evidence_count": 0,
+          "company_rank_score": 1,
+          "latest_mentioned_at": null,
+          "latest_official_at": null
+        }
+      ],
+      "representative_news": {
+        "cluster_id": "cluster-ccfdb7a05d38a290",
+        "id": "cnyes-15772cfd5bfa",
+        "title_zh": "高盛：台積電2027年或漲價近10%！AI ASIC將超越GPU、PCB與ABF恐成新瓶頸",
+        "summary": "高盛最新閉門會議指出，AI 基礎建設需求仍強勁，預估台積電 2027 年先進製程與先進封裝價格可望調漲近 10%，AI ASIC 成長將超越 GPU，聯發科受惠 Google TPU 專案，PCB、ABF 載板及 AI 伺服器供應鏈也將迎來新",
+        "source_id": "cnyes",
+        "source": "鉅亨網 Cnyes",
+        "published_at": "2026-08-01T05:50:04Z",
+        "canonical_url": "https://news.cnyes.com/news/id/6555691"
+      }
+    },
+    {
+      "rank": 4,
+      "theme_id": "optical_cpo",
+      "name_zh": "光通訊與 CPO",
+      "heat_score": 42,
+      "summaries": {
+        "event_count": 4,
+        "source_count": 2,
+        "tracking_candidate_count": 0,
+        "taiwan_mapping_count": 3
+      },
+      "heat_reason": {
+        "rule_version": "public_theme_heat_v0.8",
+        "event_component": {
+          "input": 4,
+          "normalized": 66.667,
+          "weighted": 16.667
+        },
+        "source_component": {
+          "input": 2,
+          "normalized": 50.0,
+          "weighted": 12.5
+        },
+        "candidate_component": {
+          "input": 0,
+          "normalized": 0.0,
+          "weighted": 0.0
+        },
+        "mapping_component": {
+          "mapping_count": 3,
+          "direct_mapping_event_count": 0,
+          "normalized": 60.0,
+          "weighted": 18.0
+        },
+        "single_source_concentration": 0.75,
+        "concentration_penalty": 5.625,
+        "raw_score": 41.542
+      },
+      "direct_mentions": [],
+      "supply_chain_candidates": [
+        {
+          "instrument_id": "TPEX:3081",
+          "symbol": "3081",
+          "exchange": "TPEX",
+          "name_zh": "聯亞",
+          "direct_event_count": 0,
+          "official_evidence_count": 0,
+          "company_rank_score": 1,
+          "latest_mentioned_at": null,
+          "latest_official_at": null
+        },
+        {
+          "instrument_id": "TPEX:3363",
+          "symbol": "3363",
+          "exchange": "TPEX",
+          "name_zh": "上詮",
+          "direct_event_count": 0,
+          "official_evidence_count": 0,
+          "company_rank_score": 1,
+          "latest_mentioned_at": null,
+          "latest_official_at": null
+        },
+        {
+          "instrument_id": "TPEX:4979",
+          "symbol": "4979",
+          "exchange": "TPEX",
+          "name_zh": "華星光",
+          "direct_event_count": 0,
+          "official_evidence_count": 0,
+          "company_rank_score": 1,
+          "latest_mentioned_at": null,
+          "latest_official_at": null
+        }
+      ],
+      "representative_news": {
+        "cluster_id": "cluster-d2987ac8e4591144",
+        "id": "digitimes_tw-2178d0344bb4",
+        "title_zh": "大眾控啟動柔新特區雙核心策略　布局光通訊、AI基設與半導體",
+        "summary": "大眾控旗下先進製造子公司PRO3C與馬來西亞上市公司整合工業空間解決方案商AME Elite Consortium Berhad（以下簡稱AME）簽MOU。同時，大眾控也與新加坡工業總體規劃及基礎建設發展機構JTC",
+        "source_id": "digitimes_tw",
+        "source": "DIGITIMES",
+        "published_at": "2026-07-31T08:32:26Z",
+        "canonical_url": "https://www.digitimes.com.tw/tech/dt/n/shwnws.asp?id=0000763697_L8K5688WLGYT8H61EEL1L"
+      }
+    },
+    {
+      "rank": 5,
+      "theme_id": "ai_server",
+      "name_zh": "AI 伺服器",
+      "heat_score": 41,
       "summaries": {
         "event_count": 3,
         "source_count": 2,
@@ -131,41 +412,21 @@
         },
         "mapping_component": {
           "mapping_count": 3,
-          "direct_mapping_event_count": 1,
-          "normalized": 80.0,
-          "weighted": 24.0
+          "direct_mapping_event_count": 0,
+          "normalized": 60.0,
+          "weighted": 18.0
         },
         "single_source_concentration": 0.667,
         "concentration_penalty": 2.5,
-        "raw_score": 46.5
+        "raw_score": 40.5
       },
-      "direct_mentions": [
-        {
-          "instrument_id": "TWSE:2330",
-          "symbol": "2330",
-          "exchange": "TWSE",
-          "name_zh": "台積電",
-          "direct_event_count": 1,
-          "latest_mentioned_at": "2026-07-31T03:07:33Z"
-        }
-      ],
+      "direct_mentions": [],
       "supply_chain_candidates": [
         {
-          "instrument_id": "TWSE:2330",
-          "symbol": "2330",
+          "instrument_id": "TWSE:2382",
+          "symbol": "2382",
           "exchange": "TWSE",
-          "name_zh": "台積電",
-          "direct_event_count": 1,
-          "official_evidence_count": 0,
-          "company_rank_score": 5,
-          "latest_mentioned_at": "2026-07-31T03:07:33Z",
-          "latest_official_at": null
-        },
-        {
-          "instrument_id": "TWSE:2449",
-          "symbol": "2449",
-          "exchange": "TWSE",
-          "name_zh": "京元電子",
+          "name_zh": "廣達",
           "direct_event_count": 0,
           "official_evidence_count": 0,
           "company_rank_score": 1,
@@ -173,10 +434,21 @@
           "latest_official_at": null
         },
         {
-          "instrument_id": "TWSE:3711",
-          "symbol": "3711",
+          "instrument_id": "TWSE:3231",
+          "symbol": "3231",
           "exchange": "TWSE",
-          "name_zh": "日月光投控",
+          "name_zh": "緯創",
+          "direct_event_count": 0,
+          "official_evidence_count": 0,
+          "company_rank_score": 1,
+          "latest_mentioned_at": null,
+          "latest_official_at": null
+        },
+        {
+          "instrument_id": "TWSE:6669",
+          "symbol": "6669",
+          "exchange": "TWSE",
+          "name_zh": "緯穎",
           "direct_event_count": 0,
           "official_evidence_count": 0,
           "company_rank_score": 1,
@@ -185,14 +457,14 @@
         }
       ],
       "representative_news": {
-        "cluster_id": "cluster-c77ac140995f35f7",
-        "id": "technews-95d8b315fa84",
-        "title_zh": "直取 CoWoS 測試核心！中探針攜半導體巨頭開發 MEMS 與清針紙",
-        "summary": "中探針今日宣布半導體大廠共同研發微機電探針（MEMS）、清針紙（clean sheet），預計未來開發完成後， [&#8230;]",
-        "source_id": "technews",
-        "source": "TechNews",
-        "published_at": "2026-07-31T07:03:23Z",
-        "canonical_url": "https://finance.technews.tw/2026/07/31/clean-sheet/"
+        "cluster_id": "cluster-53b92cd092818a3a",
+        "id": "cnyes-ac63f6f1e346",
+        "title_zh": "AI伺服器需求爆發！村田製作所大幅調高年度獲利預期",
+        "summary": "全球電子零組件領導大廠村田製作所 (Murata Manufacturing) 周五 (31 日) 宣布，受惠於人工智慧 (AI) 伺服器對積層陶瓷電容器 (MLCC) 的強勁需求，以及日元貶值的助力，大幅上調截至 2027 年 3 月之財年的業",
+        "source_id": "cnyes",
+        "source": "鉅亨網 Cnyes",
+        "published_at": "2026-07-31T08:10:06Z",
+        "canonical_url": "https://news.cnyes.com/news/id/6554608"
       }
     }
   ]
