@@ -1165,6 +1165,168 @@ def _momentum_signal() -> dict[str, object]:
     }
 
 
+def _candidate_news(
+    candidate_id: str,
+    *,
+    primary_theme_id: str,
+    matched_theme_ids: list[str],
+    direct_symbols: list[dict[str, str]],
+    related_symbols: list[dict[str, str]],
+) -> dict[str, object]:
+    return {
+        "id": candidate_id,
+        "title_zh": f"News {candidate_id}",
+        "summary": f"Summary {candidate_id}",
+        "source_id": "fixture",
+        "source": "Fixture News",
+        "published_at": "2026-07-31T03:30:00Z",
+        "url": f"https://example.com/{candidate_id}",
+        "primary_theme_id": primary_theme_id,
+        "matched_themes": [
+            {"theme_id": theme_id} for theme_id in matched_theme_ids
+        ],
+        "direct_symbols": direct_symbols,
+        "related_symbols": related_symbols,
+    }
+
+
+def test_momentum_latest_enrichment_preserves_order_and_candidate_relationships() -> None:
+    momentum = {
+        "generated_at": "2026-07-31T04:08:00Z",
+        "observed_hour": "2026-07-31T04:00:00Z",
+        "freshness_status": "current",
+        "market_id": "TW_EQUITY",
+        "theme_count": 3,
+        "themes": [
+            {
+                "rank": 1,
+                "theme_id": "beta",
+                "heat_score": 90,
+                "momentum_score": 80,
+                "lifecycle_stage": "accelerating",
+            },
+            {
+                "rank": 2,
+                "theme_id": "alpha",
+                "heat_score": 70,
+                "momentum_score": 60,
+                "lifecycle_stage": "rising",
+            },
+            {
+                "rank": 3,
+                "theme_id": "gamma",
+                "heat_score": 50,
+                "momentum_score": 40,
+                "lifecycle_stage": "steady",
+            },
+        ],
+    }
+    shared = _candidate_news(
+        "shared",
+        primary_theme_id="alpha",
+        matched_theme_ids=["alpha", "beta"],
+        direct_symbols=[{"instrument_id": "TWSE:2330", "symbol": "2330"}],
+        related_symbols=[{"instrument_id": "TWSE:3711", "symbol": "3711"}],
+    )
+    alpha = _candidate_news(
+        "alpha-later",
+        primary_theme_id="alpha",
+        matched_theme_ids=["alpha"],
+        direct_symbols=[
+            {"instrument_id": "TWSE:2330", "symbol": "2330"},
+            {"instrument_id": "TWSE:2382", "symbol": "2382"},
+        ],
+        related_symbols=[
+            {"instrument_id": "TWSE:3711", "symbol": "3711"},
+            {"instrument_id": "TWSE:2449", "symbol": "2449"},
+        ],
+    )
+    beta_primary_only = _candidate_news(
+        "beta-primary",
+        primary_theme_id="beta",
+        matched_theme_ids=[],
+        direct_symbols=[{"instrument_id": "TWSE:6669", "symbol": "6669"}],
+        related_symbols=[{"instrument_id": "TWSE:6669", "symbol": "6669"}],
+    )
+    original_momentum = deepcopy(momentum)
+    candidates = [shared, alpha, beta_primary_only]
+    original_candidates = deepcopy(candidates)
+
+    payload = updater.enrich_momentum_latest(momentum, candidates)
+
+    assert [
+        (
+            theme["rank"],
+            theme["theme_id"],
+            theme["heat_score"],
+            theme["momentum_score"],
+            theme["lifecycle_stage"],
+        )
+        for theme in payload["themes"]
+    ] == [
+        (1, "beta", 90, 80, "accelerating"),
+        (2, "alpha", 70, 60, "rising"),
+        (3, "gamma", 50, 40, "steady"),
+    ]
+    assert {
+        key: payload[key]
+        for key in (
+            "generated_at",
+            "observed_hour",
+            "freshness_status",
+            "market_id",
+            "theme_count",
+        )
+    } == {
+        key: momentum[key]
+        for key in (
+            "generated_at",
+            "observed_hour",
+            "freshness_status",
+            "market_id",
+            "theme_count",
+        )
+    }
+    beta, alpha_theme, gamma = payload["themes"]
+    assert beta["representative_news"]["id"] == "shared"
+    assert beta["representative_news"]["canonical_url"] == "https://example.com/shared"
+    assert [symbol["instrument_id"] for symbol in beta["direct_symbols"]] == [
+        "TWSE:2330",
+        "TWSE:6669",
+    ]
+    assert [symbol["instrument_id"] for symbol in beta["related_symbols"]] == [
+        "TWSE:3711",
+        "TWSE:6669",
+    ]
+    assert alpha_theme["representative_news"]["id"] == "shared"
+    assert [symbol["instrument_id"] for symbol in alpha_theme["direct_symbols"]] == [
+        "TWSE:2330",
+        "TWSE:2382",
+    ]
+    assert [symbol["instrument_id"] for symbol in alpha_theme["related_symbols"]] == [
+        "TWSE:3711",
+        "TWSE:2449",
+    ]
+    assert gamma["representative_news"] is None
+    assert gamma["direct_symbols"] == []
+    assert gamma["related_symbols"] == []
+    assert momentum == original_momentum
+    assert candidates == original_candidates
+
+
+def test_momentum_latest_enrichment_preserves_empty_payload() -> None:
+    momentum = {
+        "generated_at": "2026-07-31T04:08:00Z",
+        "observed_hour": "2026-07-31T04:00:00Z",
+        "freshness_status": "current",
+        "market_id": "TW_EQUITY",
+        "theme_count": 0,
+        "themes": [],
+    }
+
+    assert updater.enrich_momentum_latest(momentum, []) == momentum
+
+
 def test_momentum_latest_publishes_without_database_credentials(
     monkeypatch: pytest.MonkeyPatch,
     tmp_path: Path,
@@ -1174,6 +1336,13 @@ def test_momentum_latest_publishes_without_database_credentials(
         updater,
         "build_public_theme_signals",
         lambda *_args, **_kwargs: [_momentum_signal()],
+    )
+    candidate = _candidate_news(
+        "thermal-candidate",
+        primary_theme_id="thermal",
+        matched_theme_ids=["thermal"],
+        direct_symbols=[{"instrument_id": "TWSE:2382", "symbol": "2382"}],
+        related_symbols=[{"instrument_id": "TWSE:3017", "symbol": "3017"}],
     )
 
     def fail_if_called(*_args: object, **_kwargs: object) -> None:
@@ -1191,7 +1360,7 @@ def test_momentum_latest_publishes_without_database_credentials(
     with caplog.at_level(logging.WARNING):
         result = run_momentum_side_paths(
             output_dir=tmp_path,
-            projection={},
+            projection={"candidate_clusters": [candidate]},
             taxonomy={},
             symbol_aliases={},
             observed_hour=datetime(2026, 7, 31, 4, tzinfo=timezone.utc),
@@ -1208,6 +1377,13 @@ def test_momentum_latest_publishes_without_database_credentials(
     assert theme["heat_change_24h"] is None
     assert theme["source_change_24h"] is None
     assert theme["momentum_score"] == 35
+    assert theme["representative_news"]["id"] == "thermal-candidate"
+    assert theme["direct_symbols"] == [
+        {"instrument_id": "TWSE:2382", "symbol": "2382"}
+    ]
+    assert theme["related_symbols"] == [
+        {"instrument_id": "TWSE:3017", "symbol": "3017"}
+    ]
     assert result == {
         "producer_run_id": "run-without-db",
         "momentum_latest_published": True,

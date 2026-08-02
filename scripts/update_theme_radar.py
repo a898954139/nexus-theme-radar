@@ -1282,6 +1282,80 @@ def write_payload_set(
             path.unlink(missing_ok=True)
 
 
+def _candidate_theme_ids(candidate: Mapping[str, Any]) -> list[str]:
+    theme_ids = [str(candidate.get("primary_theme_id") or "").strip()]
+    theme_ids.extend(
+        str(match.get("theme_id") or "").strip()
+        for match in candidate.get("matched_themes", [])
+    )
+    return list(dict.fromkeys(theme_id for theme_id in theme_ids if theme_id))
+
+
+def _deduplicated_candidate_symbols(
+    candidates: list[Mapping[str, Any]],
+    field: str,
+) -> list[dict[str, Any]]:
+    symbols: list[dict[str, Any]] = []
+    seen: set[str] = set()
+    for candidate in candidates:
+        for value in candidate.get(field, []):
+            identity = str(
+                value.get("instrument_id") or value.get("symbol") or ""
+            ).strip()
+            if not identity or identity in seen:
+                continue
+            seen.add(identity)
+            symbols.append(dict(value))
+    return symbols
+
+
+def _representative_candidate(candidate: Mapping[str, Any]) -> dict[str, Any]:
+    return {
+        "id": candidate.get("id"),
+        "title_zh": candidate.get("title_zh") or candidate.get("title"),
+        "summary": candidate.get("summary") or "",
+        "source_id": candidate.get("source_id"),
+        "source": candidate.get("source"),
+        "published_at": candidate.get("published_at"),
+        "canonical_url": candidate.get("url"),
+    }
+
+
+def enrich_momentum_latest(
+    momentum_payload: Mapping[str, Any],
+    tracking_candidates: list[Mapping[str, Any]],
+) -> dict[str, Any]:
+    """Add deterministic tracking-candidate context without changing momentum rank."""
+
+    candidates_by_theme: dict[str, list[Mapping[str, Any]]] = {}
+    for candidate in tracking_candidates:
+        for theme_id in _candidate_theme_ids(candidate):
+            candidates_by_theme.setdefault(theme_id, []).append(candidate)
+
+    themes = []
+    for theme in momentum_payload.get("themes", []):
+        theme_candidates = candidates_by_theme.get(str(theme.get("theme_id") or ""), [])
+        themes.append(
+            {
+                **theme,
+                "representative_news": (
+                    _representative_candidate(theme_candidates[0])
+                    if theme_candidates
+                    else None
+                ),
+                "direct_symbols": _deduplicated_candidate_symbols(
+                    theme_candidates,
+                    "direct_symbols",
+                ),
+                "related_symbols": _deduplicated_candidate_symbols(
+                    theme_candidates,
+                    "related_symbols",
+                ),
+            }
+        )
+    return {**momentum_payload, "themes": themes}
+
+
 def write_momentum_latest(output_dir: Path, payload: Mapping[str, Any]) -> None:
     """Atomically publish v0.9 latest without changing the v0.8 payload set."""
 
@@ -1381,6 +1455,10 @@ def run_momentum_side_paths(
                 baseline_rows=baselines,
                 observed_hour=observed_hour,
                 generated_at=generated_at,
+            )
+            latest_payload = enrich_momentum_latest(
+                latest_payload,
+                projection.get("candidate_clusters", []),
             )
         except Exception as error:  # noqa: BLE001 - query/validation is fail closed
             LOGGER.warning(
