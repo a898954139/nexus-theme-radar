@@ -2,7 +2,7 @@
   "schema_version": "nexus_public_theme_ranking.v0.8",
   "ranking_rule_version": "public_theme_heat_v0.8",
   "company_rule_version": "public_company_evidence_v0.8",
-  "generated_at": "2026-08-02T09:23:32.626591Z",
+  "generated_at": "2026-08-02T11:35:06.847346Z",
   "market_id": "TW_EQUITY",
   "market_scope": [
     "TW_EQUITY"
@@ -18,6 +18,91 @@
   "themes": [
     {
       "rank": 1,
+      "theme_id": "robotics",
+      "name_zh": "機器人",
+      "heat_score": 74,
+      "summaries": {
+        "event_count": 6,
+        "source_count": 3,
+        "tracking_candidate_count": 3,
+        "taiwan_mapping_count": 3
+      },
+      "heat_reason": {
+        "rule_version": "public_theme_heat_v0.8",
+        "event_component": {
+          "input": 6,
+          "normalized": 100.0,
+          "weighted": 25.0
+        },
+        "source_component": {
+          "input": 3,
+          "normalized": 75.0,
+          "weighted": 18.75
+        },
+        "candidate_component": {
+          "input": 3,
+          "normalized": 75.0,
+          "weighted": 15.0
+        },
+        "mapping_component": {
+          "mapping_count": 3,
+          "direct_mapping_event_count": 0,
+          "normalized": 60.0,
+          "weighted": 18.0
+        },
+        "single_source_concentration": 0.667,
+        "concentration_penalty": 2.5,
+        "raw_score": 74.25
+      },
+      "direct_mentions": [],
+      "supply_chain_candidates": [
+        {
+          "instrument_id": "TWSE:2049",
+          "symbol": "2049",
+          "exchange": "TWSE",
+          "name_zh": "上銀",
+          "direct_event_count": 0,
+          "official_evidence_count": 0,
+          "company_rank_score": 1,
+          "latest_mentioned_at": null,
+          "latest_official_at": null
+        },
+        {
+          "instrument_id": "TWSE:2395",
+          "symbol": "2395",
+          "exchange": "TWSE",
+          "name_zh": "研華",
+          "direct_event_count": 0,
+          "official_evidence_count": 0,
+          "company_rank_score": 1,
+          "latest_mentioned_at": null,
+          "latest_official_at": null
+        },
+        {
+          "instrument_id": "TWSE:4576",
+          "symbol": "4576",
+          "exchange": "TWSE",
+          "name_zh": "大銀微系統",
+          "direct_event_count": 0,
+          "official_evidence_count": 0,
+          "company_rank_score": 1,
+          "latest_mentioned_at": null,
+          "latest_official_at": null
+        }
+      ],
+      "representative_news": {
+        "cluster_id": "cluster-e101f9ace274f35b",
+        "id": "digitimes_tw-2887e73713a6",
+        "title_zh": "南韓PCB業首例　大德電子擬投入人形機器人提升製程彈性",
+        "summary": "南韓大德電子（Daeduck",
+        "source_id": "digitimes_tw",
+        "source": "DIGITIMES",
+        "published_at": "2026-07-30T18:36:57Z",
+        "canonical_url": "https://www.digitimes.com.tw/tech/dt/n/shwnws.asp?id=0000763382_29747CNO77G0PZ3QNF2ZL"
+      }
+    },
+    {
+      "rank": 2,
       "theme_id": "memory_hbm",
       "name_zh": "記憶體與 HBM",
       "heat_score": 62,
@@ -102,7 +187,7 @@
       }
     },
     {
-      "rank": 2,
+      "rank": 3,
       "theme_id": "optical_cpo",
       "name_zh": "光通訊與 CPO",
       "heat_score": 58,
@@ -187,97 +272,12 @@
       }
     },
     {
-      "rank": 3,
-      "theme_id": "robotics",
-      "name_zh": "機器人",
-      "heat_score": 54,
-      "summaries": {
-        "event_count": 5,
-        "source_count": 2,
-        "tracking_candidate_count": 2,
-        "taiwan_mapping_count": 3
-      },
-      "heat_reason": {
-        "rule_version": "public_theme_heat_v0.8",
-        "event_component": {
-          "input": 5,
-          "normalized": 83.333,
-          "weighted": 20.833
-        },
-        "source_component": {
-          "input": 2,
-          "normalized": 50.0,
-          "weighted": 12.5
-        },
-        "candidate_component": {
-          "input": 2,
-          "normalized": 50.0,
-          "weighted": 10.0
-        },
-        "mapping_component": {
-          "mapping_count": 3,
-          "direct_mapping_event_count": 0,
-          "normalized": 60.0,
-          "weighted": 18.0
-        },
-        "single_source_concentration": 0.8,
-        "concentration_penalty": 7.5,
-        "raw_score": 53.833
-      },
-      "direct_mentions": [],
-      "supply_chain_candidates": [
-        {
-          "instrument_id": "TWSE:2049",
-          "symbol": "2049",
-          "exchange": "TWSE",
-          "name_zh": "上銀",
-          "direct_event_count": 0,
-          "official_evidence_count": 0,
-          "company_rank_score": 1,
-          "latest_mentioned_at": null,
-          "latest_official_at": null
-        },
-        {
-          "instrument_id": "TWSE:2395",
-          "symbol": "2395",
-          "exchange": "TWSE",
-          "name_zh": "研華",
-          "direct_event_count": 0,
-          "official_evidence_count": 0,
-          "company_rank_score": 1,
-          "latest_mentioned_at": null,
-          "latest_official_at": null
-        },
-        {
-          "instrument_id": "TWSE:4576",
-          "symbol": "4576",
-          "exchange": "TWSE",
-          "name_zh": "大銀微系統",
-          "direct_event_count": 0,
-          "official_evidence_count": 0,
-          "company_rank_score": 1,
-          "latest_mentioned_at": null,
-          "latest_official_at": null
-        }
-      ],
-      "representative_news": {
-        "cluster_id": "cluster-e101f9ace274f35b",
-        "id": "digitimes_tw-2887e73713a6",
-        "title_zh": "南韓PCB業首例　大德電子擬投入人形機器人提升製程彈性",
-        "summary": "南韓大德電子（Daeduck",
-        "source_id": "digitimes_tw",
-        "source": "DIGITIMES",
-        "published_at": "2026-07-30T18:36:57Z",
-        "canonical_url": "https://www.digitimes.com.tw/tech/dt/n/shwnws.asp?id=0000763382_29747CNO77G0PZ3QNF2ZL"
-      }
-    },
-    {
       "rank": 4,
       "theme_id": "defense_drone",
       "name_zh": "國防與無人機",
-      "heat_score": 41,
+      "heat_score": 47,
       "summaries": {
-        "event_count": 3,
+        "event_count": 4,
         "source_count": 2,
         "tracking_candidate_count": 0,
         "taiwan_mapping_count": 3
@@ -285,9 +285,9 @@
       "heat_reason": {
         "rule_version": "public_theme_heat_v0.8",
         "event_component": {
-          "input": 3,
-          "normalized": 50.0,
-          "weighted": 12.5
+          "input": 4,
+          "normalized": 66.667,
+          "weighted": 16.667
         },
         "source_component": {
           "input": 2,
@@ -305,9 +305,9 @@
           "normalized": 60.0,
           "weighted": 18.0
         },
-        "single_source_concentration": 0.667,
-        "concentration_penalty": 2.5,
-        "raw_score": 40.5
+        "single_source_concentration": 0.5,
+        "concentration_penalty": 0.0,
+        "raw_score": 47.167
       },
       "direct_mentions": [],
       "supply_chain_candidates": [
@@ -346,14 +346,14 @@
         }
       ],
       "representative_news": {
-        "cluster_id": "cluster-5b82dcef6d0dfc83",
-        "id": "cnyes-ea6488cd478f",
-        "title_zh": "俄軍摧毀基輔美國公司無人機工廠！川普：尚未同意授權烏克蘭生產「愛國者」",
-        "summary": "俄軍對烏克蘭首都基輔發動大規模飛彈與無人機攻擊，造成至少 9 死 28 傷，並傳出具美國背景的無人機工廠遭摧毀。另一方面，美國總統川普證實尚未批准烏克蘭自行生產愛國者防空攔截彈，俄烏戰局、美烏軍事合作與防空部署再成全球焦點。",
+        "cluster_id": "cluster-072211c53205de81",
+        "id": "cnyes-d0fe3075f9d7",
+        "title_zh": "國防股跌出機會？「這家公司」估值回落、分析師看漲32%",
+        "summary": "L3 哈里斯（LHX）第二季財報優於預期、上調全年財測，股價卻重挫近 9%。分析師指出，國防股近期估值修正造成股價承壓，但以目前約 277 美元股價計算，L3 哈里斯距 366 美元平均目標價仍有約 32% 上漲空間，成為華爾街最看好的大",
         "source_id": "cnyes",
         "source": "鉅亨網 Cnyes",
-        "published_at": "2026-08-01T23:00:03Z",
-        "canonical_url": "https://news.cnyes.com/news/id/6555755"
+        "published_at": "2026-08-02T11:10:02Z",
+        "canonical_url": "https://news.cnyes.com/news/id/6555975"
       }
     }
   ]
