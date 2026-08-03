@@ -1,40 +1,48 @@
 {
-  "generated_at": "2026-08-03T03:59:45.359573Z",
+  "generated_at": "2026-08-03T07:48:48.638816Z",
   "market_id": "TW_EQUITY",
   "market_scope": [
     "TW_EQUITY"
   ],
   "window_hours": 72,
   "max_items": 200,
-  "total_items": 7,
-  "total_items_available": 7,
+  "total_items": 9,
+  "total_items_available": 9,
   "items": [
     {
-      "id": "yahoo_finance_tw-28d4d415c157",
-      "title_zh": "AI需求推高記憶體價格 亞洲消費性裝置市場面臨變革",
-      "summary": "圖／本報資料庫商傳媒｜責任編輯／綜合外電報導隨著人工智慧（AI）技術的快速發展，市場對高頻寬記憶體（HBM）的需求激增，已導致傳統記憶體晶片供應緊縮與價格飆漲。這股「RAMageddon」浪潮不僅影響",
-      "source": "Yahoo Finance Taiwan",
-      "source_id": "yahoo_finance_tw",
+      "id": "cnyes-dac2c0b6aa4b",
+      "title_zh": "DRAM微縮走到極限，三星、SK海力士、鎧俠掀3D記憶體堆疊大戰",
+      "summary": "AI 算力需求推動記憶體產業轉型，DRAM 與 NAND 微縮逼近物理極限。三星、SK 海力士與鎧俠紛紛布局 3D DRAM、混合鍵合與超高層 NAND 技術，未來半導體競爭將從製程微縮轉向晶片堆疊與先進封裝。",
+      "source": "鉅亨網 Cnyes",
+      "source_id": "cnyes",
       "source_class": "financial_media",
       "market_id": "TW_EQUITY",
       "market_scope": [
         "TW_EQUITY"
       ],
-      "published_at": "2026-08-03T03:06:08Z",
-      "url": "https://tw.stock.yahoo.com/news/ai%E9%9C%80%E6%B1%82%E6%8E%A8%E9%AB%98%E8%A8%98%E6%86%B6%E9%AB%94%E5%83%B9%E6%A0%BC-%E4%BA%9E%E6%B4%B2%E6%B6%88%E8%B2%BB%E6%80%A7%E8%A3%9D%E7%BD%AE%E5%B8%82%E5%A0%B4%E9%9D%A2%E8%87%A8%E8%AE%8A%E9%9D%A9-030608704.html",
+      "published_at": "2026-08-03T07:20:05Z",
+      "url": "https://news.cnyes.com/news/id/6557023",
       "extraction_method": "rss",
-      "fetched_at": "2026-08-03T03:59:45.359573Z",
+      "fetched_at": "2026-08-03T07:48:48.638816Z",
       "matched_themes": [
         {
           "theme_id": "memory_hbm",
           "name_zh": "記憶體與 HBM",
           "score": 0.667,
           "signals": [
-            "hbm",
-            "記憶體",
-            "高頻寬記憶體"
+            "dram",
+            "記憶體"
           ],
-          "reason": "title_zh: 記憶體; summary: hbm, 記憶體, 高頻寬記憶體"
+          "reason": "title_zh: dram, 記憶體; summary: dram, 記憶體"
+        },
+        {
+          "theme_id": "cowos_supply_chain",
+          "name_zh": "CoWoS 先進封裝",
+          "score": 0.167,
+          "signals": [
+            "先進封裝"
+          ],
+          "reason": "summary: 先進封裝"
         }
       ],
       "primary_theme_id": "memory_hbm",
@@ -71,44 +79,77 @@
           "name_zh": "群聯",
           "evidence": "taxonomy seed: memory_hbm",
           "reason": "theme seed symbol"
+        },
+        {
+          "instrument_id": "TWSE:2330",
+          "market_id": "TW_EQUITY",
+          "asset_class": "equity",
+          "symbol": "2330",
+          "exchange": "TWSE",
+          "name_zh": "台積電",
+          "evidence": "taxonomy seed: cowos_supply_chain",
+          "reason": "theme seed symbol"
+        },
+        {
+          "instrument_id": "TWSE:3711",
+          "market_id": "TW_EQUITY",
+          "asset_class": "equity",
+          "symbol": "3711",
+          "exchange": "TWSE",
+          "name_zh": "日月光投控",
+          "evidence": "taxonomy seed: cowos_supply_chain",
+          "reason": "theme seed symbol"
+        },
+        {
+          "instrument_id": "TWSE:2449",
+          "market_id": "TW_EQUITY",
+          "asset_class": "equity",
+          "symbol": "2449",
+          "exchange": "TWSE",
+          "name_zh": "京元電子",
+          "evidence": "taxonomy seed: cowos_supply_chain",
+          "reason": "theme seed symbol"
         }
       ],
       "related_symbol_codes": [
         "2344",
         "2408",
-        "8299"
+        "8299",
+        "2330",
+        "3711",
+        "2449"
       ],
       "decision": "track_watch",
       "tw_relevance_status": "supply_chain",
-      "tw_relevance_reason": "configured theme memory_hbm; strong signal: hbm",
+      "tw_relevance_reason": "configured theme memory_hbm; strong signal: dram",
       "tw_related_symbols": [
         "TPEX:8299",
         "TWSE:2344",
         "TWSE:2408"
       ],
-      "cluster_id": "cluster-d52f770d54fc24c0",
+      "cluster_id": "cluster-1b8f97e14011f660",
       "cluster_size": 1,
       "cluster_event_ids": [
-        "yahoo_finance_tw-28d4d415c157"
+        "cnyes-dac2c0b6aa4b"
       ],
       "cluster_sources": [
         {
-          "source_id": "yahoo_finance_tw",
-          "source": "Yahoo Finance Taiwan",
-          "title": "AI需求推高記憶體價格 亞洲消費性裝置市場面臨變革",
-          "url": "https://tw.stock.yahoo.com/news/ai%E9%9C%80%E6%B1%82%E6%8E%A8%E9%AB%98%E8%A8%98%E6%86%B6%E9%AB%94%E5%83%B9%E6%A0%BC-%E4%BA%9E%E6%B4%B2%E6%B6%88%E8%B2%BB%E6%80%A7%E8%A3%9D%E7%BD%AE%E5%B8%82%E5%A0%B4%E9%9D%A2%E8%87%A8%E8%AE%8A%E9%9D%A9-030608704.html",
-          "published_at": "2026-08-03T03:06:08Z"
+          "source_id": "cnyes",
+          "source": "鉅亨網 Cnyes",
+          "title": "DRAM微縮走到極限，三星、SK海力士、鎧俠掀3D記憶體堆疊大戰",
+          "url": "https://news.cnyes.com/news/id/6557023",
+          "published_at": "2026-08-03T07:20:05Z"
         }
       ],
-      "tracking_reason": "title_zh: 記憶體; summary: hbm, 記憶體, 高頻寬記憶體",
+      "tracking_reason": "title_zh: dram, 記憶體; summary: dram, 記憶體",
       "confirmation_status": "unconfirmed",
       "official_evidence_ids": [],
       "official_evidence_count": 0
     },
     {
-      "id": "cnyes-4fe61093b6bf",
-      "title_zh": "AI算力狂潮助記憶體進入賣方市場！美銀：三星長協「限跌不限漲」現貨價格Q4前持續反彈",
-      "summary": "根據美銀美林上周六 (8 月 1 日) 發布的記憶體產業調研報告，AI 伺服器需求持續放量，正把 DRAM 與 NAND 價格推入新一輪上行週期，主要大廠定價權顯著回流供應端，其中三星已將 60% 至 70% 銷售納入長期協議 (LTA) 體系，合約條款呈現鮮明「供方友好」特徵，單季降價空間鎖在 5",
+      "id": "cnyes-68e1be909970",
+      "title_zh": "AI浪潮下 助力記憶體製造商坐擁900億美元現金流",
+      "summary": "隨著人工智慧 (AI) 技術邁入第四年的爆發期，半導體產業鏈正經歷顯著的財富轉移。根據最新產業數據顯示，全球主要記憶體製造商受惠於 AI 伺服器對高頻寬記憶體 (HBM) 及先進 DRAM、NAND 快閃記憶體的強勁需求，已累積",
       "source": "鉅亨網 Cnyes",
       "source_id": "cnyes",
       "source_class": "financial_media",
@@ -116,20 +157,22 @@
       "market_scope": [
         "TW_EQUITY"
       ],
-      "published_at": "2026-08-03T02:10:06Z",
-      "url": "https://news.cnyes.com/news/id/6556689",
+      "published_at": "2026-08-03T07:10:02Z",
+      "url": "https://news.cnyes.com/news/id/6556962",
       "extraction_method": "rss",
-      "fetched_at": "2026-08-03T03:59:45.359573Z",
+      "fetched_at": "2026-08-03T07:48:48.638816Z",
       "matched_themes": [
         {
           "theme_id": "memory_hbm",
           "name_zh": "記憶體與 HBM",
-          "score": 0.5,
+          "score": 0.833,
           "signals": [
             "dram",
-            "記憶體"
+            "hbm",
+            "記憶體",
+            "高頻寬記憶體"
           ],
-          "reason": "title_zh: 記憶體; summary: dram, 記憶體"
+          "reason": "title_zh: 記憶體; summary: dram, hbm, 記憶體, 高頻寬記憶體"
         },
         {
           "theme_id": "ai_server",
@@ -142,7 +185,7 @@
         }
       ],
       "primary_theme_id": "memory_hbm",
-      "theme_score": 0.5,
+      "theme_score": 0.833,
       "direct_symbols": [],
       "symbol_evidence": {},
       "related_symbols": [
@@ -223,21 +266,360 @@
         "TWSE:2344",
         "TWSE:2408"
       ],
-      "cluster_id": "cluster-8d5212af9d90d51c",
+      "cluster_id": "cluster-1a535caf36d31527",
       "cluster_size": 1,
       "cluster_event_ids": [
-        "cnyes-4fe61093b6bf"
+        "cnyes-68e1be909970"
       ],
       "cluster_sources": [
         {
           "source_id": "cnyes",
           "source": "鉅亨網 Cnyes",
-          "title": "AI算力狂潮助記憶體進入賣方市場！美銀：三星長協「限跌不限漲」現貨價格Q4前持續反彈",
-          "url": "https://news.cnyes.com/news/id/6556689",
-          "published_at": "2026-08-03T02:10:06Z"
+          "title": "AI浪潮下 助力記憶體製造商坐擁900億美元現金流",
+          "url": "https://news.cnyes.com/news/id/6556962",
+          "published_at": "2026-08-03T07:10:02Z"
         }
       ],
-      "tracking_reason": "title_zh: 記憶體; summary: dram, 記憶體",
+      "tracking_reason": "title_zh: 記憶體; summary: dram, hbm, 記憶體, 高頻寬記憶體",
+      "confirmation_status": "unconfirmed",
+      "official_evidence_ids": [],
+      "official_evidence_count": 0
+    },
+    {
+      "id": "cnyes-87939387ff2f",
+      "title_zh": "〈焦點股〉輝達宣布CPO步入量產 激勵光通訊族群多檔亮燈漲停",
+      "summary": "輝達 (NVDA-US) 資深副總裁 Gilad Shainer 近期宣告，共同封裝光學 (CPO) 將步入量產，激勵台廠光通訊股今 (3) 日表現強勢，聯亞、光聖、聯鈞多檔亮燈漲停板。",
+      "source": "鉅亨網 Cnyes",
+      "source_id": "cnyes",
+      "source_class": "financial_media",
+      "market_id": "TW_EQUITY",
+      "market_scope": [
+        "TW_EQUITY"
+      ],
+      "published_at": "2026-08-03T05:21:26Z",
+      "url": "https://news.cnyes.com/news/id/6556968",
+      "extraction_method": "rss",
+      "fetched_at": "2026-08-03T07:48:48.638816Z",
+      "matched_themes": [
+        {
+          "theme_id": "optical_cpo",
+          "name_zh": "光通訊與 CPO",
+          "score": 0.667,
+          "signals": [
+            "cpo",
+            "光通訊"
+          ],
+          "reason": "title_zh: cpo, 光通訊; summary: cpo, 光通訊"
+        }
+      ],
+      "primary_theme_id": "optical_cpo",
+      "theme_score": 0.667,
+      "direct_symbols": [
+        {
+          "instrument_id": "TPEX:3081",
+          "market_id": "TW_EQUITY",
+          "asset_class": "equity",
+          "symbol": "3081",
+          "exchange": "TPEX",
+          "name_zh": "聯亞",
+          "evidence": "summary: 聯亞",
+          "reason": "direct company alias mention"
+        }
+      ],
+      "symbol_evidence": {
+        "3081": "summary: 聯亞"
+      },
+      "related_symbols": [
+        {
+          "instrument_id": "TPEX:3081",
+          "market_id": "TW_EQUITY",
+          "asset_class": "equity",
+          "symbol": "3081",
+          "exchange": "TPEX",
+          "name_zh": "聯亞",
+          "evidence": "taxonomy seed: optical_cpo",
+          "reason": "theme seed symbol"
+        },
+        {
+          "instrument_id": "TPEX:3363",
+          "market_id": "TW_EQUITY",
+          "asset_class": "equity",
+          "symbol": "3363",
+          "exchange": "TPEX",
+          "name_zh": "上詮",
+          "evidence": "taxonomy seed: optical_cpo",
+          "reason": "theme seed symbol"
+        },
+        {
+          "instrument_id": "TPEX:4979",
+          "market_id": "TW_EQUITY",
+          "asset_class": "equity",
+          "symbol": "4979",
+          "exchange": "TPEX",
+          "name_zh": "華星光",
+          "evidence": "taxonomy seed: optical_cpo",
+          "reason": "theme seed symbol"
+        }
+      ],
+      "related_symbol_codes": [
+        "3081",
+        "3363",
+        "4979"
+      ],
+      "decision": "track_watch",
+      "tw_relevance_status": "direct",
+      "tw_relevance_reason": "direct Taiwan symbol: TPEX:3081",
+      "tw_related_symbols": [
+        "TPEX:3081"
+      ],
+      "cluster_id": "cluster-3b08338143e2ae73",
+      "cluster_size": 1,
+      "cluster_event_ids": [
+        "cnyes-87939387ff2f"
+      ],
+      "cluster_sources": [
+        {
+          "source_id": "cnyes",
+          "source": "鉅亨網 Cnyes",
+          "title": "〈焦點股〉輝達宣布CPO步入量產 激勵光通訊族群多檔亮燈漲停",
+          "url": "https://news.cnyes.com/news/id/6556968",
+          "published_at": "2026-08-03T05:21:26Z"
+        }
+      ],
+      "tracking_reason": "title_zh: cpo, 光通訊; summary: cpo, 光通訊",
+      "confirmation_status": "unconfirmed",
+      "official_evidence_ids": [],
+      "official_evidence_count": 0
+    },
+    {
+      "id": "cnyes-d75ff6ab0950",
+      "title_zh": "長鑫科技納入DRAM ETF！躍居第八大持股、占比達2.52%",
+      "summary": "全球首檔聚焦記憶體晶片的 Roundhill DRAM ETF 完成最新成分股調整，首度納入中國 DRAM 大廠長鑫科技，持股權重達 2.52%，躍居第八大持股；兆易創新則降至第十大。基金前三大持股仍為三星電子、美光科技與 SK 海力",
+      "source": "鉅亨網 Cnyes",
+      "source_id": "cnyes",
+      "source_class": "financial_media",
+      "market_id": "TW_EQUITY",
+      "market_scope": [
+        "TW_EQUITY"
+      ],
+      "published_at": "2026-08-03T05:08:48Z",
+      "url": "https://news.cnyes.com/news/id/6556113",
+      "extraction_method": "rss",
+      "fetched_at": "2026-08-03T07:48:48.638816Z",
+      "matched_themes": [
+        {
+          "theme_id": "memory_hbm",
+          "name_zh": "記憶體與 HBM",
+          "score": 0.5,
+          "signals": [
+            "dram",
+            "記憶體"
+          ],
+          "reason": "title_zh: dram; summary: dram, 記憶體"
+        }
+      ],
+      "primary_theme_id": "memory_hbm",
+      "theme_score": 0.5,
+      "direct_symbols": [],
+      "symbol_evidence": {},
+      "related_symbols": [
+        {
+          "instrument_id": "TWSE:2344",
+          "market_id": "TW_EQUITY",
+          "asset_class": "equity",
+          "symbol": "2344",
+          "exchange": "TWSE",
+          "name_zh": "華邦電",
+          "evidence": "taxonomy seed: memory_hbm",
+          "reason": "theme seed symbol"
+        },
+        {
+          "instrument_id": "TWSE:2408",
+          "market_id": "TW_EQUITY",
+          "asset_class": "equity",
+          "symbol": "2408",
+          "exchange": "TWSE",
+          "name_zh": "南亞科",
+          "evidence": "taxonomy seed: memory_hbm",
+          "reason": "theme seed symbol"
+        },
+        {
+          "instrument_id": "TPEX:8299",
+          "market_id": "TW_EQUITY",
+          "asset_class": "equity",
+          "symbol": "8299",
+          "exchange": "TPEX",
+          "name_zh": "群聯",
+          "evidence": "taxonomy seed: memory_hbm",
+          "reason": "theme seed symbol"
+        }
+      ],
+      "related_symbol_codes": [
+        "2344",
+        "2408",
+        "8299"
+      ],
+      "decision": "track_watch",
+      "tw_relevance_status": "supply_chain",
+      "tw_relevance_reason": "configured theme memory_hbm; strong signal: dram",
+      "tw_related_symbols": [
+        "TPEX:8299",
+        "TWSE:2344",
+        "TWSE:2408"
+      ],
+      "cluster_id": "cluster-c1dc8346d6d658a6",
+      "cluster_size": 1,
+      "cluster_event_ids": [
+        "cnyes-d75ff6ab0950"
+      ],
+      "cluster_sources": [
+        {
+          "source_id": "cnyes",
+          "source": "鉅亨網 Cnyes",
+          "title": "長鑫科技納入DRAM ETF！躍居第八大持股、占比達2.52%",
+          "url": "https://news.cnyes.com/news/id/6556113",
+          "published_at": "2026-08-03T05:08:48Z"
+        }
+      ],
+      "tracking_reason": "title_zh: dram; summary: dram, 記憶體",
+      "confirmation_status": "unconfirmed",
+      "official_evidence_ids": [],
+      "official_evidence_count": 0
+    },
+    {
+      "id": "cnyes-fa4d330b5baa",
+      "title_zh": "最壞情況已過？法人：AI疑慮緩解帶動「錯殺股」反彈 PCB族群重獲青睞",
+      "summary": "亞股今 (3) 日漲跌互見，台股則持續反彈，法人表示，今日權值股表現相對疲弱，反而先前修正幅度較深的記憶體、ABF 載板、PCB 及被動元件等族群展現強勁反彈力道。",
+      "source": "鉅亨網 Cnyes",
+      "source_id": "cnyes",
+      "source_class": "financial_media",
+      "market_id": "TW_EQUITY",
+      "market_scope": [
+        "TW_EQUITY"
+      ],
+      "published_at": "2026-08-03T04:47:42Z",
+      "url": "https://news.cnyes.com/news/id/6556925",
+      "extraction_method": "rss",
+      "fetched_at": "2026-08-03T07:48:48.638816Z",
+      "matched_themes": [
+        {
+          "theme_id": "pcb_abf_hdi",
+          "name_zh": "PCB／ABF／HDI",
+          "score": 0.667,
+          "signals": [
+            "abf",
+            "pcb",
+            "載板"
+          ],
+          "reason": "title_zh: pcb; summary: abf, pcb, 載板"
+        },
+        {
+          "theme_id": "memory_hbm",
+          "name_zh": "記憶體與 HBM",
+          "score": 0.167,
+          "signals": [
+            "記憶體"
+          ],
+          "reason": "summary: 記憶體"
+        }
+      ],
+      "primary_theme_id": "pcb_abf_hdi",
+      "theme_score": 0.667,
+      "direct_symbols": [],
+      "symbol_evidence": {},
+      "related_symbols": [
+        {
+          "instrument_id": "TWSE:3037",
+          "market_id": "TW_EQUITY",
+          "asset_class": "equity",
+          "symbol": "3037",
+          "exchange": "TWSE",
+          "name_zh": "欣興",
+          "evidence": "taxonomy seed: pcb_abf_hdi",
+          "reason": "theme seed symbol"
+        },
+        {
+          "instrument_id": "TWSE:8046",
+          "market_id": "TW_EQUITY",
+          "asset_class": "equity",
+          "symbol": "8046",
+          "exchange": "TWSE",
+          "name_zh": "南電",
+          "evidence": "taxonomy seed: pcb_abf_hdi",
+          "reason": "theme seed symbol"
+        },
+        {
+          "instrument_id": "TWSE:2368",
+          "market_id": "TW_EQUITY",
+          "asset_class": "equity",
+          "symbol": "2368",
+          "exchange": "TWSE",
+          "name_zh": "金像電",
+          "evidence": "taxonomy seed: pcb_abf_hdi",
+          "reason": "theme seed symbol"
+        },
+        {
+          "instrument_id": "TWSE:2344",
+          "market_id": "TW_EQUITY",
+          "asset_class": "equity",
+          "symbol": "2344",
+          "exchange": "TWSE",
+          "name_zh": "華邦電",
+          "evidence": "taxonomy seed: memory_hbm",
+          "reason": "theme seed symbol"
+        },
+        {
+          "instrument_id": "TWSE:2408",
+          "market_id": "TW_EQUITY",
+          "asset_class": "equity",
+          "symbol": "2408",
+          "exchange": "TWSE",
+          "name_zh": "南亞科",
+          "evidence": "taxonomy seed: memory_hbm",
+          "reason": "theme seed symbol"
+        },
+        {
+          "instrument_id": "TPEX:8299",
+          "market_id": "TW_EQUITY",
+          "asset_class": "equity",
+          "symbol": "8299",
+          "exchange": "TPEX",
+          "name_zh": "群聯",
+          "evidence": "taxonomy seed: memory_hbm",
+          "reason": "theme seed symbol"
+        }
+      ],
+      "related_symbol_codes": [
+        "3037",
+        "8046",
+        "2368",
+        "2344",
+        "2408",
+        "8299"
+      ],
+      "decision": "track_watch",
+      "tw_relevance_status": "supply_chain",
+      "tw_relevance_reason": "configured theme pcb_abf_hdi; strong signal: abf",
+      "tw_related_symbols": [
+        "TWSE:2368",
+        "TWSE:3037",
+        "TWSE:8046"
+      ],
+      "cluster_id": "cluster-0ded3fe9fbb417f2",
+      "cluster_size": 1,
+      "cluster_event_ids": [
+        "cnyes-fa4d330b5baa"
+      ],
+      "cluster_sources": [
+        {
+          "source_id": "cnyes",
+          "source": "鉅亨網 Cnyes",
+          "title": "最壞情況已過？法人：AI疑慮緩解帶動「錯殺股」反彈 PCB族群重獲青睞",
+          "url": "https://news.cnyes.com/news/id/6556925",
+          "published_at": "2026-08-03T04:47:42Z"
+        }
+      ],
+      "tracking_reason": "title_zh: pcb; summary: abf, pcb, 載板",
       "confirmation_status": "unconfirmed",
       "official_evidence_ids": [],
       "official_evidence_count": 0
@@ -256,7 +638,7 @@
       "published_at": "2026-08-02T18:32:08Z",
       "url": "https://www.digitimes.com.tw/tech/dt/n/shwnws.asp?id=0000763637_4AE75SKU28L73E8QFWN0H",
       "extraction_method": "rss",
-      "fetched_at": "2026-08-03T03:59:45.359573Z",
+      "fetched_at": "2026-08-03T07:48:48.638816Z",
       "matched_themes": [
         {
           "theme_id": "optical_cpo",
@@ -351,7 +733,7 @@
       "published_at": "2026-08-02T18:20:11Z",
       "url": "https://www.digitimes.com.tw/tech/dt/n/shwnws.asp?id=0000763695_6C25SL5SLH5XD14WTOMU2",
       "extraction_method": "rss",
-      "fetched_at": "2026-08-03T03:59:45.359573Z",
+      "fetched_at": "2026-08-03T07:48:48.638816Z",
       "matched_themes": [
         {
           "theme_id": "robotics",
@@ -446,7 +828,7 @@
       "published_at": "2026-08-02T18:15:51Z",
       "url": "https://www.digitimes.com.tw/tech/dt/n/shwnws.asp?id=0000763616_2NY7UTC40OKM077SU0GHT",
       "extraction_method": "rss",
-      "fetched_at": "2026-08-03T03:59:45.359573Z",
+      "fetched_at": "2026-08-03T07:48:48.638816Z",
       "matched_themes": [
         {
           "theme_id": "robotics",
@@ -541,7 +923,7 @@
       "published_at": "2026-08-02T18:08:19Z",
       "url": "https://www.digitimes.com.tw/tech/dt/n/shwnws.asp?id=0000763634_8CS7NAII21LGLD559S45V",
       "extraction_method": "rss",
-      "fetched_at": "2026-08-03T03:59:45.359573Z",
+      "fetched_at": "2026-08-03T07:48:48.638816Z",
       "matched_themes": [
         {
           "theme_id": "memory_hbm",
@@ -622,128 +1004,30 @@
       "confirmation_status": "unconfirmed",
       "official_evidence_ids": [],
       "official_evidence_count": 0
-    },
-    {
-      "id": "cnyes-f37b903cb5dc",
-      "title_zh": "AI重塑記憶體版圖！HBM、DRAM、NAND大洗牌  誰將掌握下一代運算主導權？",
-      "summary": "AI 需求引爆全球記憶體超級循環，DRAM 與 NAND 市場規模創新高，三星、SK 海力士、美光相繼站上兆美元市值。HBM 供不應求、DDR5 價格飆升、企業級 SSD 需求爆發，長鑫科技快速崛起，全球記憶體供應鏈正迎來新一輪洗牌。",
-      "source": "鉅亨網 Cnyes",
-      "source_id": "cnyes",
-      "source_class": "financial_media",
-      "market_id": "TW_EQUITY",
-      "market_scope": [
-        "TW_EQUITY"
-      ],
-      "published_at": "2026-08-02T12:40:02Z",
-      "url": "https://news.cnyes.com/news/id/6556023",
-      "extraction_method": "rss",
-      "fetched_at": "2026-08-03T03:59:45.359573Z",
-      "matched_themes": [
-        {
-          "theme_id": "memory_hbm",
-          "name_zh": "記憶體與 HBM",
-          "score": 1.0,
-          "signals": [
-            "dram",
-            "hbm",
-            "記憶體"
-          ],
-          "reason": "title_zh: dram, hbm, 記憶體; summary: dram, hbm, 記憶體"
-        }
-      ],
-      "primary_theme_id": "memory_hbm",
-      "theme_score": 1.0,
-      "direct_symbols": [],
-      "symbol_evidence": {},
-      "related_symbols": [
-        {
-          "instrument_id": "TWSE:2344",
-          "market_id": "TW_EQUITY",
-          "asset_class": "equity",
-          "symbol": "2344",
-          "exchange": "TWSE",
-          "name_zh": "華邦電",
-          "evidence": "taxonomy seed: memory_hbm",
-          "reason": "theme seed symbol"
-        },
-        {
-          "instrument_id": "TWSE:2408",
-          "market_id": "TW_EQUITY",
-          "asset_class": "equity",
-          "symbol": "2408",
-          "exchange": "TWSE",
-          "name_zh": "南亞科",
-          "evidence": "taxonomy seed: memory_hbm",
-          "reason": "theme seed symbol"
-        },
-        {
-          "instrument_id": "TPEX:8299",
-          "market_id": "TW_EQUITY",
-          "asset_class": "equity",
-          "symbol": "8299",
-          "exchange": "TPEX",
-          "name_zh": "群聯",
-          "evidence": "taxonomy seed: memory_hbm",
-          "reason": "theme seed symbol"
-        }
-      ],
-      "related_symbol_codes": [
-        "2344",
-        "2408",
-        "8299"
-      ],
-      "decision": "track_watch",
-      "tw_relevance_status": "supply_chain",
-      "tw_relevance_reason": "configured theme memory_hbm; strong signal: dram",
-      "tw_related_symbols": [
-        "TPEX:8299",
-        "TWSE:2344",
-        "TWSE:2408"
-      ],
-      "cluster_id": "cluster-78e48a41afd58414",
-      "cluster_size": 1,
-      "cluster_event_ids": [
-        "cnyes-f37b903cb5dc"
-      ],
-      "cluster_sources": [
-        {
-          "source_id": "cnyes",
-          "source": "鉅亨網 Cnyes",
-          "title": "AI重塑記憶體版圖！HBM、DRAM、NAND大洗牌  誰將掌握下一代運算主導權？",
-          "url": "https://news.cnyes.com/news/id/6556023",
-          "published_at": "2026-08-02T12:40:02Z"
-        }
-      ],
-      "tracking_reason": "title_zh: dram, hbm, 記憶體; summary: dram, hbm, 記憶體",
-      "confirmation_status": "unconfirmed",
-      "official_evidence_ids": [],
-      "official_evidence_count": 0
     }
   ],
-  "pre_cluster_items": 24,
-  "excluded_items": 11,
+  "pre_cluster_items": 20,
+  "excluded_items": 10,
   "tw_relevance_distribution": {
-    "direct": 4,
-    "supply_chain": 20
+    "direct": 2,
+    "supply_chain": 18
   },
   "tw_relevance_reason_distribution": {
     "configured theme cowos_supply_chain; strong signal: 先進封裝": 1,
     "configured theme defense_drone; strong signal: 國防": 1,
-    "configured theme defense_drone; strong signal: 無人機": 3,
-    "configured theme energy_grid; strong signal: 儲能": 1,
+    "configured theme defense_drone; strong signal: 無人機": 1,
     "configured theme energy_grid; strong signal: 電力設備": 1,
-    "configured theme memory_hbm; strong signal: dram": 4,
-    "configured theme memory_hbm; strong signal: hbm": 2,
-    "configured theme optical_cpo; strong signal: cpo": 2,
+    "configured theme memory_hbm; strong signal: dram": 5,
+    "configured theme memory_hbm; strong signal: hbm": 1,
+    "configured theme optical_cpo; strong signal: cpo": 1,
     "configured theme optical_cpo; strong signal: 光通訊": 1,
+    "configured theme pcb_abf_hdi; strong signal: abf": 1,
     "configured theme pcb_abf_hdi; strong signal: pcb": 1,
     "configured theme robotics; strong signal: 人形機器人": 2,
-    "configured theme robotics; strong signal: 機器人": 1,
-    "direct Taiwan symbol: TWSE:2330": 1,
-    "direct Taiwan symbol: TWSE:2330, TWSE:3711": 1,
+    "configured theme robotics; strong signal: 機器人": 2,
+    "direct Taiwan symbol: TPEX:3081": 1,
     "direct Taiwan symbol: TWSE:2634": 1,
-    "direct Taiwan symbol: TWSE:6669": 1,
-    "no direct Taiwan symbol or strong configured supply-chain signal": 10,
+    "no direct Taiwan symbol or strong configured supply-chain signal": 9,
     "unsupported overseas event phase: price_performance": 1
   },
   "selected_theme_score_min": 0.3,
@@ -753,14 +1037,13 @@
   "legacy_theme_count": 10,
   "structured_theme_count": 0,
   "theme_match_distribution": {
-    "ai_server": 1,
-    "cowos_supply_chain": 2,
-    "defense_drone": 4,
-    "energy_grid": 2,
-    "memory_hbm": 7,
+    "cowos_supply_chain": 1,
+    "defense_drone": 2,
+    "energy_grid": 1,
+    "memory_hbm": 6,
     "optical_cpo": 3,
-    "pcb_abf_hdi": 1,
-    "robotics": 4
+    "pcb_abf_hdi": 2,
+    "robotics": 5
   },
   "theme_veto_distribution": {}
 }
