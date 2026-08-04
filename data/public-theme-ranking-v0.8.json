@@ -2,16 +2,16 @@
   "schema_version": "nexus_public_theme_ranking.v0.8",
   "ranking_rule_version": "public_theme_heat_v0.8",
   "company_rule_version": "public_company_evidence_v0.8",
-  "generated_at": "2026-08-04T09:59:24.629152Z",
+  "generated_at": "2026-08-04T12:20:19.231924Z",
   "market_id": "TW_EQUITY",
   "market_scope": [
     "TW_EQUITY"
   ],
   "window_hours": 72,
   "max_themes": 5,
-  "qualified_theme_count": 4,
-  "displayed_theme_count": 4,
-  "threshold_note": "目前僅 4 個題材達到上榜門檻",
+  "qualified_theme_count": 5,
+  "displayed_theme_count": 5,
+  "threshold_note": null,
   "generation_status": "complete",
   "failed_source_count": 0,
   "official_evidence_status": "available",
@@ -20,68 +20,60 @@
       "rank": 1,
       "theme_id": "memory_hbm",
       "name_zh": "記憶體與 HBM",
-      "heat_score": 94,
+      "heat_score": 88,
       "summaries": {
-        "event_count": 15,
-        "source_count": 4,
-        "tracking_candidate_count": 12,
-        "taiwan_mapping_count": 4
+        "event_count": 10,
+        "source_count": 3,
+        "tracking_candidate_count": 8,
+        "taiwan_mapping_count": 3
       },
       "heat_reason": {
         "rule_version": "public_theme_heat_v0.8",
         "event_component": {
-          "input": 15,
+          "input": 10,
           "normalized": 100.0,
           "weighted": 25.0
         },
         "source_component": {
-          "input": 4,
-          "normalized": 100.0,
-          "weighted": 25.0
+          "input": 3,
+          "normalized": 75.0,
+          "weighted": 18.75
         },
         "candidate_component": {
-          "input": 12,
+          "input": 8,
           "normalized": 100.0,
           "weighted": 20.0
         },
         "mapping_component": {
-          "mapping_count": 4,
+          "mapping_count": 3,
           "direct_mapping_event_count": 1,
           "normalized": 80.0,
           "weighted": 24.0
         },
-        "single_source_concentration": 0.467,
+        "single_source_concentration": 0.6,
         "concentration_penalty": 0.0,
-        "raw_score": 94.0
+        "raw_score": 87.75
       },
       "direct_mentions": [
         {
-          "instrument_id": "TWSE:2330",
-          "symbol": "2330",
+          "instrument_id": "TWSE:2408",
+          "symbol": "2408",
           "exchange": "TWSE",
-          "name_zh": "台積電",
+          "name_zh": "南亞科",
           "direct_event_count": 1,
-          "latest_mentioned_at": "2026-08-04T09:33:20Z"
-        },
-        {
-          "instrument_id": "TWSE:2344",
-          "symbol": "2344",
-          "exchange": "TWSE",
-          "name_zh": "華邦電",
-          "direct_event_count": 1,
-          "latest_mentioned_at": "2026-08-04T09:33:20Z"
+          "latest_mentioned_at": "2026-08-04T10:26:44Z"
         }
       ],
       "supply_chain_candidates": [
         {
-          "instrument_id": "TWSE:2344",
-          "symbol": "2344",
+          "instrument_id": "TWSE:2408",
+          "symbol": "2408",
           "exchange": "TWSE",
-          "name_zh": "華邦電",
+          "name_zh": "南亞科",
           "direct_event_count": 1,
           "official_evidence_count": 0,
           "company_rank_score": 5,
-          "latest_mentioned_at": "2026-08-04T09:33:20Z",
+          "latest_mentioned_at": "2026-08-04T10:26:44Z",
           "latest_official_at": null
         },
         {
@@ -96,10 +88,10 @@
           "latest_official_at": null
         },
         {
-          "instrument_id": "TWSE:2408",
-          "symbol": "2408",
+          "instrument_id": "TWSE:2344",
+          "symbol": "2344",
           "exchange": "TWSE",
-          "name_zh": "南亞科",
+          "name_zh": "華邦電",
           "direct_event_count": 0,
           "official_evidence_count": 0,
           "company_rank_score": 1,
@@ -108,18 +100,103 @@
         }
       ],
       "representative_news": {
-        "cluster_id": "cluster-b3e4437e9a94cc2f",
-        "id": "cnyes-a7c47ac6707f",
-        "title_zh": "三大記憶體廠2027年產能提前售罄 恐成史上最缺一年",
-        "summary": "AI 浪潮持續推升記憶體需求，全球記憶體市場正迎來前所未有的結構性短缺週期。業界人士透露，三星電子 (005930KS) 、美光科技 (MU-US) 及 SK 海力士 (000660KS) 的 DRAM 與高頻寬記憶體（HBM）2027 年全年產能已提前完成分配，涵蓋長期供貨協議大客戶及部分中小型買",
+        "cluster_id": "cluster-e9e4ad95d74cd708",
+        "id": "cnyes-8d024d70943c",
+        "title_zh": "2027年DRAM仍供不應求 輝達下調Rubin Ultra HBM配置",
+        "summary": "TrendForce 最新記憶體產業研究，由於 DRAM 供不應求格局將延續至 2027 年，且原廠 HBM4e 的驗證進度存在變數，自今年第三季起，輝達 (NVDA-US) 對 Rubin Ultra 的 HBM 配置已從 HBM4e 12hi，",
         "source_id": "cnyes",
         "source": "鉅亨網 Cnyes",
-        "published_at": "2026-08-04T08:20:07Z",
-        "canonical_url": "https://news.cnyes.com/news/id/6558073"
+        "published_at": "2026-08-04T10:19:46Z",
+        "canonical_url": "https://news.cnyes.com/news/id/6558865"
       }
     },
     {
       "rank": 2,
+      "theme_id": "cowos_supply_chain",
+      "name_zh": "CoWoS 先進封裝",
+      "heat_score": 58,
+      "summaries": {
+        "event_count": 5,
+        "source_count": 3,
+        "tracking_candidate_count": 0,
+        "taiwan_mapping_count": 3
+      },
+      "heat_reason": {
+        "rule_version": "public_theme_heat_v0.8",
+        "event_component": {
+          "input": 5,
+          "normalized": 83.333,
+          "weighted": 20.833
+        },
+        "source_component": {
+          "input": 3,
+          "normalized": 75.0,
+          "weighted": 18.75
+        },
+        "candidate_component": {
+          "input": 0,
+          "normalized": 0.0,
+          "weighted": 0.0
+        },
+        "mapping_component": {
+          "mapping_count": 3,
+          "direct_mapping_event_count": 0,
+          "normalized": 60.0,
+          "weighted": 18.0
+        },
+        "single_source_concentration": 0.4,
+        "concentration_penalty": 0.0,
+        "raw_score": 57.583
+      },
+      "direct_mentions": [],
+      "supply_chain_candidates": [
+        {
+          "instrument_id": "TWSE:2330",
+          "symbol": "2330",
+          "exchange": "TWSE",
+          "name_zh": "台積電",
+          "direct_event_count": 0,
+          "official_evidence_count": 0,
+          "company_rank_score": 1,
+          "latest_mentioned_at": null,
+          "latest_official_at": null
+        },
+        {
+          "instrument_id": "TWSE:2449",
+          "symbol": "2449",
+          "exchange": "TWSE",
+          "name_zh": "京元電子",
+          "direct_event_count": 0,
+          "official_evidence_count": 0,
+          "company_rank_score": 1,
+          "latest_mentioned_at": null,
+          "latest_official_at": null
+        },
+        {
+          "instrument_id": "TWSE:3711",
+          "symbol": "3711",
+          "exchange": "TWSE",
+          "name_zh": "日月光投控",
+          "direct_event_count": 0,
+          "official_evidence_count": 0,
+          "company_rank_score": 1,
+          "latest_mentioned_at": null,
+          "latest_official_at": null
+        }
+      ],
+      "representative_news": {
+        "cluster_id": "cluster-5eeb06e770dcc758",
+        "id": "digitimes_tw-8a2ecac1b917",
+        "title_zh": "搶攻TGV、布局先進封裝設備　亞智南科設研發中心",
+        "summary": "南科管理局表示，亞智科技申請於台南園區投資設立南科分公司，將提供先進封裝設備開發及系統整合解決方案，並規劃設置研發中心，聚焦次世代先進封裝設備的開發。亞智表示，長期深耕化學濕製程、電化學沉積（ECD",
+        "source_id": "digitimes_tw",
+        "source": "DIGITIMES",
+        "published_at": "2026-08-04T10:44:34Z",
+        "canonical_url": "https://www.digitimes.com.tw/tech/dt/n/shwnws.asp?id=0000764015_41ZLGV1M22S7EY4J101X9"
+      }
+    },
+    {
+      "rank": 3,
       "theme_id": "defense_drone",
       "name_zh": "國防與無人機",
       "heat_score": 54,
@@ -204,22 +281,22 @@
       }
     },
     {
-      "rank": 3,
-      "theme_id": "optical_cpo",
-      "name_zh": "光通訊與 CPO",
-      "heat_score": 46,
+      "rank": 4,
+      "theme_id": "ai_server",
+      "name_zh": "AI 伺服器",
+      "heat_score": 45,
       "summaries": {
-        "event_count": 3,
+        "event_count": 2,
         "source_count": 2,
-        "tracking_candidate_count": 1,
+        "tracking_candidate_count": 0,
         "taiwan_mapping_count": 3
       },
       "heat_reason": {
         "rule_version": "public_theme_heat_v0.8",
         "event_component": {
-          "input": 3,
-          "normalized": 50.0,
-          "weighted": 12.5
+          "input": 2,
+          "normalized": 33.333,
+          "weighted": 8.333
         },
         "source_component": {
           "input": 2,
@@ -227,9 +304,103 @@
           "weighted": 12.5
         },
         "candidate_component": {
-          "input": 1,
-          "normalized": 25.0,
-          "weighted": 5.0
+          "input": 0,
+          "normalized": 0.0,
+          "weighted": 0.0
+        },
+        "mapping_component": {
+          "mapping_count": 3,
+          "direct_mapping_event_count": 1,
+          "normalized": 80.0,
+          "weighted": 24.0
+        },
+        "single_source_concentration": 0.5,
+        "concentration_penalty": 0.0,
+        "raw_score": 44.833
+      },
+      "direct_mentions": [
+        {
+          "instrument_id": "TWSE:3231",
+          "symbol": "3231",
+          "exchange": "TWSE",
+          "name_zh": "緯創",
+          "direct_event_count": 1,
+          "latest_mentioned_at": "2026-08-04T12:15:55Z"
+        }
+      ],
+      "supply_chain_candidates": [
+        {
+          "instrument_id": "TWSE:3231",
+          "symbol": "3231",
+          "exchange": "TWSE",
+          "name_zh": "緯創",
+          "direct_event_count": 1,
+          "official_evidence_count": 0,
+          "company_rank_score": 5,
+          "latest_mentioned_at": "2026-08-04T12:15:55Z",
+          "latest_official_at": null
+        },
+        {
+          "instrument_id": "TWSE:2382",
+          "symbol": "2382",
+          "exchange": "TWSE",
+          "name_zh": "廣達",
+          "direct_event_count": 0,
+          "official_evidence_count": 0,
+          "company_rank_score": 1,
+          "latest_mentioned_at": null,
+          "latest_official_at": null
+        },
+        {
+          "instrument_id": "TWSE:6669",
+          "symbol": "6669",
+          "exchange": "TWSE",
+          "name_zh": "緯穎",
+          "direct_event_count": 0,
+          "official_evidence_count": 0,
+          "company_rank_score": 1,
+          "latest_mentioned_at": null,
+          "latest_official_at": null
+        }
+      ],
+      "representative_news": {
+        "cluster_id": "cluster-269292c790a24f18",
+        "id": "yahoo_finance_tw-661fc93bbdf0",
+        "title_zh": "緯創法說2》下半年AI伺服器需求強勁、筆電出貨估減15% 原因曝光",
+        "summary": "緯創（3231）總經理林建勳於今（4）日法說會表示，受到上半年訂單提前拉貨、PC價格偏高影響，預估下半年筆電出貨量將衰退約15%，不過，記憶體漲價推升產品單價，營收未必同步下滑。相較消費性電子需求承壓",
+        "source_id": "yahoo_finance_tw",
+        "source": "Yahoo Finance Taiwan",
+        "published_at": "2026-08-04T12:15:55Z",
+        "canonical_url": "https://tw.stock.yahoo.com/news/%E7%B7%AF%E5%89%B5%E6%B3%95%E8%AA%AA2%E3%80%8B%E4%B8%8B%E5%8D%8A%E5%B9%B4ai%E4%BC%BA%E6%9C%8D%E5%99%A8%E9%9C%80%E6%B1%82%E5%BC%B7%E5%8B%81%E3%80%81%E7%AD%86%E9%9B%BB%E5%87%BA%E8%B2%A8%E4%BC%B0%E6%B8%9B15-%E5%8E%9F%E5%9B%A0%E6%9B%9D%E5%85%89-121555718.html"
+      }
+    },
+    {
+      "rank": 5,
+      "theme_id": "optical_cpo",
+      "name_zh": "光通訊與 CPO",
+      "heat_score": 39,
+      "summaries": {
+        "event_count": 2,
+        "source_count": 2,
+        "tracking_candidate_count": 0,
+        "taiwan_mapping_count": 3
+      },
+      "heat_reason": {
+        "rule_version": "public_theme_heat_v0.8",
+        "event_component": {
+          "input": 2,
+          "normalized": 33.333,
+          "weighted": 8.333
+        },
+        "source_component": {
+          "input": 2,
+          "normalized": 50.0,
+          "weighted": 12.5
+        },
+        "candidate_component": {
+          "input": 0,
+          "normalized": 0.0,
+          "weighted": 0.0
         },
         "mapping_component": {
           "mapping_count": 3,
@@ -237,9 +408,9 @@
           "normalized": 60.0,
           "weighted": 18.0
         },
-        "single_source_concentration": 0.667,
-        "concentration_penalty": 2.5,
-        "raw_score": 45.5
+        "single_source_concentration": 0.5,
+        "concentration_penalty": 0.0,
+        "raw_score": 38.833
       },
       "direct_mentions": [],
       "supply_chain_candidates": [
@@ -278,99 +449,14 @@
         }
       ],
       "representative_news": {
-        "cluster_id": "cluster-9e5800dbb2ebf4f2",
-        "id": "cnyes-c3d854a23e2d",
-        "title_zh": "光通訊成AI新瓶頸！Lumentum：這一「半導體材料」短缺恐比記憶體更嚴重",
-        "summary": "AI 資料中心帶動光通訊需求爆發，磷化銦（InP）成為矽光子與高速光連接不可或缺的核心材料。Lumentum 示警供需缺口已超過 30%，即使與 Coherent 合計產能仍難滿足輝達等客戶需求，市場憂心磷化銦短缺恐比記憶體危機更",
+        "cluster_id": "cluster-f7894a4b3b3413bb",
+        "id": "cnyes-b43fec70e60f",
+        "title_zh": "達發光通訊業務大爆發 估今年營收翻4倍、明年再翻3倍",
+        "summary": "達發 (6526-TW) 今 (4) 日舉辦法說會，執行副總暨發言人謝孟翰表示，第三季營運將持續成長，其中，光通訊業務能見度較上季進一步提升，2026 年營收規模預計將比去年成長「超過四倍」，且在單通道 100G 產品帶動下，成",
         "source_id": "cnyes",
         "source": "鉅亨網 Cnyes",
-        "published_at": "2026-08-04T02:58:01Z",
-        "canonical_url": "https://news.cnyes.com/news/id/6557935"
-      }
-    },
-    {
-      "rank": 4,
-      "theme_id": "cowos_supply_chain",
-      "name_zh": "CoWoS 先進封裝",
-      "heat_score": 41,
-      "summaries": {
-        "event_count": 3,
-        "source_count": 2,
-        "tracking_candidate_count": 0,
-        "taiwan_mapping_count": 3
-      },
-      "heat_reason": {
-        "rule_version": "public_theme_heat_v0.8",
-        "event_component": {
-          "input": 3,
-          "normalized": 50.0,
-          "weighted": 12.5
-        },
-        "source_component": {
-          "input": 2,
-          "normalized": 50.0,
-          "weighted": 12.5
-        },
-        "candidate_component": {
-          "input": 0,
-          "normalized": 0.0,
-          "weighted": 0.0
-        },
-        "mapping_component": {
-          "mapping_count": 3,
-          "direct_mapping_event_count": 0,
-          "normalized": 60.0,
-          "weighted": 18.0
-        },
-        "single_source_concentration": 0.667,
-        "concentration_penalty": 2.5,
-        "raw_score": 40.5
-      },
-      "direct_mentions": [],
-      "supply_chain_candidates": [
-        {
-          "instrument_id": "TWSE:2330",
-          "symbol": "2330",
-          "exchange": "TWSE",
-          "name_zh": "台積電",
-          "direct_event_count": 0,
-          "official_evidence_count": 0,
-          "company_rank_score": 1,
-          "latest_mentioned_at": null,
-          "latest_official_at": null
-        },
-        {
-          "instrument_id": "TWSE:2449",
-          "symbol": "2449",
-          "exchange": "TWSE",
-          "name_zh": "京元電子",
-          "direct_event_count": 0,
-          "official_evidence_count": 0,
-          "company_rank_score": 1,
-          "latest_mentioned_at": null,
-          "latest_official_at": null
-        },
-        {
-          "instrument_id": "TWSE:3711",
-          "symbol": "3711",
-          "exchange": "TWSE",
-          "name_zh": "日月光投控",
-          "direct_event_count": 0,
-          "official_evidence_count": 0,
-          "company_rank_score": 1,
-          "latest_mentioned_at": null,
-          "latest_official_at": null
-        }
-      ],
-      "representative_news": {
-        "cluster_id": "cluster-7132468873e0766a",
-        "id": "cnyes-73ab146e8413",
-        "title_zh": "中國國產玻璃基板突破！華為聯合京東方、維信諾打通先進封裝關鍵環節  2027年量產",
-        "summary": "中國半導體先進封裝供應鏈傳出重大進展，面板大廠京東方上周四(7月30日)在跟法人機構交流時透露，該公司8.6代板級玻璃基板試驗線已穩定量產510×515mm規格的TGV(玻璃通孔)玻璃載板，相關樣品持續送交華為海思與松山湖研究院，進行適配「韜定律V2」先進封裝架構的可靠性驗證，涵蓋麒麟行動端晶片晶粒",
-        "source_id": "cnyes",
-        "source": "鉅亨網 Cnyes",
-        "published_at": "2026-08-04T09:00:09Z",
-        "canonical_url": "https://news.cnyes.com/news/id/6558455"
+        "published_at": "2026-08-04T09:47:13Z",
+        "canonical_url": "https://news.cnyes.com/news/id/6558862"
       }
     }
   ]
