@@ -2,27 +2,129 @@
   "schema_version": "nexus_public_theme_ranking.v0.8",
   "ranking_rule_version": "public_theme_heat_v0.8",
   "company_rule_version": "public_company_evidence_v0.8",
-  "generated_at": "2026-08-04T19:58:01.997589Z",
+  "generated_at": "2026-08-04T21:37:39.980536Z",
   "market_id": "TW_EQUITY",
   "market_scope": [
     "TW_EQUITY"
   ],
   "window_hours": 72,
   "max_themes": 5,
-  "qualified_theme_count": 3,
-  "displayed_theme_count": 3,
-  "threshold_note": "目前僅 3 個題材達到上榜門檻",
+  "qualified_theme_count": 6,
+  "displayed_theme_count": 5,
+  "threshold_note": null,
   "generation_status": "complete",
   "failed_source_count": 0,
   "official_evidence_status": "available",
   "themes": [
     {
       "rank": 1,
+      "theme_id": "memory_hbm",
+      "name_zh": "記憶體與 HBM",
+      "heat_score": 87,
+      "summaries": {
+        "event_count": 8,
+        "source_count": 2,
+        "tracking_candidate_count": 4,
+        "taiwan_mapping_count": 4
+      },
+      "heat_reason": {
+        "rule_version": "public_theme_heat_v0.8",
+        "event_component": {
+          "input": 8,
+          "normalized": 100.0,
+          "weighted": 25.0
+        },
+        "source_component": {
+          "input": 2,
+          "normalized": 50.0,
+          "weighted": 12.5
+        },
+        "candidate_component": {
+          "input": 4,
+          "normalized": 100.0,
+          "weighted": 20.0
+        },
+        "mapping_component": {
+          "mapping_count": 4,
+          "direct_mapping_event_count": 2,
+          "normalized": 100.0,
+          "weighted": 30.0
+        },
+        "single_source_concentration": 0.625,
+        "concentration_penalty": 0.938,
+        "raw_score": 86.563
+      },
+      "direct_mentions": [
+        {
+          "instrument_id": "TWSE:2330",
+          "symbol": "2330",
+          "exchange": "TWSE",
+          "name_zh": "台積電",
+          "direct_event_count": 1,
+          "latest_mentioned_at": "2026-08-04T18:16:18Z"
+        },
+        {
+          "instrument_id": "TWSE:2408",
+          "symbol": "2408",
+          "exchange": "TWSE",
+          "name_zh": "南亞科",
+          "direct_event_count": 1,
+          "latest_mentioned_at": "2026-08-04T10:26:44Z"
+        }
+      ],
+      "supply_chain_candidates": [
+        {
+          "instrument_id": "TWSE:2408",
+          "symbol": "2408",
+          "exchange": "TWSE",
+          "name_zh": "南亞科",
+          "direct_event_count": 1,
+          "official_evidence_count": 0,
+          "company_rank_score": 5,
+          "latest_mentioned_at": "2026-08-04T10:26:44Z",
+          "latest_official_at": null
+        },
+        {
+          "instrument_id": "TPEX:8299",
+          "symbol": "8299",
+          "exchange": "TPEX",
+          "name_zh": "群聯",
+          "direct_event_count": 0,
+          "official_evidence_count": 0,
+          "company_rank_score": 1,
+          "latest_mentioned_at": null,
+          "latest_official_at": null
+        },
+        {
+          "instrument_id": "TWSE:2344",
+          "symbol": "2344",
+          "exchange": "TWSE",
+          "name_zh": "華邦電",
+          "direct_event_count": 0,
+          "official_evidence_count": 0,
+          "company_rank_score": 1,
+          "latest_mentioned_at": null,
+          "latest_official_at": null
+        }
+      ],
+      "representative_news": {
+        "cluster_id": "cluster-3f3224b63705ae82",
+        "id": "digitimes_tw-f854104711be",
+        "title_zh": "三星、美光DRAM價漲雙面擠壓　SK海力士HBM卻拖累成長",
+        "summary": "記憶體業進入長週期缺貨循環，受到DRAM逐季議價調漲，上游記憶體原廠獲利結構已從原本高頻寬記憶體（HBM）一枝獨秀，轉向HBM與高階通用DRAM相互拉抬的模式。近期三大原廠公布獲利表現，受惠於DRAM價格彈性調漲，三星電子（Samsung",
+        "source_id": "digitimes_tw",
+        "source": "DIGITIMES",
+        "published_at": "2026-08-04T18:01:42Z",
+        "canonical_url": "https://www.digitimes.com.tw/tech/dt/n/shwnws.asp?id=0000763979_ON5LQGVY67RZSHLQV0DK9"
+      }
+    },
+    {
+      "rank": 2,
       "theme_id": "defense_drone",
       "name_zh": "國防與無人機",
-      "heat_score": 69,
+      "heat_score": 73,
       "summaries": {
-        "event_count": 5,
+        "event_count": 6,
         "source_count": 4,
         "tracking_candidate_count": 1,
         "taiwan_mapping_count": 3
@@ -30,9 +132,9 @@
       "heat_reason": {
         "rule_version": "public_theme_heat_v0.8",
         "event_component": {
-          "input": 5,
-          "normalized": 83.333,
-          "weighted": 20.833
+          "input": 6,
+          "normalized": 100.0,
+          "weighted": 25.0
         },
         "source_component": {
           "input": 4,
@@ -50,9 +152,9 @@
           "normalized": 60.0,
           "weighted": 18.0
         },
-        "single_source_concentration": 0.333,
+        "single_source_concentration": 0.429,
         "concentration_penalty": 0.0,
-        "raw_score": 68.833
+        "raw_score": 73.0
       },
       "direct_mentions": [],
       "supply_chain_candidates": [
@@ -102,27 +204,129 @@
       }
     },
     {
-      "rank": 2,
+      "rank": 3,
+      "theme_id": "ai_server",
+      "name_zh": "AI 伺服器",
+      "heat_score": 64,
+      "summaries": {
+        "event_count": 4,
+        "source_count": 2,
+        "tracking_candidate_count": 2,
+        "taiwan_mapping_count": 3
+      },
+      "heat_reason": {
+        "rule_version": "public_theme_heat_v0.8",
+        "event_component": {
+          "input": 4,
+          "normalized": 66.667,
+          "weighted": 16.667
+        },
+        "source_component": {
+          "input": 2,
+          "normalized": 50.0,
+          "weighted": 12.5
+        },
+        "candidate_component": {
+          "input": 2,
+          "normalized": 50.0,
+          "weighted": 10.0
+        },
+        "mapping_component": {
+          "mapping_count": 3,
+          "direct_mapping_event_count": 3,
+          "normalized": 100.0,
+          "weighted": 30.0
+        },
+        "single_source_concentration": 0.75,
+        "concentration_penalty": 5.625,
+        "raw_score": 63.542
+      },
+      "direct_mentions": [
+        {
+          "instrument_id": "TWSE:3231",
+          "symbol": "3231",
+          "exchange": "TWSE",
+          "name_zh": "緯創",
+          "direct_event_count": 2,
+          "latest_mentioned_at": "2026-08-04T18:19:38Z"
+        },
+        {
+          "instrument_id": "TWSE:6669",
+          "symbol": "6669",
+          "exchange": "TWSE",
+          "name_zh": "緯穎",
+          "direct_event_count": 1,
+          "latest_mentioned_at": "2026-08-04T03:52:01Z"
+        }
+      ],
+      "supply_chain_candidates": [
+        {
+          "instrument_id": "TWSE:3231",
+          "symbol": "3231",
+          "exchange": "TWSE",
+          "name_zh": "緯創",
+          "direct_event_count": 2,
+          "official_evidence_count": 0,
+          "company_rank_score": 9,
+          "latest_mentioned_at": "2026-08-04T18:19:38Z",
+          "latest_official_at": null
+        },
+        {
+          "instrument_id": "TWSE:6669",
+          "symbol": "6669",
+          "exchange": "TWSE",
+          "name_zh": "緯穎",
+          "direct_event_count": 1,
+          "official_evidence_count": 0,
+          "company_rank_score": 5,
+          "latest_mentioned_at": "2026-08-04T03:52:01Z",
+          "latest_official_at": null
+        },
+        {
+          "instrument_id": "TWSE:2382",
+          "symbol": "2382",
+          "exchange": "TWSE",
+          "name_zh": "廣達",
+          "direct_event_count": 0,
+          "official_evidence_count": 0,
+          "company_rank_score": 1,
+          "latest_mentioned_at": null,
+          "latest_official_at": null
+        }
+      ],
+      "representative_news": {
+        "cluster_id": "cluster-77a602c8277955d4",
+        "id": "cnyes-dc152c6a04de",
+        "title_zh": "〈緯創法說〉AI伺服器業務下半年將優於上半年 網通業務可望成長不只10倍",
+        "summary": "緯創今 (4) 日召開法說會，總經理林建勳表示，AI 伺服器需求維持強勁，除既有客戶拉貨動能擴大，且企業級、CSP 皆有斬獲新客戶，看好下半年 AI 伺服器業務將優於上半年。此外，網通業務中，AI 網路交換器可望成長不只 10 倍。",
+        "source_id": "cnyes",
+        "source": "鉅亨網 Cnyes",
+        "published_at": "2026-08-04T13:26:06Z",
+        "canonical_url": "https://news.cnyes.com/news/id/6559326"
+      }
+    },
+    {
+      "rank": 4,
       "theme_id": "optical_cpo",
       "name_zh": "光通訊與 CPO",
-      "heat_score": 46,
+      "heat_score": 58,
       "summaries": {
-        "event_count": 3,
-        "source_count": 2,
+        "event_count": 4,
+        "source_count": 3,
         "tracking_candidate_count": 1,
         "taiwan_mapping_count": 3
       },
       "heat_reason": {
         "rule_version": "public_theme_heat_v0.8",
         "event_component": {
-          "input": 3,
-          "normalized": 50.0,
-          "weighted": 12.5
+          "input": 4,
+          "normalized": 66.667,
+          "weighted": 16.667
         },
         "source_component": {
-          "input": 2,
-          "normalized": 50.0,
-          "weighted": 12.5
+          "input": 3,
+          "normalized": 75.0,
+          "weighted": 18.75
         },
         "candidate_component": {
           "input": 1,
@@ -135,9 +339,9 @@
           "normalized": 60.0,
           "weighted": 18.0
         },
-        "single_source_concentration": 0.667,
-        "concentration_penalty": 2.5,
-        "raw_score": 45.5
+        "single_source_concentration": 0.5,
+        "concentration_penalty": 0.0,
+        "raw_score": 58.417
       },
       "direct_mentions": [],
       "supply_chain_candidates": [
@@ -187,12 +391,12 @@
       }
     },
     {
-      "rank": 3,
-      "theme_id": "energy_grid",
-      "name_zh": "能源與電網",
-      "heat_score": 39,
+      "rank": 5,
+      "theme_id": "cowos_supply_chain",
+      "name_zh": "CoWoS 先進封裝",
+      "heat_score": 47,
       "summaries": {
-        "event_count": 2,
+        "event_count": 4,
         "source_count": 2,
         "tracking_candidate_count": 0,
         "taiwan_mapping_count": 3
@@ -200,9 +404,9 @@
       "heat_reason": {
         "rule_version": "public_theme_heat_v0.8",
         "event_component": {
-          "input": 2,
-          "normalized": 33.333,
-          "weighted": 8.333
+          "input": 4,
+          "normalized": 66.667,
+          "weighted": 16.667
         },
         "source_component": {
           "input": 2,
@@ -222,15 +426,15 @@
         },
         "single_source_concentration": 0.5,
         "concentration_penalty": 0.0,
-        "raw_score": 38.833
+        "raw_score": 47.167
       },
       "direct_mentions": [],
       "supply_chain_candidates": [
         {
-          "instrument_id": "TWSE:1503",
-          "symbol": "1503",
+          "instrument_id": "TWSE:2330",
+          "symbol": "2330",
           "exchange": "TWSE",
-          "name_zh": "士電",
+          "name_zh": "台積電",
           "direct_event_count": 0,
           "official_evidence_count": 0,
           "company_rank_score": 1,
@@ -238,10 +442,10 @@
           "latest_official_at": null
         },
         {
-          "instrument_id": "TWSE:1513",
-          "symbol": "1513",
+          "instrument_id": "TWSE:2449",
+          "symbol": "2449",
           "exchange": "TWSE",
-          "name_zh": "中興電",
+          "name_zh": "京元電子",
           "direct_event_count": 0,
           "official_evidence_count": 0,
           "company_rank_score": 1,
@@ -249,10 +453,10 @@
           "latest_official_at": null
         },
         {
-          "instrument_id": "TWSE:1519",
-          "symbol": "1519",
+          "instrument_id": "TWSE:3711",
+          "symbol": "3711",
           "exchange": "TWSE",
-          "name_zh": "華城",
+          "name_zh": "日月光投控",
           "direct_event_count": 0,
           "official_evidence_count": 0,
           "company_rank_score": 1,
@@ -261,14 +465,14 @@
         }
       ],
       "representative_news": {
-        "cluster_id": "cluster-9181909dd74e9007",
-        "id": "moneydj-c95b86706c12",
-        "title_zh": "華電網 公告本公司民國115年第二季財務報告董事會召開日期",
-        "summary": "<a href=\"https://www.moneydj.com/kmdj/news/newsviewer.aspx?a=571acfda-b6a9-4682-868e-65308023bed2&amp;utm_source=665657682657186668576896&amp;utm_medium=RSS\">內文連結</a>",
-        "source_id": "moneydj",
-        "source": "MoneyDJ",
-        "published_at": "2026-08-04T12:44:00Z",
-        "canonical_url": "https://www.moneydj.com/kmdj/news/newsviewer.aspx?a=571acfda-b6a9-4682-868e-65308023bed2&utm_source=665657682657186668576896&utm_medium=RSS"
+        "cluster_id": "cluster-47c64d55547efc8b",
+        "id": "technews-efc9deb2baac",
+        "title_zh": "AI 與先進封裝市場成長帶動環球晶第二季獲利季增近倍，上半年 EPS 達 11.87 元",
+        "summary": "全球半導體矽晶圓大廠環球晶公布2026年第二季及上半年營運報告。受惠於AI需求持續強勁及半導體技術演進，環球晶 [&#8230;]",
+        "source_id": "technews",
+        "source": "TechNews",
+        "published_at": "2026-08-04T10:00:11Z",
+        "canonical_url": "https://finance.technews.tw/2026/08/04/growth-in-the-ai-%e2%80%8b%e2%80%8band-advanced-packaging-markets-nearly-doubled-globalwafers-second-quarter-profits/"
       }
     }
   ]
