@@ -2,234 +2,47 @@
   "schema_version": "nexus_public_theme_ranking.v0.8",
   "ranking_rule_version": "public_theme_heat_v0.8",
   "company_rule_version": "public_company_evidence_v0.8",
-  "generated_at": "2026-08-05T17:54:43.920818Z",
+  "generated_at": "2026-08-05T19:56:16.536120Z",
   "market_id": "TW_EQUITY",
   "market_scope": [
     "TW_EQUITY"
   ],
   "window_hours": 72,
   "max_themes": 5,
-  "qualified_theme_count": 3,
-  "displayed_theme_count": 3,
-  "threshold_note": "目前僅 3 個題材達到上榜門檻",
+  "qualified_theme_count": 2,
+  "displayed_theme_count": 2,
+  "threshold_note": "目前僅 2 個題材達到上榜門檻",
   "generation_status": "complete",
   "failed_source_count": 0,
   "official_evidence_status": "available",
   "themes": [
     {
       "rank": 1,
-      "theme_id": "memory_hbm",
-      "name_zh": "記憶體與 HBM",
-      "heat_score": 74,
-      "summaries": {
-        "event_count": 6,
-        "source_count": 2,
-        "tracking_candidate_count": 3,
-        "taiwan_mapping_count": 4
-      },
-      "heat_reason": {
-        "rule_version": "public_theme_heat_v0.8",
-        "event_component": {
-          "input": 6,
-          "normalized": 100.0,
-          "weighted": 25.0
-        },
-        "source_component": {
-          "input": 2,
-          "normalized": 50.0,
-          "weighted": 12.5
-        },
-        "candidate_component": {
-          "input": 3,
-          "normalized": 75.0,
-          "weighted": 15.0
-        },
-        "mapping_component": {
-          "mapping_count": 4,
-          "direct_mapping_event_count": 2,
-          "normalized": 100.0,
-          "weighted": 30.0
-        },
-        "single_source_concentration": 0.833,
-        "concentration_penalty": 8.75,
-        "raw_score": 73.75
-      },
-      "direct_mentions": [
-        {
-          "instrument_id": "TWSE:2408",
-          "symbol": "2408",
-          "exchange": "TWSE",
-          "name_zh": "南亞科",
-          "direct_event_count": 1,
-          "latest_mentioned_at": "2026-08-05T13:33:31Z"
-        },
-        {
-          "instrument_id": "TWSE:2330",
-          "symbol": "2330",
-          "exchange": "TWSE",
-          "name_zh": "台積電",
-          "direct_event_count": 1,
-          "latest_mentioned_at": "2026-08-04T18:16:18Z"
-        }
-      ],
-      "supply_chain_candidates": [
-        {
-          "instrument_id": "TWSE:2408",
-          "symbol": "2408",
-          "exchange": "TWSE",
-          "name_zh": "南亞科",
-          "direct_event_count": 1,
-          "official_evidence_count": 0,
-          "company_rank_score": 5,
-          "latest_mentioned_at": "2026-08-05T13:33:31Z",
-          "latest_official_at": null
-        },
-        {
-          "instrument_id": "TPEX:8299",
-          "symbol": "8299",
-          "exchange": "TPEX",
-          "name_zh": "群聯",
-          "direct_event_count": 0,
-          "official_evidence_count": 0,
-          "company_rank_score": 1,
-          "latest_mentioned_at": null,
-          "latest_official_at": null
-        },
-        {
-          "instrument_id": "TWSE:2344",
-          "symbol": "2344",
-          "exchange": "TWSE",
-          "name_zh": "華邦電",
-          "direct_event_count": 0,
-          "official_evidence_count": 0,
-          "company_rank_score": 1,
-          "latest_mentioned_at": null,
-          "latest_official_at": null
-        }
-      ],
-      "representative_news": {
-        "cluster_id": "cluster-3f3224b63705ae82",
-        "id": "digitimes_tw-f854104711be",
-        "title_zh": "三星、美光DRAM價漲雙面擠壓　SK海力士HBM卻拖累成長",
-        "summary": "記憶體業進入長週期缺貨循環，受到DRAM逐季議價調漲，上游記憶體原廠獲利結構已從原本高頻寬記憶體（HBM）一枝獨秀，轉向HBM與高階通用DRAM相互拉抬的模式。近期三大原廠公布獲利表現，受惠於DRAM價格彈性調漲，三星電子（Samsung",
-        "source_id": "digitimes_tw",
-        "source": "DIGITIMES",
-        "published_at": "2026-08-04T18:01:42Z",
-        "canonical_url": "https://www.digitimes.com.tw/tech/dt/n/shwnws.asp?id=0000763979_ON5LQGVY67RZSHLQV0DK9"
-      }
-    },
-    {
-      "rank": 2,
-      "theme_id": "defense_drone",
-      "name_zh": "國防與無人機",
-      "heat_score": 52,
-      "summaries": {
-        "event_count": 6,
-        "source_count": 2,
-        "tracking_candidate_count": 1,
-        "taiwan_mapping_count": 3
-      },
-      "heat_reason": {
-        "rule_version": "public_theme_heat_v0.8",
-        "event_component": {
-          "input": 6,
-          "normalized": 100.0,
-          "weighted": 25.0
-        },
-        "source_component": {
-          "input": 2,
-          "normalized": 50.0,
-          "weighted": 12.5
-        },
-        "candidate_component": {
-          "input": 1,
-          "normalized": 25.0,
-          "weighted": 5.0
-        },
-        "mapping_component": {
-          "mapping_count": 3,
-          "direct_mapping_event_count": 0,
-          "normalized": 60.0,
-          "weighted": 18.0
-        },
-        "single_source_concentration": 0.833,
-        "concentration_penalty": 8.75,
-        "raw_score": 51.75
-      },
-      "direct_mentions": [],
-      "supply_chain_candidates": [
-        {
-          "instrument_id": "TPEX:5371",
-          "symbol": "5371",
-          "exchange": "TPEX",
-          "name_zh": "中光電",
-          "direct_event_count": 0,
-          "official_evidence_count": 0,
-          "company_rank_score": 1,
-          "latest_mentioned_at": null,
-          "latest_official_at": null
-        },
-        {
-          "instrument_id": "TPEX:8033",
-          "symbol": "8033",
-          "exchange": "TPEX",
-          "name_zh": "雷虎",
-          "direct_event_count": 0,
-          "official_evidence_count": 0,
-          "company_rank_score": 1,
-          "latest_mentioned_at": null,
-          "latest_official_at": null
-        },
-        {
-          "instrument_id": "TWSE:2634",
-          "symbol": "2634",
-          "exchange": "TWSE",
-          "name_zh": "漢翔",
-          "direct_event_count": 0,
-          "official_evidence_count": 0,
-          "company_rank_score": 1,
-          "latest_mentioned_at": null,
-          "latest_official_at": null
-        }
-      ],
-      "representative_news": {
-        "cluster_id": "cluster-65179b5513ab7a93",
-        "id": "digitimes_tw-27e5dde23c0f",
-        "title_zh": "台灣拚打造全球無人機重鎮　業界點出三大非紅供應鏈優勢",
-        "summary": "全球地緣政治風險升高，加上極端氣候頻繁發生，以及各國積極建構非紅供應鏈的趨勢下，無人機已從過去的航拍工具逐漸成為國防、災害應變及低空經濟的重要基礎設施。AI物聯網大聯盟榮譽會長施振榮表示，未來無人載具不止是單一零組件競爭，更是涵蓋軟硬體、AI、通訊及系統整合能力的全面競爭，完整的產業生態鏈將是台灣下一階段的重要優勢。而在應用",
-        "source_id": "digitimes_tw",
-        "source": "DIGITIMES",
-        "published_at": "2026-08-04T18:27:33Z",
-        "canonical_url": "https://www.digitimes.com.tw/tech/dt/n/shwnws.asp?id=0000763966_61GLMJF15U505X7O4Z6ZH"
-      }
-    },
-    {
-      "rank": 3,
       "theme_id": "optical_cpo",
       "name_zh": "光通訊與 CPO",
       "heat_score": 49,
       "summaries": {
-        "event_count": 5,
-        "source_count": 2,
-        "tracking_candidate_count": 1,
+        "event_count": 3,
+        "source_count": 3,
+        "tracking_candidate_count": 0,
         "taiwan_mapping_count": 3
       },
       "heat_reason": {
         "rule_version": "public_theme_heat_v0.8",
         "event_component": {
-          "input": 5,
-          "normalized": 83.333,
-          "weighted": 20.833
-        },
-        "source_component": {
-          "input": 2,
+          "input": 3,
           "normalized": 50.0,
           "weighted": 12.5
         },
+        "source_component": {
+          "input": 3,
+          "normalized": 75.0,
+          "weighted": 18.75
+        },
         "candidate_component": {
-          "input": 1,
-          "normalized": 25.0,
-          "weighted": 5.0
+          "input": 0,
+          "normalized": 0.0,
+          "weighted": 0.0
         },
         "mapping_component": {
           "mapping_count": 3,
@@ -237,9 +50,9 @@
           "normalized": 60.0,
           "weighted": 18.0
         },
-        "single_source_concentration": 0.8,
-        "concentration_penalty": 7.5,
-        "raw_score": 48.833
+        "single_source_concentration": 0.5,
+        "concentration_penalty": 0.0,
+        "raw_score": 49.25
       },
       "direct_mentions": [],
       "supply_chain_candidates": [
@@ -278,14 +91,99 @@
         }
       ],
       "representative_news": {
-        "cluster_id": "cluster-ca4732eba5dde279",
-        "id": "digitimes_tw-3c770b75b420",
-        "title_zh": "專訪Ayar Labs執行長Mark Wade　CPO Scale-Up預計2028~2029放量",
-        "summary": "2026年OCP APAC Summit即將在8月11~12日於台北正式開幕，全球雲端服務供應商（CSP）、半導體、矽光子、系統廠及眾多台灣供應商，皆將分享最新資訊，同時宣傳開發運算架構的優勢。近期與台灣供應鏈多次密切合作的美系矽光子新創業者Ayar Labs，執行長Mark Wade不僅將造訪2026 OCP",
+        "cluster_id": "cluster-595f657fe7f8d588",
+        "id": "cnyes-81a12fabaf65",
+        "title_zh": "〈財報〉格芯搭上AI順風車！矽光子需求帶旺第二季業績",
+        "summary": "晶圓代工業者格芯 (格羅方德 / GlobalFoundries)(GFS-US) 周三 (5 日) 公布 2026 會計年度第二季 (截至 6 月 30 日) 財報，受惠人工智慧 (AI) 資料中心帶動矽光子晶片需求，營收與調整後每股盈餘均優於華爾街預",
+        "source_id": "cnyes",
+        "source": "鉅亨網 Cnyes",
+        "published_at": "2026-08-05T18:30:05Z",
+        "canonical_url": "https://news.cnyes.com/news/id/6561402"
+      }
+    },
+    {
+      "rank": 2,
+      "theme_id": "defense_drone",
+      "name_zh": "國防與無人機",
+      "heat_score": 46,
+      "summaries": {
+        "event_count": 3,
+        "source_count": 2,
+        "tracking_candidate_count": 1,
+        "taiwan_mapping_count": 3
+      },
+      "heat_reason": {
+        "rule_version": "public_theme_heat_v0.8",
+        "event_component": {
+          "input": 3,
+          "normalized": 50.0,
+          "weighted": 12.5
+        },
+        "source_component": {
+          "input": 2,
+          "normalized": 50.0,
+          "weighted": 12.5
+        },
+        "candidate_component": {
+          "input": 1,
+          "normalized": 25.0,
+          "weighted": 5.0
+        },
+        "mapping_component": {
+          "mapping_count": 3,
+          "direct_mapping_event_count": 0,
+          "normalized": 60.0,
+          "weighted": 18.0
+        },
+        "single_source_concentration": 0.667,
+        "concentration_penalty": 2.5,
+        "raw_score": 45.5
+      },
+      "direct_mentions": [],
+      "supply_chain_candidates": [
+        {
+          "instrument_id": "TPEX:5371",
+          "symbol": "5371",
+          "exchange": "TPEX",
+          "name_zh": "中光電",
+          "direct_event_count": 0,
+          "official_evidence_count": 0,
+          "company_rank_score": 1,
+          "latest_mentioned_at": null,
+          "latest_official_at": null
+        },
+        {
+          "instrument_id": "TPEX:8033",
+          "symbol": "8033",
+          "exchange": "TPEX",
+          "name_zh": "雷虎",
+          "direct_event_count": 0,
+          "official_evidence_count": 0,
+          "company_rank_score": 1,
+          "latest_mentioned_at": null,
+          "latest_official_at": null
+        },
+        {
+          "instrument_id": "TWSE:2634",
+          "symbol": "2634",
+          "exchange": "TWSE",
+          "name_zh": "漢翔",
+          "direct_event_count": 0,
+          "official_evidence_count": 0,
+          "company_rank_score": 1,
+          "latest_mentioned_at": null,
+          "latest_official_at": null
+        }
+      ],
+      "representative_news": {
+        "cluster_id": "cluster-282091a3634b4f53",
+        "id": "digitimes_tw-8fd26bb00c82",
+        "title_zh": "科技1分鐘：美國高階軍工供應鏈入場券──CMMC",
+        "summary": "想把產品賣進美國國防供應鏈，光有技術還不夠，還得先證明自己守得住機密。美國國防部推動的網路安全成熟度模型認證（Cybersecurity Maturity Model Certification；CMMC），就是國防供應鏈的資安驗證制度",
         "source_id": "digitimes_tw",
         "source": "DIGITIMES",
-        "published_at": "2026-08-04T18:30:52Z",
-        "canonical_url": "https://www.digitimes.com.tw/tech/dt/n/shwnws.asp?id=0000763941_QSALSFKS363HIP2NNTOA9"
+        "published_at": "2026-08-05T18:46:22Z",
+        "canonical_url": "https://www.digitimes.com.tw/tech/dt/n/shwnws.asp?id=0000764122_05E2471J1FAYCI3QXSA78"
       }
     }
   ]
