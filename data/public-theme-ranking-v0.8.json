@@ -2,14 +2,14 @@
   "schema_version": "nexus_public_theme_ranking.v0.8",
   "ranking_rule_version": "public_theme_heat_v0.8",
   "company_rule_version": "public_company_evidence_v0.8",
-  "generated_at": "2026-08-05T03:34:37.150033Z",
+  "generated_at": "2026-08-05T06:43:05.130962Z",
   "market_id": "TW_EQUITY",
   "market_scope": [
     "TW_EQUITY"
   ],
   "window_hours": 72,
   "max_themes": 5,
-  "qualified_theme_count": 6,
+  "qualified_theme_count": 5,
   "displayed_theme_count": 5,
   "threshold_note": null,
   "generation_status": "complete",
@@ -18,21 +18,106 @@
   "themes": [
     {
       "rank": 1,
+      "theme_id": "optical_cpo",
+      "name_zh": "光通訊與 CPO",
+      "heat_score": 68,
+      "summaries": {
+        "event_count": 5,
+        "source_count": 3,
+        "tracking_candidate_count": 2,
+        "taiwan_mapping_count": 3
+      },
+      "heat_reason": {
+        "rule_version": "public_theme_heat_v0.8",
+        "event_component": {
+          "input": 5,
+          "normalized": 83.333,
+          "weighted": 20.833
+        },
+        "source_component": {
+          "input": 3,
+          "normalized": 75.0,
+          "weighted": 18.75
+        },
+        "candidate_component": {
+          "input": 2,
+          "normalized": 50.0,
+          "weighted": 10.0
+        },
+        "mapping_component": {
+          "mapping_count": 3,
+          "direct_mapping_event_count": 0,
+          "normalized": 60.0,
+          "weighted": 18.0
+        },
+        "single_source_concentration": 0.4,
+        "concentration_penalty": 0.0,
+        "raw_score": 67.583
+      },
+      "direct_mentions": [],
+      "supply_chain_candidates": [
+        {
+          "instrument_id": "TPEX:3081",
+          "symbol": "3081",
+          "exchange": "TPEX",
+          "name_zh": "聯亞",
+          "direct_event_count": 0,
+          "official_evidence_count": 0,
+          "company_rank_score": 1,
+          "latest_mentioned_at": null,
+          "latest_official_at": null
+        },
+        {
+          "instrument_id": "TPEX:3363",
+          "symbol": "3363",
+          "exchange": "TPEX",
+          "name_zh": "上詮",
+          "direct_event_count": 0,
+          "official_evidence_count": 0,
+          "company_rank_score": 1,
+          "latest_mentioned_at": null,
+          "latest_official_at": null
+        },
+        {
+          "instrument_id": "TPEX:4979",
+          "symbol": "4979",
+          "exchange": "TPEX",
+          "name_zh": "華星光",
+          "direct_event_count": 0,
+          "official_evidence_count": 0,
+          "company_rank_score": 1,
+          "latest_mentioned_at": null,
+          "latest_official_at": null
+        }
+      ],
+      "representative_news": {
+        "cluster_id": "cluster-a77cb0d55e881f0a",
+        "id": "cnyes-4e81b3124b6e",
+        "title_zh": "美國光收發模組禁令傳聞攪動中美光通訊板塊！大摩、花旗如何解讀？",
+        "summary": "美國傳出擬限制中國高速光模組進口，引爆中美光通訊族群震盪。摩根士丹利認為 Coherent、Lumentum 等美系廠商短期可望受惠，但受制於產能與磷化銦供應；花旗則指出中國掌握全球高速光模組產能，預期最終禁令可能保留豁免條",
+        "source_id": "cnyes",
+        "source": "鉅亨網 Cnyes",
+        "published_at": "2026-08-05T04:20:04Z",
+        "canonical_url": "https://news.cnyes.com/news/id/6559991"
+      }
+    },
+    {
+      "rank": 2,
       "theme_id": "memory_hbm",
       "name_zh": "記憶體與 HBM",
-      "heat_score": 88,
+      "heat_score": 65,
       "summaries": {
-        "event_count": 7,
+        "event_count": 5,
         "source_count": 2,
-        "tracking_candidate_count": 4,
+        "tracking_candidate_count": 3,
         "taiwan_mapping_count": 4
       },
       "heat_reason": {
         "rule_version": "public_theme_heat_v0.8",
         "event_component": {
-          "input": 7,
-          "normalized": 100.0,
-          "weighted": 25.0
+          "input": 5,
+          "normalized": 83.333,
+          "weighted": 20.833
         },
         "source_component": {
           "input": 2,
@@ -40,19 +125,19 @@
           "weighted": 12.5
         },
         "candidate_component": {
-          "input": 4,
-          "normalized": 100.0,
-          "weighted": 20.0
+          "input": 3,
+          "normalized": 75.0,
+          "weighted": 15.0
         },
         "mapping_component": {
           "mapping_count": 4,
-          "direct_mapping_event_count": 2,
-          "normalized": 100.0,
-          "weighted": 30.0
+          "direct_mapping_event_count": 1,
+          "normalized": 80.0,
+          "weighted": 24.0
         },
-        "single_source_concentration": 0.571,
-        "concentration_penalty": 0.0,
-        "raw_score": 87.5
+        "single_source_concentration": 0.8,
+        "concentration_penalty": 7.5,
+        "raw_score": 64.833
       },
       "direct_mentions": [
         {
@@ -62,28 +147,9 @@
           "name_zh": "台積電",
           "direct_event_count": 1,
           "latest_mentioned_at": "2026-08-04T18:16:18Z"
-        },
-        {
-          "instrument_id": "TWSE:2408",
-          "symbol": "2408",
-          "exchange": "TWSE",
-          "name_zh": "南亞科",
-          "direct_event_count": 1,
-          "latest_mentioned_at": "2026-08-04T10:26:44Z"
         }
       ],
       "supply_chain_candidates": [
-        {
-          "instrument_id": "TWSE:2408",
-          "symbol": "2408",
-          "exchange": "TWSE",
-          "name_zh": "南亞科",
-          "direct_event_count": 1,
-          "official_evidence_count": 0,
-          "company_rank_score": 5,
-          "latest_mentioned_at": "2026-08-04T10:26:44Z",
-          "latest_official_at": null
-        },
         {
           "instrument_id": "TPEX:8299",
           "symbol": "8299",
@@ -105,6 +171,17 @@
           "company_rank_score": 1,
           "latest_mentioned_at": null,
           "latest_official_at": null
+        },
+        {
+          "instrument_id": "TWSE:2408",
+          "symbol": "2408",
+          "exchange": "TWSE",
+          "name_zh": "南亞科",
+          "direct_event_count": 0,
+          "official_evidence_count": 0,
+          "company_rank_score": 1,
+          "latest_mentioned_at": null,
+          "latest_official_at": null
         }
       ],
       "representative_news": {
@@ -119,42 +196,42 @@
       }
     },
     {
-      "rank": 2,
+      "rank": 3,
       "theme_id": "ai_server",
       "name_zh": "AI 伺服器",
-      "heat_score": 75,
+      "heat_score": 54,
       "summaries": {
-        "event_count": 5,
-        "source_count": 3,
-        "tracking_candidate_count": 1,
+        "event_count": 4,
+        "source_count": 2,
+        "tracking_candidate_count": 0,
         "taiwan_mapping_count": 3
       },
       "heat_reason": {
         "rule_version": "public_theme_heat_v0.8",
         "event_component": {
-          "input": 5,
-          "normalized": 83.333,
-          "weighted": 20.833
+          "input": 4,
+          "normalized": 66.667,
+          "weighted": 16.667
         },
         "source_component": {
-          "input": 3,
-          "normalized": 75.0,
-          "weighted": 18.75
+          "input": 2,
+          "normalized": 50.0,
+          "weighted": 12.5
         },
         "candidate_component": {
-          "input": 1,
-          "normalized": 25.0,
-          "weighted": 5.0
+          "input": 0,
+          "normalized": 0.0,
+          "weighted": 0.0
         },
         "mapping_component": {
           "mapping_count": 3,
-          "direct_mapping_event_count": 3,
+          "direct_mapping_event_count": 2,
           "normalized": 100.0,
           "weighted": 30.0
         },
-        "single_source_concentration": 0.4,
-        "concentration_penalty": 0.0,
-        "raw_score": 74.583
+        "single_source_concentration": 0.75,
+        "concentration_penalty": 5.625,
+        "raw_score": 53.542
       },
       "direct_mentions": [
         {
@@ -162,7 +239,7 @@
           "symbol": "3231",
           "exchange": "TWSE",
           "name_zh": "緯創",
-          "direct_event_count": 3,
+          "direct_event_count": 2,
           "latest_mentioned_at": "2026-08-05T02:55:35Z"
         }
       ],
@@ -172,9 +249,9 @@
           "symbol": "3231",
           "exchange": "TWSE",
           "name_zh": "緯創",
-          "direct_event_count": 3,
+          "direct_event_count": 2,
           "official_evidence_count": 0,
-          "company_rank_score": 13,
+          "company_rank_score": 9,
           "latest_mentioned_at": "2026-08-05T02:55:35Z",
           "latest_official_at": null
         },
@@ -202,53 +279,53 @@
         }
       ],
       "representative_news": {
-        "cluster_id": "cluster-77a602c8277955d4",
-        "id": "cnyes-dc152c6a04de",
-        "title_zh": "〈緯創法說〉AI伺服器業務下半年將優於上半年 網通業務可望成長不只10倍",
-        "summary": "緯創今 (4) 日召開法說會，總經理林建勳表示，AI 伺服器需求維持強勁，除既有客戶拉貨動能擴大，且企業級、CSP 皆有斬獲新客戶，看好下半年 AI 伺服器業務將優於上半年。此外，網通業務中，AI 網路交換器可望成長不只 10 倍。",
-        "source_id": "cnyes",
-        "source": "鉅亨網 Cnyes",
-        "published_at": "2026-08-04T13:26:06Z",
-        "canonical_url": "https://news.cnyes.com/news/id/6559326"
+        "cluster_id": "cluster-d6330a9d34bf2f93",
+        "id": "digitimes_tw-5e2278db23f3",
+        "title_zh": "劍麟2H26審慎樂觀　推進AI伺服器散熱零組件業務",
+        "summary": "劍麟2026年上半合併營收新台幣24.41億元，較2025年同期減少2.98%；毛利率22%，年減2個百分點；稅後淨利1.39億元，年減40.32%。劍麟指出，上半年受到美國關稅政策影響，以及中國車市景氣需求偏弱雙重因素，汽車事",
+        "source_id": "digitimes_tw",
+        "source": "DIGITIMES",
+        "published_at": "2026-08-05T04:15:25Z",
+        "canonical_url": "https://www.digitimes.com.tw/tech/dt/n/shwnws.asp?id=0000764093_ON7LK3NTL8W7FO2Y3X2D8"
       }
     },
     {
-      "rank": 3,
+      "rank": 4,
       "theme_id": "pcb_abf_hdi",
       "name_zh": "PCB／ABF／HDI",
-      "heat_score": 74,
+      "heat_score": 52,
       "summaries": {
-        "event_count": 4,
-        "source_count": 3,
-        "tracking_candidate_count": 3,
-        "taiwan_mapping_count": 5
+        "event_count": 3,
+        "source_count": 2,
+        "tracking_candidate_count": 1,
+        "taiwan_mapping_count": 4
       },
       "heat_reason": {
         "rule_version": "public_theme_heat_v0.8",
         "event_component": {
-          "input": 4,
-          "normalized": 66.667,
-          "weighted": 16.667
+          "input": 3,
+          "normalized": 50.0,
+          "weighted": 12.5
         },
         "source_component": {
-          "input": 3,
-          "normalized": 75.0,
-          "weighted": 18.75
+          "input": 2,
+          "normalized": 50.0,
+          "weighted": 12.5
         },
         "candidate_component": {
-          "input": 3,
-          "normalized": 75.0,
-          "weighted": 15.0
+          "input": 1,
+          "normalized": 25.0,
+          "weighted": 5.0
         },
         "mapping_component": {
-          "mapping_count": 5,
+          "mapping_count": 4,
           "direct_mapping_event_count": 1,
           "normalized": 80.0,
           "weighted": 24.0
         },
-        "single_source_concentration": 0.5,
-        "concentration_penalty": 0.0,
-        "raw_score": 74.417
+        "single_source_concentration": 0.667,
+        "concentration_penalty": 2.5,
+        "raw_score": 51.5
       },
       "direct_mentions": [
         {
@@ -257,37 +334,10 @@
           "exchange": "TWSE",
           "name_zh": "台積電",
           "direct_event_count": 1,
-          "latest_mentioned_at": "2026-08-05T00:30:14Z"
-        },
-        {
-          "instrument_id": "TWSE:2408",
-          "symbol": "2408",
-          "exchange": "TWSE",
-          "name_zh": "南亞科",
-          "direct_event_count": 1,
-          "latest_mentioned_at": "2026-08-05T00:30:14Z"
-        },
-        {
-          "instrument_id": "TWSE:8046",
-          "symbol": "8046",
-          "exchange": "TWSE",
-          "name_zh": "南電",
-          "direct_event_count": 1,
-          "latest_mentioned_at": "2026-08-05T00:30:14Z"
+          "latest_mentioned_at": "2026-08-05T05:52:25Z"
         }
       ],
       "supply_chain_candidates": [
-        {
-          "instrument_id": "TWSE:8046",
-          "symbol": "8046",
-          "exchange": "TWSE",
-          "name_zh": "南電",
-          "direct_event_count": 1,
-          "official_evidence_count": 0,
-          "company_rank_score": 5,
-          "latest_mentioned_at": "2026-08-05T00:30:14Z",
-          "latest_official_at": null
-        },
         {
           "instrument_id": "TWSE:2368",
           "symbol": "2368",
@@ -309,95 +359,12 @@
           "company_rank_score": 1,
           "latest_mentioned_at": null,
           "latest_official_at": null
-        }
-      ],
-      "representative_news": {
-        "cluster_id": "cluster-375aadf4a87236c4",
-        "id": "cnyes-34aab84fa470",
-        "title_zh": "AI帶旺ABF載板！輝達、超微等巨頭搶貨 鎖產能到2028年 還有客戶超前談2029合作擴產",
-        "summary": "AI 加速器與 HBM 需求爆發，先進封裝產能吃緊向上游傳導，IC 載板 (尤指 ABF 載板) 成為新瓶頸。  業界最新傳出，輝達、超微半導體及雲端服務巨頭已把 ABF 載板長約延到 2028 年，仍難消解供應焦慮，部分客戶更直接要求載板廠啟動 2029 至 2030 年擴產草圖，並重啟疫情期間盛",
-        "source_id": "cnyes",
-        "source": "鉅亨網 Cnyes",
-        "published_at": "2026-08-05T03:00:04Z",
-        "canonical_url": "https://news.cnyes.com/news/id/6560052"
-      }
-    },
-    {
-      "rank": 4,
-      "theme_id": "optical_cpo",
-      "name_zh": "光通訊與 CPO",
-      "heat_score": 74,
-      "summaries": {
-        "event_count": 5,
-        "source_count": 3,
-        "tracking_candidate_count": 2,
-        "taiwan_mapping_count": 3
-      },
-      "heat_reason": {
-        "rule_version": "public_theme_heat_v0.8",
-        "event_component": {
-          "input": 5,
-          "normalized": 83.333,
-          "weighted": 20.833
-        },
-        "source_component": {
-          "input": 3,
-          "normalized": 75.0,
-          "weighted": 18.75
-        },
-        "candidate_component": {
-          "input": 2,
-          "normalized": 50.0,
-          "weighted": 10.0
-        },
-        "mapping_component": {
-          "mapping_count": 3,
-          "direct_mapping_event_count": 1,
-          "normalized": 80.0,
-          "weighted": 24.0
-        },
-        "single_source_concentration": 0.4,
-        "concentration_penalty": 0.0,
-        "raw_score": 73.583
-      },
-      "direct_mentions": [
-        {
-          "instrument_id": "TPEX:3081",
-          "symbol": "3081",
-          "exchange": "TPEX",
-          "name_zh": "聯亞",
-          "direct_event_count": 1,
-          "latest_mentioned_at": "2026-08-05T03:10:00Z"
-        }
-      ],
-      "supply_chain_candidates": [
-        {
-          "instrument_id": "TPEX:3081",
-          "symbol": "3081",
-          "exchange": "TPEX",
-          "name_zh": "聯亞",
-          "direct_event_count": 1,
-          "official_evidence_count": 0,
-          "company_rank_score": 5,
-          "latest_mentioned_at": "2026-08-05T03:10:00Z",
-          "latest_official_at": null
         },
         {
-          "instrument_id": "TPEX:3363",
-          "symbol": "3363",
-          "exchange": "TPEX",
-          "name_zh": "上詮",
-          "direct_event_count": 0,
-          "official_evidence_count": 0,
-          "company_rank_score": 1,
-          "latest_mentioned_at": null,
-          "latest_official_at": null
-        },
-        {
-          "instrument_id": "TPEX:4979",
-          "symbol": "4979",
-          "exchange": "TPEX",
-          "name_zh": "華星光",
+          "instrument_id": "TWSE:8046",
+          "symbol": "8046",
+          "exchange": "TWSE",
+          "name_zh": "南電",
           "direct_event_count": 0,
           "official_evidence_count": 0,
           "company_rank_score": 1,
@@ -406,38 +373,38 @@
         }
       ],
       "representative_news": {
-        "cluster_id": "cluster-6c43f3a32a618a47",
-        "id": "yahoo_finance_tw-a5d1be20f895",
-        "title_zh": "傳川普擬禁「中國製光收發模組」CPO嗨翻7檔攻漲停",
-        "summary": "根據《路透社》報導，美國聯邦通訊委員會（FCC）正研擬禁止進口中國製造的新款光收發模組，受此消息激勵，光通訊大廠Lumentum、Coherent股價狂飆，台股CPO概念股也同步強勢上攻，聯亞、全新、",
-        "source_id": "yahoo_finance_tw",
-        "source": "Yahoo Finance Taiwan",
-        "published_at": "2026-08-05T03:10:00Z",
-        "canonical_url": "https://tw.stock.yahoo.com/news/%E5%82%B3%E5%B7%9D%E6%99%AE%E6%93%AC%E7%A6%81-%E4%B8%AD%E5%9C%8B%E8%A3%BD%E5%85%89%E6%94%B6%E7%99%BC%E6%A8%A1%E7%B5%84-cpo%E5%97%A8%E7%BF%BB7%E6%AA%94%E6%94%BB%E6%BC%B2%E5%81%9C-031000339.html"
+        "cluster_id": "cluster-8d1b7352d3fd85f9",
+        "id": "digitimes_tw-03cde71a0819",
+        "title_zh": "載板長約鎖定至2028還不夠　客戶重啟「合資建廠」模式",
+        "summary": "AI晶片熱潮帶動先進封裝需求爆發，也讓關鍵零組件IC載板產能日益吃緊。業界人士表示，即使NVIDIA、超微（AMD）與雲端服務巨擘（Hyperscaler），已將ABF載板長約（LTA）一路鎖定至2028年，仍難以解除客",
+        "source_id": "digitimes_tw",
+        "source": "DIGITIMES",
+        "published_at": "2026-08-04T19:00:00Z",
+        "canonical_url": "https://www.digitimes.com.tw/tech/dt/n/shwnws.asp?id=0000763965_R9B8KQWY726YTI4XTET8D"
       }
     },
     {
       "rank": 5,
       "theme_id": "defense_drone",
       "name_zh": "國防與無人機",
-      "heat_score": 73,
+      "heat_score": 47,
       "summaries": {
-        "event_count": 8,
-        "source_count": 5,
+        "event_count": 4,
+        "source_count": 2,
         "tracking_candidate_count": 1,
         "taiwan_mapping_count": 3
       },
       "heat_reason": {
         "rule_version": "public_theme_heat_v0.8",
         "event_component": {
-          "input": 8,
-          "normalized": 100.0,
-          "weighted": 25.0
+          "input": 4,
+          "normalized": 66.667,
+          "weighted": 16.667
         },
         "source_component": {
-          "input": 5,
-          "normalized": 100.0,
-          "weighted": 25.0
+          "input": 2,
+          "normalized": 50.0,
+          "weighted": 12.5
         },
         "candidate_component": {
           "input": 1,
@@ -450,9 +417,9 @@
           "normalized": 60.0,
           "weighted": 18.0
         },
-        "single_source_concentration": 0.375,
-        "concentration_penalty": 0.0,
-        "raw_score": 73.0
+        "single_source_concentration": 0.75,
+        "concentration_penalty": 5.625,
+        "raw_score": 46.542
       },
       "direct_mentions": [],
       "supply_chain_candidates": [
