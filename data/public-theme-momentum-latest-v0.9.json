@@ -3,34 +3,482 @@
   "ranking_rule_version": "public_theme_momentum_v0.9",
   "inclusion_rule_version": "public_theme_momentum_inclusion_v0.9",
   "heat_rule_version": "public_theme_heat_v0.8",
-  "generated_at": "2026-08-04T23:19:11.926242Z",
-  "observed_hour": "2026-08-04T23:00:00Z",
+  "generated_at": "2026-08-05T03:34:37.150033Z",
+  "observed_hour": "2026-08-05T03:00:00Z",
   "market_id": "TW_EQUITY",
   "market_scope": [
     "TW_EQUITY"
   ],
   "window_hours": 72,
   "freshness_status": "current",
-  "theme_count": 3,
+  "theme_count": 6,
   "themes": [
     {
       "rank": 1,
-      "theme_id": "defense_drone",
-      "name_zh": "國防與無人機",
+      "theme_id": "memory_hbm",
+      "name_zh": "記憶體與 HBM",
       "qualification_status": "qualified",
       "near_threshold_reason": null,
-      "momentum_score": 29,
+      "momentum_score": 44,
       "lifecycle_stage": "new",
-      "heat_score": 58,
+      "heat_score": 88,
+      "heat_change_24h": null,
+      "source_change_24h": null,
+      "event_count": 7,
+      "source_count": 2,
+      "tracking_candidate_count": 4,
+      "taiwan_mapping_count": 4,
+      "direct_mapping_event_count": 2,
+      "single_source_concentration": 0.5714285714285714,
+      "latest_qualifying_event_at": "2026-08-05T02:02:52Z",
+      "representative_news": {
+        "id": "cnyes-34aab84fa470",
+        "title_zh": "AI帶旺ABF載板！輝達、超微等巨頭搶貨 鎖產能到2028年 還有客戶超前談2029合作擴產",
+        "summary": "AI 加速器與 HBM 需求爆發，先進封裝產能吃緊向上游傳導，IC 載板 (尤指 ABF 載板) 成為新瓶頸。  業界最新傳出，輝達、超微半導體及雲端服務巨頭已把 ABF 載板長約延到 2028 年，仍難消解供應焦慮，部分客戶更直接要求載板廠啟動 2029 至 2030 年擴產草圖，並重啟疫情期間盛",
+        "source_id": "cnyes",
+        "source": "鉅亨網 Cnyes",
+        "published_at": "2026-08-05T03:00:04Z",
+        "canonical_url": "https://news.cnyes.com/news/id/6560052"
+      },
+      "direct_symbols": [
+        {
+          "instrument_id": "TWSE:8046",
+          "market_id": "TW_EQUITY",
+          "asset_class": "equity",
+          "symbol": "8046",
+          "exchange": "TWSE",
+          "name_zh": "南電",
+          "evidence": "title_zh: 南電",
+          "reason": "direct company alias mention"
+        },
+        {
+          "instrument_id": "TWSE:2408",
+          "market_id": "TW_EQUITY",
+          "asset_class": "equity",
+          "symbol": "2408",
+          "exchange": "TWSE",
+          "name_zh": "南亞科",
+          "evidence": "title_zh: 南亞科",
+          "reason": "direct company alias mention"
+        },
+        {
+          "instrument_id": "TWSE:2330",
+          "market_id": "TW_EQUITY",
+          "asset_class": "equity",
+          "symbol": "2330",
+          "exchange": "TWSE",
+          "name_zh": "台積電",
+          "evidence": "summary: 台積電",
+          "reason": "direct company alias mention"
+        }
+      ],
+      "related_symbols": [
+        {
+          "instrument_id": "TWSE:3037",
+          "market_id": "TW_EQUITY",
+          "asset_class": "equity",
+          "symbol": "3037",
+          "exchange": "TWSE",
+          "name_zh": "欣興",
+          "evidence": "taxonomy seed: pcb_abf_hdi",
+          "reason": "theme seed symbol"
+        },
+        {
+          "instrument_id": "TWSE:8046",
+          "market_id": "TW_EQUITY",
+          "asset_class": "equity",
+          "symbol": "8046",
+          "exchange": "TWSE",
+          "name_zh": "南電",
+          "evidence": "taxonomy seed: pcb_abf_hdi",
+          "reason": "theme seed symbol"
+        },
+        {
+          "instrument_id": "TWSE:2368",
+          "market_id": "TW_EQUITY",
+          "asset_class": "equity",
+          "symbol": "2368",
+          "exchange": "TWSE",
+          "name_zh": "金像電",
+          "evidence": "taxonomy seed: pcb_abf_hdi",
+          "reason": "theme seed symbol"
+        },
+        {
+          "instrument_id": "TWSE:2330",
+          "market_id": "TW_EQUITY",
+          "asset_class": "equity",
+          "symbol": "2330",
+          "exchange": "TWSE",
+          "name_zh": "台積電",
+          "evidence": "taxonomy seed: cowos_supply_chain",
+          "reason": "theme seed symbol"
+        },
+        {
+          "instrument_id": "TWSE:3711",
+          "market_id": "TW_EQUITY",
+          "asset_class": "equity",
+          "symbol": "3711",
+          "exchange": "TWSE",
+          "name_zh": "日月光投控",
+          "evidence": "taxonomy seed: cowos_supply_chain",
+          "reason": "theme seed symbol"
+        },
+        {
+          "instrument_id": "TWSE:2449",
+          "market_id": "TW_EQUITY",
+          "asset_class": "equity",
+          "symbol": "2449",
+          "exchange": "TWSE",
+          "name_zh": "京元電子",
+          "evidence": "taxonomy seed: cowos_supply_chain",
+          "reason": "theme seed symbol"
+        },
+        {
+          "instrument_id": "TWSE:2344",
+          "market_id": "TW_EQUITY",
+          "asset_class": "equity",
+          "symbol": "2344",
+          "exchange": "TWSE",
+          "name_zh": "華邦電",
+          "evidence": "taxonomy seed: memory_hbm",
+          "reason": "theme seed symbol"
+        },
+        {
+          "instrument_id": "TWSE:2408",
+          "market_id": "TW_EQUITY",
+          "asset_class": "equity",
+          "symbol": "2408",
+          "exchange": "TWSE",
+          "name_zh": "南亞科",
+          "evidence": "taxonomy seed: memory_hbm",
+          "reason": "theme seed symbol"
+        },
+        {
+          "instrument_id": "TPEX:8299",
+          "market_id": "TW_EQUITY",
+          "asset_class": "equity",
+          "symbol": "8299",
+          "exchange": "TPEX",
+          "name_zh": "群聯",
+          "evidence": "taxonomy seed: memory_hbm",
+          "reason": "theme seed symbol"
+        }
+      ]
+    },
+    {
+      "rank": 2,
+      "theme_id": "ai_server",
+      "name_zh": "AI 伺服器",
+      "qualification_status": "qualified",
+      "near_threshold_reason": null,
+      "momentum_score": 38,
+      "lifecycle_stage": "new",
+      "heat_score": 75,
+      "heat_change_24h": null,
+      "source_change_24h": null,
+      "event_count": 5,
+      "source_count": 3,
+      "tracking_candidate_count": 1,
+      "taiwan_mapping_count": 3,
+      "direct_mapping_event_count": 3,
+      "single_source_concentration": 0.4,
+      "latest_qualifying_event_at": "2026-08-05T02:55:35Z",
+      "representative_news": {
+        "id": "cnyes-dc152c6a04de",
+        "title_zh": "〈緯創法說〉AI伺服器業務下半年將優於上半年 網通業務可望成長不只10倍",
+        "summary": "緯創今 (4) 日召開法說會，總經理林建勳表示，AI 伺服器需求維持強勁，除既有客戶拉貨動能擴大，且企業級、CSP 皆有斬獲新客戶，看好下半年 AI 伺服器業務將優於上半年。此外，網通業務中，AI 網路交換器可望成長不只 10 倍。",
+        "source_id": "cnyes",
+        "source": "鉅亨網 Cnyes",
+        "published_at": "2026-08-04T13:26:06Z",
+        "canonical_url": "https://news.cnyes.com/news/id/6559326"
+      },
+      "direct_symbols": [
+        {
+          "instrument_id": "TWSE:3231",
+          "market_id": "TW_EQUITY",
+          "asset_class": "equity",
+          "symbol": "3231",
+          "exchange": "TWSE",
+          "name_zh": "緯創",
+          "evidence": "title_zh: 緯創",
+          "reason": "direct company alias mention"
+        }
+      ],
+      "related_symbols": [
+        {
+          "instrument_id": "TWSE:3231",
+          "market_id": "TW_EQUITY",
+          "asset_class": "equity",
+          "symbol": "3231",
+          "exchange": "TWSE",
+          "name_zh": "緯創",
+          "evidence": "taxonomy seed: ai_server",
+          "reason": "theme seed symbol"
+        },
+        {
+          "instrument_id": "TWSE:2382",
+          "market_id": "TW_EQUITY",
+          "asset_class": "equity",
+          "symbol": "2382",
+          "exchange": "TWSE",
+          "name_zh": "廣達",
+          "evidence": "taxonomy seed: ai_server",
+          "reason": "theme seed symbol"
+        },
+        {
+          "instrument_id": "TWSE:6669",
+          "market_id": "TW_EQUITY",
+          "asset_class": "equity",
+          "symbol": "6669",
+          "exchange": "TWSE",
+          "name_zh": "緯穎",
+          "evidence": "taxonomy seed: ai_server",
+          "reason": "theme seed symbol"
+        }
+      ]
+    },
+    {
+      "rank": 3,
+      "theme_id": "optical_cpo",
+      "name_zh": "光通訊與 CPO",
+      "qualification_status": "qualified",
+      "near_threshold_reason": null,
+      "momentum_score": 37,
+      "lifecycle_stage": "new",
+      "heat_score": 74,
+      "heat_change_24h": null,
+      "source_change_24h": null,
+      "event_count": 5,
+      "source_count": 3,
+      "tracking_candidate_count": 2,
+      "taiwan_mapping_count": 3,
+      "direct_mapping_event_count": 1,
+      "single_source_concentration": 0.4,
+      "latest_qualifying_event_at": "2026-08-05T03:10:00Z",
+      "representative_news": {
+        "id": "yahoo_finance_tw-a5d1be20f895",
+        "title_zh": "傳川普擬禁「中國製光收發模組」CPO嗨翻7檔攻漲停",
+        "summary": "根據《路透社》報導，美國聯邦通訊委員會（FCC）正研擬禁止進口中國製造的新款光收發模組，受此消息激勵，光通訊大廠Lumentum、Coherent股價狂飆，台股CPO概念股也同步強勢上攻，聯亞、全新、",
+        "source_id": "yahoo_finance_tw",
+        "source": "Yahoo Finance Taiwan",
+        "published_at": "2026-08-05T03:10:00Z",
+        "canonical_url": "https://tw.stock.yahoo.com/news/%E5%82%B3%E5%B7%9D%E6%99%AE%E6%93%AC%E7%A6%81-%E4%B8%AD%E5%9C%8B%E8%A3%BD%E5%85%89%E6%94%B6%E7%99%BC%E6%A8%A1%E7%B5%84-cpo%E5%97%A8%E7%BF%BB7%E6%AA%94%E6%94%BB%E6%BC%B2%E5%81%9C-031000339.html"
+      },
+      "direct_symbols": [
+        {
+          "instrument_id": "TPEX:3081",
+          "market_id": "TW_EQUITY",
+          "asset_class": "equity",
+          "symbol": "3081",
+          "exchange": "TPEX",
+          "name_zh": "聯亞",
+          "evidence": "summary: 聯亞",
+          "reason": "direct company alias mention"
+        }
+      ],
+      "related_symbols": [
+        {
+          "instrument_id": "TPEX:3081",
+          "market_id": "TW_EQUITY",
+          "asset_class": "equity",
+          "symbol": "3081",
+          "exchange": "TPEX",
+          "name_zh": "聯亞",
+          "evidence": "taxonomy seed: optical_cpo",
+          "reason": "theme seed symbol"
+        },
+        {
+          "instrument_id": "TPEX:3363",
+          "market_id": "TW_EQUITY",
+          "asset_class": "equity",
+          "symbol": "3363",
+          "exchange": "TPEX",
+          "name_zh": "上詮",
+          "evidence": "taxonomy seed: optical_cpo",
+          "reason": "theme seed symbol"
+        },
+        {
+          "instrument_id": "TPEX:4979",
+          "market_id": "TW_EQUITY",
+          "asset_class": "equity",
+          "symbol": "4979",
+          "exchange": "TPEX",
+          "name_zh": "華星光",
+          "evidence": "taxonomy seed: optical_cpo",
+          "reason": "theme seed symbol"
+        }
+      ]
+    },
+    {
+      "rank": 4,
+      "theme_id": "pcb_abf_hdi",
+      "name_zh": "PCB／ABF／HDI",
+      "qualification_status": "qualified",
+      "near_threshold_reason": null,
+      "momentum_score": 37,
+      "lifecycle_stage": "new",
+      "heat_score": 74,
       "heat_change_24h": null,
       "source_change_24h": null,
       "event_count": 4,
       "source_count": 3,
+      "tracking_candidate_count": 3,
+      "taiwan_mapping_count": 5,
+      "direct_mapping_event_count": 1,
+      "single_source_concentration": 0.5,
+      "latest_qualifying_event_at": "2026-08-05T03:00:04Z",
+      "representative_news": {
+        "id": "cnyes-34aab84fa470",
+        "title_zh": "AI帶旺ABF載板！輝達、超微等巨頭搶貨 鎖產能到2028年 還有客戶超前談2029合作擴產",
+        "summary": "AI 加速器與 HBM 需求爆發，先進封裝產能吃緊向上游傳導，IC 載板 (尤指 ABF 載板) 成為新瓶頸。  業界最新傳出，輝達、超微半導體及雲端服務巨頭已把 ABF 載板長約延到 2028 年，仍難消解供應焦慮，部分客戶更直接要求載板廠啟動 2029 至 2030 年擴產草圖，並重啟疫情期間盛",
+        "source_id": "cnyes",
+        "source": "鉅亨網 Cnyes",
+        "published_at": "2026-08-05T03:00:04Z",
+        "canonical_url": "https://news.cnyes.com/news/id/6560052"
+      },
+      "direct_symbols": [
+        {
+          "instrument_id": "TWSE:8046",
+          "market_id": "TW_EQUITY",
+          "asset_class": "equity",
+          "symbol": "8046",
+          "exchange": "TWSE",
+          "name_zh": "南電",
+          "evidence": "title_zh: 南電",
+          "reason": "direct company alias mention"
+        },
+        {
+          "instrument_id": "TWSE:2408",
+          "market_id": "TW_EQUITY",
+          "asset_class": "equity",
+          "symbol": "2408",
+          "exchange": "TWSE",
+          "name_zh": "南亞科",
+          "evidence": "title_zh: 南亞科",
+          "reason": "direct company alias mention"
+        },
+        {
+          "instrument_id": "TWSE:2330",
+          "market_id": "TW_EQUITY",
+          "asset_class": "equity",
+          "symbol": "2330",
+          "exchange": "TWSE",
+          "name_zh": "台積電",
+          "evidence": "summary: 台積電",
+          "reason": "direct company alias mention"
+        }
+      ],
+      "related_symbols": [
+        {
+          "instrument_id": "TWSE:3037",
+          "market_id": "TW_EQUITY",
+          "asset_class": "equity",
+          "symbol": "3037",
+          "exchange": "TWSE",
+          "name_zh": "欣興",
+          "evidence": "taxonomy seed: pcb_abf_hdi",
+          "reason": "theme seed symbol"
+        },
+        {
+          "instrument_id": "TWSE:8046",
+          "market_id": "TW_EQUITY",
+          "asset_class": "equity",
+          "symbol": "8046",
+          "exchange": "TWSE",
+          "name_zh": "南電",
+          "evidence": "taxonomy seed: pcb_abf_hdi",
+          "reason": "theme seed symbol"
+        },
+        {
+          "instrument_id": "TWSE:2368",
+          "market_id": "TW_EQUITY",
+          "asset_class": "equity",
+          "symbol": "2368",
+          "exchange": "TWSE",
+          "name_zh": "金像電",
+          "evidence": "taxonomy seed: pcb_abf_hdi",
+          "reason": "theme seed symbol"
+        },
+        {
+          "instrument_id": "TWSE:2330",
+          "market_id": "TW_EQUITY",
+          "asset_class": "equity",
+          "symbol": "2330",
+          "exchange": "TWSE",
+          "name_zh": "台積電",
+          "evidence": "taxonomy seed: cowos_supply_chain",
+          "reason": "theme seed symbol"
+        },
+        {
+          "instrument_id": "TWSE:3711",
+          "market_id": "TW_EQUITY",
+          "asset_class": "equity",
+          "symbol": "3711",
+          "exchange": "TWSE",
+          "name_zh": "日月光投控",
+          "evidence": "taxonomy seed: cowos_supply_chain",
+          "reason": "theme seed symbol"
+        },
+        {
+          "instrument_id": "TWSE:2449",
+          "market_id": "TW_EQUITY",
+          "asset_class": "equity",
+          "symbol": "2449",
+          "exchange": "TWSE",
+          "name_zh": "京元電子",
+          "evidence": "taxonomy seed: cowos_supply_chain",
+          "reason": "theme seed symbol"
+        },
+        {
+          "instrument_id": "TWSE:2344",
+          "market_id": "TW_EQUITY",
+          "asset_class": "equity",
+          "symbol": "2344",
+          "exchange": "TWSE",
+          "name_zh": "華邦電",
+          "evidence": "taxonomy seed: memory_hbm",
+          "reason": "theme seed symbol"
+        },
+        {
+          "instrument_id": "TWSE:2408",
+          "market_id": "TW_EQUITY",
+          "asset_class": "equity",
+          "symbol": "2408",
+          "exchange": "TWSE",
+          "name_zh": "南亞科",
+          "evidence": "taxonomy seed: memory_hbm",
+          "reason": "theme seed symbol"
+        },
+        {
+          "instrument_id": "TPEX:8299",
+          "market_id": "TW_EQUITY",
+          "asset_class": "equity",
+          "symbol": "8299",
+          "exchange": "TPEX",
+          "name_zh": "群聯",
+          "evidence": "taxonomy seed: memory_hbm",
+          "reason": "theme seed symbol"
+        }
+      ]
+    },
+    {
+      "rank": 5,
+      "theme_id": "defense_drone",
+      "name_zh": "國防與無人機",
+      "qualification_status": "qualified",
+      "near_threshold_reason": null,
+      "momentum_score": 37,
+      "lifecycle_stage": "new",
+      "heat_score": 73,
+      "heat_change_24h": null,
+      "source_change_24h": null,
+      "event_count": 8,
+      "source_count": 5,
       "tracking_candidate_count": 1,
       "taiwan_mapping_count": 3,
       "direct_mapping_event_count": 0,
-      "single_source_concentration": 0.6,
-      "latest_qualifying_event_at": "2026-08-04T21:15:04Z",
+      "single_source_concentration": 0.375,
+      "latest_qualifying_event_at": "2026-08-05T03:30:52Z",
       "representative_news": {
         "id": "digitimes_tw-27e5dde23c0f",
         "title_zh": "台灣拚打造全球無人機重鎮　業界點出三大非紅供應鏈優勢",
@@ -75,123 +523,62 @@
       ]
     },
     {
-      "rank": 2,
-      "theme_id": "memory_hbm",
-      "name_zh": "記憶體與 HBM",
-      "qualification_status": "near_threshold",
-      "near_threshold_reason": "sources_1_of_2",
-      "momentum_score": 14,
+      "rank": 6,
+      "theme_id": "robotics",
+      "name_zh": "機器人",
+      "qualification_status": "qualified",
+      "near_threshold_reason": null,
+      "momentum_score": 23,
       "lifecycle_stage": "new",
-      "heat_score": 33,
+      "heat_score": 46,
       "heat_change_24h": null,
       "source_change_24h": null,
       "event_count": 3,
-      "source_count": 1,
-      "tracking_candidate_count": 1,
-      "taiwan_mapping_count": 4,
-      "direct_mapping_event_count": 1,
-      "single_source_concentration": 1.0,
-      "latest_qualifying_event_at": "2026-08-04T18:56:20Z",
-      "representative_news": {
-        "id": "digitimes_tw-f854104711be",
-        "title_zh": "三星、美光DRAM價漲雙面擠壓　SK海力士HBM卻拖累成長",
-        "summary": "記憶體業進入長週期缺貨循環，受到DRAM逐季議價調漲，上游記憶體原廠獲利結構已從原本高頻寬記憶體（HBM）一枝獨秀，轉向HBM與高階通用DRAM相互拉抬的模式。近期三大原廠公布獲利表現，受惠於DRAM價格彈性調漲，三星電子（Samsung",
-        "source_id": "digitimes_tw",
-        "source": "DIGITIMES",
-        "published_at": "2026-08-04T18:01:42Z",
-        "canonical_url": "https://www.digitimes.com.tw/tech/dt/n/shwnws.asp?id=0000763979_ON5LQGVY67RZSHLQV0DK9"
-      },
-      "direct_symbols": [],
-      "related_symbols": [
-        {
-          "instrument_id": "TWSE:2344",
-          "market_id": "TW_EQUITY",
-          "asset_class": "equity",
-          "symbol": "2344",
-          "exchange": "TWSE",
-          "name_zh": "華邦電",
-          "evidence": "taxonomy seed: memory_hbm",
-          "reason": "theme seed symbol"
-        },
-        {
-          "instrument_id": "TWSE:2408",
-          "market_id": "TW_EQUITY",
-          "asset_class": "equity",
-          "symbol": "2408",
-          "exchange": "TWSE",
-          "name_zh": "南亞科",
-          "evidence": "taxonomy seed: memory_hbm",
-          "reason": "theme seed symbol"
-        },
-        {
-          "instrument_id": "TPEX:8299",
-          "market_id": "TW_EQUITY",
-          "asset_class": "equity",
-          "symbol": "8299",
-          "exchange": "TPEX",
-          "name_zh": "群聯",
-          "evidence": "taxonomy seed: memory_hbm",
-          "reason": "theme seed symbol"
-        }
-      ]
-    },
-    {
-      "rank": 3,
-      "theme_id": "optical_cpo",
-      "name_zh": "光通訊與 CPO",
-      "qualification_status": "near_threshold",
-      "near_threshold_reason": "sources_1_of_2",
-      "momentum_score": 10,
-      "lifecycle_stage": "new",
-      "heat_score": 23,
-      "heat_change_24h": null,
-      "source_change_24h": null,
-      "event_count": 2,
-      "source_count": 1,
+      "source_count": 2,
       "tracking_candidate_count": 1,
       "taiwan_mapping_count": 3,
       "direct_mapping_event_count": 0,
-      "single_source_concentration": 1.0,
-      "latest_qualifying_event_at": "2026-08-04T18:44:33Z",
+      "single_source_concentration": 0.6666666666666666,
+      "latest_qualifying_event_at": "2026-08-05T03:12:21Z",
       "representative_news": {
-        "id": "digitimes_tw-3c770b75b420",
-        "title_zh": "專訪Ayar Labs執行長Mark Wade　CPO Scale-Up預計2028~2029放量",
-        "summary": "2026年OCP APAC Summit即將在8月11~12日於台北正式開幕，全球雲端服務供應商（CSP）、半導體、矽光子、系統廠及眾多台灣供應商，皆將分享最新資訊，同時宣傳開發運算架構的優勢。近期與台灣供應鏈多次密切合作的美系矽光子新創業者Ayar Labs，執行長Mark Wade不僅將造訪2026 OCP",
-        "source_id": "digitimes_tw",
-        "source": "DIGITIMES",
-        "published_at": "2026-08-04T18:30:52Z",
-        "canonical_url": "https://www.digitimes.com.tw/tech/dt/n/shwnws.asp?id=0000763941_QSALSFKS363HIP2NNTOA9"
+        "id": "technews-aff8413b46cc",
+        "title_zh": "榮耀 Robot Phone 規格流出，6,800 尼特螢幕比雲台相機更吸睛",
+        "summary": "榮耀（Honor）預計將於 8 月 12 日發表全新 Robot Phone（機器人手機），除了主打具備「肢體 [&#8230;]",
+        "source_id": "technews",
+        "source": "TechNews",
+        "published_at": "2026-08-05T03:12:21Z",
+        "canonical_url": "https://technews.tw/2026/08/05/honor-robot-phone-screen/"
       },
       "direct_symbols": [],
       "related_symbols": [
         {
-          "instrument_id": "TPEX:3081",
+          "instrument_id": "TWSE:2049",
           "market_id": "TW_EQUITY",
           "asset_class": "equity",
-          "symbol": "3081",
-          "exchange": "TPEX",
-          "name_zh": "聯亞",
-          "evidence": "taxonomy seed: optical_cpo",
+          "symbol": "2049",
+          "exchange": "TWSE",
+          "name_zh": "上銀",
+          "evidence": "taxonomy seed: robotics",
           "reason": "theme seed symbol"
         },
         {
-          "instrument_id": "TPEX:3363",
+          "instrument_id": "TWSE:2395",
           "market_id": "TW_EQUITY",
           "asset_class": "equity",
-          "symbol": "3363",
-          "exchange": "TPEX",
-          "name_zh": "上詮",
-          "evidence": "taxonomy seed: optical_cpo",
+          "symbol": "2395",
+          "exchange": "TWSE",
+          "name_zh": "研華",
+          "evidence": "taxonomy seed: robotics",
           "reason": "theme seed symbol"
         },
         {
-          "instrument_id": "TPEX:4979",
+          "instrument_id": "TWSE:4576",
           "market_id": "TW_EQUITY",
           "asset_class": "equity",
-          "symbol": "4979",
-          "exchange": "TPEX",
-          "name_zh": "華星光",
-          "evidence": "taxonomy seed: optical_cpo",
+          "symbol": "4576",
+          "exchange": "TWSE",
+          "name_zh": "大銀微系統",
+          "evidence": "taxonomy seed: robotics",
           "reason": "theme seed symbol"
         }
       ]
