@@ -257,6 +257,53 @@ h1 {
   margin-top: 0.6rem;
 }
 
+.theme-stocks {
+  margin: 0.85rem 0 0;
+  padding: 0.7rem 0 0;
+  border-top: 1px solid var(--line);
+  list-style: none;
+  display: grid;
+  gap: 0.45rem;
+}
+
+.theme-stock {
+  min-width: 0;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: baseline;
+  gap: 0.4rem;
+  font-size: 0.8rem;
+}
+
+.theme-stock-symbol {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-weight: 700;
+}
+
+.theme-stock-name {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Financials sit under the name, across both columns. */
+.theme-stock-financials {
+  grid-column: 1 / -1;
+  color: var(--muted);
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 0.73rem;
+  font-variant-numeric: tabular-nums;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.theme-stock-more {
+  color: var(--muted);
+  font-size: 0.73rem;
+}
+
 .chart-frame,
 .table-scroll {
   overflow-x: auto;

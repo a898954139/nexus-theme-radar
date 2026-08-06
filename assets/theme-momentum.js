@@ -102,6 +102,10 @@ function validateLatest(payload) {
     "heat_change_24h", "source_change_24h", "event_count", "source_count",
     "tracking_candidate_count", "taiwan_mapping_count", "direct_mapping_event_count",
     "single_source_concentration", "latest_qualifying_event_at",
+    // Added to every theme by the pipeline's enrich step. hasExactKeys
+    // compares key counts, so these must be declared here or the whole feed
+    // fails validation and the page renders nothing.
+    "representative_news", "direct_symbols", "related_symbols",
   ];
   const seen = new Set();
   payload.themes.forEach((theme, index) => {
@@ -196,6 +200,86 @@ function metricText(value) {
   return `${value > 0 ? "+" : ""}${value}`;
 }
 
+const MAX_THEME_STOCKS = 6;
+
+function themeStocks(theme) {
+  const seen = new Set();
+  const stocks = [];
+  for (const group of [theme.direct_symbols, theme.related_symbols]) {
+    if (!Array.isArray(group)) continue;
+    for (const stock of group) {
+      if (!stock || typeof stock !== "object") continue;
+      const id = String(stock.instrument_id || stock.symbol || "").trim();
+      if (!id || seen.has(id)) continue;
+      seen.add(id);
+      stocks.push(stock);
+    }
+  }
+  return stocks;
+}
+
+function quarterMetrics(stock) {
+  const quarter = Array.isArray(stock.fundamentals?.quarters)
+    ? stock.fundamentals.quarters[0]
+    : null;
+  if (!quarter || typeof quarter !== "object") return [];
+
+  const parts = [];
+  const period = String(quarter.period ?? "").trim();
+  if (period) parts.push(period);
+  if (Number.isFinite(Number(quarter.eps))) {
+    parts.push(`EPS ${Number(quarter.eps)}`);
+  }
+  // gross_margin is always a fraction in this contract (0.534 = 53.4%).
+  // Reinterpreting a value above 1 as an already-converted percentage would
+  // render a 102% margin as "1.0%" and hide the anomaly most worth seeing.
+  if (Number.isFinite(Number(quarter.gross_margin))) {
+    parts.push(`毛利 ${(Number(quarter.gross_margin) * 100).toFixed(1)}%`);
+  }
+  return parts;
+}
+
+function buildThemeStockList(theme) {
+  const stocks = themeStocks(theme);
+  if (!stocks.length) return null;
+
+  const list = document.createElement("ul");
+  list.className = "theme-stocks";
+  for (const stock of stocks.slice(0, MAX_THEME_STOCKS)) {
+    const item = document.createElement("li");
+    item.className = "theme-stock";
+
+    const ticker = document.createElement("span");
+    ticker.className = "theme-stock-symbol";
+    ticker.textContent = String(stock.symbol ?? stock.instrument_id ?? "");
+
+    const name = document.createElement("span");
+    name.className = "theme-stock-name";
+    name.textContent = String(stock.name_zh ?? "");
+
+    item.append(ticker, name);
+
+    const metrics = quarterMetrics(stock);
+    if (metrics.length) {
+      const financials = document.createElement("span");
+      financials.className = "theme-stock-financials";
+      financials.textContent = metrics.join(" · ");
+      item.append(financials);
+    }
+    list.append(item);
+  }
+
+  // Say what was dropped: a silently truncated list reads as the whole list.
+  const hidden = stocks.length - MAX_THEME_STOCKS;
+  if (hidden > 0) {
+    const more = document.createElement("li");
+    more.className = "theme-stock-more";
+    more.textContent = `+${hidden} 檔`;
+    list.append(more);
+  }
+  return list;
+}
+
 function renderLatest(payload) {
   const container = document.getElementById("latestThemes");
   container.replaceChildren();
@@ -220,6 +304,10 @@ function renderLatest(payload) {
       <div class="metric-row"><span>階段</span><strong class="lifecycle">${theme.lifecycle_stage}</strong></div>
     `;
     article.querySelector("h3").textContent = theme.name_zh;
+    const stocks = buildThemeStockList(theme);
+    if (stocks) {
+      article.append(stocks);
+    }
     container.append(article);
   });
   container.setAttribute("aria-busy", "false");
