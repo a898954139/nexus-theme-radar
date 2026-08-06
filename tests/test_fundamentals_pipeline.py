@@ -197,3 +197,39 @@ def test_attaching_cached_statements_needs_no_fetching():
 
     assert calls == []
     assert enriched["themes"][0]["direct_symbols"][0]["fundamentals"]["quarters"]
+
+
+# ─── fetch opt-out ──────────────────────────────────────────────────────────
+
+
+def _run_attach(monkeypatch, tmp_path, env_value):
+    """Drive the pipeline's env gate without touching the network."""
+    import json as _json
+
+    from scripts import update_theme_radar as updater
+
+    if env_value is None:
+        monkeypatch.delenv("THEME_RADAR_FUNDAMENTALS", raising=False)
+    else:
+        monkeypatch.setenv("THEME_RADAR_FUNDAMENTALS", env_value)
+
+    (tmp_path / "theme-symbol-fundamentals.json").write_text(
+        _json.dumps({"schema_version": 1, "symbols": {}}), encoding="utf-8",
+    )
+    calls: list[str] = []
+    monkeypatch.setattr(
+        updater, "fetch_symbol_fundamentals",
+        lambda session, ticker, **kw: calls.append(ticker) or _context(),
+    )
+    updater._attach_quarterly_fundamentals(_payload(), tmp_path, ANCHOR)
+    return calls
+
+
+def test_fetching_is_on_by_default(monkeypatch, tmp_path):
+    """The point of the pipeline is publishing fundamentals; requiring an opt-in
+    means a fresh deploy silently ships none."""
+    assert _run_attach(monkeypatch, tmp_path, None) != []
+
+
+def test_fetching_can_be_turned_off_explicitly(monkeypatch, tmp_path):
+    assert _run_attach(monkeypatch, tmp_path, "0") == []

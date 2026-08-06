@@ -1346,13 +1346,16 @@ def _attach_quarterly_fundamentals(
     Publishing a cached statement and scraping a third party are different
     risks, so they are gated separately: whatever is already in the committed
     cache is always attached, while ``THEME_RADAR_FUNDAMENTALS`` controls
-    whether this run may reach out to Goodinfo for what is missing.
+    whether this run may reach out to Goodinfo for what is missing. Fetching
+    is on by default -- the quarterly throttle already keeps it to a handful
+    of requests per quarter -- and setting the variable to 0/false/off turns
+    it off without disturbing the cached statements already published.
 
     Fully contained: this is a side-source on a pipeline whose actual job is
     theme momentum, so any failure here leaves the payload as it was rather
     than propagating.
     """
-    may_fetch = os.environ.get("THEME_RADAR_FUNDAMENTALS", "").strip().lower() in {"1", "true", "on"}
+    may_fetch = os.environ.get("THEME_RADAR_FUNDAMENTALS", "1").strip().lower() not in {"0", "false", "off"}
     cache_path = output_dir / FUNDAMENTALS_CACHE_FILE
     try:
         import requests

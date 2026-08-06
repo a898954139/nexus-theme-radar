@@ -36,6 +36,19 @@ from scripts.update_theme_radar import (
 from scripts.theme_relevance import load_theme_taxonomy
 
 
+@pytest.fixture(autouse=True)
+def _no_goodinfo_scraping(monkeypatch: pytest.MonkeyPatch) -> None:
+    """Keep the quarterly scraper out of this file's runs.
+
+    Fundamentals fetching is on by default in production. These tests exercise
+    the momentum pipeline, so left alone they would hit Goodinfo for real --
+    slow, flaky, and rude to a third party. Tests that assert on published
+    fundamentals live in test_fundamentals_pipeline.py with an injected
+    fetcher.
+    """
+    monkeypatch.setenv("THEME_RADAR_FUNDAMENTALS", "0")
+
+
 ROOT = Path(__file__).resolve().parents[1]
 REGISTRY_PATH = ROOT / "config" / "source_registry.tw.json"
 TAXONOMY_PATH = ROOT / "config" / "theme_taxonomy.tw.json"
