@@ -29,6 +29,14 @@ try:
         validate_public_theme_ranking,
     )
     from scripts.public_theme_momentum import build_public_theme_momentum
+    from scripts.fundamentals_pipeline import (
+        DEFAULT_MAX_FETCHES,
+        FUNDAMENTALS_CACHE_FILE,
+        enrich_with_fundamentals,
+        load_fundamentals_cache,
+        write_fundamentals_cache,
+    )
+    from scripts.goodinfo_fundamentals import fetch_symbol_fundamentals
     from scripts.theme_heat_history_store import (
         delete_expired_observations,
         load_momentum_baselines,
@@ -59,6 +67,14 @@ except ModuleNotFoundError:
         validate_public_theme_ranking,
     )
     from public_theme_momentum import build_public_theme_momentum
+    from fundamentals_pipeline import (
+        DEFAULT_MAX_FETCHES,
+        FUNDAMENTALS_CACHE_FILE,
+        enrich_with_fundamentals,
+        load_fundamentals_cache,
+        write_fundamentals_cache,
+    )
+    from goodinfo_fundamentals import fetch_symbol_fundamentals
     from theme_heat_history_store import (
         delete_expired_observations,
         load_momentum_baselines,
@@ -1321,6 +1337,44 @@ def _representative_candidate(candidate: Mapping[str, Any]) -> dict[str, Any]:
     }
 
 
+def _attach_quarterly_fundamentals(
+    payload: Mapping[str, Any], output_dir: Path, generated_at: datetime,
+) -> dict[str, Any]:
+    """Attach quarterly statements to the published symbols, fetching only what
+    the quarterly throttle says is due.
+
+    Publishing a cached statement and scraping a third party are different
+    risks, so they are gated separately: whatever is already in the committed
+    cache is always attached, while ``THEME_RADAR_FUNDAMENTALS`` controls
+    whether this run may reach out to Goodinfo for what is missing.
+
+    Fully contained: this is a side-source on a pipeline whose actual job is
+    theme momentum, so any failure here leaves the payload as it was rather
+    than propagating.
+    """
+    may_fetch = os.environ.get("THEME_RADAR_FUNDAMENTALS", "").strip().lower() in {"1", "true", "on"}
+    cache_path = output_dir / FUNDAMENTALS_CACHE_FILE
+    try:
+        import requests
+
+        session = requests.Session()
+        enriched, cache = enrich_with_fundamentals(
+            payload,
+            cache=load_fundamentals_cache(cache_path),
+            as_of=generated_at,
+            fetch=lambda ticker: fetch_symbol_fundamentals(
+                session, ticker, fetched_at=generated_at,
+            ),
+            max_fetches=DEFAULT_MAX_FETCHES if may_fetch else 0,
+        )
+        if may_fetch:
+            write_fundamentals_cache(cache_path, cache)
+        return enriched
+    except Exception as error:  # noqa: BLE001 - side-source stays isolated
+        LOGGER.warning("theme_fundamentals_side_path_failed error=%s", error)
+        return dict(payload)
+
+
 def enrich_momentum_latest(
     momentum_payload: Mapping[str, Any],
     tracking_candidates: list[Mapping[str, Any]],
@@ -1460,6 +1514,7 @@ def run_momentum_side_paths(
                 latest_payload,
                 projection.get("candidate_clusters", []),
             )
+            latest_payload = _attach_quarterly_fundamentals(latest_payload, output_dir, generated_at)
         except Exception as error:  # noqa: BLE001 - query/validation is fail closed
             LOGGER.warning(
                 "theme_momentum_side_path_failed producer_run_id=%s phase=baseline_or_projection error=%s",
