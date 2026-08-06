@@ -2,16 +2,16 @@
   "schema_version": "nexus_public_theme_ranking.v0.8",
   "ranking_rule_version": "public_theme_heat_v0.8",
   "company_rule_version": "public_company_evidence_v0.8",
-  "generated_at": "2026-08-06T12:20:17.422248Z",
+  "generated_at": "2026-08-06T15:29:37.426102Z",
   "market_id": "TW_EQUITY",
   "market_scope": [
     "TW_EQUITY"
   ],
   "window_hours": 72,
   "max_themes": 5,
-  "qualified_theme_count": 2,
-  "displayed_theme_count": 2,
-  "threshold_note": "目前僅 2 個題材達到上榜門檻",
+  "qualified_theme_count": 4,
+  "displayed_theme_count": 4,
+  "threshold_note": "目前僅 4 個題材達到上榜門檻",
   "generation_status": "complete",
   "failed_source_count": 0,
   "official_evidence_status": "available",
@@ -20,39 +20,39 @@
       "rank": 1,
       "theme_id": "memory_hbm",
       "name_zh": "記憶體與 HBM",
-      "heat_score": 100,
+      "heat_score": 94,
       "summaries": {
-        "event_count": 17,
-        "source_count": 4,
-        "tracking_candidate_count": 10,
+        "event_count": 20,
+        "source_count": 3,
+        "tracking_candidate_count": 14,
         "taiwan_mapping_count": 4
       },
       "heat_reason": {
         "rule_version": "public_theme_heat_v0.8",
         "event_component": {
-          "input": 17,
+          "input": 20,
           "normalized": 100.0,
           "weighted": 25.0
         },
         "source_component": {
-          "input": 4,
-          "normalized": 100.0,
-          "weighted": 25.0
+          "input": 3,
+          "normalized": 75.0,
+          "weighted": 18.75
         },
         "candidate_component": {
-          "input": 10,
+          "input": 14,
           "normalized": 100.0,
           "weighted": 20.0
         },
         "mapping_component": {
           "mapping_count": 4,
-          "direct_mapping_event_count": 7,
+          "direct_mapping_event_count": 6,
           "normalized": 100.0,
           "weighted": 30.0
         },
-        "single_source_concentration": 0.611,
-        "concentration_penalty": 0.417,
-        "raw_score": 99.583
+        "single_source_concentration": 0.524,
+        "concentration_penalty": 0.0,
+        "raw_score": 93.75
       },
       "direct_mentions": [
         {
@@ -60,8 +60,8 @@
           "symbol": "2344",
           "exchange": "TWSE",
           "name_zh": "華邦電",
-          "direct_event_count": 6,
-          "latest_mentioned_at": "2026-08-06T11:55:20Z"
+          "direct_event_count": 5,
+          "latest_mentioned_at": "2026-08-06T11:50:00Z"
         },
         {
           "instrument_id": "TWSE:2330",
@@ -78,10 +78,10 @@
           "symbol": "2344",
           "exchange": "TWSE",
           "name_zh": "華邦電",
-          "direct_event_count": 6,
+          "direct_event_count": 5,
           "official_evidence_count": 0,
           "company_rank_score": 13,
-          "latest_mentioned_at": "2026-08-06T11:55:20Z",
+          "latest_mentioned_at": "2026-08-06T11:50:00Z",
           "latest_official_at": null
         },
         {
@@ -122,19 +122,19 @@
       "rank": 2,
       "theme_id": "defense_drone",
       "name_zh": "國防與無人機",
-      "heat_score": 54,
+      "heat_score": 71,
       "summaries": {
-        "event_count": 5,
+        "event_count": 7,
         "source_count": 2,
-        "tracking_candidate_count": 2,
+        "tracking_candidate_count": 3,
         "taiwan_mapping_count": 3
       },
       "heat_reason": {
         "rule_version": "public_theme_heat_v0.8",
         "event_component": {
-          "input": 5,
-          "normalized": 83.333,
-          "weighted": 20.833
+          "input": 7,
+          "normalized": 100.0,
+          "weighted": 25.0
         },
         "source_component": {
           "input": 2,
@@ -142,9 +142,9 @@
           "weighted": 12.5
         },
         "candidate_component": {
-          "input": 2,
-          "normalized": 50.0,
-          "weighted": 10.0
+          "input": 3,
+          "normalized": 75.0,
+          "weighted": 15.0
         },
         "mapping_component": {
           "mapping_count": 3,
@@ -152,9 +152,9 @@
           "normalized": 60.0,
           "weighted": 18.0
         },
-        "single_source_concentration": 0.8,
-        "concentration_penalty": 7.5,
-        "raw_score": 53.833
+        "single_source_concentration": 0.571,
+        "concentration_penalty": 0.0,
+        "raw_score": 70.5
       },
       "direct_mentions": [],
       "supply_chain_candidates": [
@@ -201,6 +201,176 @@
         "source": "DIGITIMES",
         "published_at": "2026-08-06T06:54:36Z",
         "canonical_url": "https://www.digitimes.com.tw/tech/dt/n/shwnws.asp?id=0000764281_9QM1CP4L9HJ1L70AE7SN7"
+      }
+    },
+    {
+      "rank": 3,
+      "theme_id": "pcb_abf_hdi",
+      "name_zh": "PCB／ABF／HDI",
+      "heat_score": 44,
+      "summaries": {
+        "event_count": 2,
+        "source_count": 2,
+        "tracking_candidate_count": 1,
+        "taiwan_mapping_count": 3
+      },
+      "heat_reason": {
+        "rule_version": "public_theme_heat_v0.8",
+        "event_component": {
+          "input": 2,
+          "normalized": 33.333,
+          "weighted": 8.333
+        },
+        "source_component": {
+          "input": 2,
+          "normalized": 50.0,
+          "weighted": 12.5
+        },
+        "candidate_component": {
+          "input": 1,
+          "normalized": 25.0,
+          "weighted": 5.0
+        },
+        "mapping_component": {
+          "mapping_count": 3,
+          "direct_mapping_event_count": 0,
+          "normalized": 60.0,
+          "weighted": 18.0
+        },
+        "single_source_concentration": 0.5,
+        "concentration_penalty": 0.0,
+        "raw_score": 43.833
+      },
+      "direct_mentions": [],
+      "supply_chain_candidates": [
+        {
+          "instrument_id": "TWSE:2368",
+          "symbol": "2368",
+          "exchange": "TWSE",
+          "name_zh": "金像電",
+          "direct_event_count": 0,
+          "official_evidence_count": 0,
+          "company_rank_score": 1,
+          "latest_mentioned_at": null,
+          "latest_official_at": null
+        },
+        {
+          "instrument_id": "TWSE:3037",
+          "symbol": "3037",
+          "exchange": "TWSE",
+          "name_zh": "欣興",
+          "direct_event_count": 0,
+          "official_evidence_count": 0,
+          "company_rank_score": 1,
+          "latest_mentioned_at": null,
+          "latest_official_at": null
+        },
+        {
+          "instrument_id": "TWSE:8046",
+          "symbol": "8046",
+          "exchange": "TWSE",
+          "name_zh": "南電",
+          "direct_event_count": 0,
+          "official_evidence_count": 0,
+          "company_rank_score": 1,
+          "latest_mentioned_at": null,
+          "latest_official_at": null
+        }
+      ],
+      "representative_news": {
+        "cluster_id": "cluster-133d13c71544d5ca",
+        "id": "technews-36ca8214f447",
+        "title_zh": "AI 太空需求齊發，PCB 廠轉型高階產品迎收成",
+        "summary": "AI 資料中心加速建置、低軌衛星產業持續推進，過去聚焦消費電子的印刷電路板（PCB）大廠轉型邁向收穫期。臻鼎- [&#8230;]",
+        "source_id": "technews",
+        "source": "TechNews",
+        "published_at": "2026-08-06T10:05:06Z",
+        "canonical_url": "https://finance.technews.tw/2026/08/06/surging-ai-space-demands-drive-pcb-manufacturers-shift-high-end-products-growth/"
+      }
+    },
+    {
+      "rank": 4,
+      "theme_id": "optical_cpo",
+      "name_zh": "光通訊與 CPO",
+      "heat_score": 41,
+      "summaries": {
+        "event_count": 3,
+        "source_count": 2,
+        "tracking_candidate_count": 0,
+        "taiwan_mapping_count": 3
+      },
+      "heat_reason": {
+        "rule_version": "public_theme_heat_v0.8",
+        "event_component": {
+          "input": 3,
+          "normalized": 50.0,
+          "weighted": 12.5
+        },
+        "source_component": {
+          "input": 2,
+          "normalized": 50.0,
+          "weighted": 12.5
+        },
+        "candidate_component": {
+          "input": 0,
+          "normalized": 0.0,
+          "weighted": 0.0
+        },
+        "mapping_component": {
+          "mapping_count": 3,
+          "direct_mapping_event_count": 0,
+          "normalized": 60.0,
+          "weighted": 18.0
+        },
+        "single_source_concentration": 0.667,
+        "concentration_penalty": 2.5,
+        "raw_score": 40.5
+      },
+      "direct_mentions": [],
+      "supply_chain_candidates": [
+        {
+          "instrument_id": "TPEX:3081",
+          "symbol": "3081",
+          "exchange": "TPEX",
+          "name_zh": "聯亞",
+          "direct_event_count": 0,
+          "official_evidence_count": 0,
+          "company_rank_score": 1,
+          "latest_mentioned_at": null,
+          "latest_official_at": null
+        },
+        {
+          "instrument_id": "TPEX:3363",
+          "symbol": "3363",
+          "exchange": "TPEX",
+          "name_zh": "上詮",
+          "direct_event_count": 0,
+          "official_evidence_count": 0,
+          "company_rank_score": 1,
+          "latest_mentioned_at": null,
+          "latest_official_at": null
+        },
+        {
+          "instrument_id": "TPEX:4979",
+          "symbol": "4979",
+          "exchange": "TPEX",
+          "name_zh": "華星光",
+          "direct_event_count": 0,
+          "official_evidence_count": 0,
+          "company_rank_score": 1,
+          "latest_mentioned_at": null,
+          "latest_official_at": null
+        }
+      ],
+      "representative_news": {
+        "cluster_id": "cluster-1da2baa91d91b59f",
+        "id": "cnyes-38e134dff7f3",
+        "title_zh": "廣錠搶攻光通訊散熱商機 小金雞廣熯奪美系網通與雲端大廠訂單",
+        "summary": "廣錠搶攻光通訊散熱商機 小金雞廣熯奪美系網通與雲端大廠訂單",
+        "source_id": "cnyes",
+        "source": "鉅亨網 Cnyes",
+        "published_at": "2026-08-06T05:01:13Z",
+        "canonical_url": "https://news.cnyes.com/news/id/6562088"
       }
     }
   ]
