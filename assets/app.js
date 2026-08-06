@@ -2100,6 +2100,12 @@ function validateHomepageMomentumLatestTheme(theme, expectedRank) {
     "direct_mapping_event_count",
     "single_source_concentration",
     "latest_qualifying_event_at",
+    // Added to every theme by enrich_momentum_latest. The key check below is
+    // an exact count, so these must be declared even though the card does not
+    // render them -- otherwise the real feed never validates.
+    "direct_symbols",
+    "related_symbols",
+    "representative_news",
   ])) return false;
   return theme.rank === expectedRank
     && isHomepageMomentumString(theme.theme_id)

@@ -280,3 +280,36 @@ def test_card_styles_cover_focus_responsive_layout_and_reduced_motion() -> None:
     reduced_motion = css[css.index("@media (prefers-reduced-motion: reduce)") :]
     assert ".theme-momentum-entry" in reduced_motion
     assert "transition: none" in reduced_motion
+
+
+def test_card_accepts_the_symbol_and_news_fields_the_pipeline_publishes() -> None:
+    """``enrich_momentum_latest`` adds direct_symbols/related_symbols/
+    representative_news to every published theme. The homepage validator
+    compares key counts exactly, so omitting them from its contract makes the
+    card reject the real feed and render the fallback forever."""
+    source = _homepage_momentum_source()
+    node_assertions = r'''
+const assert = require("node:assert/strict");
+const fs = require("node:fs");
+const latest = JSON.parse(fs.readFileSync("data/public-theme-momentum-latest-v0.9.json", "utf8"));
+
+assert.ok(latest.themes.length > 0, "fixture must carry themes");
+for (const field of ["direct_symbols", "related_symbols", "representative_news"]) {
+  assert.ok(field in latest.themes[0], `published theme is missing ${field}`);
+}
+assert.equal(
+  validateHomepageMomentumLatestPayload(latest),
+  true,
+  "the live published payload must validate",
+);
+'''
+    node_script = (
+        "const execute = new Function('require', "
+        + json.dumps(source + node_assertions)
+        + "); execute(require);"
+    )
+    completed = subprocess.run(
+        ["node", "-e", node_script], cwd=ROOT, check=False, capture_output=True, text=True,
+    )
+
+    assert completed.returncode == 0, completed.stderr
