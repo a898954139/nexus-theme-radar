@@ -2,7 +2,7 @@
   "schema_version": "nexus_public_theme_ranking.v0.8",
   "ranking_rule_version": "public_theme_heat_v0.8",
   "company_rule_version": "public_company_evidence_v0.8",
-  "generated_at": "2026-08-05T23:18:22.176222Z",
+  "generated_at": "2026-08-06T03:40:49.299544Z",
   "market_id": "TW_EQUITY",
   "market_scope": [
     "TW_EQUITY"
@@ -14,18 +14,18 @@
   "threshold_note": "目前僅 3 個題材達到上榜門檻",
   "generation_status": "complete",
   "failed_source_count": 0,
-  "official_evidence_status": "available",
+  "official_evidence_status": "unavailable",
   "themes": [
     {
       "rank": 1,
-      "theme_id": "memory_hbm",
-      "name_zh": "記憶體與 HBM",
+      "theme_id": "defense_drone",
+      "name_zh": "國防與無人機",
       "heat_score": 68,
       "summaries": {
         "event_count": 5,
         "source_count": 3,
         "tracking_candidate_count": 2,
-        "taiwan_mapping_count": 6
+        "taiwan_mapping_count": 3
       },
       "heat_reason": {
         "rule_version": "public_theme_heat_v0.8",
@@ -45,99 +45,14 @@
           "weighted": 10.0
         },
         "mapping_component": {
-          "mapping_count": 6,
-          "direct_mapping_event_count": 0,
-          "normalized": 60.0,
-          "weighted": 18.0
-        },
-        "single_source_concentration": 0.5,
-        "concentration_penalty": 0.0,
-        "raw_score": 67.583
-      },
-      "direct_mentions": [],
-      "supply_chain_candidates": [
-        {
-          "instrument_id": "TPEX:8299",
-          "symbol": "8299",
-          "exchange": "TPEX",
-          "name_zh": "群聯",
-          "direct_event_count": 0,
-          "official_evidence_count": 0,
-          "company_rank_score": 1,
-          "latest_mentioned_at": null,
-          "latest_official_at": null
-        },
-        {
-          "instrument_id": "TWSE:2344",
-          "symbol": "2344",
-          "exchange": "TWSE",
-          "name_zh": "華邦電",
-          "direct_event_count": 0,
-          "official_evidence_count": 0,
-          "company_rank_score": 1,
-          "latest_mentioned_at": null,
-          "latest_official_at": null
-        },
-        {
-          "instrument_id": "TWSE:2408",
-          "symbol": "2408",
-          "exchange": "TWSE",
-          "name_zh": "南亞科",
-          "direct_event_count": 0,
-          "official_evidence_count": 0,
-          "company_rank_score": 1,
-          "latest_mentioned_at": null,
-          "latest_official_at": null
-        }
-      ],
-      "representative_news": {
-        "cluster_id": "cluster-7d72b9fd785a11db",
-        "id": "digitimes_tw-c88aa2cbd5fd",
-        "title_zh": "Google HBM需求直逼NVIDIA？三星、SK海力士龍頭之爭開打",
-        "summary": "全球高頻寬記憶體（HBM）需求結構，很可能在2027年迎來重要轉折。南韓業界推估，Google加速擴大自研張量處理器（TPU）部署，HBM需求可望逼近NVIDIA，讓過去高度跟隨NVIDIA GPU產品週期運作的市場，逐",
-        "source_id": "digitimes_tw",
-        "source": "DIGITIMES",
-        "published_at": "2026-08-05T18:18:06Z",
-        "canonical_url": "https://www.digitimes.com.tw/tech/dt/n/shwnws.asp?id=0000764118_7RY28J7N0CW98J9LEEMX1"
-      }
-    },
-    {
-      "rank": 2,
-      "theme_id": "defense_drone",
-      "name_zh": "國防與無人機",
-      "heat_score": 63,
-      "summaries": {
-        "event_count": 5,
-        "source_count": 3,
-        "tracking_candidate_count": 1,
-        "taiwan_mapping_count": 3
-      },
-      "heat_reason": {
-        "rule_version": "public_theme_heat_v0.8",
-        "event_component": {
-          "input": 5,
-          "normalized": 83.333,
-          "weighted": 20.833
-        },
-        "source_component": {
-          "input": 3,
-          "normalized": 75.0,
-          "weighted": 18.75
-        },
-        "candidate_component": {
-          "input": 1,
-          "normalized": 25.0,
-          "weighted": 5.0
-        },
-        "mapping_component": {
           "mapping_count": 3,
           "direct_mapping_event_count": 0,
           "normalized": 60.0,
           "weighted": 18.0
         },
-        "single_source_concentration": 0.4,
+        "single_source_concentration": 0.6,
         "concentration_penalty": 0.0,
-        "raw_score": 62.583
+        "raw_score": 67.583
       },
       "direct_mentions": [],
       "supply_chain_candidates": [
@@ -176,23 +91,108 @@
         }
       ],
       "representative_news": {
-        "cluster_id": "cluster-282091a3634b4f53",
-        "id": "digitimes_tw-8fd26bb00c82",
-        "title_zh": "科技1分鐘：美國高階軍工供應鏈入場券──CMMC",
-        "summary": "想把產品賣進美國國防供應鏈，光有技術還不夠，還得先證明自己守得住機密。美國國防部推動的網路安全成熟度模型認證（Cybersecurity Maturity Model Certification；CMMC），就是國防供應鏈的資安驗證制度",
+        "cluster_id": "cluster-bd1a3552d78eebce",
+        "id": "technews-66f34f4c775b",
+        "title_zh": "Shield AI 攜手中科院成功完成勁蜂三型自主無人機群協同驗證",
+        "summary": "美國國防科技公司 Shield AI 與國家中山科學研究院共同宣佈，雙方已成功完成一場多機協同自主搜索任務的實 [&#8230;]",
+        "source_id": "technews",
+        "source": "TechNews",
+        "published_at": "2026-08-06T03:00:40Z",
+        "canonical_url": "https://technews.tw/2026/08/06/shield-ai-in-collaboration-with-the-chinese-academy-of-sciences-successfully-validated-drone-swarm-collaborative-operation/"
+      }
+    },
+    {
+      "rank": 2,
+      "theme_id": "ai_server",
+      "name_zh": "AI 伺服器",
+      "heat_score": 53,
+      "summaries": {
+        "event_count": 4,
+        "source_count": 3,
+        "tracking_candidate_count": 0,
+        "taiwan_mapping_count": 3
+      },
+      "heat_reason": {
+        "rule_version": "public_theme_heat_v0.8",
+        "event_component": {
+          "input": 4,
+          "normalized": 66.667,
+          "weighted": 16.667
+        },
+        "source_component": {
+          "input": 3,
+          "normalized": 75.0,
+          "weighted": 18.75
+        },
+        "candidate_component": {
+          "input": 0,
+          "normalized": 0.0,
+          "weighted": 0.0
+        },
+        "mapping_component": {
+          "mapping_count": 3,
+          "direct_mapping_event_count": 0,
+          "normalized": 60.0,
+          "weighted": 18.0
+        },
+        "single_source_concentration": 0.5,
+        "concentration_penalty": 0.0,
+        "raw_score": 53.417
+      },
+      "direct_mentions": [],
+      "supply_chain_candidates": [
+        {
+          "instrument_id": "TWSE:2382",
+          "symbol": "2382",
+          "exchange": "TWSE",
+          "name_zh": "廣達",
+          "direct_event_count": 0,
+          "official_evidence_count": 0,
+          "company_rank_score": 1,
+          "latest_mentioned_at": null,
+          "latest_official_at": null
+        },
+        {
+          "instrument_id": "TWSE:3231",
+          "symbol": "3231",
+          "exchange": "TWSE",
+          "name_zh": "緯創",
+          "direct_event_count": 0,
+          "official_evidence_count": 0,
+          "company_rank_score": 1,
+          "latest_mentioned_at": null,
+          "latest_official_at": null
+        },
+        {
+          "instrument_id": "TWSE:6669",
+          "symbol": "6669",
+          "exchange": "TWSE",
+          "name_zh": "緯穎",
+          "direct_event_count": 0,
+          "official_evidence_count": 0,
+          "company_rank_score": 1,
+          "latest_mentioned_at": null,
+          "latest_official_at": null
+        }
+      ],
+      "representative_news": {
+        "cluster_id": "cluster-793e7c87d2a27367",
+        "id": "digitimes_tw-40b49a988b9c",
+        "title_zh": "AI伺服器訂單增加　羅姆1QFY26獲利暴增4,825%",
+        "summary": "日本羅姆半導體（Rohm Semiconductor）受惠於車用功率半導體需求回溫，加上人工智慧（AI）帶動資料中心相關業務顯著擴張，最新單季獲利表現亮眼。羅姆於2026年8月5日公布2026年度第1季（2026年4~6月）財",
         "source_id": "digitimes_tw",
         "source": "DIGITIMES",
-        "published_at": "2026-08-05T18:46:22Z",
-        "canonical_url": "https://www.digitimes.com.tw/tech/dt/n/shwnws.asp?id=0000764122_05E2471J1FAYCI3QXSA78"
+        "published_at": "2026-08-06T03:07:38Z",
+        "canonical_url": "https://www.digitimes.com.tw/tech/dt/n/shwnws.asp?id=0000764193_PS60NZPHLRVIX52NQUSS9"
       }
     },
     {
       "rank": 3,
       "theme_id": "optical_cpo",
       "name_zh": "光通訊與 CPO",
-      "heat_score": 44,
+      "heat_score": 39,
       "summaries": {
-        "event_count": 5,
+        "event_count": 2,
         "source_count": 2,
         "tracking_candidate_count": 0,
         "taiwan_mapping_count": 3
@@ -200,9 +200,9 @@
       "heat_reason": {
         "rule_version": "public_theme_heat_v0.8",
         "event_component": {
-          "input": 5,
-          "normalized": 83.333,
-          "weighted": 20.833
+          "input": 2,
+          "normalized": 33.333,
+          "weighted": 8.333
         },
         "source_component": {
           "input": 2,
@@ -220,9 +220,9 @@
           "normalized": 60.0,
           "weighted": 18.0
         },
-        "single_source_concentration": 0.8,
-        "concentration_penalty": 7.5,
-        "raw_score": 43.833
+        "single_source_concentration": 0.5,
+        "concentration_penalty": 0.0,
+        "raw_score": 38.833
       },
       "direct_mentions": [],
       "supply_chain_candidates": [
@@ -261,14 +261,14 @@
         }
       ],
       "representative_news": {
-        "cluster_id": "cluster-8e596d4e89c020fe",
-        "id": "digitimes_tw-a8cab3bb0101",
-        "title_zh": "美國傳封殺中系光通訊模組　非紅供應鏈轉單效益浮現",
-        "summary": "美國聯邦通訊委員會（FCC）傳出研擬限制中國製新型資料中心光模組進入美國市場，中際旭創和新易盛等中系光通廠恐首當其衝。美中兩強的科技戰從半導體先進製程開打，一路延燒至上游原材料和設備供應鏈。中國自",
-        "source_id": "digitimes_tw",
-        "source": "DIGITIMES",
-        "published_at": "2026-08-05T19:00:00Z",
-        "canonical_url": "https://www.digitimes.com.tw/tech/dt/n/shwnws.asp?id=0000764112_85R2RIBC0YFICH3D7VFAH"
+        "cluster_id": "cluster-c1c80fe70ead3840",
+        "id": "technews-bcc70213d38c",
+        "title_zh": "搶攻 CPO 量產：檢測技術最後關鍵一哩路",
+        "summary": "AI 資料中心叢集規模持續擴大，資料搬運需求隨之大增，傳統銅線互連已達到物理極限。共同封裝光學（Co-Pack [&#8230;]",
+        "source_id": "technews",
+        "source": "TechNews",
+        "published_at": "2026-08-06T02:00:34Z",
+        "canonical_url": "https://technews.tw/2026/08/06/cpo-testing-market-opportunities/"
       }
     }
   ]
