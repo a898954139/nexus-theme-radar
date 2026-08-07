@@ -269,10 +269,35 @@ h1 {
 .theme-stock {
   min-width: 0;
   display: grid;
+  gap: 0.4rem;
+  font-size: 0.8rem;
+}
+
+/* The ticker and name sit inside one child so the whole pair is a single
+   click target; the two-column layout moves down to that wrapper. */
+.theme-stock-link,
+.theme-stock > span:first-child {
+  min-width: 0;
+  display: grid;
   grid-template-columns: auto minmax(0, 1fr);
   align-items: baseline;
   gap: 0.4rem;
-  font-size: 0.8rem;
+}
+
+.theme-stock-link {
+  color: inherit;
+  text-decoration: none;
+  border-radius: 0.3rem;
+}
+
+.theme-stock-link:hover .theme-stock-name,
+.theme-stock-link:focus-visible .theme-stock-name {
+  text-decoration: underline;
+}
+
+.theme-stock-link:hover .theme-stock-symbol,
+.theme-stock-link:focus-visible .theme-stock-symbol {
+  color: var(--accent);
 }
 
 .theme-stock-symbol {

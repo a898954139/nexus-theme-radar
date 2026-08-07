@@ -240,3 +240,98 @@ def test_an_overflowing_list_reports_what_it_dropped() -> None:
     text = json.loads(result.stdout.strip().splitlines()[-1])
 
     assert "+3" in text
+
+
+# ─── linking through to the per-stock detail page ───────────────────────────
+
+
+def test_stock_entry_links_to_its_detail_page() -> None:
+    """The statements are published per symbol but the card has room for one
+    line; the link is how a reader reaches the rest."""
+    theme = _theme(direct_symbols=[_symbol()])
+    result = _run_node(
+        """
+        const list = buildThemeStockList(THEME);
+        const link = list.children[0].children[0];
+        if (link.tagName !== "a") throw new Error("expected an anchor, got " + link.tagName);
+        if (link.href !== "./stock.html?code=2344") throw new Error("href was " + link.href);
+        console.log("OK");
+        """.replace("THEME", json.dumps(theme)),
+    )
+    assert result.returncode == 0, result.stderr
+    assert "OK" in result.stdout
+
+
+def test_link_uses_the_bare_ticker_not_the_instrument_id() -> None:
+    """stock.html resolves a 4-digit code; handing it TPEX:8299 lands on
+    "查無此標的" even though the symbol is in the cache."""
+    theme = _theme(direct_symbols=[{
+        "instrument_id": "TPEX:8299", "symbol": "8299",
+        "exchange": "TPEX", "name_zh": "群聯",
+    }])
+    result = _run_node(
+        """
+        const link = buildThemeStockList(THEME).children[0].children[0];
+        if (link.href !== "./stock.html?code=8299") throw new Error("href was " + link.href);
+        console.log("OK");
+        """.replace("THEME", json.dumps(theme)),
+    )
+    assert result.returncode == 0, result.stderr
+    assert "OK" in result.stdout
+
+
+def test_instrument_id_alone_still_yields_a_usable_link() -> None:
+    """`symbol` is not guaranteed; the exchange prefix must be stripped rather
+    than passed through."""
+    theme = _theme(direct_symbols=[{
+        "instrument_id": "TWSE:2330", "exchange": "TWSE", "name_zh": "台積電",
+    }])
+    result = _run_node(
+        """
+        const link = buildThemeStockList(THEME).children[0].children[0];
+        if (link.href !== "./stock.html?code=2330") throw new Error("href was " + link.href);
+        console.log("OK");
+        """.replace("THEME", json.dumps(theme)),
+    )
+    assert result.returncode == 0, result.stderr
+    assert "OK" in result.stdout
+
+
+def test_symbol_without_a_resolvable_code_is_not_a_link() -> None:
+    """A link to stock.html with no usable code lands the reader on an error
+    page. Rendering plain text is the honest outcome.
+
+    The symbol carries an id (one without any is dropped upstream by
+    ``themeStocks``) but not a 4-digit ticker -- an index or a foreign listing
+    reaching the feed would look like this.
+    """
+    theme = _theme(direct_symbols=[{
+        "instrument_id": "TWSE:TAIEX", "exchange": "TWSE", "name_zh": "加權指數",
+    }])
+    result = _run_node(
+        """
+        const body = buildThemeStockList(THEME).children[0].children[0];
+        if (body.tagName === "a") throw new Error("linked a symbol with no code");
+        console.log("OK");
+        """.replace("THEME", json.dumps(theme)),
+    )
+    assert result.returncode == 0, result.stderr
+    assert "OK" in result.stdout
+
+
+def test_the_financial_line_survives_the_link_wrapper() -> None:
+    """Regression: wrapping the name in an anchor must not drop the metrics
+    that already render beside it."""
+    theme = _theme(direct_symbols=[_symbol(fundamentals=_fundamentals())])
+    result = _run_node(
+        """
+        const item = buildThemeStockList(THEME).children[0];
+        const text = item.outerText;
+        if (!text.includes("2026Q1")) throw new Error("lost the period: " + text);
+        if (!text.includes("EPS")) throw new Error("lost the EPS: " + text);
+        if (!text.includes("華邦電")) throw new Error("lost the name: " + text);
+        console.log("OK");
+        """.replace("THEME", json.dumps(theme)),
+    )
+    assert result.returncode == 0, result.stderr
+    assert "OK" in result.stdout

@@ -239,6 +239,14 @@ function quarterMetrics(stock) {
   return parts;
 }
 
+function stockCode(stock) {
+  // stock.html resolves a bare 4-digit ticker, so an instrument_id has to have
+  // its exchange prefix stripped rather than being passed through whole.
+  const raw = String(stock.symbol ?? stock.instrument_id ?? "");
+  const code = raw.includes(":") ? raw.slice(raw.lastIndexOf(":") + 1) : raw;
+  return /^\d{4}$/.test(code) ? code : "";
+}
+
 function buildThemeStockList(theme) {
   const stocks = themeStocks(theme);
   if (!stocks.length) return null;
@@ -249,6 +257,8 @@ function buildThemeStockList(theme) {
     const item = document.createElement("li");
     item.className = "theme-stock";
 
+    const code = stockCode(stock);
+
     const ticker = document.createElement("span");
     ticker.className = "theme-stock-symbol";
     ticker.textContent = String(stock.symbol ?? stock.instrument_id ?? "");
@@ -257,7 +267,15 @@ function buildThemeStockList(theme) {
     name.className = "theme-stock-name";
     name.textContent = String(stock.name_zh ?? "");
 
-    item.append(ticker, name);
+    // Only the entries the detail page can actually resolve become links; a
+    // link to stock.html without a usable code lands on "查無此標的".
+    const body = code ? document.createElement("a") : document.createElement("span");
+    if (code) {
+      body.className = "theme-stock-link";
+      body.href = `./stock.html?code=${encodeURIComponent(code)}`;
+    }
+    body.append(ticker, name);
+    item.append(body);
 
     const metrics = quarterMetrics(stock);
     if (metrics.length) {
