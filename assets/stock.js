@@ -26,13 +26,14 @@ async function initStockPage() {
   }
 
   try {
-    // 2. Fetch fundamentals JSON and symbol aliases JSON directly
+    // 2. Fetch fundamentals JSON, symbol aliases JSON, commentary JSON, and institutional flows JSON directly
     // Commentary is optional: it is generated separately and quarterly, so the
     // page must render the numbers whether or not any prose exists yet.
-    const [fundamentalsResp, aliasesResp, commentaryResp] = await Promise.all([
+    const [fundamentalsResp, aliasesResp, commentaryResp, flowsResp] = await Promise.all([
       fetch('./data/theme-symbol-fundamentals.json', { cache: 'no-store' }),
       fetch('./config/symbol_aliases.tw.json').catch(() => null),
-      fetch('./data/fundamental-commentary.json', { cache: 'no-store' }).catch(() => null)
+      fetch('./data/fundamental-commentary.json', { cache: 'no-store' }).catch(() => null),
+      fetch('./data/institutional-flows.json', { cache: 'no-store' }).catch(() => null)
     ]);
 
     if (!fundamentalsResp.ok) {
@@ -44,6 +45,10 @@ async function initStockPage() {
     const commentaryData =
       commentaryResp && commentaryResp.ok
         ? await commentaryResp.json().catch(() => null)
+        : null;
+    const flowsData =
+      flowsResp && flowsResp.ok
+        ? await flowsResp.json().catch(() => null)
         : null;
 
     const symbolsMap = fundamentalsData.symbols || {};
@@ -95,6 +100,9 @@ async function initStockPage() {
     renderCommentary(commentaryData, matchedKey, symbolData.fiscal_quarter);
     renderCharts(symbolData);
     renderTables(symbolData);
+
+    // Render Tab 2 Contents (Institutional Money-Flows)
+    renderInstitutionalFlows(code, flowsData, flowsResp && !flowsResp.ok);
 
     // Init Accessible Tabs
     setupTabs();
@@ -861,4 +869,267 @@ function setupTabs() {
       }
     });
   });
+}
+
+/* -------------------------------------------------------------------------- */
+/* Tab 2: Institutional Money-Flow Rendering                                  */
+/* -------------------------------------------------------------------------- */
+
+function renderInstitutionalFlows(code, flowsData, isFetchError) {
+  const instNotice = document.getElementById('instFlowsNotice');
+  const instError = document.getElementById('instFlowsError');
+  const instContent = document.getElementById('instFlowsContent');
+
+  if (!instNotice || !instError || !instContent) return;
+
+  if (isFetchError) {
+    instError.style.display = 'block';
+    instError.innerHTML =
+      '<div class="error-title">資料載入失敗</div><div>無法讀取三大法人籌碼數據檔案 (data/institutional-flows.json)。</div>';
+    instContent.style.display = 'none';
+    instNotice.style.display = 'none';
+    return;
+  }
+
+  if (!flowsData || !flowsData.symbols) {
+    instNotice.style.display = 'block';
+    instNotice.innerHTML = '<strong>本標的當期無法人交易資料</strong>';
+    instContent.style.display = 'none';
+    instError.style.display = 'none';
+    return;
+  }
+
+  // Resolve symbol key in institutional-flows.json (e.g. TWSE:2330 or TPEX:8299 or 2330)
+  const symbolsMap = flowsData.symbols || {};
+  const matchedKey = Object.keys(symbolsMap).find(
+    (k) => k === code || k.endsWith(':' + code)
+  );
+
+  const entries = matchedKey ? symbolsMap[matchedKey] : null;
+
+  if (!entries || !Array.isArray(entries) || entries.length === 0) {
+    instNotice.style.display = 'block';
+    instNotice.innerHTML = '<strong>本標的當期無法人交易資料</strong>';
+    instContent.style.display = 'none';
+    instError.style.display = 'none';
+    return;
+  }
+
+  // Hide notice & error, show content
+  instNotice.style.display = 'none';
+  instError.style.display = 'none';
+  instContent.style.display = 'block';
+
+  // Render components
+  renderInstKpiCards(entries);
+  renderInstCharts(entries);
+  renderInstTable(entries);
+}
+
+function formatSignedShares(val) {
+  if (val === null || val === undefined || Number.isNaN(val)) return '—';
+  const prefix = val > 0 ? '+' : '';
+  return prefix + val.toLocaleString('zh-TW') + ' 股';
+}
+
+function getNetDirClass(val) {
+  if (val === null || val === undefined) return 'flat';
+  return val > 0 ? 'up' : val < 0 ? 'down' : 'flat';
+}
+
+function getNetDirText(val) {
+  if (val === null || val === undefined) return '—';
+  return val > 0 ? '買超' : val < 0 ? '賣超' : '平盤';
+}
+
+function renderInstKpiCards(entries) {
+  const kpiGrid = document.getElementById('instKpiGrid');
+  if (!kpiGrid) return;
+
+  // Array is NEWEST FIRST; entries[0] is latest trading day
+  const latest = entries[0] || {};
+  const dateStr = latest.date || '';
+
+  const cards = [
+    {
+      label: `${dateStr} 外資買賣超`,
+      value: formatSignedShares(latest.foreign_net),
+      change: getNetDirText(latest.foreign_net),
+      dir: getNetDirClass(latest.foreign_net),
+      cardClass: 'blue'
+    },
+    {
+      label: `${dateStr} 投信買賣超`,
+      value: formatSignedShares(latest.trust_net),
+      change: getNetDirText(latest.trust_net),
+      dir: getNetDirClass(latest.trust_net),
+      cardClass: 'purple'
+    },
+    {
+      label: `${dateStr} 自營商買賣超`,
+      value: formatSignedShares(latest.dealer_net),
+      change: getNetDirText(latest.dealer_net),
+      dir: getNetDirClass(latest.dealer_net),
+      cardClass: 'orange'
+    },
+    {
+      label: `${dateStr} 三大法人合計`,
+      value: formatSignedShares(latest.total_net),
+      change: getNetDirText(latest.total_net),
+      dir: getNetDirClass(latest.total_net),
+      cardClass: 'teal'
+    }
+  ];
+
+  kpiGrid.innerHTML = cards
+    .map(
+      (c) => `
+    <div class="kpi-card ${c.cardClass}">
+      <div class="kpi-label">${c.label}</div>
+      <div class="kpi-value">${c.value}</div>
+      <div class="kpi-change ${c.dir}">${c.change}</div>
+    </div>
+  `
+    )
+    .join('');
+}
+
+function renderInstCharts(entries) {
+  if (typeof Chart === 'undefined') {
+    document.querySelectorAll('#instChartsGrid .chart-container').forEach((el) => {
+      el.innerHTML =
+        '<div class="chart-fallback">⚠️ 圖表元件載入受阻（Chart.js 庫未完成載入）。請參閱下方詳細數據表格。</div>';
+    });
+    return;
+  }
+
+  // Array in JSON is NEWEST FIRST. Reverse array so X-axis is OLDEST -> NEWEST.
+  const chronological = [...entries].reverse();
+  const dates = chronological.map((e) => e.date);
+
+  const chartOptionsBase = {
+    responsive: true,
+    maintainAspectRatio: false,
+    spanGaps: false,
+    plugins: {
+      legend: {
+        position: 'top',
+        labels: { font: { size: 11 }, boxWidth: 12 }
+      },
+      tooltip: {
+        callbacks: {
+          label: (ctx) =>
+            `${ctx.dataset.label}: ${
+              ctx.parsed.y !== null
+                ? (ctx.parsed.y > 0 ? '+' : '') + ctx.parsed.y.toLocaleString('zh-TW') + ' 股'
+                : '—'
+            }`
+        }
+      }
+    },
+    scales: {
+      x: { grid: { display: false } },
+      y: {
+        grid: { color: '#eef0eb' },
+        ticks: { callback: (v) => v.toLocaleString('zh-TW') }
+      }
+    }
+  };
+
+  // Chart 1: Grouped Bars per day (外資 / 投信 / 自營商)
+  const canvas1 = document.getElementById('chartInstDaily');
+  if (canvas1) {
+    new Chart(canvas1, {
+      type: 'bar',
+      data: {
+        labels: dates,
+        datasets: [
+          {
+            label: '外資 (股)',
+            data: chronological.map((e) => (e.foreign_net !== undefined ? e.foreign_net : null)),
+            backgroundColor: '#2b6cb0'
+          },
+          {
+            label: '投信 (股)',
+            data: chronological.map((e) => (e.trust_net !== undefined ? e.trust_net : null)),
+            backgroundColor: '#805ad5'
+          },
+          {
+            label: '自營商 (股)',
+            data: chronological.map((e) => (e.dealer_net !== undefined ? e.dealer_net : null)),
+            backgroundColor: '#dd6b20'
+          }
+        ]
+      },
+      options: chartOptionsBase
+    });
+  }
+
+  // Chart 2: 三大法人合計 per day + Cumulative Line
+  let runningCum = 0;
+  const cumData = chronological.map((e) => {
+    if (e.total_net !== null && e.total_net !== undefined) {
+      runningCum += e.total_net;
+      return runningCum;
+    }
+    return null;
+  });
+
+  const canvas2 = document.getElementById('chartInstCum');
+  if (canvas2) {
+    new Chart(canvas2, {
+      type: 'bar',
+      data: {
+        labels: dates,
+        datasets: [
+          {
+            label: '單日合計 (股)',
+            data: chronological.map((e) => (e.total_net !== undefined ? e.total_net : null)),
+            backgroundColor: 'rgba(43, 108, 176, 0.65)',
+            borderColor: '#2b6cb0',
+            borderWidth: 1,
+            yAxisID: 'y'
+          },
+          {
+            label: '累計籌碼流向 (股)',
+            type: 'line',
+            data: cumData,
+            borderColor: '#12684a',
+            backgroundColor: '#12684a',
+            pointRadius: 4,
+            tension: 0.25,
+            yAxisID: 'y'
+          }
+        ]
+      },
+      options: chartOptionsBase
+    });
+  }
+}
+
+function renderInstTable(entries) {
+  const table = document.getElementById('tableInstFlows');
+  if (!table) return;
+
+  const tbody = table.querySelector('tbody');
+  if (!tbody) return;
+
+  // Display newest first (entries array order)
+  tbody.innerHTML = entries
+    .map((item) => {
+      const dirText = getNetDirText(item.total_net);
+      const dirClass = getNetDirClass(item.total_net);
+
+      return `
+      <tr>
+        <td>${item.date || '—'}</td>
+        <td>${formatSignedShares(item.foreign_net)}</td>
+        <td>${formatSignedShares(item.trust_net)}</td>
+        <td>${formatSignedShares(item.dealer_net)}</td>
+        <td style="font-weight:700;">${formatSignedShares(item.total_net)}</td>
+        <td><span class="trend-badge ${dirClass}">${dirText}</span></td>
+      </tr>
+    `;
+    })
+    .join('');
 }

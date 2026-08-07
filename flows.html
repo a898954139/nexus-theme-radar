@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="zh-TW">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>三大法人資金流向與持股排行｜Taiwan Equity Theme Radar</title>
+    <meta
+      name="description"
+      content="動態追蹤台股三大法人近 5、10、20、30 日籌碼買賣超金額與持股比重變化排行。"
+    />
+    <link rel="icon" href="./assets/logo.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="./assets/theme-momentum.css" />
+    <link rel="stylesheet" href="./assets/flows.css" />
+    <script src="./assets/flows.js" defer></script>
+  </head>
+  <body>
+    <a class="skip-link" href="#flowsMain">跳到法人資金流向排行內容</a>
+
+    <header class="site-header">
+      <a class="brand" href="./index.html">
+        <img src="./assets/logo.svg" alt="" width="40" height="40" />
+        <span>Taiwan Equity Theme Radar</span>
+      </a>
+      <div class="header-nav">
+        <a class="back-link" href="./theme-momentum.html">← 題材動能</a>
+        <a class="back-link" href="./index.html">返回首頁</a>
+      </div>
+    </header>
+
+    <main id="flowsMain" class="shell">
+      <section class="intro" aria-labelledby="flowsTitle">
+        <p class="eyebrow">INSTITUTIONAL MONEY-FLOW RANKINGS</p>
+        <h1 id="flowsTitle">三大法人資金流向排行</h1>
+        <p>
+          動態追蹤台股上市櫃標的三大法人籌碼買賣超張數與持股比重變化。數據源自公開交易資訊彙總整理。
+        </p>
+
+        <!-- Controls Toolbar -->
+        <div class="controls-card" role="region" aria-label="篩選與排行控制選項">
+          <div class="control-row">
+            <div class="control-group">
+              <span class="control-label">統計指標</span>
+              <div class="button-toggle-group" id="metricControls" role="radiogroup" aria-label="統計指標選擇">
+                <button type="button" class="toggle-btn active" data-metric="netbuy" aria-checked="true">資金淨流入</button>
+                <button type="button" class="toggle-btn" data-metric="change" aria-checked="false">持股比重變化</button>
+              </div>
+            </div>
+
+            <div class="control-group">
+              <span class="control-label">統計天數</span>
+              <div class="button-toggle-group" id="windowControls" role="radiogroup" aria-label="統計天數選擇">
+                <button type="button" class="toggle-btn active" data-window="5" aria-checked="true">5 日</button>
+                <button type="button" class="toggle-btn" data-window="10" aria-checked="false">10 日</button>
+                <button type="button" class="toggle-btn" data-window="20" aria-checked="false">20 日</button>
+                <button type="button" class="toggle-btn" data-window="30" aria-checked="false">30 日</button>
+              </div>
+            </div>
+
+            <div class="control-group">
+              <span class="control-label">流向方向</span>
+              <div class="button-toggle-group" id="sideControls" role="radiogroup" aria-label="流向方向選擇">
+                <button type="button" class="toggle-btn active" data-side="up" aria-checked="true">買超 / 增加</button>
+                <button type="button" class="toggle-btn" data-side="down" aria-checked="false">賣超 / 減少</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="control-row secondary-row">
+            <div class="control-group switch-group">
+              <label class="switch-label" for="etfToggle">
+                <input type="checkbox" id="etfToggle" checked />
+                <span class="switch-text">隱藏 ETF</span>
+              </label>
+              <span id="etfNotice" class="etf-notice"></span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Status & Error Panels -->
+      <div
+        id="flowsStatus"
+        class="status-panel"
+        role="status"
+        aria-live="polite"
+        style="display: none"
+      ></div>
+      <div
+        id="flowsError"
+        class="status-panel error"
+        role="alert"
+        aria-live="assertive"
+        style="display: none"
+      ></div>
+
+      <!-- Rankings Table Section -->
+      <section class="rankings-section" aria-labelledby="boardTitle">
+        <div class="section-heading">
+          <div>
+            <p class="section-kicker" id="boardKicker">RANKINGS BOARD</p>
+            <h2 id="boardTitle">載入中…</h2>
+          </div>
+          <div class="board-meta" id="boardMeta"></div>
+        </div>
+
+        <div class="table-card">
+          <div class="table-scroll">
+            <table id="tableRankings" class="data-table">
+              <thead></thead>
+              <tbody></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="shell">
+        <p>
+          本頁數據源自三大法人每日交易數據統計，僅供學術與技術展示，不代表任何投資建議。
+        </p>
+      </div>
+    </footer>
+  </body>
+</html>

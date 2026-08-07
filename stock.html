@@ -163,7 +163,7 @@
           </section>
         </div>
 
-        <!-- Tab 2: 三大法人資金流向 (Placeholder) -->
+        <!-- Tab 2: 三大法人資金流向 -->
         <div
           id="tabPanel2"
           class="tab-panel"
@@ -171,10 +171,65 @@
           aria-labelledby="tabBtn2"
           hidden
         >
-          <div class="placeholder-panel">
-            <div class="placeholder-icon">📊</div>
-            <h3>三大法人籌碼與資金流向</h3>
-            <p>外資、投信、自營商買賣超與籌碼集中度資料將於後續階段匯入，敬請期待。</p>
+          <!-- Notice & Error Panels for Inst Flows -->
+          <div
+            id="instFlowsNotice"
+            class="status-panel notice"
+            role="status"
+            aria-live="polite"
+            style="display: none"
+          ></div>
+          <div
+            id="instFlowsError"
+            class="status-panel error"
+            role="alert"
+            aria-live="assertive"
+            style="display: none"
+          ></div>
+
+          <div id="instFlowsContent" style="display: none">
+            <!-- Inst KPI Cards Grid -->
+            <section aria-label="最新三大法人買賣超概況">
+              <div id="instKpiGrid" class="kpi-grid"></div>
+            </section>
+
+            <!-- Inst Charts Section -->
+            <section class="charts-section" aria-label="三大法人資金流向圖表">
+              <h2 class="section-title">三大法人資金流向趨勢</h2>
+              <div id="instChartsGrid" class="charts-grid">
+                <div class="chart-card">
+                  <div class="chart-title">每日三大法人買賣超 (單位：股)</div>
+                  <div class="chart-container"><canvas id="chartInstDaily"></canvas></div>
+                </div>
+                <div class="chart-card">
+                  <div class="chart-title">三大法人合計買賣超與累計流向 (單位：股)</div>
+                  <div class="chart-container"><canvas id="chartInstCum"></canvas></div>
+                </div>
+              </div>
+            </section>
+
+            <!-- Inst Table Section -->
+            <section class="tables-section" aria-label="三大法人買賣超明細表格">
+              <h2 class="section-title">三大法人每日買賣超明細</h2>
+              <div class="table-card">
+                <h3 class="table-title">法人買賣超數據 (單位：股)</h3>
+                <div class="table-scroll">
+                  <table id="tableInstFlows" class="data-table">
+                    <thead>
+                      <tr>
+                        <th scope="col">日期</th>
+                        <th scope="col">外資買賣超</th>
+                        <th scope="col">投信買賣超</th>
+                        <th scope="col">自營商買賣超</th>
+                        <th scope="col">三大法人合計</th>
+                        <th scope="col">買賣超方向</th>
+                      </tr>
+                    </thead>
+                    <tbody></tbody>
+                  </table>
+                </div>
+              </div>
+            </section>
           </div>
         </div>
       </div>

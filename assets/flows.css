@@ -1,0 +1,218 @@
+/* flows.css - Institutional Money-Flow Rankings Styles */
+
+.header-nav {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.controls-card {
+  margin-top: 1.5rem;
+  padding: 1.25rem 1.5rem;
+  border: 1px solid var(--line);
+  border-radius: 1rem;
+  background: white;
+  box-shadow: 0 4px 18px rgba(23, 34, 28, 0.04);
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.control-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.secondary-row {
+  padding-top: 0.75rem;
+  border-top: 1px dashed var(--line);
+}
+
+.control-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.control-label {
+  font-size: 0.76rem;
+  font-weight: 750;
+  color: var(--muted);
+  letter-spacing: 0.05em;
+}
+
+.button-toggle-group {
+  display: inline-flex;
+  gap: 0.25rem;
+  padding: 0.25rem;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--paper);
+}
+
+.toggle-btn {
+  padding: 0.45rem 1rem;
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  color: var(--ink);
+  cursor: pointer;
+  font: inherit;
+  font-size: 0.85rem;
+  font-weight: 750;
+  transition: all 0.15s ease;
+  white-space: nowrap;
+}
+
+.toggle-btn.active {
+  background: var(--ink);
+  color: white;
+}
+
+.toggle-btn:hover:not(.active) {
+  background: rgba(23, 34, 28, 0.06);
+}
+
+/* Switch & Checkbox */
+.switch-group {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.switch-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: 750;
+  color: var(--ink);
+  user-select: none;
+}
+
+.switch-label input[type="checkbox"] {
+  width: 1.15rem;
+  height: 1.15rem;
+  accent-color: var(--accent);
+  cursor: pointer;
+}
+
+.etf-notice {
+  font-size: 0.82rem;
+  color: var(--accent);
+  font-weight: 700;
+}
+
+/* Board Meta Info */
+.board-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem 1.25rem;
+  color: var(--muted);
+  font-size: 0.88rem;
+  align-items: center;
+}
+
+.meta-item strong {
+  color: var(--ink);
+  font-weight: 700;
+}
+
+/* Table Enhancements for Rankings */
+.rankings-section {
+  margin-top: 2rem;
+}
+
+.in-universe-row td {
+  background: rgba(18, 104, 74, 0.09) !important;
+}
+
+.in-universe-row {
+  border-left: 4px solid var(--accent);
+}
+
+.stock-link {
+  color: var(--ink);
+  font-weight: 750;
+  text-decoration: none;
+}
+
+.stock-link:hover,
+.stock-link:focus-visible {
+  color: var(--accent);
+  text-decoration: underline;
+}
+
+.universe-tag {
+  display: inline-block;
+  padding: 0.15rem 0.45rem;
+  border-radius: 0.3rem;
+  background: var(--accent);
+  color: white;
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+
+.warning-tag {
+  display: inline-block;
+  padding: 0.15rem 0.45rem;
+  border-radius: 0.3rem;
+  background: #fff3cd;
+  border: 1px solid #ffeeba;
+  color: var(--warn);
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+
+.etf-tag {
+  display: inline-block;
+  padding: 0.15rem 0.45rem;
+  border-radius: 0.3rem;
+  background: rgba(95, 111, 101, 0.15);
+  color: var(--muted);
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+
+.warning-text {
+  color: var(--error);
+  font-weight: 700;
+}
+
+/* Value colors */
+.up {
+  color: #12684a;
+}
+
+.down {
+  color: #9b3434;
+}
+
+.flat {
+  color: var(--muted);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .control-row {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 1rem;
+  }
+
+  .button-toggle-group {
+    display: flex;
+    width: 100%;
+  }
+
+  .toggle-btn {
+    flex: 1;
+    text-align: center;
+    padding: 0.45rem 0.25rem;
+    font-size: 0.8rem;
+  }
+}
