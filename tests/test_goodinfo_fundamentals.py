@@ -401,6 +401,32 @@ def test_statements_carry_the_operating_expense_breakdown() -> None:
     assert income["operating_expense"] == pytest.approx(78.65)
 
 
+def test_operating_expense_breakdown_accounts_for_its_own_total() -> None:
+    """推銷 + 管理 + 研發 does not always equal 營業費用.
+
+    Companies reporting an expected-credit-loss line carry it inside operating
+    expenses too, and it can be negative (a reversal). Dropping it leaves an
+    expense chart whose segments visibly fail to sum to the total they are
+    plotted against -- measured 2026-08-07 on 37 of 174 quarters across the
+    backfilled universe (6409 2026Q1: 0.51 + 1.00 + 1.99 = 3.50 against a
+    reported 3.36, reconciled by a -0.13 credit-loss reversal).
+    """
+    income = _context_2344()["statements"]["income"]
+
+    for period, row in income.items():
+        parts = [
+            row.get(field)
+            for field in ("selling_expense", "admin_expense", "rd_expense", "expected_credit_loss")
+            if row.get(field) is not None
+        ]
+        total = row.get("operating_expense")
+        if total is None or not parts:
+            continue
+        assert sum(parts) == pytest.approx(total, rel=0.01), (
+            f"{period}: expense parts {sum(parts)} do not reconcile to {total}"
+        )
+
+
 def test_statements_carry_balance_sheet_composition() -> None:
     balance = _context_2344()["statements"]["balance"]["2026Q1"]
 

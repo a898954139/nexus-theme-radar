@@ -48,6 +48,12 @@ _INCOME_DETAIL = (
     ("selling_expense", "推銷費用"),
     ("admin_expense", "管理費用"),
     ("rd_expense", "研究發展費用"),
+    # 營業費用 is not always 推銷 + 管理 + 研發: companies reporting under IFRS 9
+    # carry an expected-credit-loss line inside operating expenses too, and it
+    # can be negative (a reversal). Without it the expense breakdown silently
+    # fails to add up to its own total -- measured 2026-08-07 on 37 of 174
+    # quarters across the backfilled universe.
+    ("expected_credit_loss", "預期信用減損損益"),
     ("operating_expense", "營業費用"),
     ("operating_income", _INCOME_OPERATING_MARGIN),
     ("pretax_income", "稅前淨利"),
