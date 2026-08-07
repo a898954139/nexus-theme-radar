@@ -16,10 +16,18 @@ from datetime import datetime
 from pathlib import Path
 from typing import Any
 
-from scripts.theme_symbol_fundamentals import (
-    attach_symbol_fundamentals,
-    symbols_due_for_refresh,
-)
+try:
+    from scripts.theme_symbol_fundamentals import (
+        attach_symbol_fundamentals,
+        symbols_due_for_refresh,
+    )
+except ModuleNotFoundError:  # `python scripts/update_theme_radar.py` puts
+    # scripts/ on sys.path[0], so the package path is unavailable there --
+    # same dual-import the pipeline entrypoint already carries.
+    from theme_symbol_fundamentals import (
+        attach_symbol_fundamentals,
+        symbols_due_for_refresh,
+    )
 
 LOGGER = logging.getLogger(__name__)
 

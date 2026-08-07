@@ -233,3 +233,27 @@ def test_fetching_is_on_by_default(monkeypatch, tmp_path):
 
 def test_fetching_can_be_turned_off_explicitly(monkeypatch, tmp_path):
     assert _run_attach(monkeypatch, tmp_path, "0") == []
+
+
+# ─── import path ────────────────────────────────────────────────────────────
+
+
+def test_modules_import_the_way_ci_runs_them():
+    """CI runs `python scripts/update_theme_radar.py`, which puts scripts/ on
+    sys.path[0] and makes the `scripts.` package path unavailable. Every
+    sibling import must therefore work bare as well as package-qualified --
+    update_theme_radar already carries that try/except pair, and a new module
+    that only does `from scripts.x import ...` breaks the hourly run while
+    every local test still passes.
+    """
+    import subprocess
+    import sys
+    from pathlib import Path
+
+    root = Path(__file__).resolve().parents[1]
+    result = subprocess.run(
+        [sys.executable, "-c", "import fundamentals_pipeline, theme_symbol_fundamentals, goodinfo_fundamentals"],
+        cwd=root / "scripts", capture_output=True, text=True, check=False,
+    )
+
+    assert result.returncode == 0, result.stderr
