@@ -32,12 +32,26 @@ try:  # pragma: no cover - exercised by the real CI entrypoint
         fetch_tpex_flows,
         fetch_twse_flows,
     )
+    from scripts.flows_store import (
+        FLOWS_DIR,
+        load_existing_index,
+        split_by_symbol,
+        write_index,
+        write_symbol_files,
+    )
 except ModuleNotFoundError:  # pragma: no cover - running as scripts/<file>.py
     from institutional_flows import (
         FLOWS_FILE,
         SCHEMA_VERSION,
         fetch_tpex_flows,
         fetch_twse_flows,
+    )
+    from flows_store import (
+        FLOWS_DIR,
+        load_existing_index,
+        split_by_symbol,
+        write_index,
+        write_symbol_files,
     )
 
 LOGGER = logging.getLogger("update_institutional_flows")
@@ -115,6 +129,10 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--aliases", type=Path, default=DEFAULT_ALIASES)
     parser.add_argument("--date", help="Trading day as YYYY-MM-DD (default: today, Taipei).")
     parser.add_argument("--history-days", type=int, default=DEFAULT_HISTORY_DAYS)
+    parser.add_argument(
+        "--skip-market", action="store_true",
+        help="Only update the radar universe file; skip the ~2,220 per-symbol market files.",
+    )
     parser.add_argument("--dry-run", action="store_true")
     parser.add_argument("--verbose", action="store_true")
     args = parser.parse_args(argv)
@@ -167,6 +185,26 @@ def main(argv: list[str] | None = None) -> int:
 
     write_store(store_path, merged, generated_at=datetime.now(timezone.utc))
     LOGGER.info("wrote %s", store_path)
+
+    # The universe file above backs the radar's own symbols. This writes the
+    # whole market, one file per symbol, so the flows page can look up a code
+    # nobody has surfaced yet. Sixty days of the whole market in one file is
+    # 7.1MB; per symbol it is ~3KB, and the page fetches only what was asked
+    # for.
+    if not args.skip_market:
+        flows_dir = args.data_dir / FLOWS_DIR
+        by_symbol = split_by_symbol(flows)
+        written = write_symbol_files(flows_dir, by_symbol, history_days=args.history_days)
+        known = load_existing_index(flows_dir)
+        known.update({
+            instrument_id: {"name": entry["name"], "exchange": entry["exchange"]}
+            for instrument_id, entry in by_symbol.items()
+        })
+        write_index(flows_dir, known)
+        LOGGER.info(
+            "wrote %s (%d symbol file(s), index covers %d)", flows_dir, written, len(known),
+        )
+
     return 0
 
 
