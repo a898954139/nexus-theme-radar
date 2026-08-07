@@ -1,0 +1,99 @@
+name: Institutional Flows (daily)
+
+# Taiwan's exchanges publish the day's institutional net buy/sell after the
+# close. Two requests cover the whole market, so this is a small job -- but it
+# has to run every trading day or the flows page ages out one day at a time.
+#
+# 09:20 UTC is 17:20 Taipei: after the 14:30 close and comfortably past the
+# ~16:00 publication of T86, without sitting on the hour when GitHub's shared
+# runners are busiest.
+#
+# Weekend and holiday runs are harmless: both exchanges return no rows, the
+# script logs it and exits 0 without committing. Filtering the calendar here
+# would mean maintaining a Taiwan holiday list in cron syntax.
+
+on:
+  workflow_dispatch:
+    inputs:
+      date:
+        description: "Trading day to fetch (YYYY-MM-DD). Blank = today, Taipei time."
+        required: false
+        default: ""
+        type: string
+      history_days:
+        description: Days of history to retain per symbol
+        required: false
+        default: "60"
+        type: string
+  schedule:
+    - cron: "20 9 * * 1-5"
+
+concurrency:
+  # Two runs would race on the same 2,388 symbol files and the loser's writes
+  # would be silently lost. Queue rather than cancel: a cancelled run is a
+  # trading day permanently missing from the series.
+  group: update-institutional-flows-${{ github.ref }}
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+
+jobs:
+  update:
+    timeout-minutes: 30
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Setup Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.11"
+          cache: "pip"
+          cache-dependency-path: "requirements.txt"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Fetch institutional flows
+        env:
+          FLOW_DATE: ${{ inputs.date }}
+          HISTORY_DAYS: ${{ inputs.history_days }}
+        run: |
+          args=(--data-dir data --history-days "${HISTORY_DAYS:-60}")
+          if [ -n "$FLOW_DATE" ]; then
+            args+=(--date "$FLOW_DATE")
+          fi
+          python scripts/update_institutional_flows.py "${args[@]}"
+
+      - name: Refresh money-flow rankings
+        # A third-party source, so a failure here must not lose the official
+        # per-stock flows fetched above.
+        continue-on-error: true
+        run: python scripts/update_institutional_rankings.py --data-dir data
+
+      - name: Commit and push
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/flows data/institutional-flows.json data/institutional-rankings.json
+
+          if git diff --cached --quiet; then
+            echo "No changes -- a non-trading day, or this day was already fetched."
+            exit 0
+          fi
+
+          git commit -m "chore: update institutional flows"
+          # The hourly radar commits to this same branch, so a bare push loses
+          # the race often enough to matter. Rebase onto the latest remote and
+          # retry; these are per-symbol snapshot files with no shared lines, so
+          # a rebase here does not conflict.
+          for attempt in 1 2 3; do
+            git push && exit 0
+            echo "push rejected (attempt $attempt), rebasing onto latest remote..."
+            git pull --rebase origin "${GITHUB_REF_NAME}" || { git rebase --abort || true; exit 1; }
+          done
+          git push
