@@ -11,6 +11,7 @@
     <link rel="icon" href="./assets/logo.svg" type="image/svg+xml" />
     <link rel="stylesheet" href="./assets/theme-momentum.css" />
     <link rel="stylesheet" href="./assets/flows.css" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.5.0/dist/chart.umd.min.js"></script>
     <script src="./assets/flows.js" defer></script>
   </head>
   <body>
@@ -75,6 +76,48 @@
             </div>
           </div>
         </div>
+      </section>
+
+      <!-- Stock Lookup Section -->
+      <section class="lookup-section" aria-labelledby="lookupHeading">
+        <div class="lookup-card">
+          <div class="lookup-header">
+            <h2 id="lookupHeading">個股法人資金流向查詢</h2>
+            <p class="lookup-desc">
+              輸入台股上市櫃股票或 ETF 代號，查詢全市場單一標的最新三大法人買賣超數據與歷史趨勢。
+            </p>
+          </div>
+
+          <form id="lookupForm" class="lookup-form" role="search" aria-label="個股籌碼查詢">
+            <div class="lookup-input-group">
+              <label for="lookupInput" class="visually-hidden">股票或 ETF 代號</label>
+              <input
+                type="text"
+                id="lookupInput"
+                class="lookup-input"
+                placeholder="請輸入代號（如：2330, 8299, 1101）"
+                autocomplete="off"
+                list="stockDatalist"
+              />
+              <datalist id="stockDatalist"></datalist>
+              <button type="submit" id="lookupSubmitBtn" class="lookup-btn">
+                <span>查詢籌碼</span>
+              </button>
+            </div>
+          </form>
+        </div>
+
+        <!-- Lookup Error Container -->
+        <div
+          id="lookupError"
+          class="lookup-error-panel error"
+          role="alert"
+          aria-live="assertive"
+          style="display: none"
+        ></div>
+
+        <!-- Lookup Result Container -->
+        <div id="lookupResult" class="lookup-result-card" style="display: none"></div>
       </section>
 
       <!-- Status & Error Panels -->
