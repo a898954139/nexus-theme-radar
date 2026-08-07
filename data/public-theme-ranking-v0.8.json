@@ -2,7 +2,7 @@
   "schema_version": "nexus_public_theme_ranking.v0.8",
   "ranking_rule_version": "public_theme_heat_v0.8",
   "company_rule_version": "public_company_evidence_v0.8",
-  "generated_at": "2026-08-07T09:16:30.045549Z",
+  "generated_at": "2026-08-07T10:14:49.975022Z",
   "market_id": "TW_EQUITY",
   "market_scope": [
     "TW_EQUITY"
@@ -20,9 +20,9 @@
       "rank": 1,
       "theme_id": "memory_hbm",
       "name_zh": "記憶體與 HBM",
-      "heat_score": 82,
+      "heat_score": 86,
       "summaries": {
-        "event_count": 10,
+        "event_count": 11,
         "source_count": 2,
         "tracking_candidate_count": 6,
         "taiwan_mapping_count": 4
@@ -30,7 +30,7 @@
       "heat_reason": {
         "rule_version": "public_theme_heat_v0.8",
         "event_component": {
-          "input": 10,
+          "input": 11,
           "normalized": 100.0,
           "weighted": 25.0
         },
@@ -46,15 +46,23 @@
         },
         "mapping_component": {
           "mapping_count": 4,
-          "direct_mapping_event_count": 1,
-          "normalized": 80.0,
-          "weighted": 24.0
+          "direct_mapping_event_count": 2,
+          "normalized": 100.0,
+          "weighted": 30.0
         },
-        "single_source_concentration": 0.6,
-        "concentration_penalty": 0.0,
-        "raw_score": 81.5
+        "single_source_concentration": 0.636,
+        "concentration_penalty": 1.364,
+        "raw_score": 86.136
       },
       "direct_mentions": [
+        {
+          "instrument_id": "TWSE:2344",
+          "symbol": "2344",
+          "exchange": "TWSE",
+          "name_zh": "華邦電",
+          "direct_event_count": 1,
+          "latest_mentioned_at": "2026-08-07T09:17:12Z"
+        },
         {
           "instrument_id": "TWSE:2330",
           "symbol": "2330",
@@ -66,21 +74,21 @@
       ],
       "supply_chain_candidates": [
         {
-          "instrument_id": "TPEX:8299",
-          "symbol": "8299",
-          "exchange": "TPEX",
-          "name_zh": "群聯",
-          "direct_event_count": 0,
-          "official_evidence_count": 0,
-          "company_rank_score": 1,
-          "latest_mentioned_at": null,
-          "latest_official_at": null
-        },
-        {
           "instrument_id": "TWSE:2344",
           "symbol": "2344",
           "exchange": "TWSE",
           "name_zh": "華邦電",
+          "direct_event_count": 1,
+          "official_evidence_count": 0,
+          "company_rank_score": 5,
+          "latest_mentioned_at": "2026-08-07T09:17:12Z",
+          "latest_official_at": null
+        },
+        {
+          "instrument_id": "TPEX:8299",
+          "symbol": "8299",
+          "exchange": "TPEX",
+          "name_zh": "群聯",
           "direct_event_count": 0,
           "official_evidence_count": 0,
           "company_rank_score": 1,
@@ -114,11 +122,11 @@
       "rank": 2,
       "theme_id": "robotics",
       "name_zh": "機器人",
-      "heat_score": 76,
+      "heat_score": 81,
       "summaries": {
         "event_count": 8,
         "source_count": 3,
-        "tracking_candidate_count": 3,
+        "tracking_candidate_count": 4,
         "taiwan_mapping_count": 3
       },
       "heat_reason": {
@@ -134,9 +142,9 @@
           "weighted": 18.75
         },
         "candidate_component": {
-          "input": 3,
-          "normalized": 75.0,
-          "weighted": 15.0
+          "input": 4,
+          "normalized": 100.0,
+          "weighted": 20.0
         },
         "mapping_component": {
           "mapping_count": 3,
@@ -146,7 +154,7 @@
         },
         "single_source_concentration": 0.625,
         "concentration_penalty": 0.938,
-        "raw_score": 75.813
+        "raw_score": 80.813
       },
       "direct_mentions": [],
       "supply_chain_candidates": [
@@ -199,19 +207,19 @@
       "rank": 3,
       "theme_id": "ai_server",
       "name_zh": "AI 伺服器",
-      "heat_score": 70,
+      "heat_score": 80,
       "summaries": {
-        "event_count": 4,
+        "event_count": 5,
         "source_count": 3,
-        "tracking_candidate_count": 1,
+        "tracking_candidate_count": 2,
         "taiwan_mapping_count": 3
       },
       "heat_reason": {
         "rule_version": "public_theme_heat_v0.8",
         "event_component": {
-          "input": 4,
-          "normalized": 66.667,
-          "weighted": 16.667
+          "input": 5,
+          "normalized": 83.333,
+          "weighted": 20.833
         },
         "source_component": {
           "input": 3,
@@ -219,19 +227,19 @@
           "weighted": 18.75
         },
         "candidate_component": {
-          "input": 1,
-          "normalized": 25.0,
-          "weighted": 5.0
+          "input": 2,
+          "normalized": 50.0,
+          "weighted": 10.0
         },
         "mapping_component": {
           "mapping_count": 3,
-          "direct_mapping_event_count": 3,
+          "direct_mapping_event_count": 4,
           "normalized": 100.0,
           "weighted": 30.0
         },
-        "single_source_concentration": 0.5,
+        "single_source_concentration": 0.6,
         "concentration_penalty": 0.0,
-        "raw_score": 70.417
+        "raw_score": 79.583
       },
       "direct_mentions": [
         {
@@ -239,8 +247,8 @@
           "symbol": "3231",
           "exchange": "TWSE",
           "name_zh": "緯創",
-          "direct_event_count": 2,
-          "latest_mentioned_at": "2026-08-07T08:23:06Z"
+          "direct_event_count": 3,
+          "latest_mentioned_at": "2026-08-07T09:35:07Z"
         },
         {
           "instrument_id": "TWSE:2382",
@@ -257,10 +265,10 @@
           "symbol": "3231",
           "exchange": "TWSE",
           "name_zh": "緯創",
-          "direct_event_count": 2,
+          "direct_event_count": 3,
           "official_evidence_count": 0,
-          "company_rank_score": 9,
-          "latest_mentioned_at": "2026-08-07T08:23:06Z",
+          "company_rank_score": 13,
+          "latest_mentioned_at": "2026-08-07T09:35:07Z",
           "latest_official_at": null
         },
         {
@@ -287,38 +295,38 @@
         }
       ],
       "representative_news": {
-        "cluster_id": "cluster-be39a57b967d3912",
-        "id": "cnyes-691063d28a5c",
-        "title_zh": "〈電子五哥營收〉廣達7月營收年增逾1倍創次高 下周法說聚焦AI伺服器展望與毛利表現",
-        "summary": "廣達今 (7) 日公告 7 月營收營收 3662.74 億元，年增超過 1 倍，累計今年前 7 月營收 2.21 兆元，年增逾 9 成，創歷史同期新高。廣達將於下周四 (13 日) 公告財報並召開法說會，市場聚焦 AI 伺服器展望，並關注毛利表現。",
+        "cluster_id": "cluster-20fb9397180e251b",
+        "id": "cnyes-321e065dd39a",
+        "title_zh": "〈電子五哥營收〉緯創前7月營收突破2兆元寫新猷 Q4迎AI伺服器業務高峰",
+        "summary": "緯創 (3231-TW) 今 (7) 日公告 7 月營收 3082.19 億元，年增逾 6 成，累計今年前 7 月營收 2.05 兆元，年增逾 8 成。緯創指出，8 月起 AI 伺服器成長動能更為明顯強勁，預期將逐季成長，並在第四季迎 AI 伺服器業務高峰。",
         "source_id": "cnyes",
         "source": "鉅亨網 Cnyes",
-        "published_at": "2026-08-07T08:24:07Z",
-        "canonical_url": "https://news.cnyes.com/news/id/6564417"
+        "published_at": "2026-08-07T09:35:07Z",
+        "canonical_url": "https://news.cnyes.com/news/id/6564499"
       }
     },
     {
       "rank": 4,
       "theme_id": "energy_grid",
       "name_zh": "能源與電網",
-      "heat_score": 64,
+      "heat_score": 48,
       "summaries": {
-        "event_count": 5,
-        "source_count": 3,
+        "event_count": 4,
+        "source_count": 2,
         "tracking_candidate_count": 0,
         "taiwan_mapping_count": 4
       },
       "heat_reason": {
         "rule_version": "public_theme_heat_v0.8",
         "event_component": {
-          "input": 5,
-          "normalized": 83.333,
-          "weighted": 20.833
+          "input": 4,
+          "normalized": 66.667,
+          "weighted": 16.667
         },
         "source_component": {
-          "input": 3,
-          "normalized": 75.0,
-          "weighted": 18.75
+          "input": 2,
+          "normalized": 50.0,
+          "weighted": 12.5
         },
         "candidate_component": {
           "input": 0,
@@ -331,9 +339,9 @@
           "normalized": 80.0,
           "weighted": 24.0
         },
-        "single_source_concentration": 0.6,
-        "concentration_penalty": 0.0,
-        "raw_score": 63.583
+        "single_source_concentration": 0.75,
+        "concentration_penalty": 5.625,
+        "raw_score": 47.542
       },
       "direct_mentions": [
         {
@@ -381,14 +389,14 @@
         }
       ],
       "representative_news": {
-        "cluster_id": "cluster-a3c35db569880b36",
-        "id": "technews-c165bfc8383c",
-        "title_zh": "Bloom Energy 強化與神達合作，AI 製造園區導入燃料電池微電網",
-        "summary": "AI 用電需求持續攀升，Bloom Energy 宣布擴大與神達旗下神雲科技的合作，將在美國加州 Fremon [&#8230;]",
-        "source_id": "technews",
-        "source": "TechNews",
-        "published_at": "2026-08-07T07:12:51Z",
-        "canonical_url": "https://technews.tw/2026/08/07/bloom-energy-mitac-partnership-ai-manufacturing-fuel-cell-microgrid-deployment/"
+        "cluster_id": "cluster-88912ab7842bba8a",
+        "id": "cnyes-bbf21ac7eb5b",
+        "title_zh": "〈台達永續AI峰會〉鄭平：微電網將是未來幾年發展重點 看好三大應用需求",
+        "summary": "台達電鄭平：微電網將是未來幾年發展重點 看好三大應用需求",
+        "source_id": "cnyes",
+        "source": "鉅亨網 Cnyes",
+        "published_at": "2026-08-07T05:26:42Z",
+        "canonical_url": "https://news.cnyes.com/news/id/6564113"
       }
     }
   ]
