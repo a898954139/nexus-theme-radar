@@ -27,9 +27,12 @@ async function initStockPage() {
 
   try {
     // 2. Fetch fundamentals JSON and symbol aliases JSON directly
-    const [fundamentalsResp, aliasesResp] = await Promise.all([
+    // Commentary is optional: it is generated separately and quarterly, so the
+    // page must render the numbers whether or not any prose exists yet.
+    const [fundamentalsResp, aliasesResp, commentaryResp] = await Promise.all([
       fetch('./data/theme-symbol-fundamentals.json', { cache: 'no-store' }),
-      fetch('./config/symbol_aliases.tw.json').catch(() => null)
+      fetch('./config/symbol_aliases.tw.json').catch(() => null),
+      fetch('./data/fundamental-commentary.json', { cache: 'no-store' }).catch(() => null)
     ]);
 
     if (!fundamentalsResp.ok) {
@@ -38,6 +41,10 @@ async function initStockPage() {
 
     const fundamentalsData = await fundamentalsResp.json();
     const aliasesData = aliasesResp && aliasesResp.ok ? await aliasesResp.json() : null;
+    const commentaryData =
+      commentaryResp && commentaryResp.ok
+        ? await commentaryResp.json().catch(() => null)
+        : null;
 
     const symbolsMap = fundamentalsData.symbols || {};
 
@@ -85,6 +92,7 @@ async function initStockPage() {
 
     // Render Tab 1 Contents
     renderKpiCards(symbolData);
+    renderCommentary(commentaryData, matchedKey, symbolData.fiscal_quarter);
     renderCharts(symbolData);
     renderTables(symbolData);
 
@@ -93,6 +101,52 @@ async function initStockPage() {
   } catch (err) {
     showError('資料載入失敗', err.message || '無法處理財務數據', null);
   }
+}
+
+/**
+ * Render the generated commentary, if any exists for this exact quarter.
+ *
+ * Commentary is generated separately and quarterly, so it can lag the figures
+ * by a full quarter. Prose describing 2025Q4 rendered beside 2026Q1 numbers
+ * reads as a statement about the numbers on screen, which is worse than
+ * showing no prose at all -- so a quarter mismatch renders nothing.
+ */
+function renderCommentary(commentaryData, matchedKey, fiscalQuarter) {
+  const container = document.getElementById('commentary');
+  if (!container) return;
+  container.replaceChildren();
+
+  const entry = commentaryData?.symbols?.[matchedKey];
+  if (!entry || entry.fiscal_quarter !== fiscalQuarter) return;
+
+  const highlights = Array.isArray(entry.highlights) ? entry.highlights : [];
+  const usable = highlights.filter((item) => typeof item === 'string' && item.trim());
+  if (!usable.length) return;
+
+  const box = document.createElement('section');
+  box.className = 'commentary-box';
+
+  const title = document.createElement('h2');
+  title.className = 'commentary-title';
+  title.textContent = `🔍 ${fiscalQuarter} 財務重點`;
+  box.append(title);
+
+  const list = document.createElement('ul');
+  list.className = 'commentary-list';
+  for (const item of usable) {
+    const li = document.createElement('li');
+    // textContent, not innerHTML: this string came from a language model.
+    li.textContent = item;
+    list.append(li);
+  }
+  box.append(list);
+
+  const note = document.createElement('p');
+  note.className = 'commentary-note';
+  note.textContent = '本段由模型依上述財報數字生成，僅描述已發生的財務事實，不構成投資建議。';
+  box.append(note);
+
+  container.append(box);
 }
 
 /* -------------------------------------------------------------------------- */
