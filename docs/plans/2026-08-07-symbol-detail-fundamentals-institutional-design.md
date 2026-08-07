@@ -9,8 +9,46 @@
 |---|---|---|
 | 1 | 全量基本面 CLI + 手動 GitHub Action | ✅ **完成** 2026-08-07 |
 | 2.5 | 個股頁 + 基本面 tab + LLM 解讀 + radar 可點 | ✅ **完成** 2026-08-07 |
-| 2 | 法人資料(官方 T86 + Eric 排行榜) | ⬜ 待開始 |
+| 2 | 法人資料(官方 T86 + Eric 排行榜) | ✅ **完成** 2026-08-07 |
 | 3 | 法人 tab + 資金流向頁 | ⬜ 待開始 |
+
+### Phase 2 完成內容
+
+新增:
+- `scripts/institutional_flows.py` + `scripts/update_institutional_flows.py` — 官方 T86/TPEX
+- `scripts/institutional_rankings.py` + `scripts/update_institutional_rankings.py` — 16 個排行榜
+- `data/institutional-flows.json`(5.6 KB)、`data/institutional-rankings.json`(312 KB)
+- `tests/test_institutional_flows.py`(21)、`tests/test_institutional_rankings.py`(17)
+
+**實測驗證(2026-08-05 當日全市場):**
+- TWSE 1,332 檔 + TPEX 919 檔,**勾稽零失敗**
+- 誤用 `[14]` 當 dealer 會**錯 750 檔** —— 陷阱已量化
+- 我們的 30 檔中 29 檔有資料;`TPEX:8033` 當日交易所本來就沒申報(真缺,不是 0)
+
+**新發現(計畫原本沒寫到的):**
+
+1. **TPEX 欄位與 TWSE 不同位置**,且 `fields` 名稱重複七次(每組都叫「買賣超股數」),
+   **無法用名稱定位**。實測對照:`[4]` 外資(不含自營)、`[10]` 外資合計、`[13]` 投信、
+   `[22]` 自營合計、`[23]` 三大法人合計。
+   ⚠️ **勾稽必須用 `[10]` 而非 `[4]`** —— 交易所的 `[23]` 是用 `[10]` 算的。
+   2026-08-05 當天 919 檔的 `[7]` 外資自營商**全為 0**,所以兩種算法「碰巧」都對;
+   哪天不為 0 就會開始誤刪整批資料。
+
+2. **排行榜兩種 metric 的 payload 形狀不一樣**:
+   `netbuy` 是 `{metric, unit, data:[...]}` 物件;`change` 是**裸 list**。
+   只處理其中一種會讀到 0 筆、畫出空看板,而且不會報錯。
+
+3. **ETF 汙染比預期嚴重**:871 筆裡 **498 筆(57%)是 ETF**,
+   `change_20_up` 前段**整片都是**。比率 >100% 的有 37 筆(00960 = 170.8%)。
+   → 兩者都**標記不刪除**,讓前端決定;刪掉會讓 rank 與來源不符。
+
+用法:
+```bash
+.venv/bin/python scripts/update_institutional_flows.py              # 當日(台北時區)
+.venv/bin/python scripts/update_institutional_flows.py --date 2026-08-05
+.venv/bin/python scripts/update_institutional_rankings.py
+```
+非交易日兩個交易所都回 0 列,與「日期格式打錯」的徵狀相同 —— 所以格式用測試釘住。
 
 ### Phase 2.5 完成內容(插隊做,先讓畫面看得到)
 
