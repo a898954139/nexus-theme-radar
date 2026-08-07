@@ -365,3 +365,139 @@ def test_fetch_failure_raises_so_callers_can_degrade() -> None:
 
     with pytest.raises(GoodinfoUnavailable):
         fetch_symbol_fundamentals(session, "2344", fetched_at=ANCHOR, pause_seconds=0)
+
+
+# ─── statement detail (per-stock page) ──────────────────────────────────────
+#
+# The radar only ever needed margins and EPS. A per-stock detail page needs the
+# expense structure, the balance-sheet composition and all three cash flows --
+# every one of which the parser already reads and then discards.
+#
+# These live under a separate ``statements`` key rather than being folded into
+# ``quarters``: that payload is consumed verbatim by the downstream Hermes
+# producer, and widening it would change a contract the detail page has no
+# business changing.
+
+
+def _context_2344() -> dict:
+    return build_fundamental_context(
+        symbol="2344",
+        income=parse_financial_table(_fixture("2344", "IS_QUAR")),
+        balance=parse_financial_table(_fixture("2344", "BS_QUAR")),
+        cash_flow=parse_financial_table(_fixture("2344", "CF_QUAR")),
+        fetched_at=ANCHOR,
+    )
+
+
+def test_statements_carry_the_operating_expense_breakdown() -> None:
+    """推銷/管理/研發 is the whole point of an 經營分析 tab; without it the page
+    can only restate the margins the radar already showed."""
+    statements = _context_2344()["statements"]
+    income = statements["income"]["2026Q1"]
+
+    assert income["selling_expense"] == pytest.approx(7.95)
+    assert income["admin_expense"] == pytest.approx(17.24)
+    assert income["rd_expense"] == pytest.approx(52.26)
+    assert income["operating_expense"] == pytest.approx(78.65)
+
+
+def test_statements_carry_balance_sheet_composition() -> None:
+    balance = _context_2344()["statements"]["balance"]["2026Q1"]
+
+    assert balance["cash"] == pytest.approx(255.2)
+    assert balance["inventory"] == pytest.approx(252.3)
+    assert balance["receivables"] == pytest.approx(227.8)
+    assert balance["total_assets"] == pytest.approx(2298.0)
+    assert balance["total_equity"] == pytest.approx(1229.0)
+
+
+def test_statements_carry_all_three_cash_flows() -> None:
+    """Operating cash flow alone cannot distinguish a company funding itself
+    from one funding itself by borrowing."""
+    cash_flow = _context_2344()["statements"]["cash_flow"]["2026Q1"]
+
+    assert cash_flow["operating"] == pytest.approx(123.7)
+    assert cash_flow["investing"] == pytest.approx(-256.6)
+    assert cash_flow["financing"] == pytest.approx(229.6)
+    assert cash_flow["capex"] == pytest.approx(-29.16)
+
+
+def test_cash_flow_ending_cash_tracks_the_balance_sheet_period_by_period() -> None:
+    """The check that catches a column-stride misparse.
+
+    A stride bug shifts every cash-flow figure by one period while leaving each
+    value individually plausible, so range checks pass and the numbers are
+    silently wrong. Ending cash and balance-sheet cash measure the same thing,
+    so a correct parse pairs them within the same period.
+
+    They are not asserted equal: Goodinfo's cash-flow statement is consolidated
+    while the balance-sheet rows read here are parent-only, so a company with
+    subsidiaries reports legitimately different figures (measured 2026-08-07:
+    2344 2026Q2 is 618.3 consolidated against 430.1 parent-only). What a stride
+    bug would produce instead is ending cash matching a *neighbouring* period's
+    balance -- which is what this pins.
+    """
+    context = _context_2344()
+    balances = context["statements"]["balance"]
+    periods = list(balances)
+
+    for index, period in enumerate(periods):
+        ending_cash = context["statements"]["cash_flow"][period].get("ending_cash")
+        own = balances[period].get("cash")
+        if ending_cash is None or own is None:
+            continue
+        own_gap = abs(ending_cash - own)
+        for neighbour in periods[max(0, index - 1):index] + periods[index + 1:index + 2]:
+            other = balances[neighbour].get("cash")
+            if other is None or other == own:
+                continue
+            assert own_gap <= abs(ending_cash - other), (
+                f"{period}: ending cash sits closer to {neighbour}'s balance -- "
+                "the cash-flow columns look shifted by one period"
+            )
+
+
+def test_statements_span_the_same_quarters_as_the_radar_payload() -> None:
+    context = _context_2344()
+    periods = [quarter["period"] for quarter in context["quarters"]]
+
+    for section in ("income", "balance", "cash_flow"):
+        assert list(context["statements"][section]) == periods
+
+
+def test_a_line_absent_from_the_filing_is_omitted_not_zeroed() -> None:
+    """Dividends are not paid every quarter. A fabricated 0.0 would render as
+    "cut the dividend to zero" on the detail page."""
+    cash_flow = _context_2344()["statements"]["cash_flow"]["2026Q1"]
+
+    assert "dividends_paid" not in cash_flow
+
+
+def test_statement_detail_does_not_disturb_the_downstream_contract() -> None:
+    """``quarters``/``health``/``valuation`` are consumed verbatim by Hermes."""
+    context = _context_2344()
+
+    assert set(context["quarters"][0]) == {
+        "period", "revenue", "gross_margin", "operating_margin", "net_margin", "eps",
+    }
+    assert context["basis"] == "parent_only"
+
+
+def test_statement_detail_is_json_serialisable() -> None:
+    json.dumps(_context_2344(), ensure_ascii=False)
+
+
+def test_missing_statement_detail_is_recorded_in_missing() -> None:
+    balance = parse_financial_table(_fixture("2344", "BS_QUAR"))
+    del balance["metrics"]["存貨"]
+
+    context = build_fundamental_context(
+        symbol="2344",
+        income=parse_financial_table(_fixture("2344", "IS_QUAR")),
+        balance=balance,
+        cash_flow=parse_financial_table(_fixture("2344", "CF_QUAR")),
+        fetched_at=ANCHOR,
+    )
+
+    assert "inventory" not in context["statements"]["balance"]["2026Q1"]
+    assert any("inventory" in item for item in context["missing"])

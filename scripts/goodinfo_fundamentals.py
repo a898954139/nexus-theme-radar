@@ -38,6 +38,45 @@ _BALANCE_CURRENT_LIABILITIES = "流動負債合計"
 _BALANCE_DEBT_RATIO = "負債總額"
 _CASH_FLOW_OPERATING = "營業活動之淨現金流入(出)"
 
+# Statement detail for the per-stock page, as (output field, Goodinfo row label).
+# The radar only ever needed margins; these rows are already parsed out of the
+# same tables and were simply being dropped.
+_INCOME_DETAIL = (
+    ("revenue", _INCOME_REVENUE),
+    ("cost_of_sales", "營業成本"),
+    ("gross_profit", _INCOME_GROSS_MARGIN),
+    ("selling_expense", "推銷費用"),
+    ("admin_expense", "管理費用"),
+    ("rd_expense", "研究發展費用"),
+    ("operating_expense", "營業費用"),
+    ("operating_income", _INCOME_OPERATING_MARGIN),
+    ("pretax_income", "稅前淨利"),
+    ("net_income", _INCOME_NET_MARGIN),
+    ("eps", _INCOME_EPS),
+)
+_BALANCE_DETAIL = (
+    ("cash", _BALANCE_CASH),
+    ("receivables", "應收款項合計"),
+    ("inventory", "存貨"),
+    ("current_assets", _BALANCE_CURRENT_ASSETS),
+    ("total_assets", "資產總額"),
+    ("current_liabilities", _BALANCE_CURRENT_LIABILITIES),
+    ("total_liabilities", _BALANCE_DEBT_RATIO),
+    ("total_equity", "股東權益總額"),
+)
+_CASH_FLOW_DETAIL = (
+    ("operating", _CASH_FLOW_OPERATING),
+    ("investing", "投資活動之淨現金流入(出)"),
+    ("financing", "融資活動之淨現金流入(出)"),
+    ("depreciation", "折舊費用"),
+    # Goodinfo reports capital expenditure as a fixed-asset movement, so it is
+    # negative when the company invests. Free cash flow is therefore
+    # operating + capex, not operating - capex.
+    ("capex", "固定資產(增加)減少"),
+    ("dividends_paid", "發放現金股利"),
+    ("ending_cash", "期末現金及約當現金餘額"),
+)
+
 _TABLE_RE = re.compile(r"<table.*?</table>", re.DOTALL | re.IGNORECASE)
 _ROW_RE = re.compile(r"<tr.*?</tr>", re.DOTALL | re.IGNORECASE)
 _CELL_RE = re.compile(r"<t[dh]([^>]*)>(.*?)</t[dh]>", re.DOTALL | re.IGNORECASE)
@@ -156,6 +195,34 @@ def _margin(numerator: float | None, revenue: float | None) -> float | None:
     return numerator / revenue
 
 
+def _statement_section(
+    table: dict[str, Any],
+    fields: tuple[tuple[str, str], ...],
+    periods: list[str],
+    *,
+    section: str,
+    missing: list[str],
+) -> dict[str, dict[str, float]]:
+    """Extract one statement across every period, omitting absent lines.
+
+    A line the filing does not carry (a quarter with no dividend, say) is left
+    out rather than zeroed: on the detail page a fabricated 0.0 reads as a real
+    measurement -- "the dividend was cut" rather than "nothing was reported".
+    """
+
+    detail: dict[str, dict[str, float]] = {}
+    for period in periods:
+        row: dict[str, float] = {}
+        for field, label in fields:
+            value = _metric_value(table, label, period)
+            if value is None:
+                missing.append(f"{section}.{field} unavailable for {period}")
+                continue
+            row[field] = value
+        detail[period] = row
+    return detail
+
+
 def build_fundamental_context(
     *,
     symbol: str,
@@ -229,10 +296,26 @@ def build_fundamental_context(
     else:
         missing.append("ttm_eps unavailable: fewer than four quarters of EPS")
 
+    statements = {
+        "income": _statement_section(
+            income, _INCOME_DETAIL, periods, section="income", missing=missing,
+        ),
+        "balance": _statement_section(
+            balance, _BALANCE_DETAIL, periods, section="balance", missing=missing,
+        ),
+        "cash_flow": _statement_section(
+            cash_flow, _CASH_FLOW_DETAIL, periods, section="cash_flow", missing=missing,
+        ),
+    }
+
     return {
         "quarters": quarters,
         "health": health,
         "valuation": valuation,
+        # Full statement lines for the per-stock detail page. Kept separate from
+        # ``quarters`` so the payload consumed verbatim by the downstream Hermes
+        # producer keeps its shape.
+        "statements": statements,
         # Goodinfo lists both parent-only (稅後淨利) and consolidated
         # (合併稅後淨利) net income; parent-only matches the basis used when
         # the v2 skill's prompt was hand-validated.

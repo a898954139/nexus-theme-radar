@@ -84,12 +84,24 @@ def symbols_due_for_refresh(
     return sorted(due)
 
 
+_DETAIL_PAGE_ONLY_FIELDS = ("statements",)
+
+
+def _published_fields(context: Mapping) -> dict:
+    return {k: v for k, v in context.items() if k not in _DETAIL_PAGE_ONLY_FIELDS}
+
+
 def attach_symbol_fundamentals(payload: Mapping, contexts: Mapping[str, Mapping]) -> dict:
     """Return a new payload with ``fundamentals`` attached where available.
 
     Strictly additive: no existing key on the payload, a theme, or a symbol
     is removed, renamed, or altered. Symbols without a matching context are
     left exactly as-is, with no ``fundamentals`` key at all.
+
+    ``statements`` is dropped on the way in. It exists for the per-stock detail
+    page, which reads the cache file directly; here it would be duplicated once
+    per symbol occurrence per theme in a file the radar fetches on load and
+    never reads those lines from.
     """
     new_themes = []
     for theme in payload.get("themes", []):
@@ -98,7 +110,7 @@ def attach_symbol_fundamentals(payload: Mapping, contexts: Mapping[str, Mapping]
             if key not in theme:
                 continue
             new_theme[key] = [
-                {**symbol, "fundamentals": contexts[symbol["instrument_id"]]}
+                {**symbol, "fundamentals": _published_fields(contexts[symbol["instrument_id"]])}
                 if symbol["instrument_id"] in contexts
                 else symbol
                 for symbol in theme[key]

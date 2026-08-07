@@ -197,3 +197,30 @@ def test_expected_quarter_follows_filing_deadlines(as_of: datetime, expected: st
     from scripts.theme_symbol_fundamentals import latest_expected_quarter
 
     assert latest_expected_quarter(as_of) == expected
+
+
+def test_statement_detail_is_kept_out_of_the_published_payload() -> None:
+    """``statements`` exists for the per-stock detail page, which reads the
+    cache file directly. Inlining it here would multiply it by every symbol
+    occurrence across every theme, in a file the radar page fetches on load
+    and never uses those lines from.
+    """
+    payload = {
+        "themes": [
+            {"theme_id": "ai", "direct_symbols": [{"instrument_id": "TWSE:2330"}]},
+        ]
+    }
+    context = {
+        "quarters": [{"period": "2026Q1", "eps": 22.08}],
+        "health": {"cash": 30356.0},
+        "statements": {"income": {"2026Q1": {"rd_expense": 654.0}}},
+    }
+
+    attached = attach_symbol_fundamentals(payload, {"TWSE:2330": context})
+    published = attached["themes"][0]["direct_symbols"][0]["fundamentals"]
+
+    assert "statements" not in published
+    assert published["quarters"] == context["quarters"]
+    assert published["health"] == context["health"]
+    # The cache entry itself must keep the detail the page depends on.
+    assert "statements" in context
