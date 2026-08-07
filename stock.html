@@ -1,0 +1,191 @@
+<!doctype html>
+<html lang="zh-TW">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title id="pageTitle">個股財務明細｜Taiwan Equity Theme Radar</title>
+    <meta
+      name="description"
+      content="台股單一標的全方位季報財務數據明細與趨勢分析。"
+    />
+    <link rel="icon" href="./assets/logo.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="./assets/theme-momentum.css" />
+    <link rel="stylesheet" href="./assets/stock.css" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.5.0/dist/chart.umd.min.js"></script>
+    <script src="./assets/stock.js" defer></script>
+  </head>
+  <body>
+    <a class="skip-link" href="#stockMain">跳到主要財務數據內容</a>
+
+    <header class="site-header">
+      <a class="brand" href="./index.html">
+        <img src="./assets/logo.svg" alt="" width="40" height="40" />
+        <span>Taiwan Equity Theme Radar</span>
+      </a>
+      <a class="back-link" href="./theme-momentum.html">← 返回題材雷達</a>
+    </header>
+
+    <main id="stockMain" class="shell">
+      <!-- Error Panel -->
+      <div
+        id="stockError"
+        class="status-panel error"
+        role="alert"
+        aria-live="assertive"
+        style="display: none"
+      ></div>
+
+      <!-- Data Notice Panel -->
+      <div
+        id="dataNotice"
+        class="status-panel notice"
+        role="status"
+        aria-live="polite"
+        style="display: none"
+      ></div>
+
+      <!-- Stock Header Info -->
+      <section id="stockHeaderSection" class="stock-header-section" aria-labelledby="stockTitle" style="display: none">
+        <div class="stock-header-top">
+          <div>
+            <p class="eyebrow" id="stockEyebrow">FINANCIAL ANALYSIS</p>
+            <h1 id="stockTitle">載入中…</h1>
+            <div class="stock-meta" id="stockMeta"></div>
+          </div>
+          <div class="stock-actions" id="stockActions"></div>
+        </div>
+      </section>
+
+      <!-- Tabs Navigation -->
+      <div id="tabsSection" style="display: none">
+        <div class="tabs-nav" role="tablist" aria-label="財務分析分頁">
+          <button
+            type="button"
+            id="tabBtn1"
+            class="tab-btn active"
+            role="tab"
+            aria-selected="true"
+            aria-controls="tabPanel1"
+          >
+            基本面分析
+          </button>
+          <button
+            type="button"
+            id="tabBtn2"
+            class="tab-btn"
+            role="tab"
+            aria-selected="false"
+            aria-controls="tabPanel2"
+          >
+            三大法人資金流向
+          </button>
+        </div>
+
+        <!-- Tab 1: 基本面分析 -->
+        <div
+          id="tabPanel1"
+          class="tab-panel active"
+          role="tabpanel"
+          aria-labelledby="tabBtn1"
+        >
+          <!-- KPI Cards Grid -->
+          <section aria-label="主要財務指標">
+            <div id="kpiGrid" class="kpi-grid"></div>
+          </section>
+
+          <!-- Empty Commentary Container -->
+          <div id="commentary"></div>
+
+          <!-- Charts Section -->
+          <section class="charts-section" aria-label="財務趨勢圖表">
+            <h2 class="section-title">財務趨勢圖表</h2>
+            <div id="chartsGrid" class="charts-grid">
+              <div class="chart-card">
+                <div class="chart-title">營業收入與毛利率</div>
+                <div class="chart-container"><canvas id="chartRevenueMargin"></canvas></div>
+              </div>
+              <div class="chart-card">
+                <div class="chart-title">三層利潤率趨勢</div>
+                <div class="chart-container"><canvas id="chartMargins"></canvas></div>
+              </div>
+              <div class="chart-card">
+                <div class="chart-title">營業費用結構（億元）</div>
+                <div class="chart-container"><canvas id="chartOpex"></canvas></div>
+              </div>
+              <div class="chart-card">
+                <div class="chart-title">每股盈餘 EPS（元）</div>
+                <div class="chart-container"><canvas id="chartEps"></canvas></div>
+              </div>
+              <div class="chart-card">
+                <div class="chart-title">現金流量三表（億元）</div>
+                <div class="chart-container"><canvas id="chartCashFlow"></canvas></div>
+              </div>
+              <div class="chart-card">
+                <div class="chart-title">資產負債結構（億元）</div>
+                <div class="chart-container"><canvas id="chartBalance"></canvas></div>
+              </div>
+            </div>
+          </section>
+
+          <!-- Tables Section -->
+          <section class="tables-section" aria-label="財務報表詳細數據">
+            <h2 class="section-title">財務報表詳細數據</h2>
+            
+            <div class="table-card">
+              <h3 class="table-title">損益表明細（單位：億元 / EPS 元）</h3>
+              <div class="table-scroll">
+                <table id="tableIncome" class="data-table">
+                  <thead></thead>
+                  <tbody></tbody>
+                </table>
+              </div>
+            </div>
+
+            <div class="table-card">
+              <h3 class="table-title">資產負債表摘要（單位：億元）</h3>
+              <div class="table-scroll">
+                <table id="tableBalance" class="data-table">
+                  <thead></thead>
+                  <tbody></tbody>
+                </table>
+              </div>
+            </div>
+
+            <div class="table-card">
+              <h3 class="table-title">現金流量摘要（單位：億元）</h3>
+              <div class="table-scroll">
+                <table id="tableCashFlow" class="data-table">
+                  <thead></thead>
+                  <tbody></tbody>
+                </table>
+              </div>
+            </div>
+          </section>
+        </div>
+
+        <!-- Tab 2: 三大法人資金流向 (Placeholder) -->
+        <div
+          id="tabPanel2"
+          class="tab-panel"
+          role="tabpanel"
+          aria-labelledby="tabBtn2"
+          hidden
+        >
+          <div class="placeholder-panel">
+            <div class="placeholder-icon">📊</div>
+            <h3>三大法人籌碼與資金流向</h3>
+            <p>外資、投信、自營商買賣超與籌碼集中度資料將於後續階段匯入，敬請期待。</p>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <footer class="site-footer">
+      <div class="shell">
+        <p>
+          本頁數據源自公開財報彙總整理，僅供學術與技術展示，不代表任何投資建議。
+        </p>
+      </div>
+    </footer>
+  </body>
+</html>
