@@ -2,16 +2,16 @@
   "schema_version": "nexus_public_theme_ranking.v0.8",
   "ranking_rule_version": "public_theme_heat_v0.8",
   "company_rule_version": "public_company_evidence_v0.8",
-  "generated_at": "2026-08-07T07:42:56.470120Z",
+  "generated_at": "2026-08-07T09:16:30.045549Z",
   "market_id": "TW_EQUITY",
   "market_scope": [
     "TW_EQUITY"
   ],
   "window_hours": 72,
   "max_themes": 5,
-  "qualified_theme_count": 3,
-  "displayed_theme_count": 3,
-  "threshold_note": "目前僅 3 個題材達到上榜門檻",
+  "qualified_theme_count": 4,
+  "displayed_theme_count": 4,
+  "threshold_note": "目前僅 4 個題材達到上榜門檻",
   "generation_status": "complete",
   "failed_source_count": 0,
   "official_evidence_status": "available",
@@ -20,11 +20,11 @@
       "rank": 1,
       "theme_id": "memory_hbm",
       "name_zh": "記憶體與 HBM",
-      "heat_score": 94,
+      "heat_score": 82,
       "summaries": {
         "event_count": 10,
-        "source_count": 3,
-        "tracking_candidate_count": 5,
+        "source_count": 2,
+        "tracking_candidate_count": 6,
         "taiwan_mapping_count": 4
       },
       "heat_reason": {
@@ -35,34 +35,26 @@
           "weighted": 25.0
         },
         "source_component": {
-          "input": 3,
-          "normalized": 75.0,
-          "weighted": 18.75
+          "input": 2,
+          "normalized": 50.0,
+          "weighted": 12.5
         },
         "candidate_component": {
-          "input": 5,
+          "input": 6,
           "normalized": 100.0,
           "weighted": 20.0
         },
         "mapping_component": {
           "mapping_count": 4,
-          "direct_mapping_event_count": 2,
-          "normalized": 100.0,
-          "weighted": 30.0
+          "direct_mapping_event_count": 1,
+          "normalized": 80.0,
+          "weighted": 24.0
         },
         "single_source_concentration": 0.6,
         "concentration_penalty": 0.0,
-        "raw_score": 93.75
+        "raw_score": 81.5
       },
       "direct_mentions": [
-        {
-          "instrument_id": "TWSE:2408",
-          "symbol": "2408",
-          "exchange": "TWSE",
-          "name_zh": "南亞科",
-          "direct_event_count": 1,
-          "latest_mentioned_at": "2026-08-07T06:10:16Z"
-        },
         {
           "instrument_id": "TWSE:2330",
           "symbol": "2330",
@@ -73,17 +65,6 @@
         }
       ],
       "supply_chain_candidates": [
-        {
-          "instrument_id": "TWSE:2408",
-          "symbol": "2408",
-          "exchange": "TWSE",
-          "name_zh": "南亞科",
-          "direct_event_count": 1,
-          "official_evidence_count": 0,
-          "company_rank_score": 5,
-          "latest_mentioned_at": "2026-08-07T06:10:16Z",
-          "latest_official_at": null
-        },
         {
           "instrument_id": "TPEX:8299",
           "symbol": "8299",
@@ -105,6 +86,17 @@
           "company_rank_score": 1,
           "latest_mentioned_at": null,
           "latest_official_at": null
+        },
+        {
+          "instrument_id": "TWSE:2408",
+          "symbol": "2408",
+          "exchange": "TWSE",
+          "name_zh": "南亞科",
+          "direct_event_count": 0,
+          "official_evidence_count": 0,
+          "company_rank_score": 1,
+          "latest_mentioned_at": null,
+          "latest_official_at": null
         }
       ],
       "representative_news": {
@@ -120,6 +112,193 @@
     },
     {
       "rank": 2,
+      "theme_id": "robotics",
+      "name_zh": "機器人",
+      "heat_score": 76,
+      "summaries": {
+        "event_count": 8,
+        "source_count": 3,
+        "tracking_candidate_count": 3,
+        "taiwan_mapping_count": 3
+      },
+      "heat_reason": {
+        "rule_version": "public_theme_heat_v0.8",
+        "event_component": {
+          "input": 8,
+          "normalized": 100.0,
+          "weighted": 25.0
+        },
+        "source_component": {
+          "input": 3,
+          "normalized": 75.0,
+          "weighted": 18.75
+        },
+        "candidate_component": {
+          "input": 3,
+          "normalized": 75.0,
+          "weighted": 15.0
+        },
+        "mapping_component": {
+          "mapping_count": 3,
+          "direct_mapping_event_count": 0,
+          "normalized": 60.0,
+          "weighted": 18.0
+        },
+        "single_source_concentration": 0.625,
+        "concentration_penalty": 0.938,
+        "raw_score": 75.813
+      },
+      "direct_mentions": [],
+      "supply_chain_candidates": [
+        {
+          "instrument_id": "TWSE:2049",
+          "symbol": "2049",
+          "exchange": "TWSE",
+          "name_zh": "上銀",
+          "direct_event_count": 0,
+          "official_evidence_count": 0,
+          "company_rank_score": 1,
+          "latest_mentioned_at": null,
+          "latest_official_at": null
+        },
+        {
+          "instrument_id": "TWSE:2395",
+          "symbol": "2395",
+          "exchange": "TWSE",
+          "name_zh": "研華",
+          "direct_event_count": 0,
+          "official_evidence_count": 0,
+          "company_rank_score": 1,
+          "latest_mentioned_at": null,
+          "latest_official_at": null
+        },
+        {
+          "instrument_id": "TWSE:4576",
+          "symbol": "4576",
+          "exchange": "TWSE",
+          "name_zh": "大銀微系統",
+          "direct_event_count": 0,
+          "official_evidence_count": 0,
+          "company_rank_score": 1,
+          "latest_mentioned_at": null,
+          "latest_official_at": null
+        }
+      ],
+      "representative_news": {
+        "cluster_id": "cluster-cda4114a12059ef6",
+        "id": "cnyes-a9caf2ae45ae",
+        "title_zh": "中國「人形機器人第一股」 引爆新一輪「打新熱」股民網上許願求中簽",
+        "summary": "中國長鑫科技的熱度還未消散，新的網紅股又來了，中國「人形機器人第一股」宇樹科技 6 日（周四）晚間確定發行價為人民幣 150.8 元 / 股，對應發行本益比 219.23 倍。",
+        "source_id": "cnyes",
+        "source": "鉅亨網 Cnyes",
+        "published_at": "2026-08-07T02:30:02Z",
+        "canonical_url": "https://news.cnyes.com/news/id/6563480"
+      }
+    },
+    {
+      "rank": 3,
+      "theme_id": "ai_server",
+      "name_zh": "AI 伺服器",
+      "heat_score": 70,
+      "summaries": {
+        "event_count": 4,
+        "source_count": 3,
+        "tracking_candidate_count": 1,
+        "taiwan_mapping_count": 3
+      },
+      "heat_reason": {
+        "rule_version": "public_theme_heat_v0.8",
+        "event_component": {
+          "input": 4,
+          "normalized": 66.667,
+          "weighted": 16.667
+        },
+        "source_component": {
+          "input": 3,
+          "normalized": 75.0,
+          "weighted": 18.75
+        },
+        "candidate_component": {
+          "input": 1,
+          "normalized": 25.0,
+          "weighted": 5.0
+        },
+        "mapping_component": {
+          "mapping_count": 3,
+          "direct_mapping_event_count": 3,
+          "normalized": 100.0,
+          "weighted": 30.0
+        },
+        "single_source_concentration": 0.5,
+        "concentration_penalty": 0.0,
+        "raw_score": 70.417
+      },
+      "direct_mentions": [
+        {
+          "instrument_id": "TWSE:3231",
+          "symbol": "3231",
+          "exchange": "TWSE",
+          "name_zh": "緯創",
+          "direct_event_count": 2,
+          "latest_mentioned_at": "2026-08-07T08:23:06Z"
+        },
+        {
+          "instrument_id": "TWSE:2382",
+          "symbol": "2382",
+          "exchange": "TWSE",
+          "name_zh": "廣達",
+          "direct_event_count": 1,
+          "latest_mentioned_at": "2026-08-07T08:24:07Z"
+        }
+      ],
+      "supply_chain_candidates": [
+        {
+          "instrument_id": "TWSE:3231",
+          "symbol": "3231",
+          "exchange": "TWSE",
+          "name_zh": "緯創",
+          "direct_event_count": 2,
+          "official_evidence_count": 0,
+          "company_rank_score": 9,
+          "latest_mentioned_at": "2026-08-07T08:23:06Z",
+          "latest_official_at": null
+        },
+        {
+          "instrument_id": "TWSE:2382",
+          "symbol": "2382",
+          "exchange": "TWSE",
+          "name_zh": "廣達",
+          "direct_event_count": 1,
+          "official_evidence_count": 0,
+          "company_rank_score": 5,
+          "latest_mentioned_at": "2026-08-07T08:24:07Z",
+          "latest_official_at": null
+        },
+        {
+          "instrument_id": "TWSE:6669",
+          "symbol": "6669",
+          "exchange": "TWSE",
+          "name_zh": "緯穎",
+          "direct_event_count": 0,
+          "official_evidence_count": 0,
+          "company_rank_score": 1,
+          "latest_mentioned_at": null,
+          "latest_official_at": null
+        }
+      ],
+      "representative_news": {
+        "cluster_id": "cluster-be39a57b967d3912",
+        "id": "cnyes-691063d28a5c",
+        "title_zh": "〈電子五哥營收〉廣達7月營收年增逾1倍創次高 下周法說聚焦AI伺服器展望與毛利表現",
+        "summary": "廣達今 (7) 日公告 7 月營收營收 3662.74 億元，年增超過 1 倍，累計今年前 7 月營收 2.21 兆元，年增逾 9 成，創歷史同期新高。廣達將於下周四 (13 日) 公告財報並召開法說會，市場聚焦 AI 伺服器展望，並關注毛利表現。",
+        "source_id": "cnyes",
+        "source": "鉅亨網 Cnyes",
+        "published_at": "2026-08-07T08:24:07Z",
+        "canonical_url": "https://news.cnyes.com/news/id/6564417"
+      }
+    },
+    {
+      "rank": 4,
       "theme_id": "energy_grid",
       "name_zh": "能源與電網",
       "heat_score": 64,
@@ -210,91 +389,6 @@
         "source": "TechNews",
         "published_at": "2026-08-07T07:12:51Z",
         "canonical_url": "https://technews.tw/2026/08/07/bloom-energy-mitac-partnership-ai-manufacturing-fuel-cell-microgrid-deployment/"
-      }
-    },
-    {
-      "rank": 3,
-      "theme_id": "robotics",
-      "name_zh": "機器人",
-      "heat_score": 57,
-      "summaries": {
-        "event_count": 6,
-        "source_count": 2,
-        "tracking_candidate_count": 2,
-        "taiwan_mapping_count": 3
-      },
-      "heat_reason": {
-        "rule_version": "public_theme_heat_v0.8",
-        "event_component": {
-          "input": 6,
-          "normalized": 100.0,
-          "weighted": 25.0
-        },
-        "source_component": {
-          "input": 2,
-          "normalized": 50.0,
-          "weighted": 12.5
-        },
-        "candidate_component": {
-          "input": 2,
-          "normalized": 50.0,
-          "weighted": 10.0
-        },
-        "mapping_component": {
-          "mapping_count": 3,
-          "direct_mapping_event_count": 0,
-          "normalized": 60.0,
-          "weighted": 18.0
-        },
-        "single_source_concentration": 0.833,
-        "concentration_penalty": 8.75,
-        "raw_score": 56.75
-      },
-      "direct_mentions": [],
-      "supply_chain_candidates": [
-        {
-          "instrument_id": "TWSE:2049",
-          "symbol": "2049",
-          "exchange": "TWSE",
-          "name_zh": "上銀",
-          "direct_event_count": 0,
-          "official_evidence_count": 0,
-          "company_rank_score": 1,
-          "latest_mentioned_at": null,
-          "latest_official_at": null
-        },
-        {
-          "instrument_id": "TWSE:2395",
-          "symbol": "2395",
-          "exchange": "TWSE",
-          "name_zh": "研華",
-          "direct_event_count": 0,
-          "official_evidence_count": 0,
-          "company_rank_score": 1,
-          "latest_mentioned_at": null,
-          "latest_official_at": null
-        },
-        {
-          "instrument_id": "TWSE:4576",
-          "symbol": "4576",
-          "exchange": "TWSE",
-          "name_zh": "大銀微系統",
-          "direct_event_count": 0,
-          "official_evidence_count": 0,
-          "company_rank_score": 1,
-          "latest_mentioned_at": null,
-          "latest_official_at": null
-        }
-      ],
-      "representative_news": {
-        "cluster_id": "cluster-64ac91fafb84bfc4",
-        "id": "digitimes_tw-ae3f14d3e33e",
-        "title_zh": "人形機器人卡位戰　南韓後起之勢來勢洶洶",
-        "summary": "全球人形機器人市場打得火熱，中美雙強你來我往互相強搶奪話語權，不過在此之外，第三方勢力也在隱隱崛起。其中南韓近年加快腳步，隨著現代汽車將有人形機器人鼻祖之稱的波士頓動力（Boston Dynamics）納入囊中，三星電子（Samsung",
-        "source_id": "digitimes_tw",
-        "source": "DIGITIMES",
-        "published_at": "2026-08-06T18:49:27Z",
-        "canonical_url": "https://www.digitimes.com.tw/tech/dt/n/shwnws.asp?id=0000761830_MFZ7BF3U47G9QILUB437B"
       }
     }
   ]
