@@ -1,0 +1,94 @@
+name: Backfill Symbol Fundamentals
+
+# Manual only. Quarterly statements change four times a year, so this runs
+# when the symbol list grows or a new quarter's filings land -- never on a
+# schedule, and never inside the hourly radar run, whose job is publishing
+# theme momentum rather than waiting on a scraped third party.
+
+on:
+  workflow_dispatch:
+    inputs:
+      only:
+        description: Comma-separated tickers to restrict the run to (e.g. 2330,8299). Blank = whole symbol universe.
+        required: false
+        default: ""
+        type: string
+      force:
+        description: Refetch even symbols already holding the current quarter
+        required: false
+        default: false
+        type: boolean
+      dry_run:
+        description: Report what would be fetched without fetching or committing
+        required: false
+        default: false
+        type: boolean
+      max_workers:
+        description: "Concurrent symbol fetches. Leave at 1: Goodinfo answers concurrent clients with HTTP 500."
+        required: false
+        default: "1"
+        type: string
+
+concurrency:
+  # Two concurrent backfills would race on the same cache file and the loser's
+  # results would be silently overwritten.
+  group: backfill-fundamentals-${{ github.ref }}
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+
+jobs:
+  backfill:
+    timeout-minutes: 60
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Setup Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.11"
+          cache: "pip"
+          cache-dependency-path: "requirements.txt"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Backfill fundamentals
+        env:
+          ONLY: ${{ inputs.only }}
+          FORCE: ${{ inputs.force }}
+          DRY_RUN: ${{ inputs.dry_run }}
+          MAX_WORKERS: ${{ inputs.max_workers }}
+        run: |
+          args=(--data-dir data --max-workers "${MAX_WORKERS:-3}")
+          if [ -n "$ONLY" ]; then
+            args+=(--only "$ONLY")
+          fi
+          if [ "$FORCE" = "true" ]; then
+            args+=(--force)
+          fi
+          if [ "$DRY_RUN" = "true" ]; then
+            args+=(--dry-run)
+          fi
+          python scripts/backfill_all_fundamentals.py "${args[@]}"
+
+      - name: Commit and push changes
+        if: ${{ inputs.dry_run != true }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/theme-symbol-fundamentals.json
+          if git diff --cached --quiet; then
+            echo "No fundamentals changed -- every symbol already held the current quarter."
+            exit 0
+          fi
+          git commit -m "chore: backfill symbol fundamentals"
+          # The hourly radar run commits to the same branch; rebase rather than
+          # fail the job on a race with it.
+          git pull --rebase --autostash origin "${GITHUB_REF_NAME}"
+          git push origin "HEAD:${GITHUB_REF_NAME}"

@@ -156,6 +156,19 @@ def test_stale_quarter_becomes_due_again() -> None:
     assert symbols_due_for_refresh(_payload(), cache=cache, as_of=ANCHOR) == ["TWSE:2344"]
 
 
+def test_cached_entry_without_a_fiscal_quarter_is_due_not_a_crash() -> None:
+    """A context missing ``fiscal_quarter`` must read as stale, never raise.
+
+    ``None < "2026Q1"`` is a TypeError, so one damaged or partially written
+    cache entry would take down the whole hourly radar publish rather than
+    costing a single refetch.
+    """
+
+    cache = {"TWSE:2344": {"quarters": []}, "TPEX:8299": _context()}
+
+    assert symbols_due_for_refresh(_payload(), cache=cache, as_of=ANCHOR) == ["TWSE:2344"]
+
+
 @pytest.mark.parametrize(
     "as_of,expected",
     [

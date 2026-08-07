@@ -1,0 +1,168 @@
+# Symbol 詳細頁:基本面 × 三大法人 — 設計
+
+**日期:** 2026-08-07
+**狀態:** Phase 1 已完成並驗證 ✅ / Phase 2-3 待實作
+
+## 進度
+
+| Phase | 內容 | 狀態 |
+|---|---|---|
+| 1 | 全量基本面 CLI + 手動 GitHub Action | ✅ **完成** 2026-08-07 |
+| 2 | 法人資料(官方 T86 + Eric 排行榜) | ⬜ 待開始 |
+| 3 | UI(個股頁兩 tab + 資金流向頁 + radar 可點) | ⬜ 待開始 |
+
+### Phase 1 完成內容
+
+新增:
+- `scripts/backfill_all_fundamentals.py` — 全量回填 CLI
+- `.github/workflows/backfill-fundamentals.yml` — 手動觸發(only/force/dry_run/max_workers)
+- `tests/test_backfill_all_fundamentals.py` — 16 個測試
+
+修改:
+- `scripts/theme_symbol_fundamentals.py` — 修掉 `fiscal_quarter` 為 None 時的 TypeError
+  (會讓整個 hourly radar 發佈中斷,非只少一檔),補回歸測試
+
+實測結果:
+- 全量回填 **30/30 成功,0 失敗**,3 分 15 秒
+- 30 檔全部 `missing: []`
+- **冪等性驗證**:再跑 `due=0 skipped=30`,0.1 秒,零網路請求
+- 測試 576 passed
+
+**⚠️ 重大發現:parallel 對 Goodinfo 是反效果。**
+實測 3 併發 → 20 檔裡 19 檔 HTTP 500(8 秒內全滅);同樣的股票序列重試全部成功。
+Goodinfo 用 500 回應被節流的客戶端(不是 429),所以失敗不代表股票有問題。
+→ `DEFAULT_MAX_WORKERS = 1`(serial),加重試退避 10s → 30s。
+→ 已用 `test_serial_is_the_default_because_concurrency_gets_us_throttled` 釘住,勿改回併發。
+實際回填時 2449、3653 各 500 一次,靠重試救回。
+
+用法:
+```bash
+.venv/bin/python scripts/backfill_all_fundamentals.py            # 全量
+.venv/bin/python scripts/backfill_all_fundamentals.py --dry-run  # 預覽
+.venv/bin/python scripts/backfill_all_fundamentals.py --only 2330
+.venv/bin/python scripts/backfill_all_fundamentals.py --force
+```
+
+### 環境備忘
+
+- 測試/執行一律用 `./.venv/bin/python`(系統 python3 無 requests/bs4;
+  `/usr/local/bin/python3` 有 requests 但無 pytest)
+- 推送任何 `scripts/` 下的改動前必跑:`.venv/bin/python scripts/<entrypoint>.py --help`
+  (驗證 import graph 以 CI 的方式解析,見 `skills/pipeline-changes/SKILL.md`)
+
+## 目標
+
+1. 擴充 symbol list 後,能**一次性**把所有 symbol 的基本面補齊,已抓過的不重跑
+2. 每檔股票有一個詳細頁,兩個 tab:**基本面** / **三大法人**
+3. 從 radar 點股票能進到該頁
+4. 新增**資金流向排行榜**頁,標記出現在我們 symbol list 的標的
+
+## 已存在、不要重寫的東西
+
+| 元件 | 位置 | 狀態 |
+|---|---|---|
+| Goodinfo 季報抓取 | `scripts/goodinfo_fundamentals.py` | ✅ 361 行,可用 |
+| 季度節流(依 TWSE 申報截止日) | `scripts/theme_symbol_fundamentals.py::latest_expected_quarter` | ✅ 可用 |
+| 快取檔 | `data/theme-symbol-fundamentals.json` | ✅ schema 已定 |
+| 附掛 payload | `attach_symbol_fundamentals()` | ✅ 可用 |
+
+「一季只跑一次」的需求**現況已滿足**,缺的只是「全量跑」的入口。
+
+## 資料源決策
+
+### 基本面 — Goodinfo(逐檔抓)
+
+沿用現有 `goodinfo_fundamentals.py`。必須逐檔抓,無法批次。
+
+### 三大法人 — 分兩塊,來源不同
+
+**(a) 個股每日買賣超 → 自己打官方 API**
+
+Eric 的 `twse_flows.csv` 有這份資料但**未發佈到網路**(HTTP 404,只在 git repo 內),
+所以自己接官方:
+
+- TWSE: `https://www.twse.com.tw/fund/T86`
+  params: `{response:csv, date:YYYYMMDD, selectType:ALLBUT0999}`
+  **編碼 cp950**,一次回全市場
+- TPEX: `https://www.tpex.org.tw/www/zh-tw/insti/dailyTrade`
+  params: `{type:Daily, sect:EW, date:民國年/MM/DD, response:json}`
+
+**T86 欄位 index(2026-08-07 實測,務必用固定 index 而非模糊比對):**
+
+```
+[4]  外陸資買賣超股數(不含外資自營商)  -> foreign_net
+[10] 投信買賣超股數                    -> trust_net
+[11] 自營商買賣超股數                  -> dealer_net   ← 合計欄
+[18] 三大法人買賣超股數                 -> 勾稽用
+```
+
+⚠️ **陷阱**:`[14] 自營商買賣超股數(自行買賣)` 與 `[17] (避險)` 是 `[11]` 的組成。
+用關鍵字模糊比對 `"自營商買賣超股數"` 會誤抓到 `[14]`,導致 dealer_net 幾乎全為 0
+—— Eric 的 `backfill_flows.py` docstring 明確記載他踩過這個坑。
+
+**驗收條件**:`foreign_net + trust_net + dealer_net == [18]`。
+2026-08-05 實測 1,332 檔全部相符,零誤差。此勾稽必須寫成執行期檢查,不符者捨棄該列。
+
+**(b) 持股比重趨勢 + 資金流向排行榜 → 讀 Eric 現成 JSON**
+
+線上已發佈,HTTP 200 實測可拿:
+
+```
+https://eric-lam.com/tw-institutional-stocker/data/timeseries/{code}.json
+https://eric-lam.com/tw-institutional-stocker/data/top_three_inst_{metric}_{window}_{side}.json
+    metric ∈ {netbuy, change}   window ∈ {5,10,20,30}   side ∈ {up,down}
+```
+
+覆蓋率實測:官方當日全市場 1,996 檔,Eric 有 2,455 檔,**官方有而 Eric 缺 = 0 檔(100%)**。
+因為上游是打官方 API 一次拿全市場,天然全覆蓋,不存在「某檔沒收錄」。
+
+排行榜 JSON 結構:
+```json
+{"updated","metric":"net_buy_sell","window":5,"unit":"張","side":"up",
+ "date_range":{"start","end"},
+ "data":[{"rank","code","name","market","foreign","trust","dealer","total"}]}
+```
+
+## 已知資料品質問題(實作時必須處理)
+
+1. **timeseries 開頭 16 筆是假的 0.0**
+   每檔最早約 2025-09-11 ~ 2025-10-06 的 `three_inst_ratio` 全為 0.0,是上游初始化
+   空值而非真實持股為零。繪圖前必須濾掉,否則圖表左側出現假的「從 0 暴衝」斜坡。
+
+2. **持股比重可能 > 100%**
+   `change_20_up` 出現「野村全球航運龍頭 170.5%」。ETF 的受益權單位數與法人持股
+   計算基礎不一致所致。排行榜要濾掉 ETF 或標記異常,否則榜單前段被這類數字佔滿。
+
+3. **歷史只到 2025-09-11**
+   Eric 的專案從那時啟動。要更久的歷史需自行用官方 T86 回補。
+
+4. **網域依賴**
+   `voidful.github.io` 301 導向 `eric-lam.com`(upstream 作者的 custom domain)。
+   Anthony fork 的 `a898954139.github.io` **Pages 未啟用,回 404**。
+   → 網址抽成常數 `INSTITUTIONAL_BASE_URL`,日後切換只改一處。
+
+## 實作項目
+
+| # | 檔案 | 說明 |
+|---|---|---|
+| 1 | `scripts/backfill_all_fundamentals.py` | 全量 CLI。吃 symbol_aliases 全部 symbol,`ThreadPoolExecutor` 並行(**限流 3-4 並發**,Goodinfo 會擋),沿用既有季度節流→已抓過直接跳過。旗標:`--force` `--dry-run` `--only 2330,2317` `--max-workers` |
+| 2 | `.github/workflows/backfill-fundamentals.yml` | `workflow_dispatch` 手動觸發,與 hourly radar 解耦 |
+| 3 | `scripts/institutional_flows.py` | (a) 打官方 T86/TPEX 拿個股買賣超,含勾稽檢查 (b) 拉 Eric timeseries 持股比重,濾 zero-fill。輸出 `data/institutional-flows.json` |
+| 4 | `scripts/institutional_rankings.py` | 拉 16 個排行榜 JSON,標記命中我們 symbol list 的標的 |
+| 5 | `stock.html` + `assets/stock.js` | 個股頁,兩 tab。Chart.js,沿用 `台積電_2330_analysis.html` 的視覺語彙 |
+| 6 | `flows.html` + `assets/flows.js` | 資金流向排行榜頁,5/10/20/30 日可切,radar 標的高亮 |
+| 7 | `assets/theme-momentum.js` | `buildThemeStockList` 每個 `<li>` 包 `<a href="stock.html?code=XXXX">` |
+| 8 | `tests/` | zero-fill 過濾、T86 欄位 index、勾稽檢查、季度節流、並行限流 |
+
+## 執行順序
+
+**Phase 1(先做)**:1 + 2 + 8(基本面部分) — 最急需求,驗證 30 檔跑通
+**Phase 2**:3 + 4 + 8(法人部分)
+**Phase 3**:5 + 6 + 7 — UI
+
+## 不做的事
+
+- 不重寫 Goodinfo 抓取器(已存在且可用)
+- 不寫三大法人的每日排程(上游 Eric 每日 11:10 UTC 已自動更新持股比重;
+  我們的個股買賣超接官方,可按需觸發)
+- 不動 hourly radar pipeline 的既有行為

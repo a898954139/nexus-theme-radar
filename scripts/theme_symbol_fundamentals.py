@@ -71,7 +71,14 @@ def symbols_due_for_refresh(
     due = set()
     for instrument_id in instrument_ids:
         context = cache.get(instrument_id)
-        if context is None or context.get("fiscal_quarter") < expected:
+        if context is None:
+            due.add(instrument_id)
+            continue
+        # A missing or non-string fiscal_quarter reads as stale. Comparing it
+        # to the expected quarter directly is a TypeError, which would end the
+        # whole radar publish over one damaged cache entry.
+        quarter = context.get("fiscal_quarter")
+        if not isinstance(quarter, str) or quarter < expected:
             due.add(instrument_id)
 
     return sorted(due)
