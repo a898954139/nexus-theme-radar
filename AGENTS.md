@@ -10,6 +10,9 @@ GitHub Actions refresh jobs, and GitHub Pages publishing.
 
 - Keep changes small and reviewable.
 - Search the repo before changing source fetchers or output schemas.
+- Changing anything the hourly run executes (`scripts/*.py`, the workflow, the
+  published JSON shape)? Read `skills/pipeline-changes/SKILL.md` first — local
+  green does not mean CI green here, and both known failure modes ship silently.
 - Do not commit private feeds, secrets, tokens, cookies, or `.env` values.
 - Do not commit `feeds/follow.opml`; use `feeds/follow.example.opml` as the public template.
 - Prefer stable public RSS/Atom/OPML sources before adding custom scrapers.

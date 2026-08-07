@@ -5,6 +5,8 @@ Before changing this project, read:
 - `skills/ai-news-radar/SKILL.md`
 - `docs/SOURCE_COVERAGE.md`
 - `README.md`
+- `skills/pipeline-changes/SKILL.md` — before touching anything the hourly
+  GitHub Actions run executes
 
 Do not commit private OPML files, API keys, cookies, browser exports, or `.env`
 values. Keep the public repo usable without secrets.
