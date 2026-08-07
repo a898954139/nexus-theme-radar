@@ -2,7 +2,7 @@
   "schema_version": "nexus_public_theme_ranking.v0.8",
   "ranking_rule_version": "public_theme_heat_v0.8",
   "company_rule_version": "public_company_evidence_v0.8",
-  "generated_at": "2026-08-07T02:26:15.873141Z",
+  "generated_at": "2026-08-07T03:20:49.790945Z",
   "market_id": "TW_EQUITY",
   "market_scope": [
     "TW_EQUITY"
@@ -20,75 +20,67 @@
       "rank": 1,
       "theme_id": "memory_hbm",
       "name_zh": "記憶體與 HBM",
-      "heat_score": 100,
+      "heat_score": 83,
       "summaries": {
-        "event_count": 15,
-        "source_count": 4,
-        "tracking_candidate_count": 8,
+        "event_count": 7,
+        "source_count": 3,
+        "tracking_candidate_count": 4,
         "taiwan_mapping_count": 7
       },
       "heat_reason": {
         "rule_version": "public_theme_heat_v0.8",
         "event_component": {
-          "input": 15,
+          "input": 7,
           "normalized": 100.0,
           "weighted": 25.0
         },
         "source_component": {
-          "input": 4,
-          "normalized": 100.0,
-          "weighted": 25.0
+          "input": 3,
+          "normalized": 75.0,
+          "weighted": 18.75
         },
         "candidate_component": {
-          "input": 8,
+          "input": 4,
           "normalized": 100.0,
           "weighted": 20.0
         },
         "mapping_component": {
           "mapping_count": 7,
-          "direct_mapping_event_count": 6,
-          "normalized": 100.0,
-          "weighted": 30.0
+          "direct_mapping_event_count": 1,
+          "normalized": 80.0,
+          "weighted": 24.0
         },
-        "single_source_concentration": 0.467,
-        "concentration_penalty": 0.0,
-        "raw_score": 100.0
+        "single_source_concentration": 0.714,
+        "concentration_penalty": 4.286,
+        "raw_score": 83.464
       },
       "direct_mentions": [
-        {
-          "instrument_id": "TWSE:2344",
-          "symbol": "2344",
-          "exchange": "TWSE",
-          "name_zh": "華邦電",
-          "direct_event_count": 4,
-          "latest_mentioned_at": "2026-08-07T01:54:03Z"
-        },
         {
           "instrument_id": "TWSE:2330",
           "symbol": "2330",
           "exchange": "TWSE",
           "name_zh": "台積電",
-          "direct_event_count": 2,
+          "direct_event_count": 1,
           "latest_mentioned_at": "2026-08-06T18:43:27Z"
         }
       ],
       "supply_chain_candidates": [
         {
-          "instrument_id": "TWSE:2344",
-          "symbol": "2344",
-          "exchange": "TWSE",
-          "name_zh": "華邦電",
-          "direct_event_count": 4,
-          "official_evidence_count": 0,
-          "company_rank_score": 13,
-          "latest_mentioned_at": "2026-08-07T01:54:03Z",
-          "latest_official_at": null
-        },
-        {
           "instrument_id": "TPEX:8299",
           "symbol": "8299",
           "exchange": "TPEX",
           "name_zh": "群聯",
+          "direct_event_count": 0,
+          "official_evidence_count": 0,
+          "company_rank_score": 1,
+          "latest_mentioned_at": null,
+          "latest_official_at": null
+        },
+        {
+          "instrument_id": "TWSE:2344",
+          "symbol": "2344",
+          "exchange": "TWSE",
+          "name_zh": "華邦電",
           "direct_event_count": 0,
           "official_evidence_count": 0,
           "company_rank_score": 1,
@@ -120,21 +112,21 @@
     },
     {
       "rank": 2,
-      "theme_id": "defense_drone",
-      "name_zh": "國防與無人機",
-      "heat_score": 68,
+      "theme_id": "robotics",
+      "name_zh": "機器人",
+      "heat_score": 70,
       "summaries": {
-        "event_count": 8,
+        "event_count": 4,
         "source_count": 4,
-        "tracking_candidate_count": 0,
+        "tracking_candidate_count": 2,
         "taiwan_mapping_count": 3
       },
       "heat_reason": {
         "rule_version": "public_theme_heat_v0.8",
         "event_component": {
-          "input": 8,
-          "normalized": 100.0,
-          "weighted": 25.0
+          "input": 4,
+          "normalized": 66.667,
+          "weighted": 16.667
         },
         "source_component": {
           "input": 4,
@@ -142,94 +134,9 @@
           "weighted": 25.0
         },
         "candidate_component": {
-          "input": 0,
-          "normalized": 0.0,
-          "weighted": 0.0
-        },
-        "mapping_component": {
-          "mapping_count": 3,
-          "direct_mapping_event_count": 0,
-          "normalized": 60.0,
-          "weighted": 18.0
-        },
-        "single_source_concentration": 0.333,
-        "concentration_penalty": 0.0,
-        "raw_score": 68.0
-      },
-      "direct_mentions": [],
-      "supply_chain_candidates": [
-        {
-          "instrument_id": "TPEX:5371",
-          "symbol": "5371",
-          "exchange": "TPEX",
-          "name_zh": "中光電",
-          "direct_event_count": 0,
-          "official_evidence_count": 0,
-          "company_rank_score": 1,
-          "latest_mentioned_at": null,
-          "latest_official_at": null
-        },
-        {
-          "instrument_id": "TPEX:8033",
-          "symbol": "8033",
-          "exchange": "TPEX",
-          "name_zh": "雷虎",
-          "direct_event_count": 0,
-          "official_evidence_count": 0,
-          "company_rank_score": 1,
-          "latest_mentioned_at": null,
-          "latest_official_at": null
-        },
-        {
-          "instrument_id": "TWSE:2634",
-          "symbol": "2634",
-          "exchange": "TWSE",
-          "name_zh": "漢翔",
-          "direct_event_count": 0,
-          "official_evidence_count": 0,
-          "company_rank_score": 1,
-          "latest_mentioned_at": null,
-          "latest_official_at": null
-        }
-      ],
-      "representative_news": {
-        "cluster_id": "cluster-0e46370897611717",
-        "id": "moneydj-5b279c8c314e",
-        "title_zh": "航太與軍工業績助攻 八貫7月/前7月營收均創同期高",
-        "summary": "<a href=\"https://www.moneydj.com/kmdj/news/newsviewer.aspx?a=06e061b8-05ee-4082-abb2-a87dfb3455cf&amp;utm_source=16685796169657961837573759&amp;utm_medium=RSS\">內文連結</a>",
-        "source_id": "moneydj",
-        "source": "MoneyDJ",
-        "published_at": "2026-08-07T01:43:00Z",
-        "canonical_url": "https://www.moneydj.com/kmdj/news/newsviewer.aspx?a=06e061b8-05ee-4082-abb2-a87dfb3455cf&utm_source=16685796169657961837573759&utm_medium=RSS"
-      }
-    },
-    {
-      "rank": 3,
-      "theme_id": "robotics",
-      "name_zh": "機器人",
-      "heat_score": 46,
-      "summaries": {
-        "event_count": 3,
-        "source_count": 2,
-        "tracking_candidate_count": 1,
-        "taiwan_mapping_count": 3
-      },
-      "heat_reason": {
-        "rule_version": "public_theme_heat_v0.8",
-        "event_component": {
-          "input": 3,
-          "normalized": 50.0,
-          "weighted": 12.5
-        },
-        "source_component": {
           "input": 2,
           "normalized": 50.0,
-          "weighted": 12.5
-        },
-        "candidate_component": {
-          "input": 1,
-          "normalized": 25.0,
-          "weighted": 5.0
+          "weighted": 10.0
         },
         "mapping_component": {
           "mapping_count": 3,
@@ -237,9 +144,9 @@
           "normalized": 60.0,
           "weighted": 18.0
         },
-        "single_source_concentration": 0.667,
-        "concentration_penalty": 2.5,
-        "raw_score": 45.5
+        "single_source_concentration": 0.4,
+        "concentration_penalty": 0.0,
+        "raw_score": 69.667
       },
       "direct_mentions": [],
       "supply_chain_candidates": [
@@ -278,23 +185,108 @@
         }
       ],
       "representative_news": {
-        "cluster_id": "cluster-64ac91fafb84bfc4",
-        "id": "digitimes_tw-ae3f14d3e33e",
-        "title_zh": "人形機器人卡位戰　南韓後起之勢來勢洶洶",
-        "summary": "全球人形機器人市場打得火熱，中美雙強你來我往互相強搶奪話語權，不過在此之外，第三方勢力也在隱隱崛起。其中南韓近年加快腳步，隨著現代汽車將有人形機器人鼻祖之稱的波士頓動力（Boston Dynamics）納入囊中，三星電子（Samsung",
-        "source_id": "digitimes_tw",
-        "source": "DIGITIMES",
-        "published_at": "2026-08-06T18:49:27Z",
-        "canonical_url": "https://www.digitimes.com.tw/tech/dt/n/shwnws.asp?id=0000761830_MFZ7BF3U47G9QILUB437B"
+        "cluster_id": "cluster-f5a25f870e05f709",
+        "id": "cnyes-a9caf2ae45ae",
+        "title_zh": "中國「人形機器人第一股」 引爆新一輪「打新熱」股民網上許願求中簽",
+        "summary": "中國長鑫科技的熱度還未消散，新的網紅股又來了，中國「人形機器人第一股」宇樹科技 6 日（周四）晚間確定發行價為人民幣 150.8 元 / 股，對應發行本益比 219.23 倍。",
+        "source_id": "cnyes",
+        "source": "鉅亨網 Cnyes",
+        "published_at": "2026-08-07T02:30:02Z",
+        "canonical_url": "https://news.cnyes.com/news/id/6563480"
+      }
+    },
+    {
+      "rank": 3,
+      "theme_id": "defense_drone",
+      "name_zh": "國防與無人機",
+      "heat_score": 58,
+      "summaries": {
+        "event_count": 5,
+        "source_count": 3,
+        "tracking_candidate_count": 0,
+        "taiwan_mapping_count": 3
+      },
+      "heat_reason": {
+        "rule_version": "public_theme_heat_v0.8",
+        "event_component": {
+          "input": 5,
+          "normalized": 83.333,
+          "weighted": 20.833
+        },
+        "source_component": {
+          "input": 3,
+          "normalized": 75.0,
+          "weighted": 18.75
+        },
+        "candidate_component": {
+          "input": 0,
+          "normalized": 0.0,
+          "weighted": 0.0
+        },
+        "mapping_component": {
+          "mapping_count": 3,
+          "direct_mapping_event_count": 0,
+          "normalized": 60.0,
+          "weighted": 18.0
+        },
+        "single_source_concentration": 0.6,
+        "concentration_penalty": 0.0,
+        "raw_score": 57.583
+      },
+      "direct_mentions": [],
+      "supply_chain_candidates": [
+        {
+          "instrument_id": "TPEX:5371",
+          "symbol": "5371",
+          "exchange": "TPEX",
+          "name_zh": "中光電",
+          "direct_event_count": 0,
+          "official_evidence_count": 0,
+          "company_rank_score": 1,
+          "latest_mentioned_at": null,
+          "latest_official_at": null
+        },
+        {
+          "instrument_id": "TPEX:8033",
+          "symbol": "8033",
+          "exchange": "TPEX",
+          "name_zh": "雷虎",
+          "direct_event_count": 0,
+          "official_evidence_count": 0,
+          "company_rank_score": 1,
+          "latest_mentioned_at": null,
+          "latest_official_at": null
+        },
+        {
+          "instrument_id": "TWSE:2634",
+          "symbol": "2634",
+          "exchange": "TWSE",
+          "name_zh": "漢翔",
+          "direct_event_count": 0,
+          "official_evidence_count": 0,
+          "company_rank_score": 1,
+          "latest_mentioned_at": null,
+          "latest_official_at": null
+        }
+      ],
+      "representative_news": {
+        "cluster_id": "cluster-738d1ec4a833976c",
+        "id": "yahoo_finance_tw-737b78a76620",
+        "title_zh": "冠西電布局低空防禦技術　無人機反制產業發展受關注",
+        "summary": "近年全球低空空域安全議題持續升溫，隨著無人機應用日益普及，機場、港口、能源設施及重要公共場域對低空安全防護需求同步提升，也帶動無人機偵測與反制技術市場持續發展。近期內政部警政署公告「無人機區域聯防反制",
+        "source_id": "yahoo_finance_tw",
+        "source": "Yahoo Finance Taiwan",
+        "published_at": "2026-08-07T03:02:19Z",
+        "canonical_url": "https://tw.news.yahoo.com/%E5%86%A0%E8%A5%BF%E9%9B%BB%E5%B8%83%E5%B1%80%E4%BD%8E%E7%A9%BA%E9%98%B2%E7%A6%A6%E6%8A%80%E8%A1%93-%E7%84%A1%E4%BA%BA%E6%A9%9F%E5%8F%8D%E5%88%B6%E7%94%A2%E6%A5%AD%E7%99%BC%E5%B1%95%E5%8F%97%E9%97%9C%E6%B3%A8-030219008.html"
       }
     },
     {
       "rank": 4,
-      "theme_id": "optical_cpo",
-      "name_zh": "光通訊與 CPO",
-      "heat_score": 41,
+      "theme_id": "energy_grid",
+      "name_zh": "能源與電網",
+      "heat_score": 42,
       "summaries": {
-        "event_count": 3,
+        "event_count": 4,
         "source_count": 2,
         "tracking_candidate_count": 0,
         "taiwan_mapping_count": 3
@@ -302,9 +294,9 @@
       "heat_reason": {
         "rule_version": "public_theme_heat_v0.8",
         "event_component": {
-          "input": 3,
-          "normalized": 50.0,
-          "weighted": 12.5
+          "input": 4,
+          "normalized": 66.667,
+          "weighted": 16.667
         },
         "source_component": {
           "input": 2,
@@ -322,17 +314,17 @@
           "normalized": 60.0,
           "weighted": 18.0
         },
-        "single_source_concentration": 0.667,
-        "concentration_penalty": 2.5,
-        "raw_score": 40.5
+        "single_source_concentration": 0.75,
+        "concentration_penalty": 5.625,
+        "raw_score": 41.542
       },
       "direct_mentions": [],
       "supply_chain_candidates": [
         {
-          "instrument_id": "TPEX:3081",
-          "symbol": "3081",
-          "exchange": "TPEX",
-          "name_zh": "聯亞",
+          "instrument_id": "TWSE:1503",
+          "symbol": "1503",
+          "exchange": "TWSE",
+          "name_zh": "士電",
           "direct_event_count": 0,
           "official_evidence_count": 0,
           "company_rank_score": 1,
@@ -340,10 +332,10 @@
           "latest_official_at": null
         },
         {
-          "instrument_id": "TPEX:3363",
-          "symbol": "3363",
-          "exchange": "TPEX",
-          "name_zh": "上詮",
+          "instrument_id": "TWSE:1513",
+          "symbol": "1513",
+          "exchange": "TWSE",
+          "name_zh": "中興電",
           "direct_event_count": 0,
           "official_evidence_count": 0,
           "company_rank_score": 1,
@@ -351,10 +343,10 @@
           "latest_official_at": null
         },
         {
-          "instrument_id": "TPEX:4979",
-          "symbol": "4979",
-          "exchange": "TPEX",
-          "name_zh": "華星光",
+          "instrument_id": "TWSE:1519",
+          "symbol": "1519",
+          "exchange": "TWSE",
+          "name_zh": "華城",
           "direct_event_count": 0,
           "official_evidence_count": 0,
           "company_rank_score": 1,
@@ -363,14 +355,14 @@
         }
       ],
       "representative_news": {
-        "cluster_id": "cluster-6f94a4a1119da8d2",
-        "id": "yahoo_finance_tw-cba99d97b4bd",
-        "title_zh": "采鈺1.6T光模組年底導入，明年Meta Lens、FAU及PIC等量產",
-        "summary": "【財訊快報／記者李純君報導】采鈺(6789)昨日法說會，揭露已從傳統手機CIS濾光片與光學鍍膜供應商，逐步跨入AI光通訊與矽光子供應鏈。短期已有800G光模組Micro Lens量產貢獻，中期將受惠於",
-        "source_id": "yahoo_finance_tw",
-        "source": "Yahoo Finance Taiwan",
-        "published_at": "2026-08-07T01:52:07Z",
-        "canonical_url": "https://tw.stock.yahoo.com/news/%E9%87%87%E9%88%BA1-6t%E5%85%89%E6%A8%A1%E7%B5%84%E5%B9%B4%E5%BA%95%E5%B0%8E%E5%85%A5-%E6%98%8E%E5%B9%B4meta-lens-fau%E5%8F%8Apic%E7%AD%89%E9%87%8F%E7%94%A2-015207588.html"
+        "cluster_id": "cluster-ab66e806b39dda3c",
+        "id": "moneydj-2e43b2e87e72",
+        "title_zh": "台普威上半年EPS 3.6元 日本、澳洲儲能持續擴張",
+        "summary": "<a href=\"https://www.moneydj.com/kmdj/news/newsviewer.aspx?a=730ebf9f-5990-4a38-b102-befe137753b5&amp;utm_source=185657969637571866675759&amp;utm_medium=RSS\">內文連結</a>",
+        "source_id": "moneydj",
+        "source": "MoneyDJ",
+        "published_at": "2026-08-07T02:50:00Z",
+        "canonical_url": "https://www.moneydj.com/kmdj/news/newsviewer.aspx?a=730ebf9f-5990-4a38-b102-befe137753b5&utm_source=185657969637571866675759&utm_medium=RSS"
       }
     }
   ]
