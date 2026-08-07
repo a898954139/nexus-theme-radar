@@ -8,8 +8,41 @@
 | Phase | 內容 | 狀態 |
 |---|---|---|
 | 1 | 全量基本面 CLI + 手動 GitHub Action | ✅ **完成** 2026-08-07 |
+| 2.5 | 個股頁 + 基本面 tab + LLM 解讀 + radar 可點 | ✅ **完成** 2026-08-07 |
 | 2 | 法人資料(官方 T86 + Eric 排行榜) | ⬜ 待開始 |
-| 3 | UI(個股頁兩 tab + 資金流向頁 + radar 可點) | ⬜ 待開始 |
+| 3 | 法人 tab + 資金流向頁 | ⬜ 待開始 |
+
+### Phase 2.5 完成內容(插隊做,先讓畫面看得到)
+
+新增:
+- `stock.html` / `assets/stock.js` / `assets/stock.css` — 個股頁,兩 tab,6 張圖 3 張表
+- `scripts/fundamental_commentary.py` + `scripts/generate_fundamental_commentary.py` — LLM 解讀
+- `data/fundamental-commentary.json` — 解讀輸出(已有 2330 2026Q1)
+- `tests/test_fundamental_commentary.py`(17)、`test_goodinfo_fundamentals.py` 新增 statements 測試
+
+修改:
+- `scripts/goodinfo_fundamentals.py` — 新增 `statements`(3 表 × 6 季完整明細)
+- `scripts/theme_symbol_fundamentals.py` — `statements` 不進 radar payload(避免每主題重複)
+- `assets/theme-momentum.js` / `.css` — 股票可點進個股頁
+
+**harness 教訓:** 前端必須派給 `antigravity`(見 `ecc-overlay/dispatch/role-capability-registry.yaml`
+的 `frontend_visual: preferred_harness_order: [antigravity, codex]`)。第一次誤派
+`oh-my-claudecode:designer` 已作廢重做。`agy` 在 headless + `--sandbox` 下連 read_file 都會被
+自動拒絕(3.6 秒空手而回但回報 SUCCESS),需要 `--dangerously-skip-permissions`,
+所以跑之前要先 commit 出還原點並記錄關鍵檔 SHA,跑完比對。
+
+**資料修正:** `營業費用 ≠ 推銷+管理+研發`。IFRS 9 的「預期信用減損損益」也在營業費用裡,
+且可能是負的(沖回)。174 季裡 37 季對不起來,補上後剩 4 季(Goodinfo 只給兩位小數的進位殘差)。
+
+**LLM 解讀用法(C1:手動,每季一次):**
+```bash
+.venv/bin/python scripts/generate_fundamental_commentary.py --dry-run
+.venv/bin/python scripts/generate_fundamental_commentary.py --emit-prompts /tmp/p
+#   → 模型逐一回答,存成 /tmp/p/<ticker>.json
+.venv/bin/python scripts/generate_fundamental_commentary.py --collect /tmp/p
+```
+季度不符的解讀前端不會渲染(避免舊評論配新數字)。日後要換成 API 自動跑(C2),
+只需替換 `--collect` 的 `run` callable,儲存格式與測試都不用動。
 
 ### Phase 1 完成內容
 
