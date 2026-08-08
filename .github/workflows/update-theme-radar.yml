@@ -123,3 +123,15 @@ jobs:
             git pull --rebase origin "${GITHUB_REF_NAME}" || { git rebase --abort || true; exit 1; }
           done
           git push
+
+  # The commit above is made with GITHUB_TOKEN, which by design does not fire
+  # `on: push`. Without this call the snapshot reaches master and never reaches
+  # the site, and the momentum chart hides itself once the published history
+  # passes its own 2-hour freshness limit.
+  publish:
+    needs: update
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+    uses: ./.github/workflows/deploy-pages.yml

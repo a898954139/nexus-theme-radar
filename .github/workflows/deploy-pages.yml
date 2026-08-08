@@ -1,9 +1,17 @@
 name: Deploy Nexus Theme Radar
 
+# A push made with GITHUB_TOKEN deliberately does not fire `on: push` -- that is
+# how GitHub stops workflows from triggering each other. Both data jobs commit as
+# github-actions[bot], so their hourly snapshots reached master and stopped
+# there, and the site kept serving whatever the last human push had built.
+#
+# workflow_call lets those jobs invoke this one directly after they commit, so
+# the build stays defined once here instead of being copy-pasted into each.
 on:
   push:
     branches: [master]
   workflow_dispatch:
+  workflow_call:
 
 concurrency:
   group: pages

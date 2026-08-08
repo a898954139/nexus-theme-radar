@@ -1718,6 +1718,39 @@ def test_workflow_allows_scheduled_runs_to_record_history() -> None:
     assert "service_role" not in workflow.casefold()
 
 
+def test_data_workflows_publish_their_output_to_pages() -> None:
+    """A bot push cannot trigger the deploy workflow, so each job must call it.
+
+    GITHUB_TOKEN pushes deliberately do not fire `on: push`, to stop workflows
+    from triggering each other. Both data jobs commit as github-actions[bot], so
+    every hourly snapshot landed on master and stopped there: the site kept
+    serving whatever the last human push had built. The momentum history sat two
+    hours behind, which is past the page's own 2-hour freshness limit, so the
+    chart hid itself even though the data existed.
+    """
+
+    import yaml
+
+    workflows = ROOT / ".github" / "workflows"
+    deploy = yaml.safe_load((workflows / "deploy-pages.yml").read_text(encoding="utf-8"))
+    # `on` parses as the boolean True in YAML 1.1 unless quoted.
+    triggers = deploy.get("on", deploy.get(True))
+    assert "workflow_call" in triggers, "deploy must be reusable, not copy-pasted"
+
+    for name in ("update-theme-radar.yml", "update-institutional-flows.yml"):
+        spec = yaml.safe_load((workflows / name).read_text(encoding="utf-8"))
+        jobs = spec["jobs"]
+        publishing = [job for job in jobs.values() if "uses" in job]
+        assert publishing, f"{name} commits data but never publishes it"
+        job = publishing[0]
+        assert job["uses"].endswith("deploy-pages.yml"), name
+        # Without `needs`, the deploy races the commit and ships stale bytes.
+        assert job.get("needs"), f"{name} deploy must wait for the data job"
+        # Reusable workflows do not inherit secrets or elevated permissions.
+        assert job.get("permissions", {}).get("pages") == "write", name
+        assert job.get("permissions", {}).get("id-token") == "write", name
+
+
 def test_run_update_isolates_failed_source(monkeypatch: pytest.MonkeyPatch, tmp_path: Path) -> None:
     registry_path = tmp_path / "registry.json"
     registry_path.write_text(

@@ -97,3 +97,13 @@ jobs:
             git pull --rebase origin "${GITHUB_REF_NAME}" || { git rebase --abort || true; exit 1; }
           done
           git push
+
+  # Same reason as the theme radar job: a GITHUB_TOKEN commit does not fire
+  # `on: push`, so without this the flows page keeps serving the previous day.
+  publish:
+    needs: update
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+    uses: ./.github/workflows/deploy-pages.yml
