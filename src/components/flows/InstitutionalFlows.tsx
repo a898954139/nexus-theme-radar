@@ -168,7 +168,7 @@ export const InstitutionalFlows: React.FC<InstitutionalFlowsProps> = ({ data, de
 
   return (
     <div className="page-content flows-page">
-      <header className="page-intro"><span className="page-kicker">INSTITUTIONAL MONEY-FLOW</span><h1>{mode === 'broker' ? '籌碼流向' : '三大法人資金流向排行'}</h1><div className="gold-rule" /><p>動態追蹤台股上市櫃的三大法人籌碼買賣超與券商分點進出。數據源自公開交易資訊彙整整理。</p></header>
+      <header className="page-intro"><span className="page-kicker">INSTITUTIONAL MONEY-FLOW RANKINGS</span><h1>籌碼流向</h1><div className="gold-rule" /><p>兩個面向追蹤台股籌碼：三大法人的買賣超與持股比重變化，以及券商分點的進出行為。數據源自公開交易資訊彙總整理。</p></header>
       <div className="flow-mode-tabs" role="tablist" aria-label="籌碼流向資料面向"><button type="button" className={mode === 'institutional' ? 'is-selected' : ''} onClick={() => setMode('institutional')}>三大法人排行</button><button type="button" className={mode === 'broker' ? 'is-selected' : ''} onClick={() => setMode('broker')}>券商分點</button></div>
       {mode === 'broker' ? <BrokerFlows onGoStock={onGoStock} /> : <>
         <FlowControls metric={metric} setMetric={setMetric} days={days} setDays={setDays} direction={direction} setDirection={setDirection} hideEtf={hideEtf} setHideEtf={setHideEtf} view={view} setView={setView} />

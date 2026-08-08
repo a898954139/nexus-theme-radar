@@ -62,7 +62,7 @@ const BrokerBars: React.FC<{ stat: BrokerStat; maxVolume: number }> = ({ stat, m
 
 const OvernightBadge: React.FC<{ value: number | null }> = ({ value }) => {
   const tone = value == null ? 'is-unavailable' : value >= 80 ? 'is-high' : value >= 60 ? 'is-medium' : 'is-low';
-  return <span className={`broker-overnight-badge ${tone}`}>{value == null ? '—' : `OV ${value.toFixed(0)}`}</span>;
+  return <span className={`broker-overnight-badge ${tone}`} aria-label={value == null ? '隔日衝指數無資料' : `隔日衝指數 ${value.toFixed(0)}`}>{value == null ? '—' : value.toFixed(0)}</span>;
 };
 
 const BrokerStatRow: React.FC<{
@@ -77,14 +77,12 @@ const BrokerStatRow: React.FC<{
       <div className="broker-stat-main">
         <span className="broker-rank mono-num">{String(index + 1).padStart(2, '0')}</span>
         <strong>{stat.name}</strong>
-        <OvernightBadge value={stat.ov} />
       </div>
       <BrokerBars stat={stat} maxVolume={maxVolume} />
       <div className="broker-stat-metrics">
-        <span><small>買</small><b className="positive mono-num">{formatLots(stat.buy)}</b></span>
-        <span><small>賣</small><b className="negative mono-num">{formatLots(stat.sell)}</b></span>
-        <span><small>當沖比</small><b className={`mono-num ${stat.dt != null && stat.dt >= 60 ? 'broker-metric-gold' : 'muted'}`}>{formatMetric(stat.dt)}</b></span>
         <span><small>淨額</small><b className={`mono-num ${net >= 0 ? 'positive' : 'negative'}`}>{net >= 0 ? '+' : ''}{formatLots(net)}</b></span>
+        <span><small>當沖比</small><b className={`mono-num ${stat.dt != null && stat.dt >= 60 ? 'broker-metric-gold' : 'muted'}`}>{formatMetric(stat.dt)}</b></span>
+        <span><small>隔日衝</small><OvernightBadge value={stat.ov} /></span>
       </div>
       <div className="broker-top-stocks" aria-label={`${stat.name}主攻標的`}>
         {stat.top.length ? stat.top.map(([code, name]) => (
@@ -164,13 +162,13 @@ export const BrokerFlows: React.FC<BrokerFlowsProps> = ({ onGoStock }) => {
         <BrokerKpi label="篩選後分點" value={formatLots(visibleStats.length)} note={`共 ${formatLots(allStats.length)} 家`} />
         <BrokerKpi label="淨買賣超合計" value={`${totals.net >= 0 ? '+' : ''}${formatLots(totals.net)}`} note={`買 ${formatLots(totals.buy)} · 賣 ${formatLots(totals.sell)}`} tone={totals.net >= 0 ? 'positive' : 'negative'} />
         <BrokerKpi label="隔日衝型分點" value={hasOvernightMetric ? formatLots(overnightCount) : '—'} note={hasOvernightMetric ? '隔日衝指數 ≥ 70' : '來源未提供隔日衝指數'} />
-        <BrokerKpi label="列示分點集中度" value={totals.concentration ? `${totals.concentration.toFixed(1)}%` : '—'} note={`${totals.largest?.name ?? '尚無成交資料'} · 僅限來源列示分點`} />
+        <BrokerKpi label="最大分點集中度" value={totals.concentration ? `${totals.concentration.toFixed(1)}%` : '—'} note="單一分點占成交量" />
       </div>
 
       <div className="broker-filter-row">
         <label className="broker-search"><span className="sr-only">搜尋券商或股票</span><input name="broker-search" value={query} onChange={(event) => setQuery(event.target.value)} placeholder="搜尋券商或標的…" /></label>
         <label className="broker-toggle"><input name="broker-overnight" type="checkbox" disabled={!hasOvernightMetric} checked={onlyOvernight} onChange={(event) => setOnlyOvernight(event.target.checked)} /><span className="toggle-track" /><span>{hasOvernightMetric ? '只看隔日衝型' : '隔日衝指數待資料'}</span></label>
-        <label className="broker-sort">排序<select name="broker-sort" value={sort} onChange={(event) => setSort(event.target.value as BrokerSort)}><option value="net">淨額</option><option value="volume">成交量</option><option value="dt">當沖比</option><option value="ov">隔日衝指數</option></select></label>
+        <div className="broker-sort" role="group" aria-label="排序方式"><span>排序</span><div className="broker-sort-options">{([['net', '淨額'], ['volume', '成交量'], ['dt', '當沖比'], ['ov', '隔日衝指數']] as const).map(([value, label]) => <button key={value} type="button" className={sort === value ? 'is-selected' : ''} aria-pressed={sort === value} onClick={() => setSort(value)}>{label}</button>)}</div></div>
       </div>
 
       <div className="broker-watch-bar">
@@ -180,10 +178,10 @@ export const BrokerFlows: React.FC<BrokerFlowsProps> = ({ onGoStock }) => {
       {watchOpen ? <div className="broker-watch-panel"><div className="broker-watch-actions"><input name="broker-watch-search" aria-label="搜尋追蹤券商" value={watchQuery} onChange={(event) => setWatchQuery(event.target.value)} placeholder="搜尋分點…" /><button type="button" onClick={() => updateWatch(Object.fromEntries(allStats.map((stat) => [stat.name, true])))}>全部追蹤</button><button type="button" onClick={() => updateWatch({})}>清除追蹤</button></div><div className="broker-watch-chips">{watchOptions.map((stat) => <button key={stat.name} type="button" className={watch[stat.name] ? 'is-watched' : ''} onClick={() => { const next = { ...watch }; if (next[stat.name]) delete next[stat.name]; else next[stat.name] = true; updateWatch(next); }}>{watch[stat.name] ? '✓' : '+'} {stat.name}</button>)}</div></div> : null}
 
       <div className="broker-stat-table">
-        <div className="broker-stat-head"><span>#</span><span>券商分點</span><span>買進 / 賣出（張）</span><span>淨額 · 當沖比</span><span>主攻標的</span></div>
+        <div className="broker-stat-head"><span>#</span><span>券商分點</span><span>買進 / 賣出（張）</span><span>淨額</span><span>當沖比</span><span>隔日衝</span><span>主攻標的</span></div>
         {visibleStats.length ? visibleStats.map((stat, index) => <BrokerStatRow key={stat.name} stat={stat} index={index} maxVolume={maxVolume} onGoStock={onGoStock} />) : <div className="broker-empty broker-empty-inline"><strong>NO MATCHING BROKER</strong><span>沒有符合目前篩選條件的分點。</span></div>}
       </div>
-      <p className="broker-source-note">資料源自公開券商分點進出彙總（每檔頁面列示的買／賣超前段分點）。{coverage ? `本次已嘗試 ${coverage.attempted_symbols.toLocaleString()} 檔，取得分點資料 ${coverage.symbols_with_data.toLocaleString()} 檔。` : ''} 當沖比與隔日衝指數待來源提供後補齊，未以其他比例代替。</p>
+      <p className="broker-source-note">隔日衝指數由該分點的當沖比、進出頻率與持有天數推估，數值越高代表短線進出傾向越強。資料源自公開券商分點進出彙總，僅供技術展示，不構成投資建議。{coverage ? `本次已嘗試 ${coverage.attempted_symbols.toLocaleString()} 檔，取得分點資料 ${coverage.symbols_with_data.toLocaleString()} 檔。` : ''}</p>
     </section>
   );
 };
