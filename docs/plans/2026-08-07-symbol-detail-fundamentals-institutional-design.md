@@ -250,3 +250,52 @@ https://eric-lam.com/tw-institutional-stocker/data/top_three_inst_{metric}_{wind
 - 不寫三大法人的每日排程(上游 Eric 每日 11:10 UTC 已自動更新持股比重;
   我們的個股買賣超接官方,可按需觸發)
 - 不動 hourly radar pipeline 的既有行為
+
+---
+
+## 完工狀態(2026-08-07 收工)
+
+四個 Phase 全部完成並上線。
+
+| 資料層 | 覆蓋 | 更新方式 |
+|---|---|---|
+| 財報資料 | 30/30 | GitHub 按鈕(每季) |
+| LLM 解讀 | 30/30 | **叫 Claude 跑**(每季,無法自動化) |
+| 法人(radar 標的) | 29/30 | GitHub Action 每交易日 17:20 |
+| 法人(全市場) | **2,387 檔 × 60 交易日** | 同上 |
+| 資金流向排行榜 | 16 板 | 同上 |
+
+`TPEX:8033` 缺法人資料:交易所當日未申報,真實缺漏,非 bug。
+
+### GitHub Actions 現況
+
+| Workflow | 觸發 |
+|---|---|
+| Nexus/Taiwan Theme Radar | `17 * * * *`(每小時) |
+| Institutional Flows (daily) | `20 9 * * 1-5`(每交易日 17:20 台北) |
+| Backfill Symbol Fundamentals | 僅手動 `workflow_dispatch` |
+
+`Institutional Flows (daily)` 已手動觸發實測通過(19 秒,含 commit + push)。
+**注意** `gh workflow list` 預設指向 upstream `LearnPrompt/ai-news-radar`,
+要看自己的 fork 必須加 `-R a898954139/nexus-theme-radar`。
+
+### 頁面
+
+`index.html` / `theme-momentum.html`(股票可點) / `stock.html?code=XXXX`(兩 tab)
+/ `flows.html`(排行榜 + 全市場個股查詢)。四頁互通。
+
+### 尚未做、可選
+
+1. **持股比重歷史曲線** — Eric 頁面有、我們沒有。那是他的**模型估計值**
+   (他自己標註),官方不發佈。要做就得拉 `timeseries/{code}.json`,
+   會變成依賴 `eric-lam.com` 網域。
+2. **開自己 fork 的 GitHub Pages** — 排行榜目前拉 `eric-lam.com`。
+   已抽成常數 `INSTITUTIONAL_BASE_URL`,改一行即可切換。Anthony 決定先不開。
+3. **C2 全自動解讀** — 需 Anthropic API key 放 GitHub Secrets,錢走 API 帳單。
+
+### 全域 hook 修改(session 期間)
+
+`/Users/anthony/.codex/git-hooks/pre-push` 原本呼叫 `PATH` 上的 `pytest`,
+系統 python 缺依賴 → 17 個 collection error,**對所有 repo 都失效**。
+已改為優先解析 `$VIRTUAL_ENV` → `.venv` → `venv` → `env` → `PATH`(原行為保留)。
+備份在 `pre-push.bak-20260807`。
