@@ -373,9 +373,10 @@ a { color: inherit; }
 .source-row > span { color: var(--green); text-align: right; font-size: 11px; }
 
 /* Wave loader */
-.wave-loader { min-height: 300px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 26px; transform-origin: top center; }
+.wave-loader { display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 64px 20px 72px; gap: 26px; transform-origin: center; }
+.is-mobile .wave-loader { padding: 48px 16px 56px; }
 .wave-stage { position: relative; width: 292px; height: 192px; }
-.wave-bar { position: absolute; bottom: 0; width: 12px; border-radius: 6px 6px 2px 2px; transition: height .05s ease, background-color .05s ease; }
+.wave-bar { position: absolute; bottom: 0; width: 12px; border-radius: 6px; transform-origin: bottom; }
 .wave-ball { position: absolute; width: 12px; height: 12px; border-radius: 50%; background: var(--text); box-shadow: 0 0 8px rgba(237,239,243,.4); transform-origin: bottom center; }
 .wave-label { color: var(--faint); font: 400 10px 'IBM Plex Mono', monospace; letter-spacing: .26em; }
 

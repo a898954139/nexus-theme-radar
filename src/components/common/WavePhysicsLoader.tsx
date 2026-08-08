@@ -1,5 +1,41 @@
 import React, { useEffect, useMemo, useState } from 'react';
 
+const BAR_COUNT = 15;
+const BAR_WIDTH = 12;
+const BAR_GAP = 8;
+const PERIOD_SECONDS = 4;
+const BOUNCES = 4;
+const BASE_HEIGHT = 16;
+const PEAK_HEIGHT = 48;
+const MAX_BOUNCE_HEIGHT = 60;
+
+const calculateWavePhysics = (elapsedSeconds: number) => {
+  const t = (((elapsedSeconds % PERIOD_SECONDS) + PERIOD_SECONDS) % PERIOD_SECONDS) / PERIOD_SECONDS;
+  const xFraction = t < 0.5 ? t / 0.5 : (1 - t) / 0.5;
+  const ballIndex = xFraction * (BAR_COUNT - 1);
+  const bounceFraction = xFraction === 0 || xFraction === 1 ? 0 : (xFraction * BOUNCES) % 1;
+  const bounceHeight = 4 * bounceFraction * (1 - bounceFraction);
+  const heightFactor = Math.max(0, 1 - bounceHeight * 2);
+  const ballY = BASE_HEIGHT + PEAK_HEIGHT - heightFactor * 20 + bounceHeight * MAX_BOUNCE_HEIGHT;
+  const lerp = (from: number, to: number, amount: number) => Math.round(from + (to - from) * amount);
+  const bars = Array.from({ length: BAR_COUNT }, (_, index) => {
+    const distance = Math.abs(index - ballIndex);
+    const wave = distance < 3 ? Math.cos((distance / 3) * (Math.PI / 2)) : 0;
+    const indent = distance < 1.5 ? Math.cos((distance / 1.5) * (Math.PI / 2)) * heightFactor * 20 : 0;
+    const height = Math.max(4, BASE_HEIGHT + wave * PEAK_HEIGHT - indent);
+    const color = `rgb(${lerp(22, 201, wave)}, ${lerp(28, 162, wave)}, ${lerp(44, 74, wave)})`;
+    return { height, color };
+  });
+
+  return {
+    bars,
+    ballX: ballIndex * (BAR_WIDTH + BAR_GAP),
+    ballY,
+    scaleX: 1 + heightFactor * 0.25,
+    scaleY: 1 - heightFactor * 0.3,
+  };
+};
+
 export const WavePhysicsLoader: React.FC<{ scale?: number }> = ({ scale = 1 }) => {
   const [phase, setPhase] = useState(0);
 
@@ -14,26 +50,7 @@ export const WavePhysicsLoader: React.FC<{ scale?: number }> = ({ scale = 1 }) =
     return () => cancelAnimationFrame(frame);
   }, []);
 
-  const physics = useMemo(() => {
-    const t = (phase % 4) / 4;
-    const xFrac = t < 0.5 ? t / 0.5 : (1 - t) / 0.5;
-    const ballIndex = xFrac * 14;
-    const bounceF = (xFrac * 4) % 1;
-    const bounceH = 4 * bounceF * (1 - bounceF);
-    const heightFactor = Math.max(0, 1 - bounceH * 2);
-    const ballY = (16 + 48 - heightFactor * 20) + bounceH * 60;
-    const bars = Array.from({ length: 15 }, (_, index) => {
-      const distance = Math.abs(index - ballIndex);
-      const wave = distance < 3 ? Math.cos((distance / 3) * Math.PI / 2) : 0;
-      const indent = distance < 1.5 ? Math.cos((distance / 1.5) * Math.PI / 2) * heightFactor * 20 : 0;
-      const height = Math.max(4, 16 + wave * 48 - indent);
-      const r = Math.round(22 + wave * (201 - 22));
-      const g = Math.round(28 + wave * (162 - 28));
-      const b = Math.round(44 + wave * (74 - 44));
-      return { height, color: `rgb(${r}, ${g}, ${b})` };
-    });
-    return { bars, ballX: ballIndex * 20, ballY, scaleX: 1 + heightFactor * 0.25, scaleY: 1 - heightFactor * 0.3 };
-  }, [phase]);
+  const physics = useMemo(() => calculateWavePhysics(phase), [phase]);
 
   return (
     <section className="wave-loader" style={{ transform: `scale(${scale})` }} aria-label="載入中">
