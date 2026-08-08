@@ -18,6 +18,19 @@ function signed(value: number | null) {
   return `${value >= 0 ? '+' : ''}${value}`;
 }
 
+function historyHour(timestamp: string) {
+  return new Date(timestamp).toLocaleTimeString('zh-TW', { hour: '2-digit', minute: '2-digit', hour12: false });
+}
+
+function historyRangeLabel(observations: RadarData['momentumHistory']['observations']) {
+  const first = observations[0]?.observed_hour;
+  const last = observations[observations.length - 1]?.observed_hour;
+  if (!first || !last) return '—';
+  const date = new Date(first);
+  const day = `${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`;
+  return `${day} ${historyHour(first)} – ${historyHour(last)}`;
+}
+
 function uniqueSymbols(theme: MomentumTheme) {
   const seen = new Set<string>();
   return [...theme.direct_symbols, ...theme.related_symbols].filter((item) => {
@@ -115,6 +128,7 @@ export const ThemeMomentum: React.FC<ThemeMomentumProps> = ({ data, device, onGo
 
       <section className="momentum-history-section">
         <div className="section-heading"><span className="page-kicker">HISTORY · 五題材同框折線圖</span><span className="section-note mono-num">{observations.length} observations</span></div>
+        <div className="history-context"><span>五大題材 · 動能分數 · 逐小時（缺少的小時保留為斷點）</span><span className="mono-num">{historyRangeLabel(observations)}</span></div>
         <div className="history-legend">
           {themes.map((theme, index) => {
             const active = selectedThemeId === theme.theme_id;
@@ -128,12 +142,10 @@ export const ThemeMomentum: React.FC<ThemeMomentumProps> = ({ data, device, onGo
             );
           })}
         </div>
-        <div className="history-chart-wrap">
-          <svg viewBox="0 0 600 140" role="img" aria-label="五題材熱度歷史折線圖" preserveAspectRatio="none">
-            {[75, 85, 95, 100].map((value) => {
-              const y = 130 - ((value - 75) / 25) * 110;
-              return <g key={value}><line x1="0" x2="600" y1={y} y2={y} className="chart-grid-line" /><text x="4" y={y - 3} className="chart-axis-label">{value}</text></g>;
-            })}
+        <div className="history-chart-scroll">
+          <div className="history-chart-wrap">
+            <svg viewBox="0 0 600 140" role="img" aria-label="五題材熱度歷史折線圖" preserveAspectRatio="none">
+              {[46, 92].map((y) => <line key={y} x1="0" x2="600" y1={y} y2={y} className="chart-grid-line" />)}
             {themes.map((theme, index) => {
               const values = observations.map((point) => point.themes.find((item) => item.theme_id === theme.theme_id)?.heat_score ?? null);
               const paths = segmentsFor(values, 600, 110).map((points) => <polyline key={points} points={points} fill="none" stroke={lineColors[index]} className={selectedThemeId && selectedThemeId !== theme.theme_id ? 'chart-line is-muted' : 'chart-line'} />);
@@ -143,8 +155,9 @@ export const ThemeMomentum: React.FC<ThemeMomentumProps> = ({ data, device, onGo
               const showPoint = selectedThemeId === theme.theme_id;
               return <g key={theme.theme_id}>{paths}{showPoint && latestValue !== null && latestValue !== undefined ? <><circle cx={latestX} cy={latestY} r="3" fill={lineColors[index]} /><text x={latestX + 7} y={latestY - 6} className="chart-value-label">{latestValue}</text></> : null}</g>;
             })}
-            {observations.map((point, index) => <text key={point.observed_hour} x={observations.length <= 1 ? 300 : (index / (observations.length - 1)) * 600} y="139" className="chart-axis-label" textAnchor="middle">{new Date(point.observed_hour).toLocaleTimeString('zh-TW', { hour: '2-digit', minute: '2-digit', hour12: false })}</text>)}
-          </svg>
+            </svg>
+          </div>
+          <div className="history-axis-labels" style={{ gridTemplateColumns: `repeat(${Math.max(observations.length, 1)}, minmax(0, 1fr))` }}>{observations.map((point) => <span key={point.observed_hour}>{historyHour(point.observed_hour)}</span>)}</div>
         </div>
         {device === 'mobile' ? <p className="chart-mobile-note">左右滑動可查看完整圖表與圖例。</p> : null}
       </section>

@@ -8,6 +8,7 @@ import { ThemeRadarHome } from './components/home/ThemeRadarHome';
 import { ThemeMomentum } from './components/momentum/ThemeMomentum';
 import { SourceStatus } from './components/sources/SourceStatus';
 import { StockDetail } from './components/stock/StockDetail';
+import { useSiteMetrics } from './hooks/useSiteMetrics';
 import { loadRadarData, fetchBrokerMap, fetchInstitutionalFlows, fetchStockFundamentals } from './services/dataService';
 import { DeviceType, PageType, RadarData, StockTab } from './types';
 
@@ -55,6 +56,10 @@ export const App: React.FC = () => {
     brokerMap: Awaited<ReturnType<typeof fetchBrokerMap>>;
   }>({ fundamentals: null, flows: [], brokerMap: null });
   const [brokerLoading, setBrokerLoading] = useState(false);
+  // Latched rather than tracking route.page directly: navigating away from the
+  // index and back must not re-run the effect and record a second view.
+  const [metricsStarted, setMetricsStarted] = useState(() => readRoute().page === 'index');
+  const counts = useSiteMetrics(metricsStarted);
   const defaultInstrument = useMemo(
     () => radarData?.themeRanking.themes.flatMap((theme) => theme.direct_mentions)[0],
     [radarData]
@@ -74,6 +79,10 @@ export const App: React.FC = () => {
     onHashChange();
     return () => window.removeEventListener('hashchange', onHashChange);
   }, []);
+
+  useEffect(() => {
+    if (route.page === 'index') setMetricsStarted(true);
+  }, [route.page]);
 
   useEffect(() => {
     let active = true;
@@ -144,6 +153,7 @@ export const App: React.FC = () => {
           generatedAt={radarData?.themeRanking.generated_at}
           sourceStatusOk={radarData ? radarData.sourceStatus.failed_count === 0 : true}
           onGoSources={() => updateHash('sources')}
+          counts={counts}
         />
 
         {showLoader ? <WavePhysicsLoader scale={device === 'mobile' ? 0.72 : 1} /> : null}

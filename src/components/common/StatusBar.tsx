@@ -6,6 +6,7 @@ interface StatusBarProps {
   generatedAt?: string;
   sourceStatusOk: boolean;
   onGoSources: () => void;
+  counts?: { total: number; online: number } | null;
 }
 
 function formatDate(value?: string) {
@@ -25,7 +26,13 @@ function formatDate(value?: string) {
   };
 }
 
-export const StatusBar: React.FC<StatusBarProps> = ({ device, generatedAt, sourceStatusOk, onGoSources }) => {
+export const StatusBar: React.FC<StatusBarProps> = ({
+  device,
+  generatedAt,
+  sourceStatusOk,
+  onGoSources,
+  counts
+}) => {
   const formatted = formatDate(generatedAt);
   return (
     <div className={`status-bar ${device === 'mobile' ? 'status-bar-mobile' : ''}`}>
@@ -34,6 +41,14 @@ export const StatusBar: React.FC<StatusBarProps> = ({ device, generatedAt, sourc
         源狀態 <strong className={sourceStatusOk ? 'status-up' : 'status-down'}>{sourceStatusOk ? '正常' : '異常'}</strong>
         <span className="status-detail">詳情 →</span>
       </button>
+      {/* Sits before the last child so the existing margin-left:auto rule keeps
+          pushing the update time to the right edge. */}
+      {counts ? (
+        <span className="status-visitors">
+          線上 <strong>{counts.online.toLocaleString()}</strong>
+          <span className="status-visitors-total">總瀏覽 <strong>{counts.total.toLocaleString()}</strong></span>
+        </span>
+      ) : null}
       <span>預計下次更新 <strong>{formatted.next}</strong></span>
     </div>
   );

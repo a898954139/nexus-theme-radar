@@ -71,6 +71,10 @@ a { color: inherit; }
 .status-bar button { border: 0; background: transparent; color: var(--faint); }
 .status-bar button strong { margin-left: 8px; }
 .status-detail { margin-left: 8px; color: var(--gold); font-family: 'Noto Sans TC', sans-serif; }
+.status-visitors-total { margin-left: 16px; }
+/* The bar is a single flex row, so on phones the all-time total gives way to
+   the live count rather than squeezing every cell. */
+.status-bar-mobile .status-visitors-total { display: none; }
 .nav-feedback { display: inline-flex; align-items: center; padding: 0 14px; border-left: 1px solid var(--line); color: var(--gold); font-size: 11px; text-decoration: none; white-space: nowrap; }
 .nav-feedback:hover { background: var(--gold-bg); color: var(--text-hi); }
 .nav-feedback-mobile { display: none; }
@@ -208,10 +212,12 @@ a { color: inherit; }
 .legend-chip b { color: var(--text-hi); font-weight: 500; }
 .legend-chip em { font-style: normal; }
 .legend-swatch { width: 7px; height: 7px; border-radius: 50%; }
-.history-chart-wrap { height: 150px; margin: 8px 20px 18px; border: 1px solid var(--line); background: var(--card-bg); }
+.history-context { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; margin: 18px 20px 14px; color: var(--faint); font: 400 10px 'IBM Plex Mono', monospace; letter-spacing: .12em; }
+.history-chart-scroll { margin: 0 20px 18px; }
+.history-chart-wrap { height: auto; min-height: 150px; max-height: 260px; aspect-ratio: 600 / 140; border-top: 1px solid var(--sub-line); border-bottom: 1px solid var(--line); }
 .history-chart-wrap svg { width: 100%; height: 100%; display: block; }
+.history-axis-labels { display: grid; gap: 8px; margin-top: 6px; color: var(--faint); font: 400 10px 'IBM Plex Mono', monospace; text-align: center; }
 .chart-grid-line { stroke: var(--line); stroke-width: .6; }
-.chart-axis-label { fill: var(--faint); font: 8px 'IBM Plex Mono', monospace; }
 .chart-line { stroke-width: 3; opacity: 1; }
 .chart-line.is-muted { stroke-width: 1.8; opacity: .32; }
 .chart-value-label { fill: var(--text-hi); font: 9px 'IBM Plex Mono', monospace; }
@@ -569,8 +575,11 @@ a { color: inherit; }
   .history-legend { flex-wrap: nowrap; overflow-x: auto; padding: 10px 16px 0; scrollbar-width: none; }
   .history-legend::-webkit-scrollbar { display: none; }
   .legend-chip { flex: 0 0 auto; }
-  .history-chart-wrap { margin: 8px 16px 16px; overflow-x: auto; }
+  .history-context { flex-direction: column; align-items: flex-start; gap: 6px; margin: 14px 16px 12px; line-height: 1.5; }
+  .history-chart-scroll { margin: 0 16px 16px; overflow-x: auto; }
+  .history-chart-wrap { min-width: 560px; }
   .history-chart-wrap svg { min-width: 560px; }
+  .history-axis-labels { min-width: 560px; }
   .flow-controls-row { display: flex; overflow-x: auto; }
   .flow-controls { display: block; }
   .flow-control-group { flex: 0 0 auto; width: max-content; padding: 4px 10px; }
@@ -742,8 +751,11 @@ a { color: inherit; }
   .app-root.is-mobile .history-legend { flex-wrap: nowrap; overflow-x: auto; padding: 10px 16px 0; scrollbar-width: none; }
   .app-root.is-mobile .history-legend::-webkit-scrollbar { display: none; }
   .app-root.is-mobile .legend-chip { flex: 0 0 auto; }
-  .app-root.is-mobile .history-chart-wrap { margin: 8px 16px 16px; overflow-x: auto; }
+  .app-root.is-mobile .history-context { flex-direction: column; align-items: flex-start; gap: 6px; margin: 14px 16px 12px; line-height: 1.5; }
+  .app-root.is-mobile .history-chart-scroll { margin: 0 16px 16px; overflow-x: auto; }
+  .app-root.is-mobile .history-chart-wrap { min-width: 560px; }
   .app-root.is-mobile .history-chart-wrap svg { min-width: 560px; }
+  .app-root.is-mobile .history-axis-labels { min-width: 560px; }
   .app-root.is-mobile .flow-controls-row { display: flex; overflow-x: auto; }
   .app-root.is-mobile .flow-controls { display: block; }
   .app-root.is-mobile .flow-control-group { flex: 0 0 auto; width: max-content; padding: 4px 10px; }
