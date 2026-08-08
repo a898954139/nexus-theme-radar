@@ -301,17 +301,36 @@ a { color: inherit; }
 .trend-section { padding-bottom: 20px; border-top: 1px solid var(--line); }
 .trend-section > .section-heading { padding: 14px 20px; border-bottom: 1px solid var(--line); }
 .trend-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; padding: 16px 20px 0; }
-.trend-card { overflow: hidden; border: 1px solid var(--line); border-radius: 12px; background: var(--card-bg); }
-.trend-card-title { min-height: 38px; display: flex; align-items: center; justify-content: space-between; padding: 0 13px; color: var(--text); font-size: 12px; }
-.trend-card-legend { color: var(--faint); font: 400 9px 'IBM Plex Mono', monospace; white-space: nowrap; }
-.trend-chart { height: 104px; padding: 0 8px 8px; }
-.trend-chart svg { width: 100%; height: 100%; display: block; }
+.trend-card { overflow: hidden; padding: 12px 14px 10px; border: 1px solid var(--line); border-radius: 12px; background: var(--card-bg); }
+.trend-card-title { display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 10px; color: var(--muted); }
+.trend-card-title strong { color: var(--muted); font: 500 10px 'IBM Plex Mono', monospace; letter-spacing: .14em; }
+.trend-card-unit { color: var(--faint); font: 400 9px 'IBM Plex Mono', monospace; }
+.trend-chart { height: auto; padding: 0; }
+.trend-plot-row { display: grid; grid-template-columns: 36px minmax(0, 1fr) 34px; gap: 6px; align-items: stretch; }
+.trend-axis { height: 104px; display: flex; flex-direction: column; justify-content: space-between; color: var(--faint); font: 400 9px 'IBM Plex Mono', monospace; text-align: right; }
+.trend-axis-right { color: var(--gold); text-align: left; }
+.trend-axis-spacer { width: 34px; }
+.trend-plot { position: relative; height: 104px; border-top: 1px solid var(--sub-line); border-bottom: 1px solid var(--line); }
+.trend-plot svg { width: 100%; height: 104px; display: block; overflow: visible; }
+.trend-grid-axis { stroke: var(--sub-line); stroke-width: 1; }
+.trend-zero-axis { stroke: var(--neutral); stroke-width: 1; }
+.trend-line { fill: none; stroke-width: 2; vector-effect: non-scaling-stroke; }
+.trend-line-gold { stroke: var(--gold); }
+.trend-line-neutral { stroke: var(--muted); }
+.trend-line-muted { stroke: var(--neutral); }
+.trend-x-labels { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 6px; margin: 6px 34px 0 42px; color: var(--faint); font: 400 9px 'IBM Plex Mono', monospace; text-align: center; }
+.trend-card-legend-row { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 8px; color: var(--muted); font: 400 9px 'IBM Plex Mono', monospace; }
+.trend-card-legend-row span { display: inline-flex; align-items: center; gap: 4px; }
+.trend-legend-line { width: 10px; height: 2px; display: inline-block; }
+.trend-legend-square { width: 8px; height: 8px; display: inline-block; }
+.trend-bar-current { fill: rgba(201, 162, 74, .16); stroke: var(--gold); stroke-width: 2; }
+.trend-bar-muted { fill: var(--shell-bg); stroke: var(--neutral); stroke-width: 2; }
+.trend-bar-gold { fill: var(--gold); opacity: .78; }
+.trend-bar-neutral { fill: var(--neutral); opacity: .8; }
+.trend-bar-green { fill: var(--green); opacity: .78; }
+.trend-bar-red { fill: var(--red); opacity: .78; }
 .chart-axis { stroke: var(--line); stroke-width: 1; }.chart-label { fill: var(--faint); font: 8px 'IBM Plex Mono', monospace; }
-.chart-polyline { fill: none; stroke-width: 2; }.gold-line { stroke: var(--gold); }.cyan-line { stroke: var(--cyan); }.green-line { stroke: var(--green); }
-.chart-bar-gold { fill: var(--gold); opacity: .72; }.chart-bar-green { fill: var(--green); opacity: .78; }.chart-bar-red { fill: var(--red); opacity: .78; }.chart-bar-cyan { fill: var(--cyan); opacity: .7; }.chart-bar-purple { fill: var(--purple); opacity: .7; }.chart-bar-muted { fill: var(--neutral); opacity: .65; }
-.trend-data-strip { display: flex; gap: 10px; overflow-x: auto; padding: 7px 10px 9px; border-top: 1px solid var(--sub-line); scrollbar-width: thin; }
-.trend-data-point { flex: 0 0 auto; display: flex; flex-direction: column; gap: 2px; color: var(--muted); font-size: 8px; line-height: 1.35; white-space: nowrap; }
-.trend-data-point b { color: var(--gold); font-weight: 500; }
+.chart-bar-green { fill: var(--green); opacity: .78; }.chart-bar-red { fill: var(--red); opacity: .78; }
 .financial-disclosure { margin: 0 20px 20px; overflow: hidden; border: 1px solid var(--line); border-radius: 10px; background: var(--card-bg); }
 .financial-disclosure > button { width: 100%; min-height: 52px; display: flex; align-items: center; justify-content: space-between; padding: 0 16px; border: 0; background: var(--surface-bg); color: var(--text); text-align: left; font-size: 13px; }
 .financial-disclosure > button span:last-child { color: var(--gold); font-size: 10px; }

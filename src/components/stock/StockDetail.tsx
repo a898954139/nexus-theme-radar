@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React, { useState } from 'react';
 import { BrokerMapData, DeviceType, FinancialQuarter, InstitutionalFlowItem, StockFundamentals, StockTab } from '../../types';
 import { BrokerMap } from './BrokerMap';
 
@@ -61,72 +61,149 @@ const statementLabels: Record<string, string> = {
 
 function statementLabel(key: string) { return statementLabels[key] ?? key; }
 
-function points(values: Array<number | null>, width = 240, height = 82, min?: number, max?: number) {
-  const actual = values.filter((value): value is number => value !== null);
-  const lower = min ?? Math.min(...actual, 0);
-  const upper = max ?? Math.max(...actual, 1);
-  return values.map((value, index) => {
-    if (value === null) return null;
-    const x = values.length <= 1 ? width / 2 : 12 + index / (values.length - 1) * (width - 24);
-    const y = height - 8 - ((value - lower) / Math.max(upper - lower, 1)) * (height - 16);
-    return `${x},${y}`;
-  });
+interface TrendAxis {
+  leftTop: string;
+  leftBottom: string;
+  rightTop?: string;
+  rightBottom?: string;
 }
 
-interface TrendDataPoint {
-  period: string;
-  values: string[];
+interface TrendLegendItem {
+  label: string;
+  color: string;
 }
 
-const ChartCard: React.FC<{ title: string; children: React.ReactNode; legend?: React.ReactNode; data?: TrendDataPoint[] }> = ({ title, children, legend, data }) => <article className="trend-card"><div className="trend-card-title"><strong>{title}</strong>{legend}</div><div className="trend-chart">{children}</div>{data ? <div className="trend-data-strip" aria-label={`${title}實際數值`}>{data.map((point) => <span className="trend-data-point" key={point.period}><b className="mono-num">{point.period}</b><span className="mono-num">{point.values.join(' · ')}</span></span>)}</div> : null}</article>;
-
-function trendData(quarters: FinancialQuarter[], fundamentals: StockFundamentals, type: number): TrendDataPoint[] {
-  const ordered = quarters.slice().reverse();
-  return ordered.map((quarter) => {
-    const income = fundamentals.statements.income[quarter.period];
-    const balance = fundamentals.statements.balance[quarter.period];
-    const cashFlow = fundamentals.statements.cash_flow[quarter.period];
-    if (type === 1) return { period: shortPeriod(quarter.period), values: [`收入 ${formatNumber(quarter.revenue)}`, `毛利率 ${pct(quarter.gross_margin)}`] };
-    if (type === 2) return { period: shortPeriod(quarter.period), values: [pct(quarter.gross_margin), pct(quarter.operating_margin), pct(quarter.net_margin)] };
-    if (type === 3) return { period: shortPeriod(quarter.period), values: [`EPS ${formatNumber(quarter.eps)}`] };
-    if (type === 4) return { period: shortPeriod(quarter.period), values: [`營業費用 ${formatStatementValue(income, 'operating_expense')}`, `研發 ${formatStatementValue(income, 'rd_expense')}`] };
-    if (type === 5) return { period: shortPeriod(quarter.period), values: [`營業 ${formatStatementValue(cashFlow, 'operating')}`, `投資 ${formatStatementValue(cashFlow, 'investing')}`, `融資 ${formatStatementValue(cashFlow, 'financing')}`] };
-    return { period: shortPeriod(quarter.period), values: [`資產 ${formatStatementValue(balance, 'total_assets')}`, `負債 ${formatStatementValue(balance, 'total_liabilities')}`, `權益 ${formatStatementValue(balance, 'total_equity')}`] };
-  });
+interface TrendModel {
+  unit: string;
+  axis: TrendAxis;
+  legend?: TrendLegendItem[];
+  revenueMax?: number;
+  marginMin?: number;
+  marginMax?: number;
+  epsMax?: number;
+  epsMin?: number;
+  opexMax?: number;
+  cashFlowMax?: number;
+  assetMax?: number;
 }
 
-const TrendSvg: React.FC<{ quarters: FinancialQuarter[]; type: number; fundamentals: StockFundamentals }> = ({ quarters, type, fundamentals }) => {
-  const ordered = quarters.slice().reverse();
-  const width = 240;
-  const x = (index: number) => 14 + index * ((width - 28) / Math.max(ordered.length - 1, 1));
+interface ChartCoordinate {
+  x: number;
+  y: number;
+}
+
+function axisInteger(value: number) { return Math.round(value).toLocaleString('en-US'); }
+function axisDecimal(value: number) { return value.toFixed(1); }
+
+function chartRange(values: number[]) {
+  const lower = Math.min(...values);
+  const upper = Math.max(...values);
+  const range = (upper - lower) || Math.max(Math.abs(lower), Math.abs(upper), 1);
+  const padding = Math.max(range * 0.05, 0.01);
+  return { min: lower - padding, max: upper + padding };
+}
+
+function chartX(index: number, count: number, width: number) {
+  return count <= 1 ? width / 2 : (index + 0.5) / count * width;
+}
+
+function chartY(value: number, height: number, min: number, max: number) {
+  const range = (max - min) || 1;
+  return height - 8 - ((value - min) / range) * (height - 20);
+}
+
+function chartCoordinates(values: number[], width: number, height: number, min: number, max: number): ChartCoordinate[] {
+  return values.map((value, index) => ({
+    x: chartX(index, values.length, width),
+    y: chartY(value, height, min, max),
+  }));
+}
+
+function chartPointString(coordinates: ChartCoordinate[]) {
+  return coordinates.map(({ x, y }) => `${x.toFixed(1)},${y.toFixed(1)}`).join(' ');
+}
+
+function buildTrendModel(ordered: FinancialQuarter[], fundamentals: StockFundamentals, type: number): TrendModel {
+  const income = ordered.map((quarter) => fundamentals.statements.income[quarter.period]);
+  const cashFlow = ordered.map((quarter) => fundamentals.statements.cash_flow[quarter.period]);
+  const balance = ordered.map((quarter) => fundamentals.statements.balance[quarter.period]);
   if (type === 1) {
-    const revenueMax = Math.max(...ordered.map((q) => q.revenue), 1);
-    const margins = points(ordered.map((q) => q.gross_margin), width, 92, 0, 1);
-    return <svg viewBox="0 0 240 104" aria-label="營業收入與毛利率"><line x1="0" y1="94" x2="240" y2="94" className="chart-axis" />{ordered.map((q, index) => <rect key={q.period} x={x(index) - 7} y={94 - q.revenue / revenueMax * 70} width="14" height={q.revenue / revenueMax * 70} className="chart-bar-gold" rx="2" />)}<polyline points={margins.filter(Boolean).join(' ')} className="chart-polyline cyan-line" />{ordered.map((q, index) => <text key={q.period} x={x(index)} y="103" className="chart-label" textAnchor="middle">{q.period.slice(2, 6)}</text>)}</svg>;
+    const marginRange = chartRange(ordered.map((quarter) => quarter.gross_margin));
+    const marginMin = marginRange.min;
+    const marginMax = marginRange.max;
+    const revenueMax = Math.max(...ordered.map((quarter) => quarter.revenue), 1);
+    return { unit: '億元 / %', axis: { leftTop: axisInteger(revenueMax), leftBottom: '0', rightTop: `${axisDecimal(marginMax * 100)}%`, rightBottom: `${axisDecimal(marginMin * 100)}%` }, revenueMax, marginMin, marginMax };
   }
   if (type === 2) {
-    const lines = [ordered.map((q) => q.gross_margin), ordered.map((q) => q.operating_margin), ordered.map((q) => q.net_margin)].map((values) => points(values, width, 92, 0, 1));
-    return <svg viewBox="0 0 240 104" aria-label="三層利潤率趨勢"><line x1="0" y1="94" x2="240" y2="94" className="chart-axis" />{lines.map((line, index) => <polyline key={index} points={line.filter(Boolean).join(' ')} className={`chart-polyline ${['gold-line', 'cyan-line', 'green-line'][index]}`} />)}</svg>;
+    const marginRange = chartRange(ordered.flatMap((quarter) => [quarter.gross_margin, quarter.operating_margin, quarter.net_margin]));
+    const marginMin = marginRange.min;
+    const marginMax = marginRange.max;
+    return { unit: '%', axis: { leftTop: `${axisDecimal(marginMax * 100)}%`, leftBottom: `${axisDecimal(marginMin * 100)}%` }, marginMin, marginMax, legend: [{ label: '毛利率', color: 'var(--gold)' }, { label: '營益率', color: 'var(--muted)' }, { label: '淨利率', color: 'var(--neutral)' }] };
   }
   if (type === 3) {
-    const epsMax = Math.max(...ordered.map((q) => q.eps), 1);
-    const epsMin = Math.min(...ordered.map((q) => q.eps), 0);
-    return <svg viewBox="0 0 240 104" aria-label="每股盈餘"><line x1="0" y1="94" x2="240" y2="94" className="chart-axis" />{ordered.map((q, index) => { const h = Math.abs(q.eps - epsMin) / Math.max(epsMax - epsMin, 1) * 75; return <rect key={q.period} x={x(index) - 7} y={94 - h} width="14" height={h} className={q.eps >= 0 ? 'chart-bar-green' : 'chart-bar-red'} rx="2" />; })}</svg>;
+    const epsValues = ordered.map((quarter) => quarter.eps);
+    const epsRange = chartRange([...epsValues, 0]);
+    const epsMin = Math.min(epsRange.min, 0);
+    const epsMax = epsRange.max;
+    return { unit: '元', axis: { leftTop: axisDecimal(epsMax), leftBottom: axisDecimal(epsMin) }, epsMin, epsMax };
+  }
+  if (type === 4) {
+    const opexMax = Math.max(...income.map((row) => statementNumber(row, 'rd_expense') + statementNumber(row, 'selling_expense') + statementNumber(row, 'admin_expense')), 1);
+    return { unit: '億元', axis: { leftTop: axisInteger(opexMax), leftBottom: '0' }, opexMax, legend: [{ label: '研發', color: 'var(--gold)' }, { label: '行銷', color: 'var(--neutral)' }, { label: '管理', color: 'var(--shell-bg)' }] };
+  }
+  if (type === 5) {
+    const cashFlowMax = Math.max(...cashFlow.flatMap((row) => ['operating', 'investing', 'financing'].map((key) => Math.abs(statementNumber(row, key)))), 1);
+    return { unit: '億元', axis: { leftTop: axisInteger(cashFlowMax), leftBottom: `-${axisInteger(cashFlowMax)}` }, cashFlowMax, legend: [{ label: '營業', color: 'var(--green)' }, { label: '投資', color: 'var(--red)' }, { label: '融資', color: 'var(--neutral)' }] };
+  }
+  const assetMax = Math.max(...balance.map((row) => statementNumber(row, 'total_assets')), 1);
+  return { unit: '億元', axis: { leftTop: axisInteger(assetMax), leftBottom: '0' }, assetMax, legend: [{ label: '股東權益', color: 'var(--gold)' }, { label: '負債', color: 'var(--neutral)' }] };
+}
+
+const TrendLegend: React.FC<{ items: TrendLegendItem[]; square?: boolean }> = ({ items, square = false }) => <div className="trend-card-legend-row">{items.map((item) => <span key={item.label}><i className={square ? 'trend-legend-square' : 'trend-legend-line'} style={{ background: item.color }} />{item.label}</span>)}</div>;
+
+const TrendDots: React.FC<{ coordinates: ChartCoordinate[]; color: string }> = ({ coordinates, color }) => <>{coordinates.map((point, index) => <circle key={`${point.x}-${point.y}`} cx={point.x} cy={point.y} r={index === coordinates.length - 1 ? 4.5 : 3.5} fill="var(--shell-bg)" stroke={color} strokeWidth="2" vectorEffect="non-scaling-stroke" />)}</>;
+
+const TrendSvg: React.FC<{ quarters: FinancialQuarter[]; type: number; fundamentals: StockFundamentals; model: TrendModel }> = ({ quarters, type, fundamentals, model }) => {
+  const ordered = quarters.slice().reverse();
+  const width = 600;
+  const barWidth = Math.min(30, width / Math.max(ordered.length, 1) * 0.48);
+  const barX = (index: number) => chartX(index, ordered.length, width) - barWidth / 2;
+  if (type === 1) {
+    const height = 170;
+    const marginValues = ordered.map((quarter) => quarter.gross_margin);
+    const marginCoordinates = chartCoordinates(marginValues, width, height, model.marginMin ?? 0, model.marginMax ?? 1);
+    return <svg viewBox="0 0 600 170" preserveAspectRatio="none" aria-label="營業收入與毛利率"><line x1="0" y1="85" x2="600" y2="85" className="trend-grid-axis" />{ordered.map((quarter, index) => { const heightValue = quarter.revenue / Math.max(model.revenueMax ?? 1, 1) * height; const current = index === ordered.length - 1; return <rect key={quarter.period} x={barX(index)} y={height - heightValue} width={barWidth} height={heightValue} className={current ? 'trend-bar-current' : 'trend-bar-muted'} rx="2" />; })}<polyline points={chartPointString(marginCoordinates)} className="trend-line trend-line-gold" /><TrendDots coordinates={marginCoordinates} color="var(--gold)" /></svg>;
+  }
+  if (type === 2) {
+    const values = [ordered.map((quarter) => quarter.gross_margin), ordered.map((quarter) => quarter.operating_margin), ordered.map((quarter) => quarter.net_margin)];
+    const lines = values.map((series) => chartCoordinates(series, width, 130, model.marginMin ?? 0, model.marginMax ?? 1));
+    return <svg viewBox="0 0 600 130" preserveAspectRatio="none" aria-label="三層利潤率趨勢"><polyline points={chartPointString(lines[0])} className="trend-line trend-line-gold" /><polyline points={chartPointString(lines[1])} className="trend-line trend-line-neutral" /><polyline points={chartPointString(lines[2])} className="trend-line trend-line-muted" /><TrendDots coordinates={lines[0]} color="var(--gold)" /><TrendDots coordinates={lines[1]} color="var(--muted)" /><TrendDots coordinates={lines[2]} color="var(--neutral)" /></svg>;
+  }
+  if (type === 3) {
+    const values = ordered.map((quarter) => quarter.eps);
+    const epsMin = model.epsMin ?? 0;
+    const epsMax = model.epsMax ?? 1;
+    const coordinates = chartCoordinates(values, width, 130, epsMin, epsMax);
+    const zeroY = chartY(0, 130, epsMin, epsMax);
+    return <svg viewBox="0 0 600 130" preserveAspectRatio="none" aria-label="每股盈餘 EPS"><line x1="0" y1={zeroY} x2="600" y2={zeroY} className="trend-grid-axis" /><polyline points={chartPointString(coordinates)} className="trend-line trend-line-gold" /><TrendDots coordinates={coordinates} color="var(--gold)" /></svg>;
   }
   const statements = fundamentals.statements;
   if (type === 4) {
-    const expenses = ordered.map((q) => statements.income[q.period]);
-    const max = Math.max(...expenses.map((row) => statementNumber(row, 'operating_expense')), 1);
-    return <svg viewBox="0 0 240 104" aria-label="營業費用結構"><line x1="0" y1="94" x2="240" y2="94" className="chart-axis" />{expenses.map((row, index) => { const rd = statementNumber(row, 'rd_expense') / max * 70; const sales = statementNumber(row, 'selling_expense') / max * 70; const admin = statementNumber(row, 'admin_expense') / max * 70; return <g key={ordered[index].period}><rect x={x(index) - 7} y={94 - rd} width="14" height={rd} className="chart-bar-cyan" /><rect x={x(index) - 7} y={94 - rd - sales} width="14" height={sales} className="chart-bar-purple" /><rect x={x(index) - 7} y={94 - rd - sales - admin} width="14" height={admin} className="chart-bar-muted" /></g>; })}</svg>;
+    return <svg viewBox="0 0 600 130" preserveAspectRatio="none" aria-label="營業費用結構"><line x1="0" y1="65" x2="600" y2="65" className="trend-grid-axis" />{ordered.map((quarter, index) => { const row = statements.income[quarter.period]; const rd = statementNumber(row, 'rd_expense') / Math.max(model.opexMax ?? 1, 1) * 130; const selling = statementNumber(row, 'selling_expense') / Math.max(model.opexMax ?? 1, 1) * 130; const admin = statementNumber(row, 'admin_expense') / Math.max(model.opexMax ?? 1, 1) * 130; return <g key={quarter.period}><rect x={barX(index)} y={130 - rd} width={barWidth} height={rd} className="trend-bar-gold" /><rect x={barX(index)} y={130 - rd - selling} width={barWidth} height={selling} className="trend-bar-neutral" /><rect x={barX(index)} y={130 - rd - selling - admin} width={barWidth} height={admin} className="trend-bar-muted" /></g>; })}</svg>;
   }
   if (type === 5) {
-    const flows = ordered.map((q) => statements.cash_flow[q.period]);
-    const max = Math.max(...flows.flatMap((row) => [Math.abs(statementNumber(row, 'operating')), Math.abs(statementNumber(row, 'investing')), Math.abs(statementNumber(row, 'financing'))]), 1);
-    return <svg viewBox="0 0 240 104" aria-label="現金流量三表"><line x1="0" y1="52" x2="240" y2="52" className="chart-axis" />{flows.map((row, index) => { const vals = ['operating', 'investing', 'financing'].map((key) => statementNumber(row, key)); return <g key={ordered[index].period}>{vals.map((value, offset) => { const h = Math.abs(value) / max * 38; return <rect key={offset} x={x(index) - 8 + offset * 6} y={value >= 0 ? 52 - h : 52} width="4" height={h} className={value >= 0 ? 'chart-bar-green' : 'chart-bar-red'} rx="1" />; })}</g>; })}</svg>;
+    const zero = 65;
+    const max = Math.max(model.cashFlowMax ?? 1, 1);
+    return <svg viewBox="0 0 600 130" preserveAspectRatio="none" aria-label="現金流量三表"><line x1="0" y1={zero} x2="600" y2={zero} className="trend-zero-axis" />{ordered.map((quarter, index) => { const row = statements.cash_flow[quarter.period]; const values = [['operating', 'trend-bar-green'], ['investing', 'trend-bar-red'], ['financing', 'trend-bar-neutral']] as const; return <g key={quarter.period}>{values.map(([key, className], offset) => { const value = statementNumber(row, key); const height = Math.abs(value) / max * 57; const x = barX(index) + offset * (barWidth / 3); return <rect key={key} x={x} y={value >= 0 ? zero - height : zero} width={Math.max(barWidth / 3 - 2, 2)} height={height} className={className} rx="1" />; })}</g>; })}</svg>;
   }
-  const balances = ordered.map((q) => fundamentals.statements.balance[q.period]);
-  const max = Math.max(...balances.map((row) => statementNumber(row, 'total_assets')), 1);
-  return <svg viewBox="0 0 240 104" aria-label="資產負債結構"><line x1="0" y1="94" x2="240" y2="94" className="chart-axis" />{balances.map((row, index) => { const equity = statementNumber(row, 'total_equity') / max * 70; const liabilities = statementNumber(row, 'total_liabilities') / max * 70; return <g key={ordered[index].period}><rect x={x(index) - 7} y={94 - equity} width="14" height={equity} className="chart-bar-green" /><rect x={x(index) - 7} y={94 - equity - liabilities} width="14" height={liabilities} className="chart-bar-muted" /></g>; })}</svg>;
+  const max = Math.max(model.assetMax ?? 1, 1);
+  return <svg viewBox="0 0 600 130" preserveAspectRatio="none" aria-label="資產負債結構"><line x1="0" y1="65" x2="600" y2="65" className="trend-grid-axis" />{ordered.map((quarter, index) => { const row = statements.balance[quarter.period]; const equity = statementNumber(row, 'total_equity') / max * 130; const liabilities = statementNumber(row, 'total_liabilities') / max * 130; return <g key={quarter.period}><rect x={barX(index)} y={130 - equity} width={barWidth} height={equity} className="trend-bar-gold" /><rect x={barX(index)} y={130 - equity - liabilities} width={barWidth} height={liabilities} className="trend-bar-neutral" /></g>; })}</svg>;
+};
+
+const FinancialTrendCard: React.FC<{ title: string; type: number; quarters: FinancialQuarter[]; fundamentals: StockFundamentals }> = ({ title, type, quarters, fundamentals }) => {
+  const ordered = quarters.slice().reverse();
+  const model = buildTrendModel(ordered, fundamentals, type);
+  return <article className="trend-card"><div className="trend-card-title"><strong>{title}</strong><span className="trend-card-unit">{model.unit}</span></div><div className="trend-chart"><div className="trend-plot-row"><div className="trend-axis"><span>{model.axis.leftTop}</span><span>{model.axis.leftBottom}</span></div><div className="trend-plot"><TrendSvg quarters={quarters} type={type} fundamentals={fundamentals} model={model} /></div>{model.axis.rightTop ? <div className="trend-axis trend-axis-right"><span>{model.axis.rightTop}</span><span>{model.axis.rightBottom}</span></div> : <div className="trend-axis-spacer" />}</div><div className="trend-x-labels">{ordered.map((quarter) => <span key={quarter.period}>{shortPeriod(quarter.period)}</span>)}</div>{model.legend ? <TrendLegend items={model.legend} square={type >= 4} /> : null}</div></article>;
 };
 
 function summaryLines(fundamentals: StockFundamentals) {
@@ -193,8 +270,7 @@ export const StockDetail: React.FC<StockDetailProps> = ({ code, exchange, name, 
   const [showTables, setShowTables] = useState(false);
   const tab = initialTab;
   const title = name ?? '個股';
-  const charts = useMemo(() => fundamentals ? [1, 2, 3, 4, 5, 6] : [], [fundamentals]);
-  const chartTitles = ['營業收入與毛利率', '三層利潤率趨勢', '每股盈餘', '營業費用結構', '現金流量三表', '資產負債結構'];
-  const chartLegends = ['收入 / 毛利率', '毛利 / 營業 / 淨利率', 'EPS', '研發 / 推銷 / 管理', '營業 / 投資 / 融資', '權益 / 負債'];
-  return <div className="page-content stock-page"><header className="stock-header"><button type="button" onClick={onBack}>← 題材雷達</button><div><strong className="mono-num">{code}</strong><h1>{title}</h1></div><span className="page-kicker">FINANCIAL ANALYSIS</span></header><div className="stock-tabs" role="tablist"><button className={tab === 'fundamentals' ? 'is-selected' : ''} type="button" onClick={() => onTabChange('fundamentals')}>基本面分析</button><button className={tab === 'flows' ? 'is-selected' : ''} type="button" onClick={() => onTabChange('flows')}>三大法人資金流向</button><button className={tab === 'broker' ? 'is-selected' : ''} type="button" onClick={() => onTabChange('broker')}>券商分點</button></div>{tab === 'flows' ? <StockFlows flows={flows} /> : tab === 'broker' ? <BrokerMap code={code} name={title} device={device} data={brokerMap} loading={brokerLoading} onGoStock={onGoStock} /> : fundamentals ? <><div className="stock-section-heading"><span className="page-kicker">FUNDAMENTALS · 基本面分析</span><span>{latestPeriod(fundamentals)} · {fundamentals.currency}</span></div><Metrics fundamentals={fundamentals} /><section className="financial-summary"><span className="page-kicker">FINANCIAL SUMMARY HIGHLIGHTS</span><ul>{summaryLines(fundamentals).map((line) => <li key={line}>{line}</li>)}</ul><p>本段依上述財報數字生成，僅描述已發生的財務事實，不構成投資建議。</p></section><section className="trend-section"><div className="section-heading"><span className="page-kicker">FINANCIAL TRENDS · PAST QUARTERS</span><span className="section-note">圖表與數值同步顯示</span></div><div className="trend-grid">{charts.map((type) => <ChartCard key={type} title={chartTitles[type - 1]} legend={<span className="trend-card-legend">{chartLegends[type - 1]}</span>} data={trendData(fundamentals.quarters, fundamentals, type)}><TrendSvg quarters={fundamentals.quarters} type={type} fundamentals={fundamentals} /></ChartCard>)}</div></section><section className="financial-disclosure"><button type="button" onClick={() => setShowTables((value) => !value)}><span>財務報表詳細數據</span><span className="mono-num">{showTables ? '收合 ▲' : '展開 ▾'}</span></button>{showTables ? <FinancialTables fundamentals={fundamentals} /> : null}</section></> : <div className="stock-no-data">等待財務資料</div>}<p className="disclaimer">本頁數據源自公開財報彙總整理，僅供學術與技術展示，不代表任何投資建議。</p><span className="device-hint" aria-hidden="true">{device === 'mobile' ? 'mobile' : 'desktop'}</span></div>;
+  const charts = fundamentals ? [1, 2, 3, 4, 5, 6] : [];
+  const chartTitles = ['營業收入與毛利率', '三層利潤率趨勢', '每股盈餘 EPS', '營業費用結構', '現金流量三表', '資產負債結構'];
+  return <div className="page-content stock-page"><header className="stock-header"><button type="button" onClick={onBack}>← 題材雷達</button><div><strong className="mono-num">{code}</strong><h1>{title}</h1></div><span className="page-kicker">FINANCIAL ANALYSIS</span></header><div className="stock-tabs" role="tablist"><button className={tab === 'fundamentals' ? 'is-selected' : ''} type="button" onClick={() => onTabChange('fundamentals')}>基本面分析</button><button className={tab === 'flows' ? 'is-selected' : ''} type="button" onClick={() => onTabChange('flows')}>三大法人資金流向</button><button className={tab === 'broker' ? 'is-selected' : ''} type="button" onClick={() => onTabChange('broker')}>券商分點</button></div>{tab === 'flows' ? <StockFlows flows={flows} /> : tab === 'broker' ? <BrokerMap code={code} name={title} device={device} data={brokerMap} loading={brokerLoading} onGoStock={onGoStock} /> : fundamentals ? <><div className="stock-section-heading"><span className="page-kicker">FUNDAMENTALS · 基本面分析</span><span>{latestPeriod(fundamentals)} · {fundamentals.currency}</span></div><Metrics fundamentals={fundamentals} /><section className="financial-summary"><span className="page-kicker">FINANCIAL SUMMARY HIGHLIGHTS</span><ul>{summaryLines(fundamentals).map((line) => <li key={line}>{line}</li>)}</ul><p>本段依上述財報數字生成，僅描述已發生的財務事實，不構成投資建議。</p></section><section className="trend-section"><div className="section-heading"><span className="page-kicker">FINANCIAL TRENDS · PAST QUARTERS</span><span className="section-note">圖表與數值同步顯示</span></div><div className="trend-grid">{charts.map((type) => <FinancialTrendCard key={type} title={chartTitles[type - 1]} type={type} quarters={fundamentals.quarters} fundamentals={fundamentals} />)}</div></section><section className="financial-disclosure"><button type="button" onClick={() => setShowTables((value) => !value)}><span>財務報表詳細數據</span><span className="mono-num">{showTables ? '收合 ▲' : '展開 ▾'}</span></button>{showTables ? <FinancialTables fundamentals={fundamentals} /> : null}</section></> : <div className="stock-no-data">等待財務資料</div>}<p className="disclaimer">本頁數據源自公開財報彙總整理，僅供學術與技術展示，不代表任何投資建議。</p><span className="device-hint" aria-hidden="true">{device === 'mobile' ? 'mobile' : 'desktop'}</span></div>;
 };
