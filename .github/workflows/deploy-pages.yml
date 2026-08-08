@@ -33,6 +33,19 @@ jobs:
       - name: Build frontend
         run: npm run build
 
+      - name: Copy runtime data
+        run: |
+          mkdir -p dist/data
+          cp data/public-theme-ranking-v0.8.json dist/data/
+          cp data/public-theme-momentum-latest-v0.9.json dist/data/
+          cp data/public-theme-momentum-history-v0.9.json dist/data/
+          cp data/theme-events.json dist/data/
+          cp data/source-status.json dist/data/
+          cp data/waytoagi-7d.json dist/data/
+          cp data/institutional-rankings.json dist/data/
+          cp data/institutional-flows.json dist/data/
+          cp data/theme-symbol-fundamentals.json dist/data/
+
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
         with:
