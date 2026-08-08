@@ -1,7 +1,7 @@
 export type PageType = 'index' | 'momentum' | 'flows' | 'stock' | 'sources';
 export type DeviceType = 'desktop' | 'mobile';
 export type LoadState = 'normal' | 'loading' | 'empty';
-export type StockTab = 'fundamentals' | 'flows';
+export type StockTab = 'fundamentals' | 'flows' | 'broker';
 export type StockGroup = 'all' | 'direct' | 'supply';
 export type FlowMetric = 'net' | 'ratio';
 export type FlowDirection = 'up' | 'down';
@@ -149,6 +149,61 @@ export interface InstitutionalFlowItem {
   trust_net: number;
   dealer_net: number;
   total_net: number;
+}
+
+export interface BrokerStat {
+  name: string;
+  buy: number;
+  sell: number;
+  dt: number | null;
+  ov: number | null;
+  top: Array<[string, string]>;
+}
+
+export type BrokerStatsData = BrokerStat[];
+
+export interface BrokerMapBranch {
+  id: string;
+  name: string;
+  net: number;
+  ratio: number;
+  stocks: Array<[string, string, number]>;
+}
+
+export interface BrokerMapData {
+  schema_version: number;
+  generated_at: string;
+  source: string;
+  unit: 'lots' | string;
+  stock_code: string;
+  stock_name: string;
+  summary?: {
+    buy: number;
+    sell: number;
+    net: number;
+    broker_count: number;
+  };
+  brokers: BrokerMapBranch[];
+}
+
+export interface BrokerCoverageData {
+  schema_version: number;
+  generated_at: string;
+  source_updated: string | null;
+  source: string;
+  source_scope: string;
+  requested_symbols: number;
+  attempted_symbols: number;
+  failed_symbols: number;
+  successful_symbols: number;
+  symbols_with_data: number;
+  attempt_coverage: number;
+  data_coverage: number;
+  data_coverage_denominator: 'requested_symbols' | string;
+  failed_symbol_codes: string[];
+  no_data_symbol_codes: string[];
+  not_attempted_symbol_codes: string[];
+  status: 'complete' | 'incomplete' | string;
 }
 
 export interface FinancialQuarter {

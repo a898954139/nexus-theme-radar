@@ -1,5 +1,8 @@
 import {
   InstitutionalFlowItem,
+  BrokerCoverageData,
+  BrokerMapData,
+  BrokerStatsData,
   FlowMetric,
   InstitutionalRankingsData,
   MomentumHistoryData,
@@ -67,6 +70,43 @@ export async function fetchInstitutionalFlows(symbol: string, exchange?: string)
     if (data.symbols[key]) return data.symbols[key];
   }
   return [];
+}
+
+export async function fetchBrokerStats(): Promise<BrokerStatsData> {
+  return readJson<BrokerStatsData>('./data/broker-stats.json');
+}
+
+export async function fetchBrokerCoverage(): Promise<BrokerCoverageData> {
+  return readJson<BrokerCoverageData>('./data/broker-coverage.json');
+}
+
+export async function fetchBrokerMap(symbol: string): Promise<BrokerMapData | null> {
+  const index = await readJson<{
+    symbols: Record<string, {
+      file: string;
+      name?: string;
+      broker_count?: number;
+      summary?: { buy: number; sell: number; net: number };
+    }>;
+  }>('./data/broker-map/index.json');
+  const metadata = index.symbols?.[symbol];
+  if (!metadata?.file) return null;
+  const brokers = await readJson<BrokerMapData['brokers']>(`./data/broker-map/${metadata.file}`);
+  const summary = metadata.summary ?? {
+    buy: brokers.reduce((total, branch) => total + Math.max(branch.net, 0), 0),
+    sell: brokers.reduce((total, branch) => total + Math.max(-branch.net, 0), 0),
+    net: brokers.reduce((total, branch) => total + branch.net, 0),
+  };
+  return {
+    schema_version: 1,
+    generated_at: '',
+    source: '',
+    unit: 'lots',
+    stock_code: symbol,
+    stock_name: metadata.name ?? '',
+    summary: { ...summary, broker_count: metadata.broker_count ?? brokers.length },
+    brokers,
+  };
 }
 
 export async function fetchStockFundamentals(symbol: string, exchange?: string): Promise<StockFundamentals | null> {

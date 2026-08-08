@@ -59,6 +59,9 @@
 | `theme-symbol-fundamentals.json` | 個股季度財報與解讀 |
 | `institutional-flows.json` | 個股逐日三大法人流向 |
 | `institutional-rankings.json` | 資金流向排行榜 |
+| `broker-stats.json` | 券商分點當日彙總（`dt` / `ov` 在來源未提供時為 `null`） |
+| `broker-coverage.json` | 券商分點全市場抓取嘗試、失敗與有資料覆蓋率 |
+| `broker-map/*.json` | 個股券商分點關係圖資料，按股票分片 |
 | `source-status.json` | 來源抓取狀態與健康度 |
 | `waytoagi-7d.json` | 7 天熱榜池 |
 
@@ -69,12 +72,13 @@
 
 ## GitHub Actions
 
-四個 workflow，全部可以在 Actions 頁手動觸發：
+五個 workflow，全部可以在 Actions 頁手動觸發：
 
 | Workflow | 排程 | 做什麼 |
 |---|---|---|
 | [`update-theme-radar.yml`](.github/workflows/update-theme-radar.yml) | 每小時 `17 * * * *` | 抓新聞、算題材熱度與動能、寫歷史、發布 |
 | [`update-institutional-flows.yml`](.github/workflows/update-institutional-flows.yml) | 交易日 `20 9 * * 1-5`（台北 17:20） | 抓三大法人買賣超、更新排行、發布 |
+| [`update-broker-data.yml`](.github/workflows/update-broker-data.yml) | 交易日 `30 13 * * 1-5`（台北 21:30） | 逐檔抓券商分點、轉換 UI JSON、驗證全市場嘗試覆蓋、發布 |
 | [`backfill-fundamentals.yml`](.github/workflows/backfill-fundamentals.yml) | 手動 | 每季財報公布後抓全部 symbol 的財報 |
 | [`deploy-pages.yml`](.github/workflows/deploy-pages.yml) | `push` / 被呼叫 | 建置 `dist/` 並部署到 GitHub Pages |
 
@@ -95,6 +99,8 @@ publish:
     pages: write        # reusable workflow 不繼承權限，每個 caller 要自己給
     id-token: write
   uses: ./.github/workflows/deploy-pages.yml
+  with:
+    ref: ${{ needs.update.outputs.commit_sha }}
 ```
 
 **新增任何會 commit `data/` 的 workflow 時，一定要照這個模式接上部署**，
