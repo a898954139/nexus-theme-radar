@@ -107,6 +107,48 @@ def test_homepage_adds_only_the_approved_momentum_destination() -> None:
     assert "題材動能" in html
 
 
+def test_both_pages_accept_exactly_the_fields_the_materializer_emits() -> None:
+    """Homepage and momentum page must agree with the producer on history fields.
+
+    Both validators match keys exactly, so a field required by one and absent
+    from the producer fails closed forever. app.js required observation_provenance
+    while materialize_public_theme_history never selected it and theme-momentum.js
+    rejected it -- a contradiction no page could satisfy at once. It stayed
+    invisible because the database path was unreachable, so history was always
+    empty and neither validator ever saw a populated observation.
+    """
+
+    import sys
+
+    sys.path.insert(0, str(ROOT / "scripts"))
+    from materialize_public_theme_history import PUBLIC_THEME_FIELD_ORDER
+
+    produced = set(PUBLIC_THEME_FIELD_ORDER)
+
+    def declared_keys(source: str, marker: str) -> set[str]:
+        start = source.index(marker)
+        block = source[start : source.index("]", start)]
+        return set(re.findall(r'"([a-z_]+)"', block))
+
+    momentum = (ROOT / "assets" / "theme-momentum.js").read_text(encoding="utf-8")
+    history_block = momentum[momentum.index("history theme fields are invalid") - 2000 :]
+    momentum_keys = declared_keys(history_block, "const themeKeys = [")
+
+    homepage = (ROOT / "assets" / "app.js").read_text(encoding="utf-8")
+    homepage_keys = declared_keys(
+        homepage, "function validateHomepageMomentumHistoryTheme"
+    )
+
+    assert momentum_keys == produced, (
+        "theme-momentum.js history fields drifted from the materializer: "
+        f"extra={sorted(momentum_keys - produced)} missing={sorted(produced - momentum_keys)}"
+    )
+    assert homepage_keys == produced, (
+        "app.js history fields drifted from the materializer: "
+        f"extra={sorted(homepage_keys - produced)} missing={sorted(produced - homepage_keys)}"
+    )
+
+
 def test_javascript_is_syntactically_valid() -> None:
     completed = subprocess.run(
         ["node", "--check", str(ROOT / "assets" / "theme-momentum.js")],

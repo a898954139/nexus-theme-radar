@@ -2184,7 +2184,6 @@ function validateHomepageMomentumHistoryTheme(theme) {
     "direct_mapping_event_count",
     "single_source_concentration",
     "latest_qualifying_event_at",
-    "observation_provenance",
   ])) return false;
   return isHomepageMomentumString(theme.theme_id)
     && Number.isInteger(theme.rank)
@@ -2206,8 +2205,7 @@ function validateHomepageMomentumHistoryTheme(theme) {
     && theme.single_source_concentration >= 0
     && theme.single_source_concentration <= 1
     && (theme.latest_qualifying_event_at === null
-      || isHomepageMomentumTimestamp(theme.latest_qualifying_event_at))
-    && ["observed", "reconstructed"].includes(theme.observation_provenance);
+      || isHomepageMomentumTimestamp(theme.latest_qualifying_event_at));
 }
 
 function validateHomepageMomentumHistoryObservation(observation) {
