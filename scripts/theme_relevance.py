@@ -34,6 +34,7 @@ SCORE_DENOMINATOR = 9.0
 
 MATCHER_MODE_LEGACY = "legacy"
 MATCHER_MODE_STRUCTURED = "structured"
+SUPPLY_CHAIN_STAGES = {"上游", "中游", "下游"}
 
 REQUIRED_LEGACY_FIELDS = {
     "theme_id",
@@ -63,6 +64,41 @@ def _validate_phrase_list(values: Any, label: str, *, allow_empty: bool) -> None
         raise ValueError(f"{label} must contain only strings")
     if not all(str(value).strip() for value in values):
         raise ValueError(f"{label} must contain only non-empty strings")
+
+
+def _validate_supply_chain(theme: dict[str, Any], theme_id: str) -> None:
+    supply_chain = theme.get("supply_chain")
+    if supply_chain is None:
+        return
+    if not isinstance(supply_chain, list) or not supply_chain:
+        raise ValueError(f"{theme_id}.supply_chain must be a non-empty array")
+
+    industries: list[str] = []
+    symbols: list[str] = []
+    for index, segment in enumerate(supply_chain):
+        label = f"{theme_id}.supply_chain[{index}]"
+        if not isinstance(segment, dict):
+            raise ValueError(f"{label} must be a JSON object")
+
+        stage = segment.get("stage")
+        industry = segment.get("industry")
+        if not isinstance(stage, str) or stage not in SUPPLY_CHAIN_STAGES:
+            raise ValueError(f"{label}.stage must be 上游, 中游, or 下游")
+        if not isinstance(industry, str) or not industry.strip():
+            raise ValueError(f"{label}.industry must be a non-empty string")
+        _validate_phrase_list(segment.get("symbols"), f"{label}.symbols", allow_empty=False)
+
+        industries.append(industry)
+        symbols.extend(segment["symbols"])
+
+    if len(set(industries)) != len(industries):
+        raise ValueError(f"{theme_id}.supply_chain industries must be unique")
+    if len(set(symbols)) != len(symbols):
+        raise ValueError(f"{theme_id}.supply_chain symbols must be unique")
+    if industries != theme["related_industries"]:
+        raise ValueError(f"{theme_id}.supply_chain industries must match related_industries")
+    if symbols != theme["seed_symbols"]:
+        raise ValueError(f"{theme_id}.supply_chain symbols must match seed_symbols")
 
 
 def _theme_schema_mode(theme: dict[str, Any]) -> str:
@@ -139,6 +175,8 @@ def load_theme_taxonomy(path: str | Path = DEFAULT_TAXONOMY_PATH) -> dict[str, A
             _validate_phrase_list(
                 theme["seed_symbols"], f"{theme_id}.seed_symbols", allow_empty=False
             )
+
+        _validate_supply_chain(theme, theme_id)
 
         normalized_theme = dict(theme)
         normalized_theme["matcher_mode"] = mode

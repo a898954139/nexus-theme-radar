@@ -42,6 +42,55 @@ def test_taxonomy_contains_market_native_seed_themes() -> None:
     assert all(theme["seed_symbols"] for theme in themes)
     assert all(theme["market_scope"] == ["TW_EQUITY"] for theme in themes)
 
+    optical_cpo = next(theme for theme in themes if theme["theme_id"] == "optical_cpo")
+    assert optical_cpo["name_zh"] == "矽光子 CPO"
+    assert optical_cpo["related_industries"] == [
+        "雷射光源與三五族材料",
+        "SiPh 晶圓代工與先進封裝平台",
+        "FAU、耦光元件與光模組",
+        "光電測試、探針與失效分析",
+        "交換器 ASIC 與 AI 網通系統",
+    ]
+    assert [segment["stage"] for segment in optical_cpo["supply_chain"]] == [
+        "上游",
+        "中游",
+        "中游",
+        "中游",
+        "下游",
+    ]
+    assert [
+        symbol
+        for segment in optical_cpo["supply_chain"]
+        for symbol in segment["symbols"]
+    ] == optical_cpo["seed_symbols"]
+    assert len(optical_cpo["seed_symbols"]) == 20
+
+
+def test_supply_chain_must_match_related_industries_and_seed_symbols(tmp_path: Path) -> None:
+    payload = {
+        "themes": [
+            {
+                "theme_id": "optical_cpo",
+                "name_zh": "矽光子 CPO",
+                "keywords": ["cpo"],
+                "related_industries": ["雷射光源與三五族材料"],
+                "seed_symbols": ["3081"],
+                "supply_chain": [
+                    {
+                        "stage": "上游",
+                        "industry": "雷射光源與三五族材料",
+                        "symbols": ["3081", "2455"],
+                    }
+                ],
+            }
+        ]
+    }
+    custom_path = tmp_path / "theme_taxonomy.tw.json"
+    custom_path.write_text(json.dumps(payload, ensure_ascii=False), encoding="utf-8")
+
+    with pytest.raises(ValueError, match="supply_chain symbols must match seed_symbols"):
+        load_theme_taxonomy(custom_path)
+
 
 def test_scores_title_more_strongly_than_summary_and_explains_matches() -> None:
     taxonomy = load_theme_taxonomy(TAXONOMY_PATH)

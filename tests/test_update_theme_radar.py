@@ -1024,7 +1024,29 @@ def test_taiwan_relevance_retains_strong_supply_chain_mapping() -> None:
     )
 
     assert result["tw_relevance_status"] == "supply_chain"
-    assert result["tw_related_symbols"] == ["TPEX:3081", "TPEX:3363", "TPEX:4979"]
+    assert len(result["tw_related_symbols"]) == 20
+    assert set(result["tw_related_symbols"]) == {
+        "TPEX:3081",
+        "TPEX:3163",
+        "TPEX:3289",
+        "TPEX:3363",
+        "TPEX:3587",
+        "TPEX:4971",
+        "TPEX:4979",
+        "TPEX:6223",
+        "TWSE:2303",
+        "TWSE:2317",
+        "TWSE:2330",
+        "TWSE:2345",
+        "TWSE:2360",
+        "TWSE:2455",
+        "TWSE:3450",
+        "TWSE:3711",
+        "TWSE:4977",
+        "TWSE:6442",
+        "TWSE:6451",
+        "TWSE:6515",
+    }
     assert "optical_cpo" in result["tw_relevance_reason"]
     assert "cpo" in result["tw_relevance_reason"].casefold()
 
