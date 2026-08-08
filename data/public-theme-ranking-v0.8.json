@@ -2,16 +2,16 @@
   "schema_version": "nexus_public_theme_ranking.v0.8",
   "ranking_rule_version": "public_theme_heat_v0.8",
   "company_rule_version": "public_company_evidence_v0.8",
-  "generated_at": "2026-08-08T05:58:04.029156Z",
+  "generated_at": "2026-08-08T07:16:51.345745Z",
   "market_id": "TW_EQUITY",
   "market_scope": [
     "TW_EQUITY"
   ],
   "window_hours": 72,
   "max_themes": 5,
-  "qualified_theme_count": 4,
-  "displayed_theme_count": 4,
-  "threshold_note": "目前僅 4 個題材達到上榜門檻",
+  "qualified_theme_count": 5,
+  "displayed_theme_count": 5,
+  "threshold_note": null,
   "generation_status": "complete",
   "failed_source_count": 0,
   "official_evidence_status": "available",
@@ -20,17 +20,17 @@
       "rank": 1,
       "theme_id": "memory_hbm",
       "name_zh": "記憶體與 HBM",
-      "heat_score": 92,
+      "heat_score": 94,
       "summaries": {
-        "event_count": 10,
+        "event_count": 11,
         "source_count": 3,
-        "tracking_candidate_count": 6,
+        "tracking_candidate_count": 7,
         "taiwan_mapping_count": 4
       },
       "heat_reason": {
         "rule_version": "public_theme_heat_v0.8",
         "event_component": {
-          "input": 10,
+          "input": 11,
           "normalized": 100.0,
           "weighted": 25.0
         },
@@ -40,7 +40,7 @@
           "weighted": 18.75
         },
         "candidate_component": {
-          "input": 6,
+          "input": 7,
           "normalized": 100.0,
           "weighted": 20.0
         },
@@ -50,9 +50,9 @@
           "normalized": 100.0,
           "weighted": 30.0
         },
-        "single_source_concentration": 0.636,
-        "concentration_penalty": 1.364,
-        "raw_score": 92.386
+        "single_source_concentration": 0.583,
+        "concentration_penalty": 0.0,
+        "raw_score": 93.75
       },
       "direct_mentions": [
         {
@@ -108,14 +108,14 @@
         }
       ],
       "representative_news": {
-        "cluster_id": "cluster-71a4ed9f20b8b2e2",
-        "id": "cnyes-8e7ec7fdd5b3",
-        "title_zh": "AI記憶體需求持續升溫 SK海力士砸383億美元擴產 龍仁、清州新建兩座晶圓廠",
-        "summary": "AI 需求持續推升 HBM 與先進記憶體需求，SK 海力士宣布投入 54.3 兆韓元，在韓國龍仁與清州興建兩座晶圓廠，並採設備依客戶需求逐步投入策略。",
+        "cluster_id": "cluster-85d5993f8dc0fc22",
+        "id": "cnyes-7c72f6b08e9a",
+        "title_zh": "輝達Rubin Ultra傳縮減HBM容量！記憶體短缺下晶片廠商如何破局？",
+        "summary": "輝達傳測試多款 HBM 降規版 Rubin Ultra GPU，因應 HBM4e 供應吃緊與成本飆升。TrendForce 預估 2027 年 HBM 需求仍供不應求，AI 晶片大廠恐面臨缺貨與成本雙重壓力。",
         "source_id": "cnyes",
         "source": "鉅亨網 Cnyes",
-        "published_at": "2026-08-08T02:10:07Z",
-        "canonical_url": "https://news.cnyes.com/news/id/6566348"
+        "published_at": "2026-08-08T05:10:03Z",
+        "canonical_url": "https://news.cnyes.com/news/id/6566400"
       }
     },
     {
@@ -205,6 +205,108 @@
     },
     {
       "rank": 3,
+      "theme_id": "pcb_abf_hdi",
+      "name_zh": "PCB／ABF／HDI",
+      "heat_score": 50,
+      "summaries": {
+        "event_count": 2,
+        "source_count": 2,
+        "tracking_candidate_count": 1,
+        "taiwan_mapping_count": 3
+      },
+      "heat_reason": {
+        "rule_version": "public_theme_heat_v0.8",
+        "event_component": {
+          "input": 2,
+          "normalized": 33.333,
+          "weighted": 8.333
+        },
+        "source_component": {
+          "input": 2,
+          "normalized": 50.0,
+          "weighted": 12.5
+        },
+        "candidate_component": {
+          "input": 1,
+          "normalized": 25.0,
+          "weighted": 5.0
+        },
+        "mapping_component": {
+          "mapping_count": 3,
+          "direct_mapping_event_count": 1,
+          "normalized": 80.0,
+          "weighted": 24.0
+        },
+        "single_source_concentration": 0.5,
+        "concentration_penalty": 0.0,
+        "raw_score": 49.833
+      },
+      "direct_mentions": [
+        {
+          "instrument_id": "TWSE:2368",
+          "symbol": "2368",
+          "exchange": "TWSE",
+          "name_zh": "金像電",
+          "direct_event_count": 1,
+          "latest_mentioned_at": "2026-08-08T05:42:39Z"
+        },
+        {
+          "instrument_id": "TWSE:3037",
+          "symbol": "3037",
+          "exchange": "TWSE",
+          "name_zh": "欣興",
+          "direct_event_count": 1,
+          "latest_mentioned_at": "2026-08-08T05:42:39Z"
+        }
+      ],
+      "supply_chain_candidates": [
+        {
+          "instrument_id": "TWSE:2368",
+          "symbol": "2368",
+          "exchange": "TWSE",
+          "name_zh": "金像電",
+          "direct_event_count": 1,
+          "official_evidence_count": 0,
+          "company_rank_score": 5,
+          "latest_mentioned_at": "2026-08-08T05:42:39Z",
+          "latest_official_at": null
+        },
+        {
+          "instrument_id": "TWSE:3037",
+          "symbol": "3037",
+          "exchange": "TWSE",
+          "name_zh": "欣興",
+          "direct_event_count": 1,
+          "official_evidence_count": 0,
+          "company_rank_score": 5,
+          "latest_mentioned_at": "2026-08-08T05:42:39Z",
+          "latest_official_at": null
+        },
+        {
+          "instrument_id": "TWSE:8046",
+          "symbol": "8046",
+          "exchange": "TWSE",
+          "name_zh": "南電",
+          "direct_event_count": 0,
+          "official_evidence_count": 0,
+          "company_rank_score": 1,
+          "latest_mentioned_at": null,
+          "latest_official_at": null
+        }
+      ],
+      "representative_news": {
+        "cluster_id": "cluster-6c59c7c4d0a1e5e7",
+        "id": "yahoo_finance_tw-3abf014928e7",
+        "title_zh": "PCB女王看好誰？欣興、金居、金像電血洗後 點名「這檔被錯殺」本益比低爆",
+        "summary": "台股7月歷經大幅拉回，包含印刷電路板（PCB）族群在內的六成個股，在股價幾近腰斬後陸續展開反彈。有「PCB女王」封號的統一投顧總經理廖婉婷針對欣興、金像電及金居等指標股分析，尤其點名金像電股價回落至7",
+        "source_id": "yahoo_finance_tw",
+        "source": "Yahoo Finance Taiwan",
+        "published_at": "2026-08-08T05:42:39Z",
+        "canonical_url": "https://tw.stock.yahoo.com/news/pcb%E5%A5%B3%E7%8E%8B%E7%9C%8B%E5%A5%BD%E8%AA%B0-%E6%AC%A3%E8%88%88-%E9%87%91%E5%B1%85-%E9%87%91%E5%83%8F%E9%9B%BB%E8%A1%80%E6%B4%97%E5%BE%8C-%E9%BB%9E%E5%90%8D-054239241.html"
+      }
+    },
+    {
+      "rank": 4,
       "theme_id": "energy_grid",
       "name_zh": "能源與電網",
       "heat_score": 48,
@@ -298,7 +400,7 @@
       }
     },
     {
-      "rank": 4,
+      "rank": 5,
       "theme_id": "ai_server",
       "name_zh": "AI 伺服器",
       "heat_score": 44,
