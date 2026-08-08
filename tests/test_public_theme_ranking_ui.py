@@ -249,31 +249,20 @@ def _tags(node: dict[str, object]) -> list[str]:
 
 def test_markup_copy_and_first_section_preserve_lower_homepage() -> None:
     html = (ROOT / "index.html").read_text()
+    app = (ROOT / "src" / "App.tsx").read_text()
+    home = (ROOT / "src" / "components" / "home" / "ThemeRadarHome.tsx").read_text()
 
-    ranking_index = html.index('id="publicThemeRankingWrap"')
-    assert html.index("</header>") < ranking_index < html.index(
-        '<section class="primary-controls">'
-    )
-    assert 'id="publicThemeRankingNote"' in html
-    assert 'id="publicThemeRankingStatus"' in html
-    assert 'id="publicThemeRankingList"' in html
-    assert "台股題材 TOP 5" in html
-    assert "新聞直接提及" in html
-    assert "題材／供應鏈候選" in html
-    assert "v0.8 deterministic product rule" in html
-    assert "当前热点" not in html
-    assert 'id="hotBoardWrap"' not in html
-    assert 'id="hotBoardList"' not in html
+    assert '<div id="root"></div>' in html
+    assert "<ThemeRadarHome" in app
+    assert "themeRanking.themes" in home
+    assert "direct_mentions" in home
+    assert "supply_chain_candidates" in home
+    assert "theme-stage" in home
+    assert "news-feed" in home
+    assert "slice(0, 20)" in home
+    assert 'id="publicThemeRankingWrap"' not in html
 
-    assert 'class="primary-controls"' in html
-    assert 'id="searchInput"' in html
-    assert 'id="newsList"' in html
-    assert 'id="sourceHealth"' in html
-    assert 'id="sourceStatusTable"' in html
-
-    ranking_markup = html[ranking_index : html.index(
-        '<section class="primary-controls">'
-    )]
+    ranking_markup = home
     prohibited_claims = (
         "歷史驗證",
         "historical validation",

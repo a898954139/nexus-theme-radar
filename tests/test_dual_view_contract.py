@@ -43,36 +43,34 @@ def test_both_views_apply_same_last_mile_content_safety_gate():
         assert "function isUnsafeStory(story)" in source
 
 
-def test_both_pages_expose_bidirectional_view_switch():
-    for path in ("index.html", "classic/index.html"):
-        source = read(path)
-        assert 'data-radar-view-target="mobile"' in source
-        assert 'data-radar-view-target="classic"' in source
-        assert "assets/view-mode.js" in source
+def test_react_entrypoint_exposes_the_responsive_app_shell():
+    source = read("index.html")
+
+    assert '<html lang="zh-TW">' in source
+    assert '<div id="root"></div>' in source
+    assert '<script type="module" src="/src/main.tsx"></script>' in source
+    assert 'data-radar-view-target=' not in source
+    assert "assets/view-mode.js" not in source
 
 
-def test_view_switch_follows_update_time_in_both_headers():
-    for path in ("index.html", "classic/index.html"):
-        source = read(path)
-        updated_position = source.index('id="updatedAt"')
-        switch_position = source.index('class="view-switch"')
-        status_position = source.index('id="sourceStatusPill"')
+def test_runtime_header_owns_status_and_navigation_content():
+    app = read("src/App.tsx")
 
-        assert updated_position < switch_position < status_position
-        assert 'class="view-toolbar"' not in source
+    assert "<NavTabBar" in app
+    assert "<StatusBar" in app
+    assert "generatedAt={radarData?.themeRanking.generated_at}" in app
+    assert "sourceStatusOk={radarData ? radarData.sourceStatus.failed_count === 0 : true}" in app
+    assert "showLoader = !radarData && !loadError" in app
 
 
-def test_both_headers_keep_time_and_switch_inside_the_headline():
-    for path in ("index.html", "classic/index.html"):
-        source = read(path)
-        headline_position = source.index('class="hero-headline"')
-        updated_position = source.index('id="updatedAt"')
-        switch_position = source.index('class="view-switch"')
-        meta_position = source.index('class="hero-meta"')
+def test_responsive_shell_keeps_the_nexus_identity_and_mobile_breakpoint():
+    html = read("index.html")
+    css = read("src/index.css")
 
-        assert headline_position < updated_position < switch_position < meta_position
-        assert 'class="hero-tag"' not in source
-        assert ">GitHub 与接入指南</a>" in source
+    assert "NEXUS 台股題材雷達" in html
+    assert "@media (max-width: 720px)" in css
+    assert "mobile-bottom-nav" in css
+    assert "min-width: 44px" in css
 
 
 def test_classic_header_does_not_animate_the_view_switch_container():

@@ -35,31 +35,17 @@ def _function_body(source: str, name: str) -> str:
 
 def test_homepage_has_one_primary_card_and_preserves_secondary_link() -> None:
     html = (ROOT / "index.html").read_text(encoding="utf-8")
+    app = (ROOT / "src" / "App.tsx").read_text(encoding="utf-8")
+    nav = (ROOT / "src" / "components" / "common" / "NavTabBar.tsx").read_text(encoding="utf-8")
+    home = (ROOT / "src" / "components" / "home" / "ThemeRadarHome.tsx").read_text(encoding="utf-8")
 
-    assert html.count('href="./theme-momentum.html"') == 2
-    assert html.count('class="theme-momentum-entry"') == 1
-    assert re.search(
-        r'<a\s+class="theme-momentum-entry"\s+id="themeMomentumEntry"'
-        r'\s+href="\./theme-momentum\.html"\s+aria-busy="true"\s*>',
-        html,
-    )
-    assert re.search(
-        r'class="hero-link"\s+href="\./theme-momentum\.html"',
-        html,
-    )
-    assert html.index('id="themeMomentumEntry"') < html.index(
-        'id="publicThemeRankingWrap"'
-    )
-    assert "追蹤熱門題材走勢" in html
-    assert "開啟完整動能儀表板" in html
-    for element_id in (
-        "themeMomentumEntryTitle",
-        "themeMomentumEntryDescription",
-        "themeMomentumEntryData",
-        "themeMomentumEntryUpdatedAt",
-        "themeMomentumEntryWindows",
-    ):
-        assert f'id="{element_id}"' in html
+    assert '<div id="root"></div>' in html
+    assert "{ id: 'momentum', label: '題材動能' }" in nav
+    assert "onGoMomentum={() => updateHash('momentum')}" in app
+    assert "theme-stage" in home
+    assert "news-feed" in home
+    assert "slice(0, 20)" in home
+    assert "theme-momentum.html" not in html
 
 
 def test_card_uses_only_approved_payloads_and_has_explicit_fallback() -> None:

@@ -95,16 +95,13 @@ def test_page_and_styles_include_accessibility_and_responsive_contracts() -> Non
 
 def test_homepage_adds_only_the_approved_momentum_destination() -> None:
     html = (ROOT / "index.html").read_text(encoding="utf-8")
-    assert html.count('href="./theme-momentum.html"') == 2
-    assert re.search(
-        r'class="hero-link"\s+href="\./theme-momentum\.html"',
-        html,
-    )
-    assert re.search(
-        r'class="theme-momentum-entry"[^>]+href="\./theme-momentum\.html"',
-        html,
-    )
-    assert "題材動能" in html
+    app = (ROOT / "src" / "App.tsx").read_text(encoding="utf-8")
+    nav = (ROOT / "src" / "components" / "common" / "NavTabBar.tsx").read_text(encoding="utf-8")
+
+    assert "<ThemeMomentum" in app
+    assert "updateHash('momentum')" in app
+    assert "{ id: 'momentum', label: '題材動能' }" in nav
+    assert "theme-momentum.html" not in html
 
 
 def test_both_pages_accept_exactly_the_fields_the_materializer_emits() -> None:
