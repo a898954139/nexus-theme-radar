@@ -1651,7 +1651,6 @@ def test_workflow_gates_history_database_credential_by_environment_and_branch() 
 
     assert "db_history_environment:" in workflow
     assert "default: disabled" in workflow
-    assert "github.event_name == 'workflow_dispatch'" in workflow
     assert (
         "vars.THEME_RADAR_DB_HISTORY_AUTHORIZED_ENVIRONMENT "
         "== inputs.db_history_environment"
@@ -1675,6 +1674,48 @@ def test_workflow_gates_history_database_credential_by_environment_and_branch() 
     assert "service_role" not in workflow.casefold()
     assert "supabase_url" not in workflow.casefold()
     assert "supabase_key" not in workflow.casefold()
+
+
+def test_workflow_allows_scheduled_runs_to_record_history() -> None:
+    """The hourly schedule must reach the credential, or history never accrues.
+
+    Requiring workflow_dispatch made the DB path unreachable from cron, so every
+    scheduled run hit the `connection is None` early return and the published
+    history stayed at observation_count 0. The environment and branch gates
+    still bound the blast radius; only the event-type restriction is lifted.
+    """
+
+    workflow = (ROOT / ".github" / "workflows" / "update-theme-radar.yml").read_text(
+        encoding="utf-8"
+    )
+    compact_workflow = " ".join(workflow.split())
+
+    # The manual path stays; what must go is it being the *only* way in, so
+    # assert the credential is no longer a single dispatch-rooted chain.
+    assert (
+        "THEME_RADAR_DATABASE_URL: >- ${{ github.event_name == 'workflow_dispatch'"
+        not in compact_workflow
+    )
+    # A scheduled run supplies no inputs, so `inputs.db_history_environment` is
+    # empty and every comparison against it fails. The schedule needs its own
+    # branch of the condition rather than falling through the dispatch one.
+    assert "github.event_name == 'schedule'" in compact_workflow
+    assert (
+        "vars.THEME_RADAR_DB_HISTORY_AUTHORIZED_ENVIRONMENT == 'production'"
+        in compact_workflow
+    )
+    # `&&` binds tighter than `||`, so the shared checks must sit in front of the
+    # branch alternation for the trailing credential to apply to both branches.
+    assert compact_workflow.index("github.ref_type == 'branch'") < compact_workflow.index(
+        "github.event_name == 'workflow_dispatch'"
+    )
+    assert "secrets.THEME_RADAR_DATABASE_URL" in workflow
+    # The literal credential must still never be bound unconditionally.
+    assert (
+        "THEME_RADAR_DATABASE_URL: ${{ secrets.THEME_RADAR_DATABASE_URL }}"
+        not in workflow
+    )
+    assert "service_role" not in workflow.casefold()
 
 
 def test_run_update_isolates_failed_source(monkeypatch: pytest.MonkeyPatch, tmp_path: Path) -> None:

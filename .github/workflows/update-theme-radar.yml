@@ -50,16 +50,35 @@ jobs:
       - name: Update data
         env:
           FULL_REFRESH: ${{ inputs.full_refresh || 'false' }}
-          # Dedicated server-side direct-Postgres credential; value is managed
-          # outside the repository and remains blocked pending authorization.
+          # Dedicated server-side direct-Postgres credential; the value lives only
+          # in repository secrets and never in the tree.
+          #
+          # Two branches, because momentum history is only useful if it accrues
+          # every hour. Gating on workflow_dispatch alone made the DB path
+          # unreachable from cron: every scheduled run fell into the
+          # `connection is None` early return in run_momentum_side_paths, so the
+          # published history sat at observation_count 0 while the hourly job
+          # still reported success.
+          #
+          # The scheduled branch cannot reuse the dispatch conditions -- a cron
+          # run supplies no inputs, so `inputs.db_history_environment` is empty
+          # and every comparison against it is false. It pins the environment to
+          # 'production' literally. The shared ref_type/authorized-branch checks
+          # are hoisted in front of the `||` so the trailing `&& secrets...`
+          # applies to both branches: `&&` binds tighter than `||`, so a version
+          # written as `(A) || (B) && secret` would resolve a dispatch run to the
+          # boolean true rather than to the credential.
           THEME_RADAR_DATABASE_URL: >-
-            ${{ github.event_name == 'workflow_dispatch'
-                && inputs.db_history_environment != 'disabled'
-                && vars.THEME_RADAR_DB_HISTORY_AUTHORIZED_ENVIRONMENT == inputs.db_history_environment
+            ${{ github.ref_type == 'branch'
                 && vars.THEME_RADAR_DB_HISTORY_AUTHORIZED_BRANCH == github.ref_name
-                && github.ref_type == 'branch'
-                && ((inputs.db_history_environment == 'preview' && github.ref_name != 'master')
-                    || (inputs.db_history_environment == 'production' && github.ref_name == 'master'))
+                && ((github.event_name == 'workflow_dispatch'
+                     && inputs.db_history_environment != 'disabled'
+                     && vars.THEME_RADAR_DB_HISTORY_AUTHORIZED_ENVIRONMENT == inputs.db_history_environment
+                     && ((inputs.db_history_environment == 'preview' && github.ref_name != 'master')
+                         || (inputs.db_history_environment == 'production' && github.ref_name == 'master')))
+                    || (github.event_name == 'schedule'
+                        && vars.THEME_RADAR_DB_HISTORY_AUTHORIZED_ENVIRONMENT == 'production'
+                        && github.ref_name == 'master'))
                 && secrets.THEME_RADAR_DATABASE_URL || '' }}
         run: |
           args=()
