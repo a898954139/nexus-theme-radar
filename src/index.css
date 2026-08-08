@@ -133,13 +133,15 @@ a { color: inherit; }
 .stock-filter-bar input, .flow-lookup input { min-width: 0; height: 36px; padding: 0 10px; border: 1px solid var(--line); border-radius: 7px; background: var(--shell-bg); color: var(--text); font-size: 11px; }
 .stock-filter-bar input { width: 130px; margin-left: auto; }
 .filter-count { flex: 0 0 auto; color: var(--faint); font-size: 10px; }
-.stock-chip-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(136px, 1fr)); gap: 6px; max-height: 100px; margin-top: 8px; overflow-y: auto; }
+.stock-chip-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(136px, 1fr)); gap: 6px; min-height: 82px; max-height: 160px; margin-top: 8px; overflow-y: auto; }
 .instrument-chip { min-height: 38px; display: flex; align-items: center; gap: 6px; overflow: hidden; padding: 0 8px; border: 0; border-left: 2px solid var(--neutral); border-radius: 6px; background: var(--shell-bg); color: var(--text); text-align: left; font-size: 11px; }
 .instrument-chip.direct { border-left-color: var(--gold); }
 .instrument-chip:hover { background: #222834; }
 .instrument-symbol { color: var(--gold); font-weight: 600; }
 .instrument-chip span:last-child { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .no-results { grid-column: 1 / -1; margin: 12px 0; color: var(--muted); font-size: 12px; }
+.stock-list-expand { align-self: flex-start; min-height: 28px; margin-top: 6px; padding: 0; border: 0; background: transparent; color: var(--gold); font-size: 10px; }
+.stock-list-expand:hover { color: var(--gold-hover); }
 .theme-detail-footer { display: flex; align-items: center; justify-content: space-between; padding-top: 8px; border-top: 1px solid var(--sub-line); color: var(--muted); font: 400 10px 'IBM Plex Mono', monospace; }
 .theme-detail-footer button { min-height: 36px; padding: 0; border: 0; background: transparent; color: var(--gold); font-size: 11px; }
 .news-section, .related-news-section, .home-guides { padding: 20px; border-bottom: 1px solid var(--line); }
@@ -511,6 +513,27 @@ a { color: inherit; }
 .broker-child-canvas-item strong { font-size: 10px; }
 .broker-child-canvas-footer { padding: 10px 20px 14px; border-top: 1px solid var(--line); color: var(--faint); font: 400 10px 'IBM Plex Mono', monospace; }
 
+/* Theme stock canvas */
+.theme-stocks-canvas-backdrop { position: fixed; z-index: 1000; inset: 0; display: grid; place-items: center; padding: 20px; background: rgba(5, 7, 12, .78); }
+.theme-stocks-canvas { width: min(720px, 100%); max-height: min(720px, calc(100vh - 40px)); display: flex; flex-direction: column; overflow: hidden; border: 1px solid var(--gold); border-radius: 14px; background: var(--surface-bg); box-shadow: 0 24px 80px rgba(0, 0, 0, .55); }
+.theme-stocks-canvas-header { display: flex; align-items: start; justify-content: space-between; gap: 16px; padding: 18px 20px 14px; border-bottom: 1px solid var(--line); }
+.theme-stocks-canvas-header h2 { margin: 7px 0 5px; color: var(--text-hi); font-size: 18px; font-weight: 500; }
+.theme-stocks-canvas-header p { max-width: 58ch; margin: 0; color: var(--muted); font: 400 11px/1.7 'Noto Sans TC', sans-serif; }
+.theme-stocks-canvas-close { flex: 0 0 auto; width: 44px; height: 44px; border: 1px solid var(--line); border-radius: 50%; background: var(--shell-bg); color: var(--muted); font-size: 22px; line-height: 1; }
+.theme-stocks-canvas-close:hover { border-color: var(--gold); color: var(--gold-hover); }
+.theme-stocks-canvas-scroll { min-height: 0; overflow-y: auto; padding: 14px 20px; }
+.theme-stocks-canvas-group + .theme-stocks-canvas-group { margin-top: 14px; padding-top: 14px; border-top: 1px solid var(--sub-line); }
+.theme-stocks-canvas-group-heading { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; margin-bottom: 8px; color: var(--text-hi); font-size: 12px; }
+.theme-stocks-canvas-group-heading span { color: var(--faint); font: 400 10px 'IBM Plex Mono', monospace; }
+.theme-stocks-canvas-list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 6px; }
+.theme-stocks-canvas-item { min-width: 0; min-height: 46px; display: grid; grid-template-columns: auto minmax(0, 1fr); align-items: center; gap: 7px; padding: 0 10px; border: 1px solid var(--line); border-left-width: 2px; border-radius: 8px; background: var(--shell-bg); color: var(--muted); }
+.theme-stocks-canvas-item.direct { border-left-color: var(--gold); }
+.theme-stocks-canvas-item.supply { border-left-color: var(--neutral); }
+.theme-stocks-canvas-item b { color: var(--text); font-size: 10px; }
+.theme-stocks-canvas-item span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 10px; }
+.theme-stocks-canvas-empty { padding: 30px 0; color: var(--muted); text-align: center; }
+.theme-stocks-canvas-footer { padding: 10px 20px 14px; border-top: 1px solid var(--line); color: var(--faint); font: 400 10px 'IBM Plex Mono', monospace; }
+
 @media (max-width: 720px) {
   body { background: var(--page-bg); }
   .prototype-bar { padding: 0 10px; }
@@ -682,6 +705,14 @@ a { color: inherit; }
   .broker-child-canvas-list { grid-template-columns: 1fr; }
   .broker-child-canvas-item { min-height: 44px; }
   .broker-child-canvas-footer { padding: 10px 16px 12px; }
+  .theme-stocks-canvas-backdrop { padding: 12px; }
+  .theme-stocks-canvas { max-height: calc(100vh - 24px); }
+  .theme-stocks-canvas-header { padding: 16px; }
+  .theme-stocks-canvas-header h2 { font-size: 16px; }
+  .theme-stocks-canvas-scroll { padding: 12px 16px; }
+  .theme-stocks-canvas-list { grid-template-columns: 1fr; }
+  .theme-stocks-canvas-item { min-height: 44px; }
+  .theme-stocks-canvas-footer { padding: 10px 16px 12px; }
 }
 
 /* The prototype's device switch previews the mobile canvas inside a desktop viewport. */
@@ -859,6 +890,14 @@ a { color: inherit; }
   .app-root.is-mobile .broker-child-canvas-list { grid-template-columns: 1fr; }
   .app-root.is-mobile .broker-child-canvas-item { min-height: 44px; }
   .app-root.is-mobile .broker-child-canvas-footer { padding: 10px 16px 12px; }
+  .app-root.is-mobile .theme-stocks-canvas-backdrop { padding: 12px; }
+  .app-root.is-mobile .theme-stocks-canvas { max-height: calc(100vh - 24px); }
+  .app-root.is-mobile .theme-stocks-canvas-header { padding: 16px; }
+  .app-root.is-mobile .theme-stocks-canvas-header h2 { font-size: 16px; }
+  .app-root.is-mobile .theme-stocks-canvas-scroll { padding: 12px 16px; }
+  .app-root.is-mobile .theme-stocks-canvas-list { grid-template-columns: 1fr; }
+  .app-root.is-mobile .theme-stocks-canvas-item { min-height: 44px; }
+  .app-root.is-mobile .theme-stocks-canvas-footer { padding: 10px 16px 12px; }
 }
 
 @media (prefers-reduced-motion: reduce) {

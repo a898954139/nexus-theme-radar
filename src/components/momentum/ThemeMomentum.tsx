@@ -1,4 +1,6 @@
 import React, { useMemo, useState } from 'react';
+import { ThemeStocksCanvas } from '../common/ThemeStocksCanvas';
+import { buildThemeStockEntries, mergeInstrumentRefs } from '../../lib/themeStocks';
 import { DeviceType, MomentumTheme, RadarData } from '../../types';
 
 interface ThemeMomentumProps {
@@ -67,24 +69,38 @@ const ThemeStockChips: React.FC<{
 }> = ({ theme, onGoStock }) => {
   const symbols = uniqueSymbols(theme);
   const visibleSymbols = symbols.slice(0, 4);
+  const [canvasOpen, setCanvasOpen] = useState(false);
   return (
-    <div className="momentum-stock-chips">
-      {visibleSymbols.map((stock) => (
-        <div className="momentum-stock-chip" key={stock.instrument_id}>
-          <button type="button" className="stock-code-link" onClick={() => onGoStock(stock.symbol, stock.exchange, 'fundamentals')}>
-            <span className="chip-color-bar" />
-            <b className="mono-num">{stock.symbol}</b><span>{stock.name_zh}</span>
-          </button>
-          <button type="button" className="chip-flow-link" onClick={() => onGoStock(stock.symbol, stock.exchange, 'flows')}>法人</button>
-        </div>
-      ))}
-      {symbols.length > 4 ? <span className="more-chip mono-num">＋{symbols.length - 4}</span> : null}
-    </div>
+    <>
+      <div className="momentum-stock-chips">
+        {visibleSymbols.map((stock) => (
+          <div className="momentum-stock-chip" key={stock.instrument_id}>
+            <button type="button" className="stock-code-link" onClick={() => onGoStock(stock.symbol, stock.exchange, 'fundamentals')}>
+              <span className="chip-color-bar" />
+              <b className="mono-num">{stock.symbol}</b><span>{stock.name_zh}</span>
+            </button>
+            <button type="button" className="chip-flow-link" onClick={() => onGoStock(stock.symbol, stock.exchange, 'flows')}>法人</button>
+          </div>
+        ))}
+        {symbols.length > 4 ? <button type="button" className="more-chip mono-num" aria-label={`展開${theme.name_zh}全部 ${symbols.length} 檔股票`} onClick={() => setCanvasOpen(true)}>＋{symbols.length - 4}</button> : null}
+      </div>
+      {canvasOpen ? <ThemeStocksCanvas themeName={theme.name_zh} stocks={buildThemeStockEntries(theme.direct_symbols, theme.related_symbols)} onClose={() => setCanvasOpen(false)} /> : null}
+    </>
   );
 };
 
 export const ThemeMomentum: React.FC<ThemeMomentumProps> = ({ data, device, onGoStock }) => {
-  const themes = useMemo(() => data.momentumLatest.themes.slice(0, 5), [data.momentumLatest.themes]);
+  const themes = useMemo(() => {
+    const rankingById = new Map(data.themeRanking.themes.map((theme) => [theme.theme_id, theme]));
+    return data.momentumLatest.themes.slice(0, 5).map((theme) => {
+      const ranking = rankingById.get(theme.theme_id);
+      return {
+        ...theme,
+        direct_symbols: mergeInstrumentRefs(theme.direct_symbols, ranking?.direct_mentions ?? []),
+        related_symbols: mergeInstrumentRefs(theme.related_symbols, ranking?.supply_chain_candidates ?? [])
+      };
+    });
+  }, [data.momentumLatest.themes, data.themeRanking.themes]);
   const [range, setRange] = useState<'24h' | '72h' | '7d'>('24h');
   const [selectedThemeId, setSelectedThemeId] = useState(themes[0]?.theme_id ?? '');
   const rangeHours = range === '24h' ? 24 : range === '72h' ? 72 : 168;

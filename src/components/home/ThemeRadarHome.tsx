@@ -1,4 +1,6 @@
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
+import { ThemeStocksCanvas } from '../common/ThemeStocksCanvas';
+import { buildThemeStockEntries, mergeInstrumentRefs } from '../../lib/themeStocks';
 import { DeviceType, InstrumentRef, NewsItem, RadarData, StockGroup } from '../../types';
 
 interface ThemeRadarHomeProps {
@@ -52,12 +54,17 @@ function toNewsItems(data: RadarData): NewsItem[] {
 
 function mergeThemeData(data: RadarData) {
   const momentum = new Map(data.momentumLatest.themes.map((theme) => [theme.theme_id, theme]));
-  return data.themeRanking.themes.slice(0, 5).map((theme) => ({
-    ...theme,
-    momentum_score: momentum.get(theme.theme_id)?.momentum_score ?? 0,
-    lifecycle_stage: momentum.get(theme.theme_id)?.lifecycle_stage,
-    related_symbols: momentum.get(theme.theme_id)?.related_symbols ?? []
-  }));
+  const momentumByName = new Map(data.momentumLatest.themes.map((theme) => [theme.name_zh, theme]));
+  return data.themeRanking.themes.slice(0, 5).map((theme) => {
+    const latest = momentum.get(theme.theme_id) ?? momentumByName.get(theme.name_zh);
+    return {
+      ...theme,
+      direct_mentions: mergeInstrumentRefs(theme.direct_mentions, latest?.direct_symbols ?? []),
+      supply_chain_candidates: mergeInstrumentRefs(theme.supply_chain_candidates, latest?.related_symbols ?? []),
+      momentum_score: latest?.momentum_score ?? 0,
+      lifecycle_stage: latest?.lifecycle_stage
+    };
+  });
 }
 
 const InstrumentChip: React.FC<{
@@ -78,17 +85,21 @@ const ThemeDetail: React.FC<{
   searchQuery: string;
   setSearchQuery: (query: string) => void;
   onGoMomentum: () => void;
-  onGoStock: (code: string, exchange?: string) => void;
-}> = ({ theme, selectedGroup, setSelectedGroup, searchQuery, setSearchQuery, onGoMomentum, onGoStock }) => {
-  const direct = theme.direct_mentions.map((instrument) => ({ instrument, kind: 'direct' as const }));
-  const supply = theme.supply_chain_candidates.map((instrument) => ({ instrument, kind: 'supply' as const }));
-  const all = [...direct, ...supply];
+}> = ({ theme, selectedGroup, setSelectedGroup, searchQuery, setSearchQuery, onGoMomentum }) => {
+  const [canvasOpen, setCanvasOpen] = useState(false);
+  const all = buildThemeStockEntries(theme.direct_mentions, theme.supply_chain_candidates);
+  const direct = all.filter(({ kind }) => kind === 'direct');
+  const supply = all.filter(({ kind }) => kind === 'supply');
   const filtered = all.filter(({ instrument, kind }) => {
     if (selectedGroup !== 'all' && kind !== selectedGroup) return false;
     const query = searchQuery.trim().toLowerCase();
     return !query || instrument.symbol.toLowerCase().includes(query) || instrument.name_zh.toLowerCase().includes(query);
   });
   const momentumClass = theme.momentum_score >= 0 ? 'positive' : 'negative';
+
+  useEffect(() => {
+    setCanvasOpen(false);
+  }, [theme.theme_id]);
 
   return (
     <div className="theme-detail">
@@ -139,10 +150,14 @@ const ThemeDetail: React.FC<{
             key={`${kind}-${instrument.instrument_id}-${index}`}
             instrument={instrument}
             kind={kind}
-            onClick={() => onGoStock(instrument.symbol, instrument.exchange)}
+            onClick={() => setCanvasOpen(true)}
           />
         )) : <p className="no-results">沒有符合的標的</p>}
       </div>
+
+      {filtered.length ? <button className="stock-list-expand" type="button" onClick={() => setCanvasOpen(true)}>展開全部 {filtered.length} 檔題材股票 →</button> : null}
+
+      {canvasOpen ? <ThemeStocksCanvas themeName={theme.name_zh} stocks={filtered} onClose={() => setCanvasOpen(false)} /> : null}
 
       <div className="theme-detail-footer">
         <span>相關新聞 {theme.summaries?.event_count ?? 0} 則</span>
@@ -203,7 +218,6 @@ export const ThemeRadarHome: React.FC<ThemeRadarHomeProps> = ({ data, device, on
               searchQuery={searchQuery}
               setSearchQuery={setSearchQuery}
               onGoMomentum={onGoMomentum}
-              onGoStock={onGoStock}
             />
           ) : null}
         </section>
@@ -242,7 +256,6 @@ export const ThemeRadarHome: React.FC<ThemeRadarHomeProps> = ({ data, device, on
                     searchQuery={searchQuery}
                     setSearchQuery={setSearchQuery}
                     onGoMomentum={onGoMomentum}
-                    onGoStock={onGoStock}
                   />
                 ) : (
                   <div className="collapsed-theme-card">
