@@ -1,11 +1,12 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { fetchInstitutionalFlows, fetchInstitutionalRankings } from '../../services/dataService';
-import { DeviceType, FlowDirection, FlowMetric, FlowView, InstitutionalFlowItem, InstitutionalRankingEntry, RadarData } from '../../types';
+import { BrokerFlows } from './BrokerFlows';
+import { DeviceType, FlowDirection, FlowMetric, FlowView, InstitutionalFlowItem, InstitutionalRankingEntry, RadarData, StockTab } from '../../types';
 
 interface InstitutionalFlowsProps {
   data: RadarData;
   device: DeviceType;
-  onGoStock: (code: string, exchange?: string, tab?: 'fundamentals' | 'flows') => void;
+  onGoStock: (code: string, exchange?: string, tab?: StockTab) => void;
 }
 
 function formatValue(value: number, unit = '') {
@@ -144,6 +145,7 @@ export const InstitutionalFlows: React.FC<InstitutionalFlowsProps> = ({ data, de
   const [direction, setDirection] = useState<FlowDirection>('up');
   const [hideEtf, setHideEtf] = useState(true);
   const [view, setView] = useState<FlowView>('bars');
+  const [mode, setMode] = useState<'institutional' | 'broker'>('institutional');
   const [expandedCode, setExpandedCode] = useState<string | null>(null);
   const [entries, setEntries] = useState<InstitutionalRankingEntry[]>([]);
   const [stockFlows, setStockFlows] = useState<InstitutionalFlowItem[]>([]);
@@ -166,12 +168,15 @@ export const InstitutionalFlows: React.FC<InstitutionalFlowsProps> = ({ data, de
 
   return (
     <div className="page-content flows-page">
-      <header className="page-intro"><span className="page-kicker">INSTITUTIONAL MONEY-FLOW RANKINGS</span><h1>三大法人資金流向排行</h1><div className="gold-rule" /><p>動態追蹤台股上市櫃的三大法人籌碼買賣超與持股比重變化。數據源自公開交易資訊彙整整理。</p></header>
-      <FlowControls metric={metric} setMetric={setMetric} days={days} setDays={setDays} direction={direction} setDirection={setDirection} hideEtf={hideEtf} setHideEtf={setHideEtf} view={view} setView={setView} />
-      {view === 'bars' ? <FlowBarsView entries={visibleEntries} metric={metric} days={days} view={view} setView={setView} expandedCode={expandedCode} setExpandedCode={setExpandedCode} loadBreakdown={fetchInstitutionalFlows} /> : null}
-      {view === 'matrix' ? <FlowMatrixView symbol={lookup} flows={stockFlows} metric={metric} view={view} setView={setView} /> : null}
-      {view === 'table' ? <FlowTableView entries={visibleEntries} metric={metric} view={view} setView={setView} onGoStock={onGoStock} /> : null}
-      <section className="flow-lookup"><div><span className="page-kicker">STOCK FLOW LOOKUP</span><strong>查詢個股法人資金流向</strong></div><form onSubmit={(event) => { event.preventDefault(); onGoStock(lookup, undefined, 'flows'); }}><input aria-label="輸入個股代號查詢籌碼" value={lookup} onChange={(event) => setLookup(event.target.value)} /><button type="submit">查詢籌碼 →</button></form></section>
+      <header className="page-intro"><span className="page-kicker">INSTITUTIONAL MONEY-FLOW</span><h1>{mode === 'broker' ? '籌碼流向' : '三大法人資金流向排行'}</h1><div className="gold-rule" /><p>動態追蹤台股上市櫃的三大法人籌碼買賣超與券商分點進出。數據源自公開交易資訊彙整整理。</p></header>
+      <div className="flow-mode-tabs" role="tablist" aria-label="籌碼流向資料面向"><button type="button" className={mode === 'institutional' ? 'is-selected' : ''} onClick={() => setMode('institutional')}>三大法人排行</button><button type="button" className={mode === 'broker' ? 'is-selected' : ''} onClick={() => setMode('broker')}>券商分點</button></div>
+      {mode === 'broker' ? <BrokerFlows onGoStock={onGoStock} /> : <>
+        <FlowControls metric={metric} setMetric={setMetric} days={days} setDays={setDays} direction={direction} setDirection={setDirection} hideEtf={hideEtf} setHideEtf={setHideEtf} view={view} setView={setView} />
+        {view === 'bars' ? <FlowBarsView entries={visibleEntries} metric={metric} days={days} view={view} setView={setView} expandedCode={expandedCode} setExpandedCode={setExpandedCode} loadBreakdown={fetchInstitutionalFlows} /> : null}
+        {view === 'matrix' ? <FlowMatrixView symbol={lookup} flows={stockFlows} metric={metric} view={view} setView={setView} /> : null}
+        {view === 'table' ? <FlowTableView entries={visibleEntries} metric={metric} view={view} setView={setView} onGoStock={onGoStock} /> : null}
+        <section className="flow-lookup"><div><span className="page-kicker">STOCK FLOW LOOKUP</span><strong>查詢個股法人資金流向</strong></div><form onSubmit={(event) => { event.preventDefault(); onGoStock(lookup, undefined, 'flows'); }}><input aria-label="輸入個股代號查詢籌碼" value={lookup} onChange={(event) => setLookup(event.target.value)} /><button type="submit">查詢籌碼 →</button></form></section>
+      </>}
       <p className="disclaimer">本頁資訊整理自公開交易資料，僅供技術與數據呈現展示，不構成任何買賣投資建議。</p>
     </div>
   );

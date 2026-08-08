@@ -8,7 +8,7 @@ import { ThemeRadarHome } from './components/home/ThemeRadarHome';
 import { ThemeMomentum } from './components/momentum/ThemeMomentum';
 import { SourceStatus } from './components/sources/SourceStatus';
 import { StockDetail } from './components/stock/StockDetail';
-import { loadRadarData, fetchInstitutionalFlows, fetchStockFundamentals } from './services/dataService';
+import { loadRadarData, fetchBrokerMap, fetchInstitutionalFlows, fetchStockFundamentals } from './services/dataService';
 import { DeviceType, PageType, RadarData, StockTab } from './types';
 
 interface RouteState {
@@ -25,7 +25,7 @@ function readRoute(): RouteState {
     page: ['index', 'momentum', 'flows', 'stock', 'sources'].includes(page) ? page : 'index',
     code: params.get('code') ?? '',
     exchange: params.get('exchange') ?? undefined,
-    tab: params.get('tab') === 'flows' ? 'flows' : 'fundamentals'
+    tab: params.get('tab') === 'flows' ? 'flows' : params.get('tab') === 'broker' ? 'broker' : 'fundamentals'
   };
 }
 
@@ -52,7 +52,9 @@ export const App: React.FC = () => {
   const [stockData, setStockData] = useState<{
     fundamentals: Awaited<ReturnType<typeof fetchStockFundamentals>>;
     flows: Awaited<ReturnType<typeof fetchInstitutionalFlows>>;
-  }>({ fundamentals: null, flows: [] });
+    brokerMap: Awaited<ReturnType<typeof fetchBrokerMap>>;
+  }>({ fundamentals: null, flows: [], brokerMap: null });
+  const [brokerLoading, setBrokerLoading] = useState(false);
   const defaultInstrument = useMemo(
     () => radarData?.themeRanking.themes.flatMap((theme) => theme.direct_mentions)[0],
     [radarData]
@@ -90,16 +92,21 @@ export const App: React.FC = () => {
   useEffect(() => {
     if (route.page !== 'stock') return;
     let active = true;
+    setBrokerLoading(route.tab === 'broker');
     Promise.all([
       fetchStockFundamentals(stockCode, stockExchange),
-      fetchInstitutionalFlows(stockCode, stockExchange)
-    ]).then(([fundamentals, flows]) => {
-      if (active) setStockData({ fundamentals, flows });
+      fetchInstitutionalFlows(stockCode, stockExchange),
+      route.tab === 'broker' ? fetchBrokerMap(stockCode).catch(() => null) : Promise.resolve(null)
+    ]).then(([fundamentals, flows, brokerMap]) => {
+      if (active) {
+        setStockData({ fundamentals, flows, brokerMap });
+        setBrokerLoading(false);
+      }
     });
     return () => {
       active = false;
     };
-  }, [route.page, stockCode, stockExchange]);
+  }, [route.page, route.tab, stockCode, stockExchange]);
 
   const updateHash = (page: PageType, code?: string, exchange?: string, tab?: StockTab) => {
     const params = new URLSearchParams({ page });
@@ -165,10 +172,13 @@ export const App: React.FC = () => {
                 name={stockInstrument?.name_zh}
                 fundamentals={stockData.fundamentals}
                 flows={stockData.flows}
+                brokerMap={stockData.brokerMap}
+                brokerLoading={brokerLoading}
                 device={device}
                 initialTab={route.tab}
                 onBack={() => updateHash('index')}
                 onTabChange={(tab) => updateHash('stock', stockCode, stockExchange, tab)}
+                onGoStock={goStock}
               />
             ) : null}
             {route.page === 'sources' ? <SourceStatus data={radarData.sourceStatus} device={device} /> : null}
