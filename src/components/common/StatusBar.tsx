@@ -34,6 +34,7 @@ export const StatusBar: React.FC<StatusBarProps> = ({ device, generatedAt, sourc
         源狀態 <strong className={sourceStatusOk ? 'status-up' : 'status-down'}>{sourceStatusOk ? '正常' : '異常'}</strong>
         <span className="status-detail">詳情 →</span>
       </button>
+      <a className="status-feedback" href="https://forms.gle/KwFAL59UjcnEBCNj6" target="_blank" rel="noreferrer">回饋表單 ↗</a>
       <span>預計下次更新 <strong>{formatted.next}</strong></span>
     </div>
   );
