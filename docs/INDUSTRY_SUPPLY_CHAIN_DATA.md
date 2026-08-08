@@ -1,9 +1,15 @@
 # Taiwan industry and supply-chain reference data
 
-This reference layer answers two different questions without conflating them:
+This layer answers two different questions without conflating them:
 
 1. Which Taiwan companies currently exist in the official listed, OTC, and emerging-stock universe?
 2. Which public StatementDog topic pages describe a real upstream, midstream, and downstream supply chain, and where does each Taiwan company appear?
+
+The hourly radar reads the checked-in snapshot. `load_theme_taxonomy()` keeps
+the ten curated themes and automatically adds source-derived matcher themes
+for the public chains (197 generated topics in this snapshot); three exact-name
+chains are merged into their curated themes. The StatementDog crawl itself is
+manual because the third-party HTML is rate-limited.
 
 ## Snapshot coverage
 
@@ -23,6 +29,10 @@ The checked-in 2026-08-08 snapshot contains:
 | Current official companies mapped to at least one chain | 755 |
 
 The 2,337-company official universe is 1,087 TWSE, 890 TPEX, and 360 emerging-stock companies. It is intentionally separate from the 755 companies that StatementDog currently places in at least one structured supply chain.
+
+The hourly `TW_EQUITY` heat payload uses TWSE and TPEX members because its
+public company contract accepts those two exchanges; ESB remains available in
+the full registry and audit data.
 
 Six source symbols are retained in the source audit but excluded from the current official registry because they do not appear in the three official company-profile datasets: `1704`, `3454`, `5277`, `5281`, `6286`, and `6806`.
 
@@ -53,6 +63,10 @@ The registry includes companies with zero StatementDog memberships so full-marke
 `statementdog_company_url` is null when a current official symbol has no numeric
 company page in the inspected StatementDog sitemap; the updater does not invent
 an unverified company URL.
+
+At runtime, taxonomy-derived symbols are resolved from this registry. Registry
+company names are not added to the direct-news substring alias list; only exact
+four-digit code mentions and the curated aliases are used for direct mentions.
 
 ### `docs/INDUSTRY_SUPPLY_CHAIN_CATALOG.md`
 
@@ -94,6 +108,11 @@ The updater:
 4. refuses to publish a partial crawl unless `--allow-partial` is explicitly supplied;
 5. joins Taiwan memberships to the current official company universe;
 6. validates every page count, symbol count, flattened symbol list, and cross-file membership before replacing either output.
+
+The hourly updater then loads the checked-in taxonomy and automatically expands
+its matcher set from this snapshot. A source-derived topic uses the public
+industry name as its required signal, the upstream/midstream/downstream labels
+as optional context, and the current TWSE/TPEX members as its `seed_symbols`.
 
 A successful zero-error run removes its checkpoint. An interrupted or failed
 run keeps the checkpoint so the next invocation retries only unfinished pages.

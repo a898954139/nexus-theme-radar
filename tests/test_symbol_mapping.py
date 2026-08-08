@@ -2,7 +2,11 @@ from __future__ import annotations
 
 from pathlib import Path
 
-from scripts.symbol_mapping import extract_direct_symbols, load_symbol_aliases
+from scripts.symbol_mapping import (
+    extract_direct_symbols,
+    load_symbol_aliases,
+    load_symbol_universe,
+)
 from scripts.theme_relevance import load_theme_taxonomy
 
 
@@ -99,3 +103,12 @@ def test_ignores_unknown_four_digit_year() -> None:
         {"title": "Taiwan AI server outlook for 2026"},
         aliases,
     ) == []
+
+
+def test_runtime_symbol_universe_resolves_registry_only_codes_without_name_aliases() -> None:
+    universe = load_symbol_universe()
+
+    assert universe["symbols"]["1101"]["name_zh"] == "台泥"
+    assert universe["symbols"]["1101"]["aliases"] == []
+    assert extract_direct_symbols({"title_zh": "台泥水泥展望改善"}, universe) == []
+    assert extract_direct_symbols({"title_zh": "1101 營運展望改善"}, universe)[0]["instrument_id"] == "TWSE:1101"

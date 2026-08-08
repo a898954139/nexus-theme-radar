@@ -14,6 +14,7 @@ import requests
 
 import scripts.update_theme_radar as updater
 from scripts.public_theme_ranking import build_public_theme_ranking
+from scripts.symbol_mapping import load_symbol_universe
 from scripts.update_theme_radar import (
     CANDIDATE_THEME_SCORE_MIN,
     SELECTED_THEME_SCORE_MIN,
@@ -1837,6 +1838,45 @@ def test_run_update_isolates_failed_source(monkeypatch: pytest.MonkeyPatch, tmp_
     assert summary["failed_sources"] == 1
     assert status["successful_sites"] == 2
     assert status["failed_sites"] == ["cnyes"]
+
+
+def test_runtime_supply_chain_topic_expands_registry_symbols() -> None:
+    taxonomy = load_theme_taxonomy()
+    symbol_universe = load_symbol_universe()
+    chain = next(
+        theme
+        for theme in taxonomy["themes"]
+        if theme.get("theme_id") == "statementdog_tag_526"
+    )
+    record = {
+        "id": "runtime-supply-chain",
+        "title_zh": chain["name_zh"] + chain["supply_chain"][0]["industry"],
+        "summary": "供應鏈接單增加",
+        "source": "test-source",
+        "source_id": "test-source",
+        "published_at": "2026-08-08T10:00:00Z",
+        "url": "https://example.com/runtime-supply-chain",
+    }
+
+    _, _, projection = build_theme_projection(
+        [record],
+        taxonomy,
+        anchor=datetime(2026, 8, 8, 11, 0, tzinfo=timezone.utc),
+        window_hours=72,
+        max_events=10,
+        max_candidates=10,
+        symbol_aliases=symbol_universe,
+    )
+
+    retained = projection["retained_records"]
+    assert len(retained) == 1
+    assert retained[0]["primary_theme_id"] == "statementdog_tag_526"
+    assert retained[0]["tw_relevance_status"] == "supply_chain"
+    assert "TWSE:2072" in retained[0]["tw_related_symbols"]
+    assert any(
+        symbol["symbol"] == "2072"
+        for symbol in retained[0]["related_symbols"]
+    )
 
 
 def test_build_theme_payloads_exposes_matcher_diagnostics_without_changing_contract() -> None:

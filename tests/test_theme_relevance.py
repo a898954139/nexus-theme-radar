@@ -66,6 +66,28 @@ def test_taxonomy_contains_market_native_seed_themes() -> None:
     assert len(optical_cpo["seed_symbols"]) == 20
 
 
+def test_default_runtime_taxonomy_expands_public_supply_chain_topics() -> None:
+    taxonomy = load_theme_taxonomy()
+
+    assert taxonomy["supply_chain_source"] == "industry_supply_chains.tw.json"
+    assert taxonomy["supply_chain_theme_count"] >= 190
+    merged = next(
+        theme
+        for theme in taxonomy["themes"]
+        if theme["theme_id"] == "optical_cpo"
+    )
+    assert "19288" in merged["source_tag_ids"]
+    assert merged["seed_symbols"]
+    assert merged["supply_chain"]
+
+    generated = next(
+        theme
+        for theme in taxonomy["themes"]
+        if theme["theme_id"].startswith("statementdog_tag_")
+    )
+    assert generated["required_any"]
+
+
 def test_supply_chain_must_match_related_industries_and_seed_symbols(tmp_path: Path) -> None:
     payload = {
         "themes": [

@@ -49,11 +49,11 @@ npx skills add LearnPrompt/ai-news-radar -s ai-radar -g
 
 ### 台股公司與供應鏈參考資料
 
-專案另保存一份不直接進入每小時新聞判定的市場參考層：
+專案保存一份供每小時新聞判定使用的市場參考層；StatementDog 本身仍是手動刷新來源：
 
 - `config/symbol_registry.tw.json`：TWSE、TPEX 與興櫃官方公司主檔，包含代號、名稱、交易市場、官方產業碼，以及公司所屬的供應鏈環節。
-- `config/industry_supply_chains.tw.json`：從財報狗公開 tag 頁面整理出的上游／中游／下游產業鏈、環節與台股成員。
-- `config/symbol_aliases.tw.json` 仍是新聞文字辨識用的精簡 alias seed，不會直接擴張成全市場公司名稱，避免短名稱造成誤判。
+- `config/industry_supply_chains.tw.json`：從財報狗公開 tag 頁面整理出的上游／中游／下游產業鏈、環節與台股成員；每小時流程會將它自動轉成可辨識題材。
+- `config/symbol_aliases.tw.json` 仍是新聞直接點名用的精簡 alias seed；題材命中後的供應鏈股票改由完整 symbol registry 解析，不把全市場公司名稱灌進 substring matcher。
 
 完整資料範圍、更新方法與來源限制見 [`docs/INDUSTRY_SUPPLY_CHAIN_DATA.md`](docs/INDUSTRY_SUPPLY_CHAIN_DATA.md)。
 201 條供應鏈的人類可讀索引見 [`docs/INDUSTRY_SUPPLY_CHAIN_CATALOG.md`](docs/INDUSTRY_SUPPLY_CHAIN_CATALOG.md)。

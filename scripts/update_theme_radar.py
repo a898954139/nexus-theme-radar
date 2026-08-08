@@ -58,7 +58,11 @@ try:
         load_theme_taxonomy,
         score_theme_relevance,
     )
-    from scripts.symbol_mapping import instrument_for_symbol, load_symbol_aliases
+    from scripts.symbol_mapping import (
+        augment_symbol_aliases_with_registry,
+        instrument_for_symbol,
+        load_symbol_aliases,
+    )
 except ModuleNotFoundError:
     from public_theme_ranking import (
         PUBLIC_WINDOW_HOURS,
@@ -96,7 +100,11 @@ except ModuleNotFoundError:
         load_theme_taxonomy,
         score_theme_relevance,
     )
-    from symbol_mapping import instrument_for_symbol, load_symbol_aliases
+    from symbol_mapping import (
+        augment_symbol_aliases_with_registry,
+        instrument_for_symbol,
+        load_symbol_aliases,
+    )
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -931,6 +939,7 @@ def build_theme_projection(
     max_events: int,
     max_candidates: int,
     source_authority: dict[str, int] | None = None,
+    symbol_aliases: dict[str, Any] | None = None,
 ) -> tuple[dict[str, Any], dict[str, Any], dict[str, Any]]:
     if window_hours <= 0 or max_events <= 0 or max_candidates <= 0:
         raise ValueError("window item bounds must be positive")
@@ -946,9 +955,10 @@ def build_theme_projection(
         [dict(theme) for theme in taxonomy.get("themes", [])]
     )
 
+    active_aliases = symbol_aliases if symbol_aliases is not None else load_symbol_aliases()
     enriched = [
         {
-            **enrich_item_with_themes(record, taxonomy),
+            **enrich_item_with_themes(record, taxonomy, active_aliases),
             "_input_related_symbols": list(record.get("related_symbols") or []),
         }
         for record in in_window
@@ -971,7 +981,10 @@ def build_theme_projection(
         for item in enriched
         if item["matched_themes"] and item["theme_score"] >= SELECTED_THEME_SCORE_MIN
     ]
-    classified = [classify_taiwan_relevance(item, taxonomy) for item in matched]
+    classified = [
+        classify_taiwan_relevance(item, taxonomy, active_aliases)
+        for item in matched
+    ]
     retained = [item for item in classified if item["tw_relevance_status"] != "excluded"]
     excluded = [item for item in classified if item["tw_relevance_status"] == "excluded"]
     clustered = cluster_theme_events(
@@ -1620,7 +1633,7 @@ def run_update(
     anchor = now_utc()
     registry = load_source_registry(registry_path)
     taxonomy = load_theme_taxonomy()
-    symbol_aliases = load_symbol_aliases()
+    symbol_aliases = augment_symbol_aliases_with_registry(load_symbol_aliases())
     sources = active_sources(registry)
     session = requests.Session()
     session.headers.update({"User-Agent": USER_AGENT})
@@ -1684,6 +1697,7 @@ def run_update(
         max_events=max_events,
         max_candidates=max_candidates,
         source_authority=source_authority_ranks(registry),
+        symbol_aliases=symbol_aliases,
     )
     attached_events = attach_official_evidence(
         projection["clustered_events"],

@@ -12,16 +12,21 @@ try:
         extract_direct_symbols,
         instrument_for_symbol,
         load_symbol_aliases,
+        load_symbol_registry,
+        load_symbol_universe,
     )
 except ModuleNotFoundError:  # pragma: no cover - fallback execution
     from symbol_mapping import (
         extract_direct_symbols,
         instrument_for_symbol,
         load_symbol_aliases,
+        load_symbol_registry,
+        load_symbol_universe,
     )
 
 ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_TAXONOMY_PATH = ROOT / "config" / "theme_taxonomy.tw.json"
+DEFAULT_SUPPLY_CHAIN_PATH = ROOT / "config" / "industry_supply_chains.tw.json"
 
 TEXT_FIELD_WEIGHTS = {
     "title": 3.0,
@@ -114,10 +119,187 @@ def _theme_schema_mode(theme: dict[str, Any]) -> str:
     return MATCHER_MODE_STRUCTURED
 
 
-def load_theme_taxonomy(path: str | Path = DEFAULT_TAXONOMY_PATH) -> dict[str, Any]:
-    """Load minimal taxonomy contract used by scorer."""
+def _topic_key(value: Any) -> str:
+    return re.sub(r"[\s／/()（）\[\]【】,_，、:：\-]+", "", str(value).casefold())
 
-    taxonomy_path = Path(path)
+
+def _stable_unique(values: list[str]) -> list[str]:
+    return list(dict.fromkeys(value for value in values if value))
+
+
+def _runtime_supply_chain_themes(path: Path) -> list[dict[str, Any]]:
+    """Turn the checked-in public supply-chain snapshot into matcher themes."""
+
+    if not path.exists():
+        return []
+    payload = json.loads(path.read_text(encoding="utf-8"))
+    industries = payload.get("industries")
+    if not isinstance(industries, list):
+        raise ValueError("industry supply-chain snapshot must contain industries")
+
+    registry = load_symbol_registry()
+    official_symbols = {
+        symbol
+        for symbol, metadata in registry["symbols_by_symbol"].items()
+        if metadata["exchange"] in {"TWSE", "TPEX"}
+    }
+    generated: list[dict[str, Any]] = []
+    for industry in industries:
+        if not isinstance(industry, dict):
+            raise ValueError("industry supply-chain entries must be objects")
+        name_zh = str(industry.get("name_zh") or "").strip()
+        tag_id = str(industry.get("source_tag_id") or "").strip()
+        segments: list[dict[str, Any]] = []
+        for raw_segment in industry.get("segments") or []:
+            if not isinstance(raw_segment, dict):
+                continue
+            segment_name = str(raw_segment.get("name_zh") or "").strip()
+            symbols: list[str] = []
+            for company in raw_segment.get("companies") or []:
+                if not isinstance(company, dict):
+                    continue
+                symbol = str(company.get("symbol") or "").strip()
+                if symbol in official_symbols and symbol not in symbols:
+                    symbols.append(symbol)
+            # A source segment with no current TWSE/TPEX member is still kept
+            # in the research snapshot, but cannot produce an active heat theme.
+            if not segment_name or not symbols:
+                continue
+            segments.append(
+                {
+                    "stage": str(raw_segment.get("stage") or "").strip(),
+                    "industry": segment_name,
+                    "symbols": symbols,
+                }
+            )
+        if not name_zh or not tag_id or not segments:
+            continue
+        related_industries = _stable_unique(
+            [segment["industry"] for segment in segments]
+        )
+        seed_symbols = _stable_unique(
+            [symbol for segment in segments for symbol in segment["symbols"]]
+        )
+        generated.append(
+            {
+                "theme_id": f"statementdog_tag_{tag_id}",
+                "name_zh": name_zh,
+                "market_scope": ["TW_EQUITY"],
+                "matcher_mode": MATCHER_MODE_STRUCTURED,
+                "required_any": _stable_unique(
+                    [name_zh, name_zh.replace(" ", "")]
+                ),
+                "optional": related_industries,
+                "excluded": [],
+                "related_industries": related_industries,
+                "seed_symbols": seed_symbols,
+                "supply_chain": segments,
+                "source_tag_id": tag_id,
+                "source_url": industry.get("source_url"),
+                "generated_from_supply_chain": True,
+            }
+        )
+    return generated
+
+
+def _merge_supply_chain_theme(
+    base_theme: dict[str, Any],
+    generated_theme: dict[str, Any],
+) -> None:
+    """Expand a curated theme when its public source name is identical."""
+
+    source_tag_id = str(generated_theme.get("source_tag_id") or "").strip()
+    if source_tag_id:
+        base_theme["source_tag_ids"] = _stable_unique(
+            [*base_theme.get("source_tag_ids", []), source_tag_id]
+        )
+    source_url = str(generated_theme.get("source_url") or "").strip()
+    if source_url:
+        base_theme["source_urls"] = _stable_unique(
+            [*base_theme.get("source_urls", []), source_url]
+        )
+
+    if not isinstance(base_theme.get("seed_symbols"), list):
+        return
+    if not isinstance(base_theme.get("supply_chain"), list):
+        base_theme["seed_symbols"] = _stable_unique(
+            [*base_theme["seed_symbols"], *generated_theme["seed_symbols"]]
+        )
+        return
+
+    merged_segments = [
+        {
+            **segment,
+            "symbols": list(segment.get("symbols") or []),
+        }
+        for segment in base_theme["supply_chain"]
+    ]
+    by_industry = {segment["industry"]: segment for segment in merged_segments}
+    for generated_segment in generated_theme["supply_chain"]:
+        industry = generated_segment["industry"]
+        existing = by_industry.get(industry)
+        if existing is None:
+            existing = {
+                "stage": generated_segment["stage"],
+                "industry": industry,
+                "symbols": [],
+            }
+            merged_segments.append(existing)
+            by_industry[industry] = existing
+        existing["symbols"] = _stable_unique(
+            [*existing["symbols"], *generated_segment["symbols"]]
+        )
+
+    base_theme["supply_chain"] = merged_segments
+    base_theme["related_industries"] = [
+        segment["industry"] for segment in merged_segments
+    ]
+    base_theme["seed_symbols"] = _stable_unique(
+        [symbol for segment in merged_segments for symbol in segment["symbols"]]
+    )
+
+
+def _expand_runtime_taxonomy(
+    payload: dict[str, Any],
+    supply_chain_path: Path,
+) -> dict[str, Any]:
+    """Append source-derived themes and expand exact-name curated themes."""
+
+    normalized = dict(payload)
+    base_themes = [dict(theme) for theme in payload["themes"]]
+    existing_by_name = {
+        _topic_key(theme.get("name_zh")): theme
+        for theme in base_themes
+        if _topic_key(theme.get("name_zh"))
+    }
+    existing_ids = {str(theme.get("theme_id")) for theme in base_themes}
+    generated_count = 0
+    merged_count = 0
+    for generated in _runtime_supply_chain_themes(supply_chain_path):
+        theme_id = str(generated["theme_id"])
+        if theme_id in existing_ids:
+            continue
+        existing = existing_by_name.get(_topic_key(generated["name_zh"]))
+        if existing is not None:
+            _merge_supply_chain_theme(existing, generated)
+            merged_count += 1
+            continue
+        base_themes.append(generated)
+        existing_ids.add(theme_id)
+        generated_count += 1
+
+    normalized["themes"] = base_themes
+    normalized["supply_chain_theme_count"] = generated_count
+    normalized["supply_chain_theme_merge_count"] = merged_count
+    normalized["supply_chain_source"] = str(supply_chain_path.name)
+    return normalized
+
+
+def load_theme_taxonomy(path: str | Path | None = None) -> dict[str, Any]:
+    """Load the matcher taxonomy, expanding the default runtime snapshot."""
+
+    use_runtime_supply_chain = path is None
+    taxonomy_path = Path(path) if path is not None else DEFAULT_TAXONOMY_PATH
     payload = json.loads(taxonomy_path.read_text(encoding="utf-8"))
     themes = payload.get("themes")
     if not isinstance(themes, list) or not themes:
@@ -184,6 +366,8 @@ def load_theme_taxonomy(path: str | Path = DEFAULT_TAXONOMY_PATH) -> dict[str, A
 
     normalized = dict(payload)
     normalized["themes"] = normalized_themes
+    if use_runtime_supply_chain:
+        normalized = _expand_runtime_taxonomy(normalized, DEFAULT_SUPPLY_CHAIN_PATH)
     return normalized
 
 
@@ -344,7 +528,12 @@ def enrich_item_with_themes(
     """Return a new item with theme fields and deduplicated related symbols."""
 
     active_taxonomy = taxonomy or load_theme_taxonomy()
-    active_aliases = symbol_aliases if symbol_aliases is not None else load_symbol_aliases()
+    if symbol_aliases is not None:
+        active_aliases = symbol_aliases
+    elif active_taxonomy.get("supply_chain_source"):
+        active_aliases = load_symbol_universe()
+    else:
+        active_aliases = load_symbol_aliases()
     result = dict(score_theme_relevance(item, active_taxonomy))
     result.pop("vetoed_theme_ids", None)
     direct_symbols = extract_direct_symbols(item, active_aliases)

@@ -10,6 +10,7 @@ from typing import Any
 
 ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_SYMBOL_ALIASES_PATH = ROOT / "config" / "symbol_aliases.tw.json"
+DEFAULT_SYMBOL_REGISTRY_PATH = ROOT / "config" / "symbol_registry.tw.json"
 DEFAULT_MARKET_ID = "TW_EQUITY"
 DEFAULT_EXCHANGE = "TWSE"
 ASSET_CLASS = "equity"
@@ -49,6 +50,98 @@ def load_symbol_aliases(
         if metadata.get("exchange") not in {"TWSE", "TPEX"}:
             raise ValueError(f"{symbol}.exchange must be TWSE or TPEX")
     return payload
+
+
+def load_symbol_registry(
+    path: str | Path = DEFAULT_SYMBOL_REGISTRY_PATH,
+) -> dict[str, Any]:
+    """Load the current official Taiwan-company registry.
+
+    The registry is deliberately separate from the compact alias seed: its
+    names resolve taxonomy-derived symbols, but they are not used for broad
+    substring matching in news text.
+    """
+
+    payload = json.loads(Path(path).read_text(encoding="utf-8"))
+    rows = payload.get("symbols")
+    if not isinstance(rows, list) or not rows:
+        raise ValueError("symbol registry must contain a non-empty symbols array")
+
+    symbols: dict[str, dict[str, Any]] = {}
+    for row in rows:
+        if not isinstance(row, dict):
+            raise ValueError("symbol registry entries must be JSON objects")
+        symbol = str(row.get("symbol") or "")
+        exchange = str(row.get("exchange") or "")
+        name_zh = str(row.get("name_zh") or "").strip()
+        if not re.fullmatch(r"\d{4}", symbol):
+            raise ValueError("symbol registry symbols must use four-digit keys")
+        if exchange not in {"TWSE", "TPEX", "ESB"}:
+            raise ValueError(f"{symbol}.exchange must be TWSE, TPEX, or ESB")
+        if not name_zh:
+            raise ValueError(f"{symbol}.name_zh must be non-empty")
+        if symbol in symbols:
+            raise ValueError(f"symbol registry contains duplicate symbol {symbol}")
+        symbols[symbol] = {
+            "name_zh": name_zh,
+            "exchange": exchange,
+        }
+
+    normalized = dict(payload)
+    normalized["symbols_by_symbol"] = symbols
+    return normalized
+
+
+def load_symbol_universe(
+    aliases_path: str | Path = DEFAULT_SYMBOL_ALIASES_PATH,
+    registry_path: str | Path = DEFAULT_SYMBOL_REGISTRY_PATH,
+) -> dict[str, Any]:
+    """Combine direct-mention aliases with official metadata for taxonomy seeds.
+
+    Registry-only entries receive an empty alias list, so their company names
+    never become unrestricted substring matches. Exact four-digit code mentions
+    remain resolvable because they are in the merged symbol map.
+    """
+
+    aliases = load_symbol_aliases(aliases_path)
+    registry = load_symbol_registry(registry_path)
+    return augment_symbol_aliases_with_registry(aliases, registry)
+
+
+def augment_symbol_aliases_with_registry(
+    aliases: dict[str, Any],
+    registry: dict[str, Any] | None = None,
+    registry_path: str | Path = DEFAULT_SYMBOL_REGISTRY_PATH,
+) -> dict[str, Any]:
+    """Add official metadata without adding company-name substring aliases."""
+
+    active_registry = registry if registry is not None else load_symbol_registry(registry_path)
+    merged = dict(aliases)
+    merged_symbols = {
+        symbol: dict(metadata)
+        for symbol, metadata in aliases["symbols"].items()
+    }
+    for symbol, metadata in active_registry["symbols_by_symbol"].items():
+        if metadata["exchange"] not in {"TWSE", "TPEX"}:
+            continue
+        existing = merged_symbols.get(symbol)
+        if existing is None:
+            merged_symbols[symbol] = {
+                "name_zh": metadata["name_zh"],
+                "exchange": metadata["exchange"],
+                "aliases": [],
+            }
+            continue
+        # Keep the curated display name/aliases, but repair stale exchange
+        # metadata from the authoritative current registry when available.
+        existing["exchange"] = metadata["exchange"]
+        if not str(existing.get("name_zh") or "").strip():
+            existing["name_zh"] = metadata["name_zh"]
+
+    merged["symbols"] = merged_symbols
+    merged["symbol_registry_count"] = len(active_registry["symbols_by_symbol"])
+    merged["direct_alias_symbol_count"] = len(aliases["symbols"])
+    return merged
 
 
 def instrument_for_symbol(
