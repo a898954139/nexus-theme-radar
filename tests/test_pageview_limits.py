@@ -83,8 +83,21 @@ def test_uuid_check_rejects_sql_and_injection_shaped_input() -> None:
 
 
 def test_allowed_origins_are_the_published_site() -> None:
+    # The origin the browser actually sends: the Pages URL and the CNAME both
+    # 301 to this host, so omitting it rejected every real visitor with a 403
+    # and the counter silently stayed at zero.
+    assert _evaluate("isAllowedOrigin('https://radar.mynexustrading.com')") is True
     assert _evaluate("isAllowedOrigin('https://a898954139.github.io')") is True
     assert _evaluate("isAllowedOrigin('https://news.learnprompt.pro')") is True
+
+
+def test_allowlist_covers_the_host_the_site_redirects_to() -> None:
+    # Pins the deployed hostname against the CNAME so a domain change cannot
+    # quietly break writes again.
+    cname = (ROOT / "CNAME").read_text(encoding="utf-8").strip()
+    allowed = _evaluate("ALLOWED_ORIGINS")
+    assert f"https://{cname}" in allowed
+    assert "https://radar.mynexustrading.com" in allowed
 
 
 def test_foreign_and_missing_origins_are_rejected() -> None:
