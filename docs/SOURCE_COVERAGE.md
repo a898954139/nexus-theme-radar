@@ -5,6 +5,23 @@ without forcing them to follow noisy timelines or manage many source choices.
 
 ## Taiwan Equity Theme Radar Sources
 
+The market reference layer also maintains two manual snapshots that are not
+part of hourly news collection:
+
+- `config/symbol_registry.tw.json` joins the official TWSE listed-company and
+  TPEX OTC/emerging-company profile datasets into one current four-digit
+  company universe.
+- `config/industry_supply_chains.tw.json` records public StatementDog pages
+  that expose actual upstream/midstream/downstream segment structure, then
+  keeps only Taiwan company memberships and joins them to the official
+  registry.
+
+StatementDog is not a scheduled source. Its public HTML is rate-limited and
+does not meet the unattended GitHub Actions source criteria. Refresh it only
+with `scripts/update_industry_registry.py`; the updater refuses partial output,
+and subscriber-only explanations are excluded. See
+`docs/INDUSTRY_SUPPLY_CHAIN_DATA.md` for the current coverage audit.
+
 The v0.4 initial source slice uses the existing registry-driven generic RSS
 path for MoneyDJ, Yahoo Finance Taiwan, and Cnyes. Cnyes is active at:
 

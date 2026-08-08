@@ -47,6 +47,17 @@ npx skills add LearnPrompt/ai-news-radar -s ai-radar -g
 - `institutional-flows.json` 提供個股逐日法人流向；缺少逐法人資料時不推算、不填入示意數字
 - 動能歷史圖保留缺漏斷點；若資料來源只有一筆觀測，畫面只呈現置中的真實資料點，不偽造折線
 
+### 台股公司與供應鏈參考資料
+
+專案另保存一份不直接進入每小時新聞判定的市場參考層：
+
+- `config/symbol_registry.tw.json`：TWSE、TPEX 與興櫃官方公司主檔，包含代號、名稱、交易市場、官方產業碼，以及公司所屬的供應鏈環節。
+- `config/industry_supply_chains.tw.json`：從財報狗公開 tag 頁面整理出的上游／中游／下游產業鏈、環節與台股成員。
+- `config/symbol_aliases.tw.json` 仍是新聞文字辨識用的精簡 alias seed，不會直接擴張成全市場公司名稱，避免短名稱造成誤判。
+
+完整資料範圍、更新方法與來源限制見 [`docs/INDUSTRY_SUPPLY_CHAIN_DATA.md`](docs/INDUSTRY_SUPPLY_CHAIN_DATA.md)。
+201 條供應鏈的人類可讀索引見 [`docs/INDUSTRY_SUPPLY_CHAIN_CATALOG.md`](docs/INDUSTRY_SUPPLY_CHAIN_CATALOG.md)。
+
 ### Nexus 前端本地驗證
 
 ```bash
