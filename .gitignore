@@ -32,8 +32,21 @@ feeds/private*.opml
 # Optional private/generated digests
 data/email-digest.json
 
+# Planning docs that name the private Supabase project ref. The ref is not a
+# credential -- it appears in the dashboard's own public URL -- but this repo is
+# published, and an infrastructure fingerprint is free reconnaissance for anyone
+# probing the project. Listed by exact path rather than ignoring docs/plans and
+# docs/prompts wholesale: both directories are already tracked and hold files
+# that should stay public.
+docs/plans/2026-07-31-nexus-theme-radar-v0.9-public-momentum-design.md
+docs/plans/2026-07-31-nexus-theme-radar-v0.9-public-momentum-implementation-plan.md
+docs/plans/2026-08-01-nexus-theme-radar-v0.9-seven-day-backfill-home-entry-implementation-plan.md
+docs/prompts/NEXUS_THEME_RADAR_V0.9_PUBLIC_MOMENTUM_IMPLEMENTATION_PROMPT.md
+docs/prompts/NEXUS_THEME_RADAR_V0.9_SUPABASE_PLANNING_REVISION_PROMPT.md
+
 # Local OS/editor noise
 .DS_Store
 .idea/
 .vscode/
 .gstack/
+.omc
