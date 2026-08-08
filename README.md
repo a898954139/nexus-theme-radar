@@ -28,6 +28,40 @@ npx skills add LearnPrompt/ai-news-radar -s ai-radar -g
 
 本 MVP 的完整架構與資料合約見 [`docs/MVP_ARCHITECTURE.md`](docs/MVP_ARCHITECTURE.md)。
 
+## Nexus Theme Radar 前端
+
+目前線上的產品前端是 Nexus 暗色金融資料介面，使用 React、TypeScript 與 Vite 重建設計包，不改動既有後端 API 或資料欄位。
+
+- 線上頁面：[a898954139.github.io/nexus-theme-radar](https://a898954139.github.io/nexus-theme-radar/)
+- 五個畫面：題材雷達首頁、題材動能、資金流向、個股、來源狀態
+- 桌機與手機內容一致，只調整排列方式；手機 chip、表格與個股法人圖可在有限寬度內閱讀
+- 所有顯示數字來自 `data/*.json`，前端不保留原型示意值
+- GitHub Pages 由 [`deploy-pages.yml`](.github/workflows/deploy-pages.yml) 建置 `dist/`，再把 runtime JSON 複製到 `dist/data/`
+
+### 前端資料對應
+
+資金流向沿用既有公開資料 contract：
+
+- `top_three_inst_netbuy_{5|10|20|30}_{up|down}` 提供資金淨流入排行，以及 `foreign`、`trust`、`dealer`、`total` 三大法人彙總值
+- `top_three_inst_change_{5|10|20|30}_{up|down}` 提供持股比重變化，前端以 `pp` 顯示
+- `institutional-flows.json` 提供個股逐日法人流向；缺少逐法人資料時不推算、不填入示意數字
+- 動能歷史圖保留缺漏斷點；若資料來源只有一筆觀測，畫面只呈現置中的真實資料點，不偽造折線
+
+### Nexus 前端本地驗證
+
+```bash
+npm ci
+npm run dev
+```
+
+開啟 <http://127.0.0.1:5173/>。提交前可執行 production build：
+
+```bash
+npm run build
+```
+
+這個前端不需要額外 backend server；`npm run dev` 只負責提供 Vite 開發環境，資料仍從同一份 `data/` JSON 讀取。
+
 目前第一階段已提供 production-like RSS pipeline：
 
 ```bash
@@ -246,7 +280,7 @@ AI News Radar学习了现代新闻学的技术，不是简单堆信息源，一�
 
 普通用户不用安装，直接打开在线页面即可。
 
-想fork改造新版本，可以本地运行：
+想 fork 改造資料 pipeline，可以本地运行：
 
 ```bash
 git clone https://github.com/LearnPrompt/ai-news-radar.git
@@ -255,13 +289,26 @@ python3 -m venv .venv
 source .venv/bin/activate
 pip install -r requirements.txt
 python scripts/update_news.py --output-dir data --window-hours 24
-python -m http.server 8080
 ```
 
-打开：
+Nexus React 前端請使用 Vite：
+
+```bash
+npm ci
+npm run dev
+```
+
+打開：
 
 ```text
-http://localhost:8080
+http://127.0.0.1:5173/
+```
+
+若只需要預覽已完成的 production build：
+
+```bash
+npm run build
+npm run preview
 ```
 
 如果你有自己的 OPML：
