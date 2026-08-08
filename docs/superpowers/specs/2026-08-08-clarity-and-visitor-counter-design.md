@@ -62,7 +62,13 @@ site_metrics schema(私有,anon 零權限)
 Edge Function GET → { total, online }
 ```
 
-瀏覽器全程不持有任何資料庫憑證。Edge Function 是唯一的讀寫者,內部使用 service role。
+瀏覽器全程不持有任何資料庫憑證。Edge Function 是唯一的讀寫者。
+
+**Function 以一般 Postgres 連線存取資料庫,不走 supabase-js。** 實作時先用了
+supabase-js,結果每一次寫入都回 429:`site_metrics` 刻意不在 PostgREST 的
+exposed schemas 裡,而 supabase-js 正是透過 PostgREST 溝通,查詢因此永遠失敗,
+再被限流器的 fail-closed 分支變成「已達上限」。修法有兩條 —— 把 schema 公開給
+PostgREST,或改用直連 —— 選後者,因為前者會把刻意關上的 REST 表面重新打開。
 
 ### 名詞定義
 

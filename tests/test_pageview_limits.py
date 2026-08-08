@@ -26,12 +26,6 @@ def _limits_as_js() -> str:
     source = source.replace("value: unknown): value is string", "value)")
     source = source.replace("origin: string | null): boolean", "origin)")
     source = source.replace("recentRequestCount: number): boolean", "recentRequestCount)")
-    source = re.sub(
-        r"timestamp: string \| Date,\s*now: Date,\s*windowMs: number\s*\): boolean",
-        "timestamp, now, windowMs)",
-        source,
-    )
-    source = source.replace("now: Date, windowMs: number): string", "now, windowMs)")
     source = source.replace("export const", "const").replace("export function", "function")
     return source
 
@@ -59,8 +53,6 @@ def test_typescript_stripping_actually_produces_runnable_js() -> None:
     assert _evaluate("typeof isValidVisitorId === 'function'") is True
     assert _evaluate("typeof isAllowedOrigin === 'function'") is True
     assert _evaluate("typeof isRateLimited === 'function'") is True
-    assert _evaluate("typeof isWithinWindow === 'function'") is True
-    assert _evaluate("typeof windowStart === 'function'") is True
 
 
 def test_valid_uuid_is_accepted() -> None:
@@ -119,25 +111,43 @@ def test_windows_match_the_spec() -> None:
     assert _evaluate("RATE_LIMIT_WINDOW_MS") == 60 * 1000
 
 
-def test_recent_timestamp_is_inside_the_window() -> None:
-    assert _evaluate(
-        "isWithinWindow(new Date(Date.now() - 1000), new Date(), ONLINE_WINDOW_MS)"
-    ) is True
+INDEX_PATH = ROOT / "supabase" / "functions" / "pageview" / "index.ts"
 
 
-def test_stale_timestamp_falls_outside_the_window() -> None:
-    # A tab left open overnight stops heartbeating and must drop out of "online".
-    assert _evaluate(
-        "isWithinWindow(new Date(Date.now() - 10 * 60 * 1000), new Date(), ONLINE_WINDOW_MS)"
-    ) is False
+def _index_source() -> str:
+    return INDEX_PATH.read_text(encoding="utf-8")
 
 
-def test_unparseable_timestamp_is_treated_as_outside_the_window() -> None:
-    assert _evaluate("isWithinWindow('not-a-date', new Date(), ONLINE_WINDOW_MS)") is False
+def test_windows_are_applied_as_sql_intervals_not_hardcoded_numbers() -> None:
+    # The windows moved into SQL. A literal there would silently drift from the
+    # constants these tests pin, so the queries must reference the constants.
+    source = _index_source()
+    assert "intervalMs(DEDUP_WINDOW_MS)" in source
+    assert "intervalMs(ONLINE_WINDOW_MS)" in source
+    assert "intervalMs(RATE_LIMIT_WINDOW_MS)" in source
 
 
-def test_window_start_is_offset_into_the_past() -> None:
-    delta = _evaluate(
-        "Date.now() - new Date(windowStart(new Date(), RATE_LIMIT_WINDOW_MS)).getTime()"
-    )
-    assert 60_000 <= delta < 61_000
+def test_heartbeats_never_insert_into_page_view() -> None:
+    # The property that keeps a 45-second ping from inflating the total: the
+    # page_view insert is unreachable unless kind === 'view'.
+    source = _index_source()
+    guard = source.index("if (kind !== 'view') return;")
+    assert guard < source.index("insert into site_metrics.page_view")
+
+
+def test_dedup_is_enforced_inside_the_insert() -> None:
+    # Checking then inserting as two statements would let two simultaneous
+    # requests from one visitor both pass and double-count.
+    source = _index_source()
+    insert_index = source.index("insert into site_metrics.page_view")
+    tail = source[insert_index:]
+    assert "where not exists" in tail[: tail.index("`")]
+
+
+def test_site_metrics_is_reached_over_postgres_not_postgrest() -> None:
+    # site_metrics is deliberately absent from PostgREST's exposed schemas, so
+    # a supabase-js client cannot see it -- that mistake failed closed and made
+    # every write look rate limited.
+    source = _index_source()
+    assert "postgresjs" in source
+    assert "@supabase/supabase-js" not in source

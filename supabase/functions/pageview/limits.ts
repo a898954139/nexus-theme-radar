@@ -29,20 +29,6 @@ export function isAllowedOrigin(origin: string | null): boolean {
   return ALLOWED_ORIGINS.includes(origin);
 }
 
-export function isWithinWindow(
-  timestamp: string | Date,
-  now: Date,
-  windowMs: number
-): boolean {
-  const then = timestamp instanceof Date ? timestamp : new Date(timestamp);
-  if (Number.isNaN(then.getTime())) return false;
-  return now.getTime() - then.getTime() < windowMs;
-}
-
 export function isRateLimited(recentRequestCount: number): boolean {
   return recentRequestCount >= RATE_LIMIT_MAX_REQUESTS;
-}
-
-export function windowStart(now: Date, windowMs: number): string {
-  return new Date(now.getTime() - windowMs).toISOString();
 }

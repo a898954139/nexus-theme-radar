@@ -5,23 +5,26 @@
 //
 // Responses are aggregate-only ({ total, online }); raw rows never leave this
 // function, so the public endpoint leaks nothing about individual visitors.
+//
+// Connects over plain Postgres rather than supabase-js on purpose: site_metrics
+// is kept out of PostgREST's exposed schemas, so the REST client cannot see it.
+// Keeping it that way means the tables have no HTTP surface of their own.
 
-import { createClient } from 'jsr:@supabase/supabase-js@2';
+import postgres from 'https://deno.land/x/postgresjs@v3.4.4/mod.js';
 import {
   DEDUP_WINDOW_MS,
   ONLINE_WINDOW_MS,
+  RATE_LIMIT_MAX_REQUESTS,
   RATE_LIMIT_WINDOW_MS,
   isAllowedOrigin,
-  isRateLimited,
-  isValidVisitorId,
-  windowStart
+  isValidVisitorId
 } from './limits.ts';
 
-const db = createClient(
-  Deno.env.get('SUPABASE_URL')!,
-  Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!,
-  { db: { schema: 'site_metrics' }, auth: { persistSession: false } }
-);
+const sql = postgres(Deno.env.get('SUPABASE_DB_URL')!, {
+  prepare: false,
+  max: 3,
+  idle_timeout: 20
+});
 
 function corsHeaders(origin: string | null): Record<string, string> {
   return {
@@ -45,50 +48,64 @@ function clientIp(req: Request): string {
   return first || '0.0.0.0';
 }
 
-async function overRateLimit(ip: string, now: Date): Promise<boolean> {
-  const since = windowStart(now, RATE_LIMIT_WINDOW_MS);
+const intervalMs = (ms: number) => `${ms} milliseconds`;
 
-  const { count, error } = await db
-    .from('rate_limit')
-    .select('id', { count: 'exact', head: true })
-    .eq('client_ip', ip)
-    .gte('requested_at', since);
+async function overRateLimit(ip: string): Promise<boolean> {
+  try {
+    const [{ count }] = await sql<{ count: number }[]>`
+      select count(*)::int as count
+      from site_metrics.rate_limit
+      where client_ip = ${ip}::inet
+        and requested_at > now() - ${intervalMs(RATE_LIMIT_WINDOW_MS)}::interval
+    `;
 
-  // Fail closed: if the limiter itself is broken, refuse the write rather than
-  // leave the endpoint unmetered.
-  if (error) return true;
-  if (isRateLimited(count ?? 0)) return true;
+    if (count >= RATE_LIMIT_MAX_REQUESTS) return true;
 
-  await db.from('rate_limit').insert({ client_ip: ip });
-  await db.from('rate_limit').delete().lt('requested_at', since);
-  return false;
+    await sql`insert into site_metrics.rate_limit (client_ip) values (${ip}::inet)`;
+    await sql`
+      delete from site_metrics.rate_limit
+      where requested_at < now() - ${intervalMs(RATE_LIMIT_WINDOW_MS)}::interval
+    `;
+    return false;
+  } catch {
+    // Fail closed: if the limiter itself is broken, refuse the write rather
+    // than leave the endpoint unmetered.
+    return true;
+  }
 }
 
-async function alreadyCountedRecently(visitorId: string, now: Date): Promise<boolean> {
-  const { data, error } = await db
-    .from('page_view')
-    .select('id')
-    .eq('visitor_id', visitorId)
-    .gte('viewed_at', windowStart(now, DEDUP_WINDOW_MS))
-    .limit(1);
-
-  if (error) return true;
-  return (data?.length ?? 0) > 0;
+async function readCounts(): Promise<{ total: number; online: number }> {
+  const [row] = await sql<{ total: number; online: number }[]>`
+    select
+      (select count(*)::int from site_metrics.page_view) as total,
+      (select count(*)::int from site_metrics.heartbeat
+        where last_seen_at > now() - ${intervalMs(ONLINE_WINDOW_MS)}::interval) as online
+  `;
+  return { total: row?.total ?? 0, online: row?.online ?? 0 };
 }
 
-async function readCounts(now: Date): Promise<{ total: number; online: number }> {
-  const [totalResult, onlineResult] = await Promise.all([
-    db.from('page_view').select('id', { count: 'exact', head: true }),
-    db
-      .from('heartbeat')
-      .select('visitor_id', { count: 'exact', head: true })
-      .gte('last_seen_at', windowStart(now, ONLINE_WINDOW_MS))
-  ]);
+async function record(visitorId: string, kind: 'view' | 'heartbeat'): Promise<void> {
+  // Heartbeats keep "online" fresh; they must never touch page_view or every
+  // 45-second ping would inflate the total.
+  await sql`
+    insert into site_metrics.heartbeat (visitor_id, last_seen_at)
+    values (${visitorId}::uuid, now())
+    on conflict (visitor_id) do update set last_seen_at = now()
+  `;
 
-  return {
-    total: totalResult.count ?? 0,
-    online: onlineResult.count ?? 0
-  };
+  if (kind !== 'view') return;
+
+  // The dedup window is enforced by the insert itself, so two simultaneous
+  // requests from one visitor cannot both pass a separate check and double-count.
+  await sql`
+    insert into site_metrics.page_view (visitor_id)
+    select ${visitorId}::uuid
+    where not exists (
+      select 1 from site_metrics.page_view
+      where visitor_id = ${visitorId}::uuid
+        and viewed_at > now() - ${intervalMs(DEDUP_WINDOW_MS)}::interval
+    )
+  `;
 }
 
 Deno.serve(async (req: Request) => {
@@ -98,47 +115,37 @@ Deno.serve(async (req: Request) => {
     return new Response(null, { status: 204, headers: corsHeaders(origin) });
   }
 
-  const now = new Date();
-
-  if (req.method === 'GET') {
-    return json(await readCounts(now), 200, origin);
-  }
-
-  if (req.method !== 'POST') {
-    return json({ error: 'method not allowed' }, 405, origin);
-  }
-
-  if (!isAllowedOrigin(origin)) {
-    return json({ error: 'origin not allowed' }, 403, origin);
-  }
-
-  let payload: { visitorId?: unknown; kind?: unknown };
   try {
-    payload = await req.json();
+    if (req.method === 'GET') {
+      return json(await readCounts(), 200, origin);
+    }
+
+    if (req.method !== 'POST') {
+      return json({ error: 'method not allowed' }, 405, origin);
+    }
+
+    if (!isAllowedOrigin(origin)) {
+      return json({ error: 'origin not allowed' }, 403, origin);
+    }
+
+    let payload: { visitorId?: unknown; kind?: unknown };
+    try {
+      payload = await req.json();
+    } catch {
+      return json({ error: 'invalid json' }, 400, origin);
+    }
+
+    if (!isValidVisitorId(payload.visitorId)) {
+      return json({ error: 'invalid visitorId' }, 400, origin);
+    }
+
+    if (await overRateLimit(clientIp(req))) {
+      return json({ error: 'rate limited' }, 429, origin);
+    }
+
+    await record(payload.visitorId, payload.kind === 'heartbeat' ? 'heartbeat' : 'view');
+    return json(await readCounts(), 200, origin);
   } catch {
-    return json({ error: 'invalid json' }, 400, origin);
+    return json({ error: 'unavailable' }, 503, origin);
   }
-
-  if (!isValidVisitorId(payload.visitorId)) {
-    return json({ error: 'invalid visitorId' }, 400, origin);
-  }
-
-  const kind = payload.kind === 'heartbeat' ? 'heartbeat' : 'view';
-  const visitorId = payload.visitorId;
-
-  if (await overRateLimit(clientIp(req), now)) {
-    return json({ error: 'rate limited' }, 429, origin);
-  }
-
-  // Heartbeats keep "online" fresh; they must never touch page_view or every
-  // 45-second ping would inflate the total.
-  await db
-    .from('heartbeat')
-    .upsert({ visitor_id: visitorId, last_seen_at: now.toISOString() });
-
-  if (kind === 'view' && !(await alreadyCountedRecently(visitorId, now))) {
-    await db.from('page_view').insert({ visitor_id: visitorId });
-  }
-
-  return json(await readCounts(now), 200, origin);
 });
