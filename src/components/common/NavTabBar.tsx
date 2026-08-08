@@ -30,6 +30,7 @@ export const NavTabBar: React.FC<NavTabBarProps> = ({ page, setPage, device, mob
         <span className="brand-name">NEXUS</span>
         <span className="brand-divider" aria-hidden="true" />
         <span className="brand-title">{device === 'mobile' ? (mobileTitle ?? mobileTitles[page]) : '台股題材雷達'}</span>
+        <a className="nav-feedback-mobile" href="https://forms.gle/KwFAL59UjcnEBCNj6" target="_blank" rel="noreferrer">功能反饋 ↗</a>
       </div>
       <div className="nav-tabs">
         {tabs.map((tab) => (
@@ -42,6 +43,7 @@ export const NavTabBar: React.FC<NavTabBarProps> = ({ page, setPage, device, mob
             {tab.label}
           </button>
         ))}
+        <a className="nav-feedback" href="https://forms.gle/KwFAL59UjcnEBCNj6" target="_blank" rel="noreferrer">功能反饋 ↗</a>
       </div>
     </nav>
   );

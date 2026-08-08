@@ -71,8 +71,9 @@ a { color: inherit; }
 .status-bar button { border: 0; background: transparent; color: var(--faint); }
 .status-bar button strong { margin-left: 8px; }
 .status-detail { margin-left: 8px; color: var(--gold); font-family: 'Noto Sans TC', sans-serif; }
-.status-feedback { color: var(--gold); text-decoration: none; }
-.status-feedback:hover { text-decoration: underline; text-underline-offset: 3px; }
+.nav-feedback { display: inline-flex; align-items: center; padding: 0 14px; border-left: 1px solid var(--line); color: var(--gold); font-size: 11px; text-decoration: none; white-space: nowrap; }
+.nav-feedback:hover { background: var(--gold-bg); color: var(--text-hi); }
+.nav-feedback-mobile { display: none; }
 
 /* Shared page rhythm */
 .page-content { overflow: hidden; }
@@ -477,9 +478,10 @@ a { color: inherit; }
   .segmented-control button { min-height: 30px; padding: 0 7px; font-size: 9px; }
   .app-frame { width: min(var(--mobile-width), 100%); min-height: calc(100vh - 64px); margin: 20px auto 0; border-radius: 14px 14px 0 0; box-shadow: none; }
   .main-nav { height: 48px; display: block; }
-  .main-nav .brand-lockup { height: 48px; justify-content: space-between; padding: 0 16px; }
+  .main-nav .brand-lockup { position: relative; height: 48px; justify-content: space-between; padding: 0 16px; }
   .main-nav .brand-divider, .main-nav .nav-tabs { display: none; }
   .main-nav .brand-title { font-size: 13px; }
+  .main-nav .nav-feedback-mobile { position: absolute; top: 50%; right: 16px; display: inline-flex; align-items: center; transform: translateY(-50%); color: var(--gold); font-size: 10px; text-decoration: none; }
   .mobile-bottom-nav { position: fixed; z-index: 100; right: 0; bottom: 0; left: 50%; width: min(var(--mobile-width), 100vw); height: 52px; display: grid; grid-template-columns: repeat(5, 1fr); transform: translateX(-50%); border-top: 1px solid var(--line); background: var(--surface-bg); }
   .mobile-bottom-nav button { min-height: 44px; padding: 0 2px; border: 0; background: transparent; color: var(--muted); font-size: 10px; }
   .mobile-bottom-nav button.is-active { color: var(--gold); }
@@ -637,10 +639,11 @@ a { color: inherit; }
   .app-root.is-mobile .segmented-control button { min-height: 30px; padding: 0 7px; font-size: 9px; }
   .app-root.is-mobile .app-frame { width: var(--mobile-width); min-height: calc(100vh - 64px); margin: 23px auto 0; border-radius: 14px 14px 0 0; box-shadow: none; }
   .app-root.is-mobile .main-nav { height: 60px; display: block; }
-  .app-root.is-mobile .main-nav .brand-lockup { height: 60px; display: grid; align-content: center; gap: 4px; padding: 0 16px; }
+  .app-root.is-mobile .main-nav .brand-lockup { position: relative; height: 60px; display: grid; align-content: center; gap: 4px; padding: 0 16px; }
   .app-root.is-mobile .main-nav .brand-divider,
   .app-root.is-mobile .main-nav .nav-tabs { display: none; }
   .app-root.is-mobile .main-nav .brand-title { font-size: 13px; }
+  .app-root.is-mobile .main-nav .nav-feedback-mobile { position: absolute; top: 50%; right: 16px; display: inline-flex; align-items: center; transform: translateY(-50%); color: var(--gold); font-size: 10px; text-decoration: none; }
   .app-root.is-mobile .mobile-bottom-nav { position: fixed; z-index: 100; right: 0; bottom: 0; left: 50%; width: var(--mobile-width); height: 52px; display: grid; grid-template-columns: repeat(5, 1fr); transform: translateX(-50%); border-top: 1px solid var(--line); background: var(--surface-bg); }
   .app-root.is-mobile .mobile-bottom-nav button { min-height: 44px; padding: 0 2px; border: 0; background: transparent; color: var(--muted); font-size: 10px; }
   .app-root.is-mobile .mobile-bottom-nav button.is-active { color: var(--gold); }
