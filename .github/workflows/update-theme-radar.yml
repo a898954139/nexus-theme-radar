@@ -29,6 +29,8 @@ permissions:
 
 jobs:
   update:
+    outputs:
+      commit_sha: ${{ steps.commit.outputs.commit_sha }}
     timeout-minutes: 40
     runs-on: ubuntu-latest
     steps:
@@ -88,6 +90,7 @@ jobs:
           python scripts/update_theme_radar.py --output-dir data --window-hours 72 --max-events 500 --max-candidates 200 "${args[@]}"
 
       - name: Commit and push changes
+        id: commit
         env:
           EMAIL_DIGEST_PUBLISH: ${{ secrets.EMAIL_DIGEST_PUBLISH || vars.EMAIL_DIGEST_PUBLISH }}
         run: |
@@ -112,17 +115,22 @@ jobs:
           fi
           if git diff --cached --quiet; then
             echo "No changes to commit"
+            echo "commit_sha=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
             exit 0
           fi
           git commit -m "chore: update taiwan theme radar snapshot"
           # 运行期间有人推了同分支时裸 push 会被拒(non-fast-forward),整轮数据白跑。
           # rebase 到最新远端再推,最多重试 3 次;数据文件都是本轮生成的快照,rebase 无冲突风险。
           for attempt in 1 2 3; do
-            git push && exit 0
+            if git push; then
+              echo "commit_sha=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
+              exit 0
+            fi
             echo "push rejected (attempt $attempt), rebasing onto latest remote..."
             git pull --rebase origin "${GITHUB_REF_NAME}" || { git rebase --abort || true; exit 1; }
           done
           git push
+          echo "commit_sha=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
 
   # The commit above is made with GITHUB_TOKEN, which by design does not fire
   # `on: push`. Without this call the snapshot reaches master and never reaches
@@ -135,3 +143,5 @@ jobs:
       pages: write
       id-token: write
     uses: ./.github/workflows/deploy-pages.yml
+    with:
+      ref: ${{ needs.update.outputs.commit_sha }}
