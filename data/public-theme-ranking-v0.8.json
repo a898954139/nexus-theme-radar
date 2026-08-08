@@ -2,16 +2,16 @@
   "schema_version": "nexus_public_theme_ranking.v0.8",
   "ranking_rule_version": "public_theme_heat_v0.8",
   "company_rule_version": "public_company_evidence_v0.8",
-  "generated_at": "2026-08-08T09:01:46.025186Z",
+  "generated_at": "2026-08-08T09:55:17.623256Z",
   "market_id": "TW_EQUITY",
   "market_scope": [
     "TW_EQUITY"
   ],
   "window_hours": 72,
   "max_themes": 5,
-  "qualified_theme_count": 4,
-  "displayed_theme_count": 4,
-  "threshold_note": "目前僅 4 個題材達到上榜門檻",
+  "qualified_theme_count": 6,
+  "displayed_theme_count": 5,
+  "threshold_note": null,
   "generation_status": "complete",
   "failed_source_count": 0,
   "official_evidence_status": "available",
@@ -120,6 +120,185 @@
     },
     {
       "rank": 2,
+      "theme_id": "ai_server",
+      "name_zh": "AI 伺服器",
+      "heat_score": 66,
+      "summaries": {
+        "event_count": 3,
+        "source_count": 3,
+        "tracking_candidate_count": 1,
+        "taiwan_mapping_count": 3
+      },
+      "heat_reason": {
+        "rule_version": "public_theme_heat_v0.8",
+        "event_component": {
+          "input": 3,
+          "normalized": 50.0,
+          "weighted": 12.5
+        },
+        "source_component": {
+          "input": 3,
+          "normalized": 75.0,
+          "weighted": 18.75
+        },
+        "candidate_component": {
+          "input": 1,
+          "normalized": 25.0,
+          "weighted": 5.0
+        },
+        "mapping_component": {
+          "mapping_count": 3,
+          "direct_mapping_event_count": 2,
+          "normalized": 100.0,
+          "weighted": 30.0
+        },
+        "single_source_concentration": 0.333,
+        "concentration_penalty": 0.0,
+        "raw_score": 66.25
+      },
+      "direct_mentions": [
+        {
+          "instrument_id": "TWSE:3231",
+          "symbol": "3231",
+          "exchange": "TWSE",
+          "name_zh": "緯創",
+          "direct_event_count": 2,
+          "latest_mentioned_at": "2026-08-07T09:35:07Z"
+        }
+      ],
+      "supply_chain_candidates": [
+        {
+          "instrument_id": "TWSE:3231",
+          "symbol": "3231",
+          "exchange": "TWSE",
+          "name_zh": "緯創",
+          "direct_event_count": 2,
+          "official_evidence_count": 0,
+          "company_rank_score": 9,
+          "latest_mentioned_at": "2026-08-07T09:35:07Z",
+          "latest_official_at": null
+        },
+        {
+          "instrument_id": "TWSE:2382",
+          "symbol": "2382",
+          "exchange": "TWSE",
+          "name_zh": "廣達",
+          "direct_event_count": 0,
+          "official_evidence_count": 0,
+          "company_rank_score": 1,
+          "latest_mentioned_at": null,
+          "latest_official_at": null
+        },
+        {
+          "instrument_id": "TWSE:6669",
+          "symbol": "6669",
+          "exchange": "TWSE",
+          "name_zh": "緯穎",
+          "direct_event_count": 0,
+          "official_evidence_count": 0,
+          "company_rank_score": 1,
+          "latest_mentioned_at": null,
+          "latest_official_at": null
+        }
+      ],
+      "representative_news": {
+        "cluster_id": "cluster-20fb9397180e251b",
+        "id": "cnyes-321e065dd39a",
+        "title_zh": "〈電子五哥營收〉緯創前7月營收突破2兆元寫新猷 Q4迎AI伺服器業務高峰",
+        "summary": "緯創 (3231-TW) 今 (7) 日公告 7 月營收 3082.19 億元，年增逾 6 成，累計今年前 7 月營收 2.05 兆元，年增逾 8 成。緯創指出，8 月起 AI 伺服器成長動能更為明顯強勁，預期將逐季成長，並在第四季迎 AI 伺服器業務高峰。",
+        "source_id": "cnyes",
+        "source": "鉅亨網 Cnyes",
+        "published_at": "2026-08-07T09:35:07Z",
+        "canonical_url": "https://news.cnyes.com/news/id/6564499"
+      }
+    },
+    {
+      "rank": 3,
+      "theme_id": "robotics",
+      "name_zh": "機器人",
+      "heat_score": 60,
+      "summaries": {
+        "event_count": 8,
+        "source_count": 2,
+        "tracking_candidate_count": 3,
+        "taiwan_mapping_count": 3
+      },
+      "heat_reason": {
+        "rule_version": "public_theme_heat_v0.8",
+        "event_component": {
+          "input": 8,
+          "normalized": 100.0,
+          "weighted": 25.0
+        },
+        "source_component": {
+          "input": 2,
+          "normalized": 50.0,
+          "weighted": 12.5
+        },
+        "candidate_component": {
+          "input": 3,
+          "normalized": 75.0,
+          "weighted": 15.0
+        },
+        "mapping_component": {
+          "mapping_count": 3,
+          "direct_mapping_event_count": 0,
+          "normalized": 60.0,
+          "weighted": 18.0
+        },
+        "single_source_concentration": 0.875,
+        "concentration_penalty": 10.313,
+        "raw_score": 60.188
+      },
+      "direct_mentions": [],
+      "supply_chain_candidates": [
+        {
+          "instrument_id": "TWSE:2049",
+          "symbol": "2049",
+          "exchange": "TWSE",
+          "name_zh": "上銀",
+          "direct_event_count": 0,
+          "official_evidence_count": 0,
+          "company_rank_score": 1,
+          "latest_mentioned_at": null,
+          "latest_official_at": null
+        },
+        {
+          "instrument_id": "TWSE:2395",
+          "symbol": "2395",
+          "exchange": "TWSE",
+          "name_zh": "研華",
+          "direct_event_count": 0,
+          "official_evidence_count": 0,
+          "company_rank_score": 1,
+          "latest_mentioned_at": null,
+          "latest_official_at": null
+        },
+        {
+          "instrument_id": "TWSE:4576",
+          "symbol": "4576",
+          "exchange": "TWSE",
+          "name_zh": "大銀微系統",
+          "direct_event_count": 0,
+          "official_evidence_count": 0,
+          "company_rank_score": 1,
+          "latest_mentioned_at": null,
+          "latest_official_at": null
+        }
+      ],
+      "representative_news": {
+        "cluster_id": "cluster-205a2b8a7aa55743",
+        "id": "digitimes_tw-4aa089d0fcda",
+        "title_zh": "佳能人形機器人視覺模組2H26放量　無人機光學模組出貨上升",
+        "summary": "佳能企業2026年上半稅後淨利新台幣（以下同）5.11億元，較2025年同期2.03億元，大幅提升逾2倍。日系及美系人形機器人視覺模組將於下半年開始出貨，無人機光學模組出貨亦呈上升趨勢。佳能8月7日公布2026年第2",
+        "source_id": "digitimes_tw",
+        "source": "DIGITIMES",
+        "published_at": "2026-08-07T09:46:04Z",
+        "canonical_url": "https://www.digitimes.com.tw/tech/dt/n/shwnws.asp?id=0000764476_0735GXO96EUU297OGE7HF"
+      }
+    },
+    {
+      "rank": 4,
       "theme_id": "defense_drone",
       "name_zh": "國防與無人機",
       "heat_score": 59,
@@ -204,7 +383,7 @@
       }
     },
     {
-      "rank": 3,
+      "rank": 5,
       "theme_id": "pcb_abf_hdi",
       "name_zh": "PCB／ABF／HDI",
       "heat_score": 50,
@@ -303,100 +482,6 @@
         "source": "Yahoo Finance Taiwan",
         "published_at": "2026-08-08T05:42:39Z",
         "canonical_url": "https://tw.stock.yahoo.com/news/pcb%E5%A5%B3%E7%8E%8B%E7%9C%8B%E5%A5%BD%E8%AA%B0-%E6%AC%A3%E8%88%88-%E9%87%91%E5%B1%85-%E9%87%91%E5%83%8F%E9%9B%BB%E8%A1%80%E6%B4%97%E5%BE%8C-%E9%BB%9E%E5%90%8D-054239241.html"
-      }
-    },
-    {
-      "rank": 4,
-      "theme_id": "energy_grid",
-      "name_zh": "能源與電網",
-      "heat_score": 48,
-      "summaries": {
-        "event_count": 4,
-        "source_count": 2,
-        "tracking_candidate_count": 0,
-        "taiwan_mapping_count": 4
-      },
-      "heat_reason": {
-        "rule_version": "public_theme_heat_v0.8",
-        "event_component": {
-          "input": 4,
-          "normalized": 66.667,
-          "weighted": 16.667
-        },
-        "source_component": {
-          "input": 2,
-          "normalized": 50.0,
-          "weighted": 12.5
-        },
-        "candidate_component": {
-          "input": 0,
-          "normalized": 0.0,
-          "weighted": 0.0
-        },
-        "mapping_component": {
-          "mapping_count": 4,
-          "direct_mapping_event_count": 1,
-          "normalized": 80.0,
-          "weighted": 24.0
-        },
-        "single_source_concentration": 0.75,
-        "concentration_penalty": 5.625,
-        "raw_score": 47.542
-      },
-      "direct_mentions": [
-        {
-          "instrument_id": "TWSE:2308",
-          "symbol": "2308",
-          "exchange": "TWSE",
-          "name_zh": "台達電",
-          "direct_event_count": 1,
-          "latest_mentioned_at": "2026-08-07T11:29:40Z"
-        }
-      ],
-      "supply_chain_candidates": [
-        {
-          "instrument_id": "TWSE:1503",
-          "symbol": "1503",
-          "exchange": "TWSE",
-          "name_zh": "士電",
-          "direct_event_count": 0,
-          "official_evidence_count": 0,
-          "company_rank_score": 1,
-          "latest_mentioned_at": null,
-          "latest_official_at": null
-        },
-        {
-          "instrument_id": "TWSE:1513",
-          "symbol": "1513",
-          "exchange": "TWSE",
-          "name_zh": "中興電",
-          "direct_event_count": 0,
-          "official_evidence_count": 0,
-          "company_rank_score": 1,
-          "latest_mentioned_at": null,
-          "latest_official_at": null
-        },
-        {
-          "instrument_id": "TWSE:1519",
-          "symbol": "1519",
-          "exchange": "TWSE",
-          "name_zh": "華城",
-          "direct_event_count": 0,
-          "official_evidence_count": 0,
-          "company_rank_score": 1,
-          "latest_mentioned_at": null,
-          "latest_official_at": null
-        }
-      ],
-      "representative_news": {
-        "cluster_id": "cluster-784211ec9799b32f",
-        "id": "technews-ef45e8e236b4",
-        "title_zh": "能源管理邁入新時代！鄭平：台達電推微電網整體解方",
-        "summary": "AI 資料中心快速發展，除了帶動算力需求，也讓能源管理成為下一波產業競爭焦點。台達電今（7）日舉辦 55 周年 [&#8230;]",
-        "source_id": "technews",
-        "source": "TechNews",
-        "published_at": "2026-08-07T11:29:40Z",
-        "canonical_url": "https://technews.tw/2026/08/07/energy-management-new-era-zheng-ping-delta-comprehensive-microgrid-solutions/"
       }
     }
   ]
