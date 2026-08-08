@@ -30,7 +30,7 @@ function uniqueSymbols(theme: MomentumTheme) {
 function segmentsFor(values: Array<number | null>, width: number, height: number) {
   const points = values.map((value, index) => {
     if (value === null) return null;
-    const x = values.length <= 1 ? width : (index / (values.length - 1)) * width;
+    const x = values.length <= 1 ? width / 2 : (index / (values.length - 1)) * width;
     const y = height - ((Math.max(75, Math.min(100, value)) - 75) / 25) * height;
     return `${x},${y}`;
   });
@@ -53,8 +53,7 @@ const ThemeStockChips: React.FC<{
   onGoStock: ThemeMomentumProps['onGoStock'];
 }> = ({ theme, onGoStock }) => {
   const symbols = uniqueSymbols(theme);
-  const [expanded, setExpanded] = useState(false);
-  const visibleSymbols = expanded ? symbols : symbols.slice(0, 4);
+  const visibleSymbols = symbols.slice(0, 4);
   return (
     <div className="momentum-stock-chips">
       {visibleSymbols.map((stock) => (
@@ -66,7 +65,7 @@ const ThemeStockChips: React.FC<{
           <button type="button" className="chip-flow-link" onClick={() => onGoStock(stock.symbol, stock.exchange, 'flows')}>法人</button>
         </div>
       ))}
-      {symbols.length > 4 ? <button className="more-chip mono-num" type="button" aria-expanded={expanded} onClick={() => setExpanded((value) => !value)}>{expanded ? '收合 ↑' : `＋${symbols.length - 4}`}</button> : null}
+      {symbols.length > 4 ? <span className="more-chip mono-num">＋{symbols.length - 4}</span> : null}
     </div>
   );
 };
@@ -139,9 +138,10 @@ export const ThemeMomentum: React.FC<ThemeMomentumProps> = ({ data, device, onGo
               const values = observations.map((point) => point.themes.find((item) => item.theme_id === theme.theme_id)?.heat_score ?? null);
               const paths = segmentsFor(values, 600, 110).map((points) => <polyline key={points} points={points} fill="none" stroke={lineColors[index]} className={selectedThemeId && selectedThemeId !== theme.theme_id ? 'chart-line is-muted' : 'chart-line'} />);
               const latestValue = values[values.length - 1];
-              const latestX = values.length <= 1 ? 600 : 600;
+              const latestX = values.length <= 1 ? 300 : 600;
               const latestY = latestValue === null || latestValue === undefined ? 0 : 130 - ((Math.max(75, Math.min(100, latestValue)) - 75) / 25) * 110;
-              return <g key={theme.theme_id}>{paths}{selectedThemeId === theme.theme_id && latestValue !== null && latestValue !== undefined ? <><circle cx={latestX} cy={latestY} r="3" fill={lineColors[index]} /><text x={latestX - 28} y={latestY - 8} className="chart-value-label">{latestValue}</text></> : null}</g>;
+              const showPoint = selectedThemeId === theme.theme_id;
+              return <g key={theme.theme_id}>{paths}{showPoint && latestValue !== null && latestValue !== undefined ? <><circle cx={latestX} cy={latestY} r="3" fill={lineColors[index]} /><text x={latestX + 7} y={latestY - 6} className="chart-value-label">{latestValue}</text></> : null}</g>;
             })}
             {observations.map((point, index) => <text key={point.observed_hour} x={observations.length <= 1 ? 300 : (index / (observations.length - 1)) * 600} y="139" className="chart-axis-label" textAnchor="middle">{new Date(point.observed_hour).toLocaleTimeString('zh-TW', { hour: '2-digit', minute: '2-digit', hour12: false })}</text>)}
           </svg>

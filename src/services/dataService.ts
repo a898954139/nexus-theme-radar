@@ -1,5 +1,6 @@
 import {
   InstitutionalFlowItem,
+  FlowMetric,
   InstitutionalRankingsData,
   MomentumHistoryData,
   MomentumLatestData,
@@ -45,10 +46,12 @@ async function readInstitutionalData(): Promise<InstitutionalRankingsData> {
 
 export async function fetchInstitutionalRankings(
   days: number,
-  direction: 'up' | 'down'
+  direction: 'up' | 'down',
+  metric: FlowMetric = 'net'
 ) {
   const data = await readInstitutionalData();
-  const key = `top_three_inst_change_${days}_${direction}`;
+  const prefix = metric === 'net' ? 'top_three_inst_netbuy' : 'top_three_inst_change';
+  const key = `${prefix}_${days}_${direction}`;
   return data.rankings[key]?.entries ?? [];
 }
 

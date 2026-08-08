@@ -129,8 +129,13 @@ export interface InstitutionalRankingEntry {
   in_universe: boolean;
   is_etf: boolean;
   ratio_out_of_range?: boolean;
-  three_inst_ratio: number;
-  change: number;
+  three_inst_ratio?: number;
+  change?: number;
+  rank?: number;
+  foreign?: number;
+  trust?: number;
+  dealer?: number;
+  total?: number;
 }
 
 export interface InstitutionalRankingsData {
