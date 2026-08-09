@@ -70,6 +70,49 @@ def test_universe_comes_from_symbol_aliases_not_the_published_payload(tmp_path):
     assert universe == ["TPEX:8299", "TWSE:2330"]
 
 
+def test_universe_accepts_the_broad_flows_symbol_index(tmp_path):
+    symbol_index = tmp_path / "flows-index.json"
+    symbol_index.write_text(
+        json.dumps(
+            {
+                "schema_version": 1,
+                "symbols": {
+                    "2330": {"exchange": "TWSE", "name": "台積電"},
+                    "00679B": {"exchange": "TPEX", "name": "元大美債20年"},
+                    "ignored": {"exchange": "", "name": ""},
+                },
+            },
+            ensure_ascii=False,
+        ),
+        encoding="utf-8",
+    )
+
+    assert load_symbol_universe(symbol_index) == ["TPEX:00679B", "TWSE:2330"]
+
+
+def test_universe_accepts_the_official_registry_shape(tmp_path):
+    registry = tmp_path / "registry.json"
+    registry.write_text(
+        json.dumps(
+            {
+                "official_symbol_count": 2,
+                "symbols": [
+                    {"symbol": "2330", "exchange": "TWSE", "name_zh": "台積電"},
+                    {"symbol": "8299", "exchange": "TPEX", "name_zh": "群聯"},
+                ],
+            },
+            ensure_ascii=False,
+        ),
+        encoding="utf-8",
+    )
+
+    assert load_symbol_universe(registry) == ["TPEX:8299", "TWSE:2330"]
+
+
+def test_default_universe_keeps_the_2280_symbol_guard():
+    assert len(load_symbol_universe()) >= 2280
+
+
 # ── quarterly throttle ────────────────────────────────────────────────
 
 
@@ -136,6 +179,38 @@ def test_backfill_fetches_by_bare_ticker_and_keys_the_cache_canonically():
     assert sorted(cache) == ["TPEX:8299", "TWSE:2330"]
     assert report.succeeded == 2
     assert report.failed == 0
+
+
+def test_skipped_exchange_is_recorded_without_touching_the_source():
+    seen = []
+
+    def fetch(ticker: str) -> dict:
+        seen.append(ticker)
+        return _context()
+
+    cache, report = backfill_fundamentals(
+        ["ESB:1260"], cache={}, as_of=ANCHOR, fetch=fetch,
+        retries=1, skip_exchanges=frozenset({"ESB"}),
+    )
+
+    assert seen == []
+    assert cache == {}
+    assert report.failed == 1
+    assert report.failures == {"ESB:1260": "unsupported exchange: ESB"}
+
+
+def test_progress_callback_can_checkpoint_partial_results():
+    checkpoints = []
+
+    def fetch(ticker: str) -> dict:
+        return _context()
+
+    backfill_fundamentals(
+        ["TWSE:2330", "TPEX:8299"], cache={}, as_of=ANCHOR, fetch=fetch,
+        checkpoint_every=1, on_progress=lambda cache: checkpoints.append(sorted(cache)),
+    )
+
+    assert checkpoints == [["TWSE:2330"], ["TPEX:8299", "TWSE:2330"]]
 
 
 def test_one_failing_symbol_does_not_lose_the_others():

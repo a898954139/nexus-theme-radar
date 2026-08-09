@@ -6,9 +6,10 @@ interface ThemeStocksCanvasProps {
   themeName: string;
   stocks: ThemeStockEntry[];
   onClose: () => void;
+  onGoStock: (code: string, exchange?: string, tab?: 'fundamentals') => void;
 }
 
-export const ThemeStocksCanvas: React.FC<ThemeStocksCanvasProps> = ({ themeName, stocks, onClose }) => {
+export const ThemeStocksCanvas: React.FC<ThemeStocksCanvasProps> = ({ themeName, stocks, onClose, onGoStock }) => {
   useEffect(() => {
     const previousOverflow = document.body.style.overflow;
     const closeOnEscape = (event: KeyboardEvent) => {
@@ -42,7 +43,7 @@ export const ThemeStocksCanvas: React.FC<ThemeStocksCanvasProps> = ({ themeName,
           <div>
             <span className="page-kicker">THEME STOCKS · 題材個股</span>
             <h2 id="theme-stocks-canvas-title">{themeName} · 題材股票</h2>
-            <p>全部標的已直接展開；內容較多時可在畫布內向下捲動，不需要再進入個股頁。</p>
+            <p>全部標的已直接展開；內容較多時可在畫布內向下捲動，點擊代號可查看個股頁。</p>
           </div>
           <button type="button" className="theme-stocks-canvas-close" aria-label="關閉題材股票畫布" onClick={onClose}>×</button>
         </header>
@@ -52,10 +53,10 @@ export const ThemeStocksCanvas: React.FC<ThemeStocksCanvasProps> = ({ themeName,
               <div className="theme-stocks-canvas-group-heading"><strong>{group.label}</strong><span>{group.stocks.length} 檔</span></div>
               <div className="theme-stocks-canvas-list">
                 {group.stocks.map(({ instrument, kind }) => (
-                  <article className={`theme-stocks-canvas-item ${kind}`} key={`${kind}-${instrument.instrument_id}`}>
+                  <button type="button" className={`theme-stocks-canvas-item ${kind}`} key={`${kind}-${instrument.instrument_id}`} onClick={() => onGoStock(instrument.symbol, instrument.exchange, 'fundamentals')}>
                     <b className="mono-num">{instrument.symbol}</b>
                     <span>{instrument.name_zh}</span>
-                  </article>
+                  </button>
                 ))}
               </div>
             </section>

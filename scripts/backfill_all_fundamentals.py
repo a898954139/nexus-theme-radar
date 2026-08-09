@@ -20,6 +20,7 @@ Usage:
 from __future__ import annotations
 
 import argparse
+import json
 import logging
 import sys
 import time
@@ -36,7 +37,7 @@ try:
         load_fundamentals_cache,
         write_fundamentals_cache,
     )
-    from scripts.symbol_mapping import DEFAULT_SYMBOL_ALIASES_PATH, load_symbol_aliases
+    from scripts.symbol_mapping import DEFAULT_SYMBOL_REGISTRY_PATH, load_symbol_aliases
     from scripts.theme_symbol_fundamentals import latest_expected_quarter
 except ModuleNotFoundError:  # `python scripts/backfill_all_fundamentals.py`
     # puts scripts/ on sys.path[0], hiding the package path -- the same dual
@@ -47,7 +48,7 @@ except ModuleNotFoundError:  # `python scripts/backfill_all_fundamentals.py`
         write_fundamentals_cache,
     )
     from symbol_mapping import (  # type: ignore[no-redef]
-        DEFAULT_SYMBOL_ALIASES_PATH,
+        DEFAULT_SYMBOL_REGISTRY_PATH,
         load_symbol_aliases,
     )
     from theme_symbol_fundamentals import latest_expected_quarter  # type: ignore[no-redef]
@@ -56,6 +57,8 @@ LOGGER = logging.getLogger(__name__)
 
 ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_DATA_DIR = ROOT / "data"
+DEFAULT_SYMBOL_INDEX_PATH = DEFAULT_SYMBOL_REGISTRY_PATH
+MIN_SYMBOL_UNIVERSE_SIZE = 2280
 
 # Goodinfo rate-limits hard. Measured 2026-08-07: three concurrent workers
 # turned 20 symbols into 19 HTTP 500s in 8 seconds, and every one of those
@@ -86,12 +89,39 @@ class BackfillReport:
         return self.universe - len(self.selected)
 
 
-def load_symbol_universe(path: str | Path = DEFAULT_SYMBOL_ALIASES_PATH) -> list[str]:
-    """Canonical ``EXCHANGE:ticker`` ids for every configured symbol.
+def load_symbol_universe(path: str | Path = DEFAULT_SYMBOL_INDEX_PATH) -> list[str]:
+    """Canonical ``EXCHANGE:code`` ids for the complete configured universe.
 
-    Keyed the way the radar keys its cache, so a backfilled entry is the same
-    entry the hourly pipeline would have written.
+    The official company registry is the product's stock universe and includes
+    the 2,280+ symbols guarded by the daily workflow, without ETFs or other
+    non-company flow instruments. Keep accepting the compact alias file and
+    mapping-style flows index for explicit compatibility.
     """
+    payload = json.loads(Path(path).read_text(encoding="utf-8"))
+    symbols = payload.get("symbols") if isinstance(payload, Mapping) else None
+    if isinstance(symbols, list):
+        universe = []
+        for row in symbols:
+            if not isinstance(row, Mapping):
+                continue
+            code = str(row.get("symbol") or "")
+            exchange = str(row.get("exchange") or "")
+            if code and exchange in {"TWSE", "TPEX", "ESB"}:
+                universe.append(f"{exchange}:{code}")
+        if universe:
+            return sorted(set(universe))
+
+    if isinstance(symbols, Mapping):
+        universe = []
+        for code, metadata in symbols.items():
+            if not isinstance(metadata, Mapping):
+                continue
+            exchange = str(metadata.get("exchange") or "")
+            if exchange in {"TWSE", "TPEX", "ESB"}:
+                universe.append(f"{exchange}:{code}")
+        if universe:
+            return sorted(set(universe))
+
     aliases = load_symbol_aliases(path)
     return sorted(
         f"{metadata['exchange']}:{ticker}"
@@ -147,6 +177,9 @@ def backfill_fundamentals(
     max_workers: int = DEFAULT_MAX_WORKERS,
     retries: int = DEFAULT_RETRIES,
     backoff_seconds: tuple[float, ...] = RETRY_BACKOFF_SECONDS,
+    checkpoint_every: int = 25,
+    on_progress: Callable[[Mapping[str, Mapping[str, Any]]], None] | None = None,
+    skip_exchanges: frozenset[str] = frozenset(),
 ) -> tuple[dict[str, Mapping[str, Any]], BackfillReport]:
     """Fetch every due symbol and return the merged cache plus a report.
 
@@ -164,6 +197,9 @@ def backfill_fundamentals(
         return merged, report
 
     def run(instrument_id: str) -> tuple[str, Mapping[str, Any] | None, str | None]:
+        exchange = instrument_id.split(":", 1)[0]
+        if exchange in skip_exchanges:
+            return instrument_id, None, f"unsupported exchange: {exchange}"
         ticker = _bare_ticker(instrument_id)
         last_error = "no attempt made"
         for attempt in range(max(1, retries)):
@@ -184,21 +220,26 @@ def backfill_fundamentals(
         return instrument_id, None, last_error
 
     workers = max(1, min(max_workers, len(selected)))
+    processed = 0
     with ThreadPoolExecutor(max_workers=workers) as pool:
         # map() yields in submission order, so the merged cache is identical
         # regardless of which worker finished first.
-        results = list(pool.map(run, selected))
+        for instrument_id, context, error in pool.map(run, selected):
+            processed += 1
+            if error is not None:
+                report.failed += 1
+                report.failures[instrument_id] = error
+                LOGGER.warning(
+                    "fundamentals_backfill_failed symbol=%s error=%s", instrument_id, error
+                )
+            else:
+                merged[instrument_id] = context
+                report.succeeded += 1
+            if on_progress and checkpoint_every > 0 and processed % checkpoint_every == 0:
+                on_progress(merged)
 
-    for instrument_id, context, error in results:
-        if error is not None:
-            report.failed += 1
-            report.failures[instrument_id] = error
-            LOGGER.warning(
-                "fundamentals_backfill_failed symbol=%s error=%s", instrument_id, error
-            )
-            continue
-        merged[instrument_id] = context
-        report.succeeded += 1
+    if on_progress and processed and processed % max(1, checkpoint_every) != 0:
+        on_progress(merged)
 
     return merged, report
 
@@ -227,7 +268,18 @@ def _default_fetch(pause_seconds: float) -> Callable[[str], Mapping[str, Any]]:
 
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(description=__doc__.split("\n", 1)[0])
-    parser.add_argument("--aliases", type=Path, default=DEFAULT_SYMBOL_ALIASES_PATH)
+    parser.add_argument(
+        "--symbols-index",
+        type=Path,
+        default=DEFAULT_SYMBOL_INDEX_PATH,
+        help="JSON symbol index for the complete backfill universe",
+    )
+    parser.add_argument(
+        "--aliases",
+        type=Path,
+        default=None,
+        help="Compatibility alias for a targeted compact universe",
+    )
     parser.add_argument("--data-dir", type=Path, default=DEFAULT_DATA_DIR)
     parser.add_argument(
         "--only",
@@ -257,6 +309,23 @@ def build_parser() -> argparse.ArgumentParser:
         default=3.0,
         help="Delay between the three statement requests within one symbol",
     )
+    parser.add_argument(
+        "--min-universe-size",
+        type=int,
+        default=MIN_SYMBOL_UNIVERSE_SIZE,
+        help="Fail before fetching if the configured universe is smaller than this",
+    )
+    parser.add_argument(
+        "--checkpoint-every",
+        type=int,
+        default=25,
+        help="Persist successful results after this many attempted symbols",
+    )
+    parser.add_argument(
+        "--skip-exchanges",
+        default="ESB",
+        help="Comma-separated exchanges to record as unavailable without scraping",
+    )
     return parser
 
 
@@ -264,7 +333,10 @@ def main(argv: list[str] | None = None) -> int:
     args = build_parser().parse_args(argv)
     logging.basicConfig(level=logging.INFO, format="%(levelname)s %(message)s")
 
-    universe = load_symbol_universe(args.aliases)
+    universe = load_symbol_universe(args.aliases or args.symbols_index)
+    if len(universe) < args.min_universe_size and not args.aliases:
+        LOGGER.error("symbol universe too small: %d < %d", len(universe), args.min_universe_size)
+        return 1
     if args.only:
         wanted = {token.strip() for token in args.only.split(",") if token.strip()}
         universe = [i for i in universe if _bare_ticker(i) in wanted]
@@ -287,6 +359,9 @@ def main(argv: list[str] | None = None) -> int:
         dry_run=args.dry_run,
         max_workers=args.max_workers,
         retries=args.retries,
+        checkpoint_every=args.checkpoint_every,
+        on_progress=None if args.dry_run else lambda current: write_fundamentals_cache(cache_path, current),
+        skip_exchanges=frozenset(token.strip() for token in args.skip_exchanges.split(",") if token.strip()),
     )
 
     LOGGER.info(

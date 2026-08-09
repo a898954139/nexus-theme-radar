@@ -85,7 +85,8 @@ const ThemeDetail: React.FC<{
   searchQuery: string;
   setSearchQuery: (query: string) => void;
   onGoMomentum: () => void;
-}> = ({ theme, selectedGroup, setSelectedGroup, searchQuery, setSearchQuery, onGoMomentum }) => {
+  onGoStock: ThemeRadarHomeProps['onGoStock'];
+}> = ({ theme, selectedGroup, setSelectedGroup, searchQuery, setSearchQuery, onGoMomentum, onGoStock }) => {
   const [canvasOpen, setCanvasOpen] = useState(false);
   const all = buildThemeStockEntries(theme.direct_mentions, theme.supply_chain_candidates);
   const direct = all.filter(({ kind }) => kind === 'direct');
@@ -150,14 +151,14 @@ const ThemeDetail: React.FC<{
             key={`${kind}-${instrument.instrument_id}-${index}`}
             instrument={instrument}
             kind={kind}
-            onClick={() => setCanvasOpen(true)}
+            onClick={() => onGoStock(instrument.symbol, instrument.exchange, 'fundamentals')}
           />
         )) : <p className="no-results">沒有符合的標的</p>}
       </div>
 
       {filtered.length ? <button className="stock-list-expand" type="button" onClick={() => setCanvasOpen(true)}>展開全部 {filtered.length} 檔題材股票 →</button> : null}
 
-      {canvasOpen ? <ThemeStocksCanvas themeName={theme.name_zh} stocks={filtered} onClose={() => setCanvasOpen(false)} /> : null}
+      {canvasOpen ? <ThemeStocksCanvas themeName={theme.name_zh} stocks={filtered} onClose={() => setCanvasOpen(false)} onGoStock={onGoStock} /> : null}
 
       <div className="theme-detail-footer">
         <span>相關新聞 {theme.summaries?.event_count ?? 0} 則</span>
@@ -218,6 +219,7 @@ export const ThemeRadarHome: React.FC<ThemeRadarHomeProps> = ({ data, device, on
               searchQuery={searchQuery}
               setSearchQuery={setSearchQuery}
               onGoMomentum={onGoMomentum}
+              onGoStock={onGoStock}
             />
           ) : null}
         </section>
@@ -256,6 +258,7 @@ export const ThemeRadarHome: React.FC<ThemeRadarHomeProps> = ({ data, device, on
                     searchQuery={searchQuery}
                     setSearchQuery={setSearchQuery}
                     onGoMomentum={onGoMomentum}
+                    onGoStock={onGoStock}
                   />
                 ) : (
                   <div className="collapsed-theme-card">
@@ -284,6 +287,9 @@ export const ThemeRadarHome: React.FC<ThemeRadarHomeProps> = ({ data, device, on
         <div className="news-feed">
           {news.map((item, index) => {
             const published = formatDateTime(item.published_at);
+            const symbols = item.symbols.filter((symbol, symbolIndex, allSymbols) => allSymbols.findIndex((candidate) => candidate.instrument_id === symbol.instrument_id) === symbolIndex);
+            const visibleSymbols = symbols.slice(0, 3);
+            const hiddenSymbolCount = symbols.length - visibleSymbols.length;
             return (
               <article className="news-row" key={item.id}>
                 <div className={`news-time ${index === 0 ? 'is-latest' : ''}`}><strong className="mono-num">{published.time}</strong><span className="mono-num">{published.date}</span></div>
@@ -292,7 +298,8 @@ export const ThemeRadarHome: React.FC<ThemeRadarHomeProps> = ({ data, device, on
                   <a href={item.url ?? '#'} target="_blank" rel="noreferrer">{item.title_zh}</a>
                   <div className="news-meta">
                     {item.theme_name_zh ? <button type="button" onClick={() => selectTheme(themes.findIndex((theme) => theme.theme_id === item.theme_id))}>{item.theme_name_zh}</button> : null}
-                    {item.symbols.map((symbol, symbolIndex) => <button key={`${item.id}-${symbol.instrument_id}-${symbolIndex}`} type="button" onClick={() => onGoStock(symbol.symbol, symbol.exchange)}>{symbol.symbol}</button>)}
+                    {visibleSymbols.map((symbol, symbolIndex) => <button key={`${item.id}-${symbol.instrument_id}-${symbolIndex}`} type="button" onClick={() => onGoStock(symbol.symbol, symbol.exchange)}>{symbol.symbol}</button>)}
+                    {hiddenSymbolCount > 0 ? <span className="news-symbol-overflow mono-num">+{hiddenSymbolCount}</span> : null}
                     <span>{item.source}</span>
                   </div>
                 </div>

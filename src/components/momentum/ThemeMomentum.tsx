@@ -84,7 +84,7 @@ const ThemeStockChips: React.FC<{
         ))}
         {symbols.length > 4 ? <button type="button" className="more-chip mono-num" aria-label={`展開${theme.name_zh}全部 ${symbols.length} 檔股票`} onClick={() => setCanvasOpen(true)}>＋{symbols.length - 4}</button> : null}
       </div>
-      {canvasOpen ? <ThemeStocksCanvas themeName={theme.name_zh} stocks={buildThemeStockEntries(theme.direct_symbols, theme.related_symbols)} onClose={() => setCanvasOpen(false)} /> : null}
+      {canvasOpen ? <ThemeStocksCanvas themeName={theme.name_zh} stocks={buildThemeStockEntries(theme.direct_symbols, theme.related_symbols)} onClose={() => setCanvasOpen(false)} onGoStock={onGoStock} /> : null}
     </>
   );
 };

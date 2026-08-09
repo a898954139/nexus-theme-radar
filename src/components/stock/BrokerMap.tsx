@@ -1,4 +1,3 @@
-import { createPortal } from 'react-dom';
 import React, { useEffect, useMemo, useState } from 'react';
 import { BrokerMapBranch, BrokerMapData, DeviceType, StockTab } from '../../types';
 
@@ -11,9 +10,14 @@ interface BrokerMapProps {
   onGoStock: (code: string, exchange?: string, tab?: StockTab) => void;
 }
 
-interface BrokerLayout {
+interface VisibleBranch {
   branch: BrokerMapBranch;
-  nodeTop: number;
+  children: BrokerMapBranch['stocks'];
+}
+
+interface BrokerLayout extends VisibleBranch {
+  branchTop: number;
+  childTops: number[];
 }
 
 function formatLots(value: number) {
@@ -34,33 +38,23 @@ const MapEmpty: React.FC<{ loading?: boolean }> = ({ loading }) => (
 
 export const BrokerMap: React.FC<BrokerMapProps> = ({ code, name, device, data, loading = false, onGoStock }) => {
   const [query, setQuery] = useState('');
-  const [canvasSelection, setCanvasSelection] = useState<string | 'all' | null>(null);
-  useEffect(() => {
-    setQuery('');
-    setCanvasSelection(null);
-  }, [code]);
-  useEffect(() => {
-    if (!canvasSelection) return undefined;
-    const previousOverflow = document.body.style.overflow;
-    const closeOnEscape = (event: KeyboardEvent) => {
-      if (event.key === 'Escape') setCanvasSelection(null);
-    };
-    document.body.style.overflow = 'hidden';
-    window.addEventListener('keydown', closeOnEscape);
-    return () => {
-      document.body.style.overflow = previousOverflow;
-      window.removeEventListener('keydown', closeOnEscape);
-    };
-  }, [canvasSelection]);
+  const [openBranches, setOpenBranches] = useState<Set<string>>(new Set());
   const isMobile = device === 'mobile';
   const rootWidth = isMobile ? 150 : 190;
   const branchWidth = isMobile ? 180 : 216;
+  const childWidth = isMobile ? 170 : 200;
   const horizontalGap = isMobile ? 70 : 110;
   const x0 = 20;
   const x1 = x0 + rootWidth + horizontalGap;
-  const canvasWidth = x1 + branchWidth + 20;
+  const x2 = x1 + branchWidth + horizontalGap;
+  const canvasWidth = x2 + childWidth + 20;
 
-  const visibleBranches = useMemo(() => {
+  useEffect(() => {
+    setQuery('');
+    setOpenBranches(new Set());
+  }, [code]);
+
+  const visibleBranches = useMemo<VisibleBranch[]>(() => {
     if (!data) return [];
     return data.brokers.flatMap((branch) => {
       const match = branchMatches(branch, query);
@@ -70,21 +64,25 @@ export const BrokerMap: React.FC<BrokerMapProps> = ({ code, name, device, data, 
   }, [data, query]);
 
   const layout = useMemo(() => {
+    const branchHeight = 62;
+    const childHeight = 46;
+    const childGap = 12;
     let cursor = 20;
-    const items: BrokerLayout[] = visibleBranches.map(({ branch }) => {
-      const nodeTop = cursor;
-      const item = {
-        branch,
-        nodeTop,
-      };
-      cursor += 62 + 12;
-      return item;
+    const items: BrokerLayout[] = visibleBranches.map((item) => {
+      const isOpen = openBranches.has(item.branch.id) && item.children.length > 0;
+      const childBlockHeight = item.children.length * childHeight + Math.max(0, item.children.length - 1) * childGap;
+      const blockHeight = isOpen ? branchHeight + childGap + childBlockHeight : branchHeight;
+      const branchTop = cursor;
+      const childStart = cursor + branchHeight + childGap;
+      const childTops = isOpen ? item.children.map((_, index) => childStart + index * (childHeight + childGap)) : [];
+      cursor += blockHeight + (isOpen ? 6 : 12);
+      return { ...item, branchTop, childTops };
     });
     return {
       items,
       height: Math.max(isMobile ? 460 : 520, cursor + 20),
     };
-  }, [isMobile, visibleBranches]);
+  }, [isMobile, openBranches, visibleBranches]);
 
   const summary = data?.summary ?? {
     buy: 0,
@@ -93,19 +91,14 @@ export const BrokerMap: React.FC<BrokerMapProps> = ({ code, name, device, data, 
     broker_count: data?.brokers.length ?? 0,
   };
   const rootY = layout.height / 2 - 63;
-  const canvasBranches = useMemo(() => {
-    if (!data || !canvasSelection) return [];
-    if (canvasSelection === 'all') return visibleBranches.map(({ branch, children }) => ({ ...branch, stocks: children }));
-    const branch = data.brokers.find((item) => item.id === canvasSelection);
-    if (!branch) return [];
-    const match = branchMatches(branch, query);
-    return [{ ...branch, stocks: match.branch || !query.trim() ? branch.stocks : match.childCodes }];
-  }, [canvasSelection, data, query, visibleBranches]);
 
-  const openCanvas = (selection: string | 'all') => setCanvasSelection(selection);
-  const goToStock = (childCode: string) => {
-    setCanvasSelection(null);
-    onGoStock(childCode, undefined, 'broker');
+  const toggleBranch = (branchId: string) => {
+    setOpenBranches((current) => {
+      const next = new Set(current);
+      if (next.has(branchId)) next.delete(branchId);
+      else next.add(branchId);
+      return next;
+    });
   };
 
   if (loading || !data || !data.brokers.length) return <MapEmpty loading={loading} />;
@@ -118,52 +111,50 @@ export const BrokerMap: React.FC<BrokerMapProps> = ({ code, name, device, data, 
       </div>
       <div className="broker-map-toolbar">
         <label><span className="sr-only">搜尋券商或標的</span><input name="broker-map-search" value={query} onChange={(event) => setQuery(event.target.value)} placeholder="搜尋分點或標的…" /></label>
-        <div className="broker-map-actions"><button type="button" onClick={() => openCanvas('all')}>全部展開</button><button type="button" onClick={() => setCanvasSelection(null)}>全部收合</button></div>
+        <div className="broker-map-actions">
+          <button type="button" onClick={() => setOpenBranches(new Set(visibleBranches.map(({ branch }) => branch.id)))}>全部展開</button>
+          <button type="button" onClick={() => setOpenBranches(new Set())}>全部收合</button>
+        </div>
         <span className="broker-map-count">{visibleBranches.length} / {data.brokers.length} 家分點 · <b className="positive">買超 {data.brokers.filter((branch) => branch.net > 0).length}</b> · <b className="negative">賣超 {data.brokers.filter((branch) => branch.net < 0).length}</b></span>
       </div>
       <div className="broker-map-scroll">
         <div className="broker-map-canvas" style={{ height: layout.height, width: canvasWidth }}>
-        <svg className="broker-map-links" width={canvasWidth} height={layout.height} aria-hidden="true">
+          <svg className="broker-map-links" width={canvasWidth} height={layout.height} aria-hidden="true">
+            {layout.items.map((item) => {
+              const branchY = item.branchTop + 31;
+              const rootPath = `M ${x0 + rootWidth} ${rootY + 63} C ${x0 + rootWidth + 55} ${rootY + 63}, ${x1 - 55} ${branchY}, ${x1} ${branchY}`;
+              return (
+                <g key={item.branch.id}>
+                  <path d={rootPath} className={item.branch.net >= 0 ? 'broker-link-positive' : 'broker-link-negative'} />
+                  {item.childTops.map((childTop, index) => {
+                    const childY = childTop + 23;
+                    const childPath = `M ${x1 + branchWidth} ${branchY} C ${x1 + branchWidth + 55} ${branchY}, ${x2 - 55} ${childY}, ${x2} ${childY}`;
+                    return <path key={`${item.branch.id}-${item.children[index][0]}`} d={childPath} className={item.children[index][2] >= 0 ? 'broker-link-positive' : 'broker-link-negative'} />;
+                  })}
+                </g>
+              );
+            })}
+          </svg>
+          <div className="broker-map-node broker-map-root" style={{ left: x0, top: rootY, width: rootWidth }}>
+            <span className="page-kicker">STOCK</span><strong className="mono-num">{code} <em>{name}</em></strong><i /><span>分點合計 <b className={summary.net >= 0 ? 'positive' : 'negative'}>{formatLots(summary.net)}</b></span><small>分點家數 {summary.broker_count}</small>
+          </div>
           {layout.items.map((item) => {
-            const branchY = item.nodeTop + 31;
-            const rootPath = `M ${x0 + rootWidth} ${rootY + 63} C ${x0 + rootWidth + 55} ${rootY + 63}, ${x1 - 55} ${branchY}, ${x1} ${branchY}`;
-            return <g key={item.branch.id}><path d={rootPath} className={item.branch.net >= 0 ? 'broker-link-positive' : 'broker-link-negative'} /></g>;
+            const isOpen = openBranches.has(item.branch.id) && item.children.length > 0;
+            return (
+              <React.Fragment key={item.branch.id}>
+                <button type="button" aria-expanded={isOpen} className={`broker-map-node broker-map-branch ${isOpen ? 'is-open' : ''}`} style={{ left: x1, top: item.branchTop, width: branchWidth }} onClick={() => toggleBranch(item.branch.id)}>
+                  <span><b>{item.branch.name}</b><small>{isOpen ? '−' : '+'}</small></span><strong className={item.branch.net >= 0 ? 'positive' : 'negative'}>{formatLots(item.branch.net)}</strong><em>占比 {item.branch.ratio.toFixed(1)}% · {isOpen ? '收合標的' : '查看標的'}</em>
+                </button>
+                {isOpen ? item.children.map(([childCode, childName, childNet], index) => (
+                  <button type="button" className={`broker-map-node broker-map-child ${childNet >= 0 ? 'is-positive' : 'is-negative'}`} style={{ left: x2, top: item.childTops[index], width: childWidth }} key={`${item.branch.id}-${childCode}`} onClick={() => onGoStock(childCode, undefined, 'broker')}>
+                    <b className="mono-num">{childCode}</b><span>{childName}</span><strong className="mono-num">{formatLots(childNet)}</strong>
+                  </button>
+                )) : null}
+              </React.Fragment>
+            );
           })}
-        </svg>
-        <div className="broker-map-node broker-map-root" style={{ left: x0, top: rootY, width: rootWidth }}>
-          <span className="page-kicker">STOCK</span><strong className="mono-num">{code} <em>{name}</em></strong><i /><span>分點合計 <b className={summary.net >= 0 ? 'positive' : 'negative'}>{formatLots(summary.net)}</b></span><small>分點家數 {summary.broker_count}</small>
-        </div>
-        {layout.items.map((item) => <React.Fragment key={item.branch.id}>
-          <button type="button" aria-expanded={canvasSelection === item.branch.id} className={`broker-map-node broker-map-branch ${canvasSelection === item.branch.id ? 'is-open' : ''}`} style={{ left: x1, top: item.nodeTop, width: branchWidth }} onClick={() => openCanvas(item.branch.id)}>
-            <span><b>{item.branch.name}</b><small>{canvasSelection === item.branch.id ? '−' : '+'}</small></span><strong className={item.branch.net >= 0 ? 'positive' : 'negative'}>{formatLots(item.branch.net)}</strong><em>占比 {item.branch.ratio.toFixed(1)}% · 查看標的</em>
-          </button>
-        </React.Fragment>)}
         </div>
       </div>
-      {canvasSelection ? createPortal(
-        <div className="broker-child-canvas-backdrop" role="presentation" onMouseDown={(event) => { if (event.target === event.currentTarget) setCanvasSelection(null); }}>
-          <section className={`broker-child-canvas ${canvasSelection === 'all' ? 'is-all' : ''}`} role="dialog" aria-modal="true" aria-labelledby="broker-child-canvas-title">
-            <header className="broker-child-canvas-header">
-              <div>
-                <span className="page-kicker">BROKER STOCKS · 同時進出標的</span>
-                <h2 id="broker-child-canvas-title">{canvasSelection === 'all' ? '全部分點的主攻標的' : `${canvasBranches[0]?.name ?? '券商分點'} · 買賣標的`}</h2>
-                <p>內容數量較多，請在此畫布內向下捲動；點擊標的可直接查看個股券商分點。</p>
-              </div>
-              <button type="button" className="broker-child-canvas-close" aria-label="關閉主攻標的畫布" onClick={() => setCanvasSelection(null)}>×</button>
-            </header>
-            <div className="broker-child-canvas-scroll">
-              {canvasBranches.map((branch) => <article className="broker-child-canvas-group" key={branch.id}>
-                {canvasSelection === 'all' ? <div className="broker-child-canvas-group-heading"><strong>{branch.name}</strong><span className={branch.net >= 0 ? 'positive' : 'negative'}>{formatLots(branch.net)} · {branch.stocks.length} 檔</span></div> : null}
-                <div className="broker-child-canvas-list">
-                  {branch.stocks.length ? branch.stocks.map(([childCode, childName, childNet]) => <button type="button" className={`broker-child-canvas-item ${childNet >= 0 ? 'is-positive' : 'is-negative'}`} key={`${branch.id}-${childCode}`} onClick={() => goToStock(childCode)}><b className="mono-num">{childCode}</b><span>{childName}</span><strong className="mono-num">{formatLots(childNet)}</strong></button>) : <span className="muted">此分點沒有其他標的資料。</span>}
-                </div>
-              </article>)}
-            </div>
-            <footer className="broker-child-canvas-footer">共 {canvasBranches.reduce((sum, branch) => sum + branch.stocks.length, 0)} 檔標的 · 分點資料源自公開彙總</footer>
-          </section>
-        </div>,
-        document.body,
-      ) : null}
       <p className="broker-source-note">分點資料源自公開券商分點進出彙總，僅供技術展示。搜尋只過濾分點層與其子標的。</p>
     </section>
   );
