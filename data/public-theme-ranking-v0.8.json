@@ -2,7 +2,7 @@
   "schema_version": "nexus_public_theme_ranking.v0.8",
   "ranking_rule_version": "public_theme_heat_v0.8",
   "company_rule_version": "public_company_evidence_v0.8",
-  "generated_at": "2026-08-09T17:48:25.930665Z",
+  "generated_at": "2026-08-09T19:02:49.474705Z",
   "market_id": "TW_EQUITY",
   "market_scope": [
     "TW_EQUITY"
@@ -20,19 +20,19 @@
       "rank": 1,
       "theme_id": "memory_hbm",
       "name_zh": "記憶體與 HBM",
-      "heat_score": 84,
+      "heat_score": 70,
       "summaries": {
-        "event_count": 10,
+        "event_count": 5,
         "source_count": 3,
-        "tracking_candidate_count": 3,
-        "taiwan_mapping_count": 31
+        "tracking_candidate_count": 0,
+        "taiwan_mapping_count": 30
       },
       "heat_reason": {
         "rule_version": "public_theme_heat_v0.8",
         "event_component": {
-          "input": 10,
-          "normalized": 100.0,
-          "weighted": 25.0
+          "input": 5,
+          "normalized": 83.333,
+          "weighted": 20.833
         },
         "source_component": {
           "input": 3,
@@ -40,29 +40,21 @@
           "weighted": 18.75
         },
         "candidate_component": {
-          "input": 3,
-          "normalized": 75.0,
-          "weighted": 15.0
+          "input": 0,
+          "normalized": 0.0,
+          "weighted": 0.0
         },
         "mapping_component": {
-          "mapping_count": 31,
-          "direct_mapping_event_count": 6,
+          "mapping_count": 30,
+          "direct_mapping_event_count": 3,
           "normalized": 100.0,
           "weighted": 30.0
         },
-        "single_source_concentration": 0.727,
-        "concentration_penalty": 4.773,
-        "raw_score": 83.977
+        "single_source_concentration": 0.5,
+        "concentration_penalty": 0.0,
+        "raw_score": 69.583
       },
       "direct_mentions": [
-        {
-          "instrument_id": "TWSE:2027",
-          "symbol": "2027",
-          "exchange": "TWSE",
-          "name_zh": "大成鋼",
-          "direct_event_count": 2,
-          "latest_mentioned_at": "2026-08-06T18:44:15Z"
-        },
         {
           "instrument_id": "TWSE:2357",
           "symbol": "2357",
@@ -94,14 +86,6 @@
           "name_zh": "千興",
           "direct_event_count": 1,
           "latest_mentioned_at": "2026-08-07T04:00:46Z"
-        },
-        {
-          "instrument_id": "TWSE:2330",
-          "symbol": "2330",
-          "exchange": "TWSE",
-          "name_zh": "台積電",
-          "direct_event_count": 1,
-          "latest_mentioned_at": "2026-08-06T18:43:27Z"
         }
       ],
       "supply_chain_candidates": [
@@ -140,23 +124,141 @@
         }
       ],
       "representative_news": {
-        "cluster_id": "cluster-f5536e313d99315d",
-        "id": "digitimes_tw-afa62c2f1c50",
-        "title_zh": "【動物農莊】1兆美元估值大撕裂　長鑫崛起將撼動全球記憶體版圖？",
-        "summary": "長鑫存儲母公司長鑫科技上市（IPO）後，市場對其估值出現從1,600億~1.1兆美元的巨大分歧。中國持續推動科技自主，長鑫在填補中國本土DRAM供需缺口的同時加速擴產，甚至嘗試以DUV多次曝光突破EUV管制，並瞄準高頻寬記憶體（HBM）領域。然而，這恐侵蝕全球記憶體產業數十年的產能自律，並預計在2027",
-        "source_id": "digitimes_tw",
-        "source": "DIGITIMES",
-        "published_at": "2026-08-06T18:22:06Z",
-        "canonical_url": "https://www.digitimes.com.tw/tech/dt/n/shwnws.asp?id=0000763874_57H7SADH8JP5BV3JFAKZ0"
+        "cluster_id": "cluster-fb4634f2e5a64053",
+        "id": "cnyes-0a54f334b9c5",
+        "title_zh": "華爾街日報：蘋果測試長鑫存儲記憶體晶片 用於iPhone、MacBook",
+        "summary": "蘋果正在 iPhone、MacBook 等產品線中測試長鑫存儲（CXMT）的記憶體晶片，以緩解人工智慧（AI）熱潮引發的記憶體短缺問題。",
+        "source_id": "cnyes",
+        "source": "鉅亨網 Cnyes",
+        "published_at": "2026-08-09T13:26:25Z",
+        "canonical_url": "https://news.cnyes.com/news/id/6566909"
       }
     },
     {
       "rank": 2,
+      "theme_id": "statementdog_tag_1517",
+      "name_zh": "AI",
+      "heat_score": 69,
+      "summaries": {
+        "event_count": 18,
+        "source_count": 3,
+        "tracking_candidate_count": 0,
+        "taiwan_mapping_count": 123
+      },
+      "heat_reason": {
+        "rule_version": "public_theme_heat_v0.8",
+        "event_component": {
+          "input": 18,
+          "normalized": 100.0,
+          "weighted": 25.0
+        },
+        "source_component": {
+          "input": 3,
+          "normalized": 75.0,
+          "weighted": 18.75
+        },
+        "candidate_component": {
+          "input": 0,
+          "normalized": 0.0,
+          "weighted": 0.0
+        },
+        "mapping_component": {
+          "mapping_count": 123,
+          "direct_mapping_event_count": 8,
+          "normalized": 100.0,
+          "weighted": 30.0
+        },
+        "single_source_concentration": 0.722,
+        "concentration_penalty": 4.583,
+        "raw_score": 69.167
+      },
+      "direct_mentions": [
+        {
+          "instrument_id": "TWSE:2025",
+          "symbol": "2025",
+          "exchange": "TWSE",
+          "name_zh": "千興",
+          "direct_event_count": 5,
+          "latest_mentioned_at": "2026-08-07T10:43:56Z"
+        },
+        {
+          "instrument_id": "TWSE:2007",
+          "symbol": "2007",
+          "exchange": "TWSE",
+          "name_zh": "燁興",
+          "direct_event_count": 1,
+          "latest_mentioned_at": "2026-08-08T07:19:28Z"
+        },
+        {
+          "instrument_id": "TWSE:6515",
+          "symbol": "6515",
+          "exchange": "TWSE",
+          "name_zh": "穎崴",
+          "direct_event_count": 1,
+          "latest_mentioned_at": "2026-08-07T07:55:26Z"
+        },
+        {
+          "instrument_id": "TWSE:2027",
+          "symbol": "2027",
+          "exchange": "TWSE",
+          "name_zh": "大成鋼",
+          "direct_event_count": 1,
+          "latest_mentioned_at": "2026-08-07T03:10:55Z"
+        }
+      ],
+      "supply_chain_candidates": [
+        {
+          "instrument_id": "TWSE:6515",
+          "symbol": "6515",
+          "exchange": "TWSE",
+          "name_zh": "穎崴",
+          "direct_event_count": 1,
+          "official_evidence_count": 0,
+          "company_rank_score": 5,
+          "latest_mentioned_at": "2026-08-07T07:55:26Z",
+          "latest_official_at": null
+        },
+        {
+          "instrument_id": "TPEX:3081",
+          "symbol": "3081",
+          "exchange": "TPEX",
+          "name_zh": "聯亞",
+          "direct_event_count": 0,
+          "official_evidence_count": 0,
+          "company_rank_score": 1,
+          "latest_mentioned_at": null,
+          "latest_official_at": null
+        },
+        {
+          "instrument_id": "TPEX:3324",
+          "symbol": "3324",
+          "exchange": "TPEX",
+          "name_zh": "雙鴻",
+          "direct_event_count": 0,
+          "official_evidence_count": 0,
+          "company_rank_score": 1,
+          "latest_mentioned_at": null,
+          "latest_official_at": null
+        }
+      ],
+      "representative_news": {
+        "cluster_id": "cluster-660f50e3730deabb",
+        "id": "cnyes-d6dc0f449a9b",
+        "title_zh": "中國7月CPI年增0.5%、PPI升3.5%！AI帶動消費電子漲價、物價復甦力道仍溫和",
+        "summary": "中國 7 月 CPI 年增 0.5%、月減 0.1%，PPI 年增 3.5% 但漲幅收窄。AI 帶動平板、電腦與手機價格上漲，暑期旅遊需求也推升服務價格。",
+        "source_id": "cnyes",
+        "source": "鉅亨網 Cnyes",
+        "published_at": "2026-08-09T09:10:03Z",
+        "canonical_url": "https://news.cnyes.com/news/id/6566829"
+      }
+    },
+    {
+      "rank": 3,
       "theme_id": "defense_drone",
       "name_zh": "國防與無人機",
-      "heat_score": 68,
+      "heat_score": 64,
       "summaries": {
-        "event_count": 7,
+        "event_count": 5,
         "source_count": 4,
         "tracking_candidate_count": 0,
         "taiwan_mapping_count": 3
@@ -164,9 +266,9 @@
       "heat_reason": {
         "rule_version": "public_theme_heat_v0.8",
         "event_component": {
-          "input": 7,
-          "normalized": 100.0,
-          "weighted": 25.0
+          "input": 5,
+          "normalized": 83.333,
+          "weighted": 20.833
         },
         "source_component": {
           "input": 4,
@@ -184,9 +286,9 @@
           "normalized": 60.0,
           "weighted": 18.0
         },
-        "single_source_concentration": 0.5,
+        "single_source_concentration": 0.333,
         "concentration_penalty": 0.0,
-        "raw_score": 68.0
+        "raw_score": 63.833
       },
       "direct_mentions": [],
       "supply_chain_candidates": [
@@ -233,140 +335,6 @@
         "source": "鉅亨網 Cnyes",
         "published_at": "2026-08-09T11:00:03Z",
         "canonical_url": "https://news.cnyes.com/news/id/6566762"
-      }
-    },
-    {
-      "rank": 3,
-      "theme_id": "statementdog_tag_1517",
-      "name_zh": "AI",
-      "heat_score": 65,
-      "summaries": {
-        "event_count": 29,
-        "source_count": 3,
-        "tracking_candidate_count": 0,
-        "taiwan_mapping_count": 172
-      },
-      "heat_reason": {
-        "rule_version": "public_theme_heat_v0.8",
-        "event_component": {
-          "input": 29,
-          "normalized": 100.0,
-          "weighted": 25.0
-        },
-        "source_component": {
-          "input": 3,
-          "normalized": 75.0,
-          "weighted": 18.75
-        },
-        "candidate_component": {
-          "input": 0,
-          "normalized": 0.0,
-          "weighted": 0.0
-        },
-        "mapping_component": {
-          "mapping_count": 172,
-          "direct_mapping_event_count": 12,
-          "normalized": 100.0,
-          "weighted": 30.0
-        },
-        "single_source_concentration": 0.828,
-        "concentration_penalty": 8.534,
-        "raw_score": 65.216
-      },
-      "direct_mentions": [
-        {
-          "instrument_id": "TWSE:2025",
-          "symbol": "2025",
-          "exchange": "TWSE",
-          "name_zh": "千興",
-          "direct_event_count": 6,
-          "latest_mentioned_at": "2026-08-07T10:43:56Z"
-        },
-        {
-          "instrument_id": "TWSE:2027",
-          "symbol": "2027",
-          "exchange": "TWSE",
-          "name_zh": "大成鋼",
-          "direct_event_count": 2,
-          "latest_mentioned_at": "2026-08-07T03:10:55Z"
-        },
-        {
-          "instrument_id": "TWSE:2007",
-          "symbol": "2007",
-          "exchange": "TWSE",
-          "name_zh": "燁興",
-          "direct_event_count": 1,
-          "latest_mentioned_at": "2026-08-08T07:19:28Z"
-        },
-        {
-          "instrument_id": "TWSE:6515",
-          "symbol": "6515",
-          "exchange": "TWSE",
-          "name_zh": "穎崴",
-          "direct_event_count": 1,
-          "latest_mentioned_at": "2026-08-07T07:55:26Z"
-        },
-        {
-          "instrument_id": "TWSE:3231",
-          "symbol": "3231",
-          "exchange": "TWSE",
-          "name_zh": "緯創",
-          "direct_event_count": 1,
-          "latest_mentioned_at": "2026-08-06T19:00:00Z"
-        },
-        {
-          "instrument_id": "TWSE:2030",
-          "symbol": "2030",
-          "exchange": "TWSE",
-          "name_zh": "彰源",
-          "direct_event_count": 1,
-          "latest_mentioned_at": "2026-08-06T18:28:47Z"
-        }
-      ],
-      "supply_chain_candidates": [
-        {
-          "instrument_id": "TWSE:6515",
-          "symbol": "6515",
-          "exchange": "TWSE",
-          "name_zh": "穎崴",
-          "direct_event_count": 1,
-          "official_evidence_count": 0,
-          "company_rank_score": 5,
-          "latest_mentioned_at": "2026-08-07T07:55:26Z",
-          "latest_official_at": null
-        },
-        {
-          "instrument_id": "TWSE:3231",
-          "symbol": "3231",
-          "exchange": "TWSE",
-          "name_zh": "緯創",
-          "direct_event_count": 1,
-          "official_evidence_count": 0,
-          "company_rank_score": 5,
-          "latest_mentioned_at": "2026-08-06T19:00:00Z",
-          "latest_official_at": null
-        },
-        {
-          "instrument_id": "TPEX:3081",
-          "symbol": "3081",
-          "exchange": "TPEX",
-          "name_zh": "聯亞",
-          "direct_event_count": 0,
-          "official_evidence_count": 0,
-          "company_rank_score": 1,
-          "latest_mentioned_at": null,
-          "latest_official_at": null
-        }
-      ],
-      "representative_news": {
-        "cluster_id": "cluster-660f50e3730deabb",
-        "id": "cnyes-d6dc0f449a9b",
-        "title_zh": "中國7月CPI年增0.5%、PPI升3.5%！AI帶動消費電子漲價、物價復甦力道仍溫和",
-        "summary": "中國 7 月 CPI 年增 0.5%、月減 0.1%，PPI 年增 3.5% 但漲幅收窄。AI 帶動平板、電腦與手機價格上漲，暑期旅遊需求也推升服務價格。",
-        "source_id": "cnyes",
-        "source": "鉅亨網 Cnyes",
-        "published_at": "2026-08-09T09:10:03Z",
-        "canonical_url": "https://news.cnyes.com/news/id/6566829"
       }
     },
     {
@@ -483,24 +451,24 @@
       "rank": 5,
       "theme_id": "statementdog_tag_52",
       "name_zh": "蘋果",
-      "heat_score": 49,
+      "heat_score": 39,
       "summaries": {
-        "event_count": 3,
-        "source_count": 3,
+        "event_count": 2,
+        "source_count": 2,
         "tracking_candidate_count": 0,
         "taiwan_mapping_count": 17
       },
       "heat_reason": {
         "rule_version": "public_theme_heat_v0.8",
         "event_component": {
-          "input": 3,
-          "normalized": 50.0,
-          "weighted": 12.5
+          "input": 2,
+          "normalized": 33.333,
+          "weighted": 8.333
         },
         "source_component": {
-          "input": 3,
-          "normalized": 75.0,
-          "weighted": 18.75
+          "input": 2,
+          "normalized": 50.0,
+          "weighted": 12.5
         },
         "candidate_component": {
           "input": 0,
@@ -513,9 +481,9 @@
           "normalized": 60.0,
           "weighted": 18.0
         },
-        "single_source_concentration": 0.333,
+        "single_source_concentration": 0.5,
         "concentration_penalty": 0.0,
-        "raw_score": 49.25
+        "raw_score": 38.833
       },
       "direct_mentions": [],
       "supply_chain_candidates": [
