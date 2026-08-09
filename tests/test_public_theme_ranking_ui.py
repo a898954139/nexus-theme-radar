@@ -259,7 +259,9 @@ def test_markup_copy_and_first_section_preserve_lower_homepage() -> None:
     assert "supply_chain_candidates" in home
     assert "theme-stage" in home
     assert "news-feed" in home
-    assert "slice(0, 20)" in home
+    assert "const NEWS_PAGE_SIZE = 20;" in home
+    assert "news.slice(0, visibleNewsCount)" in home
+    assert "new IntersectionObserver" in home
     assert 'id="publicThemeRankingWrap"' not in html
 
     ranking_markup = home

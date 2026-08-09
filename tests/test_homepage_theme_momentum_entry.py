@@ -44,7 +44,12 @@ def test_homepage_has_one_primary_card_and_preserves_secondary_link() -> None:
     assert "onGoMomentum={() => updateHash('momentum')}" in app
     assert "theme-stage" in home
     assert "news-feed" in home
-    assert "slice(0, 20)" in home
+    assert "const NEWS_PAGE_SIZE = 20;" in home
+    assert ".slice(0, 20)" not in home
+    assert "news.slice(0, visibleNewsCount)" in home
+    assert "new IntersectionObserver" in home
+    assert "const root = newsFeedRef.current;" in home
+    assert "{ root, rootMargin: '0px 0px 120px' }" in home
     assert "theme-momentum.html" not in html
 
 

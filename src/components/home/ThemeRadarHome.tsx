@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { ThemeStocksCanvas } from '../common/ThemeStocksCanvas';
 import { buildThemeStockEntries, mergeInstrumentRefs } from '../../lib/themeStocks';
 import { DeviceType, InstrumentRef, NewsItem, RadarData, StockGroup } from '../../types';
@@ -9,6 +9,8 @@ interface ThemeRadarHomeProps {
   onGoMomentum: () => void;
   onGoStock: (code: string, exchange?: string, tab?: 'fundamentals' | 'flows') => void;
 }
+
+const NEWS_PAGE_SIZE = 20;
 
 function stageLabel(stage?: string) {
   const labels: Record<string, string> = {
@@ -39,7 +41,6 @@ function toNewsItems(data: RadarData): NewsItem[] {
   return data.events
     .slice()
     .sort((a, b) => new Date(b.published_at).getTime() - new Date(a.published_at).getTime())
-    .slice(0, 20)
     .map((event) => ({
       id: event.id,
       title_zh: event.title_zh,
@@ -176,7 +177,29 @@ export const ThemeRadarHome: React.FC<ThemeRadarHomeProps> = ({ data, device, on
   const [selectedGroup, setSelectedGroup] = useState<StockGroup>('all');
   const [searchQuery, setSearchQuery] = useState('');
   const [communityMode, setCommunityMode] = useState<'today' | '7d'>('today');
+  const [visibleNewsCount, setVisibleNewsCount] = useState(NEWS_PAGE_SIZE);
+  const newsFeedRef = useRef<HTMLDivElement>(null);
+  const newsLoadMoreRef = useRef<HTMLButtonElement>(null);
   const selectedTheme = themes[selectedIndex] ?? themes[0];
+  const visibleNews = news.slice(0, visibleNewsCount);
+  const hasMoreNews = visibleNewsCount < news.length;
+
+  useEffect(() => {
+    setVisibleNewsCount(NEWS_PAGE_SIZE);
+  }, [news]);
+
+  useEffect(() => {
+    const root = newsFeedRef.current;
+    const target = newsLoadMoreRef.current;
+    if (!hasMoreNews || !root || !target || typeof IntersectionObserver === 'undefined') return;
+
+    const observer = new IntersectionObserver(([entry]) => {
+      if (!entry.isIntersecting) return;
+      setVisibleNewsCount((count) => Math.min(count + NEWS_PAGE_SIZE, news.length));
+    }, { root, rootMargin: '0px 0px 120px' });
+    observer.observe(target);
+    return () => observer.disconnect();
+  }, [hasMoreNews, news.length]);
 
   const selectTheme = (index: number) => {
     setSelectedIndex(index);
@@ -284,8 +307,8 @@ export const ThemeRadarHome: React.FC<ThemeRadarHomeProps> = ({ data, device, on
 
       <section className="news-section">
         <div className="section-heading"><h2>最新新聞</h2><span className="mono-num">{news.length} 條</span></div>
-        <div className="news-feed">
-          {news.map((item, index) => {
+        <div className="news-feed" ref={newsFeedRef}>
+          {visibleNews.map((item, index) => {
             const published = formatDateTime(item.published_at);
             const symbols = item.symbols.filter((symbol, symbolIndex, allSymbols) => allSymbols.findIndex((candidate) => candidate.instrument_id === symbol.instrument_id) === symbolIndex);
             const visibleSymbols = symbols.slice(0, 3);
@@ -306,6 +329,16 @@ export const ThemeRadarHome: React.FC<ThemeRadarHomeProps> = ({ data, device, on
               </article>
             );
           })}
+          {hasMoreNews ? (
+            <button
+              className="stock-list-expand news-load-more"
+              ref={newsLoadMoreRef}
+              type="button"
+              onClick={() => setVisibleNewsCount((count) => Math.min(count + NEWS_PAGE_SIZE, news.length))}
+            >
+              向下捲動載入更多 · 已顯示 {visibleNews.length} / {news.length} 條
+            </button>
+          ) : null}
         </div>
       </section>
 
