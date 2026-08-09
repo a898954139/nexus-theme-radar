@@ -2,14 +2,14 @@
   "schema_version": "nexus_public_theme_ranking.v0.8",
   "ranking_rule_version": "public_theme_heat_v0.8",
   "company_rule_version": "public_company_evidence_v0.8",
-  "generated_at": "2026-08-09T05:58:58.589869Z",
+  "generated_at": "2026-08-09T07:17:50.853510Z",
   "market_id": "TW_EQUITY",
   "market_scope": [
     "TW_EQUITY"
   ],
   "window_hours": 72,
   "max_themes": 5,
-  "qualified_theme_count": 5,
+  "qualified_theme_count": 6,
   "displayed_theme_count": 5,
   "threshold_note": null,
   "generation_status": "complete",
@@ -302,6 +302,124 @@
     },
     {
       "rank": 3,
+      "theme_id": "optical_cpo",
+      "name_zh": "矽光子 CPO",
+      "heat_score": 64,
+      "summaries": {
+        "event_count": 4,
+        "source_count": 2,
+        "tracking_candidate_count": 2,
+        "taiwan_mapping_count": 24
+      },
+      "heat_reason": {
+        "rule_version": "public_theme_heat_v0.8",
+        "event_component": {
+          "input": 4,
+          "normalized": 66.667,
+          "weighted": 16.667
+        },
+        "source_component": {
+          "input": 2,
+          "normalized": 50.0,
+          "weighted": 12.5
+        },
+        "candidate_component": {
+          "input": 2,
+          "normalized": 50.0,
+          "weighted": 10.0
+        },
+        "mapping_component": {
+          "mapping_count": 24,
+          "direct_mapping_event_count": 2,
+          "normalized": 100.0,
+          "weighted": 30.0
+        },
+        "single_source_concentration": 0.75,
+        "concentration_penalty": 5.625,
+        "raw_score": 63.542
+      },
+      "direct_mentions": [
+        {
+          "instrument_id": "TWSE:2028",
+          "symbol": "2028",
+          "exchange": "TWSE",
+          "name_zh": "威致",
+          "direct_event_count": 1,
+          "latest_mentioned_at": "2026-08-09T06:17:36Z"
+        },
+        {
+          "instrument_id": "TWSE:2409",
+          "symbol": "2409",
+          "exchange": "TWSE",
+          "name_zh": "友達",
+          "direct_event_count": 1,
+          "latest_mentioned_at": "2026-08-09T06:17:36Z"
+        },
+        {
+          "instrument_id": "TWSE:3481",
+          "symbol": "3481",
+          "exchange": "TWSE",
+          "name_zh": "群創",
+          "direct_event_count": 1,
+          "latest_mentioned_at": "2026-08-09T06:17:36Z"
+        },
+        {
+          "instrument_id": "TWSE:2025",
+          "symbol": "2025",
+          "exchange": "TWSE",
+          "name_zh": "千興",
+          "direct_event_count": 1,
+          "latest_mentioned_at": "2026-08-06T18:53:14Z"
+        }
+      ],
+      "supply_chain_candidates": [
+        {
+          "instrument_id": "TPEX:3289",
+          "symbol": "3289",
+          "exchange": "TPEX",
+          "name_zh": "宜特",
+          "direct_event_count": 0,
+          "official_evidence_count": 0,
+          "company_rank_score": 1,
+          "latest_mentioned_at": null,
+          "latest_official_at": null
+        },
+        {
+          "instrument_id": "TPEX:3587",
+          "symbol": "3587",
+          "exchange": "TPEX",
+          "name_zh": "閎康",
+          "direct_event_count": 0,
+          "official_evidence_count": 0,
+          "company_rank_score": 1,
+          "latest_mentioned_at": null,
+          "latest_official_at": null
+        },
+        {
+          "instrument_id": "TPEX:4971",
+          "symbol": "4971",
+          "exchange": "TPEX",
+          "name_zh": "IET-KY",
+          "direct_event_count": 0,
+          "official_evidence_count": 0,
+          "company_rank_score": 1,
+          "latest_mentioned_at": null,
+          "latest_official_at": null
+        }
+      ],
+      "representative_news": {
+        "cluster_id": "cluster-0ab872fc737aeca3",
+        "id": "digitimes_tw-2f2ee852a8bc",
+        "title_zh": "（專訪）Lightmatter揭CPO技術藍圖　攜台廠供應鏈夥伴迎「光進銅退」",
+        "summary": "2026 OCPAPAC Summit即將在8月11~12日台北登場，Lightmatter創辦人暨執行長Nick Harris展前接受DIGITIMES專訪，分享公司加入NVIDIA NVLink生態系的優勢和技術藍圖布局，並強調與台灣供應鏈夥伴緊密合作的重要性。此外，Lightmatter生態系發展總監Bijan",
+        "source_id": "digitimes_tw",
+        "source": "DIGITIMES",
+        "published_at": "2026-08-06T18:23:38Z",
+        "canonical_url": "https://www.digitimes.com.tw/tech/dt/n/shwnws.asp?id=0000764270_39E1KTTX8NXSCQLYWG5P8"
+      }
+    },
+    {
+      "rank": 4,
       "theme_id": "energy_grid",
       "name_zh": "能源與電網",
       "heat_score": 54,
@@ -403,112 +521,27 @@
       }
     },
     {
-      "rank": 4,
-      "theme_id": "defense_drone",
-      "name_zh": "國防與無人機",
-      "heat_score": 44,
-      "summaries": {
-        "event_count": 5,
-        "source_count": 2,
-        "tracking_candidate_count": 0,
-        "taiwan_mapping_count": 3
-      },
-      "heat_reason": {
-        "rule_version": "public_theme_heat_v0.8",
-        "event_component": {
-          "input": 5,
-          "normalized": 83.333,
-          "weighted": 20.833
-        },
-        "source_component": {
-          "input": 2,
-          "normalized": 50.0,
-          "weighted": 12.5
-        },
-        "candidate_component": {
-          "input": 0,
-          "normalized": 0.0,
-          "weighted": 0.0
-        },
-        "mapping_component": {
-          "mapping_count": 3,
-          "direct_mapping_event_count": 0,
-          "normalized": 60.0,
-          "weighted": 18.0
-        },
-        "single_source_concentration": 0.8,
-        "concentration_penalty": 7.5,
-        "raw_score": 43.833
-      },
-      "direct_mentions": [],
-      "supply_chain_candidates": [
-        {
-          "instrument_id": "TPEX:5371",
-          "symbol": "5371",
-          "exchange": "TPEX",
-          "name_zh": "中光電",
-          "direct_event_count": 0,
-          "official_evidence_count": 0,
-          "company_rank_score": 1,
-          "latest_mentioned_at": null,
-          "latest_official_at": null
-        },
-        {
-          "instrument_id": "TWSE:2634",
-          "symbol": "2634",
-          "exchange": "TWSE",
-          "name_zh": "漢翔",
-          "direct_event_count": 0,
-          "official_evidence_count": 0,
-          "company_rank_score": 1,
-          "latest_mentioned_at": null,
-          "latest_official_at": null
-        },
-        {
-          "instrument_id": "TWSE:8033",
-          "symbol": "8033",
-          "exchange": "TWSE",
-          "name_zh": "雷虎",
-          "direct_event_count": 0,
-          "official_evidence_count": 0,
-          "company_rank_score": 1,
-          "latest_mentioned_at": null,
-          "latest_official_at": null
-        }
-      ],
-      "representative_news": {
-        "cluster_id": "cluster-8917483d95fc6bef",
-        "id": "technews-d3d888d9fb4c",
-        "title_zh": "佳世達總座親督軍注資擎壤、翔隆，百人無人機小隊強攻美日市場",
-        "summary": "近年，橫跨多事業群的科技集團佳世達接連投資兩家無人機新創，並由總經理親自督軍。 他們的目標是憑堅強的製造實力與 [&#8230;]",
-        "source_id": "technews",
-        "source": "TechNews",
-        "published_at": "2026-08-08T00:00:30Z",
-        "canonical_url": "https://technews.tw/2026/08/08/qisda-general-manager-personally-oversees-investment-q-land-s-long-100-person-drone-team-aggressively-targeting-us-japan-markets/"
-      }
-    },
-    {
       "rank": 5,
       "theme_id": "statementdog_tag_52",
       "name_zh": "蘋果",
-      "heat_score": 39,
+      "heat_score": 49,
       "summaries": {
-        "event_count": 2,
-        "source_count": 2,
+        "event_count": 3,
+        "source_count": 3,
         "tracking_candidate_count": 0,
         "taiwan_mapping_count": 17
       },
       "heat_reason": {
         "rule_version": "public_theme_heat_v0.8",
         "event_component": {
-          "input": 2,
-          "normalized": 33.333,
-          "weighted": 8.333
-        },
-        "source_component": {
-          "input": 2,
+          "input": 3,
           "normalized": 50.0,
           "weighted": 12.5
+        },
+        "source_component": {
+          "input": 3,
+          "normalized": 75.0,
+          "weighted": 18.75
         },
         "candidate_component": {
           "input": 0,
@@ -521,9 +554,9 @@
           "normalized": 60.0,
           "weighted": 18.0
         },
-        "single_source_concentration": 0.5,
+        "single_source_concentration": 0.333,
         "concentration_penalty": 0.0,
-        "raw_score": 38.833
+        "raw_score": 49.25
       },
       "direct_mentions": [],
       "supply_chain_candidates": [
@@ -562,14 +595,14 @@
         }
       ],
       "representative_news": {
-        "cluster_id": "cluster-f395dea599c429ca",
-        "id": "cnyes-466b165d870a",
-        "title_zh": "蘋果正式牽手阿里！Apple Intelligence整合「千問」　Siri可直接調用",
-        "summary": "蘋果中國官網《Mac 使用手冊》證實，Apple Intelligence 中國版已整合阿里巴巴「千問」模型，Siri、寫作工具等功能均可直接調用，顯示蘋果 AI 策略正轉向多模型合作。",
-        "source_id": "cnyes",
-        "source": "鉅亨網 Cnyes",
-        "published_at": "2026-08-08T13:10:05Z",
-        "canonical_url": "https://news.cnyes.com/news/id/6566558"
+        "cluster_id": "cluster-57abd9daef719c17",
+        "id": "technews-164a2b42e8ac",
+        "title_zh": "特納斯接棒蘋果 CEO 的第一場大考，9 月秋季發表會傳回歸「真人現場」",
+        "summary": "9 月 1 日，約翰·特納斯（John Ternus） 將正式接任蘋果 CEO。再過一週，他可能就要迎來第一場 [&#8230;]",
+        "source_id": "technews",
+        "source": "TechNews",
+        "published_at": "2026-08-09T07:00:37Z",
+        "canonical_url": "https://finance.technews.tw/2026/08/09/apples-september-event-may-be-its-first-live-keynote-in-five-years/"
       }
     }
   ]
