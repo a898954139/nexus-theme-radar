@@ -360,7 +360,13 @@ def main(argv: list[str] | None = None) -> int:
         max_workers=args.max_workers,
         retries=args.retries,
         checkpoint_every=args.checkpoint_every,
-        on_progress=None if args.dry_run else lambda current: write_fundamentals_cache(cache_path, current),
+        on_progress=(
+            None
+            if args.dry_run
+            else lambda current: write_fundamentals_cache(
+                cache_path, current, publish=False
+            )
+        ),
         skip_exchanges=frozenset(token.strip() for token in args.skip_exchanges.split(",") if token.strip()),
     )
 

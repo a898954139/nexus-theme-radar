@@ -110,9 +110,12 @@ export async function fetchBrokerMap(symbol: string): Promise<BrokerMapData | nu
 }
 
 export async function fetchStockFundamentals(symbol: string, exchange?: string): Promise<StockFundamentals | null> {
-  const data = await readJson<{ symbols: Record<string, StockFundamentals> }>('./data/theme-symbol-fundamentals.json');
+  const index = await readJson<{ symbols: Record<string, { file: string }> }>('./data/fundamentals-index.json');
   for (const key of resolveInstrumentKey(symbol, exchange)) {
-    if (data.symbols[key]) return data.symbols[key];
+    const filename = index.symbols[key]?.file;
+    if (filename) {
+      return readJson<StockFundamentals>(`./data/fundamentals/${encodeURIComponent(filename)}`);
+    }
   }
   return null;
 }

@@ -26,21 +26,21 @@ async function initStockPage() {
   }
 
   try {
-    // 2. Fetch fundamentals JSON, symbol aliases JSON, commentary JSON, and institutional flows JSON directly
+    // 2. Fetch the lightweight fundamentals index and optional supporting data.
     // Commentary is optional: it is generated separately and quarterly, so the
     // page must render the numbers whether or not any prose exists yet.
-    const [fundamentalsResp, aliasesResp, commentaryResp, flowsResp] = await Promise.all([
-      fetch('./data/theme-symbol-fundamentals.json', { cache: 'no-store' }),
+    const [indexResp, aliasesResp, commentaryResp, flowsResp] = await Promise.all([
+      fetch('./data/fundamentals-index.json', { cache: 'no-store' }),
       fetch('./config/symbol_aliases.tw.json').catch(() => null),
       fetch('./data/fundamental-commentary.json', { cache: 'no-store' }).catch(() => null),
       fetch('./data/institutional-flows.json', { cache: 'no-store' }).catch(() => null)
     ]);
 
-    if (!fundamentalsResp.ok) {
-      throw new Error(`無法讀取個股財務資料檔 (HTTP ${fundamentalsResp.status})`);
+    if (!indexResp.ok) {
+      throw new Error(`無法讀取個股財務索引 (HTTP ${indexResp.status})`);
     }
 
-    const fundamentalsData = await fundamentalsResp.json();
+    const fundamentalsIndex = await indexResp.json();
     const aliasesData = aliasesResp && aliasesResp.ok ? await aliasesResp.json() : null;
     const commentaryData =
       commentaryResp && commentaryResp.ok
@@ -51,7 +51,7 @@ async function initStockPage() {
         ? await flowsResp.json().catch(() => null)
         : null;
 
-    const symbolsMap = fundamentalsData.symbols || {};
+    const symbolsMap = fundamentalsIndex.symbols || {};
 
     // 3. Match entry key ending with ":<code>" or matching "<code>"
     const matchedKey = Object.keys(symbolsMap).find(
@@ -74,7 +74,18 @@ async function initStockPage() {
       return;
     }
 
-    const symbolData = symbolsMap[matchedKey];
+    const detailFile = symbolsMap[matchedKey]?.file;
+    if (!detailFile) {
+      throw new Error('個股財務索引缺少明細檔路徑');
+    }
+    const detailResp = await fetch(
+      `./data/fundamentals/${encodeURIComponent(detailFile)}`,
+      { cache: 'no-store' }
+    );
+    if (!detailResp.ok) {
+      throw new Error(`無法讀取個股財務明細 (HTTP ${detailResp.status})`);
+    }
+    const symbolData = await detailResp.json();
     const aliasInfo = aliasesData?.symbols?.[code] || {};
     const exchange = aliasInfo.exchange || matchedKey.split(':')[0] || 'TWSE';
     const nameZh = aliasInfo.name_zh || code;

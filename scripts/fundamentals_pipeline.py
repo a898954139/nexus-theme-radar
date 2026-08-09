@@ -11,6 +11,7 @@ from __future__ import annotations
 
 import json
 import logging
+import re
 from collections.abc import Callable, Mapping
 from datetime import datetime
 from pathlib import Path
@@ -36,6 +37,8 @@ LOGGER = logging.getLogger(__name__)
 DEFAULT_MAX_FETCHES = 40
 
 FUNDAMENTALS_CACHE_FILE = "theme-symbol-fundamentals.json"
+FUNDAMENTALS_INDEX_FILE = "fundamentals-index.json"
+FUNDAMENTALS_DETAIL_DIR = "fundamentals"
 
 
 def load_fundamentals_cache(path: Path) -> dict[str, Mapping[str, Any]]:
@@ -57,15 +60,64 @@ def load_fundamentals_cache(path: Path) -> dict[str, Mapping[str, Any]]:
     }
 
 
-def write_fundamentals_cache(path: Path, cache: Mapping[str, Mapping[str, Any]]) -> None:
-    destination = Path(path)
-    destination.parent.mkdir(parents=True, exist_ok=True)
-    temporary = destination.with_suffix(destination.suffix + ".tmp")
+def _write_json(path: Path, payload: Mapping[str, Any]) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    temporary = path.with_name(f".{path.name}.tmp")
     temporary.write_text(
-        json.dumps({"schema_version": 1, "symbols": dict(cache)}, ensure_ascii=False, indent=2),
+        json.dumps(payload, ensure_ascii=False, indent=2),
         encoding="utf-8",
     )
-    temporary.replace(destination)
+    temporary.replace(path)
+
+
+def _detail_filename(instrument_id: str) -> str:
+    if not re.fullmatch(r"[A-Z0-9]+:[A-Za-z0-9._-]+", instrument_id):
+        raise ValueError(f"invalid instrument id: {instrument_id}")
+    return f"{instrument_id.replace(':', '-', 1)}.json"
+
+
+def _fundamentals_summary(
+    context: Mapping[str, Any], *, filename: str
+) -> dict[str, Any]:
+    summary: dict[str, Any] = {"file": filename}
+    fiscal_quarter = context.get("fiscal_quarter")
+    if fiscal_quarter is not None:
+        summary["fiscal_quarter"] = fiscal_quarter
+    quarters = context.get("quarters")
+    if isinstance(quarters, list) and quarters and isinstance(quarters[0], Mapping):
+        summary["latest_quarter"] = dict(quarters[0])
+    for field in ("health", "valuation"):
+        value = context.get(field)
+        if isinstance(value, Mapping):
+            summary[field] = dict(value)
+    return summary
+
+
+def write_fundamentals_cache(
+    path: Path,
+    cache: Mapping[str, Mapping[str, Any]],
+    *,
+    publish: bool = True,
+) -> None:
+    destination = Path(path)
+    _write_json(destination, {"schema_version": 1, "symbols": dict(cache)})
+    if not publish:
+        return
+
+    detail_dir = destination.parent / FUNDAMENTALS_DETAIL_DIR
+    index_symbols: dict[str, dict[str, Any]] = {}
+    for instrument_id in sorted(cache):
+        context = cache[instrument_id]
+        filename = _detail_filename(instrument_id)
+        _write_json(detail_dir / filename, context)
+        index_symbols[instrument_id] = _fundamentals_summary(context, filename=filename)
+
+    # Publish the index last so it never points at detail files that have not
+    # been written yet if a process is interrupted mid-checkpoint.
+    _write_json(
+        destination.parent / FUNDAMENTALS_INDEX_FILE,
+        {"schema_version": 1, "symbols": index_symbols},
+    )
 
 
 def _bare_ticker(instrument_id: str) -> str:

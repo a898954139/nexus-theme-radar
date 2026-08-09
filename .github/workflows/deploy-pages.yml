@@ -59,7 +59,8 @@ jobs:
           cp data/waytoagi-7d.json dist/data/
           cp data/institutional-rankings.json dist/data/
           cp data/institutional-flows.json dist/data/
-          cp data/theme-symbol-fundamentals.json dist/data/
+          cp data/fundamentals-index.json dist/data/
+          cp -R data/fundamentals dist/data/
           if [ -f data/broker-stats.json ]; then cp data/broker-stats.json dist/data/; fi
           if [ -f data/broker-coverage.json ]; then cp data/broker-coverage.json dist/data/; fi
           if [ -d data/broker-map ]; then cp -R data/broker-map dist/data/; fi

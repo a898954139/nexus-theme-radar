@@ -168,6 +168,80 @@ def test_cache_round_trips_through_disk(tmp_path):
     assert load_fundamentals_cache(path)["TWSE:2344"]["quarters"][0]["eps"] == 2.25
 
 
+def test_cache_write_materializes_index_and_per_symbol_detail(tmp_path):
+    import json
+
+    from scripts.fundamentals_pipeline import write_fundamentals_cache
+
+    path = tmp_path / "theme-symbol-fundamentals.json"
+    context = {
+        **_context(),
+        "statements": {"income": {"2026Q1": {"revenue": 382.5}}},
+    }
+
+    write_fundamentals_cache(path, {"TWSE:2344": context})
+
+    index = json.loads((tmp_path / "fundamentals-index.json").read_text(encoding="utf-8"))
+    summary = index["symbols"]["TWSE:2344"]
+    detail = json.loads(
+        (tmp_path / "fundamentals" / "TWSE-2344.json").read_text(encoding="utf-8")
+    )
+
+    assert summary == {
+        "file": "TWSE-2344.json",
+        "fiscal_quarter": "2026Q1",
+        "latest_quarter": context["quarters"][0],
+        "health": context["health"],
+        "valuation": context["valuation"],
+    }
+    assert "statements" not in summary
+    assert detail == context
+
+
+def test_cache_checkpoint_can_skip_public_files(tmp_path):
+    from scripts.fundamentals_pipeline import write_fundamentals_cache
+
+    path = tmp_path / "theme-symbol-fundamentals.json"
+    write_fundamentals_cache(path, {"TWSE:2344": _context()}, publish=False)
+
+    assert path.exists()
+    assert not (tmp_path / "fundamentals-index.json").exists()
+    assert not (tmp_path / "fundamentals").exists()
+
+
+def test_frontends_lazy_load_per_symbol_fundamentals():
+    from pathlib import Path
+
+    root = Path(__file__).resolve().parents[1]
+    sources = [
+        (root / "src/services/dataService.ts").read_text(encoding="utf-8"),
+        (root / "assets/stock.js").read_text(encoding="utf-8"),
+    ]
+
+    for source in sources:
+        assert "theme-symbol-fundamentals.json" not in source
+        assert "fundamentals-index.json" in source
+        assert "./data/fundamentals/" in source
+
+
+def test_workflows_publish_and_commit_split_fundamentals():
+    from pathlib import Path
+
+    root = Path(__file__).resolve().parents[1]
+    deploy = (root / ".github/workflows/deploy-pages.yml").read_text(encoding="utf-8")
+    backfill = (root / ".github/workflows/backfill-fundamentals.yml").read_text(
+        encoding="utf-8"
+    )
+
+    assert "cp data/fundamentals-index.json dist/data/" in deploy
+    assert "cp -R data/fundamentals dist/data/" in deploy
+    assert "cp data/theme-symbol-fundamentals.json dist/data/" not in deploy
+    assert (
+        "git add data/theme-symbol-fundamentals.json "
+        "data/fundamentals-index.json data/fundamentals/"
+    ) in backfill
+
+
 def test_a_missing_or_corrupt_cache_reads_as_empty(tmp_path):
     """A damaged cache must cost one refetch, never an aborted radar run."""
     from scripts.fundamentals_pipeline import load_fundamentals_cache

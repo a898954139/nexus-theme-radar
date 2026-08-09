@@ -124,7 +124,9 @@ python scripts/generate_theme_demo.py --output-dir data --window-hours 48 --max-
 | `public-theme-momentum-latest-v0.9.json` | 最新一小時的動能快照 |
 | `public-theme-momentum-history-v0.9.json` | 動能歷史（保留 720 小時） |
 | `theme-events.json` | 題材事件與代表新聞 |
-| `theme-symbol-fundamentals.json` | 個股季度財報與解讀 |
+| `theme-symbol-fundamentals.json` | 內部季度快取，不由前端下載 |
+| `fundamentals-index.json` | 個股財務摘要與明細檔索引 |
+| `fundamentals/*.json` | 個股完整財報，進入個股頁時才載入 |
 | `institutional-flows.json` | 個股逐日三大法人流向 |
 | `institutional-rankings.json` | 資金流向排行榜 |
 | `broker-stats.json` | 券商分點當日彙總（`dt` / `ov` 在來源未提供時為 `null`） |
