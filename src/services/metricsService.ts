@@ -5,7 +5,10 @@
 
 const ENDPOINT = 'https://abtdxucfppnjdqkwqiqh.supabase.co/functions/v1/pageview';
 const VISITOR_ID_KEY = 'nexus-visitor-id';
-const REQUEST_TIMEOUT_MS = 5000;
+// The database sits in ap-southeast-2, so a POST costs ~2.5-3s of round trips
+// before any client latency. 5s left almost no margin: a slow mobile leg pushed
+// past it, and the aborted poll used to blank the counter.
+const REQUEST_TIMEOUT_MS = 12000;
 
 export interface SiteCounts {
   total: number;

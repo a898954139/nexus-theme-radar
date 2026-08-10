@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { nextCounts } from '../lib/counts';
 import { SiteCounts, recordPageView, sendHeartbeat } from '../services/metricsService';
 
 const HEARTBEAT_INTERVAL_MS = 45 * 1000;
@@ -19,8 +20,10 @@ export function useSiteMetrics(enabled: boolean): SiteCounts | null {
     if (!enabled) return;
 
     let active = true;
-    const apply = (next: SiteCounts | null) => {
-      if (active) setCounts(next);
+    // A failed poll keeps whatever is already displayed: applying its null
+    // blanked the counter mid-session until the next success.
+    const apply = (incoming: SiteCounts | null) => {
+      if (active) setCounts((current) => nextCounts(current, incoming));
     };
 
     recordPageView().then(apply);
