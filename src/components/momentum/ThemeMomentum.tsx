@@ -10,6 +10,8 @@ interface ThemeMomentumProps {
 }
 
 const lineColors = ['#E8C56A', '#3FD0E8', '#7FD4A8', '#F0785F', '#B79BE0'];
+const CHART_TOP = 20;
+const CHART_HEIGHT = 110;
 
 function stageLabel(stage: string) {
   return ({ new: '加速中', accelerating: '加速中', expanding: '擴散', stable: '持平', cooling: '退燒' } as Record<string, string>)[stage] ?? stage;
@@ -42,11 +44,15 @@ function uniqueSymbols(theme: MomentumTheme) {
   });
 }
 
+function chartY(value: number, height: number) {
+  return CHART_TOP + height - (Math.max(0, Math.min(100, value)) / 100) * height;
+}
+
 function segmentsFor(values: Array<number | null>, width: number, height: number) {
   const points = values.map((value, index) => {
     if (value === null) return null;
     const x = values.length <= 1 ? width / 2 : (index / (values.length - 1)) * width;
-    const y = height - ((Math.max(75, Math.min(100, value)) - 75) / 25) * height;
+    const y = chartY(value, height);
     return `${x},${y}`;
   });
   const segments: string[] = [];
@@ -164,10 +170,10 @@ export const ThemeMomentum: React.FC<ThemeMomentumProps> = ({ data, device, onGo
               {[46, 92].map((y) => <line key={y} x1="0" x2="600" y1={y} y2={y} className="chart-grid-line" />)}
             {themes.map((theme, index) => {
               const values = observations.map((point) => point.themes.find((item) => item.theme_id === theme.theme_id)?.heat_score ?? null);
-              const paths = segmentsFor(values, 600, 110).map((points) => <polyline key={points} points={points} fill="none" stroke={lineColors[index]} className={selectedThemeId && selectedThemeId !== theme.theme_id ? 'chart-line is-muted' : 'chart-line'} />);
+              const paths = segmentsFor(values, 600, CHART_HEIGHT).map((points) => <polyline key={points} points={points} fill="none" stroke={lineColors[index]} className={selectedThemeId && selectedThemeId !== theme.theme_id ? 'chart-line is-muted' : 'chart-line'} />);
               const latestValue = values[values.length - 1];
               const latestX = values.length <= 1 ? 300 : 600;
-              const latestY = latestValue === null || latestValue === undefined ? 0 : 130 - ((Math.max(75, Math.min(100, latestValue)) - 75) / 25) * 110;
+              const latestY = latestValue === null || latestValue === undefined ? 0 : chartY(latestValue, CHART_HEIGHT);
               const showPoint = selectedThemeId === theme.theme_id;
               return <g key={theme.theme_id}>{paths}{showPoint && latestValue !== null && latestValue !== undefined ? <><circle cx={latestX} cy={latestY} r="3" fill={lineColors[index]} /><text x={latestX + 7} y={latestY - 6} className="chart-value-label">{latestValue}</text></> : null}</g>;
             })}

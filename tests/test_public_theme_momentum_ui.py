@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import json
 import re
 import subprocess
 from pathlib import Path
@@ -153,4 +154,43 @@ def test_javascript_is_syntactically_valid() -> None:
         capture_output=True,
         text=True,
     )
+    assert completed.returncode == 0, completed.stderr
+
+
+def test_react_history_chart_preserves_the_full_heat_score_range() -> None:
+    source = (ROOT / "src" / "components" / "momentum" / "ThemeMomentum.tsx").read_text(
+        encoding="utf-8"
+    )
+
+    start = source.index("const CHART_TOP")
+    snippet = source[start : source.index("const ThemeStockChips", start)]
+    node_assertions = r'''
+const assert = require("node:assert/strict");
+const ts = require("typescript");
+const vm = require("node:vm");
+
+const output = ts.transpileModule(
+  SNIPPET + "\nglobalThis.chartY = chartY; globalThis.segmentsFor = segmentsFor;",
+  { compilerOptions: { target: ts.ScriptTarget.ES2020 } },
+).outputText;
+const context = {};
+vm.runInNewContext(output, context);
+
+const values = [45, 58, 69, 78];
+const points = context.segmentsFor(values, 600, 110)[0]
+  .split(" ")
+  .map((point) => Number(point.split(",")[1]));
+assert.deepEqual(points, values.map((value) => context.chartY(value, 110)));
+assert.equal(new Set(points).size, values.length);
+assert.equal(points.at(-1), context.chartY(values.at(-1), 110));
+'''
+    node_script = node_assertions.replace("SNIPPET", json.dumps(snippet))
+    completed = subprocess.run(
+        ["node", "-e", node_script],
+        cwd=ROOT,
+        check=False,
+        capture_output=True,
+        text=True,
+    )
+
     assert completed.returncode == 0, completed.stderr
