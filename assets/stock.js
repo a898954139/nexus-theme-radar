@@ -162,7 +162,7 @@ function renderCommentary(commentaryData, matchedKey, fiscalQuarter) {
 
   const note = document.createElement('p');
   note.className = 'commentary-note';
-  note.textContent = '本段由模型依上述財報數字生成，僅描述已發生的財務事實，不構成投資建議。';
+  note.textContent = '本段依上述財報數字自動整理，僅描述已發生的財務事實，不構成投資建議。';
   box.append(note);
 
   container.append(box);
