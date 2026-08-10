@@ -10,8 +10,11 @@ interface ThemeMomentumProps {
 }
 
 const lineColors = ['#E8C56A', '#3FD0E8', '#7FD4A8', '#F0785F', '#B79BE0'];
+const CHART_WIDTH = 600;
+const CHART_VIEWBOX_HEIGHT = 220;
 const CHART_TOP = 20;
-const CHART_HEIGHT = 110;
+const CHART_HEIGHT = 168;
+const CHART_BOTTOM = CHART_TOP + CHART_HEIGHT;
 
 function stageLabel(stage: string) {
   return ({ new: '加速中', accelerating: '加速中', expanding: '擴散', stable: '持平', cooling: '退燒' } as Record<string, string>)[stage] ?? stage;
@@ -24,6 +27,10 @@ function signed(value: number | null) {
 
 function historyHour(timestamp: string) {
   return new Date(timestamp).toLocaleTimeString('zh-TW', { hour: '2-digit', minute: '2-digit', hour12: false });
+}
+
+function historyAxisHour(timestamp: string) {
+  return String(new Date(timestamp).getHours()).padStart(2, '0');
 }
 
 function historyRangeLabel(observations: RadarData['momentumHistory']['observations']) {
@@ -48,24 +55,38 @@ function chartY(value: number, height: number) {
   return CHART_TOP + height - (Math.max(0, Math.min(100, value)) / 100) * height;
 }
 
-function segmentsFor(values: Array<number | null>, width: number, height: number) {
-  const points = values.map((value, index) => {
+interface ChartPoint {
+  x: number;
+  y: number;
+  value: number;
+}
+
+function chartPointsFor(values: Array<number | null>, width: number, height: number) {
+  return values.map<ChartPoint | null>((value, index) => {
     if (value === null) return null;
     const x = values.length <= 1 ? width / 2 : (index / (values.length - 1)) * width;
-    const y = chartY(value, height);
-    return `${x},${y}`;
+    return { x, y: chartY(value, height), value };
   });
+}
+
+function keyPointIndexes(length: number, maxPoints = 8) {
+  if (length <= maxPoints) return new Set(Array.from({ length }, (_, index) => index));
+  return new Set(Array.from({ length: maxPoints }, (_, index) => Math.round((index / (maxPoints - 1)) * (length - 1))));
+}
+
+function segmentsFor(values: Array<number | null>, width: number, height: number) {
+  const points = chartPointsFor(values, width, height);
   const segments: string[] = [];
-  let current: string[] = [];
+  let current: ChartPoint[] = [];
   points.forEach((point) => {
     if (point === null) {
-      if (current.length > 1) segments.push(current.join(' '));
+      if (current.length > 1) segments.push(current.map(({ x, y }) => `${x},${y}`).join(' '));
       current = [];
     } else {
       current.push(point);
     }
   });
-  if (current.length > 1) segments.push(current.join(' '));
+  if (current.length > 1) segments.push(current.map(({ x, y }) => `${x},${y}`).join(' '));
   return segments;
 }
 
@@ -149,7 +170,7 @@ export const ThemeMomentum: React.FC<ThemeMomentumProps> = ({ data, device, onGo
       </section>
 
       <section className="momentum-history-section">
-        <div className="section-heading"><span className="page-kicker">HISTORY · 五題材同框折線圖</span><span className="section-note mono-num">{observations.length} observations</span></div>
+        <div className="section-heading"><span className="page-kicker">HISTORY · 動能走勢</span></div>
         <div className="history-context"><span>五大題材 · 動能分數 · 逐小時（缺少的小時保留為斷點）</span><span className="mono-num">{historyRangeLabel(observations)}</span></div>
         <div className="history-legend">
           {themes.map((theme, index) => {
@@ -166,20 +187,42 @@ export const ThemeMomentum: React.FC<ThemeMomentumProps> = ({ data, device, onGo
         </div>
         <div className="history-chart-scroll">
           <div className="history-chart-wrap">
-            <svg viewBox="0 0 600 140" role="img" aria-label="五題材熱度歷史折線圖" preserveAspectRatio="none">
-              {[46, 92].map((y) => <line key={y} x1="0" x2="600" y1={y} y2={y} className="chart-grid-line" />)}
-            {themes.map((theme, index) => {
-              const values = observations.map((point) => point.themes.find((item) => item.theme_id === theme.theme_id)?.heat_score ?? null);
-              const paths = segmentsFor(values, 600, CHART_HEIGHT).map((points) => <polyline key={points} points={points} fill="none" stroke={lineColors[index]} className={selectedThemeId && selectedThemeId !== theme.theme_id ? 'chart-line is-muted' : 'chart-line'} />);
-              const latestValue = values[values.length - 1];
-              const latestX = values.length <= 1 ? 300 : 600;
-              const latestY = latestValue === null || latestValue === undefined ? 0 : chartY(latestValue, CHART_HEIGHT);
-              const showPoint = selectedThemeId === theme.theme_id;
-              return <g key={theme.theme_id}>{paths}{showPoint && latestValue !== null && latestValue !== undefined ? <><circle cx={latestX} cy={latestY} r="3" fill={lineColors[index]} /><text x={latestX + 7} y={latestY - 6} className="chart-value-label">{latestValue}</text></> : null}</g>;
-            })}
+            <svg viewBox={`0 0 ${CHART_WIDTH} ${CHART_VIEWBOX_HEIGHT}`} role="img" aria-label="五題材熱度歷史折線圖" preserveAspectRatio="none">
+              {[25, 50, 75].map((value) => {
+                const y = chartY(value, CHART_HEIGHT);
+                return <line key={value} x1="0" x2={CHART_WIDTH} y1={y} y2={y} className="chart-grid-line" />;
+              })}
+              {themes.map((theme, index) => {
+                const values = observations.map((point) => point.themes.find((item) => item.theme_id === theme.theme_id)?.heat_score ?? null);
+                const points = chartPointsFor(values, CHART_WIDTH, CHART_HEIGHT);
+                const paths = segmentsFor(values, CHART_WIDTH, CHART_HEIGHT).map((path) => <polyline key={path} points={path} fill="none" stroke={lineColors[index]} className={selectedThemeId && selectedThemeId !== theme.theme_id ? 'chart-line is-muted' : 'chart-line'} />);
+                const showPoints = selectedThemeId === theme.theme_id;
+                return (
+                  <g key={theme.theme_id}>
+                    {paths}
+                    {showPoints ? points.map((point, pointIndex) => {
+                      if (!point) return null;
+                      const labelX = Math.max(8, Math.min(CHART_WIDTH - 8, point.x));
+                      const labelY = Math.max(12, point.y - 8);
+                      return (
+                        <g key={`${theme.theme_id}-${pointIndex}`}>
+                          <circle cx={point.x} cy={point.y} r="4" fill="var(--shell-bg)" stroke={lineColors[index]} strokeWidth="2" />
+                          <text x={labelX} y={labelY} textAnchor="middle" className="chart-value-label">{point.value}</text>
+                        </g>
+                      );
+                    }) : null}
+                  </g>
+                );
+              })}
+              {Array.from(keyPointIndexes(observations.length)).map((index) => {
+                const point = observations[index];
+                if (!point) return null;
+                const x = observations.length <= 1 ? CHART_WIDTH / 2 : (index / (observations.length - 1)) * CHART_WIDTH;
+                const labelX = Math.max(18, Math.min(CHART_WIDTH - 18, x));
+                return <text key={point.observed_hour} x={labelX} y={CHART_BOTTOM + 22} textAnchor="middle" className="chart-axis-label">{historyAxisHour(point.observed_hour)}</text>;
+              })}
             </svg>
           </div>
-          <div className="history-axis-labels" style={{ gridTemplateColumns: `repeat(${Math.max(observations.length, 1)}, minmax(0, 1fr))` }}>{observations.map((point) => <span key={point.observed_hour}>{historyHour(point.observed_hour)}</span>)}</div>
         </div>
         {device === 'mobile' ? <p className="chart-mobile-note">左右滑動可查看完整圖表與圖例。</p> : null}
       </section>

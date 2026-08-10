@@ -164,25 +164,34 @@ def test_react_history_chart_preserves_the_full_heat_score_range() -> None:
 
     start = source.index("const CHART_TOP")
     snippet = source[start : source.index("const ThemeStockChips", start)]
+    assert 'HISTORY · 動能走勢' in source
+    assert 'className="chart-axis-label"' in source
+    assert 'const CHART_VIEWBOX_HEIGHT = 220' in source
+    assert "return String(new Date(timestamp).getHours()).padStart(2, '0');" in source
+    assert 'showPoints ? points.map' in source
     node_assertions = r'''
 const assert = require("node:assert/strict");
 const ts = require("typescript");
 const vm = require("node:vm");
 
 const output = ts.transpileModule(
-  SNIPPET + "\nglobalThis.chartY = chartY; globalThis.segmentsFor = segmentsFor;",
+  SNIPPET + "\nglobalThis.chartY = chartY; globalThis.chartPointsFor = chartPointsFor; globalThis.keyPointIndexes = keyPointIndexes; globalThis.segmentsFor = segmentsFor;",
   { compilerOptions: { target: ts.ScriptTarget.ES2020 } },
 ).outputText;
 const context = {};
 vm.runInNewContext(output, context);
 
 const values = [45, 58, 69, 78];
+const chartPoints = context.chartPointsFor([45, null, 69, 78], 600, 110);
+assert.equal(chartPoints[1], null);
+assert.equal(chartPoints.filter(Boolean).length, 3);
 const points = context.segmentsFor(values, 600, 110)[0]
   .split(" ")
   .map((point) => Number(point.split(",")[1]));
 assert.deepEqual(points, values.map((value) => context.chartY(value, 110)));
 assert.equal(new Set(points).size, values.length);
 assert.equal(points.at(-1), context.chartY(values.at(-1), 110));
+assert.deepEqual(Array.from(context.keyPointIndexes(18)), [0, 2, 5, 7, 10, 12, 15, 17]);
 '''
     node_script = node_assertions.replace("SNIPPET", json.dumps(snippet))
     completed = subprocess.run(
