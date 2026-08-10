@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { EmptyState } from './components/common/EmptyState';
 import { NavTabBar } from './components/common/NavTabBar';
 import { StatusBar } from './components/common/StatusBar';
@@ -21,6 +21,8 @@ interface RouteState {
   view: WatchlistView;
   q: string;
 }
+
+const DATA_REFRESH_INTERVAL_MS = 5 * 60 * 1000;
 
 function readRoute(): RouteState {
   const params = new URLSearchParams(window.location.hash.replace(/^#/, ''));
@@ -61,6 +63,9 @@ export const App: React.FC = () => {
   const [watchlistLoading, setWatchlistLoading] = useState(true);
   const [watchlistError, setWatchlistError] = useState(false);
   const [watchlistRequest, setWatchlistRequest] = useState(0);
+  const [refreshKey, setRefreshKey] = useState(0);
+  const radarRefreshInFlight = useRef(false);
+  const watchlistRefreshInFlight = useRef(false);
   const [stockData, setStockData] = useState<{
     fundamentals: Awaited<ReturnType<typeof fetchStockFundamentals>>;
     flows: Awaited<ReturnType<typeof fetchInstitutionalFlows>>;
@@ -133,6 +138,55 @@ export const App: React.FC = () => {
   }, []);
 
   useEffect(() => {
+    let active = true;
+
+    const refreshRadar = () => {
+      if (!active || radarRefreshInFlight.current) return;
+      radarRefreshInFlight.current = true;
+      loadRadarData(true)
+        .then((data) => {
+          if (!active) return;
+          setRadarData(data);
+          setLoadError(false);
+          setRefreshKey((key) => key + 1);
+        })
+        .catch(() => {
+          // Keep the last good snapshot visible during a transient refresh failure.
+        })
+        .finally(() => {
+          radarRefreshInFlight.current = false;
+        });
+    };
+
+    const refreshWatchlist = () => {
+      if (!active || watchlistRefreshInFlight.current) return;
+      watchlistRefreshInFlight.current = true;
+      fetchStockWatchlist(true)
+        .then((data) => {
+          if (!active) return;
+          setWatchlistData(data);
+          setWatchlistError(false);
+        })
+        .catch(() => {
+          // Keep the last good snapshot visible during a transient refresh failure.
+        })
+        .finally(() => {
+          watchlistRefreshInFlight.current = false;
+        });
+    };
+
+    const refresh = () => {
+      refreshRadar();
+      refreshWatchlist();
+    };
+    const timer = window.setInterval(refresh, DATA_REFRESH_INTERVAL_MS);
+    return () => {
+      active = false;
+      window.clearInterval(timer);
+    };
+  }, []);
+
+  useEffect(() => {
     if (route.page !== 'stock') return;
     if (route.tab === 'technical') {
       setBrokerLoading(false);
@@ -141,9 +195,9 @@ export const App: React.FC = () => {
     let active = true;
     setBrokerLoading(route.tab === 'broker');
     Promise.all([
-      fetchStockFundamentals(stockCode, stockExchange),
-      fetchInstitutionalFlows(stockCode, stockExchange),
-      route.tab === 'broker' ? fetchBrokerMap(stockCode).catch(() => null) : Promise.resolve(null)
+      fetchStockFundamentals(stockCode, stockExchange, refreshKey > 0),
+      fetchInstitutionalFlows(stockCode, stockExchange, refreshKey > 0),
+      route.tab === 'broker' ? fetchBrokerMap(stockCode, refreshKey > 0).catch(() => null) : Promise.resolve(null)
     ]).then(([fundamentals, flows, brokerMap]) => {
       if (active) {
         setStockData({ fundamentals, flows, brokerMap });
@@ -153,7 +207,7 @@ export const App: React.FC = () => {
     return () => {
       active = false;
     };
-  }, [route.page, route.tab, stockCode, stockExchange]);
+  }, [route.page, route.tab, stockCode, stockExchange, refreshKey]);
 
   const updateHash = (page: PageType, code?: string, exchange?: string, tab?: StockTab) => {
     const params = new URLSearchParams({ page });
@@ -234,7 +288,7 @@ export const App: React.FC = () => {
               <ThemeMomentum data={radarData} device={device} onGoStock={goStock} />
             ) : null}
             {route.page === 'flows' ? (
-              <InstitutionalFlows data={radarData} device={device} onGoStock={goStock} />
+              <InstitutionalFlows data={radarData} device={device} onGoStock={goStock} refreshKey={refreshKey} />
             ) : null}
             {route.page === 'stock' ? (
               <StockDetail

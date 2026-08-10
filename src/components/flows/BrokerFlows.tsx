@@ -4,6 +4,7 @@ import { BrokerCoverageData, BrokerStat, BrokerStatsData, StockTab } from '../..
 
 interface BrokerFlowsProps {
   onGoStock: (code: string, exchange?: string, tab?: StockTab) => void;
+  refreshKey: number;
 }
 
 type BrokerSort = 'net' | 'volume' | 'dt' | 'ov';
@@ -95,7 +96,7 @@ const BrokerStatRow: React.FC<{
   );
 };
 
-export const BrokerFlows: React.FC<BrokerFlowsProps> = ({ onGoStock }) => {
+export const BrokerFlows: React.FC<BrokerFlowsProps> = ({ onGoStock, refreshKey }) => {
   const [data, setData] = useState<BrokerStatsData | null>(null);
   const [coverage, setCoverage] = useState<BrokerCoverageData | null>(null);
   const [loadError, setLoadError] = useState(false);
@@ -109,17 +110,18 @@ export const BrokerFlows: React.FC<BrokerFlowsProps> = ({ onGoStock }) => {
   useEffect(() => {
     setWatch(readWatchList());
     let active = true;
-    Promise.all([fetchBrokerStats(), fetchBrokerCoverage().catch(() => null)])
+    Promise.all([fetchBrokerStats(refreshKey > 0), fetchBrokerCoverage(refreshKey > 0).catch(() => null)])
       .then(([stats, currentCoverage]) => {
         if (!active) return;
         setData(stats);
         setCoverage(currentCoverage);
+        setLoadError(false);
       })
       .catch(() => {
         if (active) setLoadError(true);
       });
     return () => { active = false; };
-  }, []);
+  }, [refreshKey]);
 
   const allStats = data ?? [];
   const hasOvernightMetric = allStats.some((stat) => stat.ov != null);

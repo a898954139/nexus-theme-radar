@@ -222,22 +222,23 @@ export function isStockWatchlistData(value: unknown): value is StockWatchlistDat
     && value.long.count === value.long.items.length;
 }
 
-async function readJson<T>(path: string): Promise<T> {
-  const response = await fetch(path);
+async function readJson<T>(path: string, cacheBust = false): Promise<T> {
+  const requestPath = cacheBust ? `${path}${path.includes('?') ? '&' : '?'}refresh=${Date.now()}` : path;
+  const response = await fetch(requestPath, { cache: cacheBust ? 'no-store' : 'default' });
   if (!response.ok) {
     throw new Error(`Unable to load ${path}: ${response.status}`);
   }
   return response.json() as Promise<T>;
 }
 
-export async function loadRadarData(): Promise<RadarData> {
+export async function loadRadarData(cacheBust = false): Promise<RadarData> {
   const [themeRanking, momentumLatest, momentumHistory, events, sourceStatus, waytoagi] = await Promise.all([
-    readJson<ThemeRankingData>('./data/public-theme-ranking-v0.8.json'),
-    readJson<MomentumLatestData>('./data/public-theme-momentum-latest-v0.9.json'),
-    readJson<MomentumHistoryData>('./data/public-theme-momentum-history-v0.9.json'),
-    readJson<{ items: ThemeEvent[] }>('./data/theme-events.json'),
-    readJson<SourceStatusData>('./data/source-status.json'),
-    readJson<WaytoAgiData>('./data/waytoagi-7d.json')
+    readJson<ThemeRankingData>('./data/public-theme-ranking-v0.8.json', cacheBust),
+    readJson<MomentumLatestData>('./data/public-theme-momentum-latest-v0.9.json', cacheBust),
+    readJson<MomentumHistoryData>('./data/public-theme-momentum-history-v0.9.json', cacheBust),
+    readJson<{ items: ThemeEvent[] }>('./data/theme-events.json', cacheBust),
+    readJson<SourceStatusData>('./data/source-status.json', cacheBust),
+    readJson<WaytoAgiData>('./data/waytoagi-7d.json', cacheBust)
   ]);
 
   return {
@@ -250,24 +251,25 @@ export async function loadRadarData(): Promise<RadarData> {
   };
 }
 
-export async function fetchStockWatchlist(): Promise<StockWatchlistData> {
-  const payload = await readJson<unknown>('./data/public-stock-watchlist-v1.json');
+export async function fetchStockWatchlist(cacheBust = false): Promise<StockWatchlistData> {
+  const payload = await readJson<unknown>('./data/public-stock-watchlist-v1.json', cacheBust);
   if (!isStockWatchlistData(payload)) {
     throw new Error('Invalid public stock watchlist v1 payload');
   }
   return payload;
 }
 
-async function readInstitutionalData(): Promise<InstitutionalRankingsData> {
-  return readJson<InstitutionalRankingsData>('./data/institutional-rankings.json');
+async function readInstitutionalData(cacheBust = false): Promise<InstitutionalRankingsData> {
+  return readJson<InstitutionalRankingsData>('./data/institutional-rankings.json', cacheBust);
 }
 
 export async function fetchInstitutionalRankings(
   days: number,
   direction: 'up' | 'down',
-  metric: FlowMetric = 'net'
+  metric: FlowMetric = 'net',
+  cacheBust = false
 ) {
-  const data = await readInstitutionalData();
+  const data = await readInstitutionalData(cacheBust);
   const prefix = metric === 'net' ? 'top_three_inst_netbuy' : 'top_three_inst_change';
   const key = `${prefix}_${days}_${direction}`;
   return data.rankings[key]?.entries ?? [];
@@ -279,23 +281,23 @@ function resolveInstrumentKey(symbol: string, exchange?: string): string[] {
   return [`TWSE:${symbol}`, `TPEX:${symbol}`];
 }
 
-export async function fetchInstitutionalFlows(symbol: string, exchange?: string): Promise<InstitutionalFlowItem[]> {
-  const data = await readJson<{ symbols: Record<string, InstitutionalFlowItem[]> }>('./data/institutional-flows.json');
+export async function fetchInstitutionalFlows(symbol: string, exchange?: string, cacheBust = false): Promise<InstitutionalFlowItem[]> {
+  const data = await readJson<{ symbols: Record<string, InstitutionalFlowItem[]> }>('./data/institutional-flows.json', cacheBust);
   for (const key of resolveInstrumentKey(symbol, exchange)) {
     if (data.symbols[key]) return data.symbols[key];
   }
   return [];
 }
 
-export async function fetchBrokerStats(): Promise<BrokerStatsData> {
-  return readJson<BrokerStatsData>('./data/broker-stats.json');
+export async function fetchBrokerStats(cacheBust = false): Promise<BrokerStatsData> {
+  return readJson<BrokerStatsData>('./data/broker-stats.json', cacheBust);
 }
 
-export async function fetchBrokerCoverage(): Promise<BrokerCoverageData> {
-  return readJson<BrokerCoverageData>('./data/broker-coverage.json');
+export async function fetchBrokerCoverage(cacheBust = false): Promise<BrokerCoverageData> {
+  return readJson<BrokerCoverageData>('./data/broker-coverage.json', cacheBust);
 }
 
-export async function fetchBrokerMap(symbol: string): Promise<BrokerMapData | null> {
+export async function fetchBrokerMap(symbol: string, cacheBust = false): Promise<BrokerMapData | null> {
   const index = await readJson<{
     symbols: Record<string, {
       file: string;
@@ -303,10 +305,10 @@ export async function fetchBrokerMap(symbol: string): Promise<BrokerMapData | nu
       broker_count?: number;
       summary?: { buy: number; sell: number; net: number };
     }>;
-  }>('./data/broker-map/index.json');
+  }>('./data/broker-map/index.json', cacheBust);
   const metadata = index.symbols?.[symbol];
   if (!metadata?.file) return null;
-  const brokers = await readJson<BrokerMapData['brokers']>(`./data/broker-map/${metadata.file}`);
+  const brokers = await readJson<BrokerMapData['brokers']>(`./data/broker-map/${metadata.file}`, cacheBust);
   const summary = metadata.summary ?? {
     buy: brokers.reduce((total, branch) => total + Math.max(branch.net, 0), 0),
     sell: brokers.reduce((total, branch) => total + Math.max(-branch.net, 0), 0),
@@ -324,12 +326,12 @@ export async function fetchBrokerMap(symbol: string): Promise<BrokerMapData | nu
   };
 }
 
-export async function fetchStockFundamentals(symbol: string, exchange?: string): Promise<StockFundamentals | null> {
-  const index = await readJson<{ symbols: Record<string, { file: string }> }>('./data/fundamentals-index.json');
+export async function fetchStockFundamentals(symbol: string, exchange?: string, cacheBust = false): Promise<StockFundamentals | null> {
+  const index = await readJson<{ symbols: Record<string, { file: string }> }>('./data/fundamentals-index.json', cacheBust);
   for (const key of resolveInstrumentKey(symbol, exchange)) {
     const filename = index.symbols[key]?.file;
     if (filename) {
-      return readJson<StockFundamentals>(`./data/fundamentals/${encodeURIComponent(filename)}`);
+      return readJson<StockFundamentals>(`./data/fundamentals/${encodeURIComponent(filename)}`, cacheBust);
     }
   }
   return null;

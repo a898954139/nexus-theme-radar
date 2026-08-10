@@ -7,6 +7,7 @@ interface InstitutionalFlowsProps {
   data: RadarData;
   device: DeviceType;
   onGoStock: (code: string, exchange?: string, tab?: StockTab) => void;
+  refreshKey: number;
 }
 
 function formatValue(value: number, unit = '') {
@@ -138,7 +139,7 @@ const FlowTableView: React.FC<{ entries: InstitutionalRankingEntry[]; metric: Fl
   return <div className="flow-table-panel"><FlowBoardTitle kicker="DETAIL TABLE" note={metric === 'net' ? '三大法人為統計區間彙總' : '持股比重變化以 pp 顯示'} view={view} setView={setView} /><div className="table-scroll"><table className="flow-detail-table"><thead><tr><th>代號</th><th>名稱</th><th>外資</th><th>投信</th><th>自營商</th><th>合計</th></tr></thead><tbody>{entries.map((entry) => <tr key={entry.instrument_id}><th><button type="button" onClick={() => onGoStock(entry.code, entry.exchange)} className="stock-code-link mono-num">{entry.code}</button></th><td>{entry.name}</td>{metric === 'net' ? <>{valueCell(entry.foreign)}{valueCell(entry.trust)}{valueCell(entry.dealer)}{valueCell(entry.total)}</> : <>{valueCell(undefined)}{valueCell(undefined)}{valueCell(undefined)}{valueCell(entry.change, ' pp')}</>}</tr>)}</tbody></table></div></div>;
 };
 
-export const InstitutionalFlows: React.FC<InstitutionalFlowsProps> = ({ data, device, onGoStock }) => {
+export const InstitutionalFlows: React.FC<InstitutionalFlowsProps> = ({ data, device, onGoStock, refreshKey }) => {
   const defaultLookup = useMemo(() => data.themeRanking.themes.flatMap((theme) => theme.direct_mentions).find((instrument) => instrument.symbol)?.symbol ?? '', [data.themeRanking.themes]);
   const [metric, setMetric] = useState<FlowMetric>('net');
   const [days, setDays] = useState(5);
@@ -153,16 +154,16 @@ export const InstitutionalFlows: React.FC<InstitutionalFlowsProps> = ({ data, de
 
   useEffect(() => {
     let active = true;
-    fetchInstitutionalRankings(days, direction, metric).then((result) => { if (active) setEntries(result); });
+    fetchInstitutionalRankings(days, direction, metric, refreshKey > 0).then((result) => { if (active) setEntries(result); });
     return () => { active = false; };
-  }, [days, direction, metric]);
+  }, [days, direction, metric, refreshKey]);
 
   useEffect(() => {
     let active = true;
     if (!lookup) return () => { active = false; };
-    fetchInstitutionalFlows(lookup).then((result) => { if (active) setStockFlows(result); });
+    fetchInstitutionalFlows(lookup, undefined, refreshKey > 0).then((result) => { if (active) setStockFlows(result); });
     return () => { active = false; };
-  }, [lookup]);
+  }, [lookup, refreshKey]);
 
   const visibleEntries = useMemo(() => entries.filter((entry) => !hideEtf || !entry.is_etf), [entries, hideEtf]);
 
@@ -170,9 +171,9 @@ export const InstitutionalFlows: React.FC<InstitutionalFlowsProps> = ({ data, de
     <div className="page-content flows-page">
       <header className="page-intro"><span className="page-kicker">INSTITUTIONAL MONEY-FLOW RANKINGS</span><h1>籌碼流向</h1><div className="gold-rule" /><p>兩個面向追蹤台股籌碼：三大法人的買賣超與持股比重變化，以及券商分點的進出行為。數據源自公開交易資訊彙總整理。</p></header>
       <div className="flow-mode-tabs" role="tablist" aria-label="籌碼流向資料面向"><button type="button" className={mode === 'institutional' ? 'is-selected' : ''} onClick={() => setMode('institutional')}>三大法人排行</button><button type="button" className={mode === 'broker' ? 'is-selected' : ''} onClick={() => setMode('broker')}>券商分點</button></div>
-      {mode === 'broker' ? <BrokerFlows onGoStock={onGoStock} /> : <>
+      {mode === 'broker' ? <BrokerFlows onGoStock={onGoStock} refreshKey={refreshKey} /> : <>
         <FlowControls metric={metric} setMetric={setMetric} days={days} setDays={setDays} direction={direction} setDirection={setDirection} hideEtf={hideEtf} setHideEtf={setHideEtf} view={view} setView={setView} />
-        {view === 'bars' ? <FlowBarsView entries={visibleEntries} metric={metric} days={days} view={view} setView={setView} expandedCode={expandedCode} setExpandedCode={setExpandedCode} loadBreakdown={fetchInstitutionalFlows} /> : null}
+        {view === 'bars' ? <FlowBarsView entries={visibleEntries} metric={metric} days={days} view={view} setView={setView} expandedCode={expandedCode} setExpandedCode={setExpandedCode} loadBreakdown={(code, exchange) => fetchInstitutionalFlows(code, exchange, refreshKey > 0)} /> : null}
         {view === 'matrix' ? <FlowMatrixView symbol={lookup} flows={stockFlows} metric={metric} view={view} setView={setView} /> : null}
         {view === 'table' ? <FlowTableView entries={visibleEntries} metric={metric} view={view} setView={setView} onGoStock={onGoStock} /> : null}
         <section className="flow-lookup"><div><span className="page-kicker">STOCK FLOW LOOKUP</span><strong>查詢個股法人資金流向</strong></div><form onSubmit={(event) => { event.preventDefault(); onGoStock(lookup, undefined, 'flows'); }}><input aria-label="輸入個股代號查詢籌碼" value={lookup} onChange={(event) => setLookup(event.target.value)} /><button type="submit">查詢籌碼 →</button></form></section>
