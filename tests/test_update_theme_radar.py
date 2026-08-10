@@ -1492,6 +1492,99 @@ def test_momentum_latest_publishes_when_connection_factory_raises(
     assert "phase=connection error=connection refused" in caplog.text
 
 
+def test_stock_watchlist_publish_failure_is_not_swallowed(
+    monkeypatch: pytest.MonkeyPatch,
+    tmp_path: Path,
+) -> None:
+    monkeypatch.setattr(
+        updater,
+        "build_public_theme_signals",
+        lambda *_args, **_kwargs: [_momentum_signal()],
+    )
+    monkeypatch.setattr(
+        updater,
+        "publish_stock_watchlist",
+        lambda **_kwargs: (_ for _ in ()).throw(ValueError("invalid watchlist payload")),
+    )
+
+    with pytest.raises(updater.StockWatchlistPublishError, match="invalid watchlist payload"):
+        run_momentum_side_paths(
+            output_dir=tmp_path,
+            projection={},
+            taxonomy={},
+            symbol_aliases={},
+            observed_hour=datetime(2026, 7, 31, 4, tzinfo=timezone.utc),
+            generated_at=datetime(2026, 7, 31, 4, 8, tzinfo=timezone.utc),
+            producer_run_id="run-watchlist-failure",
+            connection_factory=None,
+        )
+
+
+def test_load_institutional_flows_merges_candidate_symbol_files(
+    tmp_path: Path,
+) -> None:
+    """The compact radar store and the official whole-market files are one source."""
+
+    (tmp_path / "institutional-flows.json").write_text(
+        json.dumps({"symbols": {"TWSE:1111": [{"date": "2026-08-07", "total_net": 1}]}}),
+        encoding="utf-8",
+    )
+    flows_dir = tmp_path / "flows"
+    flows_dir.mkdir()
+    (flows_dir / "index.json").write_text(
+        json.dumps({
+            "symbols": {
+                "2222": {"file": "TWSE-2222.json", "exchange": "TWSE"},
+            },
+        }),
+        encoding="utf-8",
+    )
+    (flows_dir / "TWSE-2222.json").write_text(
+        json.dumps({
+            "instrument_id": "TWSE:2222",
+            "series": [["2026-08-07", 0, 2, 3, 5]],
+        }),
+        encoding="utf-8",
+    )
+
+    merged = updater._load_institutional_flows(
+        tmp_path,
+        {"TWSE:1111", "TWSE:2222"},
+    )
+
+    assert set(merged) == {"TWSE:1111", "TWSE:2222"}
+    assert merged["TWSE:2222"]["series"] == [["2026-08-07", 0, 2, 3, 5]]
+
+
+def test_settled_target_failure_is_exposed_as_missing_day_trading_sources(
+    monkeypatch: pytest.MonkeyPatch,
+    tmp_path: Path,
+) -> None:
+    captured: dict[str, object] = {}
+    monkeypatch.setattr(
+        updater,
+        "select_settled_target",
+        lambda *_args, **_kwargs: (_ for _ in ()).throw(ValueError("calendar unavailable")),
+    )
+    monkeypatch.setattr(
+        updater,
+        "build_stock_watchlist",
+        lambda **kwargs: captured.update(kwargs) or {"payload": True},
+    )
+    monkeypatch.setattr(updater, "write_stock_watchlist", lambda *_args, **_kwargs: None)
+
+    updater.publish_stock_watchlist(
+        output_dir=tmp_path,
+        momentum_payload={"themes": [], "observed_hour": "2026-08-10T00:00:00Z"},
+        generated_at=datetime(2026, 8, 10, tzinfo=timezone.utc),
+    )
+
+    activity = captured["day_trading_activity"]
+    assert activity["symbols"] == {}
+    assert {source["status"] for source in activity["sources"].values()} == {"missing"}
+    assert all("calendar unavailable" in source["error"] for source in activity["sources"].values())
+
+
 def test_momentum_side_path_runs_upsert_retention_and_materializer_in_order(
     monkeypatch: pytest.MonkeyPatch,
     tmp_path: Path,
@@ -3541,6 +3634,7 @@ def test_run_update_validates_complete_payload_set_before_first_replacement(
         "replace:official-evidence.json",
         "replace:public-theme-ranking-v0.8.json",
         "replace:public-theme-momentum-latest-v0.9.json",
+        "replace:public-stock-watchlist-v1.json",
     ]
 
 

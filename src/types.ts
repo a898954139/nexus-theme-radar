@@ -1,7 +1,7 @@
-export type PageType = 'index' | 'momentum' | 'flows' | 'stock' | 'sources';
+export type PageType = 'index' | 'momentum' | 'flows' | 'watchlist' | 'stock' | 'sources';
 export type DeviceType = 'desktop' | 'mobile';
 export type LoadState = 'normal' | 'loading' | 'empty';
-export type StockTab = 'fundamentals' | 'flows' | 'broker';
+export type StockTab = 'fundamentals' | 'technical' | 'flows' | 'broker';
 export type StockGroup = 'all' | 'direct' | 'supply';
 export type FlowMetric = 'net' | 'ratio';
 export type FlowDirection = 'up' | 'down';
@@ -287,6 +287,137 @@ export interface RadarData {
   events: ThemeEvent[];
   sourceStatus: SourceStatusData;
   waytoagi: WaytoAgiData;
+}
+
+export type WatchlistExchange = 'TWSE' | 'TPEX';
+export type WatchlistRelation = 'direct' | 'related';
+export type WatchlistDirection = 'up' | 'flat' | 'down' | 'unknown';
+export type InstitutionalDirection = 'positive' | 'negative' | 'flat' | 'insufficient';
+export type StockFlagKey =
+  | 'heat_rising'
+  | 'multi_theme'
+  | 'institutional_positive'
+  | 'fundamentals_improving'
+  | 'high_daytrade'
+  | 'overnight_risk'
+  | 'cashflow_weak'
+  | 'high_leverage'
+  | 'data_sparse';
+
+export interface WatchlistInstrument {
+  instrument_id: string;
+  symbol: string;
+  exchange: WatchlistExchange;
+  name_zh: string;
+}
+
+export interface WatchlistTheme {
+  theme_id: string;
+  name_zh: string;
+  relation: WatchlistRelation;
+  heat_score: number | null;
+  heat_change_24h: number | null;
+  momentum_score: number | null;
+}
+
+export interface StockFlag {
+  key: StockFlagKey;
+  type: 'risk' | 'positive' | 'info';
+}
+
+export interface ScoreComponent {
+  raw: number | null;
+  normalized: number | null;
+  base_weight: number;
+  effective_weight: number;
+  available: boolean;
+}
+
+export interface ScoreSummary {
+  rank: number;
+  score: number;
+  components: Record<string, ScoreComponent>;
+  risk_adjustment?: Record<string, {
+    value: number | null;
+    applied: number;
+    missing_reason?: string | null;
+  }>;
+}
+
+export interface WatchlistInstitutional {
+  direction: InstitutionalDirection;
+  as_of: string | null;
+  observation_count: number;
+  five_day_net: number | null;
+}
+
+export interface WatchlistTradingActivity {
+  as_of: string | null;
+  day_trading_volume: number | null;
+  total_volume: number | null;
+  day_trading_volume_ratio: number | null;
+  overnight_risk: number | null;
+  overnight_missing_reason: string | null;
+}
+
+export interface WatchlistFundamentals {
+  score: number | null;
+  fiscal_quarter: string | null;
+  comparison_basis: 'YoY' | 'QoQ' | null;
+  revenue_growth: number | null;
+  revenue_direction: WatchlistDirection;
+  eps_growth: number | null;
+  eps_direction: WatchlistDirection;
+  gross_margin: number | null;
+  operating_margin: number | null;
+  operating_cash_flow: number | null;
+  operating_cash_flow_margin: number | null;
+  debt_ratio: number | null;
+}
+
+export interface WatchlistCoverage {
+  short_ratio: number;
+  long_ratio: number;
+  missing: string[];
+}
+
+export interface WatchlistStock {
+  instrument: WatchlistInstrument;
+  themes: WatchlistTheme[];
+  short: ScoreSummary;
+  long: ScoreSummary;
+  institutional: WatchlistInstitutional;
+  trading_activity: WatchlistTradingActivity;
+  fundamentals: WatchlistFundamentals;
+  flags: StockFlag[];
+  coverage: WatchlistCoverage;
+}
+
+export interface SearchableStock {
+  instrument: WatchlistInstrument;
+  themes: WatchlistTheme[];
+  selected_top50: boolean;
+  short_rank: number | null;
+  long_rank: number | null;
+  flags: StockFlag[];
+}
+
+export interface StockWatchlistData {
+  schema_version: 'nexus_stock_watchlist.v1';
+  methodology_version: string;
+  generated_at: string;
+  candidate_as_of: string;
+  sources: Record<string, unknown>;
+  methodology: Record<string, unknown>;
+  coverage: {
+    eligible_count: number;
+    selected_count: number;
+    metrics: string[];
+    missing_reasons: string[];
+  };
+  short: { count: number; items: WatchlistStock[] };
+  long: { count: number; items: WatchlistStock[] };
+  searchable: SearchableStock[];
 }
 
 export interface StockRoute {

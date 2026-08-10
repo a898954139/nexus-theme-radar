@@ -11,8 +11,8 @@ interface NavTabBarProps {
 const tabs: Array<{ id: PageType; label: string }> = [
   { id: 'index', label: '題材雷達' },
   { id: 'momentum', label: '題材動能' },
+  { id: 'watchlist', label: '個股雷達' },
   { id: 'flows', label: '資金流向' },
-  { id: 'stock', label: '個股' },
   { id: 'sources', label: '源狀態' }
 ];
 
@@ -20,6 +20,7 @@ export const NavTabBar: React.FC<NavTabBarProps> = ({ page, setPage, device, mob
   const mobileTitles: Record<PageType, string> = {
     index: '台股最近熱什麼',
     momentum: '題材動能',
+    watchlist: '個股雷達',
     flows: '三大法人資金流向',
     stock: '個股',
     sources: '源狀態詳情'

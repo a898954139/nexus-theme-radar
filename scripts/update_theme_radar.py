@@ -37,6 +37,21 @@ try:
         write_fundamentals_cache,
     )
     from scripts.goodinfo_fundamentals import fetch_symbol_fundamentals
+    from scripts.day_trading_activity import (
+        DAY_TRADING_CACHE_FILENAME,
+        TPEX_DAILY_URL,
+        TPEX_INTRADAY_URL,
+        TWSE_MI_INDEX_URL,
+        TWSE_TWTB4U_URL,
+        refresh_day_trading_cache,
+        select_settled_target,
+        validate_day_trading_cache,
+    )
+    from scripts.stock_watchlist import (
+        PUBLIC_STOCK_WATCHLIST_FILENAME,
+        build_stock_watchlist,
+        write_stock_watchlist,
+    )
     from scripts.theme_heat_history_store import (
         delete_expired_observations,
         load_momentum_baselines,
@@ -79,6 +94,21 @@ except ModuleNotFoundError:
         write_fundamentals_cache,
     )
     from goodinfo_fundamentals import fetch_symbol_fundamentals
+    from day_trading_activity import (
+        DAY_TRADING_CACHE_FILENAME,
+        TPEX_DAILY_URL,
+        TPEX_INTRADAY_URL,
+        TWSE_MI_INDEX_URL,
+        TWSE_TWTB4U_URL,
+        refresh_day_trading_cache,
+        select_settled_target,
+        validate_day_trading_cache,
+    )
+    from stock_watchlist import (
+        PUBLIC_STOCK_WATCHLIST_FILENAME,
+        build_stock_watchlist,
+        write_stock_watchlist,
+    )
     from theme_heat_history_store import (
         delete_expired_observations,
         load_momentum_baselines,
@@ -138,6 +168,10 @@ PUBLIC_OBSERVABILITY_FIELDS = (
 MOMENTUM_LATEST_FILENAME = "public-theme-momentum-latest-v0.9.json"
 MOMENTUM_HISTORY_FILENAME = "public-theme-momentum-history-v0.9.json"
 LOGGER = logging.getLogger(__name__)
+
+
+class StockWatchlistPublishError(RuntimeError):
+    """Raised when the required public watchlist cannot be built or written."""
 GENERIC_SUPPLY_CHAIN_SIGNALS = {
     "ai",
     "科技",
@@ -1454,6 +1488,220 @@ def write_momentum_latest(output_dir: Path, payload: Mapping[str, Any]) -> None:
             temporary_path.unlink(missing_ok=True)
 
 
+def _watchlist_fundamentals(momentum_payload: Mapping[str, Any]) -> dict[str, Mapping[str, Any]]:
+    fundamentals: dict[str, Mapping[str, Any]] = {}
+    for theme in momentum_payload.get("themes", []):
+        if not isinstance(theme, Mapping):
+            continue
+        for field in ("direct_symbols", "related_symbols"):
+            for symbol in theme.get(field, []) or []:
+                if not isinstance(symbol, Mapping):
+                    continue
+                instrument_id = str(symbol.get("instrument_id") or "")
+                payload = symbol.get("fundamentals")
+                if instrument_id and isinstance(payload, Mapping) and payload:
+                    fundamentals.setdefault(instrument_id, payload)
+    return fundamentals
+
+
+def _watchlist_instrument_ids(momentum_payload: Mapping[str, Any]) -> set[str]:
+    instrument_ids: set[str] = set()
+    for theme in momentum_payload.get("themes", []):
+        if not isinstance(theme, Mapping):
+            continue
+        for field in ("direct_symbols", "related_symbols"):
+            for symbol in theme.get(field, []) or []:
+                if not isinstance(symbol, Mapping):
+                    continue
+                instrument_id = str(symbol.get("instrument_id") or "")
+                if instrument_id:
+                    instrument_ids.add(instrument_id)
+    return instrument_ids
+
+
+def _flow_filename(output_dir: Path, instrument_id: str) -> str | None:
+    exchange, separator, code = instrument_id.partition(":")
+    if separator != ":" or exchange not in {"TWSE", "TPEX"}:
+        return None
+    if not re.fullmatch(r"[A-Za-z0-9]{1,12}", code):
+        return None
+
+    index_path = output_dir / "flows" / "index.json"
+    try:
+        index = json.loads(index_path.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError):
+        index = {}
+    symbols = index.get("symbols") if isinstance(index, Mapping) else None
+    record = symbols.get(code) if isinstance(symbols, Mapping) else None
+    records = [record] if isinstance(record, Mapping) else []
+    if isinstance(record, Mapping):
+        records.extend(item for item in record.get("alternates", []) or [] if isinstance(item, Mapping))
+    for item in records:
+        filename = item.get("file")
+        if item.get("exchange") == exchange and isinstance(filename, str):
+            if filename == Path(filename).name and re.fullmatch(
+                rf"{exchange}-[A-Za-z0-9]{{1,12}}\.json", filename
+            ):
+                return filename
+    return f"{exchange}-{code}.json"
+
+
+def _load_institutional_flows(
+    output_dir: Path,
+    instrument_ids: set[str] | None = None,
+) -> dict[str, Any]:
+    symbols: dict[str, Any] = {}
+    path = output_dir / "institutional-flows.json"
+    if path.is_file():
+        try:
+            payload = json.loads(path.read_text(encoding="utf-8"))
+        except (OSError, json.JSONDecodeError):
+            payload = {}
+        compact = payload.get("symbols") if isinstance(payload, Mapping) else None
+        if isinstance(compact, Mapping):
+            symbols.update(compact)
+
+    for instrument_id in sorted(instrument_ids or set()):
+        if instrument_id in symbols:
+            continue
+        filename = _flow_filename(output_dir, instrument_id)
+        if filename is None:
+            continue
+        flow_path = output_dir / "flows" / filename
+        try:
+            flow_payload = json.loads(flow_path.read_text(encoding="utf-8"))
+        except (OSError, json.JSONDecodeError):
+            continue
+        if (
+            isinstance(flow_payload, Mapping)
+            and flow_payload.get("instrument_id") == instrument_id
+            and isinstance(flow_payload.get("series"), list)
+        ):
+            symbols[instrument_id] = dict(flow_payload)
+    return symbols
+
+
+def _official_trading_dates(institutional_flows: Mapping[str, Any]) -> list[str]:
+    dates: set[str] = set()
+    for rows in institutional_flows.values():
+        series = rows.get("series", []) if isinstance(rows, Mapping) else rows
+        if not isinstance(series, list):
+            continue
+        for row in series:
+            if isinstance(row, Mapping):
+                value = row.get("date")
+            elif isinstance(row, (list, tuple)) and row:
+                value = row[0]
+            else:
+                value = None
+            if isinstance(value, str) and re.fullmatch(r"\d{4}-\d{2}-\d{2}", value):
+                dates.add(value)
+    return sorted(dates, reverse=True)
+
+
+def _load_day_trading_cache(path: Path) -> dict[str, Any]:
+    if not path.is_file():
+        return {}
+    try:
+        payload = json.loads(path.read_text(encoding="utf-8"))
+        validate_day_trading_cache(payload)
+        return payload
+    except (OSError, json.JSONDecodeError, ValueError):
+        return {}
+
+
+def _unavailable_day_trading_view(
+    prior: Mapping[str, Any],
+    error: Exception,
+) -> dict[str, Any]:
+    message = f"{type(error).__name__}: {error}"
+    prior_sources = prior.get("sources") if isinstance(prior.get("sources"), Mapping) else {}
+    prior_symbols = prior.get("symbols") if isinstance(prior.get("symbols"), Mapping) else {}
+    urls = {
+        "TWSE": (TWSE_TWTB4U_URL, TWSE_MI_INDEX_URL),
+        "TPEX": (TPEX_INTRADAY_URL, TPEX_DAILY_URL),
+    }
+    sources: dict[str, dict[str, Any]] = {}
+    symbols: dict[str, dict[str, Any]] = {}
+    for exchange in ("TWSE", "TPEX"):
+        source = prior_sources.get(exchange)
+        rows = {
+            instrument_id: row
+            for instrument_id, row in prior_symbols.items()
+            if instrument_id.startswith(f"{exchange}:") and isinstance(row, Mapping)
+        }
+        numerator_url, denominator_url = urls[exchange]
+        if isinstance(source, Mapping) and source.get("as_of") and rows:
+            sources[exchange] = {
+                "as_of": source["as_of"],
+                "finality": "settled_t_plus_2",
+                "numerator_url": numerator_url,
+                "denominator_url": denominator_url,
+                "status": "stale",
+                "error": message,
+            }
+            for instrument_id, row in rows.items():
+                symbols[instrument_id] = {
+                    **row,
+                    "status": "stale",
+                    "stale": True,
+                    "missing_reason": f"stale_official_cache: {message}",
+                }
+        else:
+            sources[exchange] = {
+                "as_of": None,
+                "finality": "settled_t_plus_2",
+                "numerator_url": numerator_url,
+                "denominator_url": denominator_url,
+                "status": "missing",
+                "error": message,
+            }
+    return {"sources": sources, "symbols": symbols}
+
+
+def publish_stock_watchlist(
+    *,
+    output_dir: Path,
+    momentum_payload: Mapping[str, Any],
+    generated_at: datetime,
+) -> None:
+    generated_at_text = generated_at.astimezone(timezone.utc).isoformat().replace("+00:00", "Z")
+    institutional_flows = _load_institutional_flows(
+        output_dir,
+        _watchlist_instrument_ids(momentum_payload),
+    )
+    activity_path = output_dir / DAY_TRADING_CACHE_FILENAME
+    day_trading_activity = _load_day_trading_cache(activity_path)
+    if os.environ.get("THEME_RADAR_DAY_TRADING", "1") != "0":
+        try:
+            target_date = select_settled_target(
+                generated_at.date(),
+                _official_trading_dates(institutional_flows),
+            )
+            day_trading_activity = refresh_day_trading_cache(
+                activity_path,
+                target_date=target_date,
+                generated_at=generated_at_text,
+            )
+        except Exception as error:  # noqa: BLE001 - watchlist still publishes explicit missing values
+            LOGGER.warning("day_trading_activity_refresh_failed error=%s", error)
+            day_trading_activity = _unavailable_day_trading_view(day_trading_activity, error)
+
+    payload = build_stock_watchlist(
+        momentum_payload=momentum_payload,
+        fundamentals_by_instrument=_watchlist_fundamentals(momentum_payload),
+        institutional_flows=institutional_flows,
+        day_trading_activity=day_trading_activity,
+        generated_at=generated_at_text,
+        candidate_as_of=str(
+            momentum_payload.get("observed_hour")
+            or momentum_payload.get("generated_at")
+            or generated_at_text
+        ),
+    )
+    write_stock_watchlist(output_dir, payload)
+
+
 def history_connection_factory_from_environment() -> Any | None:
     """Return a lazy direct-Postgres factory only when the scoped URL is set."""
 
@@ -1548,6 +1796,20 @@ def run_momentum_side_paths(
                 producer_run_id,
                 error,
             )
+
+        try:
+            publish_stock_watchlist(
+                output_dir=output_dir,
+                momentum_payload=latest_payload,
+                generated_at=generated_at,
+            )
+        except Exception as error:  # noqa: BLE001 - required watchlist publication must fail the run
+            LOGGER.warning(
+                "theme_momentum_side_path_failed producer_run_id=%s phase=stock_watchlist error=%s",
+                producer_run_id,
+                error,
+            )
+            raise StockWatchlistPublishError(str(error)) from error
 
         if connection is None:
             return result
@@ -1783,6 +2045,8 @@ def run_update(
                 else history_connection_factory_from_environment()
             ),
         )
+    except StockWatchlistPublishError:
+        raise
     except Exception as error:  # noqa: BLE001 - main snapshots are already valid
         LOGGER.warning(
             "theme_momentum_side_path_failed producer_run_id=%s phase=unexpected error=%s",

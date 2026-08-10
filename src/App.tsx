@@ -8,25 +8,32 @@ import { ThemeRadarHome } from './components/home/ThemeRadarHome';
 import { ThemeMomentum } from './components/momentum/ThemeMomentum';
 import { SourceStatus } from './components/sources/SourceStatus';
 import { StockDetail } from './components/stock/StockDetail';
+import { StockWatchlist, WatchlistView } from './components/watchlist/StockWatchlist';
 import { useSiteMetrics } from './hooks/useSiteMetrics';
-import { loadRadarData, fetchBrokerMap, fetchInstitutionalFlows, fetchStockFundamentals } from './services/dataService';
-import { DeviceType, PageType, RadarData, StockTab } from './types';
+import { fetchStockWatchlist, loadRadarData, fetchBrokerMap, fetchInstitutionalFlows, fetchStockFundamentals } from './services/dataService';
+import { DeviceType, PageType, RadarData, StockTab, StockWatchlistData } from './types';
 
 interface RouteState {
   page: PageType;
   code: string;
   exchange?: string;
   tab: StockTab;
+  view: WatchlistView;
+  q: string;
 }
 
 function readRoute(): RouteState {
   const params = new URLSearchParams(window.location.hash.replace(/^#/, ''));
   const page = (params.get('page') as PageType | null) ?? 'index';
+  const view: WatchlistView = params.get('view') === 'long' ? 'long' : params.get('view') === 'search' ? 'search' : 'short';
+  const exchange = params.get('exchange');
   return {
-    page: ['index', 'momentum', 'flows', 'stock', 'sources'].includes(page) ? page : 'index',
+    page: ['index', 'momentum', 'flows', 'watchlist', 'stock', 'sources'].includes(page) ? page : 'index',
     code: params.get('code') ?? '',
-    exchange: params.get('exchange') ?? undefined,
-    tab: params.get('tab') === 'flows' ? 'flows' : params.get('tab') === 'broker' ? 'broker' : 'fundamentals'
+    exchange: exchange === 'TWSE' || exchange === 'TPEX' ? exchange : undefined,
+    tab: params.get('tab') === 'technical' ? 'technical' : params.get('tab') === 'flows' ? 'flows' : params.get('tab') === 'broker' ? 'broker' : 'fundamentals',
+    view,
+    q: view === 'search' ? params.get('q') ?? '' : ''
   };
 }
 
@@ -50,6 +57,10 @@ export const App: React.FC = () => {
   const [device, setDevice] = useState<DeviceType>(() => window.innerWidth < 720 ? 'mobile' : 'desktop');
   const [radarData, setRadarData] = useState<RadarData | null>(null);
   const [loadError, setLoadError] = useState(false);
+  const [watchlistData, setWatchlistData] = useState<StockWatchlistData | null>(null);
+  const [watchlistLoading, setWatchlistLoading] = useState(true);
+  const [watchlistError, setWatchlistError] = useState(false);
+  const [watchlistRequest, setWatchlistRequest] = useState(0);
   const [stockData, setStockData] = useState<{
     fundamentals: Awaited<ReturnType<typeof fetchStockFundamentals>>;
     flows: Awaited<ReturnType<typeof fetchInstitutionalFlows>>;
@@ -65,7 +76,11 @@ export const App: React.FC = () => {
     [radarData]
   );
   const stockCode = route.code || defaultInstrument?.symbol || '';
-  const stockExchange = route.exchange || defaultInstrument?.exchange;
+  const stockInstrument = useMemo(
+    () => instrumentForCode(radarData, stockCode, route.exchange) ?? (!route.code ? defaultInstrument : undefined),
+    [defaultInstrument, radarData, route.code, route.exchange, stockCode]
+  );
+  const stockExchange = route.exchange ?? stockInstrument?.exchange;
 
   useEffect(() => {
     const updateDevice = () => setDevice(window.innerWidth < 720 ? 'mobile' : 'desktop');
@@ -86,6 +101,25 @@ export const App: React.FC = () => {
 
   useEffect(() => {
     let active = true;
+    setWatchlistLoading(true);
+    setWatchlistError(false);
+    fetchStockWatchlist()
+      .then((data) => {
+        if (active) setWatchlistData(data);
+      })
+      .catch(() => {
+        if (active) setWatchlistError(true);
+      })
+      .finally(() => {
+        if (active) setWatchlistLoading(false);
+      });
+    return () => {
+      active = false;
+    };
+  }, [watchlistRequest]);
+
+  useEffect(() => {
+    let active = true;
     loadRadarData()
       .then((data) => {
         if (active) setRadarData(data);
@@ -100,6 +134,10 @@ export const App: React.FC = () => {
 
   useEffect(() => {
     if (route.page !== 'stock') return;
+    if (route.tab === 'technical') {
+      setBrokerLoading(false);
+      return;
+    }
     let active = true;
     setBrokerLoading(route.tab === 'broker');
     Promise.all([
@@ -125,17 +163,25 @@ export const App: React.FC = () => {
     window.location.hash = params.toString();
   };
 
-  const stockInstrument = useMemo(
-    () => instrumentForCode(radarData, stockCode, stockExchange) ?? defaultInstrument,
-    [defaultInstrument, radarData, stockCode, stockExchange]
-  );
+  const updateWatchlistHash = (view: WatchlistView, query = '', replace = false) => {
+    const params = new URLSearchParams({ page: 'watchlist', view });
+    if (view === 'search' && query) params.set('q', query);
+    const nextHash = `#${params.toString()}`;
+    if (replace) {
+      window.history.replaceState(null, '', nextHash);
+      setRoute(readRoute());
+    } else {
+      window.location.hash = params.toString();
+    }
+  };
 
   const goStock = (code: string, exchange?: string, tab: StockTab = 'fundamentals') => {
     updateHash('stock', code, exchange, tab);
   };
 
   const showLoader = !radarData && !loadError;
-  const showEmpty = loadError || radarData?.themeRanking.themes.length === 0;
+  const showCoreLoader = route.page !== 'watchlist' && !radarData && !loadError;
+  const showEmpty = route.page !== 'watchlist' && (loadError || radarData?.themeRanking.themes.length === 0);
 
   return (
     <div className={`app-root ${device === 'mobile' ? 'is-mobile' : 'is-desktop'}`}>
@@ -156,8 +202,23 @@ export const App: React.FC = () => {
           counts={counts}
         />
 
-        {showLoader ? <WavePhysicsLoader scale={device === 'mobile' ? 0.72 : 1} /> : null}
+        {showCoreLoader ? <WavePhysicsLoader scale={device === 'mobile' ? 0.72 : 1} /> : null}
         {showEmpty && !showLoader ? <EmptyState page={route.page} /> : null}
+
+        {route.page === 'watchlist' ? (
+          <StockWatchlist
+            payload={watchlistData}
+            view={route.view}
+            query={route.q}
+            onViewChange={(view) => updateWatchlistHash(view, view === 'search' ? route.q : '')}
+            onQueryChange={(query) => updateWatchlistHash('search', query, true)}
+            onGoStock={goStock}
+            loading={watchlistLoading}
+            error={watchlistError}
+            onRetry={() => setWatchlistRequest((request) => request + 1)}
+            onGoHome={() => updateHash('index')}
+          />
+        ) : null}
 
         {!showLoader && !showEmpty && radarData ? (
           <>
