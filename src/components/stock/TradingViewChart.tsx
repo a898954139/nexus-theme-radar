@@ -64,7 +64,7 @@ export const TradingViewChart: React.FC<TradingViewChartProps> = ({ code, exchan
     script.type = 'text/javascript';
     script.async = true;
     script.src = TRADINGVIEW_SCRIPT_URL;
-    script.text = JSON.stringify(config);
+    script.innerHTML = JSON.stringify(config);
     container.appendChild(script);
 
     timeoutId = window.setTimeout(() => {

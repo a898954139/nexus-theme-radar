@@ -33,6 +33,13 @@ def test_tradingview_widget_uses_fixed_official_script_and_exact_config() -> Non
     assert "dangerouslySetInnerHTML" not in source
 
 
+def test_tradingview_widget_injects_config_as_script_inner_html() -> None:
+    source = _read(COMPONENT)
+
+    assert "script.innerHTML = JSON.stringify(config)" in source
+    assert "script.text = JSON.stringify(config)" not in source
+
+
 def test_tradingview_widget_allows_only_safe_twse_tpex_symbols() -> None:
     source = _read(COMPONENT)
 
