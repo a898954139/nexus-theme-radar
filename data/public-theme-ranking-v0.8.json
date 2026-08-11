@@ -2,7 +2,7 @@
   "schema_version": "nexus_public_theme_ranking.v0.8",
   "ranking_rule_version": "public_theme_heat_v0.8",
   "company_rule_version": "public_company_evidence_v0.8",
-  "generated_at": "2026-08-11T11:07:48.945028Z",
+  "generated_at": "2026-08-11T11:58:29.481793Z",
   "market_id": "TW_EQUITY",
   "market_scope": [
     "TW_EQUITY"
@@ -18,6 +18,116 @@
   "themes": [
     {
       "rank": 1,
+      "theme_id": "memory_hbm",
+      "name_zh": "記憶體與 HBM",
+      "heat_score": 95,
+      "summaries": {
+        "event_count": 6,
+        "source_count": 4,
+        "tracking_candidate_count": 3,
+        "taiwan_mapping_count": 30
+      },
+      "heat_reason": {
+        "rule_version": "public_theme_heat_v0.8",
+        "event_component": {
+          "input": 6,
+          "normalized": 100.0,
+          "weighted": 25.0
+        },
+        "source_component": {
+          "input": 4,
+          "normalized": 100.0,
+          "weighted": 25.0
+        },
+        "candidate_component": {
+          "input": 3,
+          "normalized": 75.0,
+          "weighted": 15.0
+        },
+        "mapping_component": {
+          "mapping_count": 30,
+          "direct_mapping_event_count": 4,
+          "normalized": 100.0,
+          "weighted": 30.0
+        },
+        "single_source_concentration": 0.333,
+        "concentration_penalty": 0.0,
+        "raw_score": 95.0
+      },
+      "direct_mentions": [
+        {
+          "instrument_id": "TWSE:2027",
+          "symbol": "2027",
+          "exchange": "TWSE",
+          "name_zh": "大成鋼",
+          "direct_event_count": 3,
+          "latest_mentioned_at": "2026-08-11T11:10:33Z"
+        },
+        {
+          "instrument_id": "TWSE:5388",
+          "symbol": "5388",
+          "exchange": "TWSE",
+          "name_zh": "中磊",
+          "direct_event_count": 1,
+          "latest_mentioned_at": "2026-08-11T11:10:33Z"
+        },
+        {
+          "instrument_id": "TWSE:2028",
+          "symbol": "2028",
+          "exchange": "TWSE",
+          "name_zh": "威致",
+          "direct_event_count": 1,
+          "latest_mentioned_at": "2026-08-11T06:30:03Z"
+        }
+      ],
+      "supply_chain_candidates": [
+        {
+          "instrument_id": "TPEX:8299",
+          "symbol": "8299",
+          "exchange": "TPEX",
+          "name_zh": "群聯",
+          "direct_event_count": 0,
+          "official_evidence_count": 0,
+          "company_rank_score": 1,
+          "latest_mentioned_at": null,
+          "latest_official_at": null
+        },
+        {
+          "instrument_id": "TWSE:2344",
+          "symbol": "2344",
+          "exchange": "TWSE",
+          "name_zh": "華邦電",
+          "direct_event_count": 0,
+          "official_evidence_count": 0,
+          "company_rank_score": 1,
+          "latest_mentioned_at": null,
+          "latest_official_at": null
+        },
+        {
+          "instrument_id": "TWSE:2408",
+          "symbol": "2408",
+          "exchange": "TWSE",
+          "name_zh": "南亞科",
+          "direct_event_count": 0,
+          "official_evidence_count": 0,
+          "company_rank_score": 1,
+          "latest_mentioned_at": null,
+          "latest_official_at": null
+        }
+      ],
+      "representative_news": {
+        "cluster_id": "cluster-2965c0d7faad30f3",
+        "id": "cnyes-2a8f926f7dd5",
+        "title_zh": "輝達AI記憶體規格縮水是假訊號？小摩：AI驅動超級週期或延續至2028年",
+        "summary": "摩根大通指出，輝達 AI 平台 HBM、SOCAMM 規格調整並非需求降溫，而是供應吃緊下的策略。DRAM 漲價循環恐延續至 2028 年，HBM 與 NAND 需求持續強勁。",
+        "source_id": "cnyes",
+        "source": "鉅亨網 Cnyes",
+        "published_at": "2026-08-11T06:30:03Z",
+        "canonical_url": "https://news.cnyes.com/news/id/6570441"
+      }
+    },
+    {
+      "rank": 2,
       "theme_id": "cowos_supply_chain",
       "name_zh": "CoWoS 先進封裝",
       "heat_score": 94,
@@ -101,122 +211,20 @@
       }
     },
     {
-      "rank": 2,
-      "theme_id": "memory_hbm",
-      "name_zh": "記憶體與 HBM",
-      "heat_score": 85,
-      "summaries": {
-        "event_count": 5,
-        "source_count": 3,
-        "tracking_candidate_count": 3,
-        "taiwan_mapping_count": 29
-      },
-      "heat_reason": {
-        "rule_version": "public_theme_heat_v0.8",
-        "event_component": {
-          "input": 5,
-          "normalized": 83.333,
-          "weighted": 20.833
-        },
-        "source_component": {
-          "input": 3,
-          "normalized": 75.0,
-          "weighted": 18.75
-        },
-        "candidate_component": {
-          "input": 3,
-          "normalized": 75.0,
-          "weighted": 15.0
-        },
-        "mapping_component": {
-          "mapping_count": 29,
-          "direct_mapping_event_count": 3,
-          "normalized": 100.0,
-          "weighted": 30.0
-        },
-        "single_source_concentration": 0.4,
-        "concentration_penalty": 0.0,
-        "raw_score": 84.583
-      },
-      "direct_mentions": [
-        {
-          "instrument_id": "TWSE:2027",
-          "symbol": "2027",
-          "exchange": "TWSE",
-          "name_zh": "大成鋼",
-          "direct_event_count": 2,
-          "latest_mentioned_at": "2026-08-11T07:15:58Z"
-        },
-        {
-          "instrument_id": "TWSE:2028",
-          "symbol": "2028",
-          "exchange": "TWSE",
-          "name_zh": "威致",
-          "direct_event_count": 1,
-          "latest_mentioned_at": "2026-08-11T06:30:03Z"
-        }
-      ],
-      "supply_chain_candidates": [
-        {
-          "instrument_id": "TPEX:8299",
-          "symbol": "8299",
-          "exchange": "TPEX",
-          "name_zh": "群聯",
-          "direct_event_count": 0,
-          "official_evidence_count": 0,
-          "company_rank_score": 1,
-          "latest_mentioned_at": null,
-          "latest_official_at": null
-        },
-        {
-          "instrument_id": "TWSE:2344",
-          "symbol": "2344",
-          "exchange": "TWSE",
-          "name_zh": "華邦電",
-          "direct_event_count": 0,
-          "official_evidence_count": 0,
-          "company_rank_score": 1,
-          "latest_mentioned_at": null,
-          "latest_official_at": null
-        },
-        {
-          "instrument_id": "TWSE:2408",
-          "symbol": "2408",
-          "exchange": "TWSE",
-          "name_zh": "南亞科",
-          "direct_event_count": 0,
-          "official_evidence_count": 0,
-          "company_rank_score": 1,
-          "latest_mentioned_at": null,
-          "latest_official_at": null
-        }
-      ],
-      "representative_news": {
-        "cluster_id": "cluster-2965c0d7faad30f3",
-        "id": "cnyes-2a8f926f7dd5",
-        "title_zh": "輝達AI記憶體規格縮水是假訊號？小摩：AI驅動超級週期或延續至2028年",
-        "summary": "摩根大通指出，輝達 AI 平台 HBM、SOCAMM 規格調整並非需求降溫，而是供應吃緊下的策略。DRAM 漲價循環恐延續至 2028 年，HBM 與 NAND 需求持續強勁。",
-        "source_id": "cnyes",
-        "source": "鉅亨網 Cnyes",
-        "published_at": "2026-08-11T06:30:03Z",
-        "canonical_url": "https://news.cnyes.com/news/id/6570441"
-      }
-    },
-    {
       "rank": 3,
       "theme_id": "statementdog_tag_1517",
       "name_zh": "AI",
-      "heat_score": 75,
+      "heat_score": 78,
       "summaries": {
-        "event_count": 19,
+        "event_count": 22,
         "source_count": 4,
         "tracking_candidate_count": 0,
-        "taiwan_mapping_count": 83
+        "taiwan_mapping_count": 84
       },
       "heat_reason": {
         "rule_version": "public_theme_heat_v0.8",
         "event_component": {
-          "input": 19,
+          "input": 22,
           "normalized": 100.0,
           "weighted": 25.0
         },
@@ -231,24 +239,16 @@
           "weighted": 0.0
         },
         "mapping_component": {
-          "mapping_count": 83,
-          "direct_mapping_event_count": 5,
+          "mapping_count": 84,
+          "direct_mapping_event_count": 6,
           "normalized": 100.0,
           "weighted": 30.0
         },
-        "single_source_concentration": 0.737,
-        "concentration_penalty": 5.132,
-        "raw_score": 74.868
+        "single_source_concentration": 0.652,
+        "concentration_penalty": 1.957,
+        "raw_score": 78.043
       },
       "direct_mentions": [
-        {
-          "instrument_id": "TPEX:5351",
-          "symbol": "5351",
-          "exchange": "TPEX",
-          "name_zh": "鈺創",
-          "direct_event_count": 1,
-          "latest_mentioned_at": "2026-08-11T10:29:37Z"
-        },
         {
           "instrument_id": "TWSE:6215",
           "symbol": "6215",
@@ -264,6 +264,30 @@
           "name_zh": "新光鋼",
           "direct_event_count": 1,
           "latest_mentioned_at": "2026-08-11T07:54:09Z"
+        },
+        {
+          "instrument_id": "TWSE:3704",
+          "symbol": "3704",
+          "exchange": "TWSE",
+          "name_zh": "合勤控",
+          "direct_event_count": 1,
+          "latest_mentioned_at": "2026-08-11T05:17:44Z"
+        },
+        {
+          "instrument_id": "TWSE:2029",
+          "symbol": "2029",
+          "exchange": "TWSE",
+          "name_zh": "盛餘",
+          "direct_event_count": 1,
+          "latest_mentioned_at": "2026-08-11T03:30:09Z"
+        },
+        {
+          "instrument_id": "TWSE:2330",
+          "symbol": "2330",
+          "exchange": "TWSE",
+          "name_zh": "台積電",
+          "direct_event_count": 1,
+          "latest_mentioned_at": "2026-08-11T03:30:09Z"
         },
         {
           "instrument_id": "TWSE:2027",
@@ -283,6 +307,17 @@
         }
       ],
       "supply_chain_candidates": [
+        {
+          "instrument_id": "TWSE:2330",
+          "symbol": "2330",
+          "exchange": "TWSE",
+          "name_zh": "台積電",
+          "direct_event_count": 1,
+          "official_evidence_count": 0,
+          "company_rank_score": 5,
+          "latest_mentioned_at": "2026-08-11T03:30:09Z",
+          "latest_official_at": null
+        },
         {
           "instrument_id": "TPEX:3081",
           "symbol": "3081",
@@ -304,141 +339,36 @@
           "company_rank_score": 1,
           "latest_mentioned_at": null,
           "latest_official_at": null
-        },
-        {
-          "instrument_id": "TPEX:3363",
-          "symbol": "3363",
-          "exchange": "TPEX",
-          "name_zh": "上詮",
-          "direct_event_count": 0,
-          "official_evidence_count": 0,
-          "company_rank_score": 1,
-          "latest_mentioned_at": null,
-          "latest_official_at": null
         }
       ],
       "representative_news": {
-        "cluster_id": "cluster-35b84901f743c948",
-        "id": "yahoo_finance_tw-e5e527fa8e33",
-        "title_zh": "AI供應鏈拚速度　盧超群：金融科技助攻金流效率",
-        "summary": "（中央社記者潘姿羽台北2026年8月11日電）AI時代來臨，台灣以硬體製造為核心競爭力，在全球供應鏈扮演要角。不過鈺創(5351)董事長盧超群表示，高科技產業與時間賽跑，若金融科技能夠扮演助攻角色，將",
-        "source_id": "yahoo_finance_tw",
-        "source": "Yahoo Finance Taiwan",
-        "published_at": "2026-08-11T10:29:37Z",
-        "canonical_url": "https://tw.stock.yahoo.com/news/ai%E4%BE%9B%E6%87%89%E9%8F%88%E6%8B%9A%E9%80%9F%E5%BA%A6-%E7%9B%A7%E8%B6%85%E7%BE%A4-%E9%87%91%E8%9E%8D%E7%A7%91%E6%8A%80%E5%8A%A9%E6%94%BB%E9%87%91%E6%B5%81%E6%95%88%E7%8E%87-102937070.html"
+        "cluster_id": "cluster-364ea72a0f304f84",
+        "id": "cnyes-3291847b7738",
+        "title_zh": "輝達募5000億美元AI資金是「循環融資」？大摩反駁：看好「近100%毛利」新財源",
+        "summary": "輝達宣布籌組最高 5,000 億美元 AI 基礎建設融資平台，摩根士丹利認為可降低循環融資疑慮，並有望透過 GPU 收益分成創造近 100% 毛利的新收入來源。",
+        "source_id": "cnyes",
+        "source": "鉅亨網 Cnyes",
+        "published_at": "2026-08-11T11:10:05Z",
+        "canonical_url": "https://news.cnyes.com/news/id/6570829"
       }
     },
     {
       "rank": 4,
-      "theme_id": "energy_grid",
-      "name_zh": "能源與電網",
-      "heat_score": 53,
-      "summaries": {
-        "event_count": 4,
-        "source_count": 2,
-        "tracking_candidate_count": 0,
-        "taiwan_mapping_count": 4
-      },
-      "heat_reason": {
-        "rule_version": "public_theme_heat_v0.8",
-        "event_component": {
-          "input": 4,
-          "normalized": 66.667,
-          "weighted": 16.667
-        },
-        "source_component": {
-          "input": 2,
-          "normalized": 50.0,
-          "weighted": 12.5
-        },
-        "candidate_component": {
-          "input": 0,
-          "normalized": 0.0,
-          "weighted": 0.0
-        },
-        "mapping_component": {
-          "mapping_count": 4,
-          "direct_mapping_event_count": 1,
-          "normalized": 80.0,
-          "weighted": 24.0
-        },
-        "single_source_concentration": 0.5,
-        "concentration_penalty": 0.0,
-        "raw_score": 53.167
-      },
-      "direct_mentions": [
-        {
-          "instrument_id": "TPEX:6163",
-          "symbol": "6163",
-          "exchange": "TPEX",
-          "name_zh": "華電網",
-          "direct_event_count": 1,
-          "latest_mentioned_at": "2026-08-11T05:30:27Z"
-        }
-      ],
-      "supply_chain_candidates": [
-        {
-          "instrument_id": "TWSE:1503",
-          "symbol": "1503",
-          "exchange": "TWSE",
-          "name_zh": "士電",
-          "direct_event_count": 0,
-          "official_evidence_count": 0,
-          "company_rank_score": 1,
-          "latest_mentioned_at": null,
-          "latest_official_at": null
-        },
-        {
-          "instrument_id": "TWSE:1513",
-          "symbol": "1513",
-          "exchange": "TWSE",
-          "name_zh": "中興電",
-          "direct_event_count": 0,
-          "official_evidence_count": 0,
-          "company_rank_score": 1,
-          "latest_mentioned_at": null,
-          "latest_official_at": null
-        },
-        {
-          "instrument_id": "TWSE:1519",
-          "symbol": "1519",
-          "exchange": "TWSE",
-          "name_zh": "華城",
-          "direct_event_count": 0,
-          "official_evidence_count": 0,
-          "company_rank_score": 1,
-          "latest_mentioned_at": null,
-          "latest_official_at": null
-        }
-      ],
-      "representative_news": {
-        "cluster_id": "cluster-d2b33887e355f913",
-        "id": "cnyes-508aa5d73d81",
-        "title_zh": "通用出售印第安納電池廠49.99%持股！由三星SDI接手轉攻儲能",
-        "summary": "在美國電動車需求轉弱之際，傳出通用汽車 (GM-US) 擬將位於印第安納州、總投資額 35 億美元的電動車電池合資企業 49.99% 持股，出售給合作夥伴三星 SDI，進一步撤出電動車電池業務。  三星 SDI 周二 (11 日) 表示，將買下通用持有的 49.99% 合資企業股份，並接手營運，使該",
-        "source_id": "cnyes",
-        "source": "鉅亨網 Cnyes",
-        "published_at": "2026-08-11T07:46:35Z",
-        "canonical_url": "https://news.cnyes.com/news/id/6570681"
-      }
-    },
-    {
-      "rank": 5,
       "theme_id": "ai_server",
       "name_zh": "AI 伺服器",
-      "heat_score": 53,
+      "heat_score": 73,
       "summaries": {
-        "event_count": 4,
+        "event_count": 5,
         "source_count": 2,
-        "tracking_candidate_count": 1,
+        "tracking_candidate_count": 2,
         "taiwan_mapping_count": 25
       },
       "heat_reason": {
         "rule_version": "public_theme_heat_v0.8",
         "event_component": {
-          "input": 4,
-          "normalized": 66.667,
-          "weighted": 16.667
+          "input": 5,
+          "normalized": 83.333,
+          "weighted": 20.833
         },
         "source_component": {
           "input": 2,
@@ -446,19 +376,19 @@
           "weighted": 12.5
         },
         "candidate_component": {
-          "input": 1,
-          "normalized": 25.0,
-          "weighted": 5.0
+          "input": 2,
+          "normalized": 50.0,
+          "weighted": 10.0
         },
         "mapping_component": {
           "mapping_count": 25,
-          "direct_mapping_event_count": 1,
-          "normalized": 80.0,
-          "weighted": 24.0
+          "direct_mapping_event_count": 2,
+          "normalized": 100.0,
+          "weighted": 30.0
         },
-        "single_source_concentration": 0.75,
-        "concentration_penalty": 5.625,
-        "raw_score": 52.542
+        "single_source_concentration": 0.6,
+        "concentration_penalty": 0.0,
+        "raw_score": 73.333
       },
       "direct_mentions": [
         {
@@ -466,7 +396,7 @@
           "symbol": "2324",
           "exchange": "TWSE",
           "name_zh": "仁寶",
-          "direct_event_count": 1,
+          "direct_event_count": 2,
           "latest_mentioned_at": "2026-08-11T06:56:00Z"
         }
       ],
@@ -514,6 +444,116 @@
         "source": "鉅亨網 Cnyes",
         "published_at": "2026-08-11T06:56:00Z",
         "canonical_url": "https://news.cnyes.com/news/id/6570774"
+      }
+    },
+    {
+      "rank": 5,
+      "theme_id": "robotics",
+      "name_zh": "機器人",
+      "heat_score": 69,
+      "summaries": {
+        "event_count": 4,
+        "source_count": 2,
+        "tracking_candidate_count": 2,
+        "taiwan_mapping_count": 27
+      },
+      "heat_reason": {
+        "rule_version": "public_theme_heat_v0.8",
+        "event_component": {
+          "input": 4,
+          "normalized": 66.667,
+          "weighted": 16.667
+        },
+        "source_component": {
+          "input": 2,
+          "normalized": 50.0,
+          "weighted": 12.5
+        },
+        "candidate_component": {
+          "input": 2,
+          "normalized": 50.0,
+          "weighted": 10.0
+        },
+        "mapping_component": {
+          "mapping_count": 27,
+          "direct_mapping_event_count": 2,
+          "normalized": 100.0,
+          "weighted": 30.0
+        },
+        "single_source_concentration": 0.5,
+        "concentration_penalty": 0.0,
+        "raw_score": 69.167
+      },
+      "direct_mentions": [
+        {
+          "instrument_id": "TWSE:2025",
+          "symbol": "2025",
+          "exchange": "TWSE",
+          "name_zh": "千興",
+          "direct_event_count": 1,
+          "latest_mentioned_at": "2026-08-11T05:40:05Z"
+        },
+        {
+          "instrument_id": "TWSE:2029",
+          "symbol": "2029",
+          "exchange": "TWSE",
+          "name_zh": "盛餘",
+          "direct_event_count": 1,
+          "latest_mentioned_at": "2026-08-11T03:20:03Z"
+        },
+        {
+          "instrument_id": "TWSE:2330",
+          "symbol": "2330",
+          "exchange": "TWSE",
+          "name_zh": "台積電",
+          "direct_event_count": 1,
+          "latest_mentioned_at": "2026-08-11T03:20:03Z"
+        }
+      ],
+      "supply_chain_candidates": [
+        {
+          "instrument_id": "TPEX:3379",
+          "symbol": "3379",
+          "exchange": "TPEX",
+          "name_zh": "彬台",
+          "direct_event_count": 0,
+          "official_evidence_count": 0,
+          "company_rank_score": 1,
+          "latest_mentioned_at": null,
+          "latest_official_at": null
+        },
+        {
+          "instrument_id": "TPEX:3577",
+          "symbol": "3577",
+          "exchange": "TPEX",
+          "name_zh": "泓格",
+          "direct_event_count": 0,
+          "official_evidence_count": 0,
+          "company_rank_score": 1,
+          "latest_mentioned_at": null,
+          "latest_official_at": null
+        },
+        {
+          "instrument_id": "TPEX:5289",
+          "symbol": "5289",
+          "exchange": "TPEX",
+          "name_zh": "宜鼎",
+          "direct_event_count": 0,
+          "official_evidence_count": 0,
+          "company_rank_score": 1,
+          "latest_mentioned_at": null,
+          "latest_official_at": null
+        }
+      ],
+      "representative_news": {
+        "cluster_id": "cluster-a29d0209ae65efa6",
+        "id": "cnyes-282cfde19771",
+        "title_zh": "智元超宇樹居冠！今年H1全球人形機器人出貨1.91萬台 陸廠97%市佔 美廠連車尾燈都看不到",
+        "summary": "根據市場研究機構 Smart Analytics Global(SAG) 最新報告，今年上半年全球人型機器人出貨約 1.91 萬台，較去年同期 5100 台暴增近 300%，其中中國廠商拿下超過 97% 市佔率，延續並擴大 2025 年 84.7% 的領先優勢。  數據顯示，上海智元機器人 (Agi",
+        "source_id": "cnyes",
+        "source": "鉅亨網 Cnyes",
+        "published_at": "2026-08-11T05:40:05Z",
+        "canonical_url": "https://news.cnyes.com/news/id/6570552"
       }
     }
   ]
