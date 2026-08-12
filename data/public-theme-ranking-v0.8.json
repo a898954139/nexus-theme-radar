@@ -2,14 +2,14 @@
   "schema_version": "nexus_public_theme_ranking.v0.8",
   "ranking_rule_version": "public_theme_heat_v0.8",
   "company_rule_version": "public_company_evidence_v0.8",
-  "generated_at": "2026-08-11T23:04:55.529189Z",
+  "generated_at": "2026-08-12T00:01:03.147904Z",
   "market_id": "TW_EQUITY",
   "market_scope": [
     "TW_EQUITY"
   ],
   "window_hours": 72,
   "max_themes": 5,
-  "qualified_theme_count": 8,
+  "qualified_theme_count": 9,
   "displayed_theme_count": 5,
   "threshold_note": null,
   "generation_status": "complete",
@@ -22,7 +22,7 @@
       "name_zh": "CoWoS 先進封裝",
       "heat_score": 94,
       "summaries": {
-        "event_count": 7,
+        "event_count": 6,
         "source_count": 3,
         "tracking_candidate_count": 4,
         "taiwan_mapping_count": 5
@@ -30,7 +30,7 @@
       "heat_reason": {
         "rule_version": "public_theme_heat_v0.8",
         "event_component": {
-          "input": 7,
+          "input": 6,
           "normalized": 100.0,
           "weighted": 25.0
         },
@@ -46,11 +46,11 @@
         },
         "mapping_component": {
           "mapping_count": 5,
-          "direct_mapping_event_count": 6,
+          "direct_mapping_event_count": 5,
           "normalized": 100.0,
           "weighted": 30.0
         },
-        "single_source_concentration": 0.375,
+        "single_source_concentration": 0.429,
         "concentration_penalty": 0.0,
         "raw_score": 93.75
       },
@@ -68,7 +68,7 @@
           "symbol": "2330",
           "exchange": "TWSE",
           "name_zh": "台積電",
-          "direct_event_count": 3,
+          "direct_event_count": 2,
           "latest_mentioned_at": "2026-08-11T18:29:18Z"
         },
         {
@@ -76,7 +76,7 @@
           "symbol": "2029",
           "exchange": "TWSE",
           "name_zh": "盛餘",
-          "direct_event_count": 2,
+          "direct_event_count": 1,
           "latest_mentioned_at": "2026-08-11T08:51:44Z"
         },
         {
@@ -104,24 +104,24 @@
       "rank": 2,
       "theme_id": "statementdog_tag_1517",
       "name_zh": "AI",
-      "heat_score": 74,
+      "heat_score": 80,
       "summaries": {
-        "event_count": 14,
-        "source_count": 3,
+        "event_count": 17,
+        "source_count": 4,
         "tracking_candidate_count": 0,
-        "taiwan_mapping_count": 95
+        "taiwan_mapping_count": 97
       },
       "heat_reason": {
         "rule_version": "public_theme_heat_v0.8",
         "event_component": {
-          "input": 14,
+          "input": 17,
           "normalized": 100.0,
           "weighted": 25.0
         },
         "source_component": {
-          "input": 3,
-          "normalized": 75.0,
-          "weighted": 18.75
+          "input": 4,
+          "normalized": 100.0,
+          "weighted": 25.0
         },
         "candidate_component": {
           "input": 0,
@@ -129,16 +129,32 @@
           "weighted": 0.0
         },
         "mapping_component": {
-          "mapping_count": 95,
-          "direct_mapping_event_count": 4,
+          "mapping_count": 97,
+          "direct_mapping_event_count": 6,
           "normalized": 100.0,
           "weighted": 30.0
         },
-        "single_source_concentration": 0.5,
+        "single_source_concentration": 0.421,
         "concentration_penalty": 0.0,
-        "raw_score": 73.75
+        "raw_score": 80.0
       },
       "direct_mentions": [
+        {
+          "instrument_id": "TWSE:2330",
+          "symbol": "2330",
+          "exchange": "TWSE",
+          "name_zh": "台積電",
+          "direct_event_count": 1,
+          "latest_mentioned_at": "2026-08-11T23:15:59Z"
+        },
+        {
+          "instrument_id": "TWSE:2504",
+          "symbol": "2504",
+          "exchange": "TWSE",
+          "name_zh": "國產",
+          "direct_event_count": 1,
+          "latest_mentioned_at": "2026-08-11T23:04:14Z"
+        },
         {
           "instrument_id": "TWSE:2025",
           "symbol": "2025",
@@ -174,6 +190,17 @@
       ],
       "supply_chain_candidates": [
         {
+          "instrument_id": "TWSE:2330",
+          "symbol": "2330",
+          "exchange": "TWSE",
+          "name_zh": "台積電",
+          "direct_event_count": 1,
+          "official_evidence_count": 0,
+          "company_rank_score": 5,
+          "latest_mentioned_at": "2026-08-11T23:15:59Z",
+          "latest_official_at": null
+        },
+        {
           "instrument_id": "TPEX:3081",
           "symbol": "3081",
           "exchange": "TPEX",
@@ -194,12 +221,119 @@
           "company_rank_score": 1,
           "latest_mentioned_at": null,
           "latest_official_at": null
+        }
+      ],
+      "representative_news": {
+        "cluster_id": "cluster-31994af39e0bb22f",
+        "id": "cnyes-8704f332b4ba",
+        "title_zh": "AI資產化遇最大考驗！輝達5000億美元融資恐遭中國晶片狙擊",
+        "summary": "輝達試圖聯手華爾街打造 5000 億美元 AI 基礎設施融資市場，將 GPU 視為可產生收入的長期資產，但中國晶片產能擴張若引發價格戰，可能加速舊 GPU 貶值並侵蝕抵押品價值。",
+        "source_id": "cnyes",
+        "source": "鉅亨網 Cnyes",
+        "published_at": "2026-08-11T23:10:02Z",
+        "canonical_url": "https://news.cnyes.com/news/id/6572111"
+      }
+    },
+    {
+      "rank": 3,
+      "theme_id": "pcb_abf_hdi",
+      "name_zh": "PCB／ABF／HDI",
+      "heat_score": 80,
+      "summaries": {
+        "event_count": 5,
+        "source_count": 3,
+        "tracking_candidate_count": 2,
+        "taiwan_mapping_count": 4
+      },
+      "heat_reason": {
+        "rule_version": "public_theme_heat_v0.8",
+        "event_component": {
+          "input": 5,
+          "normalized": 83.333,
+          "weighted": 20.833
+        },
+        "source_component": {
+          "input": 3,
+          "normalized": 75.0,
+          "weighted": 18.75
+        },
+        "candidate_component": {
+          "input": 2,
+          "normalized": 50.0,
+          "weighted": 10.0
+        },
+        "mapping_component": {
+          "mapping_count": 4,
+          "direct_mapping_event_count": 5,
+          "normalized": 100.0,
+          "weighted": 30.0
+        },
+        "single_source_concentration": 0.4,
+        "concentration_penalty": 0.0,
+        "raw_score": 79.583
+      },
+      "direct_mentions": [
+        {
+          "instrument_id": "TWSE:3010",
+          "symbol": "3010",
+          "exchange": "TWSE",
+          "name_zh": "華立",
+          "direct_event_count": 2,
+          "latest_mentioned_at": "2026-08-11T23:48:14Z"
         },
         {
-          "instrument_id": "TPEX:3363",
-          "symbol": "3363",
-          "exchange": "TPEX",
-          "name_zh": "上詮",
+          "instrument_id": "TWSE:2030",
+          "symbol": "2030",
+          "exchange": "TWSE",
+          "name_zh": "彰源",
+          "direct_event_count": 2,
+          "latest_mentioned_at": "2026-08-11T18:23:39Z"
+        },
+        {
+          "instrument_id": "TWSE:2025",
+          "symbol": "2025",
+          "exchange": "TWSE",
+          "name_zh": "千興",
+          "direct_event_count": 1,
+          "latest_mentioned_at": "2026-08-11T18:29:31Z"
+        },
+        {
+          "instrument_id": "TWSE:2368",
+          "symbol": "2368",
+          "exchange": "TWSE",
+          "name_zh": "金像電",
+          "direct_event_count": 1,
+          "latest_mentioned_at": "2026-08-11T10:56:08Z"
+        }
+      ],
+      "supply_chain_candidates": [
+        {
+          "instrument_id": "TWSE:2368",
+          "symbol": "2368",
+          "exchange": "TWSE",
+          "name_zh": "金像電",
+          "direct_event_count": 1,
+          "official_evidence_count": 0,
+          "company_rank_score": 5,
+          "latest_mentioned_at": "2026-08-11T10:56:08Z",
+          "latest_official_at": null
+        },
+        {
+          "instrument_id": "TWSE:3037",
+          "symbol": "3037",
+          "exchange": "TWSE",
+          "name_zh": "欣興",
+          "direct_event_count": 0,
+          "official_evidence_count": 0,
+          "company_rank_score": 1,
+          "latest_mentioned_at": null,
+          "latest_official_at": null
+        },
+        {
+          "instrument_id": "TWSE:8046",
+          "symbol": "8046",
+          "exchange": "TWSE",
+          "name_zh": "南電",
           "direct_event_count": 0,
           "official_evidence_count": 0,
           "company_rank_score": 1,
@@ -208,38 +342,38 @@
         }
       ],
       "representative_news": {
-        "cluster_id": "cluster-e6c1f0e918b191e2",
-        "id": "cnyes-5a98b8ec227d",
-        "title_zh": "〈財報〉AI需求強！美超微獲利大勝預期 盤後飆8%",
-        "summary": "AI 伺服器製造商美超微電腦 (Super Micro Computer)(SMCI-US) 周二 (11 日) 公布 2026 會計年度第四季財報，受人工智慧 (AI) 需求加速帶動，獲利遠高於華爾街預期，激勵盤後股價一度大漲 8%。",
-        "source_id": "cnyes",
-        "source": "鉅亨網 Cnyes",
-        "published_at": "2026-08-11T22:54:47Z",
-        "canonical_url": "https://news.cnyes.com/news/id/6572107"
+        "cluster_id": "cluster-522791728902b50b",
+        "id": "digitimes_tw-90aa1c8e344b",
+        "title_zh": "ABF載板需求火熱燒出爆量訂單　長廣設備漲價2成、產能仍不夠",
+        "summary": "ABF載板需求升溫，帶動真空壓膜設備訂單快速增加，長興材料旗下長廣精機表示，自2025年耶誕節前後開始，客戶訂單及詢價突然大幅增加，且需求一路延續至今，日本工廠自2026年5月起已進入滿載生產。因應訂單需求",
+        "source_id": "digitimes_tw",
+        "source": "DIGITIMES",
+        "published_at": "2026-08-11T18:29:31Z",
+        "canonical_url": "https://www.digitimes.com.tw/tech/dt/n/shwnws.asp?id=0000764792_LE9695L3LLPJS31RTPC79"
       }
     },
     {
-      "rank": 3,
+      "rank": 4,
       "theme_id": "memory_hbm",
       "name_zh": "記憶體與 HBM",
-      "heat_score": 72,
+      "heat_score": 70,
       "summaries": {
-        "event_count": 4,
-        "source_count": 4,
+        "event_count": 5,
+        "source_count": 3,
         "tracking_candidate_count": 0,
-        "taiwan_mapping_count": 20
+        "taiwan_mapping_count": 29
       },
       "heat_reason": {
         "rule_version": "public_theme_heat_v0.8",
         "event_component": {
-          "input": 4,
-          "normalized": 66.667,
-          "weighted": 16.667
+          "input": 5,
+          "normalized": 83.333,
+          "weighted": 20.833
         },
         "source_component": {
-          "input": 4,
-          "normalized": 100.0,
-          "weighted": 25.0
+          "input": 3,
+          "normalized": 75.0,
+          "weighted": 18.75
         },
         "candidate_component": {
           "input": 0,
@@ -247,14 +381,14 @@
           "weighted": 0.0
         },
         "mapping_component": {
-          "mapping_count": 20,
+          "mapping_count": 29,
           "direct_mapping_event_count": 3,
           "normalized": 100.0,
           "weighted": 30.0
         },
         "single_source_concentration": 0.4,
         "concentration_penalty": 0.0,
-        "raw_score": 71.667
+        "raw_score": 69.583
       },
       "direct_mentions": [
         {
@@ -318,156 +452,38 @@
         }
       ],
       "representative_news": {
-        "cluster_id": "cluster-69c9ef31e3f168b6",
-        "id": "cnyes-ca9ef7710a31",
-        "title_zh": "蘋果Q2反常加碼OLED面板 為記憶體漲價預作準備",
-        "summary": "蘋果 (AAPL-US) 為降低零組件成本上漲對 iPhone 售價的衝擊，正透過提前增加 OLED 面板採購量、延長庫存週期，以大規模採購爭取更有利的價格。",
-        "source_id": "cnyes",
-        "source": "鉅亨網 Cnyes",
-        "published_at": "2026-08-11T21:40:02Z",
-        "canonical_url": "https://news.cnyes.com/news/id/6571927"
-      }
-    },
-    {
-      "rank": 4,
-      "theme_id": "pcb_abf_hdi",
-      "name_zh": "PCB／ABF／HDI",
-      "heat_score": 69,
-      "summaries": {
-        "event_count": 4,
-        "source_count": 2,
-        "tracking_candidate_count": 2,
-        "taiwan_mapping_count": 4
-      },
-      "heat_reason": {
-        "rule_version": "public_theme_heat_v0.8",
-        "event_component": {
-          "input": 4,
-          "normalized": 66.667,
-          "weighted": 16.667
-        },
-        "source_component": {
-          "input": 2,
-          "normalized": 50.0,
-          "weighted": 12.5
-        },
-        "candidate_component": {
-          "input": 2,
-          "normalized": 50.0,
-          "weighted": 10.0
-        },
-        "mapping_component": {
-          "mapping_count": 4,
-          "direct_mapping_event_count": 4,
-          "normalized": 100.0,
-          "weighted": 30.0
-        },
-        "single_source_concentration": 0.5,
-        "concentration_penalty": 0.0,
-        "raw_score": 69.167
-      },
-      "direct_mentions": [
-        {
-          "instrument_id": "TWSE:2030",
-          "symbol": "2030",
-          "exchange": "TWSE",
-          "name_zh": "彰源",
-          "direct_event_count": 2,
-          "latest_mentioned_at": "2026-08-11T18:23:39Z"
-        },
-        {
-          "instrument_id": "TWSE:2025",
-          "symbol": "2025",
-          "exchange": "TWSE",
-          "name_zh": "千興",
-          "direct_event_count": 1,
-          "latest_mentioned_at": "2026-08-11T18:29:31Z"
-        },
-        {
-          "instrument_id": "TWSE:2368",
-          "symbol": "2368",
-          "exchange": "TWSE",
-          "name_zh": "金像電",
-          "direct_event_count": 1,
-          "latest_mentioned_at": "2026-08-11T10:56:08Z"
-        },
-        {
-          "instrument_id": "TWSE:3010",
-          "symbol": "3010",
-          "exchange": "TWSE",
-          "name_zh": "華立",
-          "direct_event_count": 1,
-          "latest_mentioned_at": "2026-08-11T09:47:24Z"
-        }
-      ],
-      "supply_chain_candidates": [
-        {
-          "instrument_id": "TWSE:2368",
-          "symbol": "2368",
-          "exchange": "TWSE",
-          "name_zh": "金像電",
-          "direct_event_count": 1,
-          "official_evidence_count": 0,
-          "company_rank_score": 5,
-          "latest_mentioned_at": "2026-08-11T10:56:08Z",
-          "latest_official_at": null
-        },
-        {
-          "instrument_id": "TWSE:3037",
-          "symbol": "3037",
-          "exchange": "TWSE",
-          "name_zh": "欣興",
-          "direct_event_count": 0,
-          "official_evidence_count": 0,
-          "company_rank_score": 1,
-          "latest_mentioned_at": null,
-          "latest_official_at": null
-        },
-        {
-          "instrument_id": "TWSE:8046",
-          "symbol": "8046",
-          "exchange": "TWSE",
-          "name_zh": "南電",
-          "direct_event_count": 0,
-          "official_evidence_count": 0,
-          "company_rank_score": 1,
-          "latest_mentioned_at": null,
-          "latest_official_at": null
-        }
-      ],
-      "representative_news": {
-        "cluster_id": "cluster-522791728902b50b",
-        "id": "digitimes_tw-90aa1c8e344b",
-        "title_zh": "ABF載板需求火熱燒出爆量訂單　長廣設備漲價2成、產能仍不夠",
-        "summary": "ABF載板需求升溫，帶動真空壓膜設備訂單快速增加，長興材料旗下長廣精機表示，自2025年耶誕節前後開始，客戶訂單及詢價突然大幅增加，且需求一路延續至今，日本工廠自2026年5月起已進入滿載生產。因應訂單需求",
-        "source_id": "digitimes_tw",
-        "source": "DIGITIMES",
-        "published_at": "2026-08-11T18:29:31Z",
-        "canonical_url": "https://www.digitimes.com.tw/tech/dt/n/shwnws.asp?id=0000764792_LE9695L3LLPJS31RTPC79"
+        "cluster_id": "cluster-15dee44f3e27746b",
+        "id": "technews-3bc45751ff16",
+        "title_zh": "記憶體價格暴漲連帶 Windows 也遭殃？",
+        "summary": "記憶體價格暴漲讓今年 PC 市場不好過已不是新聞，但連身為軟體的作業系統，特別是微軟 Windows 都受波及 [&#8230;]",
+        "source_id": "technews",
+        "source": "TechNews",
+        "published_at": "2026-08-12T00:00:27Z",
+        "canonical_url": "https://technews.tw/2026/08/12/memory-price-surge-windows-affected/"
       }
     },
     {
       "rank": 5,
       "theme_id": "statementdog_tag_52",
       "name_zh": "蘋果",
-      "heat_score": 54,
+      "heat_score": 70,
       "summaries": {
-        "event_count": 4,
-        "source_count": 2,
+        "event_count": 5,
+        "source_count": 3,
         "tracking_candidate_count": 0,
         "taiwan_mapping_count": 17
       },
       "heat_reason": {
         "rule_version": "public_theme_heat_v0.8",
         "event_component": {
-          "input": 4,
-          "normalized": 66.667,
-          "weighted": 16.667
+          "input": 5,
+          "normalized": 83.333,
+          "weighted": 20.833
         },
         "source_component": {
-          "input": 2,
-          "normalized": 50.0,
-          "weighted": 12.5
+          "input": 3,
+          "normalized": 75.0,
+          "weighted": 18.75
         },
         "candidate_component": {
           "input": 0,
@@ -480,9 +496,9 @@
           "normalized": 100.0,
           "weighted": 30.0
         },
-        "single_source_concentration": 0.75,
-        "concentration_penalty": 5.625,
-        "raw_score": 53.542
+        "single_source_concentration": 0.6,
+        "concentration_penalty": 0.0,
+        "raw_score": 69.583
       },
       "direct_mentions": [
         {
@@ -538,14 +554,14 @@
         }
       ],
       "representative_news": {
-        "cluster_id": "cluster-b87e8853d4787372",
-        "id": "digitimes_tw-621dbdb504b4",
-        "title_zh": "鴻海法說估有「四大主軸」　機櫃節奏、代工模式、蘋果產線、EV進度",
-        "summary": "鴻海將在8月12日下午召開2026年第2季法說會，隨AI機櫃陸續出貨，鴻海2026年7月合併營收已首度突破單月新台幣9,000億元，市場也預期，關注焦點將集中在後續AI伺服器與機櫃出貨節奏，及背後交易模式轉換對營運",
-        "source_id": "digitimes_tw",
-        "source": "DIGITIMES",
-        "published_at": "2026-08-11T19:00:00Z",
-        "canonical_url": "https://www.digitimes.com.tw/tech/dt/n/shwnws.asp?id=0000764795_7D66EM3DLZDMVL4PDFJ71"
+        "cluster_id": "cluster-7737873276da33fa",
+        "id": "technews-2ee250faea6c",
+        "title_zh": "阿里千問正式接入蘋果生態，中國 Mac 用戶率先使用",
+        "summary": "蘋果（Apple）8 月 8 日 於官方支援網站發布指引，確認中國 Mac 用戶可將阿里巴巴千問（Qwen）A [&#8230;]",
+        "source_id": "technews",
+        "source": "TechNews",
+        "published_at": "2026-08-11T23:30:11Z",
+        "canonical_url": "https://technews.tw/2026/08/12/qwen-integrates-with-apple-ecosystem-in-china/"
       }
     }
   ]
