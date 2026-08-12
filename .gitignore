@@ -32,6 +32,12 @@ feeds/private*.opml
 # Optional private/generated digests
 data/email-digest.json
 
+# Pre-market events older than the published 72h window. The hot file
+# (data/pre-market-latest.json) stays tracked so each run can read the previous
+# window and accumulate; these month files only grow, are never deployed, and
+# would otherwise turn an hourly job into unbounded history.
+data/pre-market-archive/
+
 # Planning docs that name the private Supabase project ref. The ref is not a
 # credential -- it appears in the dashboard's own public URL -- but this repo is
 # published, and an infrastructure fingerprint is free reconnaissance for anyone

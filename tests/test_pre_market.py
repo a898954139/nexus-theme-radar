@@ -1,0 +1,247 @@
+"""Rules that decide what the pre-market board publishes.
+
+The scoring axes and the sector aggregation each already produced a wrong-but-
+plausible board during development -- commentary outranking a chokepoint
+closure, and a theme taxonomy inflating every sector at once. Those are pinned
+here because both failures render as a normal-looking page.
+"""
+
+from __future__ import annotations
+
+import sys
+from datetime import datetime, timedelta, timezone
+from pathlib import Path
+
+import pytest
+
+ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT / "scripts"))
+
+from geo_focus import (  # noqa: E402
+    build_focus_events,
+    classify_act,
+    is_noise,
+    match_paths,
+    tier_of,
+    weigh_speaker,
+)
+from market_pulse import SECTOR_NAMES, build_sector_board  # noqa: E402
+from sector_flows import aggregate_sectors, build_flow_panels  # noqa: E402
+from update_pre_market import merge_events  # noqa: E402
+
+NOW = datetime(2026, 8, 12, 0, 0, tzinfo=timezone.utc)
+
+
+def entry(title: str, minutes_ago: int = 30, link: str = "https://example.test/a"):
+    return {
+        "title": title,
+        "link": link,
+        "published_at": NOW - timedelta(minutes=minutes_ago),
+    }
+
+
+class TestTransmissionPaths:
+    def test_chokepoint_attack_is_routed_to_shipping(self):
+        """A Red Sea attack must reach shipping.
+
+        This exact headline scored near zero once because only Hormuz was in
+        the table, sinking a real attack on shipping below Fed commentary.
+        """
+        paths = match_paths(
+            "Houthis attack deck cargo ship in Bab al-Mandab, killing three"
+        )
+        assert "shipping_lane" in {p["id"] for p in paths}
+
+    def test_export_control_outranks_china_macro(self):
+        weights = {p["id"]: p["weight"] for p in ()} or {
+            p["id"]: p["weight"] for p in match_paths("chip export control on China")
+        }
+        assert weights["export_control"] == pytest.approx(1.0)
+
+    def test_unrelated_headline_matches_nothing(self):
+        assert match_paths("Local football club signs new midfielder") == []
+
+
+class TestActType:
+    @pytest.mark.parametrize(
+        "title,expected",
+        [
+            ("Iran will close the strait if attacked", "threat"),
+            ("Fed's Venable: Job market appears broadly stable.", "opinion"),
+            ("US announces sanctions on shipping firm", "decision"),
+        ],
+    )
+    def test_classification(self, title, expected):
+        assert classify_act(title)[0] == expected
+
+    def test_opinion_is_damped_far_below_action(self):
+        """Commentary must not compete with events on the same path."""
+        assert classify_act("Fed's Goolsbee says rates look fine")[1] <= 0.4
+        assert classify_act("US imposes new tariff")[1] == pytest.approx(1.0)
+
+
+class TestSpeakerWeight:
+    def test_regional_fed_ranks_below_principal(self):
+        regional, _ = weigh_speaker("Atlanta Fed's Venable: Inflation is too high")
+        principal, _ = weigh_speaker("Powell: We will hold rates")
+        assert regional < principal
+
+    def test_wire_event_without_speaker_is_not_penalised(self):
+        """Unattributed wire copy describing an attack is reporting, not noise."""
+        weight, label = weigh_speaker("Houthis attack cargo ship, killing three")
+        assert weight >= 0.9
+        assert label == "事件報導"
+
+
+class TestNoiseFilter:
+    @pytest.mark.parametrize(
+        "title",
+        ["US CPI Cribsheet - FJElite", "US Inflation Tracker - FJElite",
+         "US to sell $110 bln 4-Week bills on August 13th"],
+    )
+    def test_sponsored_and_auction_notices_are_dropped(self, title):
+        assert is_noise(title)
+
+    def test_real_headline_survives(self):
+        assert not is_noise("IRGC: energy pipelines will be at risk")
+
+
+class TestFocusRanking:
+    def test_repeated_commentary_folds_into_one_event(self):
+        """One speaker restating a view is one story, not five."""
+        entries = [
+            entry("Fed's Venable: Inflation is too high"),
+            entry("Atlanta Fed's Venable: Job market appears stable"),
+            entry("Fed's Venable: Price pressures may resume"),
+        ]
+        events = build_focus_events(entries, {}, now=NOW)
+        assert len(events) == 1
+        assert len(events[0]["related"]) == 2
+
+    def test_event_outranks_commentary(self):
+        entries = [
+            entry("Fed's Venable: Job market appears broadly stable"),
+            entry("Strait of Hormuz will not be reopened until conditions are met"),
+        ]
+        events = build_focus_events(entries, {}, now=NOW)
+        assert events[0]["pathLabel"] == "能源/荷姆茲"
+
+    def test_translation_is_used_when_cached(self):
+        title = "Strait of Hormuz will not be reopened"
+        events = build_focus_events([entry(title)], {title: "霍爾木茲海峽不會重開"}, now=NOW)
+        assert events[0]["titleZh"] == "霍爾木茲海峽不會重開"
+        assert events[0]["titleEn"] == title
+
+    def test_payload_carries_every_field_the_page_reads(self):
+        events = build_focus_events([entry("US imposes chip export control")], {}, now=NOW)
+        required = {"id", "tier", "actLabel", "speaker", "titleZh", "titleEn",
+                    "channel", "sectors", "url", "related"}
+        assert required <= set(events[0])
+
+    def test_stale_headline_decays_below_fresh_one(self):
+        fresh = build_focus_events([entry("US imposes chip export control", 30)], {}, now=NOW)
+        stale = build_focus_events(
+            [entry("US imposes chip export control", 60 * 40)], {}, now=NOW
+        )
+        assert stale[0]["score"] < fresh[0]["score"]
+
+
+class TestTiers:
+    def test_thresholds_are_ordered(self):
+        assert tier_of(0.9) == "critical"
+        assert tier_of(0.45) == "watch"
+        assert tier_of(0.1) == "normal"
+
+
+class TestWindow:
+    def test_events_outside_window_are_expired_not_kept(self):
+        old = {"titleEn": "old", "id": "a",
+               "publishedAt": (NOW - timedelta(hours=100)).isoformat()}
+        new = {"titleEn": "new", "id": "b",
+               "publishedAt": (NOW - timedelta(hours=1)).isoformat()}
+        kept, expired = merge_events([old], [new], NOW)
+        assert [e["id"] for e in kept] == ["b"]
+        assert [e["id"] for e in expired] == ["a"]
+
+    def test_fresh_score_replaces_previous_for_same_headline(self):
+        stamp = (NOW - timedelta(hours=1)).isoformat()
+        previous = [{"titleEn": "x", "id": "a", "score": 0.9, "publishedAt": stamp}]
+        fresh = [{"titleEn": "x", "id": "a", "score": 0.4, "publishedAt": stamp}]
+        kept, _ = merge_events(previous, fresh, NOW)
+        assert len(kept) == 1 and kept[0]["score"] == 0.4
+
+
+class TestSectorBoard:
+    def test_change_is_computed_against_previous_close(self):
+        quotes = [{"id": "^024", "close": 110.0, "previousClose": 100.0}]
+        assert build_sector_board(quotes, ["^024"]) == [{"name": "半導體", "chg": 10.0}]
+
+    def test_rows_are_sorted_descending(self):
+        quotes = [
+            {"id": "^024", "close": 101.0, "previousClose": 100.0},
+            {"id": "^033", "close": 105.0, "previousClose": 100.0},
+        ]
+        rows = build_sector_board(quotes, ["^024", "^033"])
+        assert [r["chg"] for r in rows] == [5.0, 1.0]
+
+    def test_zero_previous_close_is_skipped_not_divided(self):
+        assert build_sector_board([{"id": "^024", "close": 5.0, "previousClose": 0}],
+                                  ["^024"]) == []
+
+    def test_sector_codes_map_to_verified_names(self):
+        """Codes were once guessed from ranges and were wrong in a way that
+        renders as a correct-looking chart."""
+        assert SECTOR_NAMES["^024"] == "半導體"
+        assert SECTOR_NAMES["^033"] == "航運"
+        assert SECTOR_NAMES["^035"] == "金融"
+
+
+class TestSectorFlows:
+    def test_symbol_counts_once_into_its_official_industry(self):
+        """The supply-chain taxonomy is multi-membership; using it here would
+        credit one symbol's flow to dozens of sectors."""
+        shards = [{
+            "symbol": "2330",
+            "fields": ["date", "foreign_net", "trust_net", "dealer_net", "total_net"],
+            "series": [["2026-08-10", 1000, 0, 0, 1000]],
+        }]
+        as_of, totals = aggregate_sectors(shards, {"2330": "半導體業"})
+        assert as_of == "2026-08-10"
+        assert totals == {"半導體業": {"foreign_net": 1000, "trust_net": 0,
+                                       "dealer_net": 0, "total_net": 1000}}
+
+    def test_symbol_without_industry_is_skipped(self):
+        shards = [{"symbol": "0050", "fields": ["date", "foreign_net"],
+                   "series": [["2026-08-10", 999]]}]
+        _, totals = aggregate_sectors(shards, {})
+        assert totals == {}
+
+    def test_only_the_latest_session_is_aggregated(self):
+        shards = [
+            {"symbol": "A", "fields": ["date", "foreign_net"],
+             "series": [["2026-08-10", 100]]},
+            {"symbol": "B", "fields": ["date", "foreign_net"],
+             "series": [["2026-08-08", 500]]},
+        ]
+        as_of, totals = aggregate_sectors(shards, {"A": "半導體業", "B": "航運業"})
+        assert as_of == "2026-08-10"
+        assert "航運業" not in totals
+
+    def test_panels_split_buy_and_sell_by_investor_type(self):
+        totals = {
+            "半導體業": {"foreign_net": 5_000_000, "trust_net": -2_000_000, "dealer_net": 0},
+            "航運業": {"foreign_net": -3_000_000, "trust_net": 1_000_000, "dealer_net": 0},
+        }
+        panels = build_flow_panels(totals)
+        assert [p["id"] for p in panels] == ["foreign", "trust", "dealer"]
+        foreign = panels[0]
+        assert foreign["buy"][0]["name"] == "半導體業"
+        assert foreign["sell"][0]["name"] == "航運業"
+        assert foreign["sell"][0]["value"] < 0
+
+    def test_values_are_lots_not_raw_shares(self):
+        """Upstream publishes shares; the page labels 張."""
+        totals = {"半導體業": {"foreign_net": 1_000_000}}
+        panel = build_flow_panels(totals)[0]
+        assert panel["unit"] == "張"
+        assert panel["buy"][0]["value"] == 1000

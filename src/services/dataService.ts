@@ -7,6 +7,7 @@ import {
   InstitutionalRankingsData,
   MomentumHistoryData,
   MomentumLatestData,
+  PreMarketData,
   RadarData,
   SourceStatusData,
   StockWatchlistData,
@@ -249,6 +250,21 @@ export async function loadRadarData(cacheBust = false): Promise<RadarData> {
     sourceStatus,
     waytoagi
   };
+}
+
+/**
+ * Pre-market board. Resolves to null instead of throwing: the wire feed and the
+ * quote source are both third-party, and the homepage must still render its
+ * theme and news sections when either is unavailable.
+ */
+export async function fetchPreMarket(cacheBust = false): Promise<PreMarketData | null> {
+  try {
+    const payload = await readJson<PreMarketData>('./data/pre-market-latest.json', cacheBust);
+    if (!payload || !Array.isArray(payload.events)) return null;
+    return payload;
+  } catch {
+    return null;
+  }
 }
 
 export async function fetchStockWatchlist(cacheBust = false): Promise<StockWatchlistData> {

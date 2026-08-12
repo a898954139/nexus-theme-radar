@@ -425,3 +425,51 @@ export interface StockRoute {
   exchange?: string;
   tab: StockTab;
 }
+
+export type FocusTier = 'critical' | 'watch' | 'normal';
+
+export interface FocusEvent {
+  id: string;
+  tier: FocusTier;
+  score: number;
+  actLabel: string;
+  speaker: string;
+  publishedAt: string;
+  titleZh: string;
+  titleEn: string;
+  /** "A → B → C" transmission chain; split on the arrow to render pills. */
+  channel: string;
+  pathLabel: string;
+  sectors: string[];
+  url: string;
+  related: Array<{ title: string; url: string }>;
+}
+
+export interface SectorChange {
+  name: string;
+  chg: number;
+}
+
+export interface FlowRankRow {
+  rank: number;
+  name: string;
+  value: number;
+}
+
+export interface FlowPanel {
+  id: string;
+  title: string;
+  unit: string;
+  buy: FlowRankRow[];
+  sell: FlowRankRow[];
+}
+
+export interface PreMarketData {
+  schema_version: number;
+  generated_at: string;
+  window_hours: number;
+  sources: string[];
+  events: FocusEvent[];
+  sectors: SectorChange[];
+  flows: { as_of: string | null; panels: FlowPanel[] };
+}

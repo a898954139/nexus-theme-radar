@@ -1,0 +1,83 @@
+name: Nexus/Pre-market Board
+
+# Taipei is UTC+8, so the pre-open window (06:00-09:00 local) is 22:00-01:00 UTC
+# and straddles the UTC date boundary -- hence two cron lines, not one range.
+#
+# Cadence is denser here than the hourly radar for two reasons: the wire feed
+# only retains ~10 hours of headlines, so a gap over the Asian night silently
+# drops the overnight geopolitics this board exists to surface; and a headline
+# published at 08:30 must reach the page before the 09:00 open, which an hourly
+# schedule cannot promise once GitHub's own queue delay is counted.
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "5,35 22-23 * * *"      # 06:05/06:35/07:05/07:35 Taipei
+    - cron: "5,20,35,50 0 * * *"    # 08:05/08:20/08:35/08:50 Taipei
+    - cron: "35 * * * *"            # hourly cover for the rest of the day
+
+concurrency:
+  # Two runs would race on the same rolling window and the loser's archive
+  # append would be lost.
+  group: update-pre-market-${{ github.ref }}
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+
+jobs:
+  update:
+    outputs:
+      commit_sha: ${{ steps.commit.outputs.commit_sha }}
+    timeout-minutes: 20
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Build pre-market board
+        run: python scripts/update_pre_market.py --output-dir data
+
+      - name: Commit and push changes
+        id: commit
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          # Only the hot window is tracked; data/pre-market-archive/ is gitignored.
+          git add data/pre-market-latest.json data/pre-market-title-zh.json
+          if git diff --cached --quiet; then
+            echo "No changes to commit"
+            echo "commit_sha=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          git commit -m "chore: update pre-market board"
+          for attempt in 1 2 3; do
+            if git push; then
+              echo "commit_sha=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
+              exit 0
+            fi
+            echo "push rejected (attempt $attempt), rebasing onto latest remote..."
+            git pull --rebase origin "${GITHUB_REF_NAME}" || { git rebase --abort || true; exit 1; }
+          done
+          git push
+          echo "commit_sha=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
+
+  # A GITHUB_TOKEN push deliberately does not fire `on: push`, so the snapshot
+  # would reach master and never reach the site without this explicit call.
+  publish:
+    needs: update
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+    uses: ./.github/workflows/deploy-pages.yml
+    with:
+      ref: ${{ needs.update.outputs.commit_sha }}

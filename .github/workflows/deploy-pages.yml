@@ -61,6 +61,9 @@ jobs:
           cp data/institutional-rankings.json dist/data/
           cp data/institutional-flows.json dist/data/
           cp data/fundamentals-index.json dist/data/
+          # Pre-market board. Guarded because the first deploy after this change
+          # may land before the pre-market job has ever produced the file.
+          if [ -f data/pre-market-latest.json ]; then cp data/pre-market-latest.json dist/data/; fi
           cp -R data/fundamentals dist/data/
           if [ -f data/broker-stats.json ]; then cp data/broker-stats.json dist/data/; fi
           if [ -f data/broker-coverage.json ]; then cp data/broker-coverage.json dist/data/; fi
