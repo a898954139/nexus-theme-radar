@@ -2,14 +2,14 @@
   "schema_version": "nexus_public_theme_ranking.v0.8",
   "ranking_rule_version": "public_theme_heat_v0.8",
   "company_rule_version": "public_company_evidence_v0.8",
-  "generated_at": "2026-08-12T16:12:57.543573Z",
+  "generated_at": "2026-08-12T17:14:40.715382Z",
   "market_id": "TW_EQUITY",
   "market_scope": [
     "TW_EQUITY"
   ],
   "window_hours": 72,
   "max_themes": 5,
-  "qualified_theme_count": 7,
+  "qualified_theme_count": 11,
   "displayed_theme_count": 5,
   "threshold_note": null,
   "generation_status": "complete",
@@ -20,17 +20,17 @@
       "rank": 1,
       "theme_id": "statementdog_tag_1517",
       "name_zh": "AI",
-      "heat_score": 78,
+      "heat_score": 80,
       "summaries": {
-        "event_count": 14,
+        "event_count": 18,
         "source_count": 4,
         "tracking_candidate_count": 0,
-        "taiwan_mapping_count": 62
+        "taiwan_mapping_count": 86
       },
       "heat_reason": {
         "rule_version": "public_theme_heat_v0.8",
         "event_component": {
-          "input": 14,
+          "input": 18,
           "normalized": 100.0,
           "weighted": 25.0
         },
@@ -45,14 +45,14 @@
           "weighted": 0.0
         },
         "mapping_component": {
-          "mapping_count": 62,
-          "direct_mapping_event_count": 7,
+          "mapping_count": 86,
+          "direct_mapping_event_count": 9,
           "normalized": 100.0,
           "weighted": 30.0
         },
-        "single_source_concentration": 0.643,
-        "concentration_penalty": 1.607,
-        "raw_score": 78.393
+        "single_source_concentration": 0.5,
+        "concentration_penalty": 0.0,
+        "raw_score": 80.0
       },
       "direct_mentions": [
         {
@@ -60,8 +60,16 @@
           "symbol": "2317",
           "exchange": "TWSE",
           "name_zh": "鴻海",
-          "direct_event_count": 2,
+          "direct_event_count": 3,
           "latest_mentioned_at": "2026-08-12T10:35:26Z"
+        },
+        {
+          "instrument_id": "TWSE:2027",
+          "symbol": "2027",
+          "exchange": "TWSE",
+          "name_zh": "大成鋼",
+          "direct_event_count": 2,
+          "latest_mentioned_at": "2026-08-12T08:45:35Z"
         },
         {
           "instrument_id": "TWSE:2330",
@@ -80,12 +88,12 @@
           "latest_mentioned_at": "2026-08-12T12:48:13Z"
         },
         {
-          "instrument_id": "TWSE:2027",
-          "symbol": "2027",
+          "instrument_id": "TWSE:6515",
+          "symbol": "6515",
           "exchange": "TWSE",
-          "name_zh": "大成鋼",
+          "name_zh": "穎崴",
           "direct_event_count": 1,
-          "latest_mentioned_at": "2026-08-12T07:00:01Z"
+          "latest_mentioned_at": "2026-08-12T08:45:35Z"
         },
         {
           "instrument_id": "TPEX:8299",
@@ -110,9 +118,9 @@
           "symbol": "2317",
           "exchange": "TWSE",
           "name_zh": "鴻海",
-          "direct_event_count": 2,
+          "direct_event_count": 3,
           "official_evidence_count": 0,
-          "company_rank_score": 9,
+          "company_rank_score": 13,
           "latest_mentioned_at": "2026-08-12T10:35:26Z",
           "latest_official_at": null
         },
@@ -128,14 +136,14 @@
           "latest_official_at": null
         },
         {
-          "instrument_id": "TPEX:3081",
-          "symbol": "3081",
-          "exchange": "TPEX",
-          "name_zh": "聯亞",
-          "direct_event_count": 0,
+          "instrument_id": "TWSE:6515",
+          "symbol": "6515",
+          "exchange": "TWSE",
+          "name_zh": "穎崴",
+          "direct_event_count": 1,
           "official_evidence_count": 0,
-          "company_rank_score": 1,
-          "latest_mentioned_at": null,
+          "company_rank_score": 5,
+          "latest_mentioned_at": "2026-08-12T08:45:35Z",
           "latest_official_at": null
         }
       ],
@@ -152,6 +160,116 @@
     },
     {
       "rank": 2,
+      "theme_id": "memory_hbm",
+      "name_zh": "記憶體與 HBM",
+      "heat_score": 79,
+      "summaries": {
+        "event_count": 8,
+        "source_count": 3,
+        "tracking_candidate_count": 1,
+        "taiwan_mapping_count": 55
+      },
+      "heat_reason": {
+        "rule_version": "public_theme_heat_v0.8",
+        "event_component": {
+          "input": 8,
+          "normalized": 100.0,
+          "weighted": 25.0
+        },
+        "source_component": {
+          "input": 3,
+          "normalized": 75.0,
+          "weighted": 18.75
+        },
+        "candidate_component": {
+          "input": 1,
+          "normalized": 25.0,
+          "weighted": 5.0
+        },
+        "mapping_component": {
+          "mapping_count": 55,
+          "direct_mapping_event_count": 3,
+          "normalized": 100.0,
+          "weighted": 30.0
+        },
+        "single_source_concentration": 0.5,
+        "concentration_penalty": 0.0,
+        "raw_score": 78.75
+      },
+      "direct_mentions": [
+        {
+          "instrument_id": "TWSE:2357",
+          "symbol": "2357",
+          "exchange": "TWSE",
+          "name_zh": "華碩",
+          "direct_event_count": 1,
+          "latest_mentioned_at": "2026-08-12T10:14:02Z"
+        },
+        {
+          "instrument_id": "TWSE:2408",
+          "symbol": "2408",
+          "exchange": "TWSE",
+          "name_zh": "南亞科",
+          "direct_event_count": 1,
+          "latest_mentioned_at": "2026-08-11T18:38:03Z"
+        },
+        {
+          "instrument_id": "TWSE:2029",
+          "symbol": "2029",
+          "exchange": "TWSE",
+          "name_zh": "盛餘",
+          "direct_event_count": 1,
+          "latest_mentioned_at": "2026-08-11T18:19:32Z"
+        }
+      ],
+      "supply_chain_candidates": [
+        {
+          "instrument_id": "TWSE:2408",
+          "symbol": "2408",
+          "exchange": "TWSE",
+          "name_zh": "南亞科",
+          "direct_event_count": 1,
+          "official_evidence_count": 0,
+          "company_rank_score": 5,
+          "latest_mentioned_at": "2026-08-11T18:38:03Z",
+          "latest_official_at": null
+        },
+        {
+          "instrument_id": "TPEX:8299",
+          "symbol": "8299",
+          "exchange": "TPEX",
+          "name_zh": "群聯",
+          "direct_event_count": 0,
+          "official_evidence_count": 0,
+          "company_rank_score": 1,
+          "latest_mentioned_at": null,
+          "latest_official_at": null
+        },
+        {
+          "instrument_id": "TWSE:2344",
+          "symbol": "2344",
+          "exchange": "TWSE",
+          "name_zh": "華邦電",
+          "direct_event_count": 0,
+          "official_evidence_count": 0,
+          "company_rank_score": 1,
+          "latest_mentioned_at": null,
+          "latest_official_at": null
+        }
+      ],
+      "representative_news": {
+        "cluster_id": "cluster-a9a16c3956920a16",
+        "id": "technews-923e63e2ae74",
+        "title_zh": "告別低毛利業務？SK 海力士傳脫手中國封裝廠押注 HBM",
+        "summary": "韓國記憶體大廠 SK 海力士（SK hynix）正評估出售位於中國西南部的重慶封裝廠。外界解讀，這是該公司將資 [&#8230;]",
+        "source_id": "technews",
+        "source": "TechNews",
+        "published_at": "2026-08-12T04:30:29Z",
+        "canonical_url": "https://technews.tw/2026/08/12/why-does-sk-hynix-want-to-sell-its-chip-facility-in-southwest-china/"
+      }
+    },
+    {
+      "rank": 3,
       "theme_id": "robotics",
       "name_zh": "機器人",
       "heat_score": 78,
@@ -261,15 +379,15 @@
       }
     },
     {
-      "rank": 3,
-      "theme_id": "memory_hbm",
-      "name_zh": "記憶體與 HBM",
-      "heat_score": 61,
+      "rank": 4,
+      "theme_id": "pcb_abf_hdi",
+      "name_zh": "PCB／ABF／HDI",
+      "heat_score": 73,
       "summaries": {
         "event_count": 5,
         "source_count": 2,
-        "tracking_candidate_count": 1,
-        "taiwan_mapping_count": 26
+        "tracking_candidate_count": 2,
+        "taiwan_mapping_count": 5
       },
       "heat_reason": {
         "rule_version": "public_theme_heat_v0.8",
@@ -284,55 +402,68 @@
           "weighted": 12.5
         },
         "candidate_component": {
-          "input": 1,
-          "normalized": 25.0,
-          "weighted": 5.0
+          "input": 2,
+          "normalized": 50.0,
+          "weighted": 10.0
         },
         "mapping_component": {
-          "mapping_count": 26,
-          "direct_mapping_event_count": 2,
+          "mapping_count": 5,
+          "direct_mapping_event_count": 5,
           "normalized": 100.0,
           "weighted": 30.0
         },
-        "single_source_concentration": 0.8,
-        "concentration_penalty": 7.5,
-        "raw_score": 60.833
+        "single_source_concentration": 0.6,
+        "concentration_penalty": 0.0,
+        "raw_score": 73.333
       },
       "direct_mentions": [
         {
-          "instrument_id": "TWSE:2408",
-          "symbol": "2408",
+          "instrument_id": "TWSE:2317",
+          "symbol": "2317",
           "exchange": "TWSE",
-          "name_zh": "南亞科",
-          "direct_event_count": 1,
-          "latest_mentioned_at": "2026-08-11T18:38:03Z"
+          "name_zh": "鴻海",
+          "direct_event_count": 3,
+          "latest_mentioned_at": "2026-08-12T09:32:07Z"
         },
         {
-          "instrument_id": "TWSE:2029",
-          "symbol": "2029",
+          "instrument_id": "TWSE:2330",
+          "symbol": "2330",
           "exchange": "TWSE",
-          "name_zh": "盛餘",
+          "name_zh": "台積電",
+          "direct_event_count": 3,
+          "latest_mentioned_at": "2026-08-12T09:32:07Z"
+        },
+        {
+          "instrument_id": "TWSE:2382",
+          "symbol": "2382",
+          "exchange": "TWSE",
+          "name_zh": "廣達",
           "direct_event_count": 1,
-          "latest_mentioned_at": "2026-08-11T18:19:32Z"
+          "latest_mentioned_at": "2026-08-12T06:21:29Z"
+        },
+        {
+          "instrument_id": "TWSE:2025",
+          "symbol": "2025",
+          "exchange": "TWSE",
+          "name_zh": "千興",
+          "direct_event_count": 1,
+          "latest_mentioned_at": "2026-08-11T18:29:31Z"
+        },
+        {
+          "instrument_id": "TWSE:2030",
+          "symbol": "2030",
+          "exchange": "TWSE",
+          "name_zh": "彰源",
+          "direct_event_count": 1,
+          "latest_mentioned_at": "2026-08-11T18:23:39Z"
         }
       ],
       "supply_chain_candidates": [
         {
-          "instrument_id": "TWSE:2408",
-          "symbol": "2408",
+          "instrument_id": "TWSE:2368",
+          "symbol": "2368",
           "exchange": "TWSE",
-          "name_zh": "南亞科",
-          "direct_event_count": 1,
-          "official_evidence_count": 0,
-          "company_rank_score": 5,
-          "latest_mentioned_at": "2026-08-11T18:38:03Z",
-          "latest_official_at": null
-        },
-        {
-          "instrument_id": "TPEX:8299",
-          "symbol": "8299",
-          "exchange": "TPEX",
-          "name_zh": "群聯",
+          "name_zh": "金像電",
           "direct_event_count": 0,
           "official_evidence_count": 0,
           "company_rank_score": 1,
@@ -340,10 +471,21 @@
           "latest_official_at": null
         },
         {
-          "instrument_id": "TWSE:2344",
-          "symbol": "2344",
+          "instrument_id": "TWSE:3037",
+          "symbol": "3037",
           "exchange": "TWSE",
-          "name_zh": "華邦電",
+          "name_zh": "欣興",
+          "direct_event_count": 0,
+          "official_evidence_count": 0,
+          "company_rank_score": 1,
+          "latest_mentioned_at": null,
+          "latest_official_at": null
+        },
+        {
+          "instrument_id": "TWSE:8046",
+          "symbol": "8046",
+          "exchange": "TWSE",
+          "name_zh": "南電",
           "direct_event_count": 0,
           "official_evidence_count": 0,
           "company_rank_score": 1,
@@ -352,38 +494,38 @@
         }
       ],
       "representative_news": {
-        "cluster_id": "cluster-a9a16c3956920a16",
-        "id": "technews-923e63e2ae74",
-        "title_zh": "告別低毛利業務？SK 海力士傳脫手中國封裝廠押注 HBM",
-        "summary": "韓國記憶體大廠 SK 海力士（SK hynix）正評估出售位於中國西南部的重慶封裝廠。外界解讀，這是該公司將資 [&#8230;]",
-        "source_id": "technews",
-        "source": "TechNews",
-        "published_at": "2026-08-12T04:30:29Z",
-        "canonical_url": "https://technews.tw/2026/08/12/why-does-sk-hynix-want-to-sell-its-chip-facility-in-southwest-china/"
+        "cluster_id": "cluster-522791728902b50b",
+        "id": "digitimes_tw-90aa1c8e344b",
+        "title_zh": "ABF載板需求火熱燒出爆量訂單　長廣設備漲價2成、產能仍不夠",
+        "summary": "ABF載板需求升溫，帶動真空壓膜設備訂單快速增加，長興材料旗下長廣精機表示，自2025年耶誕節前後開始，客戶訂單及詢價突然大幅增加，且需求一路延續至今，日本工廠自2026年5月起已進入滿載生產。因應訂單需求",
+        "source_id": "digitimes_tw",
+        "source": "DIGITIMES",
+        "published_at": "2026-08-11T18:29:31Z",
+        "canonical_url": "https://www.digitimes.com.tw/tech/dt/n/shwnws.asp?id=0000764792_LE9695L3LLPJS31RTPC79"
       }
     },
     {
-      "rank": 4,
+      "rank": 5,
       "theme_id": "statementdog_tag_52",
       "name_zh": "蘋果",
-      "heat_score": 59,
+      "heat_score": 68,
       "summaries": {
-        "event_count": 6,
-        "source_count": 2,
+        "event_count": 8,
+        "source_count": 3,
         "tracking_candidate_count": 0,
         "taiwan_mapping_count": 17
       },
       "heat_reason": {
         "rule_version": "public_theme_heat_v0.8",
         "event_component": {
-          "input": 6,
+          "input": 8,
           "normalized": 100.0,
           "weighted": 25.0
         },
         "source_component": {
-          "input": 2,
-          "normalized": 50.0,
-          "weighted": 12.5
+          "input": 3,
+          "normalized": 75.0,
+          "weighted": 18.75
         },
         "candidate_component": {
           "input": 0,
@@ -396,9 +538,9 @@
           "normalized": 80.0,
           "weighted": 24.0
         },
-        "single_source_concentration": 0.667,
-        "concentration_penalty": 2.5,
-        "raw_score": 59.0
+        "single_source_concentration": 0.5,
+        "concentration_penalty": 0.0,
+        "raw_score": 67.75
       },
       "direct_mentions": [
         {
@@ -454,91 +596,6 @@
         "source": "TechNews",
         "published_at": "2026-08-12T07:45:53Z",
         "canonical_url": "https://technews.tw/2026/08/12/apple-reportedly-extends-oled-panel-inventory-cycle/"
-      }
-    },
-    {
-      "rank": 5,
-      "theme_id": "defense_drone",
-      "name_zh": "國防與無人機",
-      "heat_score": 57,
-      "summaries": {
-        "event_count": 6,
-        "source_count": 2,
-        "tracking_candidate_count": 2,
-        "taiwan_mapping_count": 3
-      },
-      "heat_reason": {
-        "rule_version": "public_theme_heat_v0.8",
-        "event_component": {
-          "input": 6,
-          "normalized": 100.0,
-          "weighted": 25.0
-        },
-        "source_component": {
-          "input": 2,
-          "normalized": 50.0,
-          "weighted": 12.5
-        },
-        "candidate_component": {
-          "input": 2,
-          "normalized": 50.0,
-          "weighted": 10.0
-        },
-        "mapping_component": {
-          "mapping_count": 3,
-          "direct_mapping_event_count": 0,
-          "normalized": 60.0,
-          "weighted": 18.0
-        },
-        "single_source_concentration": 0.833,
-        "concentration_penalty": 8.75,
-        "raw_score": 56.75
-      },
-      "direct_mentions": [],
-      "supply_chain_candidates": [
-        {
-          "instrument_id": "TPEX:5371",
-          "symbol": "5371",
-          "exchange": "TPEX",
-          "name_zh": "中光電",
-          "direct_event_count": 0,
-          "official_evidence_count": 0,
-          "company_rank_score": 1,
-          "latest_mentioned_at": null,
-          "latest_official_at": null
-        },
-        {
-          "instrument_id": "TWSE:2634",
-          "symbol": "2634",
-          "exchange": "TWSE",
-          "name_zh": "漢翔",
-          "direct_event_count": 0,
-          "official_evidence_count": 0,
-          "company_rank_score": 1,
-          "latest_mentioned_at": null,
-          "latest_official_at": null
-        },
-        {
-          "instrument_id": "TWSE:8033",
-          "symbol": "8033",
-          "exchange": "TWSE",
-          "name_zh": "雷虎",
-          "direct_event_count": 0,
-          "official_evidence_count": 0,
-          "company_rank_score": 1,
-          "latest_mentioned_at": null,
-          "latest_official_at": null
-        }
-      ],
-      "representative_news": {
-        "cluster_id": "cluster-e9c17d82e49ef5d1",
-        "id": "digitimes_tw-0d55aec1d1ef",
-        "title_zh": "五角大廈加速關鍵武器量產　美國陸軍斥資4億採購反無人機雷射",
-        "summary": "面對中東地區衝突加劇與全球地緣政治緊張，美軍正面臨關鍵武器庫存緊縮與防空需求激增的雙重挑戰，並加速調整國防採購策略。彭博（Bloomberg）報導，美國國防部副部長Steve Feinberg已向波音（Boeing）、洛",
-        "source_id": "digitimes_tw",
-        "source": "DIGITIMES",
-        "published_at": "2026-08-11T18:57:08Z",
-        "canonical_url": "https://www.digitimes.com.tw/tech/dt/n/shwnws.asp?id=0000764594_J2T62JBJ8MXE1D5AQW8FA"
       }
     }
   ]
