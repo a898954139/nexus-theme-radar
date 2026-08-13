@@ -1,10 +1,12 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { ThemeStocksCanvas } from '../common/ThemeStocksCanvas';
 import { buildThemeStockEntries, mergeInstrumentRefs } from '../../lib/themeStocks';
-import { DeviceType, InstrumentRef, NewsItem, RadarData, StockGroup } from '../../types';
+import { DeviceType, InstrumentRef, NewsItem, PreMarketData, RadarData, StockGroup } from '../../types';
+import { PreMarketFocus } from './PreMarketFocus';
 
 interface ThemeRadarHomeProps {
   data: RadarData;
+  preMarket: PreMarketData | null;
   device: DeviceType;
   onGoMomentum: () => void;
   onGoStock: (code: string, exchange?: string, tab?: 'fundamentals' | 'flows') => void;
@@ -169,7 +171,7 @@ const ThemeDetail: React.FC<{
   );
 };
 
-export const ThemeRadarHome: React.FC<ThemeRadarHomeProps> = ({ data, device, onGoMomentum, onGoStock }) => {
+export const ThemeRadarHome: React.FC<ThemeRadarHomeProps> = ({ data, preMarket, device, onGoMomentum, onGoStock }) => {
   const themes = useMemo(() => mergeThemeData(data), [data]);
   const news = useMemo(() => toNewsItems(data), [data]);
   const [selectedIndex, setSelectedIndex] = useState(0);
@@ -210,6 +212,8 @@ export const ThemeRadarHome: React.FC<ThemeRadarHomeProps> = ({ data, device, on
 
   return (
     <div className="page-content home-page">
+      {preMarket ? <PreMarketFocus data={preMarket} device={device} /> : null}
+
       <header className="page-intro">
         <span className="page-kicker">TOP 5 THEMES</span>
         <h1>台股最近熱什麼</h1>

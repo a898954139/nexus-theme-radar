@@ -10,8 +10,8 @@ import { SourceStatus } from './components/sources/SourceStatus';
 import { StockDetail } from './components/stock/StockDetail';
 import { StockWatchlist, WatchlistView } from './components/watchlist/StockWatchlist';
 import { useSiteMetrics } from './hooks/useSiteMetrics';
-import { fetchStockWatchlist, loadRadarData, fetchBrokerMap, fetchInstitutionalFlows, fetchStockFundamentals } from './services/dataService';
-import { DeviceType, PageType, RadarData, StockTab, StockWatchlistData } from './types';
+import { fetchStockWatchlist, loadRadarData, fetchBrokerMap, fetchInstitutionalFlows, fetchStockFundamentals, fetchPreMarket } from './services/dataService';
+import { DeviceType, PageType, PreMarketData, RadarData, StockTab, StockWatchlistData } from './types';
 
 interface RouteState {
   page: PageType;
@@ -58,6 +58,7 @@ export const App: React.FC = () => {
   const [route, setRoute] = useState<RouteState>(readRoute);
   const [device, setDevice] = useState<DeviceType>(() => window.innerWidth < 720 ? 'mobile' : 'desktop');
   const [radarData, setRadarData] = useState<RadarData | null>(null);
+  const [preMarket, setPreMarket] = useState<PreMarketData | null>(null);
   const [loadError, setLoadError] = useState(false);
   const [watchlistData, setWatchlistData] = useState<StockWatchlistData | null>(null);
   const [watchlistLoading, setWatchlistLoading] = useState(true);
@@ -132,6 +133,18 @@ export const App: React.FC = () => {
       .catch(() => {
         if (active) setLoadError(true);
       });
+    return () => {
+      active = false;
+    };
+  }, []);
+
+  // Loaded separately from the radar payload: the pre-market board depends on
+  // two third-party sources, and neither should be able to block the page.
+  useEffect(() => {
+    let active = true;
+    fetchPreMarket().then((data) => {
+      if (active) setPreMarket(data);
+    });
     return () => {
       active = false;
     };
@@ -279,6 +292,7 @@ export const App: React.FC = () => {
             {route.page === 'index' ? (
               <ThemeRadarHome
                 data={radarData}
+                preMarket={preMarket}
                 device={device}
                 onGoMomentum={() => updateHash('momentum')}
                 onGoStock={goStock}
