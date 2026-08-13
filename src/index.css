@@ -1123,23 +1123,23 @@ a { color: inherit; }
 .sector-name { max-width: 46px; margin-top: 9px; color: var(--muted); font-size: 11px; line-height: 1.25; text-align: center; word-break: break-all; }
 
 /* ---------- 類股買賣超 ---------- */
-.flow-board { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 26px; }
-.flow-panel-head { display: flex; align-items: baseline; justify-content: space-between; gap: 8px; margin-bottom: 12px; }
-.flow-panel-head strong { color: var(--text-hi); font: 500 14px 'Noto Sans TC', sans-serif; }
-.flow-panel-head span { color: var(--faint); font-size: 10px; }
+.pm-flow-board { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 26px; }
+.pm-flow-panel-head { display: flex; align-items: baseline; justify-content: space-between; gap: 8px; margin-bottom: 12px; }
+.pm-flow-panel-head strong { color: var(--text-hi); font: 500 14px 'Noto Sans TC', sans-serif; }
+.pm-flow-panel-head span { color: var(--faint); font-size: 10px; }
 /* Buy and sell sit side by side: the pair is read as one comparison. */
-.flow-panel-body { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-.flow-col-label { display: block; padding-bottom: 8px; margin-bottom: 4px; border-bottom: 1px solid var(--sub-line); font: 500 11.5px 'Noto Sans TC', sans-serif; }
-.flow-col-label.is-buy { color: var(--green); }
-.flow-col-label.is-sell { color: var(--red); }
-.flow-row { display: grid; grid-template-columns: 20px 1fr auto; align-items: center; gap: 8px; padding: 5px 0; }
-.flow-rank { display: inline-flex; align-items: center; justify-content: center; width: 20px; height: 20px; border-radius: 5px; background: var(--surface-bg); color: var(--muted); font-size: 10.5px; }
-.flow-rank.is-first { background: var(--gold); color: #17120A; font-weight: 600; }
-.flow-name { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: var(--text); font-size: 12.5px; }
-.flow-value { font-size: 12px; }
-.flow-value.is-buy { color: var(--green); }
-.flow-value.is-sell { color: var(--red); }
-.flow-empty { padding: 6px 0; color: var(--faint); font-size: 11px; }
+.pm-flow-panel-body { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.pm-flow-col-label { display: block; padding-bottom: 8px; margin-bottom: 4px; border-bottom: 1px solid var(--sub-line); font: 500 11.5px 'Noto Sans TC', sans-serif; }
+.pm-flow-col-label.is-buy { color: var(--green); }
+.pm-flow-col-label.is-sell { color: var(--red); }
+.pm-flow-row { display: grid; grid-template-columns: 20px 1fr auto; align-items: center; gap: 8px; padding: 5px 0; }
+.pm-flow-rank { display: inline-flex; align-items: center; justify-content: center; width: 20px; height: 20px; border-radius: 5px; background: var(--surface-bg); color: var(--muted); font-size: 10.5px; }
+.pm-flow-rank.is-first { background: var(--gold); color: #17120A; font-weight: 600; }
+.pm-flow-name { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: var(--text); font-size: 12.5px; }
+.pm-flow-value { font-size: 12px; }
+.pm-flow-value.is-buy { color: var(--green); }
+.pm-flow-value.is-sell { color: var(--red); }
+.pm-flow-empty { padding: 6px 0; color: var(--faint); font-size: 11px; }
 
 @media (max-width: 720px) {
   .focus-grid { display: flex; overflow-x: auto; gap: 9px; padding: 0 16px 16px; scroll-snap-type: x mandatory; }
@@ -1154,6 +1154,6 @@ a { color: inherit; }
   .pulse-value { font-size: 18px; }
   .pulse-spark { width: 60px; height: 26px; }
   .sector-chart { height: 250px; }
-  .flow-board { gap: 22px; }
-  .flow-panel-body { gap: 12px; }
+  .pm-flow-board { gap: 22px; }
+  .pm-flow-panel-body { gap: 12px; }
 }

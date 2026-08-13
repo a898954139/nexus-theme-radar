@@ -255,7 +255,9 @@ class TestMarketPulse:
         )
         assert rows == [{
             "id": "DJI", "label": "道瓊", "value": "53,770.27",
-            "delta": "-0.04%", "up": False, "series": [53770.27],
+            "delta": "-0.04%", "up": False,
+            # Seeded from previousClose when no OHLC is supplied.
+            "series": [53791.85, 53770.27],
         }]
 
     def test_series_accumulates_across_runs(self):
@@ -285,3 +287,42 @@ class TestMarketPulse:
 
     def test_missing_symbol_without_history_is_dropped(self):
         assert build_pulse([], symbols=[("DJI", "道瓊", 2)]) == []
+
+
+class TestPulseSeedsFromSession:
+    def test_first_run_seeds_a_shape_from_todays_ohlc(self):
+        """Accumulating one point per run would draw a flat line for days after
+        a deploy; the session's own path is real and available immediately."""
+        rows = build_pulse(
+            [{"id": "DJI", "close": 53770.27, "previousClose": 53791.85,
+              "open": 53797.47, "low": 53731.96, "high": 53969.36}],
+            symbols=[("DJI", "道瓊", 2)],
+        )
+        assert rows[0]["series"] == [53791.85, 53797.47, 53969.36, 53731.96, 53770.27]
+
+    def test_seed_only_applies_when_no_history_exists(self):
+        previous = [{"id": "DJI", "series": [1.0, 2.0]}]
+        rows = build_pulse(
+            [{"id": "DJI", "close": 3.0, "previousClose": 2.0,
+              "open": 9.9, "low": 9.8, "high": 9.7}],
+            previous, symbols=[("DJI", "道瓊", 2)],
+        )
+        assert rows[0]["series"] == [1.0, 2.0, 3.0]
+
+    def test_partial_ohlc_still_yields_a_series(self):
+        rows = build_pulse(
+            [{"id": "DJI", "close": 10.0, "previousClose": 9.0}],
+            symbols=[("DJI", "道瓊", 2)],
+        )
+        assert rows[0]["series"] == [9.0, 10.0]
+
+
+def test_pre_market_flow_styles_do_not_collide_with_the_flows_page() -> None:
+    """`.flow-board` belongs to the standalone 資金流向 page. Redefining it for
+    the homepage board silently rewrote that page's layout."""
+    css = (ROOT / "src" / "index.css").read_text(encoding="utf-8")
+    component = (ROOT / "src" / "components" / "home" / "PreMarketFocus.tsx").read_text(encoding="utf-8")
+    board = css[css.index("/* ---------- 類股買賣超 ---------- */"):]
+    for shared in (".flow-board {", ".flow-row {", ".flow-rank {", ".flow-value {"):
+        assert shared not in board, f"{shared} would override the flows page"
+    assert 'className="pm-flow-board"' in component

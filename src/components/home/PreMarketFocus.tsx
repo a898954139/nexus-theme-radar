@@ -141,17 +141,7 @@ const FocusCard: React.FC<{ event: FocusEvent }> = ({ event }) => {
   );
 };
 
-// Thirty-five columns do not fit a screen: they compress every bar until the
-// losing side is unreadable. The board shows the extremes of both ends, which is
-// what a pre-market glance is for -- the flat middle carries no signal.
-const SECTOR_EDGE = 6;
-
-const SectorBoard: React.FC<{ sectors: SectorChange[] }> = ({ sectors: allSectors }) => {
-  const sectors = useMemo(() => (
-    allSectors.length <= SECTOR_EDGE * 2
-      ? allSectors
-      : [...allSectors.slice(0, SECTOR_EDGE), ...allSectors.slice(-SECTOR_EDGE)]
-  ), [allSectors]);
+const SectorBoard: React.FC<{ sectors: SectorChange[] }> = ({ sectors }) => {
   // Columns are scaled against the largest absolute move so the zero axis sits
   // where the data puts it, rather than at a fixed mid-height.
   const { up, down } = useMemo(() => ({
@@ -192,29 +182,29 @@ const SectorBoard: React.FC<{ sectors: SectorChange[] }> = ({ sectors: allSector
 
 const FlowColumn: React.FC<{ label: string; rows: FlowPanel['buy']; side: 'buy' | 'sell' }> =
   ({ label, rows, side }) => (
-    <div className="flow-col">
-      <span className={`flow-col-label is-${side}`}>{label}</span>
+    <div className="pm-flow-col">
+      <span className={`pm-flow-col-label is-${side}`}>{label}</span>
       {rows.length > 0 ? rows.map((row) => (
-        <div className="flow-row" key={`${side}-${row.rank}`}>
-          <span className={`flow-rank mono-num ${row.rank === 1 ? 'is-first' : ''}`}>{row.rank}</span>
-          <span className="flow-name">{row.name}</span>
-          <span className={`flow-value mono-num is-${side}`}>
+        <div className="pm-flow-row" key={`${side}-${row.rank}`}>
+          <span className={`pm-flow-rank mono-num ${row.rank === 1 ? 'is-first' : ''}`}>{row.rank}</span>
+          <span className="pm-flow-name">{row.name}</span>
+          <span className={`pm-flow-value mono-num is-${side}`}>
             {side === 'buy' ? '+' : ''}{row.value.toLocaleString()}
           </span>
         </div>
-      )) : <div className="flow-empty">—</div>}
+      )) : <div className="pm-flow-empty">—</div>}
     </div>
   );
 
 const FlowBoard: React.FC<{ panels: FlowPanel[]; asOf: string | null }> = ({ panels, asOf }) => (
-  <div className="flow-board">
+  <div className="pm-flow-board">
     {panels.map((panel) => (
-      <div className="flow-panel" key={panel.id}>
-        <div className="flow-panel-head">
+      <div className="pm-flow-panel" key={panel.id}>
+        <div className="pm-flow-panel-head">
           <strong>{panel.title}</strong>
           <span className="mono-num">{panel.unit}{asOf ? ` · ${asOf}` : ''}</span>
         </div>
-        <div className="flow-panel-body">
+        <div className="pm-flow-panel-body">
           <FlowColumn label="買超" rows={panel.buy} side="buy" />
           <FlowColumn label="賣超" rows={panel.sell} side="sell" />
         </div>

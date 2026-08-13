@@ -165,7 +165,24 @@ def build_pulse(
             if code in prior:
                 rows.append(prior[code])
             continue
-        series = [*(prior.get(code, {}).get("series") or []), round(float(close), digits)]
+        history = list(prior.get(code, {}).get("series") or [])
+        if not history:
+            # Seed from today's OHLC rather than starting flat. Accumulating one
+            # point per run means a fresh deploy would draw a straight line for
+            # days; the session's own path is real data and available now.
+            # low/high are ordered by which the close sits nearer, so the shape
+            # reflects the direction the session actually took.
+            previous_close = quote.get("previousClose")
+            low, high = quote.get("low"), quote.get("high")
+            opening = quote.get("open")
+            swing = ([low, high] if abs(close - (low or close)) > abs(close - (high or close))
+                     else [high, low])
+            history = [
+                round(float(point), digits)
+                for point in (previous_close, opening, *swing)
+                if isinstance(point, (int, float)) and point
+            ]
+        series = [*history, round(float(close), digits)]
         rows.append({
             "id": code,
             "label": label,
