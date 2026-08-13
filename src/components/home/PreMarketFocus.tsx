@@ -47,25 +47,28 @@ function sparkPoints(series: number[], width = 52, height = 16): string {
     .join(' ');
 }
 
-const PulseBar: React.FC<{ pulse: PulseIndex[] }> = ({ pulse }) => (
-  <div className="pulse-wrap">
-    <div className="pulse-bar" role="list" aria-label="國際市場">
+const PulseCards: React.FC<{ pulse: PulseIndex[] }> = ({ pulse }) => (
+  <div className="pulse-grid" role="list" aria-label="國際指數">
     {pulse.map((item) => {
-      const points = sparkPoints(item.series);
+      const points = sparkPoints(item.series, 96, 34);
       return (
-        <div className={`pulse-item ${item.up ? 'is-up' : 'is-down'}`} role="listitem" key={item.id}>
-          <span className="pulse-label">{item.label}</span>
-          <span className="pulse-value mono-num">{item.value}</span>
-          <span className="pulse-delta mono-num">{item.delta}</span>
-          {points ? (
-            <svg className="pulse-spark" viewBox="0 0 52 16" aria-hidden="true" focusable="false">
-              <polyline points={points} fill="none" strokeWidth="1.5" vectorEffect="non-scaling-stroke" />
-            </svg>
-          ) : null}
+        <div className={`pulse-card ${item.up ? 'is-up' : 'is-down'}`} role="listitem" key={item.id}>
+          <div className="pulse-card-head">
+            <span className="pulse-label">{item.label}</span>
+            <span className="pulse-delta mono-num">{item.delta}</span>
+          </div>
+          <div className="pulse-card-body">
+            <strong className="pulse-value mono-num">{item.value}</strong>
+            {points ? (
+              <svg className="pulse-spark" viewBox="0 0 96 34" preserveAspectRatio="none"
+                   aria-hidden="true" focusable="false">
+                <polyline points={points} fill="none" strokeWidth="2" vectorEffect="non-scaling-stroke" />
+              </svg>
+            ) : null}
+          </div>
         </div>
       );
     })}
-    </div>
   </div>
 );
 
@@ -138,33 +141,70 @@ const FocusCard: React.FC<{ event: FocusEvent }> = ({ event }) => {
   );
 };
 
-const SectorBoard: React.FC<{ sectors: SectorChange[] }> = ({ sectors }) => {
-  // Bars scale against the strongest move on each side, so a flat day still
-  // reads as a distribution rather than a row of stubs.
-  const peak = useMemo(
-    () => Math.max(1, ...sectors.map((sector) => Math.abs(sector.chg))),
-    [sectors]
-  );
+// Thirty-five columns do not fit a screen: they compress every bar until the
+// losing side is unreadable. The board shows the extremes of both ends, which is
+// what a pre-market glance is for -- the flat middle carries no signal.
+const SECTOR_EDGE = 6;
+
+const SectorBoard: React.FC<{ sectors: SectorChange[] }> = ({ sectors: allSectors }) => {
+  const sectors = useMemo(() => (
+    allSectors.length <= SECTOR_EDGE * 2
+      ? allSectors
+      : [...allSectors.slice(0, SECTOR_EDGE), ...allSectors.slice(-SECTOR_EDGE)]
+  ), [allSectors]);
+  // Columns are scaled against the largest absolute move so the zero axis sits
+  // where the data puts it, rather than at a fixed mid-height.
+  const { up, down } = useMemo(() => ({
+    up: Math.max(0.01, ...sectors.map((s) => s.chg)),
+    down: Math.min(-0.01, ...sectors.map((s) => s.chg))
+  }), [sectors]);
+  const span = up - down;
+  const zeroPct = (up / span) * 100;
 
   return (
-    <div className="sector-board">
-      {sectors.map((sector) => (
-        <div className="sector-row" key={sector.name}>
-          <span className="sector-name">{sector.name}</span>
-          <div className="sector-track">
-            <div
-              className={`sector-bar ${sector.chg >= 0 ? 'is-up' : 'is-down'}`}
-              style={{ width: `${Math.max(2, (Math.abs(sector.chg) / peak) * 100)}%` }}
-            />
-          </div>
-          <span className={`sector-chg mono-num ${sector.chg >= 0 ? 'is-up' : 'is-down'}`}>
-            {sector.chg >= 0 ? '+' : ''}{sector.chg.toFixed(2)}%
-          </span>
-        </div>
-      ))}
+    <div className="sector-chart-scroll">
+      <div className="sector-chart" style={{ ['--zero' as string]: `${zeroPct}%` }}>
+        <div className="sector-axis" style={{ top: `${zeroPct}%` }} />
+        {sectors.map((sector) => {
+          const positive = sector.chg >= 0;
+          const height = (Math.abs(sector.chg) / span) * 100;
+          return (
+            <div className="sector-col" key={sector.name}>
+              <span className={`sector-chg mono-num ${positive ? 'is-up' : 'is-down'}`}>
+                {positive ? '+' : ''}{sector.chg.toFixed(2)}%
+              </span>
+              <div className="sector-plot">
+                <div
+                  className={`sector-bar ${positive ? 'is-up' : 'is-down'}`}
+                  style={positive
+                    ? { bottom: `${100 - zeroPct}%`, height: `${height}%` }
+                    : { top: `${zeroPct}%`, height: `${height}%` }}
+                />
+              </div>
+              <span className="sector-name">{sector.name}</span>
+            </div>
+          );
+        })}
+      </div>
     </div>
   );
 };
+
+const FlowColumn: React.FC<{ label: string; rows: FlowPanel['buy']; side: 'buy' | 'sell' }> =
+  ({ label, rows, side }) => (
+    <div className="flow-col">
+      <span className={`flow-col-label is-${side}`}>{label}</span>
+      {rows.length > 0 ? rows.map((row) => (
+        <div className="flow-row" key={`${side}-${row.rank}`}>
+          <span className={`flow-rank mono-num ${row.rank === 1 ? 'is-first' : ''}`}>{row.rank}</span>
+          <span className="flow-name">{row.name}</span>
+          <span className={`flow-value mono-num is-${side}`}>
+            {side === 'buy' ? '+' : ''}{row.value.toLocaleString()}
+          </span>
+        </div>
+      )) : <div className="flow-empty">—</div>}
+    </div>
+  );
 
 const FlowBoard: React.FC<{ panels: FlowPanel[]; asOf: string | null }> = ({ panels, asOf }) => (
   <div className="flow-board">
@@ -175,26 +215,8 @@ const FlowBoard: React.FC<{ panels: FlowPanel[]; asOf: string | null }> = ({ pan
           <span className="mono-num">{panel.unit}{asOf ? ` · ${asOf}` : ''}</span>
         </div>
         <div className="flow-panel-body">
-          <div className="flow-side">
-            <span className="flow-side-label is-buy">買超</span>
-            {panel.buy.length > 0 ? panel.buy.map((row) => (
-              <div className="flow-row" key={`${panel.id}-b-${row.rank}`}>
-                <span className="flow-rank mono-num">{row.rank}</span>
-                <span className="flow-name">{row.name}</span>
-                <span className="flow-value mono-num is-buy">+{row.value.toLocaleString()}</span>
-              </div>
-            )) : <div className="flow-empty">—</div>}
-          </div>
-          <div className="flow-side">
-            <span className="flow-side-label is-sell">賣超</span>
-            {panel.sell.length > 0 ? panel.sell.map((row) => (
-              <div className="flow-row" key={`${panel.id}-s-${row.rank}`}>
-                <span className="flow-rank mono-num">{row.rank}</span>
-                <span className="flow-name">{row.name}</span>
-                <span className="flow-value mono-num is-sell">{row.value.toLocaleString()}</span>
-              </div>
-            )) : <div className="flow-empty">—</div>}
-          </div>
+          <FlowColumn label="買超" rows={panel.buy} side="buy" />
+          <FlowColumn label="賣超" rows={panel.sell} side="sell" />
         </div>
       </div>
     ))}
@@ -206,18 +228,16 @@ export const PreMarketFocus: React.FC<PreMarketFocusProps> = ({ data, device }) 
   // error state, so the section says so instead of rendering an empty shell.
   const critical = data.events.filter((event) => event.tier === 'critical');
   const watch = data.events.filter((event) => event.tier === 'watch');
+  const hasPulse = (data.pulse?.length ?? 0) > 0;
   const hasSectors = data.sectors.length > 0;
   const hasFlows = data.flows.panels.some((panel) => panel.buy.length + panel.sell.length > 0);
 
   // Mobile collapses the three data boards into one switcher so a single
   // screen does not scroll past several full-width charts.
-  const [board, setBoard] = useState<'sectors' | 'flows'>('sectors');
-  const isMobile = device === 'mobile';
+  const [board, setBoard] = useState<'pulse' | 'flows' | 'sectors'>('pulse');
 
   return (
     <section className="pre-market-section">
-      {data.pulse && data.pulse.length > 0 ? <PulseBar pulse={data.pulse} /> : null}
-
       <header className="page-intro">
         <span className="page-kicker">PRE-MARKET FOCUS</span>
         <h1>盤前焦點</h1>
@@ -247,35 +267,44 @@ export const PreMarketFocus: React.FC<PreMarketFocusProps> = ({ data, device }) 
         </div>
       ) : null}
 
-      {(hasSectors || hasFlows) ? (
+      {(hasPulse || hasSectors || hasFlows) ? (
         <div className="market-boards">
-          {isMobile ? (
-            <div className="filter-tabs board-tabs" role="tablist" aria-label="市場數據">
-              <button type="button" role="tab" aria-selected={board === 'sectors'}
-                className={board === 'sectors' ? 'is-selected' : ''}
-                onClick={() => setBoard('sectors')}>類股漲跌</button>
+          <div className="board-tabs" role="tablist" aria-label="市場數據">
+            {hasPulse ? (
+              <button type="button" role="tab" aria-selected={board === 'pulse'}
+                className={board === 'pulse' ? 'is-selected' : ''}
+                onClick={() => setBoard('pulse')}>國際指數</button>
+            ) : null}
+            {hasFlows ? (
               <button type="button" role="tab" aria-selected={board === 'flows'}
                 className={board === 'flows' ? 'is-selected' : ''}
-                onClick={() => setBoard('flows')}>資金流向</button>
-            </div>
-          ) : null}
+                onClick={() => setBoard('flows')}>三大法人買賣超</button>
+            ) : null}
+            {hasSectors ? (
+              <button type="button" role="tab" aria-selected={board === 'sectors'}
+                className={board === 'sectors' ? 'is-selected' : ''}
+                onClick={() => setBoard('sectors')}>類股表現</button>
+            ) : null}
+          </div>
 
-          {hasSectors && (!isMobile || board === 'sectors') ? (
+          {hasPulse && board === 'pulse' ? <PulseCards pulse={data.pulse} /> : null}
+
+          {hasFlows && board === 'flows' ? (
             <section className="board-section">
               <div className="section-heading">
-                <h2>類股漲跌表現</h2><span className="mono-num">{data.sectors.length} 類股</span>
-              </div>
-              <SectorBoard sectors={data.sectors} />
-            </section>
-          ) : null}
-
-          {hasFlows && (!isMobile || board === 'flows') ? (
-            <section className="board-section">
-              <div className="section-heading">
-                <h2>類股買賣超排行</h2>
+                <h2>類股買賣超排行 · 依券商類型</h2>
                 <span className="section-note">前一交易日</span>
               </div>
               <FlowBoard panels={data.flows.panels} asOf={data.flows.as_of} />
+            </section>
+          ) : null}
+
+          {hasSectors && board === 'sectors' ? (
+            <section className="board-section">
+              <div className="section-heading">
+                <h2>類股漲跌表現</h2><span className="section-note">依當日漲跌幅排序</span>
+              </div>
+              <SectorBoard sectors={data.sectors} />
             </section>
           ) : null}
         </div>
