@@ -17,6 +17,7 @@ import argparse
 import json
 import logging
 import sys
+import time
 import xml.etree.ElementTree as ET
 from datetime import datetime, timedelta, timezone
 from email.utils import parsedate_to_datetime
@@ -27,7 +28,7 @@ import requests
 
 try:  # pragma: no cover - real runs invoke this file by path
     from scripts.geo_focus import FEED_URL, SOURCE_NAME, build_focus_events, strip_prefix
-    from scripts.market_pulse import build_sector_board, fetch_quotes
+    from scripts.market_pulse import build_pulse, build_sector_board, fetch_quotes
     from scripts.sector_flows import (
         aggregate_sectors,
         build_flow_panels,
@@ -36,7 +37,7 @@ try:  # pragma: no cover - real runs invoke this file by path
     )
 except ModuleNotFoundError:  # pragma: no cover
     from geo_focus import FEED_URL, SOURCE_NAME, build_focus_events, strip_prefix
-    from market_pulse import build_sector_board, fetch_quotes
+    from market_pulse import build_pulse, build_sector_board, fetch_quotes
     from sector_flows import (
         aggregate_sectors,
         build_flow_panels,
@@ -58,9 +59,28 @@ USER_AGENT = (
 TRANSLATE_URL = "https://translate.googleapis.com/translate_a/single"
 
 
-def fetch_feed(session: requests.Session, timeout: int = 25) -> list[dict[str, Any]]:
-    """Parse the wire feed into entries with aware timestamps."""
-    response = session.get(FEED_URL, headers={"User-Agent": USER_AGENT}, timeout=timeout)
+def fetch_feed(
+    session: requests.Session,
+    timeout: int = 25,
+    attempts: int = 3,
+    sleep: Any = time.sleep,
+) -> list[dict[str, Any]]:
+    """Parse the wire feed into entries with aware timestamps.
+
+    Retries on 429/5xx: the pre-open schedule fires every 15 minutes and the
+    upstream throttles bursts, so a single refused request must not blank the
+    board for a whole slot.
+    """
+    response = None
+    for attempt in range(attempts):
+        response = session.get(FEED_URL, headers={"User-Agent": USER_AGENT}, timeout=timeout)
+        if response.status_code < 400:
+            break
+        if response.status_code != 429 and response.status_code < 500:
+            break
+        if attempt < attempts - 1:
+            sleep(2 ** attempt * 5)
+    assert response is not None
     response.raise_for_status()
     root = ET.fromstring(response.content)
     entries: list[dict[str, Any]] = []
@@ -202,12 +222,16 @@ def build_payload(output_dir: Path, now: datetime, skip_translate: bool = False)
     archive_expired(expired, output_dir / ARCHIVE_DIR)
 
     sectors: list[dict[str, Any]] = []
+    pulse: list[dict[str, Any]] = []
     try:
-        sectors = build_sector_board(fetch_quotes(session))
-        LOGGER.info("built %d sector rows", len(sectors))
+        quotes = fetch_quotes(session)
+        sectors = build_sector_board(quotes)
+        pulse = build_pulse(quotes, previous.get("pulse", []))
+        LOGGER.info("built %d sector rows, %d pulse rows", len(sectors), len(pulse))
     except (requests.RequestException, ValueError) as exc:
-        LOGGER.error("sector quotes unavailable: %s", exc)
+        LOGGER.error("quote feed unavailable: %s", exc)
         sectors = previous.get("sectors", [])
+        pulse = previous.get("pulse", [])
 
     root = output_dir.parent
     flow_as_of, flow_panels = None, []
@@ -224,6 +248,7 @@ def build_payload(output_dir: Path, now: datetime, skip_translate: bool = False)
         "window_hours": WINDOW_HOURS,
         "sources": [SOURCE_NAME],
         "events": kept,
+        "pulse": pulse,
         "sectors": sectors,
         "flows": {"as_of": flow_as_of, "panels": flow_panels},
     }

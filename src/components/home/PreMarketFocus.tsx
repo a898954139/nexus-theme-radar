@@ -1,5 +1,5 @@
 import React, { useMemo, useState } from 'react';
-import { DeviceType, FlowPanel, FocusEvent, PreMarketData, SectorChange } from '../../types';
+import { DeviceType, FlowPanel, FocusEvent, PreMarketData, PulseIndex, SectorChange } from '../../types';
 
 interface PreMarketFocusProps {
   data: PreMarketData;
@@ -23,6 +23,42 @@ function formatTime(iso: string): string {
   const md = `${String(date.getMonth() + 1).padStart(2, '0')}/${String(date.getDate()).padStart(2, '0')}`;
   return `${md} ${hhmm}`;
 }
+
+/** Sparkline as a normalised polyline. Points are remapped to a fixed box, so a
+ *  symbol with fewer accumulated closes still draws at full width. */
+function sparkPoints(series: number[], width = 52, height = 16): string {
+  if (series.length < 2) return '';
+  const min = Math.min(...series);
+  const max = Math.max(...series);
+  const span = max - min || 1;
+  return series
+    .map((value, index) => {
+      const x = (index / (series.length - 1)) * width;
+      const y = height - ((value - min) / span) * height;
+      return `${x.toFixed(1)},${y.toFixed(1)}`;
+    })
+    .join(' ');
+}
+
+const PulseBar: React.FC<{ pulse: PulseIndex[] }> = ({ pulse }) => (
+  <div className="pulse-bar" role="list" aria-label="國際市場">
+    {pulse.map((item) => {
+      const points = sparkPoints(item.series);
+      return (
+        <div className={`pulse-item ${item.up ? 'is-up' : 'is-down'}`} role="listitem" key={item.id}>
+          <span className="pulse-label">{item.label}</span>
+          <span className="pulse-value mono-num">{item.value}</span>
+          <span className="pulse-delta mono-num">{item.delta}</span>
+          {points ? (
+            <svg className="pulse-spark" viewBox="0 0 52 16" aria-hidden="true" focusable="false">
+              <polyline points={points} fill="none" strokeWidth="1.5" vectorEffect="non-scaling-stroke" />
+            </svg>
+          ) : null}
+        </div>
+      );
+    })}
+  </div>
+);
 
 const FocusCard: React.FC<{ event: FocusEvent }> = ({ event }) => {
   const [showEn, setShowEn] = useState(false);
@@ -171,6 +207,8 @@ export const PreMarketFocus: React.FC<PreMarketFocusProps> = ({ data, device }) 
 
   return (
     <section className="pre-market-section">
+      {data.pulse && data.pulse.length > 0 ? <PulseBar pulse={data.pulse} /> : null}
+
       <header className="page-intro">
         <span className="page-kicker">PRE-MARKET FOCUS</span>
         <h1>盤前焦點</h1>

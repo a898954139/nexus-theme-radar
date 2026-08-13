@@ -9,7 +9,8 @@ interface NavTabBarProps {
 }
 
 const tabs: Array<{ id: PageType; label: string }> = [
-  { id: 'index', label: '題材雷達' },
+  // The index is now the news-side board; themes moved to the momentum page.
+  { id: 'index', label: '盤前焦點' },
   { id: 'momentum', label: '題材動能' },
   { id: 'watchlist', label: '個股雷達' },
   { id: 'flows', label: '資金流向' },
@@ -18,7 +19,7 @@ const tabs: Array<{ id: PageType; label: string }> = [
 
 export const NavTabBar: React.FC<NavTabBarProps> = ({ page, setPage, device, mobileTitle }) => {
   const mobileTitles: Record<PageType, string> = {
-    index: '台股最近熱什麼',
+    index: '盤前焦點',
     momentum: '題材動能',
     watchlist: '個股雷達',
     flows: '三大法人資金流向',

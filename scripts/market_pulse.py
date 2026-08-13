@@ -60,6 +60,29 @@ COMPOSITE = frozenset({"^263", "^264", "^658", "^663", "^664", "^669"})
 # The homepage board: single-industry TWSE groups only.
 BOARD_CODES = tuple(code for code in LISTED if code not in COMPOSITE)
 
+# Overnight context, in the order a Taiwan trader reads it: US close first
+# (it sets the open), then regional, then the macro levers.
+#
+# Only symbols verified present in the feed are listed. Nikkei and KOSPI are
+# deliberately absent -- the feed carries no Nikkei, and the one Korean series
+# it does carry sits near 6,800 while KOSPI trades near 4,000, so labelling it
+# KOSPI would repeat the sector-code mistake of shipping a plausible wrong name.
+PULSE_SYMBOLS: tuple[tuple[str, str, int], ...] = (
+    ("DJI", "道瓊", 2),
+    ("NAS", "那斯達克", 2),
+    ("SP5", "S&P 500", 2),
+    ("SOX", "費城半導體", 2),
+    ("HSI", "恆生", 2),
+    ("USDTWD", "美元/台幣", 3),
+    ("GOLD", "黃金", 2),
+    ("US10-YR", "美10年債", 3),
+    ("VIX", "VIX", 2),
+)
+
+# Points retained per symbol for the sparkline. The chart is directional, not
+# analytical, so this is a shape hint rather than a time series.
+PULSE_SERIES_POINTS = 8
+
 
 def fetch_quotes(session: requests.Session | None = None, timeout: int = 25) -> list[dict[str, Any]]:
     """Return every quoted instrument from the upstream feed."""
@@ -109,6 +132,48 @@ def build_sector_board(
             continue
         rows.append({"name": SECTOR_NAMES[code], "chg": change})
     rows.sort(key=lambda row: row["chg"], reverse=True)
+    return rows
+
+
+def build_pulse(
+    quotes: Iterable[Mapping[str, Any]],
+    previous: Iterable[Mapping[str, Any]] = (),
+    symbols: Iterable[tuple[str, str, int]] = PULSE_SYMBOLS,
+    points: int = PULSE_SERIES_POINTS,
+) -> list[dict[str, Any]]:
+    """Overnight index rows, carrying a short series forward for sparklines.
+
+    The feed publishes only a current quote, so the series is accumulated
+    across runs from `previous` rather than fetched.
+    """
+    by_id = {q.get("id"): q for q in quotes if isinstance(q, Mapping)}
+    prior = {row.get("id"): row for row in previous if isinstance(row, Mapping)}
+
+    rows: list[dict[str, Any]] = []
+    for code, label, digits in symbols:
+        quote = by_id.get(code)
+        if quote is None:
+            # Keep the last good row so one missing symbol does not blank the bar.
+            if code in prior:
+                rows.append(prior[code])
+            else:
+                LOGGER.warning("pulse symbol %s missing from quote feed", code)
+            continue
+        close = quote.get("close")
+        change = _pct_change(quote)
+        if not isinstance(close, (int, float)) or change is None:
+            if code in prior:
+                rows.append(prior[code])
+            continue
+        series = [*(prior.get(code, {}).get("series") or []), round(float(close), digits)]
+        rows.append({
+            "id": code,
+            "label": label,
+            "value": f"{close:,.{digits}f}",
+            "delta": f"{change:+.2f}%",
+            "up": change >= 0,
+            "series": series[-points:],
+        })
     return rows
 
 

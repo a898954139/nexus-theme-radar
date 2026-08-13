@@ -1,5 +1,6 @@
 import React, { useMemo, useState } from 'react';
 import { ThemeStocksCanvas } from '../common/ThemeStocksCanvas';
+import { ThemeCarousel } from '../common/ThemeCarousel';
 import { buildThemeStockEntries, mergeInstrumentRefs } from '../../lib/themeStocks';
 import { DeviceType, MomentumTheme, RadarData } from '../../types';
 
@@ -126,6 +127,8 @@ export const ThemeMomentum: React.FC<ThemeMomentumProps> = ({ data, device, onGo
         <div className="gold-rule" />
         <p>依目前熱度與 24 小時熱度加速度排序，並列出每個題材的相關個股：點代號進基本面分析，點「法人」直接看三大法人資金流向。資料只呈現公開彙總結果，不代表投資建議。</p>
       </header>
+
+      <ThemeCarousel data={data} device={device} onGoStock={onGoStock} />
 
       <div className="range-tabs" role="tablist" aria-label="動能區間">
         {(['24h', '72h', '7d'] as const).map((value) => <button className={range === value ? 'is-selected' : ''} key={value} type="button" onClick={() => setRange(value)}>{value}</button>)}

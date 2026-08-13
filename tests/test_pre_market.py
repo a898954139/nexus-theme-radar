@@ -25,7 +25,7 @@ from geo_focus import (  # noqa: E402
     tier_of,
     weigh_speaker,
 )
-from market_pulse import SECTOR_NAMES, build_sector_board  # noqa: E402
+from market_pulse import SECTOR_NAMES, build_pulse, build_sector_board  # noqa: E402
 from sector_flows import aggregate_sectors, build_flow_panels  # noqa: E402
 from update_pre_market import merge_events  # noqa: E402
 
@@ -245,3 +245,43 @@ class TestSectorFlows:
         panel = build_flow_panels(totals)[0]
         assert panel["unit"] == "張"
         assert panel["buy"][0]["value"] == 1000
+
+
+class TestMarketPulse:
+    def test_row_carries_the_fields_the_ticker_reads(self):
+        rows = build_pulse(
+            [{"id": "DJI", "close": 53770.27, "previousClose": 53791.85}],
+            symbols=[("DJI", "道瓊", 2)],
+        )
+        assert rows == [{
+            "id": "DJI", "label": "道瓊", "value": "53,770.27",
+            "delta": "-0.04%", "up": False, "series": [53770.27],
+        }]
+
+    def test_series_accumulates_across_runs(self):
+        """The feed publishes a quote, not a history; sparkline points are
+        carried forward run to run."""
+        previous = [{"id": "DJI", "series": [1.0, 2.0]}]
+        rows = build_pulse(
+            [{"id": "DJI", "close": 3.0, "previousClose": 2.0}],
+            previous, symbols=[("DJI", "道瓊", 2)],
+        )
+        assert rows[0]["series"] == [1.0, 2.0, 3.0]
+
+    def test_series_is_capped_to_the_window(self):
+        previous = [{"id": "DJI", "series": [1, 2, 3, 4, 5, 6, 7, 8]}]
+        rows = build_pulse(
+            [{"id": "DJI", "close": 9.0, "previousClose": 8.0}],
+            previous, symbols=[("DJI", "道瓊", 2)], points=8,
+        )
+        assert rows[0]["series"] == [2, 3, 4, 5, 6, 7, 8, 9.0]
+
+    def test_missing_symbol_keeps_last_good_row(self):
+        """One absent symbol must not blank the whole bar."""
+        previous = [{"id": "DJI", "label": "道瓊", "value": "1", "delta": "+0.00%",
+                     "up": True, "series": [1.0]}]
+        rows = build_pulse([], previous, symbols=[("DJI", "道瓊", 2)])
+        assert rows == previous
+
+    def test_missing_symbol_without_history_is_dropped(self):
+        assert build_pulse([], symbols=[("DJI", "道瓊", 2)]) == []

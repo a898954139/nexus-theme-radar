@@ -470,6 +470,17 @@ export interface PreMarketData {
   window_hours: number;
   sources: string[];
   events: FocusEvent[];
+  pulse: PulseIndex[];
   sectors: SectorChange[];
   flows: { as_of: string | null; panels: FlowPanel[] };
+}
+
+export interface PulseIndex {
+  id: string;
+  label: string;
+  value: string;
+  delta: string;
+  up: boolean;
+  /** Recent closes, accumulated across runs. Directional hint, not a chart. */
+  series: number[];
 }

@@ -38,11 +38,14 @@ def test_homepage_has_one_primary_card_and_preserves_secondary_link() -> None:
     app = (ROOT / "src" / "App.tsx").read_text(encoding="utf-8")
     nav = (ROOT / "src" / "components" / "common" / "NavTabBar.tsx").read_text(encoding="utf-8")
     home = (ROOT / "src" / "components" / "home" / "ThemeRadarHome.tsx").read_text(encoding="utf-8")
+    # The theme carousel moved to a shared component so the momentum page can
+    # host it; the homepage is now the pre-market news board.
+    carousel = (ROOT / "src" / "components" / "common" / "ThemeCarousel.tsx").read_text(encoding="utf-8")
 
     assert '<div id="root"></div>' in html
     assert "{ id: 'momentum', label: '題材動能' }" in nav
     assert "onGoMomentum={() => updateHash('momentum')}" in app
-    assert "theme-stage" in home
+    assert "theme-stage" in carousel
     assert "news-feed" in home
     assert "const NEWS_PAGE_SIZE = 20;" in home
     assert ".slice(0, 20)" not in home

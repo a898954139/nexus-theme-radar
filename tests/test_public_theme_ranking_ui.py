@@ -251,20 +251,22 @@ def test_markup_copy_and_first_section_preserve_lower_homepage() -> None:
     html = (ROOT / "index.html").read_text()
     app = (ROOT / "src" / "App.tsx").read_text()
     home = (ROOT / "src" / "components" / "home" / "ThemeRadarHome.tsx").read_text()
+    carousel = (ROOT / "src" / "components" / "common" / "ThemeCarousel.tsx").read_text()
 
     assert '<div id="root"></div>' in html
     assert "<ThemeRadarHome" in app
-    assert "themeRanking.themes" in home
-    assert "direct_mentions" in home
-    assert "supply_chain_candidates" in home
-    assert "theme-stage" in home
+    assert "themeRanking.themes" in carousel
+    assert "direct_mentions" in carousel
+    assert "supply_chain_candidates" in carousel
+    assert "theme-stage" in carousel
     assert "news-feed" in home
     assert "const NEWS_PAGE_SIZE = 20;" in home
     assert "news.slice(0, visibleNewsCount)" in home
     assert "new IntersectionObserver" in home
     assert 'id="publicThemeRankingWrap"' not in html
 
-    ranking_markup = home
+    # Theme copy now spans both files, so the claim ban must cover both.
+    ranking_markup = home + carousel
     prohibited_claims = (
         "歷史驗證",
         "historical validation",

@@ -1123,3 +1123,25 @@ a { color: inherit; }
   .focus-calm { margin-left: 16px; margin-right: 16px; }
   .sector-row { grid-template-columns: 76px 1fr 56px; }
 }
+
+/* ---------- 市場脈搏 ---------- */
+/* Horizontal rail: overnight context is scanned, not studied, so it stays one
+   row deep on every width rather than wrapping into a block. */
+.pulse-bar { display: flex; gap: 0; overflow-x: auto; padding: 0 20px; border-bottom: 1px solid var(--line); scrollbar-width: none; }
+.pulse-bar::-webkit-scrollbar { display: none; }
+.pulse-item { display: flex; align-items: center; gap: 7px; flex: 0 0 auto; padding: 10px 16px 10px 0; margin-right: 16px; border-right: 1px solid var(--sub-line); }
+.pulse-item:last-child { border-right: 0; margin-right: 0; }
+.pulse-label { color: var(--muted); font-size: 11.5px; white-space: nowrap; }
+.pulse-value { color: var(--text-hi); font-size: 12.5px; }
+.pulse-delta { font-size: 11px; }
+.pulse-item.is-up .pulse-delta { color: var(--green); }
+.pulse-item.is-down .pulse-delta { color: var(--red); }
+.pulse-spark { width: 52px; height: 16px; }
+.pulse-item.is-up .pulse-spark polyline { stroke: var(--green); }
+.pulse-item.is-down .pulse-spark polyline { stroke: var(--red); }
+
+@media (max-width: 720px) {
+  .pulse-bar { padding: 0 16px; }
+  .pulse-item { padding-right: 12px; margin-right: 12px; }
+  .pulse-spark { display: none; }
+}

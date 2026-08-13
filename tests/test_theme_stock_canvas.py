@@ -5,7 +5,7 @@ ROOT = Path(__file__).resolve().parents[1]
 
 
 def test_home_theme_stocks_use_fallback_data_and_open_canvas() -> None:
-    source = (ROOT / "src/components/home/ThemeRadarHome.tsx").read_text()
+    source = (ROOT / "src/components/common/ThemeCarousel.tsx").read_text()
 
     assert "mergeInstrumentRefs" in source
     assert "ThemeStocksCanvas" in source
