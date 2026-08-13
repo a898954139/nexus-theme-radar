@@ -241,8 +241,8 @@ export const PreMarketFocus: React.FC<PreMarketFocusProps> = ({ data, device }) 
         </div>
       ) : (
         <div className="focus-calm">
-          <strong>今日盤前無重大事件</strong>
-          <span>國際消息面平靜，以下為次要留意事項與一般新聞。</span>
+          <strong>目前無重大事件</strong>
+          <span>近 72 小時國際消息面平靜，以下為次要留意事項與一般新聞。</span>
         </div>
       )}
 

@@ -1102,7 +1102,7 @@ a { color: inherit; }
 .pulse-card.is-down .pulse-delta { color: var(--red); }
 .pulse-card-body { display: flex; align-items: flex-end; justify-content: space-between; gap: 10px; }
 .pulse-value { color: var(--text-hi); font-size: 21px; font-weight: 500; letter-spacing: -.01em; }
-.pulse-spark { flex: 0 0 auto; width: 88px; height: 32px; }
+.pulse-spark { flex: 1 1 auto; width: auto; min-width: 34px; max-width: 88px; height: 32px; overflow: hidden; }
 .pulse-card.is-up .pulse-spark polyline { stroke: var(--green); }
 .pulse-card.is-down .pulse-spark polyline { stroke: var(--red); }
 
@@ -1152,7 +1152,7 @@ a { color: inherit; }
   .board-tabs button + button::before { margin-right: 12px; }
   .pulse-grid { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 8px; }
   .pulse-value { font-size: 18px; }
-  .pulse-spark { width: 60px; height: 26px; }
+  .pulse-spark { min-width: 26px; max-width: 60px; height: 26px; }
   .sector-chart { height: 250px; }
   .pm-flow-board { gap: 22px; }
   .pm-flow-panel-body { gap: 12px; }
