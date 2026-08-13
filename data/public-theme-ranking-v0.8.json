@@ -2,14 +2,14 @@
   "schema_version": "nexus_public_theme_ranking.v0.8",
   "ranking_rule_version": "public_theme_heat_v0.8",
   "company_rule_version": "public_company_evidence_v0.8",
-  "generated_at": "2026-08-13T16:13:29.083876Z",
+  "generated_at": "2026-08-13T17:15:14.340383Z",
   "market_id": "TW_EQUITY",
   "market_scope": [
     "TW_EQUITY"
   ],
   "window_hours": 72,
   "max_themes": 5,
-  "qualified_theme_count": 6,
+  "qualified_theme_count": 9,
   "displayed_theme_count": 5,
   "threshold_note": null,
   "generation_status": "complete",
@@ -20,17 +20,17 @@
       "rank": 1,
       "theme_id": "memory_hbm",
       "name_zh": "記憶體與 HBM",
-      "heat_score": 95,
+      "heat_score": 100,
       "summaries": {
-        "event_count": 9,
+        "event_count": 10,
         "source_count": 4,
-        "tracking_candidate_count": 3,
+        "tracking_candidate_count": 4,
         "taiwan_mapping_count": 10
       },
       "heat_reason": {
         "rule_version": "public_theme_heat_v0.8",
         "event_component": {
-          "input": 9,
+          "input": 10,
           "normalized": 100.0,
           "weighted": 25.0
         },
@@ -40,19 +40,19 @@
           "weighted": 25.0
         },
         "candidate_component": {
-          "input": 3,
-          "normalized": 75.0,
-          "weighted": 15.0
+          "input": 4,
+          "normalized": 100.0,
+          "weighted": 20.0
         },
         "mapping_component": {
           "mapping_count": 10,
-          "direct_mapping_event_count": 4,
+          "direct_mapping_event_count": 5,
           "normalized": 100.0,
           "weighted": 30.0
         },
-        "single_source_concentration": 0.556,
+        "single_source_concentration": 0.5,
         "concentration_penalty": 0.0,
-        "raw_score": 95.0
+        "raw_score": 100.0
       },
       "direct_mentions": [
         {
@@ -64,20 +64,20 @@
           "latest_mentioned_at": "2026-08-13T11:50:02Z"
         },
         {
+          "instrument_id": "TWSE:2028",
+          "symbol": "2028",
+          "exchange": "TWSE",
+          "name_zh": "威致",
+          "direct_event_count": 2,
+          "latest_mentioned_at": "2026-08-13T11:50:02Z"
+        },
+        {
           "instrument_id": "TPEX:8069",
           "symbol": "8069",
           "exchange": "TPEX",
           "name_zh": "元太",
           "direct_event_count": 1,
           "latest_mentioned_at": "2026-08-13T14:22:56Z"
-        },
-        {
-          "instrument_id": "TWSE:2028",
-          "symbol": "2028",
-          "exchange": "TWSE",
-          "name_zh": "威致",
-          "direct_event_count": 1,
-          "latest_mentioned_at": "2026-08-13T11:50:02Z"
         },
         {
           "instrument_id": "TPEX:8299",
@@ -144,113 +144,19 @@
     },
     {
       "rank": 2,
-      "theme_id": "robotics",
-      "name_zh": "機器人",
-      "heat_score": 72,
-      "summaries": {
-        "event_count": 5,
-        "source_count": 2,
-        "tracking_candidate_count": 3,
-        "taiwan_mapping_count": 26
-      },
-      "heat_reason": {
-        "rule_version": "public_theme_heat_v0.8",
-        "event_component": {
-          "input": 5,
-          "normalized": 83.333,
-          "weighted": 20.833
-        },
-        "source_component": {
-          "input": 2,
-          "normalized": 50.0,
-          "weighted": 12.5
-        },
-        "candidate_component": {
-          "input": 3,
-          "normalized": 75.0,
-          "weighted": 15.0
-        },
-        "mapping_component": {
-          "mapping_count": 26,
-          "direct_mapping_event_count": 1,
-          "normalized": 80.0,
-          "weighted": 24.0
-        },
-        "single_source_concentration": 0.6,
-        "concentration_penalty": 0.0,
-        "raw_score": 72.333
-      },
-      "direct_mentions": [
-        {
-          "instrument_id": "TPEX:5392",
-          "symbol": "5392",
-          "exchange": "TPEX",
-          "name_zh": "能率",
-          "direct_event_count": 1,
-          "latest_mentioned_at": "2026-08-13T13:37:17Z"
-        }
-      ],
-      "supply_chain_candidates": [
-        {
-          "instrument_id": "TPEX:3379",
-          "symbol": "3379",
-          "exchange": "TPEX",
-          "name_zh": "彬台",
-          "direct_event_count": 0,
-          "official_evidence_count": 0,
-          "company_rank_score": 1,
-          "latest_mentioned_at": null,
-          "latest_official_at": null
-        },
-        {
-          "instrument_id": "TPEX:3577",
-          "symbol": "3577",
-          "exchange": "TPEX",
-          "name_zh": "泓格",
-          "direct_event_count": 0,
-          "official_evidence_count": 0,
-          "company_rank_score": 1,
-          "latest_mentioned_at": null,
-          "latest_official_at": null
-        },
-        {
-          "instrument_id": "TPEX:5289",
-          "symbol": "5289",
-          "exchange": "TPEX",
-          "name_zh": "宜鼎",
-          "direct_event_count": 0,
-          "official_evidence_count": 0,
-          "company_rank_score": 1,
-          "latest_mentioned_at": null,
-          "latest_official_at": null
-        }
-      ],
-      "representative_news": {
-        "cluster_id": "cluster-5e9f6deff5d763be",
-        "id": "yahoo_finance_tw-4e19886653d0",
-        "title_zh": "北京再辦人形機器人運動會　16國參賽",
-        "summary": "（中央社台北2026年8月13日電）綜合陸港媒體今天報導，「第二屆世界人形機器人運動會」將於22至26日在北京國家速滑館舉行，將有來自16個國家的666支隊伍參加，參賽隊伍較首屆成長138%。綜合中共",
-        "source_id": "yahoo_finance_tw",
-        "source": "Yahoo Finance Taiwan",
-        "published_at": "2026-08-13T15:02:07Z",
-        "canonical_url": "https://tw.stock.yahoo.com/news/%E5%8C%97%E4%BA%AC%E5%86%8D%E8%BE%A6%E4%BA%BA%E5%BD%A2%E6%A9%9F%E5%99%A8%E4%BA%BA%E9%81%8B%E5%8B%95%E6%9C%83-16%E5%9C%8B%E5%8F%83%E8%B3%BD-150207296.html"
-      }
-    },
-    {
-      "rank": 3,
       "theme_id": "statementdog_tag_1517",
       "name_zh": "AI",
-      "heat_score": 68,
+      "heat_score": 71,
       "summaries": {
-        "event_count": 17,
+        "event_count": 18,
         "source_count": 3,
         "tracking_candidate_count": 0,
-        "taiwan_mapping_count": 69
+        "taiwan_mapping_count": 70
       },
       "heat_reason": {
         "rule_version": "public_theme_heat_v0.8",
         "event_component": {
-          "input": 17,
+          "input": 18,
           "normalized": 100.0,
           "weighted": 25.0
         },
@@ -265,14 +171,14 @@
           "weighted": 0.0
         },
         "mapping_component": {
-          "mapping_count": 69,
+          "mapping_count": 70,
           "direct_mapping_event_count": 9,
           "normalized": 100.0,
           "weighted": 30.0
         },
-        "single_source_concentration": 0.765,
-        "concentration_penalty": 6.176,
-        "raw_score": 67.574
+        "single_source_concentration": 0.684,
+        "concentration_penalty": 3.158,
+        "raw_score": 70.592
       },
       "direct_mentions": [
         {
@@ -384,14 +290,116 @@
         }
       ],
       "representative_news": {
-        "cluster_id": "cluster-099bfc80c38358c9",
-        "id": "yahoo_finance_tw-b841ade38423",
-        "title_zh": "AI數位轉型，決勝在整合 零壹沈柏延提出企業AI落地四大關鍵決策",
-        "summary": "零壹集團執行長沈柏延今（13）日於「AI ON Growth｜2026臺灣AI加速大會」表示，企業AI轉型不是採購清單，而是一場整合工程。本次大會報名人數突破1,700人、匯聚近800家企業，24家國",
-        "source_id": "yahoo_finance_tw",
-        "source": "Yahoo Finance Taiwan",
-        "published_at": "2026-08-13T14:24:00Z",
-        "canonical_url": "https://tw.stock.yahoo.com/news/ai%E6%95%B8%E4%BD%8D%E8%BD%89%E5%9E%8B-%E6%B1%BA%E5%8B%9D%E5%9C%A8%E6%95%B4%E5%90%88-%E9%9B%B6%E5%A3%B9%E6%B2%88%E6%9F%8F%E5%BB%B6%E6%8F%90%E5%87%BA%E4%BC%81%E6%A5%ADai%E8%90%BD%E5%9C%B0%E5%9B%9B%E5%A4%A7%E9%97%9C%E9%8D%B5%E6%B1%BA%E7%AD%96-142400271.html"
+        "cluster_id": "cluster-bee45c5508219d3e",
+        "id": "cnyes-a17f66b9272c",
+        "title_zh": "費半指數強彈進入牛市  分析師卻警告：AI巨額積壓訂單≠已經到手的收入",
+        "summary": "美股半導體族群周三(12日)全線飆升，費城半導體指數收於12399.38點，距離從近期低點反彈20%的「技術性牛市」門檻12536.99點僅差約1.1%。  漲直接催化劑來自CoreWeave、美超微(Super Micro)、Lumentum三家中下游AI基礎設施廠周二(11日)盤後公布的財報：C",
+        "source_id": "cnyes",
+        "source": "鉅亨網 Cnyes",
+        "published_at": "2026-08-13T16:30:02Z",
+        "canonical_url": "https://news.cnyes.com/news/id/6575253"
+      }
+    },
+    {
+      "rank": 3,
+      "theme_id": "optical_cpo",
+      "name_zh": "矽光子 CPO",
+      "heat_score": 63,
+      "summaries": {
+        "event_count": 7,
+        "source_count": 2,
+        "tracking_candidate_count": 1,
+        "taiwan_mapping_count": 20
+      },
+      "heat_reason": {
+        "rule_version": "public_theme_heat_v0.8",
+        "event_component": {
+          "input": 7,
+          "normalized": 100.0,
+          "weighted": 25.0
+        },
+        "source_component": {
+          "input": 2,
+          "normalized": 50.0,
+          "weighted": 12.5
+        },
+        "candidate_component": {
+          "input": 1,
+          "normalized": 25.0,
+          "weighted": 5.0
+        },
+        "mapping_component": {
+          "mapping_count": 20,
+          "direct_mapping_event_count": 2,
+          "normalized": 100.0,
+          "weighted": 30.0
+        },
+        "single_source_concentration": 0.857,
+        "concentration_penalty": 9.643,
+        "raw_score": 62.857
+      },
+      "direct_mentions": [
+        {
+          "instrument_id": "TWSE:2330",
+          "symbol": "2330",
+          "exchange": "TWSE",
+          "name_zh": "台積電",
+          "direct_event_count": 1,
+          "latest_mentioned_at": "2026-08-13T11:57:11Z"
+        },
+        {
+          "instrument_id": "TPEX:3289",
+          "symbol": "3289",
+          "exchange": "TPEX",
+          "name_zh": "宜特",
+          "direct_event_count": 1,
+          "latest_mentioned_at": "2026-08-13T07:11:59Z"
+        }
+      ],
+      "supply_chain_candidates": [
+        {
+          "instrument_id": "TPEX:3289",
+          "symbol": "3289",
+          "exchange": "TPEX",
+          "name_zh": "宜特",
+          "direct_event_count": 1,
+          "official_evidence_count": 0,
+          "company_rank_score": 5,
+          "latest_mentioned_at": "2026-08-13T07:11:59Z",
+          "latest_official_at": null
+        },
+        {
+          "instrument_id": "TPEX:3163",
+          "symbol": "3163",
+          "exchange": "TPEX",
+          "name_zh": "波若威",
+          "direct_event_count": 0,
+          "official_evidence_count": 0,
+          "company_rank_score": 1,
+          "latest_mentioned_at": null,
+          "latest_official_at": null
+        },
+        {
+          "instrument_id": "TPEX:3587",
+          "symbol": "3587",
+          "exchange": "TPEX",
+          "name_zh": "閎康",
+          "direct_event_count": 0,
+          "official_evidence_count": 0,
+          "company_rank_score": 1,
+          "latest_mentioned_at": null,
+          "latest_official_at": null
+        }
+      ],
+      "representative_news": {
+        "cluster_id": "cluster-a3e85f9dd45b9d27",
+        "id": "digitimes_tw-d11ee1c14759",
+        "title_zh": "CPO何時非用不可？　美國矽光子界估倒數計時18個月",
+        "summary": "共同封裝光學（CPO）技術目前是產業討論重心，但現階段市場對於光通訊模組的使用，仍以可插拔模組為主流。然而，2026 OCP APAC Summit的矽光子論壇上，各與談人不諱言地說，現在可插拔方案夠用、生態系成",
+        "source_id": "digitimes_tw",
+        "source": "DIGITIMES",
+        "published_at": "2026-08-12T19:00:00Z",
+        "canonical_url": "https://www.digitimes.com.tw/tech/dt/n/shwnws.asp?id=0000764898_RR17RJDHLNDLYA7KS91PL"
       }
     },
     {
