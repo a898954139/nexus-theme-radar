@@ -25,9 +25,16 @@ function formatTime(iso: string): string {
 }
 
 /** Sparkline as a normalised polyline. Points are remapped to a fixed box, so a
- *  symbol with fewer accumulated closes still draws at full width. */
+ *  symbol with fewer accumulated closes still draws at full width.
+ *
+ *  The series accumulates one point per pipeline run, so a freshly deployed
+ *  board has a single close. That draws a flat baseline rather than nothing:
+ *  an empty slot next to eight populated ones reads as a broken chart, while a
+ *  flat line correctly says "no movement recorded yet". */
 function sparkPoints(series: number[], width = 52, height = 16): string {
-  if (series.length < 2) return '';
+  if (series.length === 0) return '';
+  const mid = (height / 2).toFixed(1);
+  if (series.length === 1) return `${width * 0.3},${mid} ${width * 0.7},${mid}`;
   const min = Math.min(...series);
   const max = Math.max(...series);
   const span = max - min || 1;
@@ -41,7 +48,8 @@ function sparkPoints(series: number[], width = 52, height = 16): string {
 }
 
 const PulseBar: React.FC<{ pulse: PulseIndex[] }> = ({ pulse }) => (
-  <div className="pulse-bar" role="list" aria-label="國際市場">
+  <div className="pulse-wrap">
+    <div className="pulse-bar" role="list" aria-label="國際市場">
     {pulse.map((item) => {
       const points = sparkPoints(item.series);
       return (
@@ -57,6 +65,7 @@ const PulseBar: React.FC<{ pulse: PulseIndex[] }> = ({ pulse }) => (
         </div>
       );
     })}
+    </div>
   </div>
 );
 
