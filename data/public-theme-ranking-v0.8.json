@@ -2,14 +2,14 @@
   "schema_version": "nexus_public_theme_ranking.v0.8",
   "ranking_rule_version": "public_theme_heat_v0.8",
   "company_rule_version": "public_company_evidence_v0.8",
-  "generated_at": "2026-08-14T08:38:32.337883Z",
+  "generated_at": "2026-08-14T10:17:55.316177Z",
   "market_id": "TW_EQUITY",
   "market_scope": [
     "TW_EQUITY"
   ],
   "window_hours": 72,
   "max_themes": 5,
-  "qualified_theme_count": 8,
+  "qualified_theme_count": 6,
   "displayed_theme_count": 5,
   "threshold_note": null,
   "generation_status": "complete",
@@ -18,19 +18,129 @@
   "themes": [
     {
       "rank": 1,
-      "theme_id": "memory_hbm",
-      "name_zh": "記憶體與 HBM",
-      "heat_score": 94,
+      "theme_id": "defense_drone",
+      "name_zh": "國防與無人機",
+      "heat_score": 95,
       "summaries": {
-        "event_count": 8,
-        "source_count": 3,
-        "tracking_candidate_count": 5,
-        "taiwan_mapping_count": 5
+        "event_count": 12,
+        "source_count": 4,
+        "tracking_candidate_count": 3,
+        "taiwan_mapping_count": 4
       },
       "heat_reason": {
         "rule_version": "public_theme_heat_v0.8",
         "event_component": {
-          "input": 8,
+          "input": 12,
+          "normalized": 100.0,
+          "weighted": 25.0
+        },
+        "source_component": {
+          "input": 4,
+          "normalized": 100.0,
+          "weighted": 25.0
+        },
+        "candidate_component": {
+          "input": 3,
+          "normalized": 75.0,
+          "weighted": 15.0
+        },
+        "mapping_component": {
+          "mapping_count": 4,
+          "direct_mapping_event_count": 4,
+          "normalized": 100.0,
+          "weighted": 30.0
+        },
+        "single_source_concentration": 0.5,
+        "concentration_penalty": 0.0,
+        "raw_score": 95.0
+      },
+      "direct_mentions": [
+        {
+          "instrument_id": "TWSE:2634",
+          "symbol": "2634",
+          "exchange": "TWSE",
+          "name_zh": "漢翔",
+          "direct_event_count": 2,
+          "latest_mentioned_at": "2026-08-14T09:50:16Z"
+        },
+        {
+          "instrument_id": "TWSE:8033",
+          "symbol": "8033",
+          "exchange": "TWSE",
+          "name_zh": "雷虎",
+          "direct_event_count": 1,
+          "latest_mentioned_at": "2026-08-14T10:00:53Z"
+        },
+        {
+          "instrument_id": "TWSE:2025",
+          "symbol": "2025",
+          "exchange": "TWSE",
+          "name_zh": "千興",
+          "direct_event_count": 1,
+          "latest_mentioned_at": "2026-08-14T08:38:18Z"
+        }
+      ],
+      "supply_chain_candidates": [
+        {
+          "instrument_id": "TWSE:2634",
+          "symbol": "2634",
+          "exchange": "TWSE",
+          "name_zh": "漢翔",
+          "direct_event_count": 2,
+          "official_evidence_count": 0,
+          "company_rank_score": 9,
+          "latest_mentioned_at": "2026-08-14T09:50:16Z",
+          "latest_official_at": null
+        },
+        {
+          "instrument_id": "TWSE:8033",
+          "symbol": "8033",
+          "exchange": "TWSE",
+          "name_zh": "雷虎",
+          "direct_event_count": 1,
+          "official_evidence_count": 0,
+          "company_rank_score": 5,
+          "latest_mentioned_at": "2026-08-14T10:00:53Z",
+          "latest_official_at": null
+        },
+        {
+          "instrument_id": "TPEX:5371",
+          "symbol": "5371",
+          "exchange": "TPEX",
+          "name_zh": "中光電",
+          "direct_event_count": 0,
+          "official_evidence_count": 0,
+          "company_rank_score": 1,
+          "latest_mentioned_at": null,
+          "latest_official_at": null
+        }
+      ],
+      "representative_news": {
+        "cluster_id": "cluster-4f5fc0c79b67fae1",
+        "id": "digitimes_tw-cc0d47481d51",
+        "title_zh": "達運光電軍工布局加速　反無人機、無人載具成新成長引擎",
+        "summary": "達運光電公布2026年7月合併營收為新台幣（以下同）1.39億元，年減0.4%。累計1~7月合併營收為10.60億元，較2025年同期成長34.96%。達運光電同步公告2026年第2季營運成果，合併營收為4.74億元，季增率7.0%、年",
+        "source_id": "digitimes_tw",
+        "source": "DIGITIMES",
+        "published_at": "2026-08-14T08:38:18Z",
+        "canonical_url": "https://www.digitimes.com.tw/tech/dt/n/shwnws.asp?id=0000765240_IX231MDS3VCNTK18KOCZ7"
+      }
+    },
+    {
+      "rank": 2,
+      "theme_id": "memory_hbm",
+      "name_zh": "記憶體與 HBM",
+      "heat_score": 94,
+      "summaries": {
+        "event_count": 9,
+        "source_count": 3,
+        "tracking_candidate_count": 5,
+        "taiwan_mapping_count": 22
+      },
+      "heat_reason": {
+        "rule_version": "public_theme_heat_v0.8",
+        "event_component": {
+          "input": 9,
           "normalized": 100.0,
           "weighted": 25.0
         },
@@ -45,16 +155,24 @@
           "weighted": 20.0
         },
         "mapping_component": {
-          "mapping_count": 5,
-          "direct_mapping_event_count": 2,
+          "mapping_count": 22,
+          "direct_mapping_event_count": 3,
           "normalized": 100.0,
           "weighted": 30.0
         },
-        "single_source_concentration": 0.375,
+        "single_source_concentration": 0.333,
         "concentration_penalty": 0.0,
         "raw_score": 93.75
       },
       "direct_mentions": [
+        {
+          "instrument_id": "TWSE:2027",
+          "symbol": "2027",
+          "exchange": "TWSE",
+          "name_zh": "大成鋼",
+          "direct_event_count": 1,
+          "latest_mentioned_at": "2026-08-14T10:00:04Z"
+        },
         {
           "instrument_id": "TWSE:2408",
           "symbol": "2408",
@@ -127,7 +245,7 @@
       }
     },
     {
-      "rank": 2,
+      "rank": 3,
       "theme_id": "optical_cpo",
       "name_zh": "矽光子 CPO",
       "heat_score": 84,
@@ -253,15 +371,15 @@
       }
     },
     {
-      "rank": 3,
+      "rank": 4,
       "theme_id": "statementdog_tag_1517",
       "name_zh": "AI",
-      "heat_score": 73,
+      "heat_score": 79,
       "summaries": {
         "event_count": 29,
-        "source_count": 3,
+        "source_count": 4,
         "tracking_candidate_count": 0,
-        "taiwan_mapping_count": 85
+        "taiwan_mapping_count": 84
       },
       "heat_reason": {
         "rule_version": "public_theme_heat_v0.8",
@@ -271,9 +389,9 @@
           "weighted": 25.0
         },
         "source_component": {
-          "input": 3,
-          "normalized": 75.0,
-          "weighted": 18.75
+          "input": 4,
+          "normalized": 100.0,
+          "weighted": 25.0
         },
         "candidate_component": {
           "input": 0,
@@ -281,16 +399,24 @@
           "weighted": 0.0
         },
         "mapping_component": {
-          "mapping_count": 85,
-          "direct_mapping_event_count": 14,
+          "mapping_count": 84,
+          "direct_mapping_event_count": 15,
           "normalized": 100.0,
           "weighted": 30.0
         },
         "single_source_concentration": 0.621,
         "concentration_penalty": 0.776,
-        "raw_score": 72.974
+        "raw_score": 79.224
       },
       "direct_mentions": [
+        {
+          "instrument_id": "TWSE:2025",
+          "symbol": "2025",
+          "exchange": "TWSE",
+          "name_zh": "千興",
+          "direct_event_count": 3,
+          "latest_mentioned_at": "2026-08-14T09:49:15Z"
+        },
         {
           "instrument_id": "TWSE:2031",
           "symbol": "2031",
@@ -306,14 +432,6 @@
           "name_zh": "大成鋼",
           "direct_event_count": 2,
           "latest_mentioned_at": "2026-08-14T03:24:50Z"
-        },
-        {
-          "instrument_id": "TWSE:2025",
-          "symbol": "2025",
-          "exchange": "TWSE",
-          "name_zh": "千興",
-          "direct_event_count": 2,
-          "latest_mentioned_at": "2026-08-14T02:04:34Z"
         },
         {
           "instrument_id": "TWSE:2408",
@@ -432,38 +550,38 @@
         }
       ],
       "representative_news": {
-        "cluster_id": "cluster-cddcaddf3366dec6",
-        "id": "technews-6ab12e22f524",
-        "title_zh": "傳蘋果攜手阿里，開發針對中國市場自有 AI 模型",
-        "summary": "綜合港媒及中媒引用路透社報導，據知情人士透露，蘋果與阿里巴巴合作開發一款針對中國市場的大語言模型（LLM），並 [&#8230;]",
-        "source_id": "technews",
-        "source": "TechNews",
-        "published_at": "2026-08-14T08:10:20Z",
-        "canonical_url": "https://technews.tw/2026/08/14/apple-alibaba-partner-on-ai-model-for-china-market/"
+        "cluster_id": "cluster-7ac766bf5156c71a",
+        "id": "yahoo_finance_tw-87b0e23ec1f3",
+        "title_zh": "加州AI偵測法規近半科技公司未遵守 台灣監管宜借鏡",
+        "summary": "圖／示意圖商傳媒｜葉安庭／綜合外電報導根據一份最新研究報告，美國加州自2025年生效的AI偵測法規SB 942，在實施上面臨嚴峻挑戰。這項法規要求每月用戶數超過百萬的AI供應商，必須提供影像、影片與音",
+        "source_id": "yahoo_finance_tw",
+        "source": "Yahoo Finance Taiwan",
+        "published_at": "2026-08-14T09:49:15Z",
+        "canonical_url": "https://tw.stock.yahoo.com/news/%E5%8A%A0%E5%B7%9Eai%E5%81%B5%E6%B8%AC%E6%B3%95%E8%A6%8F%E8%BF%91%E5%8D%8A%E7%A7%91%E6%8A%80%E5%85%AC%E5%8F%B8%E6%9C%AA%E9%81%B5%E5%AE%88-%E5%8F%B0%E7%81%A3%E7%9B%A3%E7%AE%A1%E5%AE%9C%E5%80%9F%E9%8F%A1-094915661.html"
       }
     },
     {
-      "rank": 4,
-      "theme_id": "defense_drone",
-      "name_zh": "國防與無人機",
-      "heat_score": 67,
+      "rank": 5,
+      "theme_id": "pcb_abf_hdi",
+      "name_zh": "PCB／ABF／HDI",
+      "heat_score": 63,
       "summaries": {
-        "event_count": 7,
-        "source_count": 3,
+        "event_count": 3,
+        "source_count": 2,
         "tracking_candidate_count": 2,
-        "taiwan_mapping_count": 3
+        "taiwan_mapping_count": 6
       },
       "heat_reason": {
         "rule_version": "public_theme_heat_v0.8",
         "event_component": {
-          "input": 7,
-          "normalized": 100.0,
-          "weighted": 25.0
+          "input": 3,
+          "normalized": 50.0,
+          "weighted": 12.5
         },
         "source_component": {
-          "input": 3,
-          "normalized": 75.0,
-          "weighted": 18.75
+          "input": 2,
+          "normalized": 50.0,
+          "weighted": 12.5
         },
         "candidate_component": {
           "input": 2,
@@ -471,99 +589,14 @@
           "weighted": 10.0
         },
         "mapping_component": {
-          "mapping_count": 3,
-          "direct_mapping_event_count": 0,
-          "normalized": 60.0,
-          "weighted": 18.0
+          "mapping_count": 6,
+          "direct_mapping_event_count": 2,
+          "normalized": 100.0,
+          "weighted": 30.0
         },
-        "single_source_concentration": 0.714,
-        "concentration_penalty": 4.286,
-        "raw_score": 67.464
-      },
-      "direct_mentions": [],
-      "supply_chain_candidates": [
-        {
-          "instrument_id": "TPEX:5371",
-          "symbol": "5371",
-          "exchange": "TPEX",
-          "name_zh": "中光電",
-          "direct_event_count": 0,
-          "official_evidence_count": 0,
-          "company_rank_score": 1,
-          "latest_mentioned_at": null,
-          "latest_official_at": null
-        },
-        {
-          "instrument_id": "TWSE:2634",
-          "symbol": "2634",
-          "exchange": "TWSE",
-          "name_zh": "漢翔",
-          "direct_event_count": 0,
-          "official_evidence_count": 0,
-          "company_rank_score": 1,
-          "latest_mentioned_at": null,
-          "latest_official_at": null
-        },
-        {
-          "instrument_id": "TWSE:8033",
-          "symbol": "8033",
-          "exchange": "TWSE",
-          "name_zh": "雷虎",
-          "direct_event_count": 0,
-          "official_evidence_count": 0,
-          "company_rank_score": 1,
-          "latest_mentioned_at": null,
-          "latest_official_at": null
-        }
-      ],
-      "representative_news": {
-        "cluster_id": "cluster-b9ee5f491fc3b406",
-        "id": "digitimes_tw-0cd9a6ca0bbd",
-        "title_zh": "中美交鋒國際鎢價「大漲6倍」    半導體、航太軍工鏈都得用",
-        "summary": "國際鎢價在中國出口管制下，年成長幅度已經高達6倍。美國商務部近期也宣布，將禁止鎢廢料及電池廢棄物出口。鎢應用範圍十分廣泛，包括如半導體、航太國防、軍工領域。稀有金屬鎢、鈷循環再製公司聯友金屬董事長吳",
-        "source_id": "digitimes_tw",
-        "source": "DIGITIMES",
-        "published_at": "2026-08-13T19:00:00Z",
-        "canonical_url": "https://www.digitimes.com.tw/tech/dt/n/shwnws.asp?id=0000765073_1F61HNRU6UXB8Q4DX0Y73"
-      }
-    },
-    {
-      "rank": 5,
-      "theme_id": "statementdog_tag_52",
-      "name_zh": "蘋果",
-      "heat_score": 64,
-      "summaries": {
-        "event_count": 5,
-        "source_count": 3,
-        "tracking_candidate_count": 0,
-        "taiwan_mapping_count": 18
-      },
-      "heat_reason": {
-        "rule_version": "public_theme_heat_v0.8",
-        "event_component": {
-          "input": 5,
-          "normalized": 83.333,
-          "weighted": 20.833
-        },
-        "source_component": {
-          "input": 3,
-          "normalized": 75.0,
-          "weighted": 18.75
-        },
-        "candidate_component": {
-          "input": 0,
-          "normalized": 0.0,
-          "weighted": 0.0
-        },
-        "mapping_component": {
-          "mapping_count": 18,
-          "direct_mapping_event_count": 1,
-          "normalized": 80.0,
-          "weighted": 24.0
-        },
-        "single_source_concentration": 0.6,
-        "concentration_penalty": 0.0,
-        "raw_score": 63.583
+        "single_source_concentration": 0.667,
+        "concentration_penalty": 2.5,
+        "raw_score": 62.5
       },
       "direct_mentions": [
         {
@@ -571,16 +604,32 @@
           "symbol": "2027",
           "exchange": "TWSE",
           "name_zh": "大成鋼",
+          "direct_event_count": 2,
+          "latest_mentioned_at": "2026-08-14T08:15:10Z"
+        },
+        {
+          "instrument_id": "TWSE:2028",
+          "symbol": "2028",
+          "exchange": "TWSE",
+          "name_zh": "威致",
+          "direct_event_count": 2,
+          "latest_mentioned_at": "2026-08-14T08:15:10Z"
+        },
+        {
+          "instrument_id": "TWSE:2029",
+          "symbol": "2029",
+          "exchange": "TWSE",
+          "name_zh": "盛餘",
           "direct_event_count": 1,
-          "latest_mentioned_at": "2026-08-13T18:43:36Z"
+          "latest_mentioned_at": "2026-08-13T18:37:18Z"
         }
       ],
       "supply_chain_candidates": [
         {
-          "instrument_id": "TWSE:2308",
-          "symbol": "2308",
+          "instrument_id": "TWSE:2368",
+          "symbol": "2368",
           "exchange": "TWSE",
-          "name_zh": "台達電",
+          "name_zh": "金像電",
           "direct_event_count": 0,
           "official_evidence_count": 0,
           "company_rank_score": 1,
@@ -588,10 +637,10 @@
           "latest_official_at": null
         },
         {
-          "instrument_id": "TWSE:2313",
-          "symbol": "2313",
+          "instrument_id": "TWSE:3037",
+          "symbol": "3037",
           "exchange": "TWSE",
-          "name_zh": "華通",
+          "name_zh": "欣興",
           "direct_event_count": 0,
           "official_evidence_count": 0,
           "company_rank_score": 1,
@@ -599,10 +648,10 @@
           "latest_official_at": null
         },
         {
-          "instrument_id": "TWSE:2317",
-          "symbol": "2317",
+          "instrument_id": "TWSE:8046",
+          "symbol": "8046",
           "exchange": "TWSE",
-          "name_zh": "鴻海",
+          "name_zh": "南電",
           "direct_event_count": 0,
           "official_evidence_count": 0,
           "company_rank_score": 1,
@@ -611,14 +660,14 @@
         }
       ],
       "representative_news": {
-        "cluster_id": "cluster-0e087d287772ee37",
-        "id": "yahoo_finance_tw-61e1853201cf",
-        "title_zh": "蘋果擬斥巨資購內容 助Siri人工智慧升級",
-        "summary": "圖／本報資料庫商傳媒｜責任編輯／綜合外電報導科技巨擘蘋果公司（Apple）正與主要出版商展開深入洽談，計畫支付高達數億美元的巨額費用，以獲取其內容用於強化旗下人工智慧語音助理 Siri 的功能。這項舉",
-        "source_id": "yahoo_finance_tw",
-        "source": "Yahoo Finance Taiwan",
-        "published_at": "2026-08-14T07:53:55Z",
-        "canonical_url": "https://tw.stock.yahoo.com/news/%E8%98%8B%E6%9E%9C%E6%93%AC%E6%96%A5%E5%B7%A8%E8%B3%87%E8%B3%BC%E5%85%A7%E5%AE%B9-%E5%8A%A9siri%E4%BA%BA%E5%B7%A5%E6%99%BA%E6%85%A7%E5%8D%87%E7%B4%9A-075355334.html"
+        "cluster_id": "cluster-33587549630e121b",
+        "id": "digitimes_tw-780b81c7979f",
+        "title_zh": "T-glass玻纖布用量以倍速攀升　IC載板廠看材料缺至2028年",
+        "summary": "全球掀起AI算力基建熱潮，對GPU、CPU、特用晶片（ASIC）晶片需求快速攀升，帶動ABF載板產業在2026年轉為供不應求格局，且供需缺口預計2027~2028年逐年擴大，大幅推升台、日、韓IC載板廠訂單能見度，目前最遠看至2029",
+        "source_id": "digitimes_tw",
+        "source": "DIGITIMES",
+        "published_at": "2026-08-13T18:37:18Z",
+        "canonical_url": "https://www.digitimes.com.tw/tech/dt/n/shwnws.asp?id=0000765100_8KW2TOS2LBHLZK1TG1S6Q"
       }
     }
   ]
