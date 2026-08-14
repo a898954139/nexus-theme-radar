@@ -2,14 +2,14 @@
   "schema_version": "nexus_public_theme_ranking.v0.8",
   "ranking_rule_version": "public_theme_heat_v0.8",
   "company_rule_version": "public_company_evidence_v0.8",
-  "generated_at": "2026-08-14T15:08:01.960535Z",
+  "generated_at": "2026-08-14T16:07:05.787660Z",
   "market_id": "TW_EQUITY",
   "market_scope": [
     "TW_EQUITY"
   ],
   "window_hours": 72,
   "max_themes": 5,
-  "qualified_theme_count": 5,
+  "qualified_theme_count": 6,
   "displayed_theme_count": 5,
   "threshold_note": null,
   "generation_status": "complete",
@@ -22,15 +22,15 @@
       "name_zh": "國防與無人機",
       "heat_score": 100,
       "summaries": {
-        "event_count": 18,
+        "event_count": 17,
         "source_count": 4,
         "tracking_candidate_count": 4,
-        "taiwan_mapping_count": 5
+        "taiwan_mapping_count": 4
       },
       "heat_reason": {
         "rule_version": "public_theme_heat_v0.8",
         "event_component": {
-          "input": 18,
+          "input": 17,
           "normalized": 100.0,
           "weighted": 25.0
         },
@@ -45,12 +45,12 @@
           "weighted": 20.0
         },
         "mapping_component": {
-          "mapping_count": 5,
-          "direct_mapping_event_count": 5,
+          "mapping_count": 4,
+          "direct_mapping_event_count": 4,
           "normalized": 100.0,
           "weighted": 30.0
         },
-        "single_source_concentration": 0.333,
+        "single_source_concentration": 0.353,
         "concentration_penalty": 0.0,
         "raw_score": 100.0
       },
@@ -62,14 +62,6 @@
           "name_zh": "漢翔",
           "direct_event_count": 2,
           "latest_mentioned_at": "2026-08-14T09:50:16Z"
-        },
-        {
-          "instrument_id": "TWSE:8045",
-          "symbol": "8045",
-          "exchange": "TWSE",
-          "name_zh": "達運光電",
-          "direct_event_count": 1,
-          "latest_mentioned_at": "2026-08-14T12:54:44Z"
         },
         {
           "instrument_id": "TWSE:8033",
@@ -380,100 +372,6 @@
     },
     {
       "rank": 4,
-      "theme_id": "statementdog_tag_52",
-      "name_zh": "蘋果",
-      "heat_score": 59,
-      "summaries": {
-        "event_count": 4,
-        "source_count": 3,
-        "tracking_candidate_count": 0,
-        "taiwan_mapping_count": 18
-      },
-      "heat_reason": {
-        "rule_version": "public_theme_heat_v0.8",
-        "event_component": {
-          "input": 4,
-          "normalized": 66.667,
-          "weighted": 16.667
-        },
-        "source_component": {
-          "input": 3,
-          "normalized": 75.0,
-          "weighted": 18.75
-        },
-        "candidate_component": {
-          "input": 0,
-          "normalized": 0.0,
-          "weighted": 0.0
-        },
-        "mapping_component": {
-          "mapping_count": 18,
-          "direct_mapping_event_count": 1,
-          "normalized": 80.0,
-          "weighted": 24.0
-        },
-        "single_source_concentration": 0.6,
-        "concentration_penalty": 0.0,
-        "raw_score": 59.417
-      },
-      "direct_mentions": [
-        {
-          "instrument_id": "TWSE:2027",
-          "symbol": "2027",
-          "exchange": "TWSE",
-          "name_zh": "大成鋼",
-          "direct_event_count": 1,
-          "latest_mentioned_at": "2026-08-13T18:43:36Z"
-        }
-      ],
-      "supply_chain_candidates": [
-        {
-          "instrument_id": "TWSE:2308",
-          "symbol": "2308",
-          "exchange": "TWSE",
-          "name_zh": "台達電",
-          "direct_event_count": 0,
-          "official_evidence_count": 0,
-          "company_rank_score": 1,
-          "latest_mentioned_at": null,
-          "latest_official_at": null
-        },
-        {
-          "instrument_id": "TWSE:2313",
-          "symbol": "2313",
-          "exchange": "TWSE",
-          "name_zh": "華通",
-          "direct_event_count": 0,
-          "official_evidence_count": 0,
-          "company_rank_score": 1,
-          "latest_mentioned_at": null,
-          "latest_official_at": null
-        },
-        {
-          "instrument_id": "TWSE:2317",
-          "symbol": "2317",
-          "exchange": "TWSE",
-          "name_zh": "鴻海",
-          "direct_event_count": 0,
-          "official_evidence_count": 0,
-          "company_rank_score": 1,
-          "latest_mentioned_at": null,
-          "latest_official_at": null
-        }
-      ],
-      "representative_news": {
-        "cluster_id": "cluster-c6e57b51bbd4d703",
-        "id": "cnyes-c18969185912",
-        "title_zh": "從蘋果到福特都繞不開！中國科技正深入全球企業供應鏈",
-        "summary": "儘管華盛頓持續加強對中國科技業的限制，從人工智慧 (AI)、電動車到電池供應鏈，中國技術卻日益深入全球大型企業的營運。",
-        "source_id": "cnyes",
-        "source": "鉅亨網 Cnyes",
-        "published_at": "2026-08-14T13:00:12Z",
-        "canonical_url": "https://news.cnyes.com/news/id/6577433"
-      }
-    },
-    {
-      "rank": 5,
       "theme_id": "statementdog_tag_1517",
       "name_zh": "AI",
       "heat_score": 54,
@@ -612,6 +510,100 @@
         "source": "TechNews",
         "published_at": "2026-08-14T08:10:20Z",
         "canonical_url": "https://technews.tw/2026/08/14/apple-alibaba-partner-on-ai-model-for-china-market/"
+      }
+    },
+    {
+      "rank": 5,
+      "theme_id": "statementdog_tag_52",
+      "name_zh": "蘋果",
+      "heat_score": 48,
+      "summaries": {
+        "event_count": 4,
+        "source_count": 2,
+        "tracking_candidate_count": 0,
+        "taiwan_mapping_count": 18
+      },
+      "heat_reason": {
+        "rule_version": "public_theme_heat_v0.8",
+        "event_component": {
+          "input": 4,
+          "normalized": 66.667,
+          "weighted": 16.667
+        },
+        "source_component": {
+          "input": 2,
+          "normalized": 50.0,
+          "weighted": 12.5
+        },
+        "candidate_component": {
+          "input": 0,
+          "normalized": 0.0,
+          "weighted": 0.0
+        },
+        "mapping_component": {
+          "mapping_count": 18,
+          "direct_mapping_event_count": 1,
+          "normalized": 80.0,
+          "weighted": 24.0
+        },
+        "single_source_concentration": 0.75,
+        "concentration_penalty": 5.625,
+        "raw_score": 47.542
+      },
+      "direct_mentions": [
+        {
+          "instrument_id": "TWSE:2027",
+          "symbol": "2027",
+          "exchange": "TWSE",
+          "name_zh": "大成鋼",
+          "direct_event_count": 1,
+          "latest_mentioned_at": "2026-08-13T18:43:36Z"
+        }
+      ],
+      "supply_chain_candidates": [
+        {
+          "instrument_id": "TWSE:2308",
+          "symbol": "2308",
+          "exchange": "TWSE",
+          "name_zh": "台達電",
+          "direct_event_count": 0,
+          "official_evidence_count": 0,
+          "company_rank_score": 1,
+          "latest_mentioned_at": null,
+          "latest_official_at": null
+        },
+        {
+          "instrument_id": "TWSE:2313",
+          "symbol": "2313",
+          "exchange": "TWSE",
+          "name_zh": "華通",
+          "direct_event_count": 0,
+          "official_evidence_count": 0,
+          "company_rank_score": 1,
+          "latest_mentioned_at": null,
+          "latest_official_at": null
+        },
+        {
+          "instrument_id": "TWSE:2317",
+          "symbol": "2317",
+          "exchange": "TWSE",
+          "name_zh": "鴻海",
+          "direct_event_count": 0,
+          "official_evidence_count": 0,
+          "company_rank_score": 1,
+          "latest_mentioned_at": null,
+          "latest_official_at": null
+        }
+      ],
+      "representative_news": {
+        "cluster_id": "cluster-04c688482e2e656f",
+        "id": "cnyes-c18969185912",
+        "title_zh": "從蘋果到福特都繞不開！中國科技正深入全球企業供應鏈",
+        "summary": "儘管華盛頓持續加強對中國科技業的限制，從人工智慧 (AI)、電動車到電池供應鏈，中國技術卻日益深入全球大型企業的營運。",
+        "source_id": "cnyes",
+        "source": "鉅亨網 Cnyes",
+        "published_at": "2026-08-14T13:00:12Z",
+        "canonical_url": "https://news.cnyes.com/news/id/6577433"
       }
     }
   ]
