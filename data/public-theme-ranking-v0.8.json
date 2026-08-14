@@ -2,14 +2,14 @@
   "schema_version": "nexus_public_theme_ranking.v0.8",
   "ranking_rule_version": "public_theme_heat_v0.8",
   "company_rule_version": "public_company_evidence_v0.8",
-  "generated_at": "2026-08-14T10:17:55.316177Z",
+  "generated_at": "2026-08-14T11:58:36.389080Z",
   "market_id": "TW_EQUITY",
   "market_scope": [
     "TW_EQUITY"
   ],
   "window_hours": 72,
   "max_themes": 5,
-  "qualified_theme_count": 6,
+  "qualified_theme_count": 5,
   "displayed_theme_count": 5,
   "threshold_note": null,
   "generation_status": "complete",
@@ -22,15 +22,15 @@
       "name_zh": "國防與無人機",
       "heat_score": 95,
       "summaries": {
-        "event_count": 12,
+        "event_count": 14,
         "source_count": 4,
         "tracking_candidate_count": 3,
-        "taiwan_mapping_count": 4
+        "taiwan_mapping_count": 6
       },
       "heat_reason": {
         "rule_version": "public_theme_heat_v0.8",
         "event_component": {
-          "input": 12,
+          "input": 14,
           "normalized": 100.0,
           "weighted": 25.0
         },
@@ -45,12 +45,12 @@
           "weighted": 15.0
         },
         "mapping_component": {
-          "mapping_count": 4,
-          "direct_mapping_event_count": 4,
+          "mapping_count": 6,
+          "direct_mapping_event_count": 6,
           "normalized": 100.0,
           "weighted": 30.0
         },
-        "single_source_concentration": 0.5,
+        "single_source_concentration": 0.429,
         "concentration_penalty": 0.0,
         "raw_score": 95.0
       },
@@ -62,6 +62,22 @@
           "name_zh": "漢翔",
           "direct_event_count": 2,
           "latest_mentioned_at": "2026-08-14T09:50:16Z"
+        },
+        {
+          "instrument_id": "TWSE:2331",
+          "symbol": "2331",
+          "exchange": "TWSE",
+          "name_zh": "精英",
+          "direct_event_count": 1,
+          "latest_mentioned_at": "2026-08-14T10:55:19Z"
+        },
+        {
+          "instrument_id": "TWSE:3005",
+          "symbol": "3005",
+          "exchange": "TWSE",
+          "name_zh": "神基",
+          "direct_event_count": 1,
+          "latest_mentioned_at": "2026-08-14T10:52:12Z"
         },
         {
           "instrument_id": "TWSE:8033",
@@ -374,24 +390,24 @@
       "rank": 4,
       "theme_id": "statementdog_tag_1517",
       "name_zh": "AI",
-      "heat_score": 79,
+      "heat_score": 71,
       "summaries": {
-        "event_count": 29,
-        "source_count": 4,
+        "event_count": 27,
+        "source_count": 3,
         "tracking_candidate_count": 0,
         "taiwan_mapping_count": 84
       },
       "heat_reason": {
         "rule_version": "public_theme_heat_v0.8",
         "event_component": {
-          "input": 29,
+          "input": 27,
           "normalized": 100.0,
           "weighted": 25.0
         },
         "source_component": {
-          "input": 4,
-          "normalized": 100.0,
-          "weighted": 25.0
+          "input": 3,
+          "normalized": 75.0,
+          "weighted": 18.75
         },
         "candidate_component": {
           "input": 0,
@@ -400,23 +416,15 @@
         },
         "mapping_component": {
           "mapping_count": 84,
-          "direct_mapping_event_count": 15,
+          "direct_mapping_event_count": 14,
           "normalized": 100.0,
           "weighted": 30.0
         },
-        "single_source_concentration": 0.621,
-        "concentration_penalty": 0.776,
-        "raw_score": 79.224
+        "single_source_concentration": 0.667,
+        "concentration_penalty": 2.5,
+        "raw_score": 71.25
       },
       "direct_mentions": [
-        {
-          "instrument_id": "TWSE:2025",
-          "symbol": "2025",
-          "exchange": "TWSE",
-          "name_zh": "千興",
-          "direct_event_count": 3,
-          "latest_mentioned_at": "2026-08-14T09:49:15Z"
-        },
         {
           "instrument_id": "TWSE:2031",
           "symbol": "2031",
@@ -432,6 +440,14 @@
           "name_zh": "大成鋼",
           "direct_event_count": 2,
           "latest_mentioned_at": "2026-08-14T03:24:50Z"
+        },
+        {
+          "instrument_id": "TWSE:2025",
+          "symbol": "2025",
+          "exchange": "TWSE",
+          "name_zh": "千興",
+          "direct_event_count": 2,
+          "latest_mentioned_at": "2026-08-14T02:04:34Z"
         },
         {
           "instrument_id": "TWSE:2408",
@@ -550,14 +566,14 @@
         }
       ],
       "representative_news": {
-        "cluster_id": "cluster-7ac766bf5156c71a",
-        "id": "yahoo_finance_tw-87b0e23ec1f3",
-        "title_zh": "加州AI偵測法規近半科技公司未遵守 台灣監管宜借鏡",
-        "summary": "圖／示意圖商傳媒｜葉安庭／綜合外電報導根據一份最新研究報告，美國加州自2025年生效的AI偵測法規SB 942，在實施上面臨嚴峻挑戰。這項法規要求每月用戶數超過百萬的AI供應商，必須提供影像、影片與音",
-        "source_id": "yahoo_finance_tw",
-        "source": "Yahoo Finance Taiwan",
-        "published_at": "2026-08-14T09:49:15Z",
-        "canonical_url": "https://tw.stock.yahoo.com/news/%E5%8A%A0%E5%B7%9Eai%E5%81%B5%E6%B8%AC%E6%B3%95%E8%A6%8F%E8%BF%91%E5%8D%8A%E7%A7%91%E6%8A%80%E5%85%AC%E5%8F%B8%E6%9C%AA%E9%81%B5%E5%AE%88-%E5%8F%B0%E7%81%A3%E7%9B%A3%E7%AE%A1%E5%AE%9C%E5%80%9F%E9%8F%A1-094915661.html"
+        "cluster_id": "cluster-cddcaddf3366dec6",
+        "id": "technews-6ab12e22f524",
+        "title_zh": "傳蘋果攜手阿里，開發針對中國市場自有 AI 模型",
+        "summary": "綜合港媒及中媒引用路透社報導，據知情人士透露，蘋果與阿里巴巴合作開發一款針對中國市場的大語言模型（LLM），並 [&#8230;]",
+        "source_id": "technews",
+        "source": "TechNews",
+        "published_at": "2026-08-14T08:10:20Z",
+        "canonical_url": "https://technews.tw/2026/08/14/apple-alibaba-partner-on-ai-model-for-china-market/"
       }
     },
     {
