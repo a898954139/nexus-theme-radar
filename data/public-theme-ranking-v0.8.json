@@ -2,14 +2,14 @@
   "schema_version": "nexus_public_theme_ranking.v0.8",
   "ranking_rule_version": "public_theme_heat_v0.8",
   "company_rule_version": "public_company_evidence_v0.8",
-  "generated_at": "2026-08-14T19:15:20.301288Z",
+  "generated_at": "2026-08-14T19:58:34.593929Z",
   "market_id": "TW_EQUITY",
   "market_scope": [
     "TW_EQUITY"
   ],
   "window_hours": 72,
   "max_themes": 5,
-  "qualified_theme_count": 7,
+  "qualified_theme_count": 6,
   "displayed_theme_count": 5,
   "threshold_note": null,
   "generation_status": "complete",
@@ -132,15 +132,15 @@
       "name_zh": "記憶體與 HBM",
       "heat_score": 94,
       "summaries": {
-        "event_count": 9,
+        "event_count": 8,
         "source_count": 3,
-        "tracking_candidate_count": 5,
+        "tracking_candidate_count": 4,
         "taiwan_mapping_count": 22
       },
       "heat_reason": {
         "rule_version": "public_theme_heat_v0.8",
         "event_component": {
-          "input": 9,
+          "input": 8,
           "normalized": 100.0,
           "weighted": 25.0
         },
@@ -150,7 +150,7 @@
           "weighted": 18.75
         },
         "candidate_component": {
-          "input": 5,
+          "input": 4,
           "normalized": 100.0,
           "weighted": 20.0
         },
@@ -160,7 +160,7 @@
           "normalized": 100.0,
           "weighted": 30.0
         },
-        "single_source_concentration": 0.333,
+        "single_source_concentration": 0.375,
         "concentration_penalty": 0.0,
         "raw_score": 93.75
       },
@@ -248,29 +248,29 @@
       "rank": 3,
       "theme_id": "optical_cpo",
       "name_zh": "矽光子 CPO",
-      "heat_score": 83,
+      "heat_score": 68,
       "summaries": {
-        "event_count": 8,
-        "source_count": 3,
-        "tracking_candidate_count": 3,
+        "event_count": 7,
+        "source_count": 2,
+        "tracking_candidate_count": 2,
         "taiwan_mapping_count": 24
       },
       "heat_reason": {
         "rule_version": "public_theme_heat_v0.8",
         "event_component": {
-          "input": 8,
+          "input": 7,
           "normalized": 100.0,
           "weighted": 25.0
         },
         "source_component": {
-          "input": 3,
-          "normalized": 75.0,
-          "weighted": 18.75
+          "input": 2,
+          "normalized": 50.0,
+          "weighted": 12.5
         },
         "candidate_component": {
-          "input": 3,
-          "normalized": 75.0,
-          "weighted": 15.0
+          "input": 2,
+          "normalized": 50.0,
+          "weighted": 10.0
         },
         "mapping_component": {
           "mapping_count": 24,
@@ -278,9 +278,9 @@
           "normalized": 100.0,
           "weighted": 30.0
         },
-        "single_source_concentration": 0.75,
-        "concentration_penalty": 5.625,
-        "raw_score": 83.125
+        "single_source_concentration": 0.857,
+        "concentration_penalty": 9.643,
+        "raw_score": 67.857
       },
       "direct_mentions": [
         {
@@ -372,21 +372,21 @@
     },
     {
       "rank": 4,
-      "theme_id": "statementdog_tag_1517",
-      "name_zh": "AI",
-      "heat_score": 68,
+      "theme_id": "statementdog_tag_1345",
+      "name_zh": "航空",
+      "heat_score": 55,
       "summaries": {
-        "event_count": 24,
+        "event_count": 3,
         "source_count": 3,
         "tracking_candidate_count": 0,
-        "taiwan_mapping_count": 83
+        "taiwan_mapping_count": 12
       },
       "heat_reason": {
         "rule_version": "public_theme_heat_v0.8",
         "event_component": {
-          "input": 24,
-          "normalized": 100.0,
-          "weighted": 25.0
+          "input": 3,
+          "normalized": 50.0,
+          "weighted": 12.5
         },
         "source_component": {
           "input": 3,
@@ -399,24 +399,110 @@
           "weighted": 0.0
         },
         "mapping_component": {
-          "mapping_count": 83,
-          "direct_mapping_event_count": 12,
-          "normalized": 100.0,
-          "weighted": 30.0
+          "mapping_count": 12,
+          "direct_mapping_event_count": 1,
+          "normalized": 80.0,
+          "weighted": 24.0
         },
-        "single_source_concentration": 0.75,
-        "concentration_penalty": 5.625,
-        "raw_score": 68.125
+        "single_source_concentration": 0.333,
+        "concentration_penalty": 0.0,
+        "raw_score": 55.25
       },
       "direct_mentions": [
         {
-          "instrument_id": "TWSE:2031",
-          "symbol": "2031",
+          "instrument_id": "TWSE:2646",
+          "symbol": "2646",
           "exchange": "TWSE",
-          "name_zh": "新光鋼",
-          "direct_event_count": 2,
-          "latest_mentioned_at": "2026-08-14T03:47:08Z"
+          "name_zh": "星宇航空",
+          "direct_event_count": 1,
+          "latest_mentioned_at": "2026-08-14T15:09:00Z"
+        }
+      ],
+      "supply_chain_candidates": [
+        {
+          "instrument_id": "TWSE:2646",
+          "symbol": "2646",
+          "exchange": "TWSE",
+          "name_zh": "星宇航空",
+          "direct_event_count": 1,
+          "official_evidence_count": 0,
+          "company_rank_score": 5,
+          "latest_mentioned_at": "2026-08-14T15:09:00Z",
+          "latest_official_at": null
         },
+        {
+          "instrument_id": "TPEX:4541",
+          "symbol": "4541",
+          "exchange": "TPEX",
+          "name_zh": "晟田",
+          "direct_event_count": 0,
+          "official_evidence_count": 0,
+          "company_rank_score": 1,
+          "latest_mentioned_at": null,
+          "latest_official_at": null
+        },
+        {
+          "instrument_id": "TPEX:5609",
+          "symbol": "5609",
+          "exchange": "TPEX",
+          "name_zh": "中菲行",
+          "direct_event_count": 0,
+          "official_evidence_count": 0,
+          "company_rank_score": 1,
+          "latest_mentioned_at": null,
+          "latest_official_at": null
+        }
+      ],
+      "representative_news": {
+        "cluster_id": "cluster-be1bb8508298be6e",
+        "id": "moneydj-60f1f4c99beb",
+        "title_zh": "星宇航空 本公司取得1架A350自有客機相關訊息",
+        "summary": "<a href=\"https://www.moneydj.com/kmdj/news/newsviewer.aspx?a=08d891de-616a-4d08-ad7d-823085de5dd6&amp;utm_source=185657161657189666576766&amp;utm_medium=RSS\">內文連結</a>",
+        "source_id": "moneydj",
+        "source": "MoneyDJ",
+        "published_at": "2026-08-14T15:10:00Z",
+        "canonical_url": "https://www.moneydj.com/kmdj/news/newsviewer.aspx?a=08d891de-616a-4d08-ad7d-823085de5dd6&utm_source=185657161657189666576766&utm_medium=RSS"
+      }
+    },
+    {
+      "rank": 5,
+      "theme_id": "statementdog_tag_1517",
+      "name_zh": "AI",
+      "heat_score": 54,
+      "summaries": {
+        "event_count": 19,
+        "source_count": 2,
+        "tracking_candidate_count": 0,
+        "taiwan_mapping_count": 80
+      },
+      "heat_reason": {
+        "rule_version": "public_theme_heat_v0.8",
+        "event_component": {
+          "input": 19,
+          "normalized": 100.0,
+          "weighted": 25.0
+        },
+        "source_component": {
+          "input": 2,
+          "normalized": 50.0,
+          "weighted": 12.5
+        },
+        "candidate_component": {
+          "input": 0,
+          "normalized": 0.0,
+          "weighted": 0.0
+        },
+        "mapping_component": {
+          "mapping_count": 80,
+          "direct_mapping_event_count": 8,
+          "normalized": 100.0,
+          "weighted": 30.0
+        },
+        "single_source_concentration": 0.947,
+        "concentration_penalty": 13.026,
+        "raw_score": 54.474
+      },
+      "direct_mentions": [
         {
           "instrument_id": "TWSE:2025",
           "symbol": "2025",
@@ -424,30 +510,6 @@
           "name_zh": "千興",
           "direct_event_count": 2,
           "latest_mentioned_at": "2026-08-14T02:04:34Z"
-        },
-        {
-          "instrument_id": "TWSE:2408",
-          "symbol": "2408",
-          "exchange": "TWSE",
-          "name_zh": "南亞科",
-          "direct_event_count": 1,
-          "latest_mentioned_at": "2026-08-14T04:07:09Z"
-        },
-        {
-          "instrument_id": "TWSE:8046",
-          "symbol": "8046",
-          "exchange": "TWSE",
-          "name_zh": "南電",
-          "direct_event_count": 1,
-          "latest_mentioned_at": "2026-08-14T04:07:09Z"
-        },
-        {
-          "instrument_id": "TPEX:6603",
-          "symbol": "6603",
-          "exchange": "TPEX",
-          "name_zh": "富強鑫",
-          "direct_event_count": 1,
-          "latest_mentioned_at": "2026-08-14T03:53:36Z"
         },
         {
           "instrument_id": "TWSE:2027",
@@ -458,20 +520,12 @@
           "latest_mentioned_at": "2026-08-14T03:24:50Z"
         },
         {
-          "instrument_id": "TWSE:2028",
-          "symbol": "2028",
+          "instrument_id": "TWSE:2031",
+          "symbol": "2031",
           "exchange": "TWSE",
-          "name_zh": "威致",
+          "name_zh": "新光鋼",
           "direct_event_count": 1,
-          "latest_mentioned_at": "2026-08-14T03:17:50Z"
-        },
-        {
-          "instrument_id": "TWSE:2030",
-          "symbol": "2030",
-          "exchange": "TWSE",
-          "name_zh": "彰源",
-          "direct_event_count": 1,
-          "latest_mentioned_at": "2026-08-14T03:17:50Z"
+          "latest_mentioned_at": "2026-08-14T02:08:57Z"
         },
         {
           "instrument_id": "TWSE:2317",
@@ -508,17 +562,6 @@
       ],
       "supply_chain_candidates": [
         {
-          "instrument_id": "TWSE:8046",
-          "symbol": "8046",
-          "exchange": "TWSE",
-          "name_zh": "南電",
-          "direct_event_count": 1,
-          "official_evidence_count": 0,
-          "company_rank_score": 5,
-          "latest_mentioned_at": "2026-08-14T04:07:09Z",
-          "latest_official_at": null
-        },
-        {
           "instrument_id": "TWSE:2317",
           "symbol": "2317",
           "exchange": "TWSE",
@@ -539,6 +582,17 @@
           "company_rank_score": 1,
           "latest_mentioned_at": null,
           "latest_official_at": null
+        },
+        {
+          "instrument_id": "TPEX:3324",
+          "symbol": "3324",
+          "exchange": "TPEX",
+          "name_zh": "雙鴻",
+          "direct_event_count": 0,
+          "official_evidence_count": 0,
+          "company_rank_score": 1,
+          "latest_mentioned_at": null,
+          "latest_official_at": null
         }
       ],
       "representative_news": {
@@ -550,116 +604,6 @@
         "source": "TechNews",
         "published_at": "2026-08-14T08:10:20Z",
         "canonical_url": "https://technews.tw/2026/08/14/apple-alibaba-partner-on-ai-model-for-china-market/"
-      }
-    },
-    {
-      "rank": 5,
-      "theme_id": "pcb_abf_hdi",
-      "name_zh": "PCB／ABF／HDI",
-      "heat_score": 63,
-      "summaries": {
-        "event_count": 3,
-        "source_count": 2,
-        "tracking_candidate_count": 2,
-        "taiwan_mapping_count": 6
-      },
-      "heat_reason": {
-        "rule_version": "public_theme_heat_v0.8",
-        "event_component": {
-          "input": 3,
-          "normalized": 50.0,
-          "weighted": 12.5
-        },
-        "source_component": {
-          "input": 2,
-          "normalized": 50.0,
-          "weighted": 12.5
-        },
-        "candidate_component": {
-          "input": 2,
-          "normalized": 50.0,
-          "weighted": 10.0
-        },
-        "mapping_component": {
-          "mapping_count": 6,
-          "direct_mapping_event_count": 2,
-          "normalized": 100.0,
-          "weighted": 30.0
-        },
-        "single_source_concentration": 0.667,
-        "concentration_penalty": 2.5,
-        "raw_score": 62.5
-      },
-      "direct_mentions": [
-        {
-          "instrument_id": "TWSE:2027",
-          "symbol": "2027",
-          "exchange": "TWSE",
-          "name_zh": "大成鋼",
-          "direct_event_count": 2,
-          "latest_mentioned_at": "2026-08-14T08:15:10Z"
-        },
-        {
-          "instrument_id": "TWSE:2028",
-          "symbol": "2028",
-          "exchange": "TWSE",
-          "name_zh": "威致",
-          "direct_event_count": 2,
-          "latest_mentioned_at": "2026-08-14T08:15:10Z"
-        },
-        {
-          "instrument_id": "TWSE:2029",
-          "symbol": "2029",
-          "exchange": "TWSE",
-          "name_zh": "盛餘",
-          "direct_event_count": 1,
-          "latest_mentioned_at": "2026-08-13T18:37:18Z"
-        }
-      ],
-      "supply_chain_candidates": [
-        {
-          "instrument_id": "TWSE:2368",
-          "symbol": "2368",
-          "exchange": "TWSE",
-          "name_zh": "金像電",
-          "direct_event_count": 0,
-          "official_evidence_count": 0,
-          "company_rank_score": 1,
-          "latest_mentioned_at": null,
-          "latest_official_at": null
-        },
-        {
-          "instrument_id": "TWSE:3037",
-          "symbol": "3037",
-          "exchange": "TWSE",
-          "name_zh": "欣興",
-          "direct_event_count": 0,
-          "official_evidence_count": 0,
-          "company_rank_score": 1,
-          "latest_mentioned_at": null,
-          "latest_official_at": null
-        },
-        {
-          "instrument_id": "TWSE:8046",
-          "symbol": "8046",
-          "exchange": "TWSE",
-          "name_zh": "南電",
-          "direct_event_count": 0,
-          "official_evidence_count": 0,
-          "company_rank_score": 1,
-          "latest_mentioned_at": null,
-          "latest_official_at": null
-        }
-      ],
-      "representative_news": {
-        "cluster_id": "cluster-33587549630e121b",
-        "id": "digitimes_tw-780b81c7979f",
-        "title_zh": "T-glass玻纖布用量以倍速攀升　IC載板廠看材料缺至2028年",
-        "summary": "全球掀起AI算力基建熱潮，對GPU、CPU、特用晶片（ASIC）晶片需求快速攀升，帶動ABF載板產業在2026年轉為供不應求格局，且供需缺口預計2027~2028年逐年擴大，大幅推升台、日、韓IC載板廠訂單能見度，目前最遠看至2029",
-        "source_id": "digitimes_tw",
-        "source": "DIGITIMES",
-        "published_at": "2026-08-13T18:37:18Z",
-        "canonical_url": "https://www.digitimes.com.tw/tech/dt/n/shwnws.asp?id=0000765100_8KW2TOS2LBHLZK1TG1S6Q"
       }
     }
   ]
