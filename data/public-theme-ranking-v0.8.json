@@ -2,7 +2,7 @@
   "schema_version": "nexus_public_theme_ranking.v0.8",
   "ranking_rule_version": "public_theme_heat_v0.8",
   "company_rule_version": "public_company_evidence_v0.8",
-  "generated_at": "2026-08-14T20:46:50.564861Z",
+  "generated_at": "2026-08-14T21:42:31.732547Z",
   "market_id": "TW_EQUITY",
   "market_scope": [
     "TW_EQUITY"
@@ -14,120 +14,10 @@
   "threshold_note": null,
   "generation_status": "complete",
   "failed_source_count": 0,
-  "official_evidence_status": "available",
+  "official_evidence_status": "unavailable",
   "themes": [
     {
       "rank": 1,
-      "theme_id": "defense_drone",
-      "name_zh": "國防與無人機",
-      "heat_score": 100,
-      "summaries": {
-        "event_count": 15,
-        "source_count": 4,
-        "tracking_candidate_count": 4,
-        "taiwan_mapping_count": 4
-      },
-      "heat_reason": {
-        "rule_version": "public_theme_heat_v0.8",
-        "event_component": {
-          "input": 15,
-          "normalized": 100.0,
-          "weighted": 25.0
-        },
-        "source_component": {
-          "input": 4,
-          "normalized": 100.0,
-          "weighted": 25.0
-        },
-        "candidate_component": {
-          "input": 4,
-          "normalized": 100.0,
-          "weighted": 20.0
-        },
-        "mapping_component": {
-          "mapping_count": 4,
-          "direct_mapping_event_count": 4,
-          "normalized": 100.0,
-          "weighted": 30.0
-        },
-        "single_source_concentration": 0.4,
-        "concentration_penalty": 0.0,
-        "raw_score": 100.0
-      },
-      "direct_mentions": [
-        {
-          "instrument_id": "TWSE:2634",
-          "symbol": "2634",
-          "exchange": "TWSE",
-          "name_zh": "漢翔",
-          "direct_event_count": 2,
-          "latest_mentioned_at": "2026-08-14T09:50:16Z"
-        },
-        {
-          "instrument_id": "TWSE:8033",
-          "symbol": "8033",
-          "exchange": "TWSE",
-          "name_zh": "雷虎",
-          "direct_event_count": 1,
-          "latest_mentioned_at": "2026-08-14T10:00:53Z"
-        },
-        {
-          "instrument_id": "TWSE:2025",
-          "symbol": "2025",
-          "exchange": "TWSE",
-          "name_zh": "千興",
-          "direct_event_count": 1,
-          "latest_mentioned_at": "2026-08-14T08:38:18Z"
-        }
-      ],
-      "supply_chain_candidates": [
-        {
-          "instrument_id": "TWSE:2634",
-          "symbol": "2634",
-          "exchange": "TWSE",
-          "name_zh": "漢翔",
-          "direct_event_count": 2,
-          "official_evidence_count": 0,
-          "company_rank_score": 9,
-          "latest_mentioned_at": "2026-08-14T09:50:16Z",
-          "latest_official_at": null
-        },
-        {
-          "instrument_id": "TWSE:8033",
-          "symbol": "8033",
-          "exchange": "TWSE",
-          "name_zh": "雷虎",
-          "direct_event_count": 1,
-          "official_evidence_count": 0,
-          "company_rank_score": 5,
-          "latest_mentioned_at": "2026-08-14T10:00:53Z",
-          "latest_official_at": null
-        },
-        {
-          "instrument_id": "TPEX:5371",
-          "symbol": "5371",
-          "exchange": "TPEX",
-          "name_zh": "中光電",
-          "direct_event_count": 0,
-          "official_evidence_count": 0,
-          "company_rank_score": 1,
-          "latest_mentioned_at": null,
-          "latest_official_at": null
-        }
-      ],
-      "representative_news": {
-        "cluster_id": "cluster-4f5fc0c79b67fae1",
-        "id": "digitimes_tw-cc0d47481d51",
-        "title_zh": "達運光電軍工布局加速　反無人機、無人載具成新成長引擎",
-        "summary": "達運光電公布2026年7月合併營收為新台幣（以下同）1.39億元，年減0.4%。累計1~7月合併營收為10.60億元，較2025年同期成長34.96%。達運光電同步公告2026年第2季營運成果，合併營收為4.74億元，季增率7.0%、年",
-        "source_id": "digitimes_tw",
-        "source": "DIGITIMES",
-        "published_at": "2026-08-14T08:38:18Z",
-        "canonical_url": "https://www.digitimes.com.tw/tech/dt/n/shwnws.asp?id=0000765240_IX231MDS3VCNTK18KOCZ7"
-      }
-    },
-    {
-      "rank": 2,
       "theme_id": "memory_hbm",
       "name_zh": "記憶體與 HBM",
       "heat_score": 94,
@@ -242,6 +132,116 @@
         "source": "DIGITIMES",
         "published_at": "2026-08-13T18:38:42Z",
         "canonical_url": "https://www.digitimes.com.tw/tech/dt/n/shwnws.asp?id=0000765046_CI216P023S6UXC7AC7H7R"
+      }
+    },
+    {
+      "rank": 2,
+      "theme_id": "defense_drone",
+      "name_zh": "國防與無人機",
+      "heat_score": 89,
+      "summaries": {
+        "event_count": 13,
+        "source_count": 3,
+        "tracking_candidate_count": 3,
+        "taiwan_mapping_count": 4
+      },
+      "heat_reason": {
+        "rule_version": "public_theme_heat_v0.8",
+        "event_component": {
+          "input": 13,
+          "normalized": 100.0,
+          "weighted": 25.0
+        },
+        "source_component": {
+          "input": 3,
+          "normalized": 75.0,
+          "weighted": 18.75
+        },
+        "candidate_component": {
+          "input": 3,
+          "normalized": 75.0,
+          "weighted": 15.0
+        },
+        "mapping_component": {
+          "mapping_count": 4,
+          "direct_mapping_event_count": 4,
+          "normalized": 100.0,
+          "weighted": 30.0
+        },
+        "single_source_concentration": 0.462,
+        "concentration_penalty": 0.0,
+        "raw_score": 88.75
+      },
+      "direct_mentions": [
+        {
+          "instrument_id": "TWSE:2634",
+          "symbol": "2634",
+          "exchange": "TWSE",
+          "name_zh": "漢翔",
+          "direct_event_count": 2,
+          "latest_mentioned_at": "2026-08-14T09:50:16Z"
+        },
+        {
+          "instrument_id": "TWSE:8033",
+          "symbol": "8033",
+          "exchange": "TWSE",
+          "name_zh": "雷虎",
+          "direct_event_count": 1,
+          "latest_mentioned_at": "2026-08-14T10:00:53Z"
+        },
+        {
+          "instrument_id": "TWSE:2025",
+          "symbol": "2025",
+          "exchange": "TWSE",
+          "name_zh": "千興",
+          "direct_event_count": 1,
+          "latest_mentioned_at": "2026-08-14T08:38:18Z"
+        }
+      ],
+      "supply_chain_candidates": [
+        {
+          "instrument_id": "TWSE:2634",
+          "symbol": "2634",
+          "exchange": "TWSE",
+          "name_zh": "漢翔",
+          "direct_event_count": 2,
+          "official_evidence_count": 0,
+          "company_rank_score": 9,
+          "latest_mentioned_at": "2026-08-14T09:50:16Z",
+          "latest_official_at": null
+        },
+        {
+          "instrument_id": "TWSE:8033",
+          "symbol": "8033",
+          "exchange": "TWSE",
+          "name_zh": "雷虎",
+          "direct_event_count": 1,
+          "official_evidence_count": 0,
+          "company_rank_score": 5,
+          "latest_mentioned_at": "2026-08-14T10:00:53Z",
+          "latest_official_at": null
+        },
+        {
+          "instrument_id": "TPEX:5371",
+          "symbol": "5371",
+          "exchange": "TPEX",
+          "name_zh": "中光電",
+          "direct_event_count": 0,
+          "official_evidence_count": 0,
+          "company_rank_score": 1,
+          "latest_mentioned_at": null,
+          "latest_official_at": null
+        }
+      ],
+      "representative_news": {
+        "cluster_id": "cluster-4f5fc0c79b67fae1",
+        "id": "digitimes_tw-cc0d47481d51",
+        "title_zh": "達運光電軍工布局加速　反無人機、無人載具成新成長引擎",
+        "summary": "達運光電公布2026年7月合併營收為新台幣（以下同）1.39億元，年減0.4%。累計1~7月合併營收為10.60億元，較2025年同期成長34.96%。達運光電同步公告2026年第2季營運成果，合併營收為4.74億元，季增率7.0%、年",
+        "source_id": "digitimes_tw",
+        "source": "DIGITIMES",
+        "published_at": "2026-08-14T08:38:18Z",
+        "canonical_url": "https://www.digitimes.com.tw/tech/dt/n/shwnws.asp?id=0000765240_IX231MDS3VCNTK18KOCZ7"
       }
     },
     {
@@ -454,14 +454,14 @@
         }
       ],
       "representative_news": {
-        "cluster_id": "cluster-dc8d895bfead34ad",
-        "id": "moneydj-4d65763211fd",
+        "cluster_id": "cluster-598d382e05f3faad",
+        "id": "moneydj-8fb15202dba2",
         "title_zh": "星宇航空 本公司取得1架A350自有客機相關訊息",
-        "summary": "<a href=\"https://www.moneydj.com/kmdj/news/newsviewer.aspx?a=08d891de-616a-4d08-ad7d-823085de5dd6&amp;utm_source=966818579637665796685957186656&amp;utm_medium=RSS\">內文連結</a>",
+        "summary": "<a href=\"https://www.moneydj.com/kmdj/news/newsviewer.aspx?a=08d891de-616a-4d08-ad7d-823085de5dd6&amp;utm_source=9656665718562657965657181867&amp;utm_medium=RSS\">內文連結</a>",
         "source_id": "moneydj",
         "source": "MoneyDJ",
         "published_at": "2026-08-14T15:10:00Z",
-        "canonical_url": "https://www.moneydj.com/kmdj/news/newsviewer.aspx?a=08d891de-616a-4d08-ad7d-823085de5dd6&utm_source=966818579637665796685957186656&utm_medium=RSS"
+        "canonical_url": "https://www.moneydj.com/kmdj/news/newsviewer.aspx?a=08d891de-616a-4d08-ad7d-823085de5dd6&utm_source=9656665718562657965657181867&utm_medium=RSS"
       }
     },
     {
