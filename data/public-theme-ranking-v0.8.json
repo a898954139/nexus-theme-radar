@@ -2,14 +2,14 @@
   "schema_version": "nexus_public_theme_ranking.v0.8",
   "ranking_rule_version": "public_theme_heat_v0.8",
   "company_rule_version": "public_company_evidence_v0.8",
-  "generated_at": "2026-08-15T07:44:56.666552Z",
+  "generated_at": "2026-08-15T08:46:17.848713Z",
   "market_id": "TW_EQUITY",
   "market_scope": [
     "TW_EQUITY"
   ],
   "window_hours": 72,
   "max_themes": 5,
-  "qualified_theme_count": 8,
+  "qualified_theme_count": 7,
   "displayed_theme_count": 5,
   "threshold_note": null,
   "generation_status": "complete",
@@ -130,24 +130,24 @@
       "rank": 2,
       "theme_id": "memory_hbm",
       "name_zh": "記憶體與 HBM",
-      "heat_score": 94,
+      "heat_score": 100,
       "summaries": {
-        "event_count": 8,
-        "source_count": 3,
+        "event_count": 7,
+        "source_count": 4,
         "tracking_candidate_count": 6,
-        "taiwan_mapping_count": 22
+        "taiwan_mapping_count": 21
       },
       "heat_reason": {
         "rule_version": "public_theme_heat_v0.8",
         "event_component": {
-          "input": 8,
+          "input": 7,
           "normalized": 100.0,
           "weighted": 25.0
         },
         "source_component": {
-          "input": 3,
-          "normalized": 75.0,
-          "weighted": 18.75
+          "input": 4,
+          "normalized": 100.0,
+          "weighted": 25.0
         },
         "candidate_component": {
           "input": 6,
@@ -155,14 +155,14 @@
           "weighted": 20.0
         },
         "mapping_component": {
-          "mapping_count": 22,
-          "direct_mapping_event_count": 3,
+          "mapping_count": 21,
+          "direct_mapping_event_count": 2,
           "normalized": 100.0,
           "weighted": 30.0
         },
         "single_source_concentration": 0.375,
         "concentration_penalty": 0.0,
-        "raw_score": 93.75
+        "raw_score": 100.0
       },
       "direct_mentions": [
         {
@@ -172,36 +172,9 @@
           "name_zh": "大成鋼",
           "direct_event_count": 2,
           "latest_mentioned_at": "2026-08-15T07:10:03Z"
-        },
-        {
-          "instrument_id": "TWSE:2408",
-          "symbol": "2408",
-          "exchange": "TWSE",
-          "name_zh": "南亞科",
-          "direct_event_count": 1,
-          "latest_mentioned_at": "2026-08-14T07:54:00Z"
-        },
-        {
-          "instrument_id": "TWSE:2455",
-          "symbol": "2455",
-          "exchange": "TWSE",
-          "name_zh": "全新",
-          "direct_event_count": 1,
-          "latest_mentioned_at": "2026-08-14T07:54:00Z"
         }
       ],
       "supply_chain_candidates": [
-        {
-          "instrument_id": "TWSE:2408",
-          "symbol": "2408",
-          "exchange": "TWSE",
-          "name_zh": "南亞科",
-          "direct_event_count": 1,
-          "official_evidence_count": 0,
-          "company_rank_score": 5,
-          "latest_mentioned_at": "2026-08-14T07:54:00Z",
-          "latest_official_at": null
-        },
         {
           "instrument_id": "TPEX:8299",
           "symbol": "8299",
@@ -223,10 +196,21 @@
           "company_rank_score": 1,
           "latest_mentioned_at": null,
           "latest_official_at": null
+        },
+        {
+          "instrument_id": "TWSE:2408",
+          "symbol": "2408",
+          "exchange": "TWSE",
+          "name_zh": "南亞科",
+          "direct_event_count": 0,
+          "official_evidence_count": 0,
+          "company_rank_score": 1,
+          "latest_mentioned_at": null,
+          "latest_official_at": null
         }
       ],
       "representative_news": {
-        "cluster_id": "cluster-9d2954a27aceefe8",
+        "cluster_id": "cluster-4f2367a682173228",
         "id": "cnyes-37c11384ae70",
         "title_zh": "〈記憶體減產潮〉HBM拖累美光利潤！瑞銀：通用DRAM毛利率2027年估達95%",
         "summary": "瑞銀最新報告指出，美光通用 DRAM 毛利率 2026 年初飆至 80%，2027 年估達 95%，遠高於 HBM 的 75% 至 78%。HBM 擴產反而可能推升 DRAM 供給緊張與利潤。",
