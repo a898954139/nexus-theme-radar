@@ -2,14 +2,14 @@
   "schema_version": "nexus_public_theme_ranking.v0.8",
   "ranking_rule_version": "public_theme_heat_v0.8",
   "company_rule_version": "public_company_evidence_v0.8",
-  "generated_at": "2026-08-15T05:42:56.384063Z",
+  "generated_at": "2026-08-15T06:58:27.632330Z",
   "market_id": "TW_EQUITY",
   "market_scope": [
     "TW_EQUITY"
   ],
   "window_hours": 72,
   "max_themes": 5,
-  "qualified_theme_count": 8,
+  "qualified_theme_count": 6,
   "displayed_theme_count": 5,
   "threshold_note": null,
   "generation_status": "complete",
@@ -22,7 +22,7 @@
       "name_zh": "國防與無人機",
       "heat_score": 100,
       "summaries": {
-        "event_count": 15,
+        "event_count": 13,
         "source_count": 4,
         "tracking_candidate_count": 4,
         "taiwan_mapping_count": 4
@@ -30,7 +30,7 @@
       "heat_reason": {
         "rule_version": "public_theme_heat_v0.8",
         "event_component": {
-          "input": 15,
+          "input": 13,
           "normalized": 100.0,
           "weighted": 25.0
         },
@@ -46,23 +46,15 @@
         },
         "mapping_component": {
           "mapping_count": 4,
-          "direct_mapping_event_count": 4,
+          "direct_mapping_event_count": 3,
           "normalized": 100.0,
           "weighted": 30.0
         },
-        "single_source_concentration": 0.4,
+        "single_source_concentration": 0.462,
         "concentration_penalty": 0.0,
         "raw_score": 100.0
       },
       "direct_mentions": [
-        {
-          "instrument_id": "TWSE:2634",
-          "symbol": "2634",
-          "exchange": "TWSE",
-          "name_zh": "漢翔",
-          "direct_event_count": 2,
-          "latest_mentioned_at": "2026-08-14T09:50:16Z"
-        },
         {
           "instrument_id": "TWSE:8033",
           "symbol": "8033",
@@ -70,6 +62,14 @@
           "name_zh": "雷虎",
           "direct_event_count": 1,
           "latest_mentioned_at": "2026-08-14T10:00:53Z"
+        },
+        {
+          "instrument_id": "TWSE:2634",
+          "symbol": "2634",
+          "exchange": "TWSE",
+          "name_zh": "漢翔",
+          "direct_event_count": 1,
+          "latest_mentioned_at": "2026-08-14T09:50:16Z"
         },
         {
           "instrument_id": "TWSE:2025",
@@ -82,17 +82,6 @@
       ],
       "supply_chain_candidates": [
         {
-          "instrument_id": "TWSE:2634",
-          "symbol": "2634",
-          "exchange": "TWSE",
-          "name_zh": "漢翔",
-          "direct_event_count": 2,
-          "official_evidence_count": 0,
-          "company_rank_score": 9,
-          "latest_mentioned_at": "2026-08-14T09:50:16Z",
-          "latest_official_at": null
-        },
-        {
           "instrument_id": "TWSE:8033",
           "symbol": "8033",
           "exchange": "TWSE",
@@ -101,6 +90,17 @@
           "official_evidence_count": 0,
           "company_rank_score": 5,
           "latest_mentioned_at": "2026-08-14T10:00:53Z",
+          "latest_official_at": null
+        },
+        {
+          "instrument_id": "TWSE:2634",
+          "symbol": "2634",
+          "exchange": "TWSE",
+          "name_zh": "漢翔",
+          "direct_event_count": 1,
+          "official_evidence_count": 0,
+          "company_rank_score": 5,
+          "latest_mentioned_at": "2026-08-14T09:50:16Z",
           "latest_official_at": null
         },
         {
@@ -130,49 +130,41 @@
       "rank": 2,
       "theme_id": "memory_hbm",
       "name_zh": "記憶體與 HBM",
-      "heat_score": 94,
+      "heat_score": 77,
       "summaries": {
-        "event_count": 8,
-        "source_count": 3,
-        "tracking_candidate_count": 5,
-        "taiwan_mapping_count": 22
+        "event_count": 5,
+        "source_count": 2,
+        "tracking_candidate_count": 4,
+        "taiwan_mapping_count": 4
       },
       "heat_reason": {
         "rule_version": "public_theme_heat_v0.8",
         "event_component": {
-          "input": 8,
-          "normalized": 100.0,
-          "weighted": 25.0
+          "input": 5,
+          "normalized": 83.333,
+          "weighted": 20.833
         },
         "source_component": {
-          "input": 3,
-          "normalized": 75.0,
-          "weighted": 18.75
+          "input": 2,
+          "normalized": 50.0,
+          "weighted": 12.5
         },
         "candidate_component": {
-          "input": 5,
+          "input": 4,
           "normalized": 100.0,
           "weighted": 20.0
         },
         "mapping_component": {
-          "mapping_count": 22,
-          "direct_mapping_event_count": 3,
-          "normalized": 100.0,
-          "weighted": 30.0
+          "mapping_count": 4,
+          "direct_mapping_event_count": 1,
+          "normalized": 80.0,
+          "weighted": 24.0
         },
-        "single_source_concentration": 0.375,
+        "single_source_concentration": 0.6,
         "concentration_penalty": 0.0,
-        "raw_score": 93.75
+        "raw_score": 77.333
       },
       "direct_mentions": [
-        {
-          "instrument_id": "TWSE:2027",
-          "symbol": "2027",
-          "exchange": "TWSE",
-          "name_zh": "大成鋼",
-          "direct_event_count": 1,
-          "latest_mentioned_at": "2026-08-14T10:00:04Z"
-        },
         {
           "instrument_id": "TWSE:2408",
           "symbol": "2408",
@@ -188,14 +180,6 @@
           "name_zh": "全新",
           "direct_event_count": 1,
           "latest_mentioned_at": "2026-08-14T07:54:00Z"
-        },
-        {
-          "instrument_id": "TWSE:2330",
-          "symbol": "2330",
-          "exchange": "TWSE",
-          "name_zh": "台積電",
-          "direct_event_count": 1,
-          "latest_mentioned_at": "2026-08-14T07:24:56Z"
         }
       ],
       "supply_chain_candidates": [
@@ -248,29 +232,29 @@
       "rank": 3,
       "theme_id": "optical_cpo",
       "name_zh": "矽光子 CPO",
-      "heat_score": 86,
+      "heat_score": 72,
       "summaries": {
-        "event_count": 9,
-        "source_count": 3,
-        "tracking_candidate_count": 3,
+        "event_count": 8,
+        "source_count": 2,
+        "tracking_candidate_count": 2,
         "taiwan_mapping_count": 24
       },
       "heat_reason": {
         "rule_version": "public_theme_heat_v0.8",
         "event_component": {
-          "input": 9,
+          "input": 8,
           "normalized": 100.0,
           "weighted": 25.0
         },
         "source_component": {
-          "input": 3,
-          "normalized": 75.0,
-          "weighted": 18.75
+          "input": 2,
+          "normalized": 50.0,
+          "weighted": 12.5
         },
         "candidate_component": {
-          "input": 3,
-          "normalized": 75.0,
-          "weighted": 15.0
+          "input": 2,
+          "normalized": 50.0,
+          "weighted": 10.0
         },
         "mapping_component": {
           "mapping_count": 24,
@@ -278,9 +262,9 @@
           "normalized": 100.0,
           "weighted": 30.0
         },
-        "single_source_concentration": 0.667,
-        "concentration_penalty": 2.5,
-        "raw_score": 86.25
+        "single_source_concentration": 0.75,
+        "concentration_penalty": 5.625,
+        "raw_score": 71.875
       },
       "direct_mentions": [
         {
@@ -374,24 +358,24 @@
       "rank": 4,
       "theme_id": "statementdog_tag_1517",
       "name_zh": "AI",
-      "heat_score": 72,
+      "heat_score": 64,
       "summaries": {
-        "event_count": 22,
-        "source_count": 4,
+        "event_count": 21,
+        "source_count": 3,
         "tracking_candidate_count": 0,
         "taiwan_mapping_count": 80
       },
       "heat_reason": {
         "rule_version": "public_theme_heat_v0.8",
         "event_component": {
-          "input": 22,
+          "input": 21,
           "normalized": 100.0,
           "weighted": 25.0
         },
         "source_component": {
-          "input": 4,
-          "normalized": 100.0,
-          "weighted": 25.0
+          "input": 3,
+          "normalized": 75.0,
+          "weighted": 18.75
         },
         "candidate_component": {
           "input": 0,
@@ -404,9 +388,9 @@
           "normalized": 100.0,
           "weighted": 30.0
         },
-        "single_source_concentration": 0.818,
-        "concentration_penalty": 8.182,
-        "raw_score": 71.818
+        "single_source_concentration": 0.857,
+        "concentration_penalty": 9.643,
+        "raw_score": 64.107
       },
       "direct_mentions": [
         {
@@ -522,14 +506,14 @@
     },
     {
       "rank": 5,
-      "theme_id": "pcb_abf_hdi",
-      "name_zh": "PCB／ABF／HDI",
-      "heat_score": 63,
+      "theme_id": "statementdog_tag_1345",
+      "name_zh": "航空",
+      "heat_score": 49,
       "summaries": {
         "event_count": 3,
-        "source_count": 2,
-        "tracking_candidate_count": 2,
-        "taiwan_mapping_count": 6
+        "source_count": 3,
+        "tracking_candidate_count": 0,
+        "taiwan_mapping_count": 12
       },
       "heat_reason": {
         "rule_version": "public_theme_heat_v0.8",
@@ -539,57 +523,32 @@
           "weighted": 12.5
         },
         "source_component": {
-          "input": 2,
-          "normalized": 50.0,
-          "weighted": 12.5
+          "input": 3,
+          "normalized": 75.0,
+          "weighted": 18.75
         },
         "candidate_component": {
-          "input": 2,
-          "normalized": 50.0,
-          "weighted": 10.0
+          "input": 0,
+          "normalized": 0.0,
+          "weighted": 0.0
         },
         "mapping_component": {
-          "mapping_count": 6,
-          "direct_mapping_event_count": 2,
-          "normalized": 100.0,
-          "weighted": 30.0
+          "mapping_count": 12,
+          "direct_mapping_event_count": 0,
+          "normalized": 60.0,
+          "weighted": 18.0
         },
-        "single_source_concentration": 0.667,
-        "concentration_penalty": 2.5,
-        "raw_score": 62.5
+        "single_source_concentration": 0.333,
+        "concentration_penalty": 0.0,
+        "raw_score": 49.25
       },
-      "direct_mentions": [
-        {
-          "instrument_id": "TWSE:2027",
-          "symbol": "2027",
-          "exchange": "TWSE",
-          "name_zh": "大成鋼",
-          "direct_event_count": 2,
-          "latest_mentioned_at": "2026-08-14T08:15:10Z"
-        },
-        {
-          "instrument_id": "TWSE:2028",
-          "symbol": "2028",
-          "exchange": "TWSE",
-          "name_zh": "威致",
-          "direct_event_count": 2,
-          "latest_mentioned_at": "2026-08-14T08:15:10Z"
-        },
-        {
-          "instrument_id": "TWSE:2029",
-          "symbol": "2029",
-          "exchange": "TWSE",
-          "name_zh": "盛餘",
-          "direct_event_count": 1,
-          "latest_mentioned_at": "2026-08-13T18:37:18Z"
-        }
-      ],
+      "direct_mentions": [],
       "supply_chain_candidates": [
         {
-          "instrument_id": "TWSE:2368",
-          "symbol": "2368",
-          "exchange": "TWSE",
-          "name_zh": "金像電",
+          "instrument_id": "TPEX:4541",
+          "symbol": "4541",
+          "exchange": "TPEX",
+          "name_zh": "晟田",
           "direct_event_count": 0,
           "official_evidence_count": 0,
           "company_rank_score": 1,
@@ -597,10 +556,10 @@
           "latest_official_at": null
         },
         {
-          "instrument_id": "TWSE:3037",
-          "symbol": "3037",
-          "exchange": "TWSE",
-          "name_zh": "欣興",
+          "instrument_id": "TPEX:5609",
+          "symbol": "5609",
+          "exchange": "TPEX",
+          "name_zh": "中菲行",
           "direct_event_count": 0,
           "official_evidence_count": 0,
           "company_rank_score": 1,
@@ -608,10 +567,10 @@
           "latest_official_at": null
         },
         {
-          "instrument_id": "TWSE:8046",
-          "symbol": "8046",
+          "instrument_id": "TWSE:2610",
+          "symbol": "2610",
           "exchange": "TWSE",
-          "name_zh": "南電",
+          "name_zh": "華航",
           "direct_event_count": 0,
           "official_evidence_count": 0,
           "company_rank_score": 1,
@@ -620,14 +579,14 @@
         }
       ],
       "representative_news": {
-        "cluster_id": "cluster-33587549630e121b",
-        "id": "digitimes_tw-780b81c7979f",
-        "title_zh": "T-glass玻纖布用量以倍速攀升　IC載板廠看材料缺至2028年",
-        "summary": "全球掀起AI算力基建熱潮，對GPU、CPU、特用晶片（ASIC）晶片需求快速攀升，帶動ABF載板產業在2026年轉為供不應求格局，且供需缺口預計2027~2028年逐年擴大，大幅推升台、日、韓IC載板廠訂單能見度，目前最遠看至2029",
-        "source_id": "digitimes_tw",
-        "source": "DIGITIMES",
-        "published_at": "2026-08-13T18:37:18Z",
-        "canonical_url": "https://www.digitimes.com.tw/tech/dt/n/shwnws.asp?id=0000765100_8KW2TOS2LBHLZK1TG1S6Q"
+        "cluster_id": "cluster-03613c6480ab0f80",
+        "id": "cnyes-a43838497faf",
+        "title_zh": "波克夏重押Alphabet躍居第三大持股 加碼達美航空、住宅建商",
+        "summary": "波克夏・海瑟威 (BRK.B - US) 第二季明顯加快資金部署，大幅增持 Google 與 YouTube 母公司 Alphabet (GOOGL - US)，使其一舉躍升為波克夏第三大股票投資，僅次於蘋果與美國運通",
+        "source_id": "cnyes",
+        "source": "鉅亨網 Cnyes",
+        "published_at": "2026-08-14T23:10:04Z",
+        "canonical_url": "https://news.cnyes.com/news/id/6577766"
       }
     }
   ]
