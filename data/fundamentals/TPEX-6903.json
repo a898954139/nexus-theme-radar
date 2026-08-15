@@ -1,6 +1,14 @@
 {
   "quarters": [
     {
+      "period": "2026Q2",
+      "revenue": 20.79,
+      "gross_margin": 0.32852332852332855,
+      "operating_margin": 0.29292929292929293,
+      "net_margin": 0.2352092352092352,
+      "eps": 7.42
+    },
+    {
       "period": "2026Q1",
       "revenue": 19.26,
       "gross_margin": 0.3141225337487019,
@@ -39,28 +47,33 @@
       "operating_margin": 0.17857142857142858,
       "net_margin": 0.15714285714285714,
       "eps": 1.0
-    },
-    {
-      "period": "2024Q4",
-      "revenue": 5.64,
-      "gross_margin": 0.25354609929078015,
-      "operating_margin": 0.21099290780141844,
-      "net_margin": 0.1897163120567376,
-      "eps": 1.67
     }
   ],
   "health": {
-    "cash": 18.13,
-    "current_ratio": 2.8144820295983086,
-    "debt_ratio": 0.33799999999999997,
-    "net_income_2026Q1": 4.43,
-    "operating_cash_flow_2026Q1": 2.23
+    "cash": 22.94,
+    "current_ratio": 2.1097265489788857,
+    "debt_ratio": 0.44299999999999995,
+    "net_income_2026Q2": 4.89,
+    "operating_cash_flow_2026Q2": 6.38
   },
   "valuation": {
-    "ttm_eps": 16.32
+    "ttm_eps": 21.95
   },
   "statements": {
     "income": {
+      "2026Q2": {
+        "revenue": 20.79,
+        "cost_of_sales": 13.96,
+        "gross_profit": 6.83,
+        "selling_expense": 0.046,
+        "admin_expense": 0.54,
+        "expected_credit_loss": 0.16,
+        "operating_expense": 0.74,
+        "operating_income": 6.09,
+        "pretax_income": 6.19,
+        "net_income": 4.89,
+        "eps": 7.42
+      },
       "2026Q1": {
         "revenue": 19.26,
         "cost_of_sales": 13.2,
@@ -125,22 +138,18 @@
         "pretax_income": 0.83,
         "net_income": 0.66,
         "eps": 1.0
-      },
-      "2024Q4": {
-        "revenue": 5.64,
-        "cost_of_sales": 4.21,
-        "gross_profit": 1.43,
-        "selling_expense": 0.035,
-        "admin_expense": 0.23,
-        "expected_credit_loss": -0.032,
-        "operating_expense": 0.24,
-        "operating_income": 1.19,
-        "pretax_income": 1.33,
-        "net_income": 1.07,
-        "eps": 1.67
       }
     },
     "balance": {
+      "2026Q2": {
+        "cash": 22.94,
+        "receivables": 11.21,
+        "current_assets": 60.95,
+        "total_assets": 65.32,
+        "current_liabilities": 28.89,
+        "total_liabilities": 28.91,
+        "total_equity": 36.41
+      },
       "2026Q1": {
         "cash": 18.13,
         "receivables": 9.31,
@@ -172,7 +181,6 @@
       "2025Q2": {
         "cash": 22.74,
         "receivables": 2.99,
-        "inventory": 0.0,
         "current_assets": 43.74,
         "total_assets": 44.29,
         "current_liabilities": 15.68,
@@ -187,18 +195,17 @@
         "current_liabilities": 7.55,
         "total_liabilities": 7.58,
         "total_equity": 32.74
-      },
-      "2024Q4": {
-        "cash": 20.56,
-        "receivables": 3.39,
-        "current_assets": 37.43,
-        "total_assets": 38.03,
-        "current_liabilities": 5.93,
-        "total_liabilities": 5.95,
-        "total_equity": 32.07
       }
     },
     "cash_flow": {
+      "2026Q2": {
+        "operating": 6.38,
+        "investing": -1.56,
+        "financing": 0.0,
+        "depreciation": 0.012,
+        "capex": -0.018,
+        "ending_cash": 22.94
+      },
       "2026Q1": {
         "operating": 2.23,
         "investing": -2.72,
@@ -240,34 +247,27 @@
         "depreciation": 0.013,
         "capex": -0.026,
         "ending_cash": 20.07
-      },
-      "2024Q4": {
-        "operating": -2.28,
-        "investing": 0.13,
-        "financing": -0.002,
-        "depreciation": 0.012,
-        "capex": 0.0,
-        "dividends_paid": 0.0,
-        "ending_cash": 20.56
       }
     }
   },
   "basis": "parent_only",
   "currency": "TWD 億元",
   "source": "Goodinfo.tw quarterly statements",
-  "fetched_at": "2026-08-09T13:05:08.817344Z",
-  "fiscal_quarter": "2026Q1",
+  "fetched_at": "2026-08-15T15:36:10.001021Z",
+  "fiscal_quarter": "2026Q2",
   "missing": [
+    "income.rd_expense unavailable for 2026Q2",
     "income.rd_expense unavailable for 2026Q1",
     "income.rd_expense unavailable for 2025Q4",
     "income.rd_expense unavailable for 2025Q3",
     "income.rd_expense unavailable for 2025Q2",
     "income.rd_expense unavailable for 2025Q1",
-    "income.rd_expense unavailable for 2024Q4",
+    "balance.inventory unavailable for 2026Q2",
     "balance.inventory unavailable for 2026Q1",
     "balance.inventory unavailable for 2025Q4",
+    "balance.inventory unavailable for 2025Q2",
     "balance.inventory unavailable for 2025Q1",
-    "balance.inventory unavailable for 2024Q4",
+    "cash_flow.dividends_paid unavailable for 2026Q2",
     "cash_flow.dividends_paid unavailable for 2026Q1",
     "cash_flow.dividends_paid unavailable for 2025Q2",
     "cash_flow.dividends_paid unavailable for 2025Q1"
