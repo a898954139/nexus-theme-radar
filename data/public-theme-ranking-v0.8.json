@@ -2,7 +2,7 @@
   "schema_version": "nexus_public_theme_ranking.v0.8",
   "ranking_rule_version": "public_theme_heat_v0.8",
   "company_rule_version": "public_company_evidence_v0.8",
-  "generated_at": "2026-08-16T11:35:20.889137Z",
+  "generated_at": "2026-08-16T13:01:59.580528Z",
   "market_id": "TW_EQUITY",
   "market_scope": [
     "TW_EQUITY"
@@ -22,7 +22,7 @@
       "name_zh": "記憶體與 HBM",
       "heat_score": 94,
       "summaries": {
-        "event_count": 7,
+        "event_count": 6,
         "source_count": 4,
         "tracking_candidate_count": 5,
         "taiwan_mapping_count": 21
@@ -30,7 +30,7 @@
       "heat_reason": {
         "rule_version": "public_theme_heat_v0.8",
         "event_component": {
-          "input": 7,
+          "input": 6,
           "normalized": 100.0,
           "weighted": 25.0
         },
@@ -50,7 +50,7 @@
           "normalized": 80.0,
           "weighted": 24.0
         },
-        "single_source_concentration": 0.375,
+        "single_source_concentration": 0.429,
         "concentration_penalty": 0.0,
         "raw_score": 94.0
       },
@@ -340,26 +340,136 @@
     },
     {
       "rank": 4,
+      "theme_id": "robotics",
+      "name_zh": "機器人",
+      "heat_score": 61,
+      "summaries": {
+        "event_count": 5,
+        "source_count": 2,
+        "tracking_candidate_count": 1,
+        "taiwan_mapping_count": 26
+      },
+      "heat_reason": {
+        "rule_version": "public_theme_heat_v0.8",
+        "event_component": {
+          "input": 5,
+          "normalized": 83.333,
+          "weighted": 20.833
+        },
+        "source_component": {
+          "input": 2,
+          "normalized": 50.0,
+          "weighted": 12.5
+        },
+        "candidate_component": {
+          "input": 1,
+          "normalized": 25.0,
+          "weighted": 5.0
+        },
+        "mapping_component": {
+          "mapping_count": 26,
+          "direct_mapping_event_count": 2,
+          "normalized": 100.0,
+          "weighted": 30.0
+        },
+        "single_source_concentration": 0.8,
+        "concentration_penalty": 7.5,
+        "raw_score": 60.833
+      },
+      "direct_mentions": [
+        {
+          "instrument_id": "TWSE:2049",
+          "symbol": "2049",
+          "exchange": "TWSE",
+          "name_zh": "上銀",
+          "direct_event_count": 1,
+          "latest_mentioned_at": "2026-08-16T03:47:19Z"
+        },
+        {
+          "instrument_id": "TWSE:2308",
+          "symbol": "2308",
+          "exchange": "TWSE",
+          "name_zh": "台達電",
+          "direct_event_count": 1,
+          "latest_mentioned_at": "2026-08-16T03:47:19Z"
+        },
+        {
+          "instrument_id": "TPEX:6125",
+          "symbol": "6125",
+          "exchange": "TPEX",
+          "name_zh": "廣運",
+          "direct_event_count": 1,
+          "latest_mentioned_at": "2026-08-15T09:57:36Z"
+        }
+      ],
+      "supply_chain_candidates": [
+        {
+          "instrument_id": "TWSE:2049",
+          "symbol": "2049",
+          "exchange": "TWSE",
+          "name_zh": "上銀",
+          "direct_event_count": 1,
+          "official_evidence_count": 0,
+          "company_rank_score": 5,
+          "latest_mentioned_at": "2026-08-16T03:47:19Z",
+          "latest_official_at": null
+        },
+        {
+          "instrument_id": "TWSE:2308",
+          "symbol": "2308",
+          "exchange": "TWSE",
+          "name_zh": "台達電",
+          "direct_event_count": 1,
+          "official_evidence_count": 0,
+          "company_rank_score": 5,
+          "latest_mentioned_at": "2026-08-16T03:47:19Z",
+          "latest_official_at": null
+        },
+        {
+          "instrument_id": "TPEX:3379",
+          "symbol": "3379",
+          "exchange": "TPEX",
+          "name_zh": "彬台",
+          "direct_event_count": 0,
+          "official_evidence_count": 0,
+          "company_rank_score": 1,
+          "latest_mentioned_at": null,
+          "latest_official_at": null
+        }
+      ],
+      "representative_news": {
+        "cluster_id": "cluster-6733555ff3be3597",
+        "id": "yahoo_finance_tw-008b20adf008",
+        "title_zh": "中國機器人身價炒上天　真正工作仍有難關",
+        "summary": "[NOWNEWS今日新聞]中國人形機器人近年頻頻靠著後空翻、功夫踢腿、跳舞等高難度動作吸引全球目光，資本市場也跟著掀起熱潮。然而，當機器人從展場走向真實生活，一個更現實的問題開始浮現：這些能跑、能跳、",
+        "source_id": "yahoo_finance_tw",
+        "source": "Yahoo Finance Taiwan",
+        "published_at": "2026-08-16T03:32:00Z",
+        "canonical_url": "https://tw.news.yahoo.com/%E4%B8%AD%E5%9C%8B%E6%A9%9F%E5%99%A8%E4%BA%BA%E8%BA%AB%E5%83%B9%E7%82%92%E4%B8%8A%E5%A4%A9-%E7%9C%9F%E6%AD%A3%E5%B7%A5%E4%BD%9C%E4%BB%8D%E6%9C%89%E9%9B%A3%E9%97%9C-033200256.html"
+      }
+    },
+    {
+      "rank": 5,
       "theme_id": "statementdog_tag_1517",
       "name_zh": "AI",
-      "heat_score": 66,
+      "heat_score": 58,
       "summaries": {
-        "event_count": 22,
-        "source_count": 3,
+        "event_count": 21,
+        "source_count": 2,
         "tracking_candidate_count": 0,
         "taiwan_mapping_count": 71
       },
       "heat_reason": {
         "rule_version": "public_theme_heat_v0.8",
         "event_component": {
-          "input": 22,
+          "input": 21,
           "normalized": 100.0,
           "weighted": 25.0
         },
         "source_component": {
-          "input": 3,
-          "normalized": 75.0,
-          "weighted": 18.75
+          "input": 2,
+          "normalized": 50.0,
+          "weighted": 12.5
         },
         "candidate_component": {
           "input": 0,
@@ -368,13 +478,13 @@
         },
         "mapping_component": {
           "mapping_count": 71,
-          "direct_mapping_event_count": 9,
+          "direct_mapping_event_count": 8,
           "normalized": 100.0,
           "weighted": 30.0
         },
-        "single_source_concentration": 0.818,
-        "concentration_penalty": 8.182,
-        "raw_score": 65.568
+        "single_source_concentration": 0.857,
+        "concentration_penalty": 9.643,
+        "raw_score": 57.857
       },
       "direct_mentions": [
         {
@@ -384,14 +494,6 @@
           "name_zh": "千興",
           "direct_event_count": 2,
           "latest_mentioned_at": "2026-08-14T02:04:34Z"
-        },
-        {
-          "instrument_id": "TWSE:2303",
-          "symbol": "2303",
-          "exchange": "TWSE",
-          "name_zh": "聯電",
-          "direct_event_count": 1,
-          "latest_mentioned_at": "2026-08-16T02:38:19Z"
         },
         {
           "instrument_id": "TWSE:2027",
@@ -486,116 +588,6 @@
         "source": "TechNews",
         "published_at": "2026-08-16T06:30:32Z",
         "canonical_url": "https://technews.tw/2026/08/16/discovered-materials-is-playing-ai-whack-a-mole-to-hunt-cooler-chips/"
-      }
-    },
-    {
-      "rank": 5,
-      "theme_id": "robotics",
-      "name_zh": "機器人",
-      "heat_score": 59,
-      "summaries": {
-        "event_count": 4,
-        "source_count": 2,
-        "tracking_candidate_count": 1,
-        "taiwan_mapping_count": 26
-      },
-      "heat_reason": {
-        "rule_version": "public_theme_heat_v0.8",
-        "event_component": {
-          "input": 4,
-          "normalized": 66.667,
-          "weighted": 16.667
-        },
-        "source_component": {
-          "input": 2,
-          "normalized": 50.0,
-          "weighted": 12.5
-        },
-        "candidate_component": {
-          "input": 1,
-          "normalized": 25.0,
-          "weighted": 5.0
-        },
-        "mapping_component": {
-          "mapping_count": 26,
-          "direct_mapping_event_count": 2,
-          "normalized": 100.0,
-          "weighted": 30.0
-        },
-        "single_source_concentration": 0.75,
-        "concentration_penalty": 5.625,
-        "raw_score": 58.542
-      },
-      "direct_mentions": [
-        {
-          "instrument_id": "TWSE:2049",
-          "symbol": "2049",
-          "exchange": "TWSE",
-          "name_zh": "上銀",
-          "direct_event_count": 1,
-          "latest_mentioned_at": "2026-08-16T03:47:19Z"
-        },
-        {
-          "instrument_id": "TWSE:2308",
-          "symbol": "2308",
-          "exchange": "TWSE",
-          "name_zh": "台達電",
-          "direct_event_count": 1,
-          "latest_mentioned_at": "2026-08-16T03:47:19Z"
-        },
-        {
-          "instrument_id": "TPEX:6125",
-          "symbol": "6125",
-          "exchange": "TPEX",
-          "name_zh": "廣運",
-          "direct_event_count": 1,
-          "latest_mentioned_at": "2026-08-15T09:57:36Z"
-        }
-      ],
-      "supply_chain_candidates": [
-        {
-          "instrument_id": "TWSE:2049",
-          "symbol": "2049",
-          "exchange": "TWSE",
-          "name_zh": "上銀",
-          "direct_event_count": 1,
-          "official_evidence_count": 0,
-          "company_rank_score": 5,
-          "latest_mentioned_at": "2026-08-16T03:47:19Z",
-          "latest_official_at": null
-        },
-        {
-          "instrument_id": "TWSE:2308",
-          "symbol": "2308",
-          "exchange": "TWSE",
-          "name_zh": "台達電",
-          "direct_event_count": 1,
-          "official_evidence_count": 0,
-          "company_rank_score": 5,
-          "latest_mentioned_at": "2026-08-16T03:47:19Z",
-          "latest_official_at": null
-        },
-        {
-          "instrument_id": "TPEX:3379",
-          "symbol": "3379",
-          "exchange": "TPEX",
-          "name_zh": "彬台",
-          "direct_event_count": 0,
-          "official_evidence_count": 0,
-          "company_rank_score": 1,
-          "latest_mentioned_at": null,
-          "latest_official_at": null
-        }
-      ],
-      "representative_news": {
-        "cluster_id": "cluster-6733555ff3be3597",
-        "id": "yahoo_finance_tw-008b20adf008",
-        "title_zh": "中國機器人身價炒上天　真正工作仍有難關",
-        "summary": "[NOWNEWS今日新聞]中國人形機器人近年頻頻靠著後空翻、功夫踢腿、跳舞等高難度動作吸引全球目光，資本市場也跟著掀起熱潮。然而，當機器人從展場走向真實生活，一個更現實的問題開始浮現：這些能跑、能跳、",
-        "source_id": "yahoo_finance_tw",
-        "source": "Yahoo Finance Taiwan",
-        "published_at": "2026-08-16T03:32:00Z",
-        "canonical_url": "https://tw.news.yahoo.com/%E4%B8%AD%E5%9C%8B%E6%A9%9F%E5%99%A8%E4%BA%BA%E8%BA%AB%E5%83%B9%E7%82%92%E4%B8%8A%E5%A4%A9-%E7%9C%9F%E6%AD%A3%E5%B7%A5%E4%BD%9C%E4%BB%8D%E6%9C%89%E9%9B%A3%E9%97%9C-033200256.html"
       }
     }
   ]
