@@ -2,7 +2,7 @@
   "schema_version": "nexus_public_theme_ranking.v0.8",
   "ranking_rule_version": "public_theme_heat_v0.8",
   "company_rule_version": "public_company_evidence_v0.8",
-  "generated_at": "2026-08-16T03:13:51.405002Z",
+  "generated_at": "2026-08-16T04:02:38.484853Z",
   "market_id": "TW_EQUITY",
   "market_scope": [
     "TW_EQUITY"
@@ -22,15 +22,15 @@
       "name_zh": "記憶體與 HBM",
       "heat_score": 100,
       "summaries": {
-        "event_count": 6,
+        "event_count": 7,
         "source_count": 4,
         "tracking_candidate_count": 5,
-        "taiwan_mapping_count": 4
+        "taiwan_mapping_count": 21
       },
       "heat_reason": {
         "rule_version": "public_theme_heat_v0.8",
         "event_component": {
-          "input": 6,
+          "input": 7,
           "normalized": 100.0,
           "weighted": 25.0
         },
@@ -45,12 +45,12 @@
           "weighted": 20.0
         },
         "mapping_component": {
-          "mapping_count": 4,
+          "mapping_count": 21,
           "direct_mapping_event_count": 2,
           "normalized": 100.0,
           "weighted": 30.0
         },
-        "single_source_concentration": 0.5,
+        "single_source_concentration": 0.429,
         "concentration_penalty": 0.0,
         "raw_score": 100.0
       },
@@ -130,9 +130,9 @@
       "rank": 2,
       "theme_id": "defense_drone",
       "name_zh": "國防與無人機",
-      "heat_score": 94,
+      "heat_score": 88,
       "summaries": {
-        "event_count": 12,
+        "event_count": 10,
         "source_count": 3,
         "tracking_candidate_count": 4,
         "taiwan_mapping_count": 4
@@ -140,7 +140,7 @@
       "heat_reason": {
         "rule_version": "public_theme_heat_v0.8",
         "event_component": {
-          "input": 12,
+          "input": 10,
           "normalized": 100.0,
           "weighted": 25.0
         },
@@ -156,31 +156,15 @@
         },
         "mapping_component": {
           "mapping_count": 4,
-          "direct_mapping_event_count": 3,
-          "normalized": 100.0,
-          "weighted": 30.0
+          "direct_mapping_event_count": 1,
+          "normalized": 80.0,
+          "weighted": 24.0
         },
-        "single_source_concentration": 0.5,
+        "single_source_concentration": 0.6,
         "concentration_penalty": 0.0,
-        "raw_score": 93.75
+        "raw_score": 87.75
       },
       "direct_mentions": [
-        {
-          "instrument_id": "TWSE:8033",
-          "symbol": "8033",
-          "exchange": "TWSE",
-          "name_zh": "雷虎",
-          "direct_event_count": 1,
-          "latest_mentioned_at": "2026-08-14T10:00:53Z"
-        },
-        {
-          "instrument_id": "TWSE:2634",
-          "symbol": "2634",
-          "exchange": "TWSE",
-          "name_zh": "漢翔",
-          "direct_event_count": 1,
-          "latest_mentioned_at": "2026-08-14T09:50:16Z"
-        },
         {
           "instrument_id": "TWSE:2025",
           "symbol": "2025",
@@ -192,14 +176,14 @@
       ],
       "supply_chain_candidates": [
         {
-          "instrument_id": "TWSE:8033",
-          "symbol": "8033",
-          "exchange": "TWSE",
-          "name_zh": "雷虎",
-          "direct_event_count": 1,
+          "instrument_id": "TPEX:5371",
+          "symbol": "5371",
+          "exchange": "TPEX",
+          "name_zh": "中光電",
+          "direct_event_count": 0,
           "official_evidence_count": 0,
-          "company_rank_score": 5,
-          "latest_mentioned_at": "2026-08-14T10:00:53Z",
+          "company_rank_score": 1,
+          "latest_mentioned_at": null,
           "latest_official_at": null
         },
         {
@@ -207,17 +191,17 @@
           "symbol": "2634",
           "exchange": "TWSE",
           "name_zh": "漢翔",
-          "direct_event_count": 1,
+          "direct_event_count": 0,
           "official_evidence_count": 0,
-          "company_rank_score": 5,
-          "latest_mentioned_at": "2026-08-14T09:50:16Z",
+          "company_rank_score": 1,
+          "latest_mentioned_at": null,
           "latest_official_at": null
         },
         {
-          "instrument_id": "TPEX:5371",
-          "symbol": "5371",
-          "exchange": "TPEX",
-          "name_zh": "中光電",
+          "instrument_id": "TWSE:8033",
+          "symbol": "8033",
+          "exchange": "TWSE",
+          "name_zh": "雷虎",
           "direct_event_count": 0,
           "official_evidence_count": 0,
           "company_rank_score": 1,
