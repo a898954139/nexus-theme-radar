@@ -2,7 +2,7 @@
   "schema_version": "nexus_public_theme_ranking.v0.8",
   "ranking_rule_version": "public_theme_heat_v0.8",
   "company_rule_version": "public_company_evidence_v0.8",
-  "generated_at": "2026-08-17T03:14:00.893717Z",
+  "generated_at": "2026-08-17T04:05:41.988534Z",
   "market_id": "TW_EQUITY",
   "market_scope": [
     "TW_EQUITY"
@@ -18,24 +18,236 @@
   "themes": [
     {
       "rank": 1,
-      "theme_id": "statementdog_tag_1517",
-      "name_zh": "AI",
-      "heat_score": 80,
+      "theme_id": "optical_cpo",
+      "name_zh": "矽光子 CPO",
+      "heat_score": 86,
       "summaries": {
-        "event_count": 19,
-        "source_count": 5,
-        "tracking_candidate_count": 0,
-        "taiwan_mapping_count": 152
+        "event_count": 6,
+        "source_count": 3,
+        "tracking_candidate_count": 3,
+        "taiwan_mapping_count": 22
       },
       "heat_reason": {
         "rule_version": "public_theme_heat_v0.8",
         "event_component": {
-          "input": 19,
+          "input": 6,
           "normalized": 100.0,
           "weighted": 25.0
         },
         "source_component": {
-          "input": 5,
+          "input": 3,
+          "normalized": 75.0,
+          "weighted": 18.75
+        },
+        "candidate_component": {
+          "input": 3,
+          "normalized": 75.0,
+          "weighted": 15.0
+        },
+        "mapping_component": {
+          "mapping_count": 22,
+          "direct_mapping_event_count": 2,
+          "normalized": 100.0,
+          "weighted": 30.0
+        },
+        "single_source_concentration": 0.667,
+        "concentration_penalty": 2.5,
+        "raw_score": 86.25
+      },
+      "direct_mentions": [
+        {
+          "instrument_id": "TPEX:6223",
+          "symbol": "6223",
+          "exchange": "TPEX",
+          "name_zh": "旺矽",
+          "direct_event_count": 1,
+          "latest_mentioned_at": "2026-08-17T03:42:21Z"
+        },
+        {
+          "instrument_id": "TWSE:2027",
+          "symbol": "2027",
+          "exchange": "TWSE",
+          "name_zh": "大成鋼",
+          "direct_event_count": 1,
+          "latest_mentioned_at": "2026-08-17T03:42:21Z"
+        },
+        {
+          "instrument_id": "TPEX:5371",
+          "symbol": "5371",
+          "exchange": "TPEX",
+          "name_zh": "中光電",
+          "direct_event_count": 1,
+          "latest_mentioned_at": "2026-08-16T18:57:06Z"
+        }
+      ],
+      "supply_chain_candidates": [
+        {
+          "instrument_id": "TPEX:3289",
+          "symbol": "3289",
+          "exchange": "TPEX",
+          "name_zh": "宜特",
+          "direct_event_count": 0,
+          "official_evidence_count": 0,
+          "company_rank_score": 1,
+          "latest_mentioned_at": null,
+          "latest_official_at": null
+        },
+        {
+          "instrument_id": "TPEX:3587",
+          "symbol": "3587",
+          "exchange": "TPEX",
+          "name_zh": "閎康",
+          "direct_event_count": 0,
+          "official_evidence_count": 0,
+          "company_rank_score": 1,
+          "latest_mentioned_at": null,
+          "latest_official_at": null
+        },
+        {
+          "instrument_id": "TPEX:4971",
+          "symbol": "4971",
+          "exchange": "TPEX",
+          "name_zh": "IET-KY",
+          "direct_event_count": 0,
+          "official_evidence_count": 0,
+          "company_rank_score": 1,
+          "latest_mentioned_at": null,
+          "latest_official_at": null
+        }
+      ],
+      "representative_news": {
+        "cluster_id": "cluster-fa137c11e9321cea",
+        "id": "digitimes_tw-d7759d0b9e7f",
+        "title_zh": "科技1分鐘：拆解CPO BOM表　光引擎最高貴、矽光子成本優勢浮現",
+        "summary": "AI伺服器一路往更高頻寬推進，光通訊熱度也跟著水漲船高。NVIDIA近期接連投資Lumentum、Coherent及Marvell，布局矽光子與光互連技術，讓共同封裝光學（CPO）、矽光子（Silicon Photonics）及高速光模組的話題不斷升溫。若以成本結構來看，光通訊升級也反映著物料清單（Bill of",
+        "source_id": "digitimes_tw",
+        "source": "DIGITIMES",
+        "published_at": "2026-08-16T18:43:32Z",
+        "canonical_url": "https://www.digitimes.com.tw/tech/dt/n/shwnws.asp?id=0000765258_H5N14KO46SGFWU7MB5GW9"
+      }
+    },
+    {
+      "rank": 2,
+      "theme_id": "defense_drone",
+      "name_zh": "國防與無人機",
+      "heat_score": 85,
+      "summaries": {
+        "event_count": 6,
+        "source_count": 4,
+        "tracking_candidate_count": 1,
+        "taiwan_mapping_count": 5
+      },
+      "heat_reason": {
+        "rule_version": "public_theme_heat_v0.8",
+        "event_component": {
+          "input": 6,
+          "normalized": 100.0,
+          "weighted": 25.0
+        },
+        "source_component": {
+          "input": 4,
+          "normalized": 100.0,
+          "weighted": 25.0
+        },
+        "candidate_component": {
+          "input": 1,
+          "normalized": 25.0,
+          "weighted": 5.0
+        },
+        "mapping_component": {
+          "mapping_count": 5,
+          "direct_mapping_event_count": 2,
+          "normalized": 100.0,
+          "weighted": 30.0
+        },
+        "single_source_concentration": 0.333,
+        "concentration_penalty": 0.0,
+        "raw_score": 85.0
+      },
+      "direct_mentions": [
+        {
+          "instrument_id": "TWSE:3005",
+          "symbol": "3005",
+          "exchange": "TWSE",
+          "name_zh": "神基",
+          "direct_event_count": 1,
+          "latest_mentioned_at": "2026-08-17T03:41:54Z"
+        },
+        {
+          "instrument_id": "TPEX:6829",
+          "symbol": "6829",
+          "exchange": "TPEX",
+          "name_zh": "千附精密",
+          "direct_event_count": 1,
+          "latest_mentioned_at": "2026-08-17T03:16:51Z"
+        }
+      ],
+      "supply_chain_candidates": [
+        {
+          "instrument_id": "TPEX:5371",
+          "symbol": "5371",
+          "exchange": "TPEX",
+          "name_zh": "中光電",
+          "direct_event_count": 0,
+          "official_evidence_count": 0,
+          "company_rank_score": 1,
+          "latest_mentioned_at": null,
+          "latest_official_at": null
+        },
+        {
+          "instrument_id": "TWSE:2634",
+          "symbol": "2634",
+          "exchange": "TWSE",
+          "name_zh": "漢翔",
+          "direct_event_count": 0,
+          "official_evidence_count": 0,
+          "company_rank_score": 1,
+          "latest_mentioned_at": null,
+          "latest_official_at": null
+        },
+        {
+          "instrument_id": "TWSE:8033",
+          "symbol": "8033",
+          "exchange": "TWSE",
+          "name_zh": "雷虎",
+          "direct_event_count": 0,
+          "official_evidence_count": 0,
+          "company_rank_score": 1,
+          "latest_mentioned_at": null,
+          "latest_official_at": null
+        }
+      ],
+      "representative_news": {
+        "cluster_id": "cluster-25f3e2c74c0913f5",
+        "id": "cnyes-c118508ba52f",
+        "title_zh": "烏克蘭無人機猛攻 俄羅斯電商巨頭「野莓」七座物流中心停擺",
+        "summary": "烏克蘭國防部 16 日（周日）通報，烏方已使俄羅斯大型電商平台「野莓」公司規模最大的 10 個物流中心中的 7 個停止運作。",
+        "source_id": "cnyes",
+        "source": "鉅亨網 Cnyes",
+        "published_at": "2026-08-16T14:06:23Z",
+        "canonical_url": "https://news.cnyes.com/news/id/6578431"
+      }
+    },
+    {
+      "rank": 3,
+      "theme_id": "statementdog_tag_1517",
+      "name_zh": "AI",
+      "heat_score": 80,
+      "summaries": {
+        "event_count": 20,
+        "source_count": 4,
+        "tracking_candidate_count": 0,
+        "taiwan_mapping_count": 162
+      },
+      "heat_reason": {
+        "rule_version": "public_theme_heat_v0.8",
+        "event_component": {
+          "input": 20,
+          "normalized": 100.0,
+          "weighted": 25.0
+        },
+        "source_component": {
+          "input": 4,
           "normalized": 100.0,
           "weighted": 25.0
         },
@@ -45,24 +257,16 @@
           "weighted": 0.0
         },
         "mapping_component": {
-          "mapping_count": 152,
+          "mapping_count": 162,
           "direct_mapping_event_count": 6,
           "normalized": 100.0,
           "weighted": 30.0
         },
-        "single_source_concentration": 0.474,
+        "single_source_concentration": 0.55,
         "concentration_penalty": 0.0,
         "raw_score": 80.0
       },
       "direct_mentions": [
-        {
-          "instrument_id": "TWSE:2027",
-          "symbol": "2027",
-          "exchange": "TWSE",
-          "name_zh": "大成鋼",
-          "direct_event_count": 2,
-          "latest_mentioned_at": "2026-08-17T03:05:26Z"
-        },
         {
           "instrument_id": "TWSE:2030",
           "symbol": "2030",
@@ -72,12 +276,20 @@
           "latest_mentioned_at": "2026-08-17T02:57:57Z"
         },
         {
-          "instrument_id": "TWSE:2025",
-          "symbol": "2025",
+          "instrument_id": "TWSE:2382",
+          "symbol": "2382",
           "exchange": "TWSE",
-          "name_zh": "千興",
+          "name_zh": "廣達",
           "direct_event_count": 1,
-          "latest_mentioned_at": "2026-08-17T02:40:26Z"
+          "latest_mentioned_at": "2026-08-17T03:06:33Z"
+        },
+        {
+          "instrument_id": "TWSE:2027",
+          "symbol": "2027",
+          "exchange": "TWSE",
+          "name_zh": "大成鋼",
+          "direct_event_count": 1,
+          "latest_mentioned_at": "2026-08-17T03:05:26Z"
         },
         {
           "instrument_id": "TPEX:3290",
@@ -86,9 +298,28 @@
           "name_zh": "東浦",
           "direct_event_count": 1,
           "latest_mentioned_at": "2026-08-17T02:38:20Z"
+        },
+        {
+          "instrument_id": "TWSE:2023",
+          "symbol": "2023",
+          "exchange": "TWSE",
+          "name_zh": "燁輝",
+          "direct_event_count": 1,
+          "latest_mentioned_at": "2026-08-17T02:22:23Z"
         }
       ],
       "supply_chain_candidates": [
+        {
+          "instrument_id": "TWSE:2382",
+          "symbol": "2382",
+          "exchange": "TWSE",
+          "name_zh": "廣達",
+          "direct_event_count": 1,
+          "official_evidence_count": 0,
+          "company_rank_score": 5,
+          "latest_mentioned_at": "2026-08-17T03:06:33Z",
+          "latest_official_at": null
+        },
         {
           "instrument_id": "TPEX:3081",
           "symbol": "3081",
@@ -110,37 +341,26 @@
           "company_rank_score": 1,
           "latest_mentioned_at": null,
           "latest_official_at": null
-        },
-        {
-          "instrument_id": "TPEX:3363",
-          "symbol": "3363",
-          "exchange": "TPEX",
-          "name_zh": "上詮",
-          "direct_event_count": 0,
-          "official_evidence_count": 0,
-          "company_rank_score": 1,
-          "latest_mentioned_at": null,
-          "latest_official_at": null
         }
       ],
       "representative_news": {
-        "cluster_id": "cluster-62fb9a36d157c1b8",
-        "id": "cnyes-a9b78d6ea014",
-        "title_zh": "曾遭興登堡做空、安永辭任審計　美超微走過爭議後AI需求再創新高",
-        "summary": "美超微（Super Micro Computer）最新公布2026年第4季財報，單季淨營收達111億美元，相較去年同期翻倍，毛利率升至17.5%，單季新訂單更突破600億美元，並預估2027年營收可達650億至720億美元，顯示AI需求持續強勁。財報公布後，股價於三個交易日內飆升25%。相較於過去一",
-        "source_id": "cnyes",
-        "source": "鉅亨網 Cnyes",
-        "published_at": "2026-08-17T03:05:26Z",
-        "canonical_url": "https://news.cnyes.com/news/id/6578928"
+        "cluster_id": "cluster-e8195ee6a5638480",
+        "id": "yahoo_finance_tw-1feff18056ee",
+        "title_zh": "阿里巴巴將以15億美元出售遊戲業務，加速向AI領域轉型",
+        "summary": "【財訊快報／劉敏夫】外電報導指出，中國電商巨頭阿里巴巴正以至少15億美元出售其遊戲部門，此舉將進一步推動阿里巴巴朝人工智能領域轉型。外電週一看到的一份內部備忘錄顯示，亞洲私募股權公司信宸資本已達成協議",
+        "source_id": "yahoo_finance_tw",
+        "source": "Yahoo Finance Taiwan",
+        "published_at": "2026-08-17T03:42:08Z",
+        "canonical_url": "https://tw.stock.yahoo.com/news/%E9%98%BF%E9%87%8C%E5%B7%B4%E5%B7%B4%E5%B0%87%E4%BB%A515%E5%84%84%E7%BE%8E%E5%85%83%E5%87%BA%E5%94%AE%E9%81%8A%E6%88%B2%E6%A5%AD%E5%8B%99-%E5%8A%A0%E9%80%9F%E5%90%91ai%E9%A0%98%E5%9F%9F%E8%BD%89%E5%9E%8B-034208510.html"
       }
     },
     {
-      "rank": 2,
+      "rank": 4,
       "theme_id": "memory_hbm",
       "name_zh": "記憶體與 HBM",
       "heat_score": 78,
       "summaries": {
-        "event_count": 6,
+        "event_count": 7,
         "source_count": 3,
         "tracking_candidate_count": 2,
         "taiwan_mapping_count": 39
@@ -148,7 +368,7 @@
       "heat_reason": {
         "rule_version": "public_theme_heat_v0.8",
         "event_component": {
-          "input": 6,
+          "input": 7,
           "normalized": 100.0,
           "weighted": 25.0
         },
@@ -168,7 +388,7 @@
           "normalized": 80.0,
           "weighted": 24.0
         },
-        "single_source_concentration": 0.5,
+        "single_source_concentration": 0.571,
         "concentration_penalty": 0.0,
         "raw_score": 77.75
       },
@@ -237,194 +457,15 @@
       }
     },
     {
-      "rank": 3,
-      "theme_id": "optical_cpo",
-      "name_zh": "矽光子 CPO",
-      "heat_score": 65,
-      "summaries": {
-        "event_count": 5,
-        "source_count": 2,
-        "tracking_candidate_count": 3,
-        "taiwan_mapping_count": 21
-      },
-      "heat_reason": {
-        "rule_version": "public_theme_heat_v0.8",
-        "event_component": {
-          "input": 5,
-          "normalized": 83.333,
-          "weighted": 20.833
-        },
-        "source_component": {
-          "input": 2,
-          "normalized": 50.0,
-          "weighted": 12.5
-        },
-        "candidate_component": {
-          "input": 3,
-          "normalized": 75.0,
-          "weighted": 15.0
-        },
-        "mapping_component": {
-          "mapping_count": 21,
-          "direct_mapping_event_count": 1,
-          "normalized": 80.0,
-          "weighted": 24.0
-        },
-        "single_source_concentration": 0.8,
-        "concentration_penalty": 7.5,
-        "raw_score": 64.833
-      },
-      "direct_mentions": [
-        {
-          "instrument_id": "TPEX:5371",
-          "symbol": "5371",
-          "exchange": "TPEX",
-          "name_zh": "中光電",
-          "direct_event_count": 1,
-          "latest_mentioned_at": "2026-08-16T18:57:06Z"
-        }
-      ],
-      "supply_chain_candidates": [
-        {
-          "instrument_id": "TPEX:3289",
-          "symbol": "3289",
-          "exchange": "TPEX",
-          "name_zh": "宜特",
-          "direct_event_count": 0,
-          "official_evidence_count": 0,
-          "company_rank_score": 1,
-          "latest_mentioned_at": null,
-          "latest_official_at": null
-        },
-        {
-          "instrument_id": "TPEX:3587",
-          "symbol": "3587",
-          "exchange": "TPEX",
-          "name_zh": "閎康",
-          "direct_event_count": 0,
-          "official_evidence_count": 0,
-          "company_rank_score": 1,
-          "latest_mentioned_at": null,
-          "latest_official_at": null
-        },
-        {
-          "instrument_id": "TPEX:4971",
-          "symbol": "4971",
-          "exchange": "TPEX",
-          "name_zh": "IET-KY",
-          "direct_event_count": 0,
-          "official_evidence_count": 0,
-          "company_rank_score": 1,
-          "latest_mentioned_at": null,
-          "latest_official_at": null
-        }
-      ],
-      "representative_news": {
-        "cluster_id": "cluster-fa137c11e9321cea",
-        "id": "digitimes_tw-d7759d0b9e7f",
-        "title_zh": "科技1分鐘：拆解CPO BOM表　光引擎最高貴、矽光子成本優勢浮現",
-        "summary": "AI伺服器一路往更高頻寬推進，光通訊熱度也跟著水漲船高。NVIDIA近期接連投資Lumentum、Coherent及Marvell，布局矽光子與光互連技術，讓共同封裝光學（CPO）、矽光子（Silicon Photonics）及高速光模組的話題不斷升溫。若以成本結構來看，光通訊升級也反映著物料清單（Bill of",
-        "source_id": "digitimes_tw",
-        "source": "DIGITIMES",
-        "published_at": "2026-08-16T18:43:32Z",
-        "canonical_url": "https://www.digitimes.com.tw/tech/dt/n/shwnws.asp?id=0000765258_H5N14KO46SGFWU7MB5GW9"
-      }
-    },
-    {
-      "rank": 4,
-      "theme_id": "defense_drone",
-      "name_zh": "國防與無人機",
-      "heat_score": 58,
-      "summaries": {
-        "event_count": 4,
-        "source_count": 3,
-        "tracking_candidate_count": 1,
-        "taiwan_mapping_count": 3
-      },
-      "heat_reason": {
-        "rule_version": "public_theme_heat_v0.8",
-        "event_component": {
-          "input": 4,
-          "normalized": 66.667,
-          "weighted": 16.667
-        },
-        "source_component": {
-          "input": 3,
-          "normalized": 75.0,
-          "weighted": 18.75
-        },
-        "candidate_component": {
-          "input": 1,
-          "normalized": 25.0,
-          "weighted": 5.0
-        },
-        "mapping_component": {
-          "mapping_count": 3,
-          "direct_mapping_event_count": 0,
-          "normalized": 60.0,
-          "weighted": 18.0
-        },
-        "single_source_concentration": 0.5,
-        "concentration_penalty": 0.0,
-        "raw_score": 58.417
-      },
-      "direct_mentions": [],
-      "supply_chain_candidates": [
-        {
-          "instrument_id": "TPEX:5371",
-          "symbol": "5371",
-          "exchange": "TPEX",
-          "name_zh": "中光電",
-          "direct_event_count": 0,
-          "official_evidence_count": 0,
-          "company_rank_score": 1,
-          "latest_mentioned_at": null,
-          "latest_official_at": null
-        },
-        {
-          "instrument_id": "TWSE:2634",
-          "symbol": "2634",
-          "exchange": "TWSE",
-          "name_zh": "漢翔",
-          "direct_event_count": 0,
-          "official_evidence_count": 0,
-          "company_rank_score": 1,
-          "latest_mentioned_at": null,
-          "latest_official_at": null
-        },
-        {
-          "instrument_id": "TWSE:8033",
-          "symbol": "8033",
-          "exchange": "TWSE",
-          "name_zh": "雷虎",
-          "direct_event_count": 0,
-          "official_evidence_count": 0,
-          "company_rank_score": 1,
-          "latest_mentioned_at": null,
-          "latest_official_at": null
-        }
-      ],
-      "representative_news": {
-        "cluster_id": "cluster-25f3e2c74c0913f5",
-        "id": "cnyes-c118508ba52f",
-        "title_zh": "烏克蘭無人機猛攻 俄羅斯電商巨頭「野莓」七座物流中心停擺",
-        "summary": "烏克蘭國防部 16 日（周日）通報，烏方已使俄羅斯大型電商平台「野莓」公司規模最大的 10 個物流中心中的 7 個停止運作。",
-        "source_id": "cnyes",
-        "source": "鉅亨網 Cnyes",
-        "published_at": "2026-08-16T14:06:23Z",
-        "canonical_url": "https://news.cnyes.com/news/id/6578431"
-      }
-    },
-    {
       "rank": 5,
-      "theme_id": "statementdog_tag_1169",
-      "name_zh": "電商",
+      "theme_id": "statementdog_tag_1466",
+      "name_zh": "ASIC",
       "heat_score": 45,
       "summaries": {
         "event_count": 2,
         "source_count": 2,
         "tracking_candidate_count": 0,
-        "taiwan_mapping_count": 10
+        "taiwan_mapping_count": 25
       },
       "heat_reason": {
         "rule_version": "public_theme_heat_v0.8",
@@ -444,7 +485,7 @@
           "weighted": 0.0
         },
         "mapping_component": {
-          "mapping_count": 10,
+          "mapping_count": 25,
           "direct_mapping_event_count": 1,
           "normalized": 80.0,
           "weighted": 24.0
@@ -455,31 +496,20 @@
       },
       "direct_mentions": [
         {
-          "instrument_id": "TPEX:8044",
-          "symbol": "8044",
-          "exchange": "TPEX",
-          "name_zh": "網家",
+          "instrument_id": "TWSE:2324",
+          "symbol": "2324",
+          "exchange": "TWSE",
+          "name_zh": "仁寶",
           "direct_event_count": 1,
-          "latest_mentioned_at": "2026-08-17T02:35:53Z"
+          "latest_mentioned_at": "2026-08-17T03:41:38Z"
         }
       ],
       "supply_chain_candidates": [
         {
-          "instrument_id": "TPEX:8044",
-          "symbol": "8044",
+          "instrument_id": "TPEX:5274",
+          "symbol": "5274",
           "exchange": "TPEX",
-          "name_zh": "網家",
-          "direct_event_count": 1,
-          "official_evidence_count": 0,
-          "company_rank_score": 5,
-          "latest_mentioned_at": "2026-08-17T02:35:53Z",
-          "latest_official_at": null
-        },
-        {
-          "instrument_id": "TPEX:2949",
-          "symbol": "2949",
-          "exchange": "TPEX",
-          "name_zh": "欣新網",
+          "name_zh": "信驊",
           "direct_event_count": 0,
           "official_evidence_count": 0,
           "company_rank_score": 1,
@@ -487,10 +517,21 @@
           "latest_official_at": null
         },
         {
-          "instrument_id": "TPEX:5903",
-          "symbol": "5903",
+          "instrument_id": "TPEX:6223",
+          "symbol": "6223",
           "exchange": "TPEX",
-          "name_zh": "全家",
+          "name_zh": "旺矽",
+          "direct_event_count": 0,
+          "official_evidence_count": 0,
+          "company_rank_score": 1,
+          "latest_mentioned_at": null,
+          "latest_official_at": null
+        },
+        {
+          "instrument_id": "TPEX:6274",
+          "symbol": "6274",
+          "exchange": "TPEX",
+          "name_zh": "台燿",
           "direct_event_count": 0,
           "official_evidence_count": 0,
           "company_rank_score": 1,
@@ -499,14 +540,14 @@
         }
       ],
       "representative_news": {
-        "cluster_id": "cluster-04dedc17a0bd734e",
-        "id": "yahoo_finance_tw-c50cfa53b693",
-        "title_zh": "網家B2C電商Q2虧損收斂，H1本業獲利轉盈，每股虧損1.06元",
-        "summary": "【財訊快報／記者陳浩寧報導】在營運體質優化與效率提升策略下，網家(8044)第二季營收93.62億元，年增11.5%；營業毛利14.72億元，年增29.8%，毛利率提升至15.7%，年增2.2個百分點",
+        "cluster_id": "cluster-4c9e5081e082b5db",
+        "id": "yahoo_finance_tw-fe36dcc77be6",
+        "title_zh": "仁寶伺服器業務爆發！ASIC大單有望近期落袋　元大升評「買進」喊55元",
+        "summary": "財經中心／王駿凱報導仁寶（2324）伺服器業務持續升溫，元大投顧看好公司有望取得美系CSP ASIC伺服器L11組裝訂單，若順利切入，明年伺服器營收可望大幅成長，成為彌補筆電業務缺口的關鍵動能。元大投",
         "source_id": "yahoo_finance_tw",
         "source": "Yahoo Finance Taiwan",
-        "published_at": "2026-08-17T02:35:53Z",
-        "canonical_url": "https://tw.stock.yahoo.com/news/%E7%B6%B2%E5%AE%B6b2c%E9%9B%BB%E5%95%86q2%E8%99%A7%E6%90%8D%E6%94%B6%E6%96%82-h1%E6%9C%AC%E6%A5%AD%E7%8D%B2%E5%88%A9%E8%BD%89%E7%9B%88-%E6%AF%8F%E8%82%A1%E8%99%A7%E6%90%8D1-06%E5%85%83-023553353.html"
+        "published_at": "2026-08-17T03:41:38Z",
+        "canonical_url": "https://tw.stock.yahoo.com/news/%E4%BB%81%E5%AF%B6%E4%BC%BA%E6%9C%8D%E5%99%A8%E6%A5%AD%E5%8B%99%E7%88%86%E7%99%BC-asic%E5%A4%A7%E5%96%AE%E6%9C%89%E6%9C%9B%E8%BF%91%E6%9C%9F%E8%90%BD%E8%A2%8B-%E5%85%83%E5%A4%A7%E5%8D%87%E8%A9%95-%E8%B2%B7%E9%80%B2-%E5%96%8A55%E5%85%83-034138255.html"
       }
     }
   ]
