@@ -2,14 +2,14 @@
   "schema_version": "nexus_public_theme_ranking.v0.8",
   "ranking_rule_version": "public_theme_heat_v0.8",
   "company_rule_version": "public_company_evidence_v0.8",
-  "generated_at": "2026-08-17T05:51:56.045904Z",
+  "generated_at": "2026-08-17T07:17:36.578416Z",
   "market_id": "TW_EQUITY",
   "market_scope": [
     "TW_EQUITY"
   ],
   "window_hours": 72,
   "max_themes": 5,
-  "qualified_theme_count": 8,
+  "qualified_theme_count": 10,
   "displayed_theme_count": 5,
   "threshold_note": null,
   "generation_status": "complete",
@@ -18,19 +18,121 @@
   "themes": [
     {
       "rank": 1,
-      "theme_id": "statementdog_tag_1517",
-      "name_zh": "AI",
-      "heat_score": 80,
+      "theme_id": "robotics",
+      "name_zh": "機器人",
+      "heat_score": 90,
       "summaries": {
-        "event_count": 22,
-        "source_count": 4,
-        "tracking_candidate_count": 0,
-        "taiwan_mapping_count": 155
+        "event_count": 8,
+        "source_count": 3,
+        "tracking_candidate_count": 4,
+        "taiwan_mapping_count": 26
       },
       "heat_reason": {
         "rule_version": "public_theme_heat_v0.8",
         "event_component": {
-          "input": 22,
+          "input": 8,
+          "normalized": 100.0,
+          "weighted": 25.0
+        },
+        "source_component": {
+          "input": 3,
+          "normalized": 75.0,
+          "weighted": 18.75
+        },
+        "candidate_component": {
+          "input": 4,
+          "normalized": 100.0,
+          "weighted": 20.0
+        },
+        "mapping_component": {
+          "mapping_count": 26,
+          "direct_mapping_event_count": 2,
+          "normalized": 100.0,
+          "weighted": 30.0
+        },
+        "single_source_concentration": 0.7,
+        "concentration_penalty": 3.75,
+        "raw_score": 90.0
+      },
+      "direct_mentions": [
+        {
+          "instrument_id": "TWSE:2027",
+          "symbol": "2027",
+          "exchange": "TWSE",
+          "name_zh": "大成鋼",
+          "direct_event_count": 1,
+          "latest_mentioned_at": "2026-08-16T18:18:04Z"
+        },
+        {
+          "instrument_id": "TWSE:2317",
+          "symbol": "2317",
+          "exchange": "TWSE",
+          "name_zh": "鴻海",
+          "direct_event_count": 1,
+          "latest_mentioned_at": "2026-08-16T18:13:54Z"
+        }
+      ],
+      "supply_chain_candidates": [
+        {
+          "instrument_id": "TPEX:3379",
+          "symbol": "3379",
+          "exchange": "TPEX",
+          "name_zh": "彬台",
+          "direct_event_count": 0,
+          "official_evidence_count": 0,
+          "company_rank_score": 1,
+          "latest_mentioned_at": null,
+          "latest_official_at": null
+        },
+        {
+          "instrument_id": "TPEX:3577",
+          "symbol": "3577",
+          "exchange": "TPEX",
+          "name_zh": "泓格",
+          "direct_event_count": 0,
+          "official_evidence_count": 0,
+          "company_rank_score": 1,
+          "latest_mentioned_at": null,
+          "latest_official_at": null
+        },
+        {
+          "instrument_id": "TPEX:5289",
+          "symbol": "5289",
+          "exchange": "TPEX",
+          "name_zh": "宜鼎",
+          "direct_event_count": 0,
+          "official_evidence_count": 0,
+          "company_rank_score": 1,
+          "latest_mentioned_at": null,
+          "latest_official_at": null
+        }
+      ],
+      "representative_news": {
+        "cluster_id": "cluster-f628e03d5a2d2326",
+        "id": "cnyes-eaf127482d36",
+        "title_zh": "德儀推首款商用CAN XL收發器 搶人形機器人商機",
+        "summary": "德州儀器 (TXN - US) 今 (17) 日推出業界首款商用 CAN XL 收發器 TCAN6062，其控制器區域網路 (CAN) 擴展資料欄位長度 (XL) 收發器支援每個訊框最高 2,048 位元組的有效負載和高",
+        "source_id": "cnyes",
+        "source": "鉅亨網 Cnyes",
+        "published_at": "2026-08-17T06:17:09Z",
+        "canonical_url": "https://news.cnyes.com/news/id/6579033"
+      }
+    },
+    {
+      "rank": 2,
+      "theme_id": "statementdog_tag_1517",
+      "name_zh": "AI",
+      "heat_score": 78,
+      "summaries": {
+        "event_count": 20,
+        "source_count": 4,
+        "tracking_candidate_count": 0,
+        "taiwan_mapping_count": 140
+      },
+      "heat_reason": {
+        "rule_version": "public_theme_heat_v0.8",
+        "event_component": {
+          "input": 20,
           "normalized": 100.0,
           "weighted": 25.0
         },
@@ -45,24 +147,16 @@
           "weighted": 0.0
         },
         "mapping_component": {
-          "mapping_count": 155,
+          "mapping_count": 140,
           "direct_mapping_event_count": 6,
           "normalized": 100.0,
           "weighted": 30.0
         },
-        "single_source_concentration": 0.591,
-        "concentration_penalty": 0.0,
-        "raw_score": 80.0
+        "single_source_concentration": 0.65,
+        "concentration_penalty": 1.875,
+        "raw_score": 78.125
       },
       "direct_mentions": [
-        {
-          "instrument_id": "TWSE:2027",
-          "symbol": "2027",
-          "exchange": "TWSE",
-          "name_zh": "大成鋼",
-          "direct_event_count": 2,
-          "latest_mentioned_at": "2026-08-17T04:33:06Z"
-        },
         {
           "instrument_id": "TWSE:2030",
           "symbol": "2030",
@@ -70,6 +164,22 @@
           "name_zh": "彰源",
           "direct_event_count": 2,
           "latest_mentioned_at": "2026-08-17T02:57:57Z"
+        },
+        {
+          "instrument_id": "TWSE:2357",
+          "symbol": "2357",
+          "exchange": "TWSE",
+          "name_zh": "華碩",
+          "direct_event_count": 1,
+          "latest_mentioned_at": "2026-08-17T06:27:00Z"
+        },
+        {
+          "instrument_id": "TWSE:2027",
+          "symbol": "2027",
+          "exchange": "TWSE",
+          "name_zh": "大成鋼",
+          "direct_event_count": 1,
+          "latest_mentioned_at": "2026-08-17T03:05:26Z"
         },
         {
           "instrument_id": "TPEX:3290",
@@ -124,31 +234,31 @@
         }
       ],
       "representative_news": {
-        "cluster_id": "cluster-7b1e380d035528f8",
-        "id": "yahoo_finance_tw-a26b3ea520d4",
-        "title_zh": "美國軍事AI政策面臨協調挑戰 對中國技術競爭同步升溫",
-        "summary": "圖／本報資料庫商傳媒｜葉安庭／綜合外電報導美國積極推動人工智慧（AI）技術應用於國防與國家安全領域，但隨著AI能力快速發展，政府部門、軍方與科技企業之間對於技術使用界線的看法也出現分歧。在此同時，中國",
+        "cluster_id": "cluster-d8536de4c6b23e89",
+        "id": "yahoo_finance_tw-733ebc2d28b4",
+        "title_zh": "AI紅利全民共享！ 賴清德宣布「明年普發1萬」",
+        "summary": "總統賴清德今（17）日在臉書宣布，因應台灣經濟成長表現持續上修，政府將在明年度中央政府總預算中增列2357億元，規劃明年普發現金，每人1萬元，讓全民共享AI（人工智慧）帶動的經濟成長成果。賴清德強調，",
         "source_id": "yahoo_finance_tw",
         "source": "Yahoo Finance Taiwan",
-        "published_at": "2026-08-17T05:08:00Z",
-        "canonical_url": "https://tw.stock.yahoo.com/news/%E7%BE%8E%E5%9C%8B%E8%BB%8D%E4%BA%8Bai%E6%94%BF%E7%AD%96%E9%9D%A2%E8%87%A8%E5%8D%94%E8%AA%BF%E6%8C%91%E6%88%B0-%E5%B0%8D%E4%B8%AD%E5%9C%8B%E6%8A%80%E8%A1%93%E7%AB%B6%E7%88%AD%E5%90%8C%E6%AD%A5%E5%8D%87%E6%BA%AB-050800138.html"
+        "published_at": "2026-08-17T06:27:00Z",
+        "canonical_url": "https://tw.stock.yahoo.com/news/ai%E7%B4%85%E5%88%A9%E5%85%A8%E6%B0%91%E5%85%B1%E4%BA%AB-%E8%B3%B4%E6%B8%85%E5%BE%B7%E5%AE%A3%E5%B8%83-%E6%98%8E%E5%B9%B4%E6%99%AE%E7%99%BC1%E8%90%AC-062700221.html"
       }
     },
     {
-      "rank": 2,
+      "rank": 3,
       "theme_id": "memory_hbm",
       "name_zh": "記憶體與 HBM",
-      "heat_score": 78,
+      "heat_score": 75,
       "summaries": {
-        "event_count": 8,
+        "event_count": 6,
         "source_count": 3,
         "tracking_candidate_count": 2,
-        "taiwan_mapping_count": 40
+        "taiwan_mapping_count": 23
       },
       "heat_reason": {
         "rule_version": "public_theme_heat_v0.8",
         "event_component": {
-          "input": 8,
+          "input": 6,
           "normalized": 100.0,
           "weighted": 25.0
         },
@@ -163,14 +273,14 @@
           "weighted": 10.0
         },
         "mapping_component": {
-          "mapping_count": 40,
+          "mapping_count": 23,
           "direct_mapping_event_count": 1,
           "normalized": 80.0,
           "weighted": 24.0
         },
-        "single_source_concentration": 0.5,
-        "concentration_penalty": 0.0,
-        "raw_score": 77.75
+        "single_source_concentration": 0.667,
+        "concentration_penalty": 2.5,
+        "raw_score": 75.25
       },
       "direct_mentions": [
         {
@@ -237,202 +347,7 @@
       }
     },
     {
-      "rank": 3,
-      "theme_id": "robotics",
-      "name_zh": "機器人",
-      "heat_score": 72,
-      "summaries": {
-        "event_count": 8,
-        "source_count": 2,
-        "tracking_candidate_count": 3,
-        "taiwan_mapping_count": 26
-      },
-      "heat_reason": {
-        "rule_version": "public_theme_heat_v0.8",
-        "event_component": {
-          "input": 8,
-          "normalized": 100.0,
-          "weighted": 25.0
-        },
-        "source_component": {
-          "input": 2,
-          "normalized": 50.0,
-          "weighted": 12.5
-        },
-        "candidate_component": {
-          "input": 3,
-          "normalized": 75.0,
-          "weighted": 15.0
-        },
-        "mapping_component": {
-          "mapping_count": 26,
-          "direct_mapping_event_count": 3,
-          "normalized": 100.0,
-          "weighted": 30.0
-        },
-        "single_source_concentration": 0.875,
-        "concentration_penalty": 10.313,
-        "raw_score": 72.188
-      },
-      "direct_mentions": [
-        {
-          "instrument_id": "TWSE:7750",
-          "symbol": "7750",
-          "exchange": "TWSE",
-          "name_zh": "新代",
-          "direct_event_count": 1,
-          "latest_mentioned_at": "2026-08-17T04:27:41Z"
-        },
-        {
-          "instrument_id": "TWSE:2027",
-          "symbol": "2027",
-          "exchange": "TWSE",
-          "name_zh": "大成鋼",
-          "direct_event_count": 1,
-          "latest_mentioned_at": "2026-08-16T18:18:04Z"
-        },
-        {
-          "instrument_id": "TWSE:2317",
-          "symbol": "2317",
-          "exchange": "TWSE",
-          "name_zh": "鴻海",
-          "direct_event_count": 1,
-          "latest_mentioned_at": "2026-08-16T18:13:54Z"
-        }
-      ],
-      "supply_chain_candidates": [
-        {
-          "instrument_id": "TWSE:7750",
-          "symbol": "7750",
-          "exchange": "TWSE",
-          "name_zh": "新代",
-          "direct_event_count": 1,
-          "official_evidence_count": 0,
-          "company_rank_score": 5,
-          "latest_mentioned_at": "2026-08-17T04:27:41Z",
-          "latest_official_at": null
-        },
-        {
-          "instrument_id": "TPEX:3379",
-          "symbol": "3379",
-          "exchange": "TPEX",
-          "name_zh": "彬台",
-          "direct_event_count": 0,
-          "official_evidence_count": 0,
-          "company_rank_score": 1,
-          "latest_mentioned_at": null,
-          "latest_official_at": null
-        },
-        {
-          "instrument_id": "TPEX:3577",
-          "symbol": "3577",
-          "exchange": "TPEX",
-          "name_zh": "泓格",
-          "direct_event_count": 0,
-          "official_evidence_count": 0,
-          "company_rank_score": 1,
-          "latest_mentioned_at": null,
-          "latest_official_at": null
-        }
-      ],
-      "representative_news": {
-        "cluster_id": "cluster-2bde89f32d0f7829",
-        "id": "digitimes_tw-3145d3fad477",
-        "title_zh": "人形機器人相機模組成功量產　傳樂金Innotek吃下北美新創訂單",
-        "summary": "消息指出，樂金Innotek（LG Innotek）已正式投入人形機器人相機模組量產。業界認為，樂金Innotek已將原本以行動裝置為主的相機模組事業，成功拓展至機器人、自動駕駛等實體AI（Physical AI）領域，很快便將開始帶來實質營收，成為新的成長動能。據韓媒ET",
-        "source_id": "digitimes_tw",
-        "source": "DIGITIMES",
-        "published_at": "2026-08-16T18:36:25Z",
-        "canonical_url": "https://www.digitimes.com.tw/tech/dt/n/shwnws.asp?id=0000765233_ZG33WO6P20PBZ84YVLXIH"
-      }
-    },
-    {
       "rank": 4,
-      "theme_id": "defense_drone",
-      "name_zh": "國防與無人機",
-      "heat_score": 69,
-      "summaries": {
-        "event_count": 5,
-        "source_count": 4,
-        "tracking_candidate_count": 1,
-        "taiwan_mapping_count": 3
-      },
-      "heat_reason": {
-        "rule_version": "public_theme_heat_v0.8",
-        "event_component": {
-          "input": 5,
-          "normalized": 83.333,
-          "weighted": 20.833
-        },
-        "source_component": {
-          "input": 4,
-          "normalized": 100.0,
-          "weighted": 25.0
-        },
-        "candidate_component": {
-          "input": 1,
-          "normalized": 25.0,
-          "weighted": 5.0
-        },
-        "mapping_component": {
-          "mapping_count": 3,
-          "direct_mapping_event_count": 0,
-          "normalized": 60.0,
-          "weighted": 18.0
-        },
-        "single_source_concentration": 0.4,
-        "concentration_penalty": 0.0,
-        "raw_score": 68.833
-      },
-      "direct_mentions": [],
-      "supply_chain_candidates": [
-        {
-          "instrument_id": "TPEX:5371",
-          "symbol": "5371",
-          "exchange": "TPEX",
-          "name_zh": "中光電",
-          "direct_event_count": 0,
-          "official_evidence_count": 0,
-          "company_rank_score": 1,
-          "latest_mentioned_at": null,
-          "latest_official_at": null
-        },
-        {
-          "instrument_id": "TWSE:2634",
-          "symbol": "2634",
-          "exchange": "TWSE",
-          "name_zh": "漢翔",
-          "direct_event_count": 0,
-          "official_evidence_count": 0,
-          "company_rank_score": 1,
-          "latest_mentioned_at": null,
-          "latest_official_at": null
-        },
-        {
-          "instrument_id": "TWSE:8033",
-          "symbol": "8033",
-          "exchange": "TWSE",
-          "name_zh": "雷虎",
-          "direct_event_count": 0,
-          "official_evidence_count": 0,
-          "company_rank_score": 1,
-          "latest_mentioned_at": null,
-          "latest_official_at": null
-        }
-      ],
-      "representative_news": {
-        "cluster_id": "cluster-25f3e2c74c0913f5",
-        "id": "cnyes-c118508ba52f",
-        "title_zh": "烏克蘭無人機猛攻 俄羅斯電商巨頭「野莓」七座物流中心停擺",
-        "summary": "烏克蘭國防部 16 日（周日）通報，烏方已使俄羅斯大型電商平台「野莓」公司規模最大的 10 個物流中心中的 7 個停止運作。",
-        "source_id": "cnyes",
-        "source": "鉅亨網 Cnyes",
-        "published_at": "2026-08-16T14:06:23Z",
-        "canonical_url": "https://news.cnyes.com/news/id/6578431"
-      }
-    },
-    {
-      "rank": 5,
       "theme_id": "optical_cpo",
       "name_zh": "矽光子 CPO",
       "heat_score": 65,
@@ -523,6 +438,91 @@
         "source": "DIGITIMES",
         "published_at": "2026-08-16T18:43:32Z",
         "canonical_url": "https://www.digitimes.com.tw/tech/dt/n/shwnws.asp?id=0000765258_H5N14KO46SGFWU7MB5GW9"
+      }
+    },
+    {
+      "rank": 5,
+      "theme_id": "defense_drone",
+      "name_zh": "國防與無人機",
+      "heat_score": 58,
+      "summaries": {
+        "event_count": 4,
+        "source_count": 3,
+        "tracking_candidate_count": 1,
+        "taiwan_mapping_count": 3
+      },
+      "heat_reason": {
+        "rule_version": "public_theme_heat_v0.8",
+        "event_component": {
+          "input": 4,
+          "normalized": 66.667,
+          "weighted": 16.667
+        },
+        "source_component": {
+          "input": 3,
+          "normalized": 75.0,
+          "weighted": 18.75
+        },
+        "candidate_component": {
+          "input": 1,
+          "normalized": 25.0,
+          "weighted": 5.0
+        },
+        "mapping_component": {
+          "mapping_count": 3,
+          "direct_mapping_event_count": 0,
+          "normalized": 60.0,
+          "weighted": 18.0
+        },
+        "single_source_concentration": 0.5,
+        "concentration_penalty": 0.0,
+        "raw_score": 58.417
+      },
+      "direct_mentions": [],
+      "supply_chain_candidates": [
+        {
+          "instrument_id": "TPEX:5371",
+          "symbol": "5371",
+          "exchange": "TPEX",
+          "name_zh": "中光電",
+          "direct_event_count": 0,
+          "official_evidence_count": 0,
+          "company_rank_score": 1,
+          "latest_mentioned_at": null,
+          "latest_official_at": null
+        },
+        {
+          "instrument_id": "TWSE:2634",
+          "symbol": "2634",
+          "exchange": "TWSE",
+          "name_zh": "漢翔",
+          "direct_event_count": 0,
+          "official_evidence_count": 0,
+          "company_rank_score": 1,
+          "latest_mentioned_at": null,
+          "latest_official_at": null
+        },
+        {
+          "instrument_id": "TWSE:8033",
+          "symbol": "8033",
+          "exchange": "TWSE",
+          "name_zh": "雷虎",
+          "direct_event_count": 0,
+          "official_evidence_count": 0,
+          "company_rank_score": 1,
+          "latest_mentioned_at": null,
+          "latest_official_at": null
+        }
+      ],
+      "representative_news": {
+        "cluster_id": "cluster-25f3e2c74c0913f5",
+        "id": "cnyes-c118508ba52f",
+        "title_zh": "烏克蘭無人機猛攻 俄羅斯電商巨頭「野莓」七座物流中心停擺",
+        "summary": "烏克蘭國防部 16 日（周日）通報，烏方已使俄羅斯大型電商平台「野莓」公司規模最大的 10 個物流中心中的 7 個停止運作。",
+        "source_id": "cnyes",
+        "source": "鉅亨網 Cnyes",
+        "published_at": "2026-08-16T14:06:23Z",
+        "canonical_url": "https://news.cnyes.com/news/id/6578431"
       }
     }
   ]
