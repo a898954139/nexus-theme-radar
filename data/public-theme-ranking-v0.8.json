@@ -2,7 +2,7 @@
   "schema_version": "nexus_public_theme_ranking.v0.8",
   "ranking_rule_version": "public_theme_heat_v0.8",
   "company_rule_version": "public_company_evidence_v0.8",
-  "generated_at": "2026-08-18T13:09:33.525702Z",
+  "generated_at": "2026-08-18T13:58:27.056964Z",
   "market_id": "TW_EQUITY",
   "market_scope": [
     "TW_EQUITY"
@@ -18,6 +18,132 @@
   "themes": [
     {
       "rank": 1,
+      "theme_id": "robotics",
+      "name_zh": "機器人",
+      "heat_score": 98,
+      "summaries": {
+        "event_count": 9,
+        "source_count": 4,
+        "tracking_candidate_count": 6,
+        "taiwan_mapping_count": 29
+      },
+      "heat_reason": {
+        "rule_version": "public_theme_heat_v0.8",
+        "event_component": {
+          "input": 9,
+          "normalized": 100.0,
+          "weighted": 25.0
+        },
+        "source_component": {
+          "input": 4,
+          "normalized": 100.0,
+          "weighted": 25.0
+        },
+        "candidate_component": {
+          "input": 6,
+          "normalized": 100.0,
+          "weighted": 20.0
+        },
+        "mapping_component": {
+          "mapping_count": 29,
+          "direct_mapping_event_count": 5,
+          "normalized": 100.0,
+          "weighted": 30.0
+        },
+        "single_source_concentration": 0.667,
+        "concentration_penalty": 2.5,
+        "raw_score": 97.5
+      },
+      "direct_mentions": [
+        {
+          "instrument_id": "TWSE:2027",
+          "symbol": "2027",
+          "exchange": "TWSE",
+          "name_zh": "大成鋼",
+          "direct_event_count": 2,
+          "latest_mentioned_at": "2026-08-18T10:12:15Z"
+        },
+        {
+          "instrument_id": "TWSE:3019",
+          "symbol": "3019",
+          "exchange": "TWSE",
+          "name_zh": "亞光",
+          "direct_event_count": 1,
+          "latest_mentioned_at": "2026-08-18T13:00:02Z"
+        },
+        {
+          "instrument_id": "TWSE:2393",
+          "symbol": "2393",
+          "exchange": "TWSE",
+          "name_zh": "億光",
+          "direct_event_count": 1,
+          "latest_mentioned_at": "2026-08-18T10:12:15Z"
+        },
+        {
+          "instrument_id": "TWSE:1301",
+          "symbol": "1301",
+          "exchange": "TWSE",
+          "name_zh": "台塑",
+          "direct_event_count": 1,
+          "latest_mentioned_at": "2026-08-18T02:11:19Z"
+        },
+        {
+          "instrument_id": "TWSE:2025",
+          "symbol": "2025",
+          "exchange": "TWSE",
+          "name_zh": "千興",
+          "direct_event_count": 1,
+          "latest_mentioned_at": "2026-08-17T18:28:33Z"
+        }
+      ],
+      "supply_chain_candidates": [
+        {
+          "instrument_id": "TWSE:3019",
+          "symbol": "3019",
+          "exchange": "TWSE",
+          "name_zh": "亞光",
+          "direct_event_count": 1,
+          "official_evidence_count": 0,
+          "company_rank_score": 5,
+          "latest_mentioned_at": "2026-08-18T13:00:02Z",
+          "latest_official_at": null
+        },
+        {
+          "instrument_id": "TPEX:3379",
+          "symbol": "3379",
+          "exchange": "TPEX",
+          "name_zh": "彬台",
+          "direct_event_count": 0,
+          "official_evidence_count": 0,
+          "company_rank_score": 1,
+          "latest_mentioned_at": null,
+          "latest_official_at": null
+        },
+        {
+          "instrument_id": "TPEX:3577",
+          "symbol": "3577",
+          "exchange": "TPEX",
+          "name_zh": "泓格",
+          "direct_event_count": 0,
+          "official_evidence_count": 0,
+          "company_rank_score": 1,
+          "latest_mentioned_at": null,
+          "latest_official_at": null
+        }
+      ],
+      "representative_news": {
+        "cluster_id": "cluster-36b3c617ba0eeb26",
+        "id": "yahoo_finance_tw-20f8329ee8ee",
+        "title_zh": "亞光：人形機器人鏡頭送樣　CPO零件有望明年貢獻業績",
+        "summary": "（中央社記者趙敏雅台北2026年8月18日電）光學鏡頭廠亞光(3019)董事長賴以仁今天表示，亞光在人形機器人、CPO領域不會缺席，目前人形機器人鏡頭已送樣；他看好CPO稜鏡、CPO用準直鏡（coll",
+        "source_id": "yahoo_finance_tw",
+        "source": "Yahoo Finance Taiwan",
+        "published_at": "2026-08-18T13:00:02Z",
+        "canonical_url": "https://tw.stock.yahoo.com/news/%E4%BA%9E%E5%85%89-%E4%BA%BA%E5%BD%A2%E6%A9%9F%E5%99%A8%E4%BA%BA%E9%8F%A1%E9%A0%AD%E9%80%81%E6%A8%A3-cpo%E9%9B%B6%E4%BB%B6%E6%9C%89%E6%9C%9B%E6%98%8E%E5%B9%B4%E8%B2%A2%E7%8D%BB%E6%A5%AD%E7%B8%BE-130002966.html"
+      }
+    },
+    {
+      "rank": 2,
       "theme_id": "memory_hbm",
       "name_zh": "記憶體與 HBM",
       "heat_score": 94,
@@ -116,124 +242,6 @@
         "source": "鉅亨網 Cnyes",
         "published_at": "2026-08-18T05:10:12Z",
         "canonical_url": "https://news.cnyes.com/news/id/6580041"
-      }
-    },
-    {
-      "rank": 2,
-      "theme_id": "robotics",
-      "name_zh": "機器人",
-      "heat_score": 88,
-      "summaries": {
-        "event_count": 8,
-        "source_count": 3,
-        "tracking_candidate_count": 5,
-        "taiwan_mapping_count": 29
-      },
-      "heat_reason": {
-        "rule_version": "public_theme_heat_v0.8",
-        "event_component": {
-          "input": 8,
-          "normalized": 100.0,
-          "weighted": 25.0
-        },
-        "source_component": {
-          "input": 3,
-          "normalized": 75.0,
-          "weighted": 18.75
-        },
-        "candidate_component": {
-          "input": 5,
-          "normalized": 100.0,
-          "weighted": 20.0
-        },
-        "mapping_component": {
-          "mapping_count": 29,
-          "direct_mapping_event_count": 4,
-          "normalized": 100.0,
-          "weighted": 30.0
-        },
-        "single_source_concentration": 0.75,
-        "concentration_penalty": 5.625,
-        "raw_score": 88.125
-      },
-      "direct_mentions": [
-        {
-          "instrument_id": "TWSE:2027",
-          "symbol": "2027",
-          "exchange": "TWSE",
-          "name_zh": "大成鋼",
-          "direct_event_count": 2,
-          "latest_mentioned_at": "2026-08-18T10:12:15Z"
-        },
-        {
-          "instrument_id": "TWSE:2393",
-          "symbol": "2393",
-          "exchange": "TWSE",
-          "name_zh": "億光",
-          "direct_event_count": 1,
-          "latest_mentioned_at": "2026-08-18T10:12:15Z"
-        },
-        {
-          "instrument_id": "TWSE:1301",
-          "symbol": "1301",
-          "exchange": "TWSE",
-          "name_zh": "台塑",
-          "direct_event_count": 1,
-          "latest_mentioned_at": "2026-08-18T02:11:19Z"
-        },
-        {
-          "instrument_id": "TWSE:2025",
-          "symbol": "2025",
-          "exchange": "TWSE",
-          "name_zh": "千興",
-          "direct_event_count": 1,
-          "latest_mentioned_at": "2026-08-17T18:28:33Z"
-        }
-      ],
-      "supply_chain_candidates": [
-        {
-          "instrument_id": "TPEX:3379",
-          "symbol": "3379",
-          "exchange": "TPEX",
-          "name_zh": "彬台",
-          "direct_event_count": 0,
-          "official_evidence_count": 0,
-          "company_rank_score": 1,
-          "latest_mentioned_at": null,
-          "latest_official_at": null
-        },
-        {
-          "instrument_id": "TPEX:3577",
-          "symbol": "3577",
-          "exchange": "TPEX",
-          "name_zh": "泓格",
-          "direct_event_count": 0,
-          "official_evidence_count": 0,
-          "company_rank_score": 1,
-          "latest_mentioned_at": null,
-          "latest_official_at": null
-        },
-        {
-          "instrument_id": "TPEX:5289",
-          "symbol": "5289",
-          "exchange": "TPEX",
-          "name_zh": "宜鼎",
-          "direct_event_count": 0,
-          "official_evidence_count": 0,
-          "company_rank_score": 1,
-          "latest_mentioned_at": null,
-          "latest_official_at": null
-        }
-      ],
-      "representative_news": {
-        "cluster_id": "cluster-59f75f106b1b0a23",
-        "id": "digitimes_tw-18d918141da8",
-        "title_zh": "中國第二屆世界人形機器人運動會　北京集結全球666隊2,056台機器人對決",
-        "summary": "第二屆世界人形機器人運動會將於8月22日在北京國家速滑館「冰絲帶」登場，來自全球六大洲16個國家的666支隊伍、共2,056台人形機器人將參與51個賽項、1301場競技對決。相較首屆，本屆賽事在參賽規模、競賽項目",
-        "source_id": "digitimes_tw",
-        "source": "DIGITIMES",
-        "published_at": "2026-08-18T02:11:19Z",
-        "canonical_url": "https://www.digitimes.com.tw/tech/dt/n/shwnws.asp?id=0000765431_J1E37R2B4EELLC0HX8S7M"
       }
     },
     {
@@ -554,26 +562,26 @@
     },
     {
       "rank": 5,
-      "theme_id": "statementdog_tag_2163",
-      "name_zh": "半導體",
-      "heat_score": 72,
+      "theme_id": "ai_server",
+      "name_zh": "AI 伺服器",
+      "heat_score": 68,
       "summaries": {
-        "event_count": 4,
-        "source_count": 4,
+        "event_count": 7,
+        "source_count": 2,
         "tracking_candidate_count": 0,
-        "taiwan_mapping_count": 31
+        "taiwan_mapping_count": 27
       },
       "heat_reason": {
         "rule_version": "public_theme_heat_v0.8",
         "event_component": {
-          "input": 4,
-          "normalized": 66.667,
-          "weighted": 16.667
-        },
-        "source_component": {
-          "input": 4,
+          "input": 7,
           "normalized": 100.0,
           "weighted": 25.0
+        },
+        "source_component": {
+          "input": 2,
+          "normalized": 50.0,
+          "weighted": 12.5
         },
         "candidate_component": {
           "input": 0,
@@ -581,55 +589,31 @@
           "weighted": 0.0
         },
         "mapping_component": {
-          "mapping_count": 31,
+          "mapping_count": 27,
           "direct_mapping_event_count": 3,
           "normalized": 100.0,
           "weighted": 30.0
         },
-        "single_source_concentration": 0.4,
+        "single_source_concentration": 0.571,
         "concentration_penalty": 0.0,
-        "raw_score": 71.667
+        "raw_score": 67.5
       },
       "direct_mentions": [
-        {
-          "instrument_id": "TWSE:2015",
-          "symbol": "2015",
-          "exchange": "TWSE",
-          "name_zh": "豐興",
-          "direct_event_count": 1,
-          "latest_mentioned_at": "2026-08-18T11:15:07Z"
-        },
-        {
-          "instrument_id": "TWSE:2340",
-          "symbol": "2340",
-          "exchange": "TWSE",
-          "name_zh": "台亞",
-          "direct_event_count": 1,
-          "latest_mentioned_at": "2026-08-18T11:15:07Z"
-        },
-        {
-          "instrument_id": "TWSE:6438",
-          "symbol": "6438",
-          "exchange": "TWSE",
-          "name_zh": "迅得",
-          "direct_event_count": 1,
-          "latest_mentioned_at": "2026-08-18T11:15:07Z"
-        },
         {
           "instrument_id": "TWSE:2317",
           "symbol": "2317",
           "exchange": "TWSE",
           "name_zh": "鴻海",
-          "direct_event_count": 1,
-          "latest_mentioned_at": "2026-08-18T08:59:43Z"
+          "direct_event_count": 2,
+          "latest_mentioned_at": "2026-08-18T08:36:08Z"
         },
         {
-          "instrument_id": "TWSE:2634",
-          "symbol": "2634",
+          "instrument_id": "TWSE:2376",
+          "symbol": "2376",
           "exchange": "TWSE",
-          "name_zh": "漢翔",
+          "name_zh": "技嘉",
           "direct_event_count": 1,
-          "latest_mentioned_at": "2026-08-18T08:59:43Z"
+          "latest_mentioned_at": "2026-08-18T09:44:36Z"
         },
         {
           "instrument_id": "TWSE:2027",
@@ -637,15 +621,23 @@
           "exchange": "TWSE",
           "name_zh": "大成鋼",
           "direct_event_count": 1,
-          "latest_mentioned_at": "2026-08-18T04:00:40Z"
+          "latest_mentioned_at": "2026-08-18T08:36:08Z"
+        },
+        {
+          "instrument_id": "TWSE:2328",
+          "symbol": "2328",
+          "exchange": "TWSE",
+          "name_zh": "廣宇",
+          "direct_event_count": 1,
+          "latest_mentioned_at": "2026-08-18T07:22:55Z"
         }
       ],
       "supply_chain_candidates": [
         {
-          "instrument_id": "TPEX:3131",
-          "symbol": "3131",
+          "instrument_id": "TPEX:5274",
+          "symbol": "5274",
           "exchange": "TPEX",
-          "name_zh": "弘塑",
+          "name_zh": "信驊",
           "direct_event_count": 0,
           "official_evidence_count": 0,
           "company_rank_score": 1,
@@ -653,10 +645,10 @@
           "latest_official_at": null
         },
         {
-          "instrument_id": "TPEX:3680",
-          "symbol": "3680",
-          "exchange": "TPEX",
-          "name_zh": "家登",
+          "instrument_id": "TWSE:3533",
+          "symbol": "3533",
+          "exchange": "TWSE",
+          "name_zh": "嘉澤",
           "direct_event_count": 0,
           "official_evidence_count": 0,
           "company_rank_score": 1,
@@ -664,10 +656,10 @@
           "latest_official_at": null
         },
         {
-          "instrument_id": "TPEX:6488",
-          "symbol": "6488",
-          "exchange": "TPEX",
-          "name_zh": "環球晶",
+          "instrument_id": "TWSE:3665",
+          "symbol": "3665",
+          "exchange": "TWSE",
+          "name_zh": "貿聯-KY",
           "direct_event_count": 0,
           "official_evidence_count": 0,
           "company_rank_score": 1,
@@ -676,14 +668,14 @@
         }
       ],
       "representative_news": {
-        "cluster_id": "cluster-4baf56f6bad963f7",
-        "id": "cnyes-e057e3c74033",
-        "title_zh": "和亞智慧科技聚焦半導體、光學及無人載具應用 預定9月掛牌上櫃",
-        "summary": "迅得(6438-TW)、台亞半導體(2340-TW)參與投資的和亞智慧科技(7825-TW)上櫃案已獲OTC通過，明(19)日將召開上櫃前業績發表會，預計在9月上旬掛牌，2015年設立的和亞智慧科技正掌握整體產業趨勢。",
+        "cluster_id": "cluster-39c00e0188ae8740",
+        "id": "cnyes-545bd0b84535",
+        "title_zh": "技嘉受惠Neocloud大擴產 今年AI伺服器營收力拚翻倍占比衝七成",
+        "summary": "PC品牌技嘉(2376-TW)第二季稅後純益9.86元，年增117%創下歷史新高。法人指出，技嘉受惠AI伺服器出貨放量與新興雲端服務商強勁算力需求，看好技嘉下半年營運優於上半年且今年AI營收將翻倍成長。",
         "source_id": "cnyes",
         "source": "鉅亨網 Cnyes",
-        "published_at": "2026-08-18T11:15:07Z",
-        "canonical_url": "https://news.cnyes.com/news/id/6580563"
+        "published_at": "2026-08-18T09:44:36Z",
+        "canonical_url": "https://news.cnyes.com/news/id/6580489"
       }
     }
   ]
