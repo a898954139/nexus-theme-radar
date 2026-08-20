@@ -2,14 +2,14 @@
   "schema_version": "nexus_public_theme_ranking.v0.8",
   "ranking_rule_version": "public_theme_heat_v0.8",
   "company_rule_version": "public_company_evidence_v0.8",
-  "generated_at": "2026-08-20T09:51:06.045661Z",
+  "generated_at": "2026-08-20T10:48:49.575727Z",
   "market_id": "TW_EQUITY",
   "market_scope": [
     "TW_EQUITY"
   ],
   "window_hours": 72,
   "max_themes": 5,
-  "qualified_theme_count": 10,
+  "qualified_theme_count": 9,
   "displayed_theme_count": 5,
   "threshold_note": null,
   "generation_status": "complete",
@@ -22,7 +22,7 @@
       "name_zh": "記憶體與 HBM",
       "heat_score": 100,
       "summaries": {
-        "event_count": 15,
+        "event_count": 16,
         "source_count": 4,
         "tracking_candidate_count": 8,
         "taiwan_mapping_count": 31
@@ -30,7 +30,7 @@
       "heat_reason": {
         "rule_version": "public_theme_heat_v0.8",
         "event_component": {
-          "input": 15,
+          "input": 16,
           "normalized": 100.0,
           "weighted": 25.0
         },
@@ -46,15 +46,23 @@
         },
         "mapping_component": {
           "mapping_count": 31,
-          "direct_mapping_event_count": 6,
+          "direct_mapping_event_count": 7,
           "normalized": 100.0,
           "weighted": 30.0
         },
-        "single_source_concentration": 0.467,
+        "single_source_concentration": 0.5,
         "concentration_penalty": 0.0,
         "raw_score": 100.0
       },
       "direct_mentions": [
+        {
+          "instrument_id": "TWSE:2330",
+          "symbol": "2330",
+          "exchange": "TWSE",
+          "name_zh": "台積電",
+          "direct_event_count": 2,
+          "latest_mentioned_at": "2026-08-20T10:41:12Z"
+        },
         {
           "instrument_id": "TWSE:2408",
           "symbol": "2408",
@@ -78,14 +86,6 @@
           "name_zh": "創見",
           "direct_event_count": 1,
           "latest_mentioned_at": "2026-08-20T08:27:11Z"
-        },
-        {
-          "instrument_id": "TWSE:2330",
-          "symbol": "2330",
-          "exchange": "TWSE",
-          "name_zh": "台積電",
-          "direct_event_count": 1,
-          "latest_mentioned_at": "2026-08-20T03:27:07Z"
         },
         {
           "instrument_id": "TWSE:2025",
@@ -144,11 +144,105 @@
     },
     {
       "rank": 2,
+      "theme_id": "defense_drone",
+      "name_zh": "國防與無人機",
+      "heat_score": 95,
+      "summaries": {
+        "event_count": 8,
+        "source_count": 4,
+        "tracking_candidate_count": 3,
+        "taiwan_mapping_count": 3
+      },
+      "heat_reason": {
+        "rule_version": "public_theme_heat_v0.8",
+        "event_component": {
+          "input": 8,
+          "normalized": 100.0,
+          "weighted": 25.0
+        },
+        "source_component": {
+          "input": 4,
+          "normalized": 100.0,
+          "weighted": 25.0
+        },
+        "candidate_component": {
+          "input": 3,
+          "normalized": 75.0,
+          "weighted": 15.0
+        },
+        "mapping_component": {
+          "mapping_count": 3,
+          "direct_mapping_event_count": 2,
+          "normalized": 100.0,
+          "weighted": 30.0
+        },
+        "single_source_concentration": 0.5,
+        "concentration_penalty": 0.0,
+        "raw_score": 95.0
+      },
+      "direct_mentions": [
+        {
+          "instrument_id": "TWSE:2634",
+          "symbol": "2634",
+          "exchange": "TWSE",
+          "name_zh": "漢翔",
+          "direct_event_count": 2,
+          "latest_mentioned_at": "2026-08-20T10:26:56Z"
+        }
+      ],
+      "supply_chain_candidates": [
+        {
+          "instrument_id": "TWSE:2634",
+          "symbol": "2634",
+          "exchange": "TWSE",
+          "name_zh": "漢翔",
+          "direct_event_count": 2,
+          "official_evidence_count": 0,
+          "company_rank_score": 9,
+          "latest_mentioned_at": "2026-08-20T10:26:56Z",
+          "latest_official_at": null
+        },
+        {
+          "instrument_id": "TPEX:5371",
+          "symbol": "5371",
+          "exchange": "TPEX",
+          "name_zh": "中光電",
+          "direct_event_count": 0,
+          "official_evidence_count": 0,
+          "company_rank_score": 1,
+          "latest_mentioned_at": null,
+          "latest_official_at": null
+        },
+        {
+          "instrument_id": "TWSE:8033",
+          "symbol": "8033",
+          "exchange": "TWSE",
+          "name_zh": "雷虎",
+          "direct_event_count": 0,
+          "official_evidence_count": 0,
+          "company_rank_score": 1,
+          "latest_mentioned_at": null,
+          "latest_official_at": null
+        }
+      ],
+      "representative_news": {
+        "cluster_id": "cluster-81a3a6d2207fdd28",
+        "id": "digitimes_tw-208ebc5b07a9",
+        "title_zh": "LGES與美國洽談無人機電池供應　樂金集團首評估切入國防市場",
+        "summary": "南韓電池大廠樂金能源解決方案（LGES）傳正與美國政府及主要國防承包商洽談，為其無人機及其他無人武器系統供應電池。業界認為，LGES有望在電動車（EV）需求放緩之際，搶攻軍事裝備需求成長帶來的新商機。韓媒ZDNet Korea、News1等報導，LGES北美法人社長Bob",
+        "source_id": "digitimes_tw",
+        "source": "DIGITIMES",
+        "published_at": "2026-08-19T18:45:34Z",
+        "canonical_url": "https://www.digitimes.com.tw/tech/dt/n/shwnws.asp?id=0000765598_A394I515LUBACM79PDWFG"
+      }
+    },
+    {
+      "rank": 3,
       "theme_id": "robotics",
       "name_zh": "機器人",
-      "heat_score": 91,
+      "heat_score": 92,
       "summaries": {
-        "event_count": 18,
+        "event_count": 19,
         "source_count": 3,
         "tracking_candidate_count": 5,
         "taiwan_mapping_count": 27
@@ -156,7 +250,7 @@
       "heat_reason": {
         "rule_version": "public_theme_heat_v0.8",
         "event_component": {
-          "input": 18,
+          "input": 19,
           "normalized": 100.0,
           "weighted": 25.0
         },
@@ -176,9 +270,9 @@
           "normalized": 100.0,
           "weighted": 30.0
         },
-        "single_source_concentration": 0.684,
-        "concentration_penalty": 3.158,
-        "raw_score": 90.592
+        "single_source_concentration": 0.65,
+        "concentration_penalty": 1.875,
+        "raw_score": 91.875
       },
       "direct_mentions": [
         {
@@ -253,114 +347,20 @@
       }
     },
     {
-      "rank": 3,
-      "theme_id": "defense_drone",
-      "name_zh": "國防與無人機",
-      "heat_score": 80,
-      "summaries": {
-        "event_count": 6,
-        "source_count": 3,
-        "tracking_candidate_count": 3,
-        "taiwan_mapping_count": 3
-      },
-      "heat_reason": {
-        "rule_version": "public_theme_heat_v0.8",
-        "event_component": {
-          "input": 6,
-          "normalized": 100.0,
-          "weighted": 25.0
-        },
-        "source_component": {
-          "input": 3,
-          "normalized": 75.0,
-          "weighted": 18.75
-        },
-        "candidate_component": {
-          "input": 3,
-          "normalized": 75.0,
-          "weighted": 15.0
-        },
-        "mapping_component": {
-          "mapping_count": 3,
-          "direct_mapping_event_count": 1,
-          "normalized": 80.0,
-          "weighted": 24.0
-        },
-        "single_source_concentration": 0.667,
-        "concentration_penalty": 2.5,
-        "raw_score": 80.25
-      },
-      "direct_mentions": [
-        {
-          "instrument_id": "TWSE:2634",
-          "symbol": "2634",
-          "exchange": "TWSE",
-          "name_zh": "漢翔",
-          "direct_event_count": 1,
-          "latest_mentioned_at": "2026-08-20T08:40:27Z"
-        }
-      ],
-      "supply_chain_candidates": [
-        {
-          "instrument_id": "TWSE:2634",
-          "symbol": "2634",
-          "exchange": "TWSE",
-          "name_zh": "漢翔",
-          "direct_event_count": 1,
-          "official_evidence_count": 0,
-          "company_rank_score": 5,
-          "latest_mentioned_at": "2026-08-20T08:40:27Z",
-          "latest_official_at": null
-        },
-        {
-          "instrument_id": "TPEX:5371",
-          "symbol": "5371",
-          "exchange": "TPEX",
-          "name_zh": "中光電",
-          "direct_event_count": 0,
-          "official_evidence_count": 0,
-          "company_rank_score": 1,
-          "latest_mentioned_at": null,
-          "latest_official_at": null
-        },
-        {
-          "instrument_id": "TWSE:8033",
-          "symbol": "8033",
-          "exchange": "TWSE",
-          "name_zh": "雷虎",
-          "direct_event_count": 0,
-          "official_evidence_count": 0,
-          "company_rank_score": 1,
-          "latest_mentioned_at": null,
-          "latest_official_at": null
-        }
-      ],
-      "representative_news": {
-        "cluster_id": "cluster-81a3a6d2207fdd28",
-        "id": "digitimes_tw-208ebc5b07a9",
-        "title_zh": "LGES與美國洽談無人機電池供應　樂金集團首評估切入國防市場",
-        "summary": "南韓電池大廠樂金能源解決方案（LGES）傳正與美國政府及主要國防承包商洽談，為其無人機及其他無人武器系統供應電池。業界認為，LGES有望在電動車（EV）需求放緩之際，搶攻軍事裝備需求成長帶來的新商機。韓媒ZDNet Korea、News1等報導，LGES北美法人社長Bob",
-        "source_id": "digitimes_tw",
-        "source": "DIGITIMES",
-        "published_at": "2026-08-19T18:45:34Z",
-        "canonical_url": "https://www.digitimes.com.tw/tech/dt/n/shwnws.asp?id=0000765598_A394I515LUBACM79PDWFG"
-      }
-    },
-    {
       "rank": 4,
       "theme_id": "statementdog_tag_1517",
       "name_zh": "AI",
-      "heat_score": 80,
+      "heat_score": 77,
       "summaries": {
-        "event_count": 30,
+        "event_count": 28,
         "source_count": 4,
         "tracking_candidate_count": 0,
-        "taiwan_mapping_count": 150
+        "taiwan_mapping_count": 138
       },
       "heat_reason": {
         "rule_version": "public_theme_heat_v0.8",
         "event_component": {
-          "input": 30,
+          "input": 28,
           "normalized": 100.0,
           "weighted": 25.0
         },
@@ -375,24 +375,16 @@
           "weighted": 0.0
         },
         "mapping_component": {
-          "mapping_count": 150,
-          "direct_mapping_event_count": 8,
+          "mapping_count": 138,
+          "direct_mapping_event_count": 7,
           "normalized": 100.0,
           "weighted": 30.0
         },
-        "single_source_concentration": 0.6,
-        "concentration_penalty": 0.0,
-        "raw_score": 80.0
+        "single_source_concentration": 0.679,
+        "concentration_penalty": 2.946,
+        "raw_score": 77.054
       },
       "direct_mentions": [
-        {
-          "instrument_id": "TWSE:2030",
-          "symbol": "2030",
-          "exchange": "TWSE",
-          "name_zh": "彰源",
-          "direct_event_count": 2,
-          "latest_mentioned_at": "2026-08-20T09:07:55Z"
-        },
         {
           "instrument_id": "TWSE:2025",
           "symbol": "2025",
@@ -402,20 +394,20 @@
           "latest_mentioned_at": "2026-08-20T07:50:02Z"
         },
         {
-          "instrument_id": "TWSE:2413",
-          "symbol": "2413",
+          "instrument_id": "TWSE:2455",
+          "symbol": "2455",
           "exchange": "TWSE",
-          "name_zh": "環科",
+          "name_zh": "全新",
           "direct_event_count": 1,
-          "latest_mentioned_at": "2026-08-20T09:08:08Z"
+          "latest_mentioned_at": "2026-08-20T10:01:29Z"
         },
         {
-          "instrument_id": "TWSE:2535",
-          "symbol": "2535",
-          "exchange": "TWSE",
-          "name_zh": "達欣工",
+          "instrument_id": "TPEX:3479",
+          "symbol": "3479",
+          "exchange": "TPEX",
+          "name_zh": "安勤",
           "direct_event_count": 1,
-          "latest_mentioned_at": "2026-08-20T09:07:55Z"
+          "latest_mentioned_at": "2026-08-20T09:55:41Z"
         },
         {
           "instrument_id": "TWSE:2027",
@@ -434,12 +426,12 @@
           "latest_mentioned_at": "2026-08-20T04:44:45Z"
         },
         {
-          "instrument_id": "TWSE:2455",
-          "symbol": "2455",
+          "instrument_id": "TWSE:2030",
+          "symbol": "2030",
           "exchange": "TWSE",
-          "name_zh": "全新",
+          "name_zh": "彰源",
           "direct_event_count": 1,
-          "latest_mentioned_at": "2026-08-20T04:04:32Z"
+          "latest_mentioned_at": "2026-08-20T03:13:25Z"
         },
         {
           "instrument_id": "TWSE:2028",
@@ -486,38 +478,38 @@
         }
       ],
       "representative_news": {
-        "cluster_id": "cluster-4f795d84cc63c39c",
-        "id": "yahoo_finance_tw-51c6bde05040",
-        "title_zh": "攻AI儲存商機　韓控制器廠FADU結盟威剛深化在台布局",
-        "summary": "（中央社記者張建中台北2026年08月20日電）韓國固態硬碟（SSD）控制器廠FADU將進一步與記憶體模組廠威剛合作，深化台灣布局，商務長金泰均今天表示，AI正從根本改變儲存的角色，台灣是FADU拓展",
-        "source_id": "yahoo_finance_tw",
-        "source": "Yahoo Finance Taiwan",
-        "published_at": "2026-08-20T09:22:24Z",
-        "canonical_url": "https://tw.stock.yahoo.com/news/%E6%94%BBai%E5%84%B2%E5%AD%98%E5%95%86%E6%A9%9F-%E9%9F%93%E6%8E%A7%E5%88%B6%E5%99%A8%E5%BB%A0fadu%E7%B5%90%E7%9B%9F%E5%A8%81%E5%89%9B%E6%B7%B1%E5%8C%96%E5%9C%A8%E5%8F%B0%E5%B8%83%E5%B1%80-092224109.html"
+        "cluster_id": "cluster-f0660bff4629469e",
+        "id": "digitimes_tw-1ab7924dc208",
+        "title_zh": "強化中小企業黏著度　Meta AI串接社群、廣告數據",
+        "summary": "Meta於20日宣布，將推出專為中小企業打造的Meta AI全新功能，協助業者提升營運效率、掌握業務洞察，以此加速企業營運的成長。Meta表示，其已將Meta AI與Instagram、Facebook帳號、Meta廣告活動以及Google",
+        "source_id": "digitimes_tw",
+        "source": "DIGITIMES",
+        "published_at": "2026-08-20T10:01:29Z",
+        "canonical_url": "https://www.digitimes.com.tw/tech/dt/n/shwnws.asp?id=0000765807_QFB76OSR1BZUX460S67D3"
       }
     },
     {
       "rank": 5,
       "theme_id": "statementdog_tag_2163",
       "name_zh": "半導體",
-      "heat_score": 76,
+      "heat_score": 59,
       "summaries": {
-        "event_count": 5,
-        "source_count": 4,
+        "event_count": 4,
+        "source_count": 3,
         "tracking_candidate_count": 0,
         "taiwan_mapping_count": 34
       },
       "heat_reason": {
         "rule_version": "public_theme_heat_v0.8",
         "event_component": {
-          "input": 5,
-          "normalized": 83.333,
-          "weighted": 20.833
+          "input": 4,
+          "normalized": 66.667,
+          "weighted": 16.667
         },
         "source_component": {
-          "input": 4,
-          "normalized": 100.0,
-          "weighted": 25.0
+          "input": 3,
+          "normalized": 75.0,
+          "weighted": 18.75
         },
         "candidate_component": {
           "input": 0,
@@ -526,23 +518,15 @@
         },
         "mapping_component": {
           "mapping_count": 34,
-          "direct_mapping_event_count": 2,
-          "normalized": 100.0,
-          "weighted": 30.0
+          "direct_mapping_event_count": 1,
+          "normalized": 80.0,
+          "weighted": 24.0
         },
-        "single_source_concentration": 0.4,
+        "single_source_concentration": 0.5,
         "concentration_penalty": 0.0,
-        "raw_score": 75.833
+        "raw_score": 59.417
       },
       "direct_mentions": [
-        {
-          "instrument_id": "TWSE:3711",
-          "symbol": "3711",
-          "exchange": "TWSE",
-          "name_zh": "日月光投控",
-          "direct_event_count": 1,
-          "latest_mentioned_at": "2026-08-20T09:26:27Z"
-        },
         {
           "instrument_id": "TWSE:3673",
           "symbol": "3673",
@@ -553,17 +537,6 @@
         }
       ],
       "supply_chain_candidates": [
-        {
-          "instrument_id": "TWSE:3711",
-          "symbol": "3711",
-          "exchange": "TWSE",
-          "name_zh": "日月光投控",
-          "direct_event_count": 1,
-          "official_evidence_count": 0,
-          "company_rank_score": 5,
-          "latest_mentioned_at": "2026-08-20T09:26:27Z",
-          "latest_official_at": null
-        },
         {
           "instrument_id": "TPEX:3131",
           "symbol": "3131",
@@ -585,17 +558,28 @@
           "company_rank_score": 1,
           "latest_mentioned_at": null,
           "latest_official_at": null
+        },
+        {
+          "instrument_id": "TPEX:6488",
+          "symbol": "6488",
+          "exchange": "TPEX",
+          "name_zh": "環球晶",
+          "direct_event_count": 0,
+          "official_evidence_count": 0,
+          "company_rank_score": 1,
+          "latest_mentioned_at": null,
+          "latest_official_at": null
         }
       ],
       "representative_news": {
-        "cluster_id": "cluster-56d0330465353cce",
-        "id": "yahoo_finance_tw-cfe7fec430d1",
-        "title_zh": "【公告】代子公司日月光半導體製造(股)公司公告向鴻勁精密股份有限公司取得供營業用之機器設備",
-        "summary": "日 期：2026年08月20日公司名稱：日月光投控(3711)主 旨：代子公司日月光半導體製造(股)公司公告向鴻勁精密股份有限公司取得供營業用之機器設備發言人：吳田玉說 明：1.標的物之名稱及性質（如",
-        "source_id": "yahoo_finance_tw",
-        "source": "Yahoo Finance Taiwan",
-        "published_at": "2026-08-20T09:26:27Z",
-        "canonical_url": "https://tw.stock.yahoo.com/news/%E5%85%AC%E5%91%8A-%E4%BB%A3%E5%AD%90%E5%85%AC%E5%8F%B8%E6%97%A5%E6%9C%88%E5%85%89%E5%8D%8A%E5%B0%8E%E9%AB%94%E8%A3%BD%E9%80%A0-%E8%82%A1-%E5%85%AC%E5%8F%B8%E5%85%AC%E5%91%8A%E5%90%91%E9%B4%BB%E5%8B%81%E7%B2%BE%E5%AF%86%E8%82%A1%E4%BB%BD%E6%9C%89%E9%99%90%E5%85%AC%E5%8F%B8%E5%8F%96%E5%BE%97%E4%BE%9B%E7%87%9F%E6%A5%AD%E7%94%A8%E4%B9%8B%E6%A9%9F%E5%99%A8%E8%A8%AD%E5%82%99-092627514.html"
+        "cluster_id": "cluster-469578ced9fed212",
+        "id": "technews-50387ce0f5f8",
+        "title_zh": "中鋼頂級矽鋼片加持！富田「自研機器狗」打入高爐與半導體廠巡檢",
+        "summary": "富田電機今年參與「2026 台北國際自動化工業大展」，董事長張金鋒表示，富田成功切入低空載具、機器人關節模組與 [&#8230;]",
+        "source_id": "technews",
+        "source": "TechNews",
+        "published_at": "2026-08-20T06:42:50Z",
+        "canonical_url": "https://finance.technews.tw/2026/08/20/second-generation-robot-dog/"
       }
     }
   ]
