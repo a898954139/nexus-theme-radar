@@ -2,14 +2,14 @@
   "schema_version": "nexus_public_theme_ranking.v0.8",
   "ranking_rule_version": "public_theme_heat_v0.8",
   "company_rule_version": "public_company_evidence_v0.8",
-  "generated_at": "2026-08-20T10:48:49.575727Z",
+  "generated_at": "2026-08-20T11:44:21.800267Z",
   "market_id": "TW_EQUITY",
   "market_scope": [
     "TW_EQUITY"
   ],
   "window_hours": 72,
   "max_themes": 5,
-  "qualified_theme_count": 9,
+  "qualified_theme_count": 11,
   "displayed_theme_count": 5,
   "threshold_note": null,
   "generation_status": "complete",
@@ -20,24 +20,24 @@
       "rank": 1,
       "theme_id": "memory_hbm",
       "name_zh": "記憶體與 HBM",
-      "heat_score": 100,
+      "heat_score": 94,
       "summaries": {
-        "event_count": 16,
-        "source_count": 4,
+        "event_count": 15,
+        "source_count": 3,
         "tracking_candidate_count": 8,
         "taiwan_mapping_count": 31
       },
       "heat_reason": {
         "rule_version": "public_theme_heat_v0.8",
         "event_component": {
-          "input": 16,
+          "input": 15,
           "normalized": 100.0,
           "weighted": 25.0
         },
         "source_component": {
-          "input": 4,
-          "normalized": 100.0,
-          "weighted": 25.0
+          "input": 3,
+          "normalized": 75.0,
+          "weighted": 18.75
         },
         "candidate_component": {
           "input": 8,
@@ -46,13 +46,13 @@
         },
         "mapping_component": {
           "mapping_count": 31,
-          "direct_mapping_event_count": 7,
+          "direct_mapping_event_count": 6,
           "normalized": 100.0,
           "weighted": 30.0
         },
-        "single_source_concentration": 0.5,
+        "single_source_concentration": 0.533,
         "concentration_penalty": 0.0,
-        "raw_score": 100.0
+        "raw_score": 93.75
       },
       "direct_mentions": [
         {
@@ -62,14 +62,6 @@
           "name_zh": "台積電",
           "direct_event_count": 2,
           "latest_mentioned_at": "2026-08-20T10:41:12Z"
-        },
-        {
-          "instrument_id": "TWSE:2408",
-          "symbol": "2408",
-          "exchange": "TWSE",
-          "name_zh": "南亞科",
-          "direct_event_count": 2,
-          "latest_mentioned_at": "2026-08-20T09:45:40Z"
         },
         {
           "instrument_id": "TWSE:2027",
@@ -88,6 +80,14 @@
           "latest_mentioned_at": "2026-08-20T08:27:11Z"
         },
         {
+          "instrument_id": "TWSE:2408",
+          "symbol": "2408",
+          "exchange": "TWSE",
+          "name_zh": "南亞科",
+          "direct_event_count": 1,
+          "latest_mentioned_at": "2026-08-20T05:32:00Z"
+        },
+        {
           "instrument_id": "TWSE:2025",
           "symbol": "2025",
           "exchange": "TWSE",
@@ -102,10 +102,10 @@
           "symbol": "2408",
           "exchange": "TWSE",
           "name_zh": "南亞科",
-          "direct_event_count": 2,
+          "direct_event_count": 1,
           "official_evidence_count": 0,
-          "company_rank_score": 9,
-          "latest_mentioned_at": "2026-08-20T09:45:40Z",
+          "company_rank_score": 5,
+          "latest_mentioned_at": "2026-08-20T05:32:00Z",
           "latest_official_at": null
         },
         {
@@ -144,100 +144,6 @@
     },
     {
       "rank": 2,
-      "theme_id": "defense_drone",
-      "name_zh": "國防與無人機",
-      "heat_score": 95,
-      "summaries": {
-        "event_count": 8,
-        "source_count": 4,
-        "tracking_candidate_count": 3,
-        "taiwan_mapping_count": 3
-      },
-      "heat_reason": {
-        "rule_version": "public_theme_heat_v0.8",
-        "event_component": {
-          "input": 8,
-          "normalized": 100.0,
-          "weighted": 25.0
-        },
-        "source_component": {
-          "input": 4,
-          "normalized": 100.0,
-          "weighted": 25.0
-        },
-        "candidate_component": {
-          "input": 3,
-          "normalized": 75.0,
-          "weighted": 15.0
-        },
-        "mapping_component": {
-          "mapping_count": 3,
-          "direct_mapping_event_count": 2,
-          "normalized": 100.0,
-          "weighted": 30.0
-        },
-        "single_source_concentration": 0.5,
-        "concentration_penalty": 0.0,
-        "raw_score": 95.0
-      },
-      "direct_mentions": [
-        {
-          "instrument_id": "TWSE:2634",
-          "symbol": "2634",
-          "exchange": "TWSE",
-          "name_zh": "漢翔",
-          "direct_event_count": 2,
-          "latest_mentioned_at": "2026-08-20T10:26:56Z"
-        }
-      ],
-      "supply_chain_candidates": [
-        {
-          "instrument_id": "TWSE:2634",
-          "symbol": "2634",
-          "exchange": "TWSE",
-          "name_zh": "漢翔",
-          "direct_event_count": 2,
-          "official_evidence_count": 0,
-          "company_rank_score": 9,
-          "latest_mentioned_at": "2026-08-20T10:26:56Z",
-          "latest_official_at": null
-        },
-        {
-          "instrument_id": "TPEX:5371",
-          "symbol": "5371",
-          "exchange": "TPEX",
-          "name_zh": "中光電",
-          "direct_event_count": 0,
-          "official_evidence_count": 0,
-          "company_rank_score": 1,
-          "latest_mentioned_at": null,
-          "latest_official_at": null
-        },
-        {
-          "instrument_id": "TWSE:8033",
-          "symbol": "8033",
-          "exchange": "TWSE",
-          "name_zh": "雷虎",
-          "direct_event_count": 0,
-          "official_evidence_count": 0,
-          "company_rank_score": 1,
-          "latest_mentioned_at": null,
-          "latest_official_at": null
-        }
-      ],
-      "representative_news": {
-        "cluster_id": "cluster-81a3a6d2207fdd28",
-        "id": "digitimes_tw-208ebc5b07a9",
-        "title_zh": "LGES與美國洽談無人機電池供應　樂金集團首評估切入國防市場",
-        "summary": "南韓電池大廠樂金能源解決方案（LGES）傳正與美國政府及主要國防承包商洽談，為其無人機及其他無人武器系統供應電池。業界認為，LGES有望在電動車（EV）需求放緩之際，搶攻軍事裝備需求成長帶來的新商機。韓媒ZDNet Korea、News1等報導，LGES北美法人社長Bob",
-        "source_id": "digitimes_tw",
-        "source": "DIGITIMES",
-        "published_at": "2026-08-19T18:45:34Z",
-        "canonical_url": "https://www.digitimes.com.tw/tech/dt/n/shwnws.asp?id=0000765598_A394I515LUBACM79PDWFG"
-      }
-    },
-    {
-      "rank": 3,
       "theme_id": "robotics",
       "name_zh": "機器人",
       "heat_score": 92,
@@ -347,20 +253,114 @@
       }
     },
     {
-      "rank": 4,
-      "theme_id": "statementdog_tag_1517",
-      "name_zh": "AI",
-      "heat_score": 77,
+      "rank": 3,
+      "theme_id": "defense_drone",
+      "name_zh": "國防與無人機",
+      "heat_score": 80,
       "summaries": {
-        "event_count": 28,
-        "source_count": 4,
-        "tracking_candidate_count": 0,
-        "taiwan_mapping_count": 138
+        "event_count": 6,
+        "source_count": 3,
+        "tracking_candidate_count": 3,
+        "taiwan_mapping_count": 3
       },
       "heat_reason": {
         "rule_version": "public_theme_heat_v0.8",
         "event_component": {
-          "input": 28,
+          "input": 6,
+          "normalized": 100.0,
+          "weighted": 25.0
+        },
+        "source_component": {
+          "input": 3,
+          "normalized": 75.0,
+          "weighted": 18.75
+        },
+        "candidate_component": {
+          "input": 3,
+          "normalized": 75.0,
+          "weighted": 15.0
+        },
+        "mapping_component": {
+          "mapping_count": 3,
+          "direct_mapping_event_count": 1,
+          "normalized": 80.0,
+          "weighted": 24.0
+        },
+        "single_source_concentration": 0.667,
+        "concentration_penalty": 2.5,
+        "raw_score": 80.25
+      },
+      "direct_mentions": [
+        {
+          "instrument_id": "TWSE:2634",
+          "symbol": "2634",
+          "exchange": "TWSE",
+          "name_zh": "漢翔",
+          "direct_event_count": 1,
+          "latest_mentioned_at": "2026-08-20T08:40:27Z"
+        }
+      ],
+      "supply_chain_candidates": [
+        {
+          "instrument_id": "TWSE:2634",
+          "symbol": "2634",
+          "exchange": "TWSE",
+          "name_zh": "漢翔",
+          "direct_event_count": 1,
+          "official_evidence_count": 0,
+          "company_rank_score": 5,
+          "latest_mentioned_at": "2026-08-20T08:40:27Z",
+          "latest_official_at": null
+        },
+        {
+          "instrument_id": "TPEX:5371",
+          "symbol": "5371",
+          "exchange": "TPEX",
+          "name_zh": "中光電",
+          "direct_event_count": 0,
+          "official_evidence_count": 0,
+          "company_rank_score": 1,
+          "latest_mentioned_at": null,
+          "latest_official_at": null
+        },
+        {
+          "instrument_id": "TWSE:8033",
+          "symbol": "8033",
+          "exchange": "TWSE",
+          "name_zh": "雷虎",
+          "direct_event_count": 0,
+          "official_evidence_count": 0,
+          "company_rank_score": 1,
+          "latest_mentioned_at": null,
+          "latest_official_at": null
+        }
+      ],
+      "representative_news": {
+        "cluster_id": "cluster-81a3a6d2207fdd28",
+        "id": "digitimes_tw-208ebc5b07a9",
+        "title_zh": "LGES與美國洽談無人機電池供應　樂金集團首評估切入國防市場",
+        "summary": "南韓電池大廠樂金能源解決方案（LGES）傳正與美國政府及主要國防承包商洽談，為其無人機及其他無人武器系統供應電池。業界認為，LGES有望在電動車（EV）需求放緩之際，搶攻軍事裝備需求成長帶來的新商機。韓媒ZDNet Korea、News1等報導，LGES北美法人社長Bob",
+        "source_id": "digitimes_tw",
+        "source": "DIGITIMES",
+        "published_at": "2026-08-19T18:45:34Z",
+        "canonical_url": "https://www.digitimes.com.tw/tech/dt/n/shwnws.asp?id=0000765598_A394I515LUBACM79PDWFG"
+      }
+    },
+    {
+      "rank": 4,
+      "theme_id": "statementdog_tag_1517",
+      "name_zh": "AI",
+      "heat_score": 76,
+      "summaries": {
+        "event_count": 27,
+        "source_count": 4,
+        "tracking_candidate_count": 0,
+        "taiwan_mapping_count": 140
+      },
+      "heat_reason": {
+        "rule_version": "public_theme_heat_v0.8",
+        "event_component": {
+          "input": 27,
           "normalized": 100.0,
           "weighted": 25.0
         },
@@ -375,14 +375,14 @@
           "weighted": 0.0
         },
         "mapping_component": {
-          "mapping_count": 138,
+          "mapping_count": 140,
           "direct_mapping_event_count": 7,
           "normalized": 100.0,
           "weighted": 30.0
         },
-        "single_source_concentration": 0.679,
-        "concentration_penalty": 2.946,
-        "raw_score": 77.054
+        "single_source_concentration": 0.704,
+        "concentration_penalty": 3.889,
+        "raw_score": 76.111
       },
       "direct_mentions": [
         {
@@ -394,20 +394,20 @@
           "latest_mentioned_at": "2026-08-20T07:50:02Z"
         },
         {
+          "instrument_id": "TWSE:5284",
+          "symbol": "5284",
+          "exchange": "TWSE",
+          "name_zh": "jpp-KY",
+          "direct_event_count": 1,
+          "latest_mentioned_at": "2026-08-20T11:12:59Z"
+        },
+        {
           "instrument_id": "TWSE:2455",
           "symbol": "2455",
           "exchange": "TWSE",
           "name_zh": "全新",
           "direct_event_count": 1,
           "latest_mentioned_at": "2026-08-20T10:01:29Z"
-        },
-        {
-          "instrument_id": "TPEX:3479",
-          "symbol": "3479",
-          "exchange": "TPEX",
-          "name_zh": "安勤",
-          "direct_event_count": 1,
-          "latest_mentioned_at": "2026-08-20T09:55:41Z"
         },
         {
           "instrument_id": "TWSE:2027",
@@ -478,14 +478,14 @@
         }
       ],
       "representative_news": {
-        "cluster_id": "cluster-f0660bff4629469e",
-        "id": "digitimes_tw-1ab7924dc208",
-        "title_zh": "強化中小企業黏著度　Meta AI串接社群、廣告數據",
-        "summary": "Meta於20日宣布，將推出專為中小企業打造的Meta AI全新功能，協助業者提升營運效率、掌握業務洞察，以此加速企業營運的成長。Meta表示，其已將Meta AI與Instagram、Facebook帳號、Meta廣告活動以及Google",
-        "source_id": "digitimes_tw",
-        "source": "DIGITIMES",
-        "published_at": "2026-08-20T10:01:29Z",
-        "canonical_url": "https://www.digitimes.com.tw/tech/dt/n/shwnws.asp?id=0000765807_QFB76OSR1BZUX460S67D3"
+        "cluster_id": "cluster-7723f4318d3402a8",
+        "id": "yahoo_finance_tw-70ede988c9b7",
+        "title_zh": "阿里巴巴出脫遊戲業務 傾力發展 AI 與雲端運算",
+        "summary": "商傳媒｜責任編輯／綜合外電報導阿里巴巴集團（Alibaba Group Holding）已完成旗下遊戲部門靈犀互娛（Lingxi Games）的出售，並正積極將資源集中於人工智慧（AI）與雲端運算兩大",
+        "source_id": "yahoo_finance_tw",
+        "source": "Yahoo Finance Taiwan",
+        "published_at": "2026-08-20T11:38:50Z",
+        "canonical_url": "https://tw.stock.yahoo.com/news/%E9%98%BF%E9%87%8C%E5%B7%B4%E5%B7%B4%E5%87%BA%E8%84%AB%E9%81%8A%E6%88%B2%E6%A5%AD%E5%8B%99-%E5%82%BE%E5%8A%9B%E7%99%BC%E5%B1%95-ai-%E8%88%87%E9%9B%B2%E7%AB%AF%E9%81%8B%E7%AE%97-113850816.html"
       }
     },
     {
