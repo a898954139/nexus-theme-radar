@@ -1,12 +1,12 @@
 {
   "schema_version": "nexus_stock_watchlist.v1",
   "methodology_version": "stock_watchlist_v1",
-  "generated_at": "2026-08-20T11:44:21.800267Z",
-  "candidate_as_of": "2026-08-20T11:00:00Z",
+  "generated_at": "2026-08-20T13:12:07.044794Z",
+  "candidate_as_of": "2026-08-20T13:00:00Z",
   "sources": {
     "momentum": {
-      "generated_at": "2026-08-20T11:44:21.800267Z",
-      "observed_hour": "2026-08-20T11:00:00Z"
+      "generated_at": "2026-08-20T13:12:07.044794Z",
+      "observed_hour": "2026-08-20T13:00:00Z"
     },
     "institutional": {
       "as_of": [
@@ -267,6 +267,162 @@
       },
       {
         "instrument": {
+          "instrument_id": "TWSE:2634",
+          "symbol": "2634",
+          "exchange": "TWSE",
+          "name_zh": "漢翔"
+        },
+        "themes": [
+          {
+            "theme_id": "defense_drone",
+            "name_zh": "國防與無人機",
+            "relation": "direct",
+            "heat_score": 89.0,
+            "heat_change_24h": null,
+            "momentum_score": 45.0
+          },
+          {
+            "theme_id": "statementdog_tag_1517",
+            "name_zh": "AI",
+            "relation": "related",
+            "heat_score": 76.0,
+            "heat_change_24h": null,
+            "momentum_score": 38.0
+          }
+        ],
+        "short": {
+          "rank": 2,
+          "score": 83,
+          "components": {
+            "theme_attention": {
+              "raw": 78.6,
+              "normalized": 78.6,
+              "base_weight": 0.55,
+              "effective_weight": 0.55,
+              "available": true
+            },
+            "institutional_short_activity": {
+              "raw": 26695767.0,
+              "normalized": 98,
+              "base_weight": 0.2,
+              "effective_weight": 0.2,
+              "available": true
+            },
+            "daytrade_activity": {
+              "raw": 0.6244,
+              "normalized": 100.0,
+              "base_weight": 0.15,
+              "effective_weight": 0.15,
+              "available": true
+            },
+            "fundamental_defense": {
+              "raw": 48.8333,
+              "normalized": 48.83333333333333,
+              "base_weight": 0.1,
+              "effective_weight": 0.1,
+              "available": true
+            }
+          },
+          "risk_adjustment": {
+            "overnight_risk_adjustment": {
+              "value": null,
+              "applied": 0.0,
+              "missing_reason": "no reliable overnight source"
+            }
+          }
+        },
+        "long": {
+          "rank": 16,
+          "score": 58,
+          "components": {
+            "fundamental_quality": {
+              "raw": 53.1833,
+              "normalized": 53.18333333333334,
+              "base_weight": 0.6,
+              "effective_weight": 0.6,
+              "available": true
+            },
+            "institutional_support": {
+              "raw": 26695767.0,
+              "normalized": 98,
+              "base_weight": 0.2,
+              "effective_weight": 0.2,
+              "available": true
+            },
+            "theme_persistence": {
+              "raw": 45.0,
+              "normalized": 45.0,
+              "base_weight": 0.15,
+              "effective_weight": 0.15,
+              "available": true
+            },
+            "trading_stability": {
+              "raw": 0.6244,
+              "normalized": 0.0,
+              "base_weight": 0.05,
+              "effective_weight": 0.05,
+              "available": true
+            }
+          }
+        },
+        "institutional": {
+          "direction": "positive",
+          "as_of": "2026-08-19",
+          "observation_count": 5,
+          "five_day_net": 26695767.0
+        },
+        "trading_activity": {
+          "as_of": "2026-08-18",
+          "day_trading_volume": 63282000,
+          "total_volume": 101347604,
+          "day_trading_volume_ratio": 0.6244054866852107,
+          "overnight_risk": null,
+          "overnight_missing_reason": "no reliable overnight source"
+        },
+        "fundamentals": {
+          "score": 53,
+          "fiscal_quarter": "2026Q2",
+          "comparison_basis": "YoY",
+          "revenue_growth": 12.97,
+          "revenue_direction": "up",
+          "eps_growth": 525.0,
+          "eps_direction": "up",
+          "gross_margin": 0.18986515876468033,
+          "operating_margin": 0.15224010439321445,
+          "operating_cash_flow": 43.33,
+          "operating_cash_flow_margin": 0.4712,
+          "debt_ratio": 0.632
+        },
+        "flags": [
+          {
+            "key": "high_daytrade",
+            "type": "risk"
+          },
+          {
+            "key": "high_leverage",
+            "type": "risk"
+          },
+          {
+            "key": "fundamentals_improving",
+            "type": "positive"
+          },
+          {
+            "key": "institutional_positive",
+            "type": "positive"
+          },
+          {
+            "key": "multi_theme",
+            "type": "info"
+          }
+        ],
+        "coverage": {
+          "short_ratio": 1.0,
+          "long_ratio": 1.0,
+          "missing": []
+        }
+      },
+      {
+        "instrument": {
           "instrument_id": "TWSE:2455",
           "symbol": "2455",
           "exchange": "TWSE",
@@ -299,7 +455,7 @@
           }
         ],
         "short": {
-          "rank": 2,
+          "rank": 3,
           "score": 82,
           "components": {
             "theme_attention": {
@@ -427,170 +583,6 @@
       },
       {
         "instrument": {
-          "instrument_id": "TWSE:2634",
-          "symbol": "2634",
-          "exchange": "TWSE",
-          "name_zh": "漢翔"
-        },
-        "themes": [
-          {
-            "theme_id": "defense_drone",
-            "name_zh": "國防與無人機",
-            "relation": "direct",
-            "heat_score": 80.0,
-            "heat_change_24h": null,
-            "momentum_score": 40.0
-          },
-          {
-            "theme_id": "statementdog_tag_1517",
-            "name_zh": "AI",
-            "relation": "related",
-            "heat_score": 76.0,
-            "heat_change_24h": null,
-            "momentum_score": 38.0
-          },
-          {
-            "theme_id": "statementdog_tag_197",
-            "name_zh": "電動車",
-            "relation": "related",
-            "heat_score": 45.0,
-            "heat_change_24h": null,
-            "momentum_score": 23.0
-          }
-        ],
-        "short": {
-          "rank": 3,
-          "score": 81,
-          "components": {
-            "theme_attention": {
-              "raw": 76.0,
-              "normalized": 76.0,
-              "base_weight": 0.55,
-              "effective_weight": 0.55,
-              "available": true
-            },
-            "institutional_short_activity": {
-              "raw": 26695767.0,
-              "normalized": 98,
-              "base_weight": 0.2,
-              "effective_weight": 0.2,
-              "available": true
-            },
-            "daytrade_activity": {
-              "raw": 0.6244,
-              "normalized": 100.0,
-              "base_weight": 0.15,
-              "effective_weight": 0.15,
-              "available": true
-            },
-            "fundamental_defense": {
-              "raw": 48.8333,
-              "normalized": 48.83333333333333,
-              "base_weight": 0.1,
-              "effective_weight": 0.1,
-              "available": true
-            }
-          },
-          "risk_adjustment": {
-            "overnight_risk_adjustment": {
-              "value": null,
-              "applied": 0.0,
-              "missing_reason": "no reliable overnight source"
-            }
-          }
-        },
-        "long": {
-          "rank": 16,
-          "score": 58,
-          "components": {
-            "fundamental_quality": {
-              "raw": 53.1833,
-              "normalized": 53.18333333333334,
-              "base_weight": 0.6,
-              "effective_weight": 0.6,
-              "available": true
-            },
-            "institutional_support": {
-              "raw": 26695767.0,
-              "normalized": 98,
-              "base_weight": 0.2,
-              "effective_weight": 0.2,
-              "available": true
-            },
-            "theme_persistence": {
-              "raw": 40.0,
-              "normalized": 40.0,
-              "base_weight": 0.15,
-              "effective_weight": 0.15,
-              "available": true
-            },
-            "trading_stability": {
-              "raw": 0.6244,
-              "normalized": 0.0,
-              "base_weight": 0.05,
-              "effective_weight": 0.05,
-              "available": true
-            }
-          }
-        },
-        "institutional": {
-          "direction": "positive",
-          "as_of": "2026-08-19",
-          "observation_count": 5,
-          "five_day_net": 26695767.0
-        },
-        "trading_activity": {
-          "as_of": "2026-08-18",
-          "day_trading_volume": 63282000,
-          "total_volume": 101347604,
-          "day_trading_volume_ratio": 0.6244054866852107,
-          "overnight_risk": null,
-          "overnight_missing_reason": "no reliable overnight source"
-        },
-        "fundamentals": {
-          "score": 53,
-          "fiscal_quarter": "2026Q2",
-          "comparison_basis": "YoY",
-          "revenue_growth": 12.97,
-          "revenue_direction": "up",
-          "eps_growth": 525.0,
-          "eps_direction": "up",
-          "gross_margin": 0.18986515876468033,
-          "operating_margin": 0.15224010439321445,
-          "operating_cash_flow": 43.33,
-          "operating_cash_flow_margin": 0.4712,
-          "debt_ratio": 0.632
-        },
-        "flags": [
-          {
-            "key": "high_daytrade",
-            "type": "risk"
-          },
-          {
-            "key": "high_leverage",
-            "type": "risk"
-          },
-          {
-            "key": "fundamentals_improving",
-            "type": "positive"
-          },
-          {
-            "key": "institutional_positive",
-            "type": "positive"
-          },
-          {
-            "key": "multi_theme",
-            "type": "info"
-          }
-        ],
-        "coverage": {
-          "short_ratio": 1.0,
-          "long_ratio": 1.0,
-          "missing": []
-        }
-      },
-      {
-        "instrument": {
           "instrument_id": "TWSE:3037",
           "symbol": "3037",
           "exchange": "TWSE",
@@ -609,9 +601,9 @@
             "theme_id": "defense_drone",
             "name_zh": "國防與無人機",
             "relation": "related",
-            "heat_score": 80.0,
+            "heat_score": 89.0,
             "heat_change_24h": null,
-            "momentum_score": 40.0
+            "momentum_score": 45.0
           },
           {
             "theme_id": "statementdog_tag_1517",
@@ -1137,9 +1129,9 @@
             "theme_id": "defense_drone",
             "name_zh": "國防與無人機",
             "relation": "related",
-            "heat_score": 80.0,
+            "heat_score": 89.0,
             "heat_change_24h": null,
-            "momentum_score": 40.0
+            "momentum_score": 45.0
           },
           {
             "theme_id": "statementdog_tag_1517",
@@ -1513,9 +1505,9 @@
             "theme_id": "defense_drone",
             "name_zh": "國防與無人機",
             "relation": "related",
-            "heat_score": 80.0,
+            "heat_score": 89.0,
             "heat_change_24h": null,
-            "momentum_score": 40.0
+            "momentum_score": 45.0
           },
           {
             "theme_id": "statementdog_tag_1517",
@@ -1705,9 +1697,9 @@
             "theme_id": "defense_drone",
             "name_zh": "國防與無人機",
             "relation": "related",
-            "heat_score": 80.0,
+            "heat_score": 89.0,
             "heat_change_24h": null,
-            "momentum_score": 40.0
+            "momentum_score": 45.0
           },
           {
             "theme_id": "statementdog_tag_1517",
@@ -1901,9 +1893,9 @@
             "theme_id": "defense_drone",
             "name_zh": "國防與無人機",
             "relation": "related",
-            "heat_score": 80.0,
+            "heat_score": 89.0,
             "heat_change_24h": null,
-            "momentum_score": 40.0
+            "momentum_score": 45.0
           },
           {
             "theme_id": "statementdog_tag_1517",
@@ -1924,14 +1916,6 @@
           {
             "theme_id": "ai_server",
             "name_zh": "AI 伺服器",
-            "relation": "related",
-            "heat_score": 45.0,
-            "heat_change_24h": null,
-            "momentum_score": 23.0
-          },
-          {
-            "theme_id": "statementdog_tag_197",
-            "name_zh": "電動車",
             "relation": "related",
             "heat_score": 45.0,
             "heat_change_24h": null,
@@ -2089,9 +2073,9 @@
             "theme_id": "defense_drone",
             "name_zh": "國防與無人機",
             "relation": "related",
-            "heat_score": 80.0,
+            "heat_score": 89.0,
             "heat_change_24h": null,
-            "momentum_score": 40.0
+            "momentum_score": 45.0
           },
           {
             "theme_id": "statementdog_tag_1517",
@@ -2457,9 +2441,9 @@
             "theme_id": "defense_drone",
             "name_zh": "國防與無人機",
             "relation": "related",
-            "heat_score": 80.0,
+            "heat_score": 89.0,
             "heat_change_24h": null,
-            "momentum_score": 40.0
+            "momentum_score": 45.0
           },
           {
             "theme_id": "statementdog_tag_1517",
@@ -2657,9 +2641,9 @@
             "theme_id": "defense_drone",
             "name_zh": "國防與無人機",
             "relation": "related",
-            "heat_score": 80.0,
+            "heat_score": 89.0,
             "heat_change_24h": null,
-            "momentum_score": 40.0
+            "momentum_score": 45.0
           },
           {
             "theme_id": "statementdog_tag_1517",
@@ -3153,9 +3137,9 @@
             "theme_id": "defense_drone",
             "name_zh": "國防與無人機",
             "relation": "related",
-            "heat_score": 80.0,
+            "heat_score": 89.0,
             "heat_change_24h": null,
-            "momentum_score": 40.0
+            "momentum_score": 45.0
           },
           {
             "theme_id": "statementdog_tag_1517",
@@ -3349,9 +3333,9 @@
             "theme_id": "defense_drone",
             "name_zh": "國防與無人機",
             "relation": "related",
-            "heat_score": 80.0,
+            "heat_score": 89.0,
             "heat_change_24h": null,
-            "momentum_score": 40.0
+            "momentum_score": 45.0
           },
           {
             "theme_id": "statementdog_tag_1517",
@@ -4073,9 +4057,9 @@
             "theme_id": "defense_drone",
             "name_zh": "國防與無人機",
             "relation": "related",
-            "heat_score": 80.0,
+            "heat_score": 89.0,
             "heat_change_24h": null,
-            "momentum_score": 40.0
+            "momentum_score": 45.0
           },
           {
             "theme_id": "statementdog_tag_1517",
@@ -4265,9 +4249,9 @@
             "theme_id": "defense_drone",
             "name_zh": "國防與無人機",
             "relation": "related",
-            "heat_score": 80.0,
+            "heat_score": 89.0,
             "heat_change_24h": null,
-            "momentum_score": 40.0
+            "momentum_score": 45.0
           },
           {
             "theme_id": "statementdog_tag_1517",
@@ -4461,9 +4445,9 @@
             "theme_id": "defense_drone",
             "name_zh": "國防與無人機",
             "relation": "related",
-            "heat_score": 80.0,
+            "heat_score": 89.0,
             "heat_change_24h": null,
-            "momentum_score": 40.0
+            "momentum_score": 45.0
           },
           {
             "theme_id": "statementdog_tag_1517",
@@ -4829,9 +4813,9 @@
             "theme_id": "defense_drone",
             "name_zh": "國防與無人機",
             "relation": "related",
-            "heat_score": 80.0,
+            "heat_score": 89.0,
             "heat_change_24h": null,
-            "momentum_score": 40.0
+            "momentum_score": 45.0
           },
           {
             "theme_id": "statementdog_tag_1517",
@@ -5017,9 +5001,9 @@
             "theme_id": "defense_drone",
             "name_zh": "國防與無人機",
             "relation": "related",
-            "heat_score": 80.0,
+            "heat_score": 89.0,
             "heat_change_24h": null,
-            "momentum_score": 40.0
+            "momentum_score": 45.0
           },
           {
             "theme_id": "statementdog_tag_1517",
@@ -5205,9 +5189,9 @@
             "theme_id": "defense_drone",
             "name_zh": "國防與無人機",
             "relation": "related",
-            "heat_score": 80.0,
+            "heat_score": 89.0,
             "heat_change_24h": null,
-            "momentum_score": 40.0
+            "momentum_score": 45.0
           },
           {
             "theme_id": "statementdog_tag_1517",
@@ -6387,9 +6371,9 @@
             "theme_id": "defense_drone",
             "name_zh": "國防與無人機",
             "relation": "related",
-            "heat_score": 80.0,
+            "heat_score": 89.0,
             "heat_change_24h": null,
-            "momentum_score": 40.0
+            "momentum_score": 45.0
           },
           {
             "theme_id": "statementdog_tag_1517",
@@ -6743,9 +6727,9 @@
             "theme_id": "defense_drone",
             "name_zh": "國防與無人機",
             "relation": "related",
-            "heat_score": 80.0,
+            "heat_score": 89.0,
             "heat_change_24h": null,
-            "momentum_score": 40.0
+            "momentum_score": 45.0
           },
           {
             "theme_id": "statementdog_tag_1517",
@@ -6766,14 +6750,6 @@
           {
             "theme_id": "ai_server",
             "name_zh": "AI 伺服器",
-            "relation": "related",
-            "heat_score": 45.0,
-            "heat_change_24h": null,
-            "momentum_score": 23.0
-          },
-          {
-            "theme_id": "statementdog_tag_197",
-            "name_zh": "電動車",
             "relation": "related",
             "heat_score": 45.0,
             "heat_change_24h": null,
@@ -6931,9 +6907,9 @@
             "theme_id": "defense_drone",
             "name_zh": "國防與無人機",
             "relation": "related",
-            "heat_score": 80.0,
+            "heat_score": 89.0,
             "heat_change_24h": null,
-            "momentum_score": 40.0
+            "momentum_score": 45.0
           },
           {
             "theme_id": "statementdog_tag_1517",
@@ -7979,9 +7955,9 @@
             "theme_id": "defense_drone",
             "name_zh": "國防與無人機",
             "relation": "related",
-            "heat_score": 80.0,
+            "heat_score": 89.0,
             "heat_change_24h": null,
-            "momentum_score": 40.0
+            "momentum_score": 45.0
           },
           {
             "theme_id": "statementdog_tag_1517",
@@ -8319,9 +8295,9 @@
             "theme_id": "defense_drone",
             "name_zh": "國防與無人機",
             "relation": "related",
-            "heat_score": 80.0,
+            "heat_score": 89.0,
             "heat_change_24h": null,
-            "momentum_score": 40.0
+            "momentum_score": 45.0
           },
           {
             "theme_id": "statementdog_tag_1517",
@@ -8350,14 +8326,6 @@
           {
             "theme_id": "optical_cpo",
             "name_zh": "矽光子 CPO",
-            "relation": "related",
-            "heat_score": 45.0,
-            "heat_change_24h": null,
-            "momentum_score": 23.0
-          },
-          {
-            "theme_id": "statementdog_tag_197",
-            "name_zh": "電動車",
             "relation": "related",
             "heat_score": 45.0,
             "heat_change_24h": null,
@@ -8511,9 +8479,9 @@
             "theme_id": "defense_drone",
             "name_zh": "國防與無人機",
             "relation": "related",
-            "heat_score": 80.0,
+            "heat_score": 89.0,
             "heat_change_24h": null,
-            "momentum_score": 40.0
+            "momentum_score": 45.0
           },
           {
             "theme_id": "statementdog_tag_1517",
@@ -8707,9 +8675,9 @@
             "theme_id": "defense_drone",
             "name_zh": "國防與無人機",
             "relation": "related",
-            "heat_score": 80.0,
+            "heat_score": 89.0,
             "heat_change_24h": null,
-            "momentum_score": 40.0
+            "momentum_score": 45.0
           },
           {
             "theme_id": "statementdog_tag_1517",
@@ -8907,9 +8875,9 @@
             "theme_id": "defense_drone",
             "name_zh": "國防與無人機",
             "relation": "related",
-            "heat_score": 80.0,
+            "heat_score": 89.0,
             "heat_change_24h": null,
-            "momentum_score": 40.0
+            "momentum_score": 45.0
           },
           {
             "theme_id": "statementdog_tag_1517",
@@ -8938,14 +8906,6 @@
           {
             "theme_id": "optical_cpo",
             "name_zh": "矽光子 CPO",
-            "relation": "related",
-            "heat_score": 45.0,
-            "heat_change_24h": null,
-            "momentum_score": 23.0
-          },
-          {
-            "theme_id": "statementdog_tag_197",
-            "name_zh": "電動車",
             "relation": "related",
             "heat_score": 45.0,
             "heat_change_24h": null,
@@ -9296,9 +9256,9 @@
             "theme_id": "defense_drone",
             "name_zh": "國防與無人機",
             "relation": "related",
-            "heat_score": 80.0,
+            "heat_score": 89.0,
             "heat_change_24h": null,
-            "momentum_score": 40.0
+            "momentum_score": 45.0
           },
           {
             "theme_id": "statementdog_tag_1517",
@@ -10008,9 +9968,9 @@
             "theme_id": "defense_drone",
             "name_zh": "國防與無人機",
             "relation": "related",
-            "heat_score": 80.0,
+            "heat_score": 89.0,
             "heat_change_24h": null,
-            "momentum_score": 40.0
+            "momentum_score": 45.0
           },
           {
             "theme_id": "statementdog_tag_1517",
@@ -10210,7 +10170,7 @@
           }
         ],
         "short": {
-          "rank": 2,
+          "rank": 3,
           "score": 82,
           "components": {
             "theme_attention": {
@@ -10532,9 +10492,9 @@
             "theme_id": "defense_drone",
             "name_zh": "國防與無人機",
             "relation": "related",
-            "heat_score": 80.0,
+            "heat_score": 89.0,
             "heat_change_24h": null,
-            "momentum_score": 40.0
+            "momentum_score": 45.0
           },
           {
             "theme_id": "statementdog_tag_1517",
@@ -10724,9 +10684,9 @@
             "theme_id": "defense_drone",
             "name_zh": "國防與無人機",
             "relation": "related",
-            "heat_score": 80.0,
+            "heat_score": 89.0,
             "heat_change_24h": null,
-            "momentum_score": 40.0
+            "momentum_score": 45.0
           },
           {
             "theme_id": "statementdog_tag_1517",
@@ -10916,9 +10876,9 @@
             "theme_id": "defense_drone",
             "name_zh": "國防與無人機",
             "relation": "related",
-            "heat_score": 80.0,
+            "heat_score": 89.0,
             "heat_change_24h": null,
-            "momentum_score": 40.0
+            "momentum_score": 45.0
           },
           {
             "theme_id": "statementdog_tag_1517",
@@ -11448,9 +11408,9 @@
             "theme_id": "defense_drone",
             "name_zh": "國防與無人機",
             "relation": "related",
-            "heat_score": 80.0,
+            "heat_score": 89.0,
             "heat_change_24h": null,
-            "momentum_score": 40.0
+            "momentum_score": 45.0
           },
           {
             "theme_id": "statementdog_tag_1517",
@@ -11816,9 +11776,9 @@
             "theme_id": "defense_drone",
             "name_zh": "國防與無人機",
             "relation": "direct",
-            "heat_score": 80.0,
+            "heat_score": 89.0,
             "heat_change_24h": null,
-            "momentum_score": 40.0
+            "momentum_score": 45.0
           },
           {
             "theme_id": "statementdog_tag_1517",
@@ -11827,23 +11787,15 @@
             "heat_score": 76.0,
             "heat_change_24h": null,
             "momentum_score": 38.0
-          },
-          {
-            "theme_id": "statementdog_tag_197",
-            "name_zh": "電動車",
-            "relation": "related",
-            "heat_score": 45.0,
-            "heat_change_24h": null,
-            "momentum_score": 23.0
           }
         ],
         "short": {
-          "rank": 3,
-          "score": 81,
+          "rank": 2,
+          "score": 83,
           "components": {
             "theme_attention": {
-              "raw": 76.0,
-              "normalized": 76.0,
+              "raw": 78.6,
+              "normalized": 78.6,
               "base_weight": 0.55,
               "effective_weight": 0.55,
               "available": true
@@ -11897,8 +11849,8 @@
               "available": true
             },
             "theme_persistence": {
-              "raw": 40.0,
-              "normalized": 40.0,
+              "raw": 45.0,
+              "normalized": 45.0,
               "base_weight": 0.15,
               "effective_weight": 0.15,
               "available": true
@@ -11988,9 +11940,9 @@
             "theme_id": "defense_drone",
             "name_zh": "國防與無人機",
             "relation": "related",
-            "heat_score": 80.0,
+            "heat_score": 89.0,
             "heat_change_24h": null,
-            "momentum_score": 40.0
+            "momentum_score": 45.0
           },
           {
             "theme_id": "statementdog_tag_1517",
@@ -12512,9 +12464,9 @@
             "theme_id": "defense_drone",
             "name_zh": "國防與無人機",
             "relation": "related",
-            "heat_score": 80.0,
+            "heat_score": 89.0,
             "heat_change_24h": null,
-            "momentum_score": 40.0
+            "momentum_score": 45.0
           },
           {
             "theme_id": "statementdog_tag_1517",
@@ -12700,9 +12652,9 @@
             "theme_id": "defense_drone",
             "name_zh": "國防與無人機",
             "relation": "related",
-            "heat_score": 80.0,
+            "heat_score": 89.0,
             "heat_change_24h": null,
-            "momentum_score": 40.0
+            "momentum_score": 45.0
           },
           {
             "theme_id": "statementdog_tag_1517",
@@ -12896,9 +12848,9 @@
             "theme_id": "defense_drone",
             "name_zh": "國防與無人機",
             "relation": "related",
-            "heat_score": 80.0,
+            "heat_score": 89.0,
             "heat_change_24h": null,
-            "momentum_score": 40.0
+            "momentum_score": 45.0
           },
           {
             "theme_id": "statementdog_tag_1517",
@@ -13272,9 +13224,9 @@
             "theme_id": "defense_drone",
             "name_zh": "國防與無人機",
             "relation": "related",
-            "heat_score": 80.0,
+            "heat_score": 89.0,
             "heat_change_24h": null,
-            "momentum_score": 40.0
+            "momentum_score": 45.0
           },
           {
             "theme_id": "statementdog_tag_1517",
@@ -13955,9 +13907,9 @@
             "theme_id": "defense_drone",
             "name_zh": "國防與無人機",
             "relation": "related",
-            "heat_score": 80.0,
+            "heat_score": 89.0,
             "heat_change_24h": null,
-            "momentum_score": 40.0
+            "momentum_score": 45.0
           },
           {
             "theme_id": "statementdog_tag_1517",
@@ -13978,14 +13930,6 @@
           {
             "theme_id": "ai_server",
             "name_zh": "AI 伺服器",
-            "relation": "related",
-            "heat_score": 45.0,
-            "heat_change_24h": null,
-            "momentum_score": 23.0
-          },
-          {
-            "theme_id": "statementdog_tag_197",
-            "name_zh": "電動車",
             "relation": "related",
             "heat_score": 45.0,
             "heat_change_24h": null,
@@ -14143,9 +14087,9 @@
             "theme_id": "defense_drone",
             "name_zh": "國防與無人機",
             "relation": "related",
-            "heat_score": 80.0,
+            "heat_score": 89.0,
             "heat_change_24h": null,
-            "momentum_score": 40.0
+            "momentum_score": 45.0
           },
           {
             "theme_id": "statementdog_tag_1517",
@@ -14339,9 +14283,9 @@
             "theme_id": "defense_drone",
             "name_zh": "國防與無人機",
             "relation": "related",
-            "heat_score": 80.0,
+            "heat_score": 89.0,
             "heat_change_24h": null,
-            "momentum_score": 40.0
+            "momentum_score": 45.0
           },
           {
             "theme_id": "statementdog_tag_1517",
@@ -14531,9 +14475,9 @@
             "theme_id": "defense_drone",
             "name_zh": "國防與無人機",
             "relation": "related",
-            "heat_score": 80.0,
+            "heat_score": 89.0,
             "heat_change_24h": null,
-            "momentum_score": 40.0
+            "momentum_score": 45.0
           },
           {
             "theme_id": "statementdog_tag_1517",
@@ -14886,9 +14830,9 @@
             "theme_id": "defense_drone",
             "name_zh": "國防與無人機",
             "relation": "related",
-            "heat_score": 80.0,
+            "heat_score": 89.0,
             "heat_change_24h": null,
-            "momentum_score": 40.0
+            "momentum_score": 45.0
           },
           {
             "theme_id": "statementdog_tag_1517",
@@ -14917,14 +14861,6 @@
           {
             "theme_id": "optical_cpo",
             "name_zh": "矽光子 CPO",
-            "relation": "related",
-            "heat_score": 45.0,
-            "heat_change_24h": null,
-            "momentum_score": 23.0
-          },
-          {
-            "theme_id": "statementdog_tag_197",
-            "name_zh": "電動車",
             "relation": "related",
             "heat_score": 45.0,
             "heat_change_24h": null,
@@ -15582,9 +15518,9 @@
             "theme_id": "defense_drone",
             "name_zh": "國防與無人機",
             "relation": "related",
-            "heat_score": 80.0,
+            "heat_score": 89.0,
             "heat_change_24h": null,
-            "momentum_score": 40.0
+            "momentum_score": 45.0
           },
           {
             "theme_id": "statementdog_tag_1517",
@@ -15782,9 +15718,9 @@
             "theme_id": "defense_drone",
             "name_zh": "國防與無人機",
             "relation": "related",
-            "heat_score": 80.0,
+            "heat_score": 89.0,
             "heat_change_24h": null,
-            "momentum_score": 40.0
+            "momentum_score": 45.0
           },
           {
             "theme_id": "statementdog_tag_1517",
@@ -15966,9 +15902,9 @@
             "theme_id": "defense_drone",
             "name_zh": "國防與無人機",
             "relation": "related",
-            "heat_score": 80.0,
+            "heat_score": 89.0,
             "heat_change_24h": null,
-            "momentum_score": 40.0
+            "momentum_score": 45.0
           },
           {
             "theme_id": "statementdog_tag_1517",
@@ -16150,9 +16086,9 @@
             "theme_id": "defense_drone",
             "name_zh": "國防與無人機",
             "relation": "related",
-            "heat_score": 80.0,
+            "heat_score": 89.0,
             "heat_change_24h": null,
-            "momentum_score": 40.0
+            "momentum_score": 45.0
           },
           {
             "theme_id": "statementdog_tag_1517",
@@ -16173,14 +16109,6 @@
           {
             "theme_id": "ai_server",
             "name_zh": "AI 伺服器",
-            "relation": "related",
-            "heat_score": 45.0,
-            "heat_change_24h": null,
-            "momentum_score": 23.0
-          },
-          {
-            "theme_id": "statementdog_tag_197",
-            "name_zh": "電動車",
             "relation": "related",
             "heat_score": 45.0,
             "heat_change_24h": null,
@@ -16510,9 +16438,9 @@
             "theme_id": "defense_drone",
             "name_zh": "國防與無人機",
             "relation": "related",
-            "heat_score": 80.0,
+            "heat_score": 89.0,
             "heat_change_24h": null,
-            "momentum_score": 40.0
+            "momentum_score": 45.0
           },
           {
             "theme_id": "statementdog_tag_1517",
@@ -17194,9 +17122,9 @@
             "theme_id": "defense_drone",
             "name_zh": "國防與無人機",
             "relation": "related",
-            "heat_score": 80.0,
+            "heat_score": 89.0,
             "heat_change_24h": null,
-            "momentum_score": 40.0
+            "momentum_score": 45.0
           },
           {
             "theme_id": "statementdog_tag_1517",
@@ -17558,9 +17486,9 @@
             "theme_id": "defense_drone",
             "name_zh": "國防與無人機",
             "relation": "related",
-            "heat_score": 80.0,
+            "heat_score": 89.0,
             "heat_change_24h": null,
-            "momentum_score": 40.0
+            "momentum_score": 45.0
           },
           {
             "theme_id": "statementdog_tag_1517",
@@ -17750,9 +17678,9 @@
             "theme_id": "defense_drone",
             "name_zh": "國防與無人機",
             "relation": "related",
-            "heat_score": 80.0,
+            "heat_score": 89.0,
             "heat_change_24h": null,
-            "momentum_score": 40.0
+            "momentum_score": 45.0
           },
           {
             "theme_id": "statementdog_tag_1517",
@@ -17781,14 +17709,6 @@
           {
             "theme_id": "optical_cpo",
             "name_zh": "矽光子 CPO",
-            "relation": "related",
-            "heat_score": 45.0,
-            "heat_change_24h": null,
-            "momentum_score": 23.0
-          },
-          {
-            "theme_id": "statementdog_tag_197",
-            "name_zh": "電動車",
             "relation": "related",
             "heat_score": 45.0,
             "heat_change_24h": null,
@@ -18121,9 +18041,9 @@
           "theme_id": "defense_drone",
           "name_zh": "國防與無人機",
           "relation": "related",
-          "heat_score": 80.0,
+          "heat_score": 89.0,
           "heat_change_24h": null,
-          "momentum_score": 40.0
+          "momentum_score": 45.0
         },
         {
           "theme_id": "statementdog_tag_1517",
@@ -18431,9 +18351,9 @@
           "theme_id": "defense_drone",
           "name_zh": "國防與無人機",
           "relation": "related",
-          "heat_score": 80.0,
+          "heat_score": 89.0,
           "heat_change_24h": null,
-          "momentum_score": 40.0
+          "momentum_score": 45.0
         },
         {
           "theme_id": "statementdog_tag_1517",
@@ -18522,9 +18442,9 @@
           "theme_id": "defense_drone",
           "name_zh": "國防與無人機",
           "relation": "related",
-          "heat_score": 80.0,
+          "heat_score": 89.0,
           "heat_change_24h": null,
-          "momentum_score": 40.0
+          "momentum_score": 45.0
         },
         {
           "theme_id": "statementdog_tag_1517",
@@ -18624,17 +18544,9 @@
           "theme_id": "defense_drone",
           "name_zh": "國防與無人機",
           "relation": "related",
-          "heat_score": 80.0,
+          "heat_score": 89.0,
           "heat_change_24h": null,
-          "momentum_score": 40.0
-        },
-        {
-          "theme_id": "statementdog_tag_197",
-          "name_zh": "電動車",
-          "relation": "related",
-          "heat_score": 45.0,
-          "heat_change_24h": null,
-          "momentum_score": 23.0
+          "momentum_score": 45.0
         }
       ],
       "selected_top50": false,
@@ -18652,10 +18564,6 @@
         {
           "key": "institutional_positive",
           "type": "positive"
-        },
-        {
-          "key": "multi_theme",
-          "type": "info"
         }
       ]
     },
@@ -18812,17 +18720,9 @@
           "theme_id": "defense_drone",
           "name_zh": "國防與無人機",
           "relation": "related",
-          "heat_score": 80.0,
+          "heat_score": 89.0,
           "heat_change_24h": null,
-          "momentum_score": 40.0
-        },
-        {
-          "theme_id": "statementdog_tag_197",
-          "name_zh": "電動車",
-          "relation": "related",
-          "heat_score": 45.0,
-          "heat_change_24h": null,
-          "momentum_score": 23.0
+          "momentum_score": 45.0
         }
       ],
       "selected_top50": false,
@@ -18836,10 +18736,6 @@
         {
           "key": "fundamentals_improving",
           "type": "positive"
-        },
-        {
-          "key": "multi_theme",
-          "type": "info"
         }
       ]
     },
@@ -19063,17 +18959,9 @@
           "theme_id": "defense_drone",
           "name_zh": "國防與無人機",
           "relation": "related",
-          "heat_score": 80.0,
+          "heat_score": 89.0,
           "heat_change_24h": null,
-          "momentum_score": 40.0
-        },
-        {
-          "theme_id": "statementdog_tag_197",
-          "name_zh": "電動車",
-          "relation": "related",
-          "heat_score": 45.0,
-          "heat_change_24h": null,
-          "momentum_score": 23.0
+          "momentum_score": 45.0
         }
       ],
       "selected_top50": false,
@@ -19087,10 +18975,6 @@
         {
           "key": "fundamentals_improving",
           "type": "positive"
-        },
-        {
-          "key": "multi_theme",
-          "type": "info"
         }
       ]
     },
@@ -19204,17 +19088,9 @@
           "theme_id": "defense_drone",
           "name_zh": "國防與無人機",
           "relation": "related",
-          "heat_score": 80.0,
+          "heat_score": 89.0,
           "heat_change_24h": null,
-          "momentum_score": 40.0
-        },
-        {
-          "theme_id": "statementdog_tag_197",
-          "name_zh": "電動車",
-          "relation": "related",
-          "heat_score": 45.0,
-          "heat_change_24h": null,
-          "momentum_score": 23.0
+          "momentum_score": 45.0
         }
       ],
       "selected_top50": false,
@@ -19224,10 +19100,6 @@
         {
           "key": "cashflow_weak",
           "type": "risk"
-        },
-        {
-          "key": "multi_theme",
-          "type": "info"
         }
       ]
     },
@@ -19341,9 +19213,9 @@
           "theme_id": "defense_drone",
           "name_zh": "國防與無人機",
           "relation": "related",
-          "heat_score": 80.0,
+          "heat_score": 89.0,
           "heat_change_24h": null,
-          "momentum_score": 40.0
+          "momentum_score": 45.0
         },
         {
           "theme_id": "statementdog_tag_1517",
@@ -19352,14 +19224,6 @@
           "heat_score": 76.0,
           "heat_change_24h": null,
           "momentum_score": 38.0
-        },
-        {
-          "theme_id": "statementdog_tag_197",
-          "name_zh": "電動車",
-          "relation": "related",
-          "heat_score": 45.0,
-          "heat_change_24h": null,
-          "momentum_score": 23.0
         }
       ],
       "selected_top50": false,
@@ -19392,17 +19256,9 @@
           "theme_id": "defense_drone",
           "name_zh": "國防與無人機",
           "relation": "related",
-          "heat_score": 80.0,
+          "heat_score": 89.0,
           "heat_change_24h": null,
-          "momentum_score": 40.0
-        },
-        {
-          "theme_id": "statementdog_tag_197",
-          "name_zh": "電動車",
-          "relation": "related",
-          "heat_score": 45.0,
-          "heat_change_24h": null,
-          "momentum_score": 23.0
+          "momentum_score": 45.0
         }
       ],
       "selected_top50": false,
@@ -19416,10 +19272,6 @@
         {
           "key": "fundamentals_improving",
           "type": "positive"
-        },
-        {
-          "key": "multi_theme",
-          "type": "info"
         }
       ]
     },
@@ -19443,17 +19295,9 @@
           "theme_id": "defense_drone",
           "name_zh": "國防與無人機",
           "relation": "related",
-          "heat_score": 80.0,
+          "heat_score": 89.0,
           "heat_change_24h": null,
-          "momentum_score": 40.0
-        },
-        {
-          "theme_id": "statementdog_tag_197",
-          "name_zh": "電動車",
-          "relation": "related",
-          "heat_score": 45.0,
-          "heat_change_24h": null,
-          "momentum_score": 23.0
+          "momentum_score": 45.0
         }
       ],
       "selected_top50": false,
@@ -19600,9 +19444,9 @@
           "theme_id": "defense_drone",
           "name_zh": "國防與無人機",
           "relation": "related",
-          "heat_score": 80.0,
+          "heat_score": 89.0,
           "heat_change_24h": null,
-          "momentum_score": 40.0
+          "momentum_score": 45.0
         },
         {
           "theme_id": "statementdog_tag_1517",
@@ -19675,17 +19519,9 @@
           "theme_id": "defense_drone",
           "name_zh": "國防與無人機",
           "relation": "related",
-          "heat_score": 80.0,
+          "heat_score": 89.0,
           "heat_change_24h": null,
-          "momentum_score": 40.0
-        },
-        {
-          "theme_id": "statementdog_tag_197",
-          "name_zh": "電動車",
-          "relation": "related",
-          "heat_score": 45.0,
-          "heat_change_24h": null,
-          "momentum_score": 23.0
+          "momentum_score": 45.0
         }
       ],
       "selected_top50": false,
@@ -19699,10 +19535,6 @@
         {
           "key": "institutional_positive",
           "type": "positive"
-        },
-        {
-          "key": "multi_theme",
-          "type": "info"
         }
       ]
     },
@@ -19989,17 +19821,9 @@
           "theme_id": "defense_drone",
           "name_zh": "國防與無人機",
           "relation": "related",
-          "heat_score": 80.0,
+          "heat_score": 89.0,
           "heat_change_24h": null,
-          "momentum_score": 40.0
-        },
-        {
-          "theme_id": "statementdog_tag_197",
-          "name_zh": "電動車",
-          "relation": "related",
-          "heat_score": 45.0,
-          "heat_change_24h": null,
-          "momentum_score": 23.0
+          "momentum_score": 45.0
         }
       ],
       "selected_top50": false,
@@ -20009,10 +19833,6 @@
         {
           "key": "high_daytrade",
           "type": "risk"
-        },
-        {
-          "key": "multi_theme",
-          "type": "info"
         }
       ]
     },
@@ -20469,9 +20289,9 @@
           "theme_id": "defense_drone",
           "name_zh": "國防與無人機",
           "relation": "related",
-          "heat_score": 80.0,
+          "heat_score": 89.0,
           "heat_change_24h": null,
-          "momentum_score": 40.0
+          "momentum_score": 45.0
         },
         {
           "theme_id": "statementdog_tag_1517",
@@ -20492,14 +20312,6 @@
         {
           "theme_id": "ai_server",
           "name_zh": "AI 伺服器",
-          "relation": "related",
-          "heat_score": 45.0,
-          "heat_change_24h": null,
-          "momentum_score": 23.0
-        },
-        {
-          "theme_id": "statementdog_tag_197",
-          "name_zh": "電動車",
           "relation": "related",
           "heat_score": 45.0,
           "heat_change_24h": null,
@@ -20552,9 +20364,9 @@
           "theme_id": "defense_drone",
           "name_zh": "國防與無人機",
           "relation": "related",
-          "heat_score": 80.0,
+          "heat_score": 89.0,
           "heat_change_24h": null,
-          "momentum_score": 40.0
+          "momentum_score": 45.0
         },
         {
           "theme_id": "statementdog_tag_1517",
@@ -20575,14 +20387,6 @@
         {
           "theme_id": "ai_server",
           "name_zh": "AI 伺服器",
-          "relation": "related",
-          "heat_score": 45.0,
-          "heat_change_24h": null,
-          "momentum_score": 23.0
-        },
-        {
-          "theme_id": "statementdog_tag_197",
-          "name_zh": "電動車",
           "relation": "related",
           "heat_score": 45.0,
           "heat_change_24h": null,
@@ -21077,9 +20881,9 @@
           "theme_id": "defense_drone",
           "name_zh": "國防與無人機",
           "relation": "related",
-          "heat_score": 80.0,
+          "heat_score": 89.0,
           "heat_change_24h": null,
-          "momentum_score": 40.0
+          "momentum_score": 45.0
         },
         {
           "theme_id": "statementdog_tag_1517",
@@ -21251,9 +21055,9 @@
           "theme_id": "defense_drone",
           "name_zh": "國防與無人機",
           "relation": "related",
-          "heat_score": 80.0,
+          "heat_score": 89.0,
           "heat_change_24h": null,
-          "momentum_score": 40.0
+          "momentum_score": 45.0
         },
         {
           "theme_id": "statementdog_tag_1517",
@@ -21282,14 +21086,6 @@
         {
           "theme_id": "optical_cpo",
           "name_zh": "矽光子 CPO",
-          "relation": "related",
-          "heat_score": 45.0,
-          "heat_change_24h": null,
-          "momentum_score": 23.0
-        },
-        {
-          "theme_id": "statementdog_tag_197",
-          "name_zh": "電動車",
           "relation": "related",
           "heat_score": 45.0,
           "heat_change_24h": null,
@@ -21346,9 +21142,9 @@
           "theme_id": "defense_drone",
           "name_zh": "國防與無人機",
           "relation": "related",
-          "heat_score": 80.0,
+          "heat_score": 89.0,
           "heat_change_24h": null,
-          "momentum_score": 40.0
+          "momentum_score": 45.0
         },
         {
           "theme_id": "statementdog_tag_1517",
@@ -21377,14 +21173,6 @@
         {
           "theme_id": "optical_cpo",
           "name_zh": "矽光子 CPO",
-          "relation": "related",
-          "heat_score": 45.0,
-          "heat_change_24h": null,
-          "momentum_score": 23.0
-        },
-        {
-          "theme_id": "statementdog_tag_197",
-          "name_zh": "電動車",
           "relation": "related",
           "heat_score": 45.0,
           "heat_change_24h": null,
@@ -21449,9 +21237,9 @@
           "theme_id": "defense_drone",
           "name_zh": "國防與無人機",
           "relation": "related",
-          "heat_score": 80.0,
+          "heat_score": 89.0,
           "heat_change_24h": null,
-          "momentum_score": 40.0
+          "momentum_score": 45.0
         },
         {
           "theme_id": "statementdog_tag_1517",
@@ -21607,9 +21395,9 @@
           "theme_id": "defense_drone",
           "name_zh": "國防與無人機",
           "relation": "related",
-          "heat_score": 80.0,
+          "heat_score": 89.0,
           "heat_change_24h": null,
-          "momentum_score": 40.0
+          "momentum_score": 45.0
         },
         {
           "theme_id": "statementdog_tag_1517",
@@ -21698,9 +21486,9 @@
           "theme_id": "defense_drone",
           "name_zh": "國防與無人機",
           "relation": "related",
-          "heat_score": 80.0,
+          "heat_score": 89.0,
           "heat_change_24h": null,
-          "momentum_score": 40.0
+          "momentum_score": 45.0
         },
         {
           "theme_id": "statementdog_tag_1517",
@@ -21883,9 +21671,9 @@
           "theme_id": "defense_drone",
           "name_zh": "國防與無人機",
           "relation": "related",
-          "heat_score": 80.0,
+          "heat_score": 89.0,
           "heat_change_24h": null,
-          "momentum_score": 40.0
+          "momentum_score": 45.0
         },
         {
           "theme_id": "statementdog_tag_1517",
@@ -21989,17 +21777,9 @@
           "theme_id": "defense_drone",
           "name_zh": "國防與無人機",
           "relation": "related",
-          "heat_score": 80.0,
+          "heat_score": 89.0,
           "heat_change_24h": null,
-          "momentum_score": 40.0
-        },
-        {
-          "theme_id": "statementdog_tag_197",
-          "name_zh": "電動車",
-          "relation": "related",
-          "heat_score": 45.0,
-          "heat_change_24h": null,
-          "momentum_score": 23.0
+          "momentum_score": 45.0
         }
       ],
       "selected_top50": false,
@@ -22013,10 +21793,6 @@
         {
           "key": "high_leverage",
           "type": "risk"
-        },
-        {
-          "key": "multi_theme",
-          "type": "info"
         }
       ]
     },
@@ -22048,9 +21824,9 @@
           "theme_id": "defense_drone",
           "name_zh": "國防與無人機",
           "relation": "related",
-          "heat_score": 80.0,
+          "heat_score": 89.0,
           "heat_change_24h": null,
-          "momentum_score": 40.0
+          "momentum_score": 45.0
         },
         {
           "theme_id": "statementdog_tag_1517",
@@ -22135,9 +21911,9 @@
           "theme_id": "defense_drone",
           "name_zh": "國防與無人機",
           "relation": "related",
-          "heat_score": 80.0,
+          "heat_score": 89.0,
           "heat_change_24h": null,
-          "momentum_score": 40.0
+          "momentum_score": 45.0
         },
         {
           "theme_id": "statementdog_tag_1517",
@@ -22427,9 +22203,9 @@
           "theme_id": "defense_drone",
           "name_zh": "國防與無人機",
           "relation": "related",
-          "heat_score": 80.0,
+          "heat_score": 89.0,
           "heat_change_24h": null,
-          "momentum_score": 40.0
+          "momentum_score": 45.0
         },
         {
           "theme_id": "statementdog_tag_1517",
@@ -22506,9 +22282,9 @@
           "theme_id": "defense_drone",
           "name_zh": "國防與無人機",
           "relation": "related",
-          "heat_score": 80.0,
+          "heat_score": 89.0,
           "heat_change_24h": null,
-          "momentum_score": 40.0
+          "momentum_score": 45.0
         },
         {
           "theme_id": "statementdog_tag_1517",
@@ -22599,7 +22375,7 @@
         }
       ],
       "selected_top50": true,
-      "short_rank": 2,
+      "short_rank": 3,
       "long_rank": 7,
       "flags": [
         {
@@ -22632,17 +22408,9 @@
           "theme_id": "defense_drone",
           "name_zh": "國防與無人機",
           "relation": "related",
-          "heat_score": 80.0,
+          "heat_score": 89.0,
           "heat_change_24h": null,
-          "momentum_score": 40.0
-        },
-        {
-          "theme_id": "statementdog_tag_197",
-          "name_zh": "電動車",
-          "relation": "related",
-          "heat_score": 45.0,
-          "heat_change_24h": null,
-          "momentum_score": 23.0
+          "momentum_score": 45.0
         }
       ],
       "selected_top50": false,
@@ -22656,10 +22424,6 @@
         {
           "key": "institutional_positive",
           "type": "positive"
-        },
-        {
-          "key": "multi_theme",
-          "type": "info"
         }
       ]
     },
@@ -22813,17 +22577,9 @@
           "theme_id": "defense_drone",
           "name_zh": "國防與無人機",
           "relation": "related",
-          "heat_score": 80.0,
+          "heat_score": 89.0,
           "heat_change_24h": null,
-          "momentum_score": 40.0
-        },
-        {
-          "theme_id": "statementdog_tag_197",
-          "name_zh": "電動車",
-          "relation": "related",
-          "heat_score": 45.0,
-          "heat_change_24h": null,
-          "momentum_score": 23.0
+          "momentum_score": 45.0
         }
       ],
       "selected_top50": false,
@@ -22837,10 +22593,6 @@
         {
           "key": "fundamentals_improving",
           "type": "positive"
-        },
-        {
-          "key": "multi_theme",
-          "type": "info"
         }
       ]
     },
@@ -22856,9 +22608,9 @@
           "theme_id": "defense_drone",
           "name_zh": "國防與無人機",
           "relation": "direct",
-          "heat_score": 80.0,
+          "heat_score": 89.0,
           "heat_change_24h": null,
-          "momentum_score": 40.0
+          "momentum_score": 45.0
         },
         {
           "theme_id": "statementdog_tag_1517",
@@ -22867,18 +22619,10 @@
           "heat_score": 76.0,
           "heat_change_24h": null,
           "momentum_score": 38.0
-        },
-        {
-          "theme_id": "statementdog_tag_197",
-          "name_zh": "電動車",
-          "relation": "related",
-          "heat_score": 45.0,
-          "heat_change_24h": null,
-          "momentum_score": 23.0
         }
       ],
       "selected_top50": true,
-      "short_rank": 3,
+      "short_rank": 2,
       "long_rank": 16,
       "flags": [
         {
@@ -22923,17 +22667,9 @@
           "theme_id": "defense_drone",
           "name_zh": "國防與無人機",
           "relation": "related",
-          "heat_score": 80.0,
+          "heat_score": 89.0,
           "heat_change_24h": null,
-          "momentum_score": 40.0
-        },
-        {
-          "theme_id": "statementdog_tag_197",
-          "name_zh": "電動車",
-          "relation": "related",
-          "heat_score": 45.0,
-          "heat_change_24h": null,
-          "momentum_score": 23.0
+          "momentum_score": 45.0
         }
       ],
       "selected_top50": false,
@@ -22978,9 +22714,9 @@
           "theme_id": "defense_drone",
           "name_zh": "國防與無人機",
           "relation": "related",
-          "heat_score": 80.0,
+          "heat_score": 89.0,
           "heat_change_24h": null,
-          "momentum_score": 40.0
+          "momentum_score": 45.0
         },
         {
           "theme_id": "statementdog_tag_1517",
@@ -23096,9 +22832,9 @@
           "theme_id": "defense_drone",
           "name_zh": "國防與無人機",
           "relation": "related",
-          "heat_score": 80.0,
+          "heat_score": 89.0,
           "heat_change_24h": null,
-          "momentum_score": 40.0
+          "momentum_score": 45.0
         },
         {
           "theme_id": "statementdog_tag_1517",
@@ -23183,9 +22919,9 @@
           "theme_id": "defense_drone",
           "name_zh": "國防與無人機",
           "relation": "related",
-          "heat_score": 80.0,
+          "heat_score": 89.0,
           "heat_change_24h": null,
-          "momentum_score": 40.0
+          "momentum_score": 45.0
         },
         {
           "theme_id": "statementdog_tag_1517",
@@ -23266,9 +23002,9 @@
           "theme_id": "defense_drone",
           "name_zh": "國防與無人機",
           "relation": "related",
-          "heat_score": 80.0,
+          "heat_score": 89.0,
           "heat_change_24h": null,
-          "momentum_score": 40.0
+          "momentum_score": 45.0
         },
         {
           "theme_id": "statementdog_tag_1517",
@@ -23353,9 +23089,9 @@
           "theme_id": "defense_drone",
           "name_zh": "國防與無人機",
           "relation": "related",
-          "heat_score": 80.0,
+          "heat_score": 89.0,
           "heat_change_24h": null,
-          "momentum_score": 40.0
+          "momentum_score": 45.0
         },
         {
           "theme_id": "statementdog_tag_1517",
@@ -23771,9 +23507,9 @@
           "theme_id": "defense_drone",
           "name_zh": "國防與無人機",
           "relation": "related",
-          "heat_score": 80.0,
+          "heat_score": 89.0,
           "heat_change_24h": null,
-          "momentum_score": 40.0
+          "momentum_score": 45.0
         },
         {
           "theme_id": "statementdog_tag_1517",
@@ -23858,9 +23594,9 @@
           "theme_id": "defense_drone",
           "name_zh": "國防與無人機",
           "relation": "related",
-          "heat_score": 80.0,
+          "heat_score": 89.0,
           "heat_change_24h": null,
-          "momentum_score": 40.0
+          "momentum_score": 45.0
         },
         {
           "theme_id": "statementdog_tag_1517",
@@ -23937,9 +23673,9 @@
           "theme_id": "defense_drone",
           "name_zh": "國防與無人機",
           "relation": "related",
-          "heat_score": 80.0,
+          "heat_score": 89.0,
           "heat_change_24h": null,
-          "momentum_score": 40.0
+          "momentum_score": 45.0
         },
         {
           "theme_id": "statementdog_tag_1517",
@@ -23960,14 +23696,6 @@
         {
           "theme_id": "ai_server",
           "name_zh": "AI 伺服器",
-          "relation": "related",
-          "heat_score": 45.0,
-          "heat_change_24h": null,
-          "momentum_score": 23.0
-        },
-        {
-          "theme_id": "statementdog_tag_197",
-          "name_zh": "電動車",
           "relation": "related",
           "heat_score": 45.0,
           "heat_change_24h": null,
@@ -24020,9 +23748,9 @@
           "theme_id": "defense_drone",
           "name_zh": "國防與無人機",
           "relation": "related",
-          "heat_score": 80.0,
+          "heat_score": 89.0,
           "heat_change_24h": null,
-          "momentum_score": 40.0
+          "momentum_score": 45.0
         },
         {
           "theme_id": "statementdog_tag_1517",
@@ -24440,17 +24168,9 @@
           "theme_id": "defense_drone",
           "name_zh": "國防與無人機",
           "relation": "related",
-          "heat_score": 80.0,
+          "heat_score": 89.0,
           "heat_change_24h": null,
-          "momentum_score": 40.0
-        },
-        {
-          "theme_id": "statementdog_tag_197",
-          "name_zh": "電動車",
-          "relation": "related",
-          "heat_score": 45.0,
-          "heat_change_24h": null,
-          "momentum_score": 23.0
+          "momentum_score": 45.0
         }
       ],
       "selected_top50": false,
@@ -24464,10 +24184,6 @@
         {
           "key": "fundamentals_improving",
           "type": "positive"
-        },
-        {
-          "key": "multi_theme",
-          "type": "info"
         }
       ]
     },
@@ -24792,17 +24508,9 @@
           "theme_id": "defense_drone",
           "name_zh": "國防與無人機",
           "relation": "related",
-          "heat_score": 80.0,
+          "heat_score": 89.0,
           "heat_change_24h": null,
-          "momentum_score": 40.0
-        },
-        {
-          "theme_id": "statementdog_tag_197",
-          "name_zh": "電動車",
-          "relation": "related",
-          "heat_score": 45.0,
-          "heat_change_24h": null,
-          "momentum_score": 23.0
+          "momentum_score": 45.0
         }
       ],
       "selected_top50": false,
@@ -24824,10 +24532,6 @@
         {
           "key": "fundamentals_improving",
           "type": "positive"
-        },
-        {
-          "key": "multi_theme",
-          "type": "info"
         }
       ]
     },
@@ -24941,9 +24645,9 @@
           "theme_id": "defense_drone",
           "name_zh": "國防與無人機",
           "relation": "related",
-          "heat_score": 80.0,
+          "heat_score": 89.0,
           "heat_change_24h": null,
-          "momentum_score": 40.0
+          "momentum_score": 45.0
         },
         {
           "theme_id": "statementdog_tag_1517",
@@ -25106,9 +24810,9 @@
           "theme_id": "defense_drone",
           "name_zh": "國防與無人機",
           "relation": "related",
-          "heat_score": 80.0,
+          "heat_score": 89.0,
           "heat_change_24h": null,
-          "momentum_score": 40.0
+          "momentum_score": 45.0
         },
         {
           "theme_id": "statementdog_tag_1517",
@@ -25193,9 +24897,9 @@
           "theme_id": "defense_drone",
           "name_zh": "國防與無人機",
           "relation": "related",
-          "heat_score": 80.0,
+          "heat_score": 89.0,
           "heat_change_24h": null,
-          "momentum_score": 40.0
+          "momentum_score": 45.0
         },
         {
           "theme_id": "statementdog_tag_1517",
@@ -25426,9 +25130,9 @@
           "theme_id": "defense_drone",
           "name_zh": "國防與無人機",
           "relation": "related",
-          "heat_score": 80.0,
+          "heat_score": 89.0,
           "heat_change_24h": null,
-          "momentum_score": 40.0
+          "momentum_score": 45.0
         },
         {
           "theme_id": "statementdog_tag_1517",
@@ -25560,9 +25264,9 @@
           "theme_id": "defense_drone",
           "name_zh": "國防與無人機",
           "relation": "related",
-          "heat_score": 80.0,
+          "heat_score": 89.0,
           "heat_change_24h": null,
-          "momentum_score": 40.0
+          "momentum_score": 45.0
         },
         {
           "theme_id": "statementdog_tag_1517",
@@ -25571,14 +25275,6 @@
           "heat_score": 76.0,
           "heat_change_24h": null,
           "momentum_score": 38.0
-        },
-        {
-          "theme_id": "statementdog_tag_197",
-          "name_zh": "電動車",
-          "relation": "related",
-          "heat_score": 45.0,
-          "heat_change_24h": null,
-          "momentum_score": 23.0
         }
       ],
       "selected_top50": false,
@@ -25615,9 +25311,9 @@
           "theme_id": "defense_drone",
           "name_zh": "國防與無人機",
           "relation": "related",
-          "heat_score": 80.0,
+          "heat_score": 89.0,
           "heat_change_24h": null,
-          "momentum_score": 40.0
+          "momentum_score": 45.0
         },
         {
           "theme_id": "statementdog_tag_1517",
