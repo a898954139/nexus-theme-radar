@@ -1,12 +1,10 @@
 {
-  "generated_at": "2026-08-21T16:52:43.857214Z",
-  "fetched_raw_items": 320,
-  "items_before_topic_filter": 320,
-  "successful_sites": 5,
-  "failed_count": 1,
-  "failed_sites": [
-    "mops"
-  ],
+  "generated_at": "2026-08-21T17:46:35.437709Z",
+  "fetched_raw_items": 324,
+  "items_before_topic_filter": 324,
+  "successful_sites": 6,
+  "failed_count": 0,
+  "failed_sites": [],
   "sites": [
     {
       "source_id": "cnyes",
@@ -15,10 +13,10 @@
       "adapter": "rss",
       "fetch_method": "rss",
       "status": "ok",
-      "items": 94,
+      "items": 98,
       "error": null,
       "feed_url": "https://news.cnyes.com/rss/v1/news/category/all",
-      "elapsed_ms": 894
+      "elapsed_ms": 1003
     },
     {
       "source_id": "digitimes_tw",
@@ -30,7 +28,7 @@
       "items": 116,
       "error": null,
       "feed_url": "https://www.digitimes.com.tw/rss/news.xml",
-      "elapsed_ms": 961
+      "elapsed_ms": 985
     },
     {
       "source_id": "moneydj",
@@ -42,7 +40,7 @@
       "items": 20,
       "error": null,
       "feed_url": "https://www.moneydj.com/KMDJ/RssCenter.aspx?svc=NW&a=MB010000",
-      "elapsed_ms": 857
+      "elapsed_ms": 885
     },
     {
       "source_id": "mops",
@@ -50,15 +48,15 @@
       "source_class": "official_disclosure",
       "adapter": "twse_openapi",
       "fetch_method": "twse_openapi",
-      "status": "error",
-      "items": 0,
-      "error": "t187ap04_L: Expecting value: line 1 column 1 (char 0); t187ap26_L: Expecting value: line 1 column 1 (char 0); t187ap27_L: Expecting value: line 1 column 1 (char 0)",
+      "status": "ok",
+      "items": 174,
+      "error": null,
       "endpoint": "https://openapi.twse.com.tw/v1",
       "catalog_path": "config/mops_datasets.tw.json",
       "catalog_sha256": "2c2cecccb7a220ac9e263228a7659aa49b1ada5aea397650e601ad3dfcc48043",
       "datasets_due": 3,
-      "datasets_ok": 0,
-      "datasets_failed": 3,
+      "datasets_ok": 3,
+      "datasets_failed": 0,
       "datasets_skipped": 9,
       "datasets": [
         {
@@ -66,33 +64,33 @@
           "path": "/opendata/t187ap04_L",
           "category": "material_information",
           "refresh_class": "hourly",
-          "status": "error",
-          "items": 0,
-          "error": "Expecting value: line 1 column 1 (char 0)",
-          "elapsed_ms": 730
+          "status": "ok",
+          "items": 172,
+          "error": null,
+          "elapsed_ms": 1636
         },
         {
           "dataset_id": "t187ap26_L",
           "path": "/opendata/t187ap26_L",
           "category": "operational_control",
           "refresh_class": "hourly",
-          "status": "error",
-          "items": 0,
-          "error": "Expecting value: line 1 column 1 (char 0)",
-          "elapsed_ms": 847
+          "status": "ok",
+          "items": 1,
+          "error": null,
+          "elapsed_ms": 142
         },
         {
           "dataset_id": "t187ap27_L",
           "path": "/opendata/t187ap27_L",
           "category": "operational_control",
           "refresh_class": "hourly",
-          "status": "error",
-          "items": 0,
-          "error": "Expecting value: line 1 column 1 (char 0)",
-          "elapsed_ms": 1384
+          "status": "ok",
+          "items": 1,
+          "error": null,
+          "elapsed_ms": 147
         }
       ],
-      "elapsed_ms": 2962
+      "elapsed_ms": 1926
     },
     {
       "source_id": "technews",
@@ -104,7 +102,7 @@
       "items": 40,
       "error": null,
       "feed_url": "https://technews.tw/feed/",
-      "elapsed_ms": 509
+      "elapsed_ms": 734
     },
     {
       "source_id": "yahoo_finance_tw",
@@ -116,7 +114,7 @@
       "items": 50,
       "error": null,
       "feed_url": "https://tw.stock.yahoo.com/rss",
-      "elapsed_ms": 518
+      "elapsed_ms": 343
     }
   ]
 }
