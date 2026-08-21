@@ -2,42 +2,42 @@
   "schema_version": "nexus_public_theme_ranking.v0.8",
   "ranking_rule_version": "public_theme_heat_v0.8",
   "company_rule_version": "public_company_evidence_v0.8",
-  "generated_at": "2026-08-21T11:43:48.214411Z",
+  "generated_at": "2026-08-21T13:12:07.413071Z",
   "market_id": "TW_EQUITY",
   "market_scope": [
     "TW_EQUITY"
   ],
   "window_hours": 72,
   "max_themes": 5,
-  "qualified_theme_count": 8,
+  "qualified_theme_count": 9,
   "displayed_theme_count": 5,
   "threshold_note": null,
   "generation_status": "complete",
   "failed_source_count": 0,
-  "official_evidence_status": "available",
+  "official_evidence_status": "unavailable",
   "themes": [
     {
       "rank": 1,
       "theme_id": "robotics",
       "name_zh": "機器人",
-      "heat_score": 93,
+      "heat_score": 84,
       "summaries": {
-        "event_count": 15,
-        "source_count": 4,
+        "event_count": 14,
+        "source_count": 3,
         "tracking_candidate_count": 8,
         "taiwan_mapping_count": 28
       },
       "heat_reason": {
         "rule_version": "public_theme_heat_v0.8",
         "event_component": {
-          "input": 15,
+          "input": 14,
           "normalized": 100.0,
           "weighted": 25.0
         },
         "source_component": {
-          "input": 4,
-          "normalized": 100.0,
-          "weighted": 25.0
+          "input": 3,
+          "normalized": 75.0,
+          "weighted": 18.75
         },
         "candidate_component": {
           "input": 8,
@@ -50,9 +50,9 @@
           "normalized": 100.0,
           "weighted": 30.0
         },
-        "single_source_concentration": 0.8,
-        "concentration_penalty": 7.5,
-        "raw_score": 92.5
+        "single_source_concentration": 0.857,
+        "concentration_penalty": 9.643,
+        "raw_score": 84.107
       },
       "direct_mentions": [
         {
@@ -146,17 +146,17 @@
       "rank": 2,
       "theme_id": "statementdog_tag_1517",
       "name_zh": "AI",
-      "heat_score": 79,
+      "heat_score": 77,
       "summaries": {
-        "event_count": 33,
+        "event_count": 31,
         "source_count": 4,
         "tracking_candidate_count": 0,
-        "taiwan_mapping_count": 173
+        "taiwan_mapping_count": 177
       },
       "heat_reason": {
         "rule_version": "public_theme_heat_v0.8",
         "event_component": {
-          "input": 33,
+          "input": 31,
           "normalized": 100.0,
           "weighted": 25.0
         },
@@ -171,24 +171,16 @@
           "weighted": 0.0
         },
         "mapping_component": {
-          "mapping_count": 173,
-          "direct_mapping_event_count": 9,
+          "mapping_count": 177,
+          "direct_mapping_event_count": 7,
           "normalized": 100.0,
           "weighted": 30.0
         },
-        "single_source_concentration": 0.636,
-        "concentration_penalty": 1.364,
-        "raw_score": 78.636
+        "single_source_concentration": 0.677,
+        "concentration_penalty": 2.903,
+        "raw_score": 77.097
       },
       "direct_mentions": [
-        {
-          "instrument_id": "TWSE:2025",
-          "symbol": "2025",
-          "exchange": "TWSE",
-          "name_zh": "千興",
-          "direct_event_count": 3,
-          "latest_mentioned_at": "2026-08-21T11:09:28Z"
-        },
         {
           "instrument_id": "TWSE:2027",
           "symbol": "2027",
@@ -212,6 +204,14 @@
           "name_zh": "研揚",
           "direct_event_count": 1,
           "latest_mentioned_at": "2026-08-20T19:26:56Z"
+        },
+        {
+          "instrument_id": "TWSE:2025",
+          "symbol": "2025",
+          "exchange": "TWSE",
+          "name_zh": "千興",
+          "direct_event_count": 1,
+          "latest_mentioned_at": "2026-08-20T18:46:33Z"
         },
         {
           "instrument_id": "TWSE:2020",
@@ -282,14 +282,14 @@
         }
       ],
       "representative_news": {
-        "cluster_id": "cluster-cfdc6b0b9d5aec4a",
-        "id": "yahoo_finance_tw-7ee6196428ef",
-        "title_zh": "AI取代人力恐適得其反 智慧領導者應專注價值創造而非裁員",
-        "summary": "圖／本報資料庫商傳媒｜林昭衡／綜合外電報導近期有企業為節省成本導入人工智慧（AI）並隨之裁員，但此策略恐適得其反。根據追蹤平台 jobloss.ai 的數據顯示，從2025年1月至2026年6月，美國",
+        "cluster_id": "cluster-fef794a057ae9a30",
+        "id": "yahoo_finance_tw-2ebb83997609",
+        "title_zh": "Meta AI眼鏡專利揭露識人功能 自動剪輯影片恐掀隱私波瀾",
+        "summary": "圖／示意圖商傳媒｜責任編輯／綜合外電報導人工智慧（AI）穿戴裝置的發展正日益受到關注。Meta Platforms Inc.（以下簡稱 Meta）的一項最新專利申請顯示，其未來版 AI 眼鏡將具備識別",
         "source_id": "yahoo_finance_tw",
         "source": "Yahoo Finance Taiwan",
-        "published_at": "2026-08-21T11:09:28Z",
-        "canonical_url": "https://tw.stock.yahoo.com/news/ai%E5%8F%96%E4%BB%A3%E4%BA%BA%E5%8A%9B%E6%81%90%E9%81%A9%E5%BE%97%E5%85%B6%E5%8F%8D-%E6%99%BA%E6%85%A7%E9%A0%98%E5%B0%8E%E8%80%85%E6%87%89%E5%B0%88%E6%B3%A8%E5%83%B9%E5%80%BC%E5%89%B5%E9%80%A0%E8%80%8C%E9%9D%9E%E8%A3%81%E5%93%A1-110928603.html"
+        "published_at": "2026-08-21T12:18:37Z",
+        "canonical_url": "https://tw.stock.yahoo.com/news/meta-ai%E7%9C%BC%E9%8F%A1%E5%B0%88%E5%88%A9%E6%8F%AD%E9%9C%B2%E8%AD%98%E4%BA%BA%E5%8A%9F%E8%83%BD-%E8%87%AA%E5%8B%95%E5%89%AA%E8%BC%AF%E5%BD%B1%E7%89%87%E6%81%90%E6%8E%80%E9%9A%B1%E7%A7%81%E6%B3%A2%E7%80%BE-121837003.html"
       }
     },
     {
@@ -406,10 +406,10 @@
       "rank": 4,
       "theme_id": "statementdog_tag_259",
       "name_zh": "汽車",
-      "heat_score": 55,
+      "heat_score": 62,
       "summaries": {
         "event_count": 3,
-        "source_count": 3,
+        "source_count": 4,
         "tracking_candidate_count": 0,
         "taiwan_mapping_count": 25
       },
@@ -421,9 +421,9 @@
           "weighted": 12.5
         },
         "source_component": {
-          "input": 3,
-          "normalized": 75.0,
-          "weighted": 18.75
+          "input": 4,
+          "normalized": 100.0,
+          "weighted": 25.0
         },
         "candidate_component": {
           "input": 0,
@@ -436,9 +436,9 @@
           "normalized": 80.0,
           "weighted": 24.0
         },
-        "single_source_concentration": 0.333,
+        "single_source_concentration": 0.25,
         "concentration_penalty": 0.0,
-        "raw_score": 55.25
+        "raw_score": 61.5
       },
       "direct_mentions": [
         {
@@ -486,38 +486,38 @@
         }
       ],
       "representative_news": {
-        "cluster_id": "cluster-bee62a859c085f7f",
-        "id": "technews-9c0c5a0d30c5",
-        "title_zh": "薪資協商破裂，現代汽車工會發動十年來首度全天罷工",
-        "summary": "韓國現代汽車（Hyundai Motor）工會與資方就薪資及退休年齡進行的長期協商破裂後，今天發動十年來首次全 [&#8230;]",
-        "source_id": "technews",
-        "source": "TechNews",
-        "published_at": "2026-08-21T09:00:45Z",
-        "canonical_url": "https://finance.technews.tw/2026/08/21/wage-negotiations-break-down-hyundai-motor-union-first-full-day-strike-decade/"
+        "cluster_id": "cluster-59f727515cde5b56",
+        "id": "yahoo_finance_tw-0f027a141416",
+        "title_zh": "薪資協商破裂　現代汽車工會發動10年來首度全天罷工",
+        "summary": "（中央社首爾2026年8月21日綜合外電報導）韓國現代汽車（Hyundai Motor）工會與資方就薪資及退休年齡進行的長期協商破裂後，今天發動10年來首次全天罷工。法新社報導，工會估計約有4萬名員工",
+        "source_id": "yahoo_finance_tw",
+        "source": "Yahoo Finance Taiwan",
+        "published_at": "2026-08-21T12:35:46Z",
+        "canonical_url": "https://tw.stock.yahoo.com/news/%E8%96%AA%E8%B3%87%E5%8D%94%E5%95%86%E7%A0%B4%E8%A3%82-%E7%8F%BE%E4%BB%A3%E6%B1%BD%E8%BB%8A%E5%B7%A5%E6%9C%83%E7%99%BC%E5%8B%9510%E5%B9%B4%E4%BE%86%E9%A6%96%E5%BA%A6%E5%85%A8%E5%A4%A9%E7%BD%B7%E5%B7%A5-123546428.html"
       }
     },
     {
       "rank": 5,
-      "theme_id": "statementdog_tag_52",
-      "name_zh": "蘋果",
-      "heat_score": 53,
+      "theme_id": "statementdog_tag_676",
+      "name_zh": "玻璃",
+      "heat_score": 51,
       "summaries": {
-        "event_count": 4,
-        "source_count": 2,
+        "event_count": 2,
+        "source_count": 3,
         "tracking_candidate_count": 0,
-        "taiwan_mapping_count": 17
+        "taiwan_mapping_count": 25
       },
       "heat_reason": {
         "rule_version": "public_theme_heat_v0.8",
         "event_component": {
-          "input": 4,
-          "normalized": 66.667,
-          "weighted": 16.667
+          "input": 2,
+          "normalized": 33.333,
+          "weighted": 8.333
         },
         "source_component": {
-          "input": 2,
-          "normalized": 50.0,
-          "weighted": 12.5
+          "input": 3,
+          "normalized": 75.0,
+          "weighted": 18.75
         },
         "candidate_component": {
           "input": 0,
@@ -525,42 +525,42 @@
           "weighted": 0.0
         },
         "mapping_component": {
-          "mapping_count": 17,
+          "mapping_count": 25,
           "direct_mapping_event_count": 1,
           "normalized": 80.0,
           "weighted": 24.0
         },
-        "single_source_concentration": 0.5,
+        "single_source_concentration": 0.333,
         "concentration_penalty": 0.0,
-        "raw_score": 53.167
+        "raw_score": 51.083
       },
       "direct_mentions": [
         {
-          "instrument_id": "TWSE:2317",
-          "symbol": "2317",
+          "instrument_id": "TWSE:3673",
+          "symbol": "3673",
           "exchange": "TWSE",
-          "name_zh": "鴻海",
+          "name_zh": "TPK-KY",
           "direct_event_count": 1,
-          "latest_mentioned_at": "2026-08-21T00:51:58Z"
+          "latest_mentioned_at": "2026-08-21T07:31:50Z"
         }
       ],
       "supply_chain_candidates": [
         {
-          "instrument_id": "TWSE:2317",
-          "symbol": "2317",
+          "instrument_id": "TWSE:3673",
+          "symbol": "3673",
           "exchange": "TWSE",
-          "name_zh": "鴻海",
+          "name_zh": "TPK-KY",
           "direct_event_count": 1,
           "official_evidence_count": 0,
           "company_rank_score": 5,
-          "latest_mentioned_at": "2026-08-21T00:51:58Z",
+          "latest_mentioned_at": "2026-08-21T07:31:50Z",
           "latest_official_at": null
         },
         {
-          "instrument_id": "TWSE:2308",
-          "symbol": "2308",
-          "exchange": "TWSE",
-          "name_zh": "台達電",
+          "instrument_id": "TPEX:1815",
+          "symbol": "1815",
+          "exchange": "TPEX",
+          "name_zh": "富喬",
           "direct_event_count": 0,
           "official_evidence_count": 0,
           "company_rank_score": 1,
@@ -568,10 +568,10 @@
           "latest_official_at": null
         },
         {
-          "instrument_id": "TWSE:2313",
-          "symbol": "2313",
-          "exchange": "TWSE",
-          "name_zh": "華通",
+          "instrument_id": "TPEX:3131",
+          "symbol": "3131",
+          "exchange": "TPEX",
+          "name_zh": "弘塑",
           "direct_event_count": 0,
           "official_evidence_count": 0,
           "company_rank_score": 1,
@@ -580,14 +580,14 @@
         }
       ],
       "representative_news": {
-        "cluster_id": "cluster-9dd55b95f426ed65",
-        "id": "digitimes_tw-a8ac89b3343b",
-        "title_zh": "ChatGPT化身Mac訊息小幫手　蘋果隱私防線再受矚",
-        "summary": "OpenAI推出蘋果（Apple）訊息外掛，讓Mac版ChatGPT化身訊息小幫手，代為草擬、傳送回覆，讓一向標榜重視隱私的蘋果再遭外界質疑。綜合彭博（Bloomberg）、MacRumors報導，這項新功能可讀取、搜尋、摘要及",
-        "source_id": "digitimes_tw",
-        "source": "DIGITIMES",
-        "published_at": "2026-08-21T03:37:49Z",
-        "canonical_url": "https://www.digitimes.com.tw/tech/dt/n/shwnws.asp?id=0000765840_A367XB8B50SS07LLF5OT6"
+        "cluster_id": "cluster-5a3352137cabfb06",
+        "id": "moneydj-f2aed607b5c1",
+        "title_zh": "仁新 代重要子公司Belite Bio, Inc公告受邀參加第19屆亞太玻璃體視網膜學會2026年會(APVRS 2026)",
+        "summary": "<a href=\"https://www.moneydj.com/kmdj/news/newsviewer.aspx?a=212f0479-1368-4095-84e4-04e7c2bd3a39&amp;utm_source=18565796679657183757966868&amp;utm_medium=RSS\">內文連結</a>",
+        "source_id": "moneydj",
+        "source": "MoneyDJ",
+        "published_at": "2026-08-21T12:09:00Z",
+        "canonical_url": "https://www.moneydj.com/kmdj/news/newsviewer.aspx?a=212f0479-1368-4095-84e4-04e7c2bd3a39&utm_source=18565796679657183757966868&utm_medium=RSS"
       }
     }
   ]
