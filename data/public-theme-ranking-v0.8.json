@@ -2,19 +2,19 @@
   "schema_version": "nexus_public_theme_ranking.v0.8",
   "ranking_rule_version": "public_theme_heat_v0.8",
   "company_rule_version": "public_company_evidence_v0.8",
-  "generated_at": "2026-08-21T13:12:07.413071Z",
+  "generated_at": "2026-08-21T13:59:47.332720Z",
   "market_id": "TW_EQUITY",
   "market_scope": [
     "TW_EQUITY"
   ],
   "window_hours": 72,
   "max_themes": 5,
-  "qualified_theme_count": 9,
+  "qualified_theme_count": 8,
   "displayed_theme_count": 5,
   "threshold_note": null,
   "generation_status": "complete",
   "failed_source_count": 0,
-  "official_evidence_status": "unavailable",
+  "official_evidence_status": "available",
   "themes": [
     {
       "rank": 1,
@@ -146,9 +146,9 @@
       "rank": 2,
       "theme_id": "statementdog_tag_1517",
       "name_zh": "AI",
-      "heat_score": 77,
+      "heat_score": 76,
       "summaries": {
-        "event_count": 31,
+        "event_count": 30,
         "source_count": 4,
         "tracking_candidate_count": 0,
         "taiwan_mapping_count": 177
@@ -156,7 +156,7 @@
       "heat_reason": {
         "rule_version": "public_theme_heat_v0.8",
         "event_component": {
-          "input": 31,
+          "input": 30,
           "normalized": 100.0,
           "weighted": 25.0
         },
@@ -176,9 +176,9 @@
           "normalized": 100.0,
           "weighted": 30.0
         },
-        "single_source_concentration": 0.677,
-        "concentration_penalty": 2.903,
-        "raw_score": 77.097
+        "single_source_concentration": 0.7,
+        "concentration_penalty": 3.75,
+        "raw_score": 76.25
       },
       "direct_mentions": [
         {
@@ -498,21 +498,21 @@
     },
     {
       "rank": 5,
-      "theme_id": "statementdog_tag_676",
-      "name_zh": "玻璃",
-      "heat_score": 51,
+      "theme_id": "defense_drone",
+      "name_zh": "國防與無人機",
+      "heat_score": 53,
       "summaries": {
-        "event_count": 2,
+        "event_count": 4,
         "source_count": 3,
         "tracking_candidate_count": 0,
-        "taiwan_mapping_count": 25
+        "taiwan_mapping_count": 3
       },
       "heat_reason": {
         "rule_version": "public_theme_heat_v0.8",
         "event_component": {
-          "input": 2,
-          "normalized": 33.333,
-          "weighted": 8.333
+          "input": 4,
+          "normalized": 66.667,
+          "weighted": 16.667
         },
         "source_component": {
           "input": 3,
@@ -525,42 +525,22 @@
           "weighted": 0.0
         },
         "mapping_component": {
-          "mapping_count": 25,
-          "direct_mapping_event_count": 1,
-          "normalized": 80.0,
-          "weighted": 24.0
+          "mapping_count": 3,
+          "direct_mapping_event_count": 0,
+          "normalized": 60.0,
+          "weighted": 18.0
         },
-        "single_source_concentration": 0.333,
+        "single_source_concentration": 0.5,
         "concentration_penalty": 0.0,
-        "raw_score": 51.083
+        "raw_score": 53.417
       },
-      "direct_mentions": [
-        {
-          "instrument_id": "TWSE:3673",
-          "symbol": "3673",
-          "exchange": "TWSE",
-          "name_zh": "TPK-KY",
-          "direct_event_count": 1,
-          "latest_mentioned_at": "2026-08-21T07:31:50Z"
-        }
-      ],
+      "direct_mentions": [],
       "supply_chain_candidates": [
         {
-          "instrument_id": "TWSE:3673",
-          "symbol": "3673",
-          "exchange": "TWSE",
-          "name_zh": "TPK-KY",
-          "direct_event_count": 1,
-          "official_evidence_count": 0,
-          "company_rank_score": 5,
-          "latest_mentioned_at": "2026-08-21T07:31:50Z",
-          "latest_official_at": null
-        },
-        {
-          "instrument_id": "TPEX:1815",
-          "symbol": "1815",
+          "instrument_id": "TPEX:5371",
+          "symbol": "5371",
           "exchange": "TPEX",
-          "name_zh": "富喬",
+          "name_zh": "中光電",
           "direct_event_count": 0,
           "official_evidence_count": 0,
           "company_rank_score": 1,
@@ -568,10 +548,21 @@
           "latest_official_at": null
         },
         {
-          "instrument_id": "TPEX:3131",
-          "symbol": "3131",
-          "exchange": "TPEX",
-          "name_zh": "弘塑",
+          "instrument_id": "TWSE:2634",
+          "symbol": "2634",
+          "exchange": "TWSE",
+          "name_zh": "漢翔",
+          "direct_event_count": 0,
+          "official_evidence_count": 0,
+          "company_rank_score": 1,
+          "latest_mentioned_at": null,
+          "latest_official_at": null
+        },
+        {
+          "instrument_id": "TWSE:8033",
+          "symbol": "8033",
+          "exchange": "TWSE",
+          "name_zh": "雷虎",
           "direct_event_count": 0,
           "official_evidence_count": 0,
           "company_rank_score": 1,
@@ -580,14 +571,14 @@
         }
       ],
       "representative_news": {
-        "cluster_id": "cluster-5a3352137cabfb06",
-        "id": "moneydj-f2aed607b5c1",
-        "title_zh": "仁新 代重要子公司Belite Bio, Inc公告受邀參加第19屆亞太玻璃體視網膜學會2026年會(APVRS 2026)",
-        "summary": "<a href=\"https://www.moneydj.com/kmdj/news/newsviewer.aspx?a=212f0479-1368-4095-84e4-04e7c2bd3a39&amp;utm_source=18565796679657183757966868&amp;utm_medium=RSS\">內文連結</a>",
-        "source_id": "moneydj",
-        "source": "MoneyDJ",
-        "published_at": "2026-08-21T12:09:00Z",
-        "canonical_url": "https://www.moneydj.com/kmdj/news/newsviewer.aspx?a=212f0479-1368-4095-84e4-04e7c2bd3a39&utm_source=18565796679657183757966868&utm_medium=RSS"
+        "cluster_id": "cluster-a19ff53cad0116ec",
+        "id": "yahoo_finance_tw-3ee55d020953",
+        "title_zh": "出席彰化產業座談 賴清德：無人機、水五金專區、扶助中小微轉型三管齊下",
+        "summary": "總統賴清德21日下午出席「彰化縣產業座談會」時強調，中小微企業及傳統產業是台灣經濟的重要基礎，政府將持續提供金融、投資及轉型輔導，並透過科技產業鏈在地化，協助傳統產業升級轉型，並推動無人機產業，為百工",
+        "source_id": "yahoo_finance_tw",
+        "source": "Yahoo Finance Taiwan",
+        "published_at": "2026-08-21T13:33:50Z",
+        "canonical_url": "https://tw.stock.yahoo.com/news/%E5%87%BA%E5%B8%AD%E5%BD%B0%E5%8C%96%E7%94%A2%E6%A5%AD%E5%BA%A7%E8%AB%87-%E8%B3%B4%E6%B8%85%E5%BE%B7-%E7%84%A1%E4%BA%BA%E6%A9%9F-%E6%B0%B4%E4%BA%94%E9%87%91%E5%B0%88%E5%8D%80-%E6%89%B6%E5%8A%A9%E4%B8%AD%E5%B0%8F%E5%BE%AE%E8%BD%89%E5%9E%8B%E4%B8%89%E7%AE%A1%E9%BD%8A%E4%B8%8B-133350479.html"
       }
     }
   ]
