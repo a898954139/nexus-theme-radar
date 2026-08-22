@@ -2,14 +2,14 @@
   "schema_version": "nexus_public_theme_ranking.v0.8",
   "ranking_rule_version": "public_theme_heat_v0.8",
   "company_rule_version": "public_company_evidence_v0.8",
-  "generated_at": "2026-08-21T23:40:53.172608Z",
+  "generated_at": "2026-08-22T01:51:44.340812Z",
   "market_id": "TW_EQUITY",
   "market_scope": [
     "TW_EQUITY"
   ],
   "window_hours": 72,
   "max_themes": 5,
-  "qualified_theme_count": 8,
+  "qualified_theme_count": 6,
   "displayed_theme_count": 5,
   "threshold_note": null,
   "generation_status": "complete",
@@ -20,24 +20,24 @@
       "rank": 1,
       "theme_id": "robotics",
       "name_zh": "機器人",
-      "heat_score": 75,
+      "heat_score": 84,
       "summaries": {
-        "event_count": 13,
-        "source_count": 2,
+        "event_count": 14,
+        "source_count": 3,
         "tracking_candidate_count": 8,
         "taiwan_mapping_count": 28
       },
       "heat_reason": {
         "rule_version": "public_theme_heat_v0.8",
         "event_component": {
-          "input": 13,
+          "input": 14,
           "normalized": 100.0,
           "weighted": 25.0
         },
         "source_component": {
-          "input": 2,
-          "normalized": 50.0,
-          "weighted": 12.5
+          "input": 3,
+          "normalized": 75.0,
+          "weighted": 18.75
         },
         "candidate_component": {
           "input": 8,
@@ -50,9 +50,9 @@
           "normalized": 100.0,
           "weighted": 30.0
         },
-        "single_source_concentration": 0.923,
-        "concentration_penalty": 12.115,
-        "raw_score": 75.385
+        "single_source_concentration": 0.857,
+        "concentration_penalty": 9.643,
+        "raw_score": 84.107
       },
       "direct_mentions": [
         {
@@ -144,26 +144,26 @@
     },
     {
       "rank": 2,
-      "theme_id": "statementdog_tag_1517",
-      "name_zh": "AI",
-      "heat_score": 73,
+      "theme_id": "statementdog_tag_1385",
+      "name_zh": "半導體材料",
+      "heat_score": 74,
       "summaries": {
-        "event_count": 27,
-        "source_count": 4,
+        "event_count": 7,
+        "source_count": 3,
         "tracking_candidate_count": 0,
-        "taiwan_mapping_count": 154
+        "taiwan_mapping_count": 24
       },
       "heat_reason": {
         "rule_version": "public_theme_heat_v0.8",
         "event_component": {
-          "input": 27,
+          "input": 7,
           "normalized": 100.0,
           "weighted": 25.0
         },
         "source_component": {
-          "input": 4,
-          "normalized": 100.0,
-          "weighted": 25.0
+          "input": 3,
+          "normalized": 75.0,
+          "weighted": 18.75
         },
         "candidate_component": {
           "input": 0,
@@ -171,16 +171,142 @@
           "weighted": 0.0
         },
         "mapping_component": {
-          "mapping_count": 154,
-          "direct_mapping_event_count": 7,
+          "mapping_count": 24,
+          "direct_mapping_event_count": 3,
           "normalized": 100.0,
           "weighted": 30.0
         },
-        "single_source_concentration": 0.778,
-        "concentration_penalty": 6.667,
-        "raw_score": 73.333
+        "single_source_concentration": 0.571,
+        "concentration_penalty": 0.0,
+        "raw_score": 73.75
       },
       "direct_mentions": [
+        {
+          "instrument_id": "TWSE:3711",
+          "symbol": "3711",
+          "exchange": "TWSE",
+          "name_zh": "日月光投控",
+          "direct_event_count": 1,
+          "latest_mentioned_at": "2026-08-21T09:30:44Z"
+        },
+        {
+          "instrument_id": "TWSE:2025",
+          "symbol": "2025",
+          "exchange": "TWSE",
+          "name_zh": "千興",
+          "direct_event_count": 1,
+          "latest_mentioned_at": "2026-08-21T06:23:18Z"
+        },
+        {
+          "instrument_id": "TWSE:2027",
+          "symbol": "2027",
+          "exchange": "TWSE",
+          "name_zh": "大成鋼",
+          "direct_event_count": 1,
+          "latest_mentioned_at": "2026-08-20T18:08:40Z"
+        }
+      ],
+      "supply_chain_candidates": [
+        {
+          "instrument_id": "TPEX:3388",
+          "symbol": "3388",
+          "exchange": "TPEX",
+          "name_zh": "崇越電",
+          "direct_event_count": 0,
+          "official_evidence_count": 0,
+          "company_rank_score": 1,
+          "latest_mentioned_at": null,
+          "latest_official_at": null
+        },
+        {
+          "instrument_id": "TPEX:4749",
+          "symbol": "4749",
+          "exchange": "TPEX",
+          "name_zh": "新應材",
+          "direct_event_count": 0,
+          "official_evidence_count": 0,
+          "company_rank_score": 1,
+          "latest_mentioned_at": null,
+          "latest_official_at": null
+        },
+        {
+          "instrument_id": "TPEX:4768",
+          "symbol": "4768",
+          "exchange": "TPEX",
+          "name_zh": "晶呈科技",
+          "direct_event_count": 0,
+          "official_evidence_count": 0,
+          "company_rank_score": 1,
+          "latest_mentioned_at": null,
+          "latest_official_at": null
+        }
+      ],
+      "representative_news": {
+        "cluster_id": "cluster-d1cad765575fd5bb",
+        "id": "digitimes_tw-c32c326e04b9",
+        "title_zh": "台灣半導體材料隊集結　「從追趕到共生」催生在地新鏈",
+        "summary": "台灣半導體材料產業迎來新發展窗口。隨著先進半導體製程暨封裝技術持續演進，台灣在國際扮演關鍵角色。儘管有地緣政治等影響，然而全產業鏈在地韌性強化，催生半導體材料加速自主化腳步。從產業端觀察，台灣並非缺",
+        "source_id": "digitimes_tw",
+        "source": "DIGITIMES",
+        "published_at": "2026-08-21T11:00:05Z",
+        "canonical_url": "https://www.digitimes.com.tw/tech/dt/n/shwnws.asp?id=0000765950_JAMLA2H64N7IWA18016MR"
+      }
+    },
+    {
+      "rank": 3,
+      "theme_id": "statementdog_tag_1517",
+      "name_zh": "AI",
+      "heat_score": 71,
+      "summaries": {
+        "event_count": 31,
+        "source_count": 3,
+        "tracking_candidate_count": 0,
+        "taiwan_mapping_count": 173
+      },
+      "heat_reason": {
+        "rule_version": "public_theme_heat_v0.8",
+        "event_component": {
+          "input": 31,
+          "normalized": 100.0,
+          "weighted": 25.0
+        },
+        "source_component": {
+          "input": 3,
+          "normalized": 75.0,
+          "weighted": 18.75
+        },
+        "candidate_component": {
+          "input": 0,
+          "normalized": 0.0,
+          "weighted": 0.0
+        },
+        "mapping_component": {
+          "mapping_count": 173,
+          "direct_mapping_event_count": 8,
+          "normalized": 100.0,
+          "weighted": 30.0
+        },
+        "single_source_concentration": 0.677,
+        "concentration_penalty": 2.903,
+        "raw_score": 70.847
+      },
+      "direct_mentions": [
+        {
+          "instrument_id": "TWSE:2303",
+          "symbol": "2303",
+          "exchange": "TWSE",
+          "name_zh": "聯電",
+          "direct_event_count": 1,
+          "latest_mentioned_at": "2026-08-22T01:00:51Z"
+        },
+        {
+          "instrument_id": "TWSE:2330",
+          "symbol": "2330",
+          "exchange": "TWSE",
+          "name_zh": "台積電",
+          "direct_event_count": 1,
+          "latest_mentioned_at": "2026-08-22T01:00:51Z"
+        },
         {
           "instrument_id": "TWSE:2027",
           "symbol": "2027",
@@ -248,6 +374,17 @@
       ],
       "supply_chain_candidates": [
         {
+          "instrument_id": "TWSE:2330",
+          "symbol": "2330",
+          "exchange": "TWSE",
+          "name_zh": "台積電",
+          "direct_event_count": 1,
+          "official_evidence_count": 0,
+          "company_rank_score": 5,
+          "latest_mentioned_at": "2026-08-22T01:00:51Z",
+          "latest_official_at": null
+        },
+        {
           "instrument_id": "TWSE:2345",
           "symbol": "2345",
           "exchange": "TWSE",
@@ -268,154 +405,41 @@
           "company_rank_score": 1,
           "latest_mentioned_at": null,
           "latest_official_at": null
-        },
-        {
-          "instrument_id": "TPEX:3324",
-          "symbol": "3324",
-          "exchange": "TPEX",
-          "name_zh": "雙鴻",
-          "direct_event_count": 0,
-          "official_evidence_count": 0,
-          "company_rank_score": 1,
-          "latest_mentioned_at": null,
-          "latest_official_at": null
         }
       ],
       "representative_news": {
-        "cluster_id": "cluster-9e7d33821baf6ed2",
-        "id": "technews-39e51c740af3",
-        "title_zh": "企業 AI 導入為何卡關？主管親自示範與打造「容錯文化」是落地關鍵",
-        "summary": "人工智慧加速進入企業流程之際，如何讓員工真正用起來，正成為比採購工具更棘手的課題。專家指出，許多組織已完成導入 [&#8230;]",
+        "cluster_id": "cluster-d77ba8af214b8666",
+        "id": "technews-d1d322d6042e",
+        "title_zh": "AI 推升 PIC 代工狂潮，聯電挾 12 吋量產優勢決戰高塔、格羅方德",
+        "summary": "AI 資料中心加速建置，除了台積電通吃 AI 晶片代工商機，高速互連也引發成熟製程的矽光子產能吃緊，聯電正以黑 [&#8230;]",
         "source_id": "technews",
         "source": "TechNews",
-        "published_at": "2026-08-21T23:00:44Z",
-        "canonical_url": "https://technews.tw/2026/08/22/workforce-development-in-the-age-of-ai/"
-      }
-    },
-    {
-      "rank": 3,
-      "theme_id": "statementdog_tag_1385",
-      "name_zh": "半導體材料",
-      "heat_score": 65,
-      "summaries": {
-        "event_count": 6,
-        "source_count": 2,
-        "tracking_candidate_count": 0,
-        "taiwan_mapping_count": 23
-      },
-      "heat_reason": {
-        "rule_version": "public_theme_heat_v0.8",
-        "event_component": {
-          "input": 6,
-          "normalized": 100.0,
-          "weighted": 25.0
-        },
-        "source_component": {
-          "input": 2,
-          "normalized": 50.0,
-          "weighted": 12.5
-        },
-        "candidate_component": {
-          "input": 0,
-          "normalized": 0.0,
-          "weighted": 0.0
-        },
-        "mapping_component": {
-          "mapping_count": 23,
-          "direct_mapping_event_count": 2,
-          "normalized": 100.0,
-          "weighted": 30.0
-        },
-        "single_source_concentration": 0.667,
-        "concentration_penalty": 2.5,
-        "raw_score": 65.0
-      },
-      "direct_mentions": [
-        {
-          "instrument_id": "TWSE:3711",
-          "symbol": "3711",
-          "exchange": "TWSE",
-          "name_zh": "日月光投控",
-          "direct_event_count": 1,
-          "latest_mentioned_at": "2026-08-21T09:30:44Z"
-        },
-        {
-          "instrument_id": "TWSE:2027",
-          "symbol": "2027",
-          "exchange": "TWSE",
-          "name_zh": "大成鋼",
-          "direct_event_count": 1,
-          "latest_mentioned_at": "2026-08-20T18:08:40Z"
-        }
-      ],
-      "supply_chain_candidates": [
-        {
-          "instrument_id": "TPEX:3388",
-          "symbol": "3388",
-          "exchange": "TPEX",
-          "name_zh": "崇越電",
-          "direct_event_count": 0,
-          "official_evidence_count": 0,
-          "company_rank_score": 1,
-          "latest_mentioned_at": null,
-          "latest_official_at": null
-        },
-        {
-          "instrument_id": "TPEX:4749",
-          "symbol": "4749",
-          "exchange": "TPEX",
-          "name_zh": "新應材",
-          "direct_event_count": 0,
-          "official_evidence_count": 0,
-          "company_rank_score": 1,
-          "latest_mentioned_at": null,
-          "latest_official_at": null
-        },
-        {
-          "instrument_id": "TPEX:4768",
-          "symbol": "4768",
-          "exchange": "TPEX",
-          "name_zh": "晶呈科技",
-          "direct_event_count": 0,
-          "official_evidence_count": 0,
-          "company_rank_score": 1,
-          "latest_mentioned_at": null,
-          "latest_official_at": null
-        }
-      ],
-      "representative_news": {
-        "cluster_id": "cluster-d1cad765575fd5bb",
-        "id": "digitimes_tw-c32c326e04b9",
-        "title_zh": "台灣半導體材料隊集結　「從追趕到共生」催生在地新鏈",
-        "summary": "台灣半導體材料產業迎來新發展窗口。隨著先進半導體製程暨封裝技術持續演進，台灣在國際扮演關鍵角色。儘管有地緣政治等影響，然而全產業鏈在地韌性強化，催生半導體材料加速自主化腳步。從產業端觀察，台灣並非缺",
-        "source_id": "digitimes_tw",
-        "source": "DIGITIMES",
-        "published_at": "2026-08-21T11:00:05Z",
-        "canonical_url": "https://www.digitimes.com.tw/tech/dt/n/shwnws.asp?id=0000765950_JAMLA2H64N7IWA18016MR"
+        "published_at": "2026-08-22T01:00:51Z",
+        "canonical_url": "https://finance.technews.tw/2026/08/22/umc-joins-battle-competing-tower-globalfoundries/"
       }
     },
     {
       "rank": 4,
       "theme_id": "statementdog_tag_259",
       "name_zh": "汽車",
-      "heat_score": 60,
+      "heat_score": 64,
       "summaries": {
-        "event_count": 4,
-        "source_count": 4,
+        "event_count": 5,
+        "source_count": 3,
         "tracking_candidate_count": 0,
-        "taiwan_mapping_count": 24
+        "taiwan_mapping_count": 25
       },
       "heat_reason": {
         "rule_version": "public_theme_heat_v0.8",
         "event_component": {
-          "input": 4,
-          "normalized": 66.667,
-          "weighted": 16.667
+          "input": 5,
+          "normalized": 83.333,
+          "weighted": 20.833
         },
         "source_component": {
-          "input": 4,
-          "normalized": 100.0,
-          "weighted": 25.0
+          "input": 3,
+          "normalized": 75.0,
+          "weighted": 18.75
         },
         "candidate_component": {
           "input": 0,
@@ -423,16 +447,25 @@
           "weighted": 0.0
         },
         "mapping_component": {
-          "mapping_count": 24,
-          "direct_mapping_event_count": 0,
-          "normalized": 60.0,
-          "weighted": 18.0
+          "mapping_count": 25,
+          "direct_mapping_event_count": 1,
+          "normalized": 80.0,
+          "weighted": 24.0
         },
-        "single_source_concentration": 0.4,
+        "single_source_concentration": 0.6,
         "concentration_penalty": 0.0,
-        "raw_score": 59.667
+        "raw_score": 63.583
       },
-      "direct_mentions": [],
+      "direct_mentions": [
+        {
+          "instrument_id": "TPEX:1586",
+          "symbol": "1586",
+          "exchange": "TPEX",
+          "name_zh": "和勤",
+          "direct_event_count": 1,
+          "latest_mentioned_at": "2026-08-21T04:07:43Z"
+        }
+      ],
       "supply_chain_candidates": [
         {
           "instrument_id": "TPEX:3552",
@@ -469,7 +502,7 @@
         }
       ],
       "representative_news": {
-        "cluster_id": "cluster-ae838f9dc42d57b9",
+        "cluster_id": "cluster-cc1e3f640f2c3a04",
         "id": "cnyes-b0f2231dd8c9",
         "title_zh": "川普稱美加協議「幾乎談妥」 汽車關稅可望由25%降至15%",
         "summary": "美國總統川普美東時間週五 (21 日) 表示，美加貿易協議「幾乎」已經談妥，雙方可望在午夜期限前達成共識。談判內容涵蓋汽車、鋼鋁、木材、農產品及酒類，加拿大可能藉此換取美方大幅降低關稅。",
@@ -481,12 +514,12 @@
     },
     {
       "rank": 5,
-      "theme_id": "defense_drone",
-      "name_zh": "國防與無人機",
-      "heat_score": 49,
+      "theme_id": "cowos_supply_chain",
+      "name_zh": "CoWoS 先進封裝",
+      "heat_score": 41,
       "summaries": {
         "event_count": 3,
-        "source_count": 3,
+        "source_count": 2,
         "tracking_candidate_count": 0,
         "taiwan_mapping_count": 3
       },
@@ -498,9 +531,9 @@
           "weighted": 12.5
         },
         "source_component": {
-          "input": 3,
-          "normalized": 75.0,
-          "weighted": 18.75
+          "input": 2,
+          "normalized": 50.0,
+          "weighted": 12.5
         },
         "candidate_component": {
           "input": 0,
@@ -513,55 +546,21 @@
           "normalized": 60.0,
           "weighted": 18.0
         },
-        "single_source_concentration": 0.333,
-        "concentration_penalty": 0.0,
-        "raw_score": 49.25
+        "single_source_concentration": 0.667,
+        "concentration_penalty": 2.5,
+        "raw_score": 40.5
       },
       "direct_mentions": [],
-      "supply_chain_candidates": [
-        {
-          "instrument_id": "TPEX:5371",
-          "symbol": "5371",
-          "exchange": "TPEX",
-          "name_zh": "中光電",
-          "direct_event_count": 0,
-          "official_evidence_count": 0,
-          "company_rank_score": 1,
-          "latest_mentioned_at": null,
-          "latest_official_at": null
-        },
-        {
-          "instrument_id": "TWSE:2634",
-          "symbol": "2634",
-          "exchange": "TWSE",
-          "name_zh": "漢翔",
-          "direct_event_count": 0,
-          "official_evidence_count": 0,
-          "company_rank_score": 1,
-          "latest_mentioned_at": null,
-          "latest_official_at": null
-        },
-        {
-          "instrument_id": "TWSE:8033",
-          "symbol": "8033",
-          "exchange": "TWSE",
-          "name_zh": "雷虎",
-          "direct_event_count": 0,
-          "official_evidence_count": 0,
-          "company_rank_score": 1,
-          "latest_mentioned_at": null,
-          "latest_official_at": null
-        }
-      ],
+      "supply_chain_candidates": [],
       "representative_news": {
-        "cluster_id": "cluster-5b4d3de240747ae0",
-        "id": "yahoo_finance_tw-2949dbbf0712",
-        "title_zh": "2026前進大南方論壇／從無人機到太空產業！南高屏嘉4縣市串起新矽谷，AI新十大建設要讓百工百業共享紅利",
-        "summary": "《今周刊》週四（8/20）在位於台南市高鐵特定區內的沙崙綠能科技示範場域，舉辦「2026前進大南方論壇」，聚焦南台灣在AI潮流下的科技實績，以及永續、全球布局等議題。 第二場的「南方動能成形AI x",
-        "source_id": "yahoo_finance_tw",
-        "source": "Yahoo Finance Taiwan",
-        "published_at": "2026-08-21T21:00:01Z",
-        "canonical_url": "https://tw.news.yahoo.com/2026%E5%89%8D%E9%80%B2%E5%A4%A7%E5%8D%97%E6%96%B9%E8%AB%96%E5%A3%87-%E5%BE%9E%E7%84%A1%E4%BA%BA%E6%A9%9F%E5%88%B0%E5%A4%AA%E7%A9%BA%E7%94%A2%E6%A5%AD-%E5%8D%97%E9%AB%98%E5%B1%8F%E5%98%894%E7%B8%A3%E5%B8%82%E4%B8%B2%E8%B5%B7%E6%96%B0%E7%9F%BD%E8%B0%B7-ai%E6%96%B0%E5%8D%81%E5%A4%A7%E5%BB%BA%E8%A8%AD%E8%A6%81%E8%AE%93%E7%99%BE%E5%B7%A5%E7%99%BE%E6%A5%AD%E5%85%B1%E4%BA%AB%E7%B4%85%E5%88%A9-210001939.html"
+        "cluster_id": "cluster-dec90084e447e098",
+        "id": "technews-e83d7cd2ffc2",
+        "title_zh": "先進封裝推升檢量測需求，法人看好倍利科與大廠合作已築護城河",
+        "summary": "倍利科近日舉辦第二季法說會，董事長林坤禧表示先進封裝是一種硬需求，看好量檢測需求。法人則認為，隨著站點增加、單 [&#8230;]",
+        "source_id": "technews",
+        "source": "TechNews",
+        "published_at": "2026-08-21T10:22:53Z",
+        "canonical_url": "https://technews.tw/2026/08/21/taiwan-investors-see-v5-technologies/"
       }
     }
   ]
