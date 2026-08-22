@@ -2,14 +2,14 @@
   "schema_version": "nexus_public_theme_ranking.v0.8",
   "ranking_rule_version": "public_theme_heat_v0.8",
   "company_rule_version": "public_company_evidence_v0.8",
-  "generated_at": "2026-08-22T08:49:14.021945Z",
+  "generated_at": "2026-08-22T09:43:50.005603Z",
   "market_id": "TW_EQUITY",
   "market_scope": [
     "TW_EQUITY"
   ],
   "window_hours": 72,
   "max_themes": 5,
-  "qualified_theme_count": 9,
+  "qualified_theme_count": 10,
   "displayed_theme_count": 5,
   "threshold_note": null,
   "generation_status": "complete",
@@ -259,12 +259,240 @@
     },
     {
       "rank": 3,
+      "theme_id": "memory_hbm",
+      "name_zh": "記憶體與 HBM",
+      "heat_score": 77,
+      "summaries": {
+        "event_count": 9,
+        "source_count": 2,
+        "tracking_candidate_count": 4,
+        "taiwan_mapping_count": 24
+      },
+      "heat_reason": {
+        "rule_version": "public_theme_heat_v0.8",
+        "event_component": {
+          "input": 9,
+          "normalized": 100.0,
+          "weighted": 25.0
+        },
+        "source_component": {
+          "input": 2,
+          "normalized": 50.0,
+          "weighted": 12.5
+        },
+        "candidate_component": {
+          "input": 4,
+          "normalized": 100.0,
+          "weighted": 20.0
+        },
+        "mapping_component": {
+          "mapping_count": 24,
+          "direct_mapping_event_count": 6,
+          "normalized": 100.0,
+          "weighted": 30.0
+        },
+        "single_source_concentration": 0.889,
+        "concentration_penalty": 10.833,
+        "raw_score": 76.667
+      },
+      "direct_mentions": [
+        {
+          "instrument_id": "TWSE:2027",
+          "symbol": "2027",
+          "exchange": "TWSE",
+          "name_zh": "大成鋼",
+          "direct_event_count": 3,
+          "latest_mentioned_at": "2026-08-20T18:34:22Z"
+        },
+        {
+          "instrument_id": "TWSE:2330",
+          "symbol": "2330",
+          "exchange": "TWSE",
+          "name_zh": "台積電",
+          "direct_event_count": 2,
+          "latest_mentioned_at": "2026-08-21T03:19:22Z"
+        },
+        {
+          "instrument_id": "TWSE:2344",
+          "symbol": "2344",
+          "exchange": "TWSE",
+          "name_zh": "華邦電",
+          "direct_event_count": 1,
+          "latest_mentioned_at": "2026-08-22T08:56:56Z"
+        },
+        {
+          "instrument_id": "TWSE:2408",
+          "symbol": "2408",
+          "exchange": "TWSE",
+          "name_zh": "南亞科",
+          "direct_event_count": 1,
+          "latest_mentioned_at": "2026-08-22T08:56:56Z"
+        }
+      ],
+      "supply_chain_candidates": [
+        {
+          "instrument_id": "TWSE:2344",
+          "symbol": "2344",
+          "exchange": "TWSE",
+          "name_zh": "華邦電",
+          "direct_event_count": 1,
+          "official_evidence_count": 0,
+          "company_rank_score": 5,
+          "latest_mentioned_at": "2026-08-22T08:56:56Z",
+          "latest_official_at": null
+        },
+        {
+          "instrument_id": "TWSE:2408",
+          "symbol": "2408",
+          "exchange": "TWSE",
+          "name_zh": "南亞科",
+          "direct_event_count": 1,
+          "official_evidence_count": 0,
+          "company_rank_score": 5,
+          "latest_mentioned_at": "2026-08-22T08:56:56Z",
+          "latest_official_at": null
+        },
+        {
+          "instrument_id": "TPEX:8299",
+          "symbol": "8299",
+          "exchange": "TPEX",
+          "name_zh": "群聯",
+          "direct_event_count": 0,
+          "official_evidence_count": 0,
+          "company_rank_score": 1,
+          "latest_mentioned_at": null,
+          "latest_official_at": null
+        }
+      ],
+      "representative_news": {
+        "cluster_id": "cluster-2cde26bc8d51da01",
+        "id": "digitimes_tw-5c7457c7d576",
+        "title_zh": "【動物農莊】Pat Gelsinger狠批HBM很糟糕　SK海力士回應曝光",
+        "summary": "前英特爾（Intel）執行長Pat Gelsinger在法國巴黎AI高峰會（RAISE Summit）公開批評高頻寬記憶體（HBM）「很糟糕」，直指其垂直堆疊結構易形成「熱三明治」效應，導致散熱困難，且在位元、電力與頻寬效率上皆有結構性限制。面對批評，身為HBM龍頭的SK海力士（SK",
+        "source_id": "digitimes_tw",
+        "source": "DIGITIMES",
+        "published_at": "2026-08-20T18:17:19Z",
+        "canonical_url": "https://www.digitimes.com.tw/tech/dt/n/shwnws.asp?id=0000765497_9RX3SR5DLZ068S6QZ8UG9"
+      }
+    },
+    {
+      "rank": 4,
+      "theme_id": "statementdog_tag_1385",
+      "name_zh": "半導體材料",
+      "heat_score": 74,
+      "summaries": {
+        "event_count": 7,
+        "source_count": 3,
+        "tracking_candidate_count": 0,
+        "taiwan_mapping_count": 24
+      },
+      "heat_reason": {
+        "rule_version": "public_theme_heat_v0.8",
+        "event_component": {
+          "input": 7,
+          "normalized": 100.0,
+          "weighted": 25.0
+        },
+        "source_component": {
+          "input": 3,
+          "normalized": 75.0,
+          "weighted": 18.75
+        },
+        "candidate_component": {
+          "input": 0,
+          "normalized": 0.0,
+          "weighted": 0.0
+        },
+        "mapping_component": {
+          "mapping_count": 24,
+          "direct_mapping_event_count": 3,
+          "normalized": 100.0,
+          "weighted": 30.0
+        },
+        "single_source_concentration": 0.571,
+        "concentration_penalty": 0.0,
+        "raw_score": 73.75
+      },
+      "direct_mentions": [
+        {
+          "instrument_id": "TWSE:3711",
+          "symbol": "3711",
+          "exchange": "TWSE",
+          "name_zh": "日月光投控",
+          "direct_event_count": 1,
+          "latest_mentioned_at": "2026-08-21T09:30:44Z"
+        },
+        {
+          "instrument_id": "TWSE:2025",
+          "symbol": "2025",
+          "exchange": "TWSE",
+          "name_zh": "千興",
+          "direct_event_count": 1,
+          "latest_mentioned_at": "2026-08-21T06:23:18Z"
+        },
+        {
+          "instrument_id": "TWSE:2027",
+          "symbol": "2027",
+          "exchange": "TWSE",
+          "name_zh": "大成鋼",
+          "direct_event_count": 1,
+          "latest_mentioned_at": "2026-08-20T18:08:40Z"
+        }
+      ],
+      "supply_chain_candidates": [
+        {
+          "instrument_id": "TPEX:3388",
+          "symbol": "3388",
+          "exchange": "TPEX",
+          "name_zh": "崇越電",
+          "direct_event_count": 0,
+          "official_evidence_count": 0,
+          "company_rank_score": 1,
+          "latest_mentioned_at": null,
+          "latest_official_at": null
+        },
+        {
+          "instrument_id": "TPEX:4749",
+          "symbol": "4749",
+          "exchange": "TPEX",
+          "name_zh": "新應材",
+          "direct_event_count": 0,
+          "official_evidence_count": 0,
+          "company_rank_score": 1,
+          "latest_mentioned_at": null,
+          "latest_official_at": null
+        },
+        {
+          "instrument_id": "TPEX:4768",
+          "symbol": "4768",
+          "exchange": "TPEX",
+          "name_zh": "晶呈科技",
+          "direct_event_count": 0,
+          "official_evidence_count": 0,
+          "company_rank_score": 1,
+          "latest_mentioned_at": null,
+          "latest_official_at": null
+        }
+      ],
+      "representative_news": {
+        "cluster_id": "cluster-d1cad765575fd5bb",
+        "id": "digitimes_tw-c32c326e04b9",
+        "title_zh": "台灣半導體材料隊集結　「從追趕到共生」催生在地新鏈",
+        "summary": "台灣半導體材料產業迎來新發展窗口。隨著先進半導體製程暨封裝技術持續演進，台灣在國際扮演關鍵角色。儘管有地緣政治等影響，然而全產業鏈在地韌性強化，催生半導體材料加速自主化腳步。從產業端觀察，台灣並非缺",
+        "source_id": "digitimes_tw",
+        "source": "DIGITIMES",
+        "published_at": "2026-08-21T11:00:05Z",
+        "canonical_url": "https://www.digitimes.com.tw/tech/dt/n/shwnws.asp?id=0000765950_JAMLA2H64N7IWA18016MR"
+      }
+    },
+    {
+      "rank": 5,
       "theme_id": "statementdog_tag_1517",
       "name_zh": "AI",
-      "heat_score": 76,
+      "heat_score": 69,
       "summaries": {
         "event_count": 29,
-        "source_count": 4,
+        "source_count": 3,
         "tracking_candidate_count": 0,
         "taiwan_mapping_count": 173
       },
@@ -276,9 +504,9 @@
           "weighted": 25.0
         },
         "source_component": {
-          "input": 4,
-          "normalized": 100.0,
-          "weighted": 25.0
+          "input": 3,
+          "normalized": 75.0,
+          "weighted": 18.75
         },
         "candidate_component": {
           "input": 0,
@@ -291,9 +519,9 @@
           "normalized": 100.0,
           "weighted": 30.0
         },
-        "single_source_concentration": 0.7,
-        "concentration_penalty": 3.75,
-        "raw_score": 76.25
+        "single_source_concentration": 0.724,
+        "concentration_penalty": 4.655,
+        "raw_score": 69.095
       },
       "direct_mentions": [
         {
@@ -413,218 +641,14 @@
         }
       ],
       "representative_news": {
-        "cluster_id": "cluster-3eeb4e16022e1558",
-        "id": "cnyes-f9418a2fbf21",
-        "title_zh": "輝達AI生態系再添一員！入股資料中心開發商Cloverleaf",
-        "summary": "輝達正竭盡所能持續推動AI基礎設施建設，而這也是其自身業務持續受益的基礎。公司周五(21日)宣布與Cloverleaf Infrastructure建立合作夥伴關係，該公司負責為資料中心建設提供前期基礎設施。",
-        "source_id": "cnyes",
-        "source": "鉅亨網 Cnyes",
-        "published_at": "2026-08-22T03:50:04Z",
-        "canonical_url": "https://news.cnyes.com/news/id/6584153"
-      }
-    },
-    {
-      "rank": 4,
-      "theme_id": "statementdog_tag_1385",
-      "name_zh": "半導體材料",
-      "heat_score": 74,
-      "summaries": {
-        "event_count": 7,
-        "source_count": 3,
-        "tracking_candidate_count": 0,
-        "taiwan_mapping_count": 24
-      },
-      "heat_reason": {
-        "rule_version": "public_theme_heat_v0.8",
-        "event_component": {
-          "input": 7,
-          "normalized": 100.0,
-          "weighted": 25.0
-        },
-        "source_component": {
-          "input": 3,
-          "normalized": 75.0,
-          "weighted": 18.75
-        },
-        "candidate_component": {
-          "input": 0,
-          "normalized": 0.0,
-          "weighted": 0.0
-        },
-        "mapping_component": {
-          "mapping_count": 24,
-          "direct_mapping_event_count": 3,
-          "normalized": 100.0,
-          "weighted": 30.0
-        },
-        "single_source_concentration": 0.571,
-        "concentration_penalty": 0.0,
-        "raw_score": 73.75
-      },
-      "direct_mentions": [
-        {
-          "instrument_id": "TWSE:3711",
-          "symbol": "3711",
-          "exchange": "TWSE",
-          "name_zh": "日月光投控",
-          "direct_event_count": 1,
-          "latest_mentioned_at": "2026-08-21T09:30:44Z"
-        },
-        {
-          "instrument_id": "TWSE:2025",
-          "symbol": "2025",
-          "exchange": "TWSE",
-          "name_zh": "千興",
-          "direct_event_count": 1,
-          "latest_mentioned_at": "2026-08-21T06:23:18Z"
-        },
-        {
-          "instrument_id": "TWSE:2027",
-          "symbol": "2027",
-          "exchange": "TWSE",
-          "name_zh": "大成鋼",
-          "direct_event_count": 1,
-          "latest_mentioned_at": "2026-08-20T18:08:40Z"
-        }
-      ],
-      "supply_chain_candidates": [
-        {
-          "instrument_id": "TPEX:3388",
-          "symbol": "3388",
-          "exchange": "TPEX",
-          "name_zh": "崇越電",
-          "direct_event_count": 0,
-          "official_evidence_count": 0,
-          "company_rank_score": 1,
-          "latest_mentioned_at": null,
-          "latest_official_at": null
-        },
-        {
-          "instrument_id": "TPEX:4749",
-          "symbol": "4749",
-          "exchange": "TPEX",
-          "name_zh": "新應材",
-          "direct_event_count": 0,
-          "official_evidence_count": 0,
-          "company_rank_score": 1,
-          "latest_mentioned_at": null,
-          "latest_official_at": null
-        },
-        {
-          "instrument_id": "TPEX:4768",
-          "symbol": "4768",
-          "exchange": "TPEX",
-          "name_zh": "晶呈科技",
-          "direct_event_count": 0,
-          "official_evidence_count": 0,
-          "company_rank_score": 1,
-          "latest_mentioned_at": null,
-          "latest_official_at": null
-        }
-      ],
-      "representative_news": {
-        "cluster_id": "cluster-d1cad765575fd5bb",
-        "id": "digitimes_tw-c32c326e04b9",
-        "title_zh": "台灣半導體材料隊集結　「從追趕到共生」催生在地新鏈",
-        "summary": "台灣半導體材料產業迎來新發展窗口。隨著先進半導體製程暨封裝技術持續演進，台灣在國際扮演關鍵角色。儘管有地緣政治等影響，然而全產業鏈在地韌性強化，催生半導體材料加速自主化腳步。從產業端觀察，台灣並非缺",
-        "source_id": "digitimes_tw",
-        "source": "DIGITIMES",
-        "published_at": "2026-08-21T11:00:05Z",
-        "canonical_url": "https://www.digitimes.com.tw/tech/dt/n/shwnws.asp?id=0000765950_JAMLA2H64N7IWA18016MR"
-      }
-    },
-    {
-      "rank": 5,
-      "theme_id": "statementdog_tag_259",
-      "name_zh": "汽車",
-      "heat_score": 64,
-      "summaries": {
-        "event_count": 5,
-        "source_count": 3,
-        "tracking_candidate_count": 0,
-        "taiwan_mapping_count": 25
-      },
-      "heat_reason": {
-        "rule_version": "public_theme_heat_v0.8",
-        "event_component": {
-          "input": 5,
-          "normalized": 83.333,
-          "weighted": 20.833
-        },
-        "source_component": {
-          "input": 3,
-          "normalized": 75.0,
-          "weighted": 18.75
-        },
-        "candidate_component": {
-          "input": 0,
-          "normalized": 0.0,
-          "weighted": 0.0
-        },
-        "mapping_component": {
-          "mapping_count": 25,
-          "direct_mapping_event_count": 1,
-          "normalized": 80.0,
-          "weighted": 24.0
-        },
-        "single_source_concentration": 0.4,
-        "concentration_penalty": 0.0,
-        "raw_score": 63.583
-      },
-      "direct_mentions": [
-        {
-          "instrument_id": "TWSE:2027",
-          "symbol": "2027",
-          "exchange": "TWSE",
-          "name_zh": "大成鋼",
-          "direct_event_count": 1,
-          "latest_mentioned_at": "2026-08-22T05:31:34Z"
-        }
-      ],
-      "supply_chain_candidates": [
-        {
-          "instrument_id": "TPEX:3552",
-          "symbol": "3552",
-          "exchange": "TPEX",
-          "name_zh": "同致",
-          "direct_event_count": 0,
-          "official_evidence_count": 0,
-          "company_rank_score": 1,
-          "latest_mentioned_at": null,
-          "latest_official_at": null
-        },
-        {
-          "instrument_id": "TPEX:3675",
-          "symbol": "3675",
-          "exchange": "TPEX",
-          "name_zh": "德微",
-          "direct_event_count": 0,
-          "official_evidence_count": 0,
-          "company_rank_score": 1,
-          "latest_mentioned_at": null,
-          "latest_official_at": null
-        },
-        {
-          "instrument_id": "TPEX:5425",
-          "symbol": "5425",
-          "exchange": "TPEX",
-          "name_zh": "台半",
-          "direct_event_count": 0,
-          "official_evidence_count": 0,
-          "company_rank_score": 1,
-          "latest_mentioned_at": null,
-          "latest_official_at": null
-        }
-      ],
-      "representative_news": {
-        "cluster_id": "cluster-ed32f97e61490f32",
-        "id": "technews-bf72af801028",
-        "title_zh": "隱藏式把手終結令，中國啟動史上最大汽車召回案",
-        "summary": "中國政府先前發布新規定，自 2027 年起全面禁止隱藏式車門把手，這項規定不僅涉及新車，也包含已經上路的車輛， [&#8230;]",
+        "cluster_id": "cluster-db403f6d11c5a510",
+        "id": "technews-ed9b6f0ba4d3",
+        "title_zh": "挖角 Google TPU 創始大將，藉人才、技術、資金 Anthropic 佈局自主研發 AI 晶片",
+        "summary": "隨著人工智慧（AI）領域競爭白熱化，開發知名 AI 科技廠商 Anthropic 正式宣告進軍半導體領域。An [&#8230;]",
         "source_id": "technews",
         "source": "TechNews",
-        "published_at": "2026-08-22T05:31:34Z",
-        "canonical_url": "https://technews.tw/2026/08/22/china-recall-millions-of-car/"
+        "published_at": "2026-08-22T06:00:10Z",
+        "canonical_url": "https://finance.technews.tw/2026/08/22/anthropic-is-developing-its-own-ai-chips/"
       }
     }
   ]
