@@ -2,14 +2,14 @@
   "schema_version": "nexus_public_theme_ranking.v0.8",
   "ranking_rule_version": "public_theme_heat_v0.8",
   "company_rule_version": "public_company_evidence_v0.8",
-  "generated_at": "2026-08-23T04:53:06.741875Z",
+  "generated_at": "2026-08-23T05:46:29.040806Z",
   "market_id": "TW_EQUITY",
   "market_scope": [
     "TW_EQUITY"
   ],
   "window_hours": 72,
   "max_themes": 5,
-  "qualified_theme_count": 10,
+  "qualified_theme_count": 9,
   "displayed_theme_count": 5,
   "threshold_note": null,
   "generation_status": "complete",
@@ -20,17 +20,17 @@
       "rank": 1,
       "theme_id": "memory_hbm",
       "name_zh": "記憶體與 HBM",
-      "heat_score": 81,
+      "heat_score": 89,
       "summaries": {
-        "event_count": 9,
+        "event_count": 10,
         "source_count": 3,
-        "tracking_candidate_count": 3,
+        "tracking_candidate_count": 4,
         "taiwan_mapping_count": 25
       },
       "heat_reason": {
         "rule_version": "public_theme_heat_v0.8",
         "event_component": {
-          "input": 9,
+          "input": 10,
           "normalized": 100.0,
           "weighted": 25.0
         },
@@ -40,19 +40,19 @@
           "weighted": 18.75
         },
         "candidate_component": {
-          "input": 3,
-          "normalized": 75.0,
-          "weighted": 15.0
+          "input": 4,
+          "normalized": 100.0,
+          "weighted": 20.0
         },
         "mapping_component": {
           "mapping_count": 25,
-          "direct_mapping_event_count": 5,
+          "direct_mapping_event_count": 6,
           "normalized": 100.0,
           "weighted": 30.0
         },
-        "single_source_concentration": 0.8,
-        "concentration_penalty": 7.5,
-        "raw_score": 81.25
+        "single_source_concentration": 0.727,
+        "concentration_penalty": 4.773,
+        "raw_score": 88.977
       },
       "direct_mentions": [
         {
@@ -70,9 +70,28 @@
           "name_zh": "台積電",
           "direct_event_count": 2,
           "latest_mentioned_at": "2026-08-21T03:19:22Z"
+        },
+        {
+          "instrument_id": "TWSE:2408",
+          "symbol": "2408",
+          "exchange": "TWSE",
+          "name_zh": "南亞科",
+          "direct_event_count": 1,
+          "latest_mentioned_at": "2026-08-23T03:24:30Z"
         }
       ],
       "supply_chain_candidates": [
+        {
+          "instrument_id": "TWSE:2408",
+          "symbol": "2408",
+          "exchange": "TWSE",
+          "name_zh": "南亞科",
+          "direct_event_count": 1,
+          "official_evidence_count": 0,
+          "company_rank_score": 5,
+          "latest_mentioned_at": "2026-08-23T03:24:30Z",
+          "latest_official_at": null
+        },
         {
           "instrument_id": "TPEX:8299",
           "symbol": "8299",
@@ -89,17 +108,6 @@
           "symbol": "2344",
           "exchange": "TWSE",
           "name_zh": "華邦電",
-          "direct_event_count": 0,
-          "official_evidence_count": 0,
-          "company_rank_score": 1,
-          "latest_mentioned_at": null,
-          "latest_official_at": null
-        },
-        {
-          "instrument_id": "TWSE:2408",
-          "symbol": "2408",
-          "exchange": "TWSE",
-          "name_zh": "南亞科",
           "direct_event_count": 0,
           "official_evidence_count": 0,
           "company_rank_score": 1,
@@ -237,9 +245,9 @@
       "rank": 3,
       "theme_id": "statementdog_tag_1517",
       "name_zh": "AI",
-      "heat_score": 67,
+      "heat_score": 68,
       "summaries": {
-        "event_count": 27,
+        "event_count": 28,
         "source_count": 3,
         "tracking_candidate_count": 0,
         "taiwan_mapping_count": 148
@@ -247,7 +255,7 @@
       "heat_reason": {
         "rule_version": "public_theme_heat_v0.8",
         "event_component": {
-          "input": 27,
+          "input": 28,
           "normalized": 100.0,
           "weighted": 25.0
         },
@@ -267,9 +275,9 @@
           "normalized": 100.0,
           "weighted": 30.0
         },
-        "single_source_concentration": 0.778,
-        "concentration_penalty": 6.667,
-        "raw_score": 67.083
+        "single_source_concentration": 0.75,
+        "concentration_penalty": 5.625,
+        "raw_score": 68.125
       },
       "direct_mentions": [
         {
@@ -389,14 +397,14 @@
         }
       ],
       "representative_news": {
-        "cluster_id": "cluster-7ad58231ba3c1425",
-        "id": "technews-283773d46452",
-        "title_zh": "挖角 Google TPU 創辦大將，Anthropic 以人才、技術、資金佈局自研 AI 晶片",
-        "summary": "隨著人工智慧（AI）領域競爭白熱化，開發知名 AI 科技廠商 Anthropic 正式宣告進軍半導體領域。An [&#8230;]",
+        "cluster_id": "cluster-e0c2f59a452876d4",
+        "id": "technews-d884223dfc5a",
+        "title_zh": "AI 當心理諮商師夠格嗎，專家解析：現有模型有「知識」卻缺乏「智慧」",
+        "summary": "隨著越來越多人把生成式 AI 當作心理支持與情緒傾訴對象，外界對這類工具能否真正提供可靠建議的討論也持續升溫。 [&#8230;]",
         "source_id": "technews",
         "source": "TechNews",
-        "published_at": "2026-08-22T06:00:10Z",
-        "canonical_url": "https://technews.tw/2026/08/22/anthropic-is-developing-its-own-ai-chips/"
+        "published_at": "2026-08-23T05:00:34Z",
+        "canonical_url": "https://technews.tw/2026/08/23/ai-generated-mental-health-advice-gets-uplifted-via-a-strong-dose-of-artificial-wisdom/"
       }
     },
     {
