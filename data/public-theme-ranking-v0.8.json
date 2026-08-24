@@ -2,14 +2,14 @@
   "schema_version": "nexus_public_theme_ranking.v0.8",
   "ranking_rule_version": "public_theme_heat_v0.8",
   "company_rule_version": "public_company_evidence_v0.8",
-  "generated_at": "2026-08-24T21:45:10.590070Z",
+  "generated_at": "2026-08-24T22:45:58.712599Z",
   "market_id": "TW_EQUITY",
   "market_scope": [
     "TW_EQUITY"
   ],
   "window_hours": 72,
   "max_themes": 5,
-  "qualified_theme_count": 8,
+  "qualified_theme_count": 9,
   "displayed_theme_count": 5,
   "threshold_note": null,
   "generation_status": "complete",
@@ -20,17 +20,17 @@
       "rank": 1,
       "theme_id": "statementdog_tag_1517",
       "name_zh": "AI",
-      "heat_score": 79,
+      "heat_score": 80,
       "summaries": {
-        "event_count": 10,
+        "event_count": 13,
         "source_count": 4,
         "tracking_candidate_count": 0,
-        "taiwan_mapping_count": 38
+        "taiwan_mapping_count": 62
       },
       "heat_reason": {
         "rule_version": "public_theme_heat_v0.8",
         "event_component": {
-          "input": 10,
+          "input": 13,
           "normalized": 100.0,
           "weighted": 25.0
         },
@@ -45,16 +45,24 @@
           "weighted": 0.0
         },
         "mapping_component": {
-          "mapping_count": 38,
-          "direct_mapping_event_count": 5,
+          "mapping_count": 62,
+          "direct_mapping_event_count": 6,
           "normalized": 100.0,
           "weighted": 30.0
         },
-        "single_source_concentration": 0.636,
-        "concentration_penalty": 1.364,
-        "raw_score": 78.636
+        "single_source_concentration": 0.5,
+        "concentration_penalty": 0.0,
+        "raw_score": 80.0
       },
       "direct_mentions": [
+        {
+          "instrument_id": "TWSE:2027",
+          "symbol": "2027",
+          "exchange": "TWSE",
+          "name_zh": "大成鋼",
+          "direct_event_count": 3,
+          "latest_mentioned_at": "2026-08-24T22:11:40Z"
+        },
         {
           "instrument_id": "TWSE:2330",
           "symbol": "2330",
@@ -62,14 +70,6 @@
           "name_zh": "台積電",
           "direct_event_count": 2,
           "latest_mentioned_at": "2026-08-24T18:37:17Z"
-        },
-        {
-          "instrument_id": "TWSE:2027",
-          "symbol": "2027",
-          "exchange": "TWSE",
-          "name_zh": "大成鋼",
-          "direct_event_count": 2,
-          "latest_mentioned_at": "2026-08-24T18:08:55Z"
         },
         {
           "instrument_id": "TWSE:2023",
@@ -138,24 +138,24 @@
       "rank": 2,
       "theme_id": "memory_hbm",
       "name_zh": "記憶體與 HBM",
-      "heat_score": 72,
+      "heat_score": 78,
       "summaries": {
-        "event_count": 6,
-        "source_count": 2,
+        "event_count": 8,
+        "source_count": 3,
         "tracking_candidate_count": 2,
         "taiwan_mapping_count": 7
       },
       "heat_reason": {
         "rule_version": "public_theme_heat_v0.8",
         "event_component": {
-          "input": 6,
+          "input": 8,
           "normalized": 100.0,
           "weighted": 25.0
         },
         "source_component": {
-          "input": 2,
-          "normalized": 50.0,
-          "weighted": 12.5
+          "input": 3,
+          "normalized": 75.0,
+          "weighted": 18.75
         },
         "candidate_component": {
           "input": 2,
@@ -168,9 +168,9 @@
           "normalized": 80.0,
           "weighted": 24.0
         },
-        "single_source_concentration": 0.5,
+        "single_source_concentration": 0.375,
         "concentration_penalty": 0.0,
-        "raw_score": 71.5
+        "raw_score": 77.75
       },
       "direct_mentions": [
         {
@@ -230,6 +230,100 @@
     },
     {
       "rank": 3,
+      "theme_id": "energy_grid",
+      "name_zh": "能源與電網",
+      "heat_score": 70,
+      "summaries": {
+        "event_count": 4,
+        "source_count": 3,
+        "tracking_candidate_count": 1,
+        "taiwan_mapping_count": 4
+      },
+      "heat_reason": {
+        "rule_version": "public_theme_heat_v0.8",
+        "event_component": {
+          "input": 4,
+          "normalized": 66.667,
+          "weighted": 16.667
+        },
+        "source_component": {
+          "input": 3,
+          "normalized": 75.0,
+          "weighted": 18.75
+        },
+        "candidate_component": {
+          "input": 1,
+          "normalized": 25.0,
+          "weighted": 5.0
+        },
+        "mapping_component": {
+          "mapping_count": 4,
+          "direct_mapping_event_count": 3,
+          "normalized": 100.0,
+          "weighted": 30.0
+        },
+        "single_source_concentration": 0.5,
+        "concentration_penalty": 0.0,
+        "raw_score": 70.417
+      },
+      "direct_mentions": [
+        {
+          "instrument_id": "TWSE:2634",
+          "symbol": "2634",
+          "exchange": "TWSE",
+          "name_zh": "漢翔",
+          "direct_event_count": 3,
+          "latest_mentioned_at": "2026-08-24T22:00:55Z"
+        }
+      ],
+      "supply_chain_candidates": [
+        {
+          "instrument_id": "TWSE:1503",
+          "symbol": "1503",
+          "exchange": "TWSE",
+          "name_zh": "士電",
+          "direct_event_count": 0,
+          "official_evidence_count": 0,
+          "company_rank_score": 1,
+          "latest_mentioned_at": null,
+          "latest_official_at": null
+        },
+        {
+          "instrument_id": "TWSE:1513",
+          "symbol": "1513",
+          "exchange": "TWSE",
+          "name_zh": "中興電",
+          "direct_event_count": 0,
+          "official_evidence_count": 0,
+          "company_rank_score": 1,
+          "latest_mentioned_at": null,
+          "latest_official_at": null
+        },
+        {
+          "instrument_id": "TWSE:1519",
+          "symbol": "1519",
+          "exchange": "TWSE",
+          "name_zh": "華城",
+          "direct_event_count": 0,
+          "official_evidence_count": 0,
+          "company_rank_score": 1,
+          "latest_mentioned_at": null,
+          "latest_official_at": null
+        }
+      ],
+      "representative_news": {
+        "cluster_id": "cluster-9a07fa7706036fe5",
+        "id": "digitimes_tw-0d74c14296c2",
+        "title_zh": "能管法修法三讀通過　台普威看好儲能兩大優勢成AIDC標配",
+        "summary": "雲豹旗下系統級儲能子公司台普威能源海外案場營收逐步開花結果，面對《能源管理法》部分修法通過後，規定新設或增設達規定容量的用戶，規範設置自用發電或儲能設備義務，台普威表示，AI資料中心（AIDC）對用電品質要求提高，儲能具「快速反應」和「緩解電網衝擊」兩大功能，將為AI資料中心長期趨勢。台普威總經理馮浩翔表示，隨著再生能源發",
+        "source_id": "digitimes_tw",
+        "source": "DIGITIMES",
+        "published_at": "2026-08-24T18:14:35Z",
+        "canonical_url": "https://www.digitimes.com.tw/tech/dt/n/shwnws.asp?id=0000766038_V5Y1I5X52NRYJC9E5YDR4"
+      }
+    },
+    {
+      "rank": 4,
       "theme_id": "statementdog_tag_259",
       "name_zh": "汽車",
       "heat_score": 70,
@@ -323,15 +417,15 @@
       }
     },
     {
-      "rank": 4,
-      "theme_id": "defense_drone",
-      "name_zh": "國防與無人機",
-      "heat_score": 53,
+      "rank": 5,
+      "theme_id": "statementdog_tag_4082",
+      "name_zh": "iPhone",
+      "heat_score": 59,
       "summaries": {
         "event_count": 4,
-        "source_count": 2,
-        "tracking_candidate_count": 1,
-        "taiwan_mapping_count": 4
+        "source_count": 3,
+        "tracking_candidate_count": 0,
+        "taiwan_mapping_count": 13
       },
       "heat_reason": {
         "rule_version": "public_theme_heat_v0.8",
@@ -341,139 +435,79 @@
           "weighted": 16.667
         },
         "source_component": {
-          "input": 2,
-          "normalized": 50.0,
-          "weighted": 12.5
+          "input": 3,
+          "normalized": 75.0,
+          "weighted": 18.75
         },
         "candidate_component": {
-          "input": 1,
-          "normalized": 25.0,
-          "weighted": 5.0
+          "input": 0,
+          "normalized": 0.0,
+          "weighted": 0.0
         },
         "mapping_component": {
-          "mapping_count": 4,
-          "direct_mapping_event_count": 1,
-          "normalized": 80.0,
-          "weighted": 24.0
-        },
-        "single_source_concentration": 0.75,
-        "concentration_penalty": 5.625,
-        "raw_score": 52.542
-      },
-      "direct_mentions": [
-        {
-          "instrument_id": "TPEX:2035",
-          "symbol": "2035",
-          "exchange": "TPEX",
-          "name_zh": "唐榮公司",
-          "direct_event_count": 1,
-          "latest_mentioned_at": "2026-08-24T18:06:28Z"
-        }
-      ],
-      "supply_chain_candidates": [
-        {
-          "instrument_id": "TPEX:5371",
-          "symbol": "5371",
-          "exchange": "TPEX",
-          "name_zh": "中光電",
-          "direct_event_count": 0,
-          "official_evidence_count": 0,
-          "company_rank_score": 1,
-          "latest_mentioned_at": null,
-          "latest_official_at": null
-        },
-        {
-          "instrument_id": "TWSE:2634",
-          "symbol": "2634",
-          "exchange": "TWSE",
-          "name_zh": "漢翔",
-          "direct_event_count": 0,
-          "official_evidence_count": 0,
-          "company_rank_score": 1,
-          "latest_mentioned_at": null,
-          "latest_official_at": null
-        },
-        {
-          "instrument_id": "TWSE:8033",
-          "symbol": "8033",
-          "exchange": "TWSE",
-          "name_zh": "雷虎",
-          "direct_event_count": 0,
-          "official_evidence_count": 0,
-          "company_rank_score": 1,
-          "latest_mentioned_at": null,
-          "latest_official_at": null
-        }
-      ],
-      "representative_news": {
-        "cluster_id": "cluster-d48cec0c5326d979",
-        "id": "digitimes_tw-d987a4c2dace",
-        "title_zh": "小型軍用發動機迎爆發　美國防供應鏈加速洗牌",
-        "summary": "近年低成本無人機、滯空彈藥與長程精準飛彈快速擴散，正把小型軍用推進系統推上風口浪尖。Aviation Week指出，從烏克蘭與中東戰場的武器成本交換失衡，到美軍補充飛彈庫存、各國加速追求技術主權，推力低於5",
-        "source_id": "digitimes_tw",
-        "source": "DIGITIMES",
-        "published_at": "2026-08-24T18:51:09Z",
-        "canonical_url": "https://www.digitimes.com.tw/tech/dt/n/shwnws.asp?id=0000765928_SHK8BQAH3W97JE7YPK6DG"
-      }
-    },
-    {
-      "rank": 5,
-      "theme_id": "energy_grid",
-      "name_zh": "能源與電網",
-      "heat_score": 50,
-      "summaries": {
-        "event_count": 2,
-        "source_count": 2,
-        "tracking_candidate_count": 1,
-        "taiwan_mapping_count": 4
-      },
-      "heat_reason": {
-        "rule_version": "public_theme_heat_v0.8",
-        "event_component": {
-          "input": 2,
-          "normalized": 33.333,
-          "weighted": 8.333
-        },
-        "source_component": {
-          "input": 2,
-          "normalized": 50.0,
-          "weighted": 12.5
-        },
-        "candidate_component": {
-          "input": 1,
-          "normalized": 25.0,
-          "weighted": 5.0
-        },
-        "mapping_component": {
-          "mapping_count": 4,
+          "mapping_count": 13,
           "direct_mapping_event_count": 1,
           "normalized": 80.0,
           "weighted": 24.0
         },
         "single_source_concentration": 0.5,
         "concentration_penalty": 0.0,
-        "raw_score": 49.833
+        "raw_score": 59.417
       },
       "direct_mentions": [
         {
-          "instrument_id": "TWSE:2634",
-          "symbol": "2634",
+          "instrument_id": "TWSE:2455",
+          "symbol": "2455",
           "exchange": "TWSE",
-          "name_zh": "漢翔",
+          "name_zh": "全新",
           "direct_event_count": 1,
-          "latest_mentioned_at": "2026-08-24T18:14:35Z"
+          "latest_mentioned_at": "2026-08-24T07:20:04Z"
         }
       ],
-      "supply_chain_candidates": [],
+      "supply_chain_candidates": [
+        {
+          "instrument_id": "TPEX:3105",
+          "symbol": "3105",
+          "exchange": "TPEX",
+          "name_zh": "穩懋",
+          "direct_event_count": 0,
+          "official_evidence_count": 0,
+          "company_rank_score": 1,
+          "latest_mentioned_at": null,
+          "latest_official_at": null
+        },
+        {
+          "instrument_id": "TWSE:2313",
+          "symbol": "2313",
+          "exchange": "TWSE",
+          "name_zh": "華通",
+          "direct_event_count": 0,
+          "official_evidence_count": 0,
+          "company_rank_score": 1,
+          "latest_mentioned_at": null,
+          "latest_official_at": null
+        },
+        {
+          "instrument_id": "TWSE:2317",
+          "symbol": "2317",
+          "exchange": "TWSE",
+          "name_zh": "鴻海",
+          "direct_event_count": 0,
+          "official_evidence_count": 0,
+          "company_rank_score": 1,
+          "latest_mentioned_at": null,
+          "latest_official_at": null
+        }
+      ],
       "representative_news": {
-        "cluster_id": "cluster-9a07fa7706036fe5",
-        "id": "digitimes_tw-0d74c14296c2",
-        "title_zh": "能管法修法三讀通過　台普威看好儲能兩大優勢成AIDC標配",
-        "summary": "雲豹旗下系統級儲能子公司台普威能源海外案場營收逐步開花結果，面對《能源管理法》部分修法通過後，規定新設或增設達規定容量的用戶，規範設置自用發電或儲能設備義務，台普威表示，AI資料中心（AIDC）對用電品質要求提高，儲能具「快速反應」和「緩解電網衝擊」兩大功能，將為AI資料中心長期趨勢。台普威總經理馮浩翔表示，隨著再生能源發",
+        "cluster_id": "cluster-c57483399c90660f",
+        "id": "digitimes_tw-26c58a83ec40",
+        "title_zh": "蘋果折疊iPhone鉸鏈、軟體體驗獲好評　相機規格恐有取捨",
+        "summary": "蘋果（Apple）首款折疊iPhone尚未正式登場，但外界評價認為，這款預計2026年9月發表的新機已初步達成「折疊後可放入口袋、展開後可當iPad使用」的7吋級螢幕目標。不過也有預測指出，相機與生物辨識等部分規格，反而可能比現有Pro機型還要縮水。據韓媒Newsis引述外媒MacRumors等消息，多名搶先實際體驗iPho",
         "source_id": "digitimes_tw",
         "source": "DIGITIMES",
-        "published_at": "2026-08-24T18:14:35Z",
-        "canonical_url": "https://www.digitimes.com.tw/tech/dt/n/shwnws.asp?id=0000766038_V5Y1I5X52NRYJC9E5YDR4"
+        "published_at": "2026-08-24T18:48:12Z",
+        "canonical_url": "https://www.digitimes.com.tw/tech/dt/n/shwnws.asp?id=0000766061_3QPLII9W7VWUAI0S0CUDO"
       }
     }
   ]
