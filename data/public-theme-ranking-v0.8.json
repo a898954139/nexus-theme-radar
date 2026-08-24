@@ -2,14 +2,14 @@
   "schema_version": "nexus_public_theme_ranking.v0.8",
   "ranking_rule_version": "public_theme_heat_v0.8",
   "company_rule_version": "public_company_evidence_v0.8",
-  "generated_at": "2026-08-24T14:05:06.210643Z",
+  "generated_at": "2026-08-24T15:02:03.011545Z",
   "market_id": "TW_EQUITY",
   "market_scope": [
     "TW_EQUITY"
   ],
   "window_hours": 72,
   "max_themes": 5,
-  "qualified_theme_count": 10,
+  "qualified_theme_count": 11,
   "displayed_theme_count": 5,
   "threshold_note": null,
   "generation_status": "complete",
@@ -254,6 +254,108 @@
     },
     {
       "rank": 3,
+      "theme_id": "statementdog_tag_259",
+      "name_zh": "汽車",
+      "heat_score": 70,
+      "summaries": {
+        "event_count": 5,
+        "source_count": 3,
+        "tracking_candidate_count": 0,
+        "taiwan_mapping_count": 26
+      },
+      "heat_reason": {
+        "rule_version": "public_theme_heat_v0.8",
+        "event_component": {
+          "input": 5,
+          "normalized": 83.333,
+          "weighted": 20.833
+        },
+        "source_component": {
+          "input": 3,
+          "normalized": 75.0,
+          "weighted": 18.75
+        },
+        "candidate_component": {
+          "input": 0,
+          "normalized": 0.0,
+          "weighted": 0.0
+        },
+        "mapping_component": {
+          "mapping_count": 26,
+          "direct_mapping_event_count": 2,
+          "normalized": 100.0,
+          "weighted": 30.0
+        },
+        "single_source_concentration": 0.6,
+        "concentration_penalty": 0.0,
+        "raw_score": 69.583
+      },
+      "direct_mentions": [
+        {
+          "instrument_id": "TWSE:2027",
+          "symbol": "2027",
+          "exchange": "TWSE",
+          "name_zh": "大成鋼",
+          "direct_event_count": 1,
+          "latest_mentioned_at": "2026-08-24T14:42:22Z"
+        },
+        {
+          "instrument_id": "TWSE:2025",
+          "symbol": "2025",
+          "exchange": "TWSE",
+          "name_zh": "千興",
+          "direct_event_count": 1,
+          "latest_mentioned_at": "2026-08-23T18:37:19Z"
+        }
+      ],
+      "supply_chain_candidates": [
+        {
+          "instrument_id": "TPEX:3552",
+          "symbol": "3552",
+          "exchange": "TPEX",
+          "name_zh": "同致",
+          "direct_event_count": 0,
+          "official_evidence_count": 0,
+          "company_rank_score": 1,
+          "latest_mentioned_at": null,
+          "latest_official_at": null
+        },
+        {
+          "instrument_id": "TPEX:3675",
+          "symbol": "3675",
+          "exchange": "TPEX",
+          "name_zh": "德微",
+          "direct_event_count": 0,
+          "official_evidence_count": 0,
+          "company_rank_score": 1,
+          "latest_mentioned_at": null,
+          "latest_official_at": null
+        },
+        {
+          "instrument_id": "TPEX:5425",
+          "symbol": "5425",
+          "exchange": "TPEX",
+          "name_zh": "台半",
+          "direct_event_count": 0,
+          "official_evidence_count": 0,
+          "company_rank_score": 1,
+          "latest_mentioned_at": null,
+          "latest_official_at": null
+        }
+      ],
+      "representative_news": {
+        "cluster_id": "cluster-aeef6c59d683e189",
+        "id": "cnyes-64666328b851",
+        "title_zh": "美加真的撕破臉了！川普揚言加拿大汽車關稅翻倍至50%",
+        "summary": "美國總統川普周一(24日)宣布，自2027年1月1日起，將加拿大輸美汽車、卡車、汽車零組件及鋼鐵的關稅提高至50%，使美加貿易衝突進一步升級。這項威脅是在雙方談判破裂、加拿大準備對美國商品實施報復性關稅後提出。",
+        "source_id": "cnyes",
+        "source": "鉅亨網 Cnyes",
+        "published_at": "2026-08-24T14:42:22Z",
+        "canonical_url": "https://news.cnyes.com/news/id/6585656"
+      }
+    },
+    {
+      "rank": 4,
       "theme_id": "ai_server",
       "name_zh": "AI 伺服器",
       "heat_score": 56,
@@ -395,7 +497,7 @@
       }
     },
     {
-      "rank": 4,
+      "rank": 5,
       "theme_id": "statementdog_tag_2163",
       "name_zh": "半導體",
       "heat_score": 55,
@@ -486,91 +588,6 @@
         "source": "鉅亨網 Cnyes",
         "published_at": "2026-08-24T12:46:13Z",
         "canonical_url": "https://news.cnyes.com/news/id/6585576"
-      }
-    },
-    {
-      "rank": 5,
-      "theme_id": "thermal_cooling",
-      "name_zh": "散熱與液冷",
-      "heat_score": 50,
-      "summaries": {
-        "event_count": 2,
-        "source_count": 3,
-        "tracking_candidate_count": 1,
-        "taiwan_mapping_count": 3
-      },
-      "heat_reason": {
-        "rule_version": "public_theme_heat_v0.8",
-        "event_component": {
-          "input": 2,
-          "normalized": 33.333,
-          "weighted": 8.333
-        },
-        "source_component": {
-          "input": 3,
-          "normalized": 75.0,
-          "weighted": 18.75
-        },
-        "candidate_component": {
-          "input": 1,
-          "normalized": 25.0,
-          "weighted": 5.0
-        },
-        "mapping_component": {
-          "mapping_count": 3,
-          "direct_mapping_event_count": 0,
-          "normalized": 60.0,
-          "weighted": 18.0
-        },
-        "single_source_concentration": 0.333,
-        "concentration_penalty": 0.0,
-        "raw_score": 50.083
-      },
-      "direct_mentions": [],
-      "supply_chain_candidates": [
-        {
-          "instrument_id": "TPEX:3324",
-          "symbol": "3324",
-          "exchange": "TPEX",
-          "name_zh": "雙鴻",
-          "direct_event_count": 0,
-          "official_evidence_count": 0,
-          "company_rank_score": 1,
-          "latest_mentioned_at": null,
-          "latest_official_at": null
-        },
-        {
-          "instrument_id": "TWSE:3017",
-          "symbol": "3017",
-          "exchange": "TWSE",
-          "name_zh": "奇鋐",
-          "direct_event_count": 0,
-          "official_evidence_count": 0,
-          "company_rank_score": 1,
-          "latest_mentioned_at": null,
-          "latest_official_at": null
-        },
-        {
-          "instrument_id": "TWSE:3653",
-          "symbol": "3653",
-          "exchange": "TWSE",
-          "name_zh": "健策",
-          "direct_event_count": 0,
-          "official_evidence_count": 0,
-          "company_rank_score": 1,
-          "latest_mentioned_at": null,
-          "latest_official_at": null
-        }
-      ],
-      "representative_news": {
-        "cluster_id": "cluster-0c1686e7dd6c8d84",
-        "id": "digitimes_tw-0dd0a912e19c",
-        "title_zh": "AI Server進入液冷時代：散熱之外，系統可靠性才是部署關鍵",
-        "summary": "生成式AI、大型語言模型（LLM）與高效能運算（HPC）快速發展，正持續推升AI Server的運算需求與功耗。隨著GPU功耗及機櫃功率密度不斷提高，傳統氣冷逐漸面臨散熱極限，液冷也從過去主要應用於HPC，進一步",
-        "source_id": "digitimes_tw",
-        "source": "DIGITIMES",
-        "published_at": "2026-08-23T19:01:43Z",
-        "canonical_url": "https://www.digitimes.com.tw/tech/dt/n/shwnws.asp?id=0000765647_5J67TCWK3FCMAQ8C3UEFP"
       }
     }
   ]
