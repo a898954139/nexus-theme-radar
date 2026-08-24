@@ -2,42 +2,42 @@
   "schema_version": "nexus_public_theme_ranking.v0.8",
   "ranking_rule_version": "public_theme_heat_v0.8",
   "company_rule_version": "public_company_evidence_v0.8",
-  "generated_at": "2026-08-23T23:36:33.385009Z",
+  "generated_at": "2026-08-24T01:58:58.817039Z",
   "market_id": "TW_EQUITY",
   "market_scope": [
     "TW_EQUITY"
   ],
   "window_hours": 72,
   "max_themes": 5,
-  "qualified_theme_count": 8,
+  "qualified_theme_count": 10,
   "displayed_theme_count": 5,
   "threshold_note": null,
   "generation_status": "complete",
   "failed_source_count": 0,
-  "official_evidence_status": "unavailable",
+  "official_evidence_status": "available",
   "themes": [
     {
       "rank": 1,
       "theme_id": "robotics",
       "name_zh": "機器人",
-      "heat_score": 94,
+      "heat_score": 100,
       "summaries": {
-        "event_count": 8,
-        "source_count": 3,
+        "event_count": 10,
+        "source_count": 4,
         "tracking_candidate_count": 4,
-        "taiwan_mapping_count": 26
+        "taiwan_mapping_count": 28
       },
       "heat_reason": {
         "rule_version": "public_theme_heat_v0.8",
         "event_component": {
-          "input": 8,
+          "input": 10,
           "normalized": 100.0,
           "weighted": 25.0
         },
         "source_component": {
-          "input": 3,
-          "normalized": 75.0,
-          "weighted": 18.75
+          "input": 4,
+          "normalized": 100.0,
+          "weighted": 25.0
         },
         "candidate_component": {
           "input": 4,
@@ -45,16 +45,32 @@
           "weighted": 20.0
         },
         "mapping_component": {
-          "mapping_count": 26,
-          "direct_mapping_event_count": 2,
+          "mapping_count": 28,
+          "direct_mapping_event_count": 4,
           "normalized": 100.0,
           "weighted": 30.0
         },
-        "single_source_concentration": 0.556,
+        "single_source_concentration": 0.5,
         "concentration_penalty": 0.0,
-        "raw_score": 93.75
+        "raw_score": 100.0
       },
       "direct_mentions": [
+        {
+          "instrument_id": "TWSE:2009",
+          "symbol": "2009",
+          "exchange": "TWSE",
+          "name_zh": "第一銅",
+          "direct_event_count": 1,
+          "latest_mentioned_at": "2026-08-24T01:40:58Z"
+        },
+        {
+          "instrument_id": "TWSE:2374",
+          "symbol": "2374",
+          "exchange": "TWSE",
+          "name_zh": "佳能",
+          "direct_event_count": 1,
+          "latest_mentioned_at": "2026-08-24T01:17:07Z"
+        },
         {
           "instrument_id": "TWSE:2025",
           "symbol": "2025",
@@ -120,19 +136,19 @@
     },
     {
       "rank": 2,
-      "theme_id": "statementdog_tag_1517",
-      "name_zh": "AI",
-      "heat_score": 69,
+      "theme_id": "memory_hbm",
+      "name_zh": "記憶體與 HBM",
+      "heat_score": 85,
       "summaries": {
-        "event_count": 15,
+        "event_count": 6,
         "source_count": 3,
-        "tracking_candidate_count": 0,
-        "taiwan_mapping_count": 95
+        "tracking_candidate_count": 4,
+        "taiwan_mapping_count": 7
       },
       "heat_reason": {
         "rule_version": "public_theme_heat_v0.8",
         "event_component": {
-          "input": 15,
+          "input": 6,
           "normalized": 100.0,
           "weighted": 25.0
         },
@@ -142,127 +158,9 @@
           "weighted": 18.75
         },
         "candidate_component": {
-          "input": 0,
-          "normalized": 0.0,
-          "weighted": 0.0
-        },
-        "mapping_component": {
-          "mapping_count": 95,
-          "direct_mapping_event_count": 3,
+          "input": 4,
           "normalized": 100.0,
-          "weighted": 30.0
-        },
-        "single_source_concentration": 0.733,
-        "concentration_penalty": 5.0,
-        "raw_score": 68.75
-      },
-      "direct_mentions": [
-        {
-          "instrument_id": "TWSE:2455",
-          "symbol": "2455",
-          "exchange": "TWSE",
-          "name_zh": "全新",
-          "direct_event_count": 1,
-          "latest_mentioned_at": "2026-08-23T19:32:45Z"
-        },
-        {
-          "instrument_id": "TWSE:2317",
-          "symbol": "2317",
-          "exchange": "TWSE",
-          "name_zh": "鴻海",
-          "direct_event_count": 1,
-          "latest_mentioned_at": "2026-08-23T18:39:31Z"
-        },
-        {
-          "instrument_id": "TWSE:2634",
-          "symbol": "2634",
-          "exchange": "TWSE",
-          "name_zh": "漢翔",
-          "direct_event_count": 1,
-          "latest_mentioned_at": "2026-08-23T18:39:31Z"
-        },
-        {
-          "instrument_id": "TWSE:2025",
-          "symbol": "2025",
-          "exchange": "TWSE",
-          "name_zh": "千興",
-          "direct_event_count": 1,
-          "latest_mentioned_at": "2026-08-23T18:18:54Z"
-        }
-      ],
-      "supply_chain_candidates": [
-        {
-          "instrument_id": "TWSE:2317",
-          "symbol": "2317",
-          "exchange": "TWSE",
-          "name_zh": "鴻海",
-          "direct_event_count": 1,
-          "official_evidence_count": 0,
-          "company_rank_score": 5,
-          "latest_mentioned_at": "2026-08-23T18:39:31Z",
-          "latest_official_at": null
-        },
-        {
-          "instrument_id": "TPEX:3081",
-          "symbol": "3081",
-          "exchange": "TPEX",
-          "name_zh": "聯亞",
-          "direct_event_count": 0,
-          "official_evidence_count": 0,
-          "company_rank_score": 1,
-          "latest_mentioned_at": null,
-          "latest_official_at": null
-        },
-        {
-          "instrument_id": "TPEX:3324",
-          "symbol": "3324",
-          "exchange": "TPEX",
-          "name_zh": "雙鴻",
-          "direct_event_count": 0,
-          "official_evidence_count": 0,
-          "company_rank_score": 1,
-          "latest_mentioned_at": null,
-          "latest_official_at": null
-        }
-      ],
-      "representative_news": {
-        "cluster_id": "cluster-b2349053dce85ce3",
-        "id": "technews-eab2353e0adb",
-        "title_zh": "AMD 收購 Taalas，AI 推論放眼異質運算與模型專用晶片時代",
-        "summary": "AMD 6 日宣布收購加拿大 AI 晶片新創 Taalas，補強專用模型推論。生成式 AI、AI 代理與即時  [&#8230;]",
-        "source_id": "technews",
-        "source": "TechNews",
-        "published_at": "2026-08-23T23:00:41Z",
-        "canonical_url": "https://finance.technews.tw/2026/08/24/amd-acquires-taalas-to-advance-compute-solutions-for-rapidly-growing-ai-inference-market/"
-      }
-    },
-    {
-      "rank": 3,
-      "theme_id": "memory_hbm",
-      "name_zh": "記憶體與 HBM",
-      "heat_score": 65,
-      "summaries": {
-        "event_count": 5,
-        "source_count": 2,
-        "tracking_candidate_count": 3,
-        "taiwan_mapping_count": 7
-      },
-      "heat_reason": {
-        "rule_version": "public_theme_heat_v0.8",
-        "event_component": {
-          "input": 5,
-          "normalized": 83.333,
-          "weighted": 20.833
-        },
-        "source_component": {
-          "input": 2,
-          "normalized": 50.0,
-          "weighted": 12.5
-        },
-        "candidate_component": {
-          "input": 3,
-          "normalized": 75.0,
-          "weighted": 15.0
+          "weighted": 20.0
         },
         "mapping_component": {
           "mapping_count": 7,
@@ -270,9 +168,9 @@
           "normalized": 80.0,
           "weighted": 24.0
         },
-        "single_source_concentration": 0.8,
-        "concentration_penalty": 7.5,
-        "raw_score": 64.833
+        "single_source_concentration": 0.667,
+        "concentration_penalty": 2.5,
+        "raw_score": 85.25
       },
       "direct_mentions": [
         {
@@ -347,81 +245,105 @@
       }
     },
     {
-      "rank": 4,
-      "theme_id": "optical_cpo",
-      "name_zh": "矽光子 CPO",
-      "heat_score": 56,
+      "rank": 3,
+      "theme_id": "statementdog_tag_1517",
+      "name_zh": "AI",
+      "heat_score": 64,
       "summaries": {
-        "event_count": 2,
-        "source_count": 3,
-        "tracking_candidate_count": 1,
-        "taiwan_mapping_count": 20
+        "event_count": 16,
+        "source_count": 2,
+        "tracking_candidate_count": 0,
+        "taiwan_mapping_count": 116
       },
       "heat_reason": {
         "rule_version": "public_theme_heat_v0.8",
         "event_component": {
-          "input": 2,
-          "normalized": 33.333,
-          "weighted": 8.333
+          "input": 16,
+          "normalized": 100.0,
+          "weighted": 25.0
         },
         "source_component": {
-          "input": 3,
-          "normalized": 75.0,
-          "weighted": 18.75
+          "input": 2,
+          "normalized": 50.0,
+          "weighted": 12.5
         },
         "candidate_component": {
-          "input": 1,
-          "normalized": 25.0,
-          "weighted": 5.0
+          "input": 0,
+          "normalized": 0.0,
+          "weighted": 0.0
         },
         "mapping_component": {
-          "mapping_count": 20,
-          "direct_mapping_event_count": 1,
-          "normalized": 80.0,
-          "weighted": 24.0
+          "mapping_count": 116,
+          "direct_mapping_event_count": 3,
+          "normalized": 100.0,
+          "weighted": 30.0
         },
-        "single_source_concentration": 0.333,
-        "concentration_penalty": 0.0,
-        "raw_score": 56.083
+        "single_source_concentration": 0.688,
+        "concentration_penalty": 3.281,
+        "raw_score": 64.219
       },
       "direct_mentions": [
         {
-          "instrument_id": "TPEX:4971",
-          "symbol": "4971",
-          "exchange": "TPEX",
-          "name_zh": "IET-KY",
+          "instrument_id": "TWSE:2455",
+          "symbol": "2455",
+          "exchange": "TWSE",
+          "name_zh": "全新",
           "direct_event_count": 1,
-          "latest_mentioned_at": "2026-08-23T12:23:12Z"
+          "latest_mentioned_at": "2026-08-23T19:32:45Z"
+        },
+        {
+          "instrument_id": "TWSE:2317",
+          "symbol": "2317",
+          "exchange": "TWSE",
+          "name_zh": "鴻海",
+          "direct_event_count": 1,
+          "latest_mentioned_at": "2026-08-23T18:39:31Z"
+        },
+        {
+          "instrument_id": "TWSE:2634",
+          "symbol": "2634",
+          "exchange": "TWSE",
+          "name_zh": "漢翔",
+          "direct_event_count": 1,
+          "latest_mentioned_at": "2026-08-23T18:39:31Z"
+        },
+        {
+          "instrument_id": "TWSE:2025",
+          "symbol": "2025",
+          "exchange": "TWSE",
+          "name_zh": "千興",
+          "direct_event_count": 1,
+          "latest_mentioned_at": "2026-08-23T18:18:54Z"
         }
       ],
       "supply_chain_candidates": [
         {
-          "instrument_id": "TPEX:3289",
-          "symbol": "3289",
-          "exchange": "TPEX",
-          "name_zh": "宜特",
-          "direct_event_count": 0,
-          "official_evidence_count": 0,
-          "company_rank_score": 1,
-          "latest_mentioned_at": null,
-          "latest_official_at": null
-        },
-        {
-          "instrument_id": "TPEX:3587",
-          "symbol": "3587",
-          "exchange": "TPEX",
-          "name_zh": "閎康",
-          "direct_event_count": 0,
-          "official_evidence_count": 0,
-          "company_rank_score": 1,
-          "latest_mentioned_at": null,
-          "latest_official_at": null
-        },
-        {
-          "instrument_id": "TWSE:2303",
-          "symbol": "2303",
+          "instrument_id": "TWSE:2317",
+          "symbol": "2317",
           "exchange": "TWSE",
-          "name_zh": "聯電",
+          "name_zh": "鴻海",
+          "direct_event_count": 1,
+          "official_evidence_count": 0,
+          "company_rank_score": 5,
+          "latest_mentioned_at": "2026-08-23T18:39:31Z",
+          "latest_official_at": null
+        },
+        {
+          "instrument_id": "TPEX:3081",
+          "symbol": "3081",
+          "exchange": "TPEX",
+          "name_zh": "聯亞",
+          "direct_event_count": 0,
+          "official_evidence_count": 0,
+          "company_rank_score": 1,
+          "latest_mentioned_at": null,
+          "latest_official_at": null
+        },
+        {
+          "instrument_id": "TPEX:3324",
+          "symbol": "3324",
+          "exchange": "TPEX",
+          "name_zh": "雙鴻",
           "direct_event_count": 0,
           "official_evidence_count": 0,
           "company_rank_score": 1,
@@ -430,18 +352,18 @@
         }
       ],
       "representative_news": {
-        "cluster_id": "cluster-a24871ffd1499692",
-        "id": "digitimes_tw-1ba3b0aa5583",
-        "title_zh": "科技1分鐘：從銅線塞車轉向「光纖高速公路」　關鍵在光引擎",
-        "summary": "AI資料傳輸從機櫃內一路推向更高頻寬，當高速電訊號在銅線上的傳輸距離與功耗逐漸逼近瓶頸，共同封裝光學（Co-Packaged Optics；）開始改變光電轉換的位置：把光學引擎（Optical Engine）拉到特用晶片",
-        "source_id": "digitimes_tw",
-        "source": "DIGITIMES",
-        "published_at": "2026-08-23T18:17:21Z",
-        "canonical_url": "https://www.digitimes.com.tw/tech/dt/n/shwnws.asp?id=0000765949_Z818AA2N5G0BRY8GKLS2O"
+        "cluster_id": "cluster-97e2628beb5ecb8e",
+        "id": "technews-2b6b111839d1",
+        "title_zh": "曾文生：AI 資料中心用電擬採電廠直供，成本市場決定",
+        "summary": "近期 AI 資料中心選址引發討論，台電董事長曾文生今天表示，未來會跟外界協商，台電從電廠直接供電給 AI 資料 [&#8230;]",
+        "source_id": "technews",
+        "source": "TechNews",
+        "published_at": "2026-08-24T01:10:08Z",
+        "canonical_url": "https://technews.tw/2026/08/24/tai-power-aidc/"
       }
     },
     {
-      "rank": 5,
+      "rank": 4,
       "theme_id": "ai_server",
       "name_zh": "AI 伺服器",
       "heat_score": 54,
@@ -556,6 +478,100 @@
         "source": "DIGITIMES",
         "published_at": "2026-08-23T18:56:27Z",
         "canonical_url": "https://www.digitimes.com.tw/tech/dt/n/shwnws.asp?id=0000765902_5G48CZPD1P2FM018VME6V"
+      }
+    },
+    {
+      "rank": 5,
+      "theme_id": "optical_cpo",
+      "name_zh": "矽光子 CPO",
+      "heat_score": 50,
+      "summaries": {
+        "event_count": 2,
+        "source_count": 2,
+        "tracking_candidate_count": 1,
+        "taiwan_mapping_count": 20
+      },
+      "heat_reason": {
+        "rule_version": "public_theme_heat_v0.8",
+        "event_component": {
+          "input": 2,
+          "normalized": 33.333,
+          "weighted": 8.333
+        },
+        "source_component": {
+          "input": 2,
+          "normalized": 50.0,
+          "weighted": 12.5
+        },
+        "candidate_component": {
+          "input": 1,
+          "normalized": 25.0,
+          "weighted": 5.0
+        },
+        "mapping_component": {
+          "mapping_count": 20,
+          "direct_mapping_event_count": 1,
+          "normalized": 80.0,
+          "weighted": 24.0
+        },
+        "single_source_concentration": 0.5,
+        "concentration_penalty": 0.0,
+        "raw_score": 49.833
+      },
+      "direct_mentions": [
+        {
+          "instrument_id": "TPEX:4971",
+          "symbol": "4971",
+          "exchange": "TPEX",
+          "name_zh": "IET-KY",
+          "direct_event_count": 1,
+          "latest_mentioned_at": "2026-08-23T12:23:12Z"
+        }
+      ],
+      "supply_chain_candidates": [
+        {
+          "instrument_id": "TPEX:3289",
+          "symbol": "3289",
+          "exchange": "TPEX",
+          "name_zh": "宜特",
+          "direct_event_count": 0,
+          "official_evidence_count": 0,
+          "company_rank_score": 1,
+          "latest_mentioned_at": null,
+          "latest_official_at": null
+        },
+        {
+          "instrument_id": "TPEX:3587",
+          "symbol": "3587",
+          "exchange": "TPEX",
+          "name_zh": "閎康",
+          "direct_event_count": 0,
+          "official_evidence_count": 0,
+          "company_rank_score": 1,
+          "latest_mentioned_at": null,
+          "latest_official_at": null
+        },
+        {
+          "instrument_id": "TWSE:2303",
+          "symbol": "2303",
+          "exchange": "TWSE",
+          "name_zh": "聯電",
+          "direct_event_count": 0,
+          "official_evidence_count": 0,
+          "company_rank_score": 1,
+          "latest_mentioned_at": null,
+          "latest_official_at": null
+        }
+      ],
+      "representative_news": {
+        "cluster_id": "cluster-a24871ffd1499692",
+        "id": "digitimes_tw-1ba3b0aa5583",
+        "title_zh": "科技1分鐘：從銅線塞車轉向「光纖高速公路」　關鍵在光引擎",
+        "summary": "AI資料傳輸從機櫃內一路推向更高頻寬，當高速電訊號在銅線上的傳輸距離與功耗逐漸逼近瓶頸，共同封裝光學（Co-Packaged Optics；）開始改變光電轉換的位置：把光學引擎（Optical Engine）拉到特用晶片",
+        "source_id": "digitimes_tw",
+        "source": "DIGITIMES",
+        "published_at": "2026-08-23T18:17:21Z",
+        "canonical_url": "https://www.digitimes.com.tw/tech/dt/n/shwnws.asp?id=0000765949_Z818AA2N5G0BRY8GKLS2O"
       }
     }
   ]
