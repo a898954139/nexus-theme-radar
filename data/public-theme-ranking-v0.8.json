@@ -2,116 +2,22 @@
   "schema_version": "nexus_public_theme_ranking.v0.8",
   "ranking_rule_version": "public_theme_heat_v0.8",
   "company_rule_version": "public_company_evidence_v0.8",
-  "generated_at": "2026-08-26T09:58:38.705488Z",
+  "generated_at": "2026-08-26T10:52:33.868733Z",
   "market_id": "TW_EQUITY",
   "market_scope": [
     "TW_EQUITY"
   ],
   "window_hours": 72,
   "max_themes": 5,
-  "qualified_theme_count": 12,
+  "qualified_theme_count": 13,
   "displayed_theme_count": 5,
   "threshold_note": null,
   "generation_status": "complete",
   "failed_source_count": 0,
-  "official_evidence_status": "available",
+  "official_evidence_status": "unavailable",
   "themes": [
     {
       "rank": 1,
-      "theme_id": "defense_drone",
-      "name_zh": "國防與無人機",
-      "heat_score": 93,
-      "summaries": {
-        "event_count": 8,
-        "source_count": 4,
-        "tracking_candidate_count": 4,
-        "taiwan_mapping_count": 4
-      },
-      "heat_reason": {
-        "rule_version": "public_theme_heat_v0.8",
-        "event_component": {
-          "input": 8,
-          "normalized": 100.0,
-          "weighted": 25.0
-        },
-        "source_component": {
-          "input": 4,
-          "normalized": 100.0,
-          "weighted": 25.0
-        },
-        "candidate_component": {
-          "input": 4,
-          "normalized": 100.0,
-          "weighted": 20.0
-        },
-        "mapping_component": {
-          "mapping_count": 4,
-          "direct_mapping_event_count": 1,
-          "normalized": 80.0,
-          "weighted": 24.0
-        },
-        "single_source_concentration": 0.625,
-        "concentration_penalty": 0.938,
-        "raw_score": 93.063
-      },
-      "direct_mentions": [
-        {
-          "instrument_id": "TWSE:2027",
-          "symbol": "2027",
-          "exchange": "TWSE",
-          "name_zh": "大成鋼",
-          "direct_event_count": 1,
-          "latest_mentioned_at": "2026-08-25T18:55:06Z"
-        }
-      ],
-      "supply_chain_candidates": [
-        {
-          "instrument_id": "TPEX:5371",
-          "symbol": "5371",
-          "exchange": "TPEX",
-          "name_zh": "中光電",
-          "direct_event_count": 0,
-          "official_evidence_count": 0,
-          "company_rank_score": 1,
-          "latest_mentioned_at": null,
-          "latest_official_at": null
-        },
-        {
-          "instrument_id": "TWSE:2634",
-          "symbol": "2634",
-          "exchange": "TWSE",
-          "name_zh": "漢翔",
-          "direct_event_count": 0,
-          "official_evidence_count": 0,
-          "company_rank_score": 1,
-          "latest_mentioned_at": null,
-          "latest_official_at": null
-        },
-        {
-          "instrument_id": "TWSE:8033",
-          "symbol": "8033",
-          "exchange": "TWSE",
-          "name_zh": "雷虎",
-          "direct_event_count": 0,
-          "official_evidence_count": 0,
-          "company_rank_score": 1,
-          "latest_mentioned_at": null,
-          "latest_official_at": null
-        }
-      ],
-      "representative_news": {
-        "cluster_id": "cluster-3244a129819c754b",
-        "id": "cnyes-c4f8ee08ca7e",
-        "title_zh": "蕭美琴：建置無人機供應鏈起步雖晚 但仍能利用國防需求帶動量產能力",
-        "summary": "副總統蕭美琴指出，觀察目前俄烏戰爭，已確立了無人載具於現代戰爭的價值，台灣雖起步太遲，但能透過AI與供應鏈等產業優勢，利用國防需求帶動量產能力，打造強韌的「非紅供應鏈」，縮短與主要國家的差距。",
-        "source_id": "cnyes",
-        "source": "鉅亨網 Cnyes",
-        "published_at": "2026-08-26T09:15:07Z",
-        "canonical_url": "https://news.cnyes.com/news/id/6587709"
-      }
-    },
-    {
-      "rank": 2,
       "theme_id": "optical_cpo",
       "name_zh": "矽光子 CPO",
       "heat_score": 90,
@@ -199,27 +105,223 @@
       }
     },
     {
+      "rank": 2,
+      "theme_id": "memory_hbm",
+      "name_zh": "記憶體與 HBM",
+      "heat_score": 79,
+      "summaries": {
+        "event_count": 6,
+        "source_count": 2,
+        "tracking_candidate_count": 5,
+        "taiwan_mapping_count": 5
+      },
+      "heat_reason": {
+        "rule_version": "public_theme_heat_v0.8",
+        "event_component": {
+          "input": 6,
+          "normalized": 100.0,
+          "weighted": 25.0
+        },
+        "source_component": {
+          "input": 2,
+          "normalized": 50.0,
+          "weighted": 12.5
+        },
+        "candidate_component": {
+          "input": 5,
+          "normalized": 100.0,
+          "weighted": 20.0
+        },
+        "mapping_component": {
+          "mapping_count": 5,
+          "direct_mapping_event_count": 2,
+          "normalized": 100.0,
+          "weighted": 30.0
+        },
+        "single_source_concentration": 0.833,
+        "concentration_penalty": 8.75,
+        "raw_score": 78.75
+      },
+      "direct_mentions": [
+        {
+          "instrument_id": "TWSE:2027",
+          "symbol": "2027",
+          "exchange": "TWSE",
+          "name_zh": "大成鋼",
+          "direct_event_count": 1,
+          "latest_mentioned_at": "2026-08-26T02:06:44Z"
+        },
+        {
+          "instrument_id": "TWSE:2025",
+          "symbol": "2025",
+          "exchange": "TWSE",
+          "name_zh": "千興",
+          "direct_event_count": 1,
+          "latest_mentioned_at": "2026-08-25T18:14:18Z"
+        }
+      ],
+      "supply_chain_candidates": [
+        {
+          "instrument_id": "TPEX:8299",
+          "symbol": "8299",
+          "exchange": "TPEX",
+          "name_zh": "群聯",
+          "direct_event_count": 0,
+          "official_evidence_count": 0,
+          "company_rank_score": 1,
+          "latest_mentioned_at": null,
+          "latest_official_at": null
+        },
+        {
+          "instrument_id": "TWSE:2344",
+          "symbol": "2344",
+          "exchange": "TWSE",
+          "name_zh": "華邦電",
+          "direct_event_count": 0,
+          "official_evidence_count": 0,
+          "company_rank_score": 1,
+          "latest_mentioned_at": null,
+          "latest_official_at": null
+        },
+        {
+          "instrument_id": "TWSE:2408",
+          "symbol": "2408",
+          "exchange": "TWSE",
+          "name_zh": "南亞科",
+          "direct_event_count": 0,
+          "official_evidence_count": 0,
+          "company_rank_score": 1,
+          "latest_mentioned_at": null,
+          "latest_official_at": null
+        }
+      ],
+      "representative_news": {
+        "cluster_id": "cluster-b8a1a54baca5d4bb",
+        "id": "digitimes_tw-b2602e4ce80e",
+        "title_zh": "三星要讓HBM「長出大腦」　SK海力士則先拚20層堆疊",
+        "summary": "高頻寬記憶體（HBM）競爭從容量、頻寬與DRAM製程，進一步延伸至邏輯與先進封裝。三星電子（Samsung Electronics）與SK海力士（SK Hynix）日前在美國史丹佛大學舉行的Hot Chips 2026，分別公開下一代HBM技術藍圖，展現不同的優先順序。簡言之，三星試圖讓基礎晶粒（base",
+        "source_id": "digitimes_tw",
+        "source": "DIGITIMES",
+        "published_at": "2026-08-25T18:31:41Z",
+        "canonical_url": "https://www.digitimes.com.tw/tech/dt/n/shwnws.asp?id=0000766121_NWI2ENLI1I8HBW227NM4P"
+      }
+    },
+    {
       "rank": 3,
+      "theme_id": "defense_drone",
+      "name_zh": "國防與無人機",
+      "heat_score": 73,
+      "summaries": {
+        "event_count": 6,
+        "source_count": 2,
+        "tracking_candidate_count": 4,
+        "taiwan_mapping_count": 4
+      },
+      "heat_reason": {
+        "rule_version": "public_theme_heat_v0.8",
+        "event_component": {
+          "input": 6,
+          "normalized": 100.0,
+          "weighted": 25.0
+        },
+        "source_component": {
+          "input": 2,
+          "normalized": 50.0,
+          "weighted": 12.5
+        },
+        "candidate_component": {
+          "input": 4,
+          "normalized": 100.0,
+          "weighted": 20.0
+        },
+        "mapping_component": {
+          "mapping_count": 4,
+          "direct_mapping_event_count": 1,
+          "normalized": 80.0,
+          "weighted": 24.0
+        },
+        "single_source_concentration": 0.833,
+        "concentration_penalty": 8.75,
+        "raw_score": 72.75
+      },
+      "direct_mentions": [
+        {
+          "instrument_id": "TWSE:2027",
+          "symbol": "2027",
+          "exchange": "TWSE",
+          "name_zh": "大成鋼",
+          "direct_event_count": 1,
+          "latest_mentioned_at": "2026-08-25T18:55:06Z"
+        }
+      ],
+      "supply_chain_candidates": [
+        {
+          "instrument_id": "TPEX:5371",
+          "symbol": "5371",
+          "exchange": "TPEX",
+          "name_zh": "中光電",
+          "direct_event_count": 0,
+          "official_evidence_count": 0,
+          "company_rank_score": 1,
+          "latest_mentioned_at": null,
+          "latest_official_at": null
+        },
+        {
+          "instrument_id": "TWSE:2634",
+          "symbol": "2634",
+          "exchange": "TWSE",
+          "name_zh": "漢翔",
+          "direct_event_count": 0,
+          "official_evidence_count": 0,
+          "company_rank_score": 1,
+          "latest_mentioned_at": null,
+          "latest_official_at": null
+        },
+        {
+          "instrument_id": "TWSE:8033",
+          "symbol": "8033",
+          "exchange": "TWSE",
+          "name_zh": "雷虎",
+          "direct_event_count": 0,
+          "official_evidence_count": 0,
+          "company_rank_score": 1,
+          "latest_mentioned_at": null,
+          "latest_official_at": null
+        }
+      ],
+      "representative_news": {
+        "cluster_id": "cluster-3244a129819c754b",
+        "id": "cnyes-c4f8ee08ca7e",
+        "title_zh": "蕭美琴：建置無人機供應鏈起步雖晚 但仍能利用國防需求帶動量產能力",
+        "summary": "副總統蕭美琴指出，觀察目前俄烏戰爭，已確立了無人載具於現代戰爭的價值，台灣雖起步太遲，但能透過AI與供應鏈等產業優勢，利用國防需求帶動量產能力，打造強韌的「非紅供應鏈」，縮短與主要國家的差距。",
+        "source_id": "cnyes",
+        "source": "鉅亨網 Cnyes",
+        "published_at": "2026-08-26T09:15:07Z",
+        "canonical_url": "https://news.cnyes.com/news/id/6587709"
+      }
+    },
+    {
+      "rank": 4,
       "theme_id": "robotics",
       "name_zh": "機器人",
-      "heat_score": 84,
+      "heat_score": 71,
       "summaries": {
-        "event_count": 10,
-        "source_count": 3,
+        "event_count": 8,
+        "source_count": 2,
         "tracking_candidate_count": 4,
         "taiwan_mapping_count": 26
       },
       "heat_reason": {
         "rule_version": "public_theme_heat_v0.8",
         "event_component": {
-          "input": 10,
+          "input": 8,
           "normalized": 100.0,
           "weighted": 25.0
         },
         "source_component": {
-          "input": 3,
-          "normalized": 75.0,
-          "weighted": 18.75
+          "input": 2,
+          "normalized": 50.0,
+          "weighted": 12.5
         },
         "candidate_component": {
           "input": 4,
@@ -232,9 +334,9 @@
           "normalized": 80.0,
           "weighted": 24.0
         },
-        "single_source_concentration": 0.7,
-        "concentration_penalty": 3.75,
-        "raw_score": 84.0
+        "single_source_concentration": 0.875,
+        "concentration_penalty": 10.313,
+        "raw_score": 71.188
       },
       "direct_mentions": [
         {
@@ -293,67 +395,67 @@
       }
     },
     {
-      "rank": 4,
-      "theme_id": "memory_hbm",
-      "name_zh": "記憶體與 HBM",
-      "heat_score": 83,
+      "rank": 5,
+      "theme_id": "energy_grid",
+      "name_zh": "能源與電網",
+      "heat_score": 70,
       "summaries": {
-        "event_count": 7,
-        "source_count": 2,
-        "tracking_candidate_count": 6,
+        "event_count": 4,
+        "source_count": 3,
+        "tracking_candidate_count": 1,
         "taiwan_mapping_count": 5
       },
       "heat_reason": {
         "rule_version": "public_theme_heat_v0.8",
         "event_component": {
-          "input": 7,
-          "normalized": 100.0,
-          "weighted": 25.0
+          "input": 4,
+          "normalized": 66.667,
+          "weighted": 16.667
         },
         "source_component": {
-          "input": 2,
-          "normalized": 50.0,
-          "weighted": 12.5
+          "input": 3,
+          "normalized": 75.0,
+          "weighted": 18.75
         },
         "candidate_component": {
-          "input": 6,
-          "normalized": 100.0,
-          "weighted": 20.0
+          "input": 1,
+          "normalized": 25.0,
+          "weighted": 5.0
         },
         "mapping_component": {
           "mapping_count": 5,
-          "direct_mapping_event_count": 3,
+          "direct_mapping_event_count": 2,
           "normalized": 100.0,
           "weighted": 30.0
         },
-        "single_source_concentration": 0.714,
-        "concentration_penalty": 4.286,
-        "raw_score": 83.214
+        "single_source_concentration": 0.5,
+        "concentration_penalty": 0.0,
+        "raw_score": 70.417
       },
       "direct_mentions": [
         {
-          "instrument_id": "TWSE:2027",
-          "symbol": "2027",
+          "instrument_id": "TWSE:2308",
+          "symbol": "2308",
           "exchange": "TWSE",
-          "name_zh": "大成鋼",
-          "direct_event_count": 2,
-          "latest_mentioned_at": "2026-08-26T04:20:23Z"
+          "name_zh": "台達電",
+          "direct_event_count": 1,
+          "latest_mentioned_at": "2026-08-26T10:22:39Z"
         },
         {
-          "instrument_id": "TWSE:2025",
-          "symbol": "2025",
+          "instrument_id": "TWSE:1609",
+          "symbol": "1609",
           "exchange": "TWSE",
-          "name_zh": "千興",
+          "name_zh": "大亞",
           "direct_event_count": 1,
-          "latest_mentioned_at": "2026-08-25T18:14:18Z"
+          "latest_mentioned_at": "2026-08-26T10:22:17Z"
         }
       ],
       "supply_chain_candidates": [
         {
-          "instrument_id": "TPEX:8299",
-          "symbol": "8299",
-          "exchange": "TPEX",
-          "name_zh": "群聯",
+          "instrument_id": "TWSE:1503",
+          "symbol": "1503",
+          "exchange": "TWSE",
+          "name_zh": "士電",
           "direct_event_count": 0,
           "official_evidence_count": 0,
           "company_rank_score": 1,
@@ -361,10 +463,10 @@
           "latest_official_at": null
         },
         {
-          "instrument_id": "TWSE:2344",
-          "symbol": "2344",
+          "instrument_id": "TWSE:1513",
+          "symbol": "1513",
           "exchange": "TWSE",
-          "name_zh": "華邦電",
+          "name_zh": "中興電",
           "direct_event_count": 0,
           "official_evidence_count": 0,
           "company_rank_score": 1,
@@ -372,10 +474,10 @@
           "latest_official_at": null
         },
         {
-          "instrument_id": "TWSE:2408",
-          "symbol": "2408",
+          "instrument_id": "TWSE:1519",
+          "symbol": "1519",
           "exchange": "TWSE",
-          "name_zh": "南亞科",
+          "name_zh": "華城",
           "direct_event_count": 0,
           "official_evidence_count": 0,
           "company_rank_score": 1,
@@ -384,164 +486,14 @@
         }
       ],
       "representative_news": {
-        "cluster_id": "cluster-b8a1a54baca5d4bb",
-        "id": "digitimes_tw-b2602e4ce80e",
-        "title_zh": "三星要讓HBM「長出大腦」　SK海力士則先拚20層堆疊",
-        "summary": "高頻寬記憶體（HBM）競爭從容量、頻寬與DRAM製程，進一步延伸至邏輯與先進封裝。三星電子（Samsung Electronics）與SK海力士（SK Hynix）日前在美國史丹佛大學舉行的Hot Chips 2026，分別公開下一代HBM技術藍圖，展現不同的優先順序。簡言之，三星試圖讓基礎晶粒（base",
-        "source_id": "digitimes_tw",
-        "source": "DIGITIMES",
-        "published_at": "2026-08-25T18:31:41Z",
-        "canonical_url": "https://www.digitimes.com.tw/tech/dt/n/shwnws.asp?id=0000766121_NWI2ENLI1I8HBW227NM4P"
-      }
-    },
-    {
-      "rank": 5,
-      "theme_id": "statementdog_tag_1517",
-      "name_zh": "AI",
-      "heat_score": 77,
-      "summaries": {
-        "event_count": 22,
-        "source_count": 4,
-        "tracking_candidate_count": 0,
-        "taiwan_mapping_count": 107
-      },
-      "heat_reason": {
-        "rule_version": "public_theme_heat_v0.8",
-        "event_component": {
-          "input": 22,
-          "normalized": 100.0,
-          "weighted": 25.0
-        },
-        "source_component": {
-          "input": 4,
-          "normalized": 100.0,
-          "weighted": 25.0
-        },
-        "candidate_component": {
-          "input": 0,
-          "normalized": 0.0,
-          "weighted": 0.0
-        },
-        "mapping_component": {
-          "mapping_count": 107,
-          "direct_mapping_event_count": 7,
-          "normalized": 100.0,
-          "weighted": 30.0
-        },
-        "single_source_concentration": 0.682,
-        "concentration_penalty": 3.068,
-        "raw_score": 76.932
-      },
-      "direct_mentions": [
-        {
-          "instrument_id": "TWSE:2027",
-          "symbol": "2027",
-          "exchange": "TWSE",
-          "name_zh": "大成鋼",
-          "direct_event_count": 2,
-          "latest_mentioned_at": "2026-08-26T04:12:28Z"
-        },
-        {
-          "instrument_id": "TWSE:2059",
-          "symbol": "2059",
-          "exchange": "TWSE",
-          "name_zh": "川湖",
-          "direct_event_count": 1,
-          "latest_mentioned_at": "2026-08-26T09:05:00Z"
-        },
-        {
-          "instrument_id": "TWSE:2330",
-          "symbol": "2330",
-          "exchange": "TWSE",
-          "name_zh": "台積電",
-          "direct_event_count": 1,
-          "latest_mentioned_at": "2026-08-26T09:05:00Z"
-        },
-        {
-          "instrument_id": "TWSE:1303",
-          "symbol": "1303",
-          "exchange": "TWSE",
-          "name_zh": "南亞",
-          "direct_event_count": 1,
-          "latest_mentioned_at": "2026-08-26T04:30:02Z"
-        },
-        {
-          "instrument_id": "TWSE:2455",
-          "symbol": "2455",
-          "exchange": "TWSE",
-          "name_zh": "全新",
-          "direct_event_count": 1,
-          "latest_mentioned_at": "2026-08-26T04:12:28Z"
-        },
-        {
-          "instrument_id": "TWSE:3042",
-          "symbol": "3042",
-          "exchange": "TWSE",
-          "name_zh": "晶技",
-          "direct_event_count": 1,
-          "latest_mentioned_at": "2026-08-26T02:56:27Z"
-        },
-        {
-          "instrument_id": "TWSE:2025",
-          "symbol": "2025",
-          "exchange": "TWSE",
-          "name_zh": "千興",
-          "direct_event_count": 1,
-          "latest_mentioned_at": "2026-08-25T18:28:09Z"
-        },
-        {
-          "instrument_id": "TWSE:2028",
-          "symbol": "2028",
-          "exchange": "TWSE",
-          "name_zh": "威致",
-          "direct_event_count": 1,
-          "latest_mentioned_at": "2026-08-25T18:19:14Z"
-        }
-      ],
-      "supply_chain_candidates": [
-        {
-          "instrument_id": "TWSE:2330",
-          "symbol": "2330",
-          "exchange": "TWSE",
-          "name_zh": "台積電",
-          "direct_event_count": 1,
-          "official_evidence_count": 0,
-          "company_rank_score": 5,
-          "latest_mentioned_at": "2026-08-26T09:05:00Z",
-          "latest_official_at": null
-        },
-        {
-          "instrument_id": "TPEX:3081",
-          "symbol": "3081",
-          "exchange": "TPEX",
-          "name_zh": "聯亞",
-          "direct_event_count": 0,
-          "official_evidence_count": 0,
-          "company_rank_score": 1,
-          "latest_mentioned_at": null,
-          "latest_official_at": null
-        },
-        {
-          "instrument_id": "TPEX:3324",
-          "symbol": "3324",
-          "exchange": "TPEX",
-          "name_zh": "雙鴻",
-          "direct_event_count": 0,
-          "official_evidence_count": 0,
-          "company_rank_score": 1,
-          "latest_mentioned_at": null,
-          "latest_official_at": null
-        }
-      ],
-      "representative_news": {
-        "cluster_id": "cluster-096bfcf3af7e5a2d",
-        "id": "yahoo_finance_tw-e616ad778547",
-        "title_zh": "外媒驚呆！ 台灣「最純AI股」竟不做晶片 毛利率87%狂勝台積電、輝達",
-        "summary": "人工智慧（AI）浪潮席捲全球，市場目光多集中在晶片、伺服器與先進封裝，但《華爾街日報》點出台灣一間「另類AI大贏家」川湖科技（2059）。這家公司主要生產家具五金零組件，卻因切入AI伺服器機架導軌市場",
-        "source_id": "yahoo_finance_tw",
-        "source": "Yahoo Finance Taiwan",
-        "published_at": "2026-08-26T09:05:00Z",
-        "canonical_url": "https://tw.stock.yahoo.com/news/%E5%A4%96%E5%AA%92%E9%A9%9A%E5%91%86-%E5%8F%B0%E7%81%A3-%E6%9C%80%E7%B4%94ai%E8%82%A1-%E7%AB%9F%E4%B8%8D%E5%81%9A%E6%99%B6%E7%89%87-%E6%AF%9B%E5%88%A9%E7%8E%8787-090500051.html"
+        "cluster_id": "cluster-4c930d2ec86abbb5",
+        "id": "technews-b1391403eda6",
+        "title_zh": "政府力推「微電網＋儲能」，三大業者搶商機",
+        "summary": "行政院長卓榮泰今（26）日表示，政府將從充足供電、強化電網韌性及多元能源三大方向著手，並強調儲能與微電網的重要 [&#8230;]",
+        "source_id": "technews",
+        "source": "TechNews",
+        "published_at": "2026-08-26T05:12:25Z",
+        "canonical_url": "https://technews.tw/2026/08/26/government-promotes-microgrid-energy-storage-three-players-compete-business/"
       }
     }
   ]
