@@ -2,19 +2,19 @@
   "schema_version": "nexus_public_theme_ranking.v0.8",
   "ranking_rule_version": "public_theme_heat_v0.8",
   "company_rule_version": "public_company_evidence_v0.8",
-  "generated_at": "2026-08-30T21:08:46.944627Z",
+  "generated_at": "2026-08-30T23:31:36.236496Z",
   "market_id": "TW_EQUITY",
   "market_scope": [
     "TW_EQUITY"
   ],
   "window_hours": 72,
   "max_themes": 5,
-  "qualified_theme_count": 7,
+  "qualified_theme_count": 5,
   "displayed_theme_count": 5,
   "threshold_note": null,
   "generation_status": "complete",
   "failed_source_count": 0,
-  "official_evidence_status": "available",
+  "official_evidence_status": "unavailable",
   "themes": [
     {
       "rank": 1,
@@ -22,7 +22,7 @@
       "name_zh": "AI",
       "heat_score": 80,
       "summaries": {
-        "event_count": 20,
+        "event_count": 21,
         "source_count": 4,
         "tracking_candidate_count": 0,
         "taiwan_mapping_count": 96
@@ -30,7 +30,7 @@
       "heat_reason": {
         "rule_version": "public_theme_heat_v0.8",
         "event_component": {
-          "input": 20,
+          "input": 21,
           "normalized": 100.0,
           "weighted": 25.0
         },
@@ -46,11 +46,11 @@
         },
         "mapping_component": {
           "mapping_count": 96,
-          "direct_mapping_event_count": 8,
+          "direct_mapping_event_count": 9,
           "normalized": 100.0,
           "weighted": 30.0
         },
-        "single_source_concentration": 0.45,
+        "single_source_concentration": 0.476,
         "concentration_penalty": 0.0,
         "raw_score": 80.0
       },
@@ -70,6 +70,14 @@
           "name_zh": "大成鋼",
           "direct_event_count": 2,
           "latest_mentioned_at": "2026-08-30T19:00:00Z"
+        },
+        {
+          "instrument_id": "TWSE:3037",
+          "symbol": "3037",
+          "exchange": "TWSE",
+          "name_zh": "欣興",
+          "direct_event_count": 1,
+          "latest_mentioned_at": "2026-08-30T21:29:05Z"
         },
         {
           "instrument_id": "TWSE:2317",
@@ -98,6 +106,17 @@
       ],
       "supply_chain_candidates": [
         {
+          "instrument_id": "TWSE:3037",
+          "symbol": "3037",
+          "exchange": "TWSE",
+          "name_zh": "欣興",
+          "direct_event_count": 1,
+          "official_evidence_count": 0,
+          "company_rank_score": 5,
+          "latest_mentioned_at": "2026-08-30T21:29:05Z",
+          "latest_official_at": null
+        },
+        {
           "instrument_id": "TWSE:2317",
           "symbol": "2317",
           "exchange": "TWSE",
@@ -118,28 +137,17 @@
           "company_rank_score": 1,
           "latest_mentioned_at": null,
           "latest_official_at": null
-        },
-        {
-          "instrument_id": "TPEX:3324",
-          "symbol": "3324",
-          "exchange": "TPEX",
-          "name_zh": "雙鴻",
-          "direct_event_count": 0,
-          "official_evidence_count": 0,
-          "company_rank_score": 1,
-          "latest_mentioned_at": null,
-          "latest_official_at": null
         }
       ],
       "representative_news": {
-        "cluster_id": "cluster-ccd1ccdd806d246c",
-        "id": "digitimes_tw-c7756493fb92",
-        "title_zh": "建華AI算力爆發帶旺電力需求  搶攻資料中心",
-        "summary": "AI算力快速成長，資料中心伺服器與高效能運算設備的功率密度持續提高，「電力」正成為AI基礎建設能否快速擴充的重要關鍵。從供電容量、配電安全，到空間利用與未來擴充能力，資料中心的電力架構正面臨新一波升級",
+        "cluster_id": "cluster-7db8a93faf1f3be1",
+        "id": "digitimes_tw-417633543f65",
+        "title_zh": "每日椽真：欣興「洗產地」疑雲 | Tier 1視角看中國汽車產業血淚教訓 | 台灣製造知識成實體AI稀缺資產",
+        "summary": "台系IC載板大廠欣興傳出，因涉及「洗產地」爭議遭檢調搜索消息，引發供應鏈高度關注。業界分析，對台灣電子業而言，此一跨境分工的供應鏈運作模式，可說是行之有年，但是否構成洗產地行為，在法律上則取決於「實質轉型」要件，否則即有可能被認定為產地標示不實。2026年全球汽車與科技博覽會（GATE",
         "source_id": "digitimes_tw",
         "source": "DIGITIMES",
-        "published_at": "2026-08-30T19:11:54Z",
-        "canonical_url": "https://www.digitimes.com.tw/tech/dt/n/shwnws.asp?id=0000766597_NUL6V2BF80361L88FOTFF"
+        "published_at": "2026-08-30T21:29:05Z",
+        "canonical_url": "https://www.digitimes.com.tw/tech/dt/n/shwnws.asp?id=0000766767_GMI88I6V543XF88OQPT0M"
       }
     },
     {
@@ -442,21 +450,21 @@
     },
     {
       "rank": 5,
-      "theme_id": "statementdog_tag_259",
-      "name_zh": "汽車",
+      "theme_id": "thermal_cooling",
+      "name_zh": "散熱與液冷",
       "heat_score": 50,
       "summaries": {
-        "event_count": 5,
+        "event_count": 2,
         "source_count": 2,
-        "tracking_candidate_count": 0,
-        "taiwan_mapping_count": 25
+        "tracking_candidate_count": 1,
+        "taiwan_mapping_count": 4
       },
       "heat_reason": {
         "rule_version": "public_theme_heat_v0.8",
         "event_component": {
-          "input": 5,
-          "normalized": 83.333,
-          "weighted": 20.833
+          "input": 2,
+          "normalized": 33.333,
+          "weighted": 8.333
         },
         "source_component": {
           "input": 2,
@@ -464,58 +472,36 @@
           "weighted": 12.5
         },
         "candidate_component": {
-          "input": 0,
-          "normalized": 0.0,
-          "weighted": 0.0
+          "input": 1,
+          "normalized": 25.0,
+          "weighted": 5.0
         },
         "mapping_component": {
-          "mapping_count": 25,
+          "mapping_count": 4,
           "direct_mapping_event_count": 1,
           "normalized": 80.0,
           "weighted": 24.0
         },
-        "single_source_concentration": 0.8,
-        "concentration_penalty": 7.5,
+        "single_source_concentration": 0.5,
+        "concentration_penalty": 0.0,
         "raw_score": 49.833
       },
       "direct_mentions": [
         {
-          "instrument_id": "TWSE:2030",
-          "symbol": "2030",
+          "instrument_id": "TWSE:2028",
+          "symbol": "2028",
           "exchange": "TWSE",
-          "name_zh": "彰源",
+          "name_zh": "威致",
           "direct_event_count": 1,
-          "latest_mentioned_at": "2026-08-30T18:41:20Z"
+          "latest_mentioned_at": "2026-08-30T18:48:44Z"
         }
       ],
       "supply_chain_candidates": [
         {
-          "instrument_id": "TPEX:3552",
-          "symbol": "3552",
-          "exchange": "TPEX",
-          "name_zh": "同致",
-          "direct_event_count": 0,
-          "official_evidence_count": 0,
-          "company_rank_score": 1,
-          "latest_mentioned_at": null,
-          "latest_official_at": null
-        },
-        {
-          "instrument_id": "TPEX:3675",
-          "symbol": "3675",
-          "exchange": "TPEX",
-          "name_zh": "德微",
-          "direct_event_count": 0,
-          "official_evidence_count": 0,
-          "company_rank_score": 1,
-          "latest_mentioned_at": null,
-          "latest_official_at": null
-        },
-        {
-          "instrument_id": "TPEX:5425",
-          "symbol": "5425",
-          "exchange": "TPEX",
-          "name_zh": "台半",
+          "instrument_id": "TWSE:3653",
+          "symbol": "3653",
+          "exchange": "TWSE",
+          "name_zh": "健策",
           "direct_event_count": 0,
           "official_evidence_count": 0,
           "company_rank_score": 1,
@@ -524,14 +510,14 @@
         }
       ],
       "representative_news": {
-        "cluster_id": "cluster-7f20240be8bc08fe",
-        "id": "digitimes_tw-dc2d50970df0",
-        "title_zh": "現代汽車揭EV需求斷層已結束　2030年推逾100款新車、擴產127萬輛",
-        "summary": "現代汽車（Hyundai Motor）社長Jos&eacute; Mu&ntilde;oz日前表示，他認為全球電動車（EV）需求斷層（chasm）現象基本上已經消除，並提出現代汽車至2030年將在全球市場推出逾100款新車、擴增全球127萬",
+        "cluster_id": "cluster-6db32dd480b680fb",
+        "id": "digitimes_tw-16556c66db11",
+        "title_zh": "尼得科超眾氣冷跨液冷　擴產越南攻AI伺服器商機",
+        "summary": "散熱模組廠尼得科超眾指出，看好AI伺服器散熱需求，將會建立液冷專門團隊，並強化與大型雲端服務公司的合作，並從目前在中國昆山的散熱產能，擴展到越南河內，預計2028年量產出貨。尼得科超眾指出，目前該公司主",
         "source_id": "digitimes_tw",
         "source": "DIGITIMES",
-        "published_at": "2026-08-30T18:41:20Z",
-        "canonical_url": "https://www.digitimes.com.tw/tech/dt/n/shwnws.asp?id=0000766451_4EX5SR494II9WO2WNFF16"
+        "published_at": "2026-08-30T18:48:44Z",
+        "canonical_url": "https://www.digitimes.com.tw/tech/dt/n/shwnws.asp?id=0000766658_ESL76OQL4UTC6A972GDIU"
       }
     }
   ]
