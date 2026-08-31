@@ -2,14 +2,14 @@
   "schema_version": "nexus_public_theme_ranking.v0.8",
   "ranking_rule_version": "public_theme_heat_v0.8",
   "company_rule_version": "public_company_evidence_v0.8",
-  "generated_at": "2026-08-31T20:07:36.671985Z",
+  "generated_at": "2026-08-31T23:52:33.513893Z",
   "market_id": "TW_EQUITY",
   "market_scope": [
     "TW_EQUITY"
   ],
   "window_hours": 72,
   "max_themes": 5,
-  "qualified_theme_count": 9,
+  "qualified_theme_count": 7,
   "displayed_theme_count": 5,
   "threshold_note": null,
   "generation_status": "complete",
@@ -146,17 +146,17 @@
       "rank": 2,
       "theme_id": "memory_hbm",
       "name_zh": "記憶體與 HBM",
-      "heat_score": 91,
+      "heat_score": 86,
       "summaries": {
-        "event_count": 8,
+        "event_count": 9,
         "source_count": 3,
-        "tracking_candidate_count": 4,
+        "tracking_candidate_count": 3,
         "taiwan_mapping_count": 29
       },
       "heat_reason": {
         "rule_version": "public_theme_heat_v0.8",
         "event_component": {
-          "input": 8,
+          "input": 9,
           "normalized": 100.0,
           "weighted": 25.0
         },
@@ -166,19 +166,19 @@
           "weighted": 18.75
         },
         "candidate_component": {
-          "input": 4,
-          "normalized": 100.0,
-          "weighted": 20.0
+          "input": 3,
+          "normalized": 75.0,
+          "weighted": 15.0
         },
         "mapping_component": {
           "mapping_count": 29,
-          "direct_mapping_event_count": 3,
+          "direct_mapping_event_count": 2,
           "normalized": 100.0,
           "weighted": 30.0
         },
         "single_source_concentration": 0.667,
         "concentration_penalty": 2.5,
-        "raw_score": 91.25
+        "raw_score": 86.25
       },
       "direct_mentions": [
         {
@@ -196,14 +196,6 @@
           "name_zh": "大成鋼",
           "direct_event_count": 1,
           "latest_mentioned_at": "2026-08-31T18:35:41Z"
-        },
-        {
-          "instrument_id": "TWSE:2330",
-          "symbol": "2330",
-          "exchange": "TWSE",
-          "name_zh": "台積電",
-          "direct_event_count": 1,
-          "latest_mentioned_at": "2026-08-31T14:16:15Z"
         }
       ],
       "supply_chain_candidates": [
@@ -259,9 +251,9 @@
       "heat_score": 80,
       "summaries": {
         "event_count": 18,
-        "source_count": 5,
+        "source_count": 4,
         "tracking_candidate_count": 0,
-        "taiwan_mapping_count": 91
+        "taiwan_mapping_count": 90
       },
       "heat_reason": {
         "rule_version": "public_theme_heat_v0.8",
@@ -271,7 +263,7 @@
           "weighted": 25.0
         },
         "source_component": {
-          "input": 5,
+          "input": 4,
           "normalized": 100.0,
           "weighted": 25.0
         },
@@ -281,16 +273,24 @@
           "weighted": 0.0
         },
         "mapping_component": {
-          "mapping_count": 91,
-          "direct_mapping_event_count": 11,
+          "mapping_count": 90,
+          "direct_mapping_event_count": 10,
           "normalized": 100.0,
           "weighted": 30.0
         },
-        "single_source_concentration": 0.474,
+        "single_source_concentration": 0.5,
         "concentration_penalty": 0.0,
         "raw_score": 80.0
       },
       "direct_mentions": [
+        {
+          "instrument_id": "TWSE:2454",
+          "symbol": "2454",
+          "exchange": "TWSE",
+          "name_zh": "聯發科",
+          "direct_event_count": 3,
+          "latest_mentioned_at": "2026-08-31T23:39:23Z"
+        },
         {
           "instrument_id": "TWSE:3711",
           "symbol": "3711",
@@ -298,14 +298,6 @@
           "name_zh": "日月光投控",
           "direct_event_count": 3,
           "latest_mentioned_at": "2026-08-31T18:05:12Z"
-        },
-        {
-          "instrument_id": "TWSE:2454",
-          "symbol": "2454",
-          "exchange": "TWSE",
-          "name_zh": "聯發科",
-          "direct_event_count": 3,
-          "latest_mentioned_at": "2026-08-31T13:53:46Z"
         },
         {
           "instrument_id": "TWSE:2027",
@@ -322,14 +314,6 @@
           "name_zh": "千興",
           "direct_event_count": 1,
           "latest_mentioned_at": "2026-08-31T18:48:47Z"
-        },
-        {
-          "instrument_id": "TWSE:4562",
-          "symbol": "4562",
-          "exchange": "TWSE",
-          "name_zh": "穎漢",
-          "direct_event_count": 1,
-          "latest_mentioned_at": "2026-08-31T13:53:00Z"
         },
         {
           "instrument_id": "TWSE:2330",
@@ -350,6 +334,17 @@
       ],
       "supply_chain_candidates": [
         {
+          "instrument_id": "TWSE:2454",
+          "symbol": "2454",
+          "exchange": "TWSE",
+          "name_zh": "聯發科",
+          "direct_event_count": 3,
+          "official_evidence_count": 0,
+          "company_rank_score": 13,
+          "latest_mentioned_at": "2026-08-31T23:39:23Z",
+          "latest_official_at": null
+        },
+        {
           "instrument_id": "TWSE:3711",
           "symbol": "3711",
           "exchange": "TWSE",
@@ -358,17 +353,6 @@
           "official_evidence_count": 0,
           "company_rank_score": 13,
           "latest_mentioned_at": "2026-08-31T18:05:12Z",
-          "latest_official_at": null
-        },
-        {
-          "instrument_id": "TWSE:2454",
-          "symbol": "2454",
-          "exchange": "TWSE",
-          "name_zh": "聯發科",
-          "direct_event_count": 3,
-          "official_evidence_count": 0,
-          "company_rank_score": 13,
-          "latest_mentioned_at": "2026-08-31T13:53:46Z",
           "latest_official_at": null
         },
         {
@@ -384,97 +368,61 @@
         }
       ],
       "representative_news": {
-        "cluster_id": "cluster-3ba495b87a92973e",
-        "id": "cnyes-d19778b46399",
-        "title_zh": "聯發科搶XPU、輝達賣整套 黃仁勳首揭AI兩強結盟盤算",
-        "summary": "輝達(NVDA-US)今(31)日宣布斥資35億美元認購聯發科(2454-TW)海外第一次無擔保轉換公司債(ECB)，雙方合作正式從既有邊緣AI與PC晶片，全面擴大至客製化XPU與AI Factory。輝達執行長黃仁勳與",
-        "source_id": "cnyes",
-        "source": "鉅亨網 Cnyes",
-        "published_at": "2026-08-31T13:53:46Z",
-        "canonical_url": "https://news.cnyes.com/news/id/6593156"
+        "cluster_id": "cluster-d04d2df06f18590e",
+        "id": "yahoo_finance_tw-b082946b8371",
+        "title_zh": "輝達認購聯發科35億美元海外可轉債，擴張AI硬體生態系",
+        "summary": "【財訊快報／陳孟朔】路透報導，輝達(Nvidia，美股代碼NVDA)週一宣布斥資35億美元，認購聯發科(2454)發行、未來可轉換為普通股的海外可轉換公司債，進一步深化雙方在人工智慧(AI)基礎設施、",
+        "source_id": "yahoo_finance_tw",
+        "source": "Yahoo Finance Taiwan",
+        "published_at": "2026-08-31T23:39:23Z",
+        "canonical_url": "https://tw.stock.yahoo.com/news/%E8%BC%9D%E9%81%94%E8%AA%8D%E8%B3%BC%E8%81%AF%E7%99%BC%E7%A7%9135%E5%84%84%E7%BE%8E%E5%85%83%E6%B5%B7%E5%A4%96%E5%8F%AF%E8%BD%89%E5%82%B5-%E6%93%B4%E5%BC%B5ai%E7%A1%AC%E9%AB%94%E7%94%9F%E6%85%8B%E7%B3%BB-233923965.html"
       }
     },
     {
       "rank": 4,
-      "theme_id": "statementdog_tag_2163",
-      "name_zh": "半導體",
-      "heat_score": 76,
+      "theme_id": "defense_drone",
+      "name_zh": "國防與無人機",
+      "heat_score": 64,
       "summaries": {
-        "event_count": 5,
-        "source_count": 4,
-        "tracking_candidate_count": 0,
-        "taiwan_mapping_count": 19
+        "event_count": 6,
+        "source_count": 3,
+        "tracking_candidate_count": 1,
+        "taiwan_mapping_count": 3
       },
       "heat_reason": {
         "rule_version": "public_theme_heat_v0.8",
         "event_component": {
-          "input": 5,
-          "normalized": 83.333,
-          "weighted": 20.833
-        },
-        "source_component": {
-          "input": 4,
+          "input": 6,
           "normalized": 100.0,
           "weighted": 25.0
         },
+        "source_component": {
+          "input": 3,
+          "normalized": 75.0,
+          "weighted": 18.75
+        },
         "candidate_component": {
-          "input": 0,
-          "normalized": 0.0,
-          "weighted": 0.0
+          "input": 1,
+          "normalized": 25.0,
+          "weighted": 5.0
         },
         "mapping_component": {
-          "mapping_count": 19,
-          "direct_mapping_event_count": 3,
-          "normalized": 100.0,
-          "weighted": 30.0
+          "mapping_count": 3,
+          "direct_mapping_event_count": 0,
+          "normalized": 60.0,
+          "weighted": 18.0
         },
-        "single_source_concentration": 0.4,
-        "concentration_penalty": 0.0,
-        "raw_score": 75.833
+        "single_source_concentration": 0.667,
+        "concentration_penalty": 2.5,
+        "raw_score": 64.25
       },
-      "direct_mentions": [
-        {
-          "instrument_id": "TWSE:2409",
-          "symbol": "2409",
-          "exchange": "TWSE",
-          "name_zh": "友達",
-          "direct_event_count": 1,
-          "latest_mentioned_at": "2026-08-31T14:08:56Z"
-        },
-        {
-          "instrument_id": "TWSE:3711",
-          "symbol": "3711",
-          "exchange": "TWSE",
-          "name_zh": "日月光投控",
-          "direct_event_count": 1,
-          "latest_mentioned_at": "2026-08-31T10:14:00Z"
-        },
-        {
-          "instrument_id": "TWSE:2030",
-          "symbol": "2030",
-          "exchange": "TWSE",
-          "name_zh": "彰源",
-          "direct_event_count": 1,
-          "latest_mentioned_at": "2026-08-31T07:03:26Z"
-        }
-      ],
+      "direct_mentions": [],
       "supply_chain_candidates": [
         {
-          "instrument_id": "TWSE:3711",
-          "symbol": "3711",
-          "exchange": "TWSE",
-          "name_zh": "日月光投控",
-          "direct_event_count": 1,
-          "official_evidence_count": 0,
-          "company_rank_score": 5,
-          "latest_mentioned_at": "2026-08-31T10:14:00Z",
-          "latest_official_at": null
-        },
-        {
-          "instrument_id": "TPEX:3131",
-          "symbol": "3131",
+          "instrument_id": "TPEX:5371",
+          "symbol": "5371",
           "exchange": "TPEX",
-          "name_zh": "弘塑",
+          "name_zh": "中光電",
           "direct_event_count": 0,
           "official_evidence_count": 0,
           "company_rank_score": 1,
@@ -482,10 +430,21 @@
           "latest_official_at": null
         },
         {
-          "instrument_id": "TPEX:3680",
-          "symbol": "3680",
-          "exchange": "TPEX",
-          "name_zh": "家登",
+          "instrument_id": "TWSE:2634",
+          "symbol": "2634",
+          "exchange": "TWSE",
+          "name_zh": "漢翔",
+          "direct_event_count": 0,
+          "official_evidence_count": 0,
+          "company_rank_score": 1,
+          "latest_mentioned_at": null,
+          "latest_official_at": null
+        },
+        {
+          "instrument_id": "TWSE:8033",
+          "symbol": "8033",
+          "exchange": "TWSE",
+          "name_zh": "雷虎",
           "direct_event_count": 0,
           "official_evidence_count": 0,
           "company_rank_score": 1,
@@ -494,14 +453,14 @@
         }
       ],
       "representative_news": {
-        "cluster_id": "cluster-7602727f3f145e4c",
-        "id": "digitimes_tw-5375d30bc549",
-        "title_zh": "BETHEL於SEMICON Taiwan 2026展出熱管理評估技術突破半導體接合散熱瓶頸",
-        "summary": "日本熱物性測定設備製造商BETHEL將參展SEMICON Taiwan 2026，展示用於半導體與先進材料開發的熱物性測定技術。BETHEL的熱物性測定事業源於1999年自日本產業技術綜合研究所（AIST）移轉的技術，並歷",
+        "cluster_id": "cluster-79433c240a04be8c",
+        "id": "digitimes_tw-aa7861282206",
+        "title_zh": "美國無人機政策攻防並進　雷射反制、BVLOS商用同步加速",
+        "summary": "美國正從「防禦」與「應用」兩端同步加速無人機布局。面對無人機侵入機場、關鍵設施甚至武器化威脅風險，美國國防部正推動高功率雷射、微波等反無人機技術部署。另一方面，美國運輸部（DOT）與聯邦航空總署（FAA）則擴大BEYOND測試計畫，為大型、長程及視距外商用無人機建立更成熟的監管基礎。彭博（Bloomberg）報導，在",
         "source_id": "digitimes_tw",
         "source": "DIGITIMES",
-        "published_at": "2026-08-31T19:49:34Z",
-        "canonical_url": "https://www.digitimes.com.tw/tech/dt/n/shwnws.asp?id=0000766732_IN76PT234NF81Q1FL60UW"
+        "published_at": "2026-08-31T18:33:26Z",
+        "canonical_url": "https://www.digitimes.com.tw/tech/dt/n/shwnws.asp?id=0000766852_2QO935GS4Y367B3G4O83C"
       }
     },
     {
