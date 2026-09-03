@@ -2,14 +2,14 @@
   "schema_version": "nexus_public_theme_ranking.v0.8",
   "ranking_rule_version": "public_theme_heat_v0.8",
   "company_rule_version": "public_company_evidence_v0.8",
-  "generated_at": "2026-09-03T19:51:27.025581Z",
+  "generated_at": "2026-09-03T22:36:16.697699Z",
   "market_id": "TW_EQUITY",
   "market_scope": [
     "TW_EQUITY"
   ],
   "window_hours": 72,
   "max_themes": 5,
-  "qualified_theme_count": 12,
+  "qualified_theme_count": 11,
   "displayed_theme_count": 5,
   "threshold_note": null,
   "generation_status": "complete",
@@ -138,17 +138,17 @@
       "rank": 2,
       "theme_id": "defense_drone",
       "name_zh": "國防與無人機",
-      "heat_score": 83,
+      "heat_score": 84,
       "summaries": {
-        "event_count": 8,
+        "event_count": 7,
         "source_count": 4,
-        "tracking_candidate_count": 3,
-        "taiwan_mapping_count": 3
+        "tracking_candidate_count": 2,
+        "taiwan_mapping_count": 4
       },
       "heat_reason": {
         "rule_version": "public_theme_heat_v0.8",
         "event_component": {
-          "input": 8,
+          "input": 7,
           "normalized": 100.0,
           "weighted": 25.0
         },
@@ -158,21 +158,30 @@
           "weighted": 25.0
         },
         "candidate_component": {
-          "input": 3,
-          "normalized": 75.0,
-          "weighted": 15.0
+          "input": 2,
+          "normalized": 50.0,
+          "weighted": 10.0
         },
         "mapping_component": {
-          "mapping_count": 3,
-          "direct_mapping_event_count": 0,
-          "normalized": 60.0,
-          "weighted": 18.0
+          "mapping_count": 4,
+          "direct_mapping_event_count": 1,
+          "normalized": 80.0,
+          "weighted": 24.0
         },
-        "single_source_concentration": 0.5,
+        "single_source_concentration": 0.571,
         "concentration_penalty": 0.0,
-        "raw_score": 83.0
+        "raw_score": 84.0
       },
-      "direct_mentions": [],
+      "direct_mentions": [
+        {
+          "instrument_id": "TWSE:2338",
+          "symbol": "2338",
+          "exchange": "TWSE",
+          "name_zh": "光罩",
+          "direct_event_count": 1,
+          "latest_mentioned_at": "2026-09-03T21:00:01Z"
+        }
+      ],
       "supply_chain_candidates": [
         {
           "instrument_id": "TPEX:5371",
@@ -221,6 +230,140 @@
     },
     {
       "rank": 3,
+      "theme_id": "statementdog_tag_1517",
+      "name_zh": "AI",
+      "heat_score": 80,
+      "summaries": {
+        "event_count": 18,
+        "source_count": 4,
+        "tracking_candidate_count": 0,
+        "taiwan_mapping_count": 126
+      },
+      "heat_reason": {
+        "rule_version": "public_theme_heat_v0.8",
+        "event_component": {
+          "input": 18,
+          "normalized": 100.0,
+          "weighted": 25.0
+        },
+        "source_component": {
+          "input": 4,
+          "normalized": 100.0,
+          "weighted": 25.0
+        },
+        "candidate_component": {
+          "input": 0,
+          "normalized": 0.0,
+          "weighted": 0.0
+        },
+        "mapping_component": {
+          "mapping_count": 126,
+          "direct_mapping_event_count": 5,
+          "normalized": 100.0,
+          "weighted": 30.0
+        },
+        "single_source_concentration": 0.556,
+        "concentration_penalty": 0.0,
+        "raw_score": 80.0
+      },
+      "direct_mentions": [
+        {
+          "instrument_id": "TWSE:2455",
+          "symbol": "2455",
+          "exchange": "TWSE",
+          "name_zh": "全新",
+          "direct_event_count": 2,
+          "latest_mentioned_at": "2026-09-03T09:18:47Z"
+        },
+        {
+          "instrument_id": "TPEX:2035",
+          "symbol": "2035",
+          "exchange": "TPEX",
+          "name_zh": "唐榮公司",
+          "direct_event_count": 1,
+          "latest_mentioned_at": "2026-09-03T22:05:30Z"
+        },
+        {
+          "instrument_id": "TWSE:2025",
+          "symbol": "2025",
+          "exchange": "TWSE",
+          "name_zh": "千興",
+          "direct_event_count": 1,
+          "latest_mentioned_at": "2026-09-03T22:05:30Z"
+        },
+        {
+          "instrument_id": "TWSE:3669",
+          "symbol": "3669",
+          "exchange": "TWSE",
+          "name_zh": "圓展",
+          "direct_event_count": 1,
+          "latest_mentioned_at": "2026-09-03T19:56:39Z"
+        },
+        {
+          "instrument_id": "TWSE:2030",
+          "symbol": "2030",
+          "exchange": "TWSE",
+          "name_zh": "彰源",
+          "direct_event_count": 1,
+          "latest_mentioned_at": "2026-09-03T18:49:29Z"
+        },
+        {
+          "instrument_id": "TWSE:2498",
+          "symbol": "2498",
+          "exchange": "TWSE",
+          "name_zh": "宏達電",
+          "direct_event_count": 1,
+          "latest_mentioned_at": "2026-09-03T09:18:47Z"
+        }
+      ],
+      "supply_chain_candidates": [
+        {
+          "instrument_id": "TPEX:3081",
+          "symbol": "3081",
+          "exchange": "TPEX",
+          "name_zh": "聯亞",
+          "direct_event_count": 0,
+          "official_evidence_count": 0,
+          "company_rank_score": 1,
+          "latest_mentioned_at": null,
+          "latest_official_at": null
+        },
+        {
+          "instrument_id": "TPEX:3324",
+          "symbol": "3324",
+          "exchange": "TPEX",
+          "name_zh": "雙鴻",
+          "direct_event_count": 0,
+          "official_evidence_count": 0,
+          "company_rank_score": 1,
+          "latest_mentioned_at": null,
+          "latest_official_at": null
+        },
+        {
+          "instrument_id": "TPEX:3363",
+          "symbol": "3363",
+          "exchange": "TPEX",
+          "name_zh": "上詮",
+          "direct_event_count": 0,
+          "official_evidence_count": 0,
+          "company_rank_score": 1,
+          "latest_mentioned_at": null,
+          "latest_official_at": null
+        }
+      ],
+      "representative_news": {
+        "cluster_id": "cluster-ce77e3c6cc7cb21a",
+        "id": "yahoo_finance_tw-ee84a7599404",
+        "title_zh": "不是AI科技業！未來十年成長最快10大職業 6個在同領域",
+        "summary": "CNBC報導，根據美國勞工統計局（BLS）公布2025至2035年就業預測報告，未來十年成長最快的十大職業中，高達6個職業皆來自同一個產業，即醫療保健產業，搶手程度超越熱門的科技與AI相關領域。",
+        "source_id": "yahoo_finance_tw",
+        "source": "Yahoo Finance Taiwan",
+        "published_at": "2026-09-03T22:05:30Z",
+        "canonical_url": "https://tw.stock.yahoo.com/news/%E4%B8%8D%E6%98%AFai%E7%A7%91%E6%8A%80%E6%A5%AD-%E6%9C%AA%E4%BE%86%E5%8D%81%E5%B9%B4%E6%88%90%E9%95%B7%E6%9C%80%E5%BF%AB10%E5%A4%A7%E8%81%B7%E6%A5%AD-6%E5%80%8B%E5%9C%A8%E5%90%8C%E9%A0%98%E5%9F%9F-220530863.html"
+      }
+    },
+    {
+      "rank": 4,
       "theme_id": "optical_cpo",
       "name_zh": "矽光子 CPO",
       "heat_score": 80,
@@ -322,137 +465,27 @@
       }
     },
     {
-      "rank": 4,
-      "theme_id": "statementdog_tag_1517",
-      "name_zh": "AI",
-      "heat_score": 74,
+      "rank": 5,
+      "theme_id": "cowos_supply_chain",
+      "name_zh": "CoWoS 先進封裝",
+      "heat_score": 78,
       "summaries": {
-        "event_count": 17,
-        "source_count": 3,
-        "tracking_candidate_count": 0,
-        "taiwan_mapping_count": 123
+        "event_count": 6,
+        "source_count": 2,
+        "tracking_candidate_count": 2,
+        "taiwan_mapping_count": 4
       },
       "heat_reason": {
         "rule_version": "public_theme_heat_v0.8",
         "event_component": {
-          "input": 17,
+          "input": 6,
           "normalized": 100.0,
           "weighted": 25.0
         },
         "source_component": {
-          "input": 3,
-          "normalized": 75.0,
-          "weighted": 18.75
-        },
-        "candidate_component": {
-          "input": 0,
-          "normalized": 0.0,
-          "weighted": 0.0
-        },
-        "mapping_component": {
-          "mapping_count": 123,
-          "direct_mapping_event_count": 3,
-          "normalized": 100.0,
-          "weighted": 30.0
-        },
-        "single_source_concentration": 0.529,
-        "concentration_penalty": 0.0,
-        "raw_score": 73.75
-      },
-      "direct_mentions": [
-        {
-          "instrument_id": "TWSE:2455",
-          "symbol": "2455",
-          "exchange": "TWSE",
-          "name_zh": "全新",
-          "direct_event_count": 2,
-          "latest_mentioned_at": "2026-09-03T09:18:47Z"
-        },
-        {
-          "instrument_id": "TWSE:2030",
-          "symbol": "2030",
-          "exchange": "TWSE",
-          "name_zh": "彰源",
-          "direct_event_count": 1,
-          "latest_mentioned_at": "2026-09-03T18:49:29Z"
-        },
-        {
-          "instrument_id": "TWSE:2498",
-          "symbol": "2498",
-          "exchange": "TWSE",
-          "name_zh": "宏達電",
-          "direct_event_count": 1,
-          "latest_mentioned_at": "2026-09-03T09:18:47Z"
-        }
-      ],
-      "supply_chain_candidates": [
-        {
-          "instrument_id": "TPEX:3081",
-          "symbol": "3081",
-          "exchange": "TPEX",
-          "name_zh": "聯亞",
-          "direct_event_count": 0,
-          "official_evidence_count": 0,
-          "company_rank_score": 1,
-          "latest_mentioned_at": null,
-          "latest_official_at": null
-        },
-        {
-          "instrument_id": "TPEX:3324",
-          "symbol": "3324",
-          "exchange": "TPEX",
-          "name_zh": "雙鴻",
-          "direct_event_count": 0,
-          "official_evidence_count": 0,
-          "company_rank_score": 1,
-          "latest_mentioned_at": null,
-          "latest_official_at": null
-        },
-        {
-          "instrument_id": "TPEX:3363",
-          "symbol": "3363",
-          "exchange": "TPEX",
-          "name_zh": "上詮",
-          "direct_event_count": 0,
-          "official_evidence_count": 0,
-          "company_rank_score": 1,
-          "latest_mentioned_at": null,
-          "latest_official_at": null
-        }
-      ],
-      "representative_news": {
-        "cluster_id": "cluster-e976fef1cf41a672",
-        "id": "digitimes_tw-cc04e37db8a9",
-        "title_zh": "QSAN攜手安圖斯科技打造企業地端AI基礎架構",
-        "summary": "企業AI基礎建設解決方案領導品牌廣盛科技股份有限公司（QSAN），宣布與宏碁旗下安圖斯科技合作推出企業級地端AI解決方案。透過整合QSAN XN5統合儲存、安圖斯AI伺服器與Altos",
-        "source_id": "digitimes_tw",
-        "source": "DIGITIMES",
-        "published_at": "2026-09-03T19:47:19Z",
-        "canonical_url": "https://www.digitimes.com.tw/tech/dt/n/shwnws.asp?id=0000766131_MMK2WODU2L6FBP2JCR49J"
-      }
-    },
-    {
-      "rank": 5,
-      "theme_id": "memory_hbm",
-      "name_zh": "記憶體與 HBM",
-      "heat_score": 74,
-      "summaries": {
-        "event_count": 5,
-        "source_count": 3,
-        "tracking_candidate_count": 2,
-        "taiwan_mapping_count": 32
-      },
-      "heat_reason": {
-        "rule_version": "public_theme_heat_v0.8",
-        "event_component": {
-          "input": 5,
-          "normalized": 83.333,
-          "weighted": 20.833
-        },
-        "source_component": {
-          "input": 3,
-          "normalized": 75.0,
-          "weighted": 18.75
+          "input": 2,
+          "normalized": 50.0,
+          "weighted": 12.5
         },
         "candidate_component": {
           "input": 2,
@@ -460,69 +493,43 @@
           "weighted": 10.0
         },
         "mapping_component": {
-          "mapping_count": 32,
-          "direct_mapping_event_count": 1,
-          "normalized": 80.0,
-          "weighted": 24.0
+          "mapping_count": 4,
+          "direct_mapping_event_count": 2,
+          "normalized": 100.0,
+          "weighted": 30.0
         },
-        "single_source_concentration": 0.6,
+        "single_source_concentration": 0.5,
         "concentration_penalty": 0.0,
-        "raw_score": 73.583
+        "raw_score": 77.5
       },
       "direct_mentions": [
         {
-          "instrument_id": "TWSE:3704",
-          "symbol": "3704",
+          "instrument_id": "TWSE:2027",
+          "symbol": "2027",
           "exchange": "TWSE",
-          "name_zh": "合勤控",
-          "direct_event_count": 1,
-          "latest_mentioned_at": "2026-09-03T11:38:51Z"
-        }
-      ],
-      "supply_chain_candidates": [
-        {
-          "instrument_id": "TPEX:8299",
-          "symbol": "8299",
-          "exchange": "TPEX",
-          "name_zh": "群聯",
-          "direct_event_count": 0,
-          "official_evidence_count": 0,
-          "company_rank_score": 1,
-          "latest_mentioned_at": null,
-          "latest_official_at": null
+          "name_zh": "大成鋼",
+          "direct_event_count": 2,
+          "latest_mentioned_at": "2026-09-03T21:12:19Z"
         },
         {
-          "instrument_id": "TWSE:2344",
-          "symbol": "2344",
+          "instrument_id": "TWSE:2330",
+          "symbol": "2330",
           "exchange": "TWSE",
-          "name_zh": "華邦電",
-          "direct_event_count": 0,
-          "official_evidence_count": 0,
-          "company_rank_score": 1,
-          "latest_mentioned_at": null,
-          "latest_official_at": null
-        },
-        {
-          "instrument_id": "TWSE:2408",
-          "symbol": "2408",
-          "exchange": "TWSE",
-          "name_zh": "南亞科",
-          "direct_event_count": 0,
-          "official_evidence_count": 0,
-          "company_rank_score": 1,
-          "latest_mentioned_at": null,
-          "latest_official_at": null
+          "name_zh": "台積電",
+          "direct_event_count": 2,
+          "latest_mentioned_at": "2026-09-03T21:12:19Z"
         }
       ],
+      "supply_chain_candidates": [],
       "representative_news": {
-        "cluster_id": "cluster-3e55b46c5cadd867",
-        "id": "digitimes_tw-559853e2f94b",
-        "title_zh": "觀察：中國打出記憶體三張牌　長鑫、長存、武漢新芯各自突圍",
-        "summary": "中國記憶體產業正轉變打法。過去，中國面臨「缺一家能打的本土大廠」，如今逐漸形成分進合擊的局面：長鑫存儲攻DRAM、長江存儲拚3D NAND，武漢新芯則把NOR",
+        "cluster_id": "cluster-add191f03ae42508",
+        "id": "digitimes_tw-9dac22907a94",
+        "title_zh": "大廠苦等台積電CoWoS　英特爾EMIB-T趁勢搶當備胎",
+        "summary": "台積電CoWoS先進封裝產能傳已排至2027年，AI晶片客戶甚至得等待超過1年。GPU、特用晶片（ASIC）不再只缺先進製程，而是連「封裝名額」都成為稀缺資源，也讓英特爾（Intel）EMIB-",
         "source_id": "digitimes_tw",
         "source": "DIGITIMES",
-        "published_at": "2026-09-03T18:50:02Z",
-        "canonical_url": "https://www.digitimes.com.tw/tech/dt/n/shwnws.asp?id=0000767255_SAH1C5KX6AH3V44EHKQLW"
+        "published_at": "2026-09-03T18:49:19Z",
+        "canonical_url": "https://www.digitimes.com.tw/tech/dt/n/shwnws.asp?id=0000767100_MJV00UJ3107SOMLPJXMMB"
       }
     }
   ]
