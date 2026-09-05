@@ -1,12 +1,10 @@
 {
-  "generated_at": "2026-09-05T16:50:11.470755Z",
-  "fetched_raw_items": 304,
-  "items_before_topic_filter": 304,
-  "successful_sites": 5,
-  "failed_count": 1,
-  "failed_sites": [
-    "mops"
-  ],
+  "generated_at": "2026-09-05T19:02:44.448538Z",
+  "fetched_raw_items": 310,
+  "items_before_topic_filter": 310,
+  "successful_sites": 6,
+  "failed_count": 0,
+  "failed_sites": [],
   "sites": [
     {
       "source_id": "cnyes",
@@ -15,10 +13,10 @@
       "adapter": "rss",
       "fetch_method": "rss",
       "status": "ok",
-      "items": 81,
+      "items": 87,
       "error": null,
       "feed_url": "https://news.cnyes.com/rss/v1/news/category/all",
-      "elapsed_ms": 1076
+      "elapsed_ms": 653
     },
     {
       "source_id": "digitimes_tw",
@@ -30,7 +28,7 @@
       "items": 113,
       "error": null,
       "feed_url": "https://www.digitimes.com.tw/rss/news.xml",
-      "elapsed_ms": 1119
+      "elapsed_ms": 980
     },
     {
       "source_id": "moneydj",
@@ -42,7 +40,7 @@
       "items": 20,
       "error": null,
       "feed_url": "https://www.moneydj.com/KMDJ/RssCenter.aspx?svc=NW&a=MB010000",
-      "elapsed_ms": 829
+      "elapsed_ms": 771
     },
     {
       "source_id": "mops",
@@ -50,15 +48,15 @@
       "source_class": "official_disclosure",
       "adapter": "twse_openapi",
       "fetch_method": "twse_openapi",
-      "status": "error",
-      "items": 0,
-      "error": "t187ap04_L: HTTPSConnectionPool(host='openapi.twse.com.tw', port=443): Max retries exceeded with url: /v1/opendata/t187ap04_L (Caused by ConnectTimeoutError(<HTTPSConnection(host='openapi.twse.com.tw', port=443) at 0x7f5dac21a8d0>, 'Connection to openapi.twse.com.tw timed out. (connect timeout=20)')); t187ap26_L: HTTPSConnectionPool(host='openapi.twse.com.tw', port=443): Max retries exceeded with url: /v1/opendata/t187ap26_L (Caused by ConnectTimeoutError(<HTTPSConnection(host='openapi.twse.com.tw', port=443) at 0x7f5dac2686d0>, 'Connection to openapi.twse.com.tw timed out. (connect timeout=20)')); t187ap27_L: HTTPSConnectionPool(host='openapi.twse.com.tw', port=443): Max retries exceeded with url: /v1/opendata/t187ap27_L (Caused by ConnectTimeoutError(<HTTPSConnection(host='openapi.twse.com.tw', port=443) at 0x7f5dac242d10>, 'Connection to openapi.twse.com.tw timed out. (connect timeout=20)'))",
+      "status": "ok",
+      "items": 110,
+      "error": null,
       "endpoint": "https://openapi.twse.com.tw/v1",
       "catalog_path": "config/mops_datasets.tw.json",
       "catalog_sha256": "2c2cecccb7a220ac9e263228a7659aa49b1ada5aea397650e601ad3dfcc48043",
       "datasets_due": 3,
-      "datasets_ok": 0,
-      "datasets_failed": 3,
+      "datasets_ok": 3,
+      "datasets_failed": 0,
       "datasets_skipped": 9,
       "datasets": [
         {
@@ -66,33 +64,33 @@
           "path": "/opendata/t187ap04_L",
           "category": "material_information",
           "refresh_class": "hourly",
-          "status": "error",
-          "items": 0,
-          "error": "HTTPSConnectionPool(host='openapi.twse.com.tw', port=443): Max retries exceeded with url: /v1/opendata/t187ap04_L (Caused by ConnectTimeoutError(<HTTPSConnection(host='openapi.twse.com.tw', port=443) at 0x7f5dac21a8d0>, 'Connection to openapi.twse.com.tw timed out. (connect timeout=20)'))",
-          "elapsed_ms": 40525
+          "status": "ok",
+          "items": 108,
+          "error": null,
+          "elapsed_ms": 944
         },
         {
           "dataset_id": "t187ap26_L",
           "path": "/opendata/t187ap26_L",
           "category": "operational_control",
           "refresh_class": "hourly",
-          "status": "error",
-          "items": 0,
-          "error": "HTTPSConnectionPool(host='openapi.twse.com.tw', port=443): Max retries exceeded with url: /v1/opendata/t187ap26_L (Caused by ConnectTimeoutError(<HTTPSConnection(host='openapi.twse.com.tw', port=443) at 0x7f5dac2686d0>, 'Connection to openapi.twse.com.tw timed out. (connect timeout=20)'))",
-          "elapsed_ms": 40376
+          "status": "ok",
+          "items": 1,
+          "error": null,
+          "elapsed_ms": 148
         },
         {
           "dataset_id": "t187ap27_L",
           "path": "/opendata/t187ap27_L",
           "category": "operational_control",
           "refresh_class": "hourly",
-          "status": "error",
-          "items": 0,
-          "error": "HTTPSConnectionPool(host='openapi.twse.com.tw', port=443): Max retries exceeded with url: /v1/opendata/t187ap27_L (Caused by ConnectTimeoutError(<HTTPSConnection(host='openapi.twse.com.tw', port=443) at 0x7f5dac242d10>, 'Connection to openapi.twse.com.tw timed out. (connect timeout=20)'))",
-          "elapsed_ms": 40234
+          "status": "ok",
+          "items": 1,
+          "error": null,
+          "elapsed_ms": 144
         }
       ],
-      "elapsed_ms": 121136
+      "elapsed_ms": 1236
     },
     {
       "source_id": "technews",
@@ -104,7 +102,7 @@
       "items": 40,
       "error": null,
       "feed_url": "https://technews.tw/feed/",
-      "elapsed_ms": 795
+      "elapsed_ms": 718
     },
     {
       "source_id": "yahoo_finance_tw",
@@ -116,7 +114,7 @@
       "items": 50,
       "error": null,
       "feed_url": "https://tw.stock.yahoo.com/rss",
-      "elapsed_ms": 195
+      "elapsed_ms": 219
     }
   ]
 }
