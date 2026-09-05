@@ -2,14 +2,14 @@
   "schema_version": "nexus_public_theme_ranking.v0.8",
   "ranking_rule_version": "public_theme_heat_v0.8",
   "company_rule_version": "public_company_evidence_v0.8",
-  "generated_at": "2026-09-05T10:38:04.156682Z",
+  "generated_at": "2026-09-05T13:52:11.601160Z",
   "market_id": "TW_EQUITY",
   "market_scope": [
     "TW_EQUITY"
   ],
   "window_hours": 72,
   "max_themes": 5,
-  "qualified_theme_count": 9,
+  "qualified_theme_count": 12,
   "displayed_theme_count": 5,
   "threshold_note": null,
   "generation_status": "complete",
@@ -22,7 +22,7 @@
       "name_zh": "記憶體與 HBM",
       "heat_score": 100,
       "summaries": {
-        "event_count": 12,
+        "event_count": 13,
         "source_count": 4,
         "tracking_candidate_count": 7,
         "taiwan_mapping_count": 38
@@ -30,7 +30,7 @@
       "heat_reason": {
         "rule_version": "public_theme_heat_v0.8",
         "event_component": {
-          "input": 12,
+          "input": 13,
           "normalized": 100.0,
           "weighted": 25.0
         },
@@ -46,11 +46,11 @@
         },
         "mapping_component": {
           "mapping_count": 38,
-          "direct_mapping_event_count": 2,
+          "direct_mapping_event_count": 3,
           "normalized": 100.0,
           "weighted": 30.0
         },
-        "single_source_concentration": 0.538,
+        "single_source_concentration": 0.5,
         "concentration_penalty": 0.0,
         "raw_score": 100.0
       },
@@ -60,7 +60,7 @@
           "symbol": "2028",
           "exchange": "TWSE",
           "name_zh": "威致",
-          "direct_event_count": 1,
+          "direct_event_count": 2,
           "latest_mentioned_at": "2026-09-05T08:10:02Z"
         },
         {
@@ -124,15 +124,15 @@
       "name_zh": "AI",
       "heat_score": 80,
       "summaries": {
-        "event_count": 26,
+        "event_count": 27,
         "source_count": 4,
         "tracking_candidate_count": 0,
-        "taiwan_mapping_count": 119
+        "taiwan_mapping_count": 121
       },
       "heat_reason": {
         "rule_version": "public_theme_heat_v0.8",
         "event_component": {
-          "input": 26,
+          "input": 27,
           "normalized": 100.0,
           "weighted": 25.0
         },
@@ -147,12 +147,12 @@
           "weighted": 0.0
         },
         "mapping_component": {
-          "mapping_count": 119,
-          "direct_mapping_event_count": 8,
+          "mapping_count": 121,
+          "direct_mapping_event_count": 10,
           "normalized": 100.0,
           "weighted": 30.0
         },
-        "single_source_concentration": 0.536,
+        "single_source_concentration": 0.517,
         "concentration_penalty": 0.0,
         "raw_score": 80.0
       },
@@ -196,6 +196,22 @@
           "name_zh": "千興",
           "direct_event_count": 1,
           "latest_mentioned_at": "2026-09-05T02:27:56Z"
+        },
+        {
+          "instrument_id": "TWSE:2008",
+          "symbol": "2008",
+          "exchange": "TWSE",
+          "name_zh": "高興昌",
+          "direct_event_count": 1,
+          "latest_mentioned_at": "2026-09-04T11:40:03Z"
+        },
+        {
+          "instrument_id": "TWSE:6781",
+          "symbol": "6781",
+          "exchange": "TWSE",
+          "name_zh": "AES-KY",
+          "direct_event_count": 1,
+          "latest_mentioned_at": "2026-09-04T09:36:07Z"
         },
         {
           "instrument_id": "TWSE:2330",
@@ -250,18 +266,112 @@
         }
       ],
       "representative_news": {
-        "cluster_id": "cluster-6066e70d3fe7906f",
-        "id": "cnyes-228fd26bea02",
-        "title_zh": "鴻海8月營收9217.66億元創同期高 能見度優於上月AI需求續成長",
-        "summary": "鴻海8月營收9217.66億元創同期高 能見度優於上月AI需求續成長",
+        "cluster_id": "cluster-7d0783bbd7d931a3",
+        "id": "cnyes-0cf3bb20a88c",
+        "title_zh": "標普罕見拉響AI基建信用警報！7兆美元資本開支黑洞逼近  亞馬遜、甲骨文恐面臨降評",
+        "summary": "標普警告前六大超大規模雲端服務商至2030年資本支出將突破7兆美元，AI投資回報未量化、循環融資風險升溫，亞馬遜與甲骨文面臨降評壓力。",
         "source_id": "cnyes",
         "source": "鉅亨網 Cnyes",
-        "published_at": "2026-09-05T08:46:21Z",
-        "canonical_url": "https://news.cnyes.com/news/id/6598491"
+        "published_at": "2026-09-05T10:10:03Z",
+        "canonical_url": "https://news.cnyes.com/news/id/6598405"
       }
     },
     {
       "rank": 3,
+      "theme_id": "defense_drone",
+      "name_zh": "國防與無人機",
+      "heat_score": 74,
+      "summaries": {
+        "event_count": 6,
+        "source_count": 2,
+        "tracking_candidate_count": 3,
+        "taiwan_mapping_count": 4
+      },
+      "heat_reason": {
+        "rule_version": "public_theme_heat_v0.8",
+        "event_component": {
+          "input": 6,
+          "normalized": 100.0,
+          "weighted": 25.0
+        },
+        "source_component": {
+          "input": 2,
+          "normalized": 50.0,
+          "weighted": 12.5
+        },
+        "candidate_component": {
+          "input": 3,
+          "normalized": 75.0,
+          "weighted": 15.0
+        },
+        "mapping_component": {
+          "mapping_count": 4,
+          "direct_mapping_event_count": 1,
+          "normalized": 80.0,
+          "weighted": 24.0
+        },
+        "single_source_concentration": 0.667,
+        "concentration_penalty": 2.5,
+        "raw_score": 74.0
+      },
+      "direct_mentions": [
+        {
+          "instrument_id": "TWSE:5222",
+          "symbol": "5222",
+          "exchange": "TWSE",
+          "name_zh": "全訊",
+          "direct_event_count": 1,
+          "latest_mentioned_at": "2026-09-04T11:07:07Z"
+        }
+      ],
+      "supply_chain_candidates": [
+        {
+          "instrument_id": "TPEX:5371",
+          "symbol": "5371",
+          "exchange": "TPEX",
+          "name_zh": "中光電",
+          "direct_event_count": 0,
+          "official_evidence_count": 0,
+          "company_rank_score": 1,
+          "latest_mentioned_at": null,
+          "latest_official_at": null
+        },
+        {
+          "instrument_id": "TWSE:2634",
+          "symbol": "2634",
+          "exchange": "TWSE",
+          "name_zh": "漢翔",
+          "direct_event_count": 0,
+          "official_evidence_count": 0,
+          "company_rank_score": 1,
+          "latest_mentioned_at": null,
+          "latest_official_at": null
+        },
+        {
+          "instrument_id": "TWSE:8033",
+          "symbol": "8033",
+          "exchange": "TWSE",
+          "name_zh": "雷虎",
+          "direct_event_count": 0,
+          "official_evidence_count": 0,
+          "company_rank_score": 1,
+          "latest_mentioned_at": null,
+          "latest_official_at": null
+        }
+      ],
+      "representative_news": {
+        "cluster_id": "cluster-2ede47646dcfec6f",
+        "id": "digitimes_tw-6a3d5c552c8d",
+        "title_zh": "Terra Drone瞄準日本OSA商機　攔截無人機拓展東南亞國防市場",
+        "summary": "展開攔截型無人機業務的日本廠商Terra Drone，除了拿下日本政府的日本製無人機訂單之外，也宣布與馬來西亞廠商合作，進軍東南亞無人機市場。該公司也表示將進一步打造低空防衛平台。Terra",
+        "source_id": "digitimes_tw",
+        "source": "DIGITIMES",
+        "published_at": "2026-09-03T18:42:54Z",
+        "canonical_url": "https://www.digitimes.com.tw/tech/dt/n/shwnws.asp?id=0000767163_N822PJ255ZI7WH4Z3KSBI"
+      }
+    },
+    {
+      "rank": 4,
       "theme_id": "cowos_supply_chain",
       "name_zh": "CoWoS 先進封裝",
       "heat_score": 71,
@@ -345,7 +455,7 @@
       }
     },
     {
-      "rank": 4,
+      "rank": 5,
       "theme_id": "statementdog_tag_2163",
       "name_zh": "半導體",
       "heat_score": 70,
@@ -468,100 +578,6 @@
         "source": "Yahoo Finance Taiwan",
         "published_at": "2026-09-05T09:45:59Z",
         "canonical_url": "https://tw.stock.yahoo.com/news/%E8%98%87%E5%A8%81%E5%85%83-%E6%A6%AE%E7%94%B0%E6%AE%BA%E9%80%B2%E8%88%AA%E5%A4%AA-%E5%8D%8A%E5%B0%8E%E9%AB%94%E4%BE%9B%E6%87%89%E9%8F%88-%E5%90%83%E4%B8%8B%E5%85%A8%E7%90%8350%E5%9C%8B%E5%A4%A7%E5%96%AE%E6%94%BB%E5%85%86%E5%85%83%E5%95%86%E6%A9%9F-094559781.html"
-      }
-    },
-    {
-      "rank": 5,
-      "theme_id": "thermal_cooling",
-      "name_zh": "散熱與液冷",
-      "heat_score": 50,
-      "summaries": {
-        "event_count": 2,
-        "source_count": 2,
-        "tracking_candidate_count": 1,
-        "taiwan_mapping_count": 4
-      },
-      "heat_reason": {
-        "rule_version": "public_theme_heat_v0.8",
-        "event_component": {
-          "input": 2,
-          "normalized": 33.333,
-          "weighted": 8.333
-        },
-        "source_component": {
-          "input": 2,
-          "normalized": 50.0,
-          "weighted": 12.5
-        },
-        "candidate_component": {
-          "input": 1,
-          "normalized": 25.0,
-          "weighted": 5.0
-        },
-        "mapping_component": {
-          "mapping_count": 4,
-          "direct_mapping_event_count": 1,
-          "normalized": 80.0,
-          "weighted": 24.0
-        },
-        "single_source_concentration": 0.5,
-        "concentration_penalty": 0.0,
-        "raw_score": 49.833
-      },
-      "direct_mentions": [
-        {
-          "instrument_id": "TWSE:2330",
-          "symbol": "2330",
-          "exchange": "TWSE",
-          "name_zh": "台積電",
-          "direct_event_count": 1,
-          "latest_mentioned_at": "2026-09-05T02:20:42Z"
-        }
-      ],
-      "supply_chain_candidates": [
-        {
-          "instrument_id": "TPEX:3324",
-          "symbol": "3324",
-          "exchange": "TPEX",
-          "name_zh": "雙鴻",
-          "direct_event_count": 0,
-          "official_evidence_count": 0,
-          "company_rank_score": 1,
-          "latest_mentioned_at": null,
-          "latest_official_at": null
-        },
-        {
-          "instrument_id": "TWSE:3017",
-          "symbol": "3017",
-          "exchange": "TWSE",
-          "name_zh": "奇鋐",
-          "direct_event_count": 0,
-          "official_evidence_count": 0,
-          "company_rank_score": 1,
-          "latest_mentioned_at": null,
-          "latest_official_at": null
-        },
-        {
-          "instrument_id": "TWSE:3653",
-          "symbol": "3653",
-          "exchange": "TWSE",
-          "name_zh": "健策",
-          "direct_event_count": 0,
-          "official_evidence_count": 0,
-          "company_rank_score": 1,
-          "latest_mentioned_at": null,
-          "latest_official_at": null
-        }
-      ],
-      "representative_news": {
-        "cluster_id": "cluster-170729c70c78ba95",
-        "id": "digitimes_tw-65d72654b485",
-        "title_zh": "AI機櫃邁向MW級　電源與散熱從分工走向協同設計",
-        "summary": "伴隨算力的大幅提升，AI伺服器的耗能問題，已成為亟待攻克的重要關卡。而耗能議題，也正從晶片端一路擴散至供電系統，隨著NVIDIA的AI機櫃開始放量，單一AI機櫃功耗快速提升。在功率密度快速攀升同時，過去主要用來處理GPU、CPU發熱的液冷技術，也開始逐步延伸至電源模組與電力傳輸系統，使得電力與散熱兩大基礎設施之間的界",
-        "source_id": "digitimes_tw",
-        "source": "DIGITIMES",
-        "published_at": "2026-09-03T18:04:46Z",
-        "canonical_url": "https://www.digitimes.com.tw/tech/dt/n/shwnws.asp?id=0000767287_FDE3OZX6758HVA8JSTAC3"
       }
     }
   ]
