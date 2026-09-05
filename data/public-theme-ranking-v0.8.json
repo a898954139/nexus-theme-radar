@@ -2,14 +2,14 @@
   "schema_version": "nexus_public_theme_ranking.v0.8",
   "ranking_rule_version": "public_theme_heat_v0.8",
   "company_rule_version": "public_company_evidence_v0.8",
-  "generated_at": "2026-09-05T21:16:30.923695Z",
+  "generated_at": "2026-09-05T22:59:00.437501Z",
   "market_id": "TW_EQUITY",
   "market_scope": [
     "TW_EQUITY"
   ],
   "window_hours": 72,
   "max_themes": 5,
-  "qualified_theme_count": 10,
+  "qualified_theme_count": 8,
   "displayed_theme_count": 5,
   "threshold_note": null,
   "generation_status": "complete",
@@ -472,58 +472,77 @@
     },
     {
       "rank": 5,
-      "theme_id": "thermal_cooling",
-      "name_zh": "散熱與液冷",
-      "heat_score": 50,
+      "theme_id": "pcb_abf_hdi",
+      "name_zh": "PCB／ABF／HDI",
+      "heat_score": 55,
       "summaries": {
-        "event_count": 2,
-        "source_count": 2,
-        "tracking_candidate_count": 1,
-        "taiwan_mapping_count": 4
+        "event_count": 3,
+        "source_count": 3,
+        "tracking_candidate_count": 0,
+        "taiwan_mapping_count": 2
       },
       "heat_reason": {
         "rule_version": "public_theme_heat_v0.8",
         "event_component": {
-          "input": 2,
-          "normalized": 33.333,
-          "weighted": 8.333
-        },
-        "source_component": {
-          "input": 2,
+          "input": 3,
           "normalized": 50.0,
           "weighted": 12.5
         },
+        "source_component": {
+          "input": 3,
+          "normalized": 75.0,
+          "weighted": 18.75
+        },
         "candidate_component": {
-          "input": 1,
-          "normalized": 25.0,
-          "weighted": 5.0
+          "input": 0,
+          "normalized": 0.0,
+          "weighted": 0.0
         },
         "mapping_component": {
-          "mapping_count": 4,
-          "direct_mapping_event_count": 1,
+          "mapping_count": 2,
+          "direct_mapping_event_count": 3,
           "normalized": 80.0,
           "weighted": 24.0
         },
-        "single_source_concentration": 0.5,
+        "single_source_concentration": 0.333,
         "concentration_penalty": 0.0,
-        "raw_score": 49.833
+        "raw_score": 55.25
       },
       "direct_mentions": [
         {
-          "instrument_id": "TWSE:2330",
-          "symbol": "2330",
+          "instrument_id": "TWSE:3037",
+          "symbol": "3037",
           "exchange": "TWSE",
-          "name_zh": "台積電",
+          "name_zh": "欣興",
+          "direct_event_count": 3,
+          "latest_mentioned_at": "2026-09-05T21:05:30Z"
+        },
+        {
+          "instrument_id": "TWSE:2303",
+          "symbol": "2303",
+          "exchange": "TWSE",
+          "name_zh": "聯電",
           "direct_event_count": 1,
-          "latest_mentioned_at": "2026-09-05T02:20:42Z"
+          "latest_mentioned_at": "2026-09-05T21:05:30Z"
         }
       ],
       "supply_chain_candidates": [
         {
-          "instrument_id": "TPEX:3324",
-          "symbol": "3324",
-          "exchange": "TPEX",
-          "name_zh": "雙鴻",
+          "instrument_id": "TWSE:3037",
+          "symbol": "3037",
+          "exchange": "TWSE",
+          "name_zh": "欣興",
+          "direct_event_count": 3,
+          "official_evidence_count": 0,
+          "company_rank_score": 13,
+          "latest_mentioned_at": "2026-09-05T21:05:30Z",
+          "latest_official_at": null
+        },
+        {
+          "instrument_id": "TWSE:2368",
+          "symbol": "2368",
+          "exchange": "TWSE",
+          "name_zh": "金像電",
           "direct_event_count": 0,
           "official_evidence_count": 0,
           "company_rank_score": 1,
@@ -531,21 +550,10 @@
           "latest_official_at": null
         },
         {
-          "instrument_id": "TWSE:3017",
-          "symbol": "3017",
+          "instrument_id": "TWSE:8046",
+          "symbol": "8046",
           "exchange": "TWSE",
-          "name_zh": "奇鋐",
-          "direct_event_count": 0,
-          "official_evidence_count": 0,
-          "company_rank_score": 1,
-          "latest_mentioned_at": null,
-          "latest_official_at": null
-        },
-        {
-          "instrument_id": "TWSE:3653",
-          "symbol": "3653",
-          "exchange": "TWSE",
-          "name_zh": "健策",
+          "name_zh": "南電",
           "direct_event_count": 0,
           "official_evidence_count": 0,
           "company_rank_score": 1,
@@ -554,14 +562,14 @@
         }
       ],
       "representative_news": {
-        "cluster_id": "cluster-170729c70c78ba95",
-        "id": "digitimes_tw-65d72654b485",
-        "title_zh": "AI機櫃邁向MW級　電源與散熱從分工走向協同設計",
-        "summary": "伴隨算力的大幅提升，AI伺服器的耗能問題，已成為亟待攻克的重要關卡。而耗能議題，也正從晶片端一路擴散至供電系統，隨著NVIDIA的AI機櫃開始放量，單一AI機櫃功耗快速提升。在功率密度快速攀升同時，過去主要用來處理GPU、CPU發熱的液冷技術，也開始逐步延伸至電源模組與電力傳輸系統，使得電力與散熱兩大基礎設施之間的界",
-        "source_id": "digitimes_tw",
-        "source": "DIGITIMES",
-        "published_at": "2026-09-03T18:04:46Z",
-        "canonical_url": "https://www.digitimes.com.tw/tech/dt/n/shwnws.asp?id=0000767287_FDE3OZX6758HVA8JSTAC3"
+        "cluster_id": "cluster-378dd916c0a49ea2",
+        "id": "yahoo_finance_tw-6ba436010d19",
+        "title_zh": "欣興遭血洗狂崩30％ 聯電為何暗爽？前操盤手曝內幕不單純",
+        "summary": "ABF載板大廠欣興捲入「洗產地」疑雲，這波股價從1230 元跌到873元最低點，跌幅逼近3 成。市場專家分析，欣興股價被投信大砍而跌下來，反而讓大股東聯電非常高興，提供進場撿便宜、低檔布局的絕佳時機。",
+        "source_id": "yahoo_finance_tw",
+        "source": "Yahoo Finance Taiwan",
+        "published_at": "2026-09-05T21:05:30Z",
+        "canonical_url": "https://tw.stock.yahoo.com/news/%E6%AC%A3%E8%88%88%E9%81%AD%E8%A1%80%E6%B4%97%E7%8B%82%E5%B4%A930-%E8%81%AF%E9%9B%BB%E7%82%BA%E4%BD%95%E6%9A%97%E7%88%BD-%E5%89%8D%E6%93%8D%E7%9B%A4%E6%89%8B%E6%9B%9D%E5%85%A7%E5%B9%95%E4%B8%8D%E5%96%AE%E7%B4%94-210530534.html"
       }
     }
   ]
