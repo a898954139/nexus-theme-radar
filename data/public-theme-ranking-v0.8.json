@@ -2,7 +2,7 @@
   "schema_version": "nexus_public_theme_ranking.v0.8",
   "ranking_rule_version": "public_theme_heat_v0.8",
   "company_rule_version": "public_company_evidence_v0.8",
-  "generated_at": "2026-09-10T09:46:57.586381Z",
+  "generated_at": "2026-09-10T14:28:29.082814Z",
   "market_id": "TW_EQUITY",
   "market_scope": [
     "TW_EQUITY"
@@ -18,13 +18,93 @@
   "themes": [
     {
       "rank": 1,
-      "theme_id": "memory_hbm",
-      "name_zh": "記憶體與 HBM",
-      "heat_score": 89,
+      "theme_id": "statementdog_tag_4082",
+      "name_zh": "iPhone",
+      "heat_score": 80,
+      "summaries": {
+        "event_count": 13,
+        "source_count": 4,
+        "tracking_candidate_count": 0,
+        "taiwan_mapping_count": 13
+      },
+      "heat_reason": {
+        "rule_version": "public_theme_heat_v0.8",
+        "event_component": {
+          "input": 13,
+          "normalized": 100.0,
+          "weighted": 25.0
+        },
+        "source_component": {
+          "input": 4,
+          "normalized": 100.0,
+          "weighted": 25.0
+        },
+        "candidate_component": {
+          "input": 0,
+          "normalized": 0.0,
+          "weighted": 0.0
+        },
+        "mapping_component": {
+          "mapping_count": 13,
+          "direct_mapping_event_count": 2,
+          "normalized": 100.0,
+          "weighted": 30.0
+        },
+        "single_source_concentration": 0.5,
+        "concentration_penalty": 0.0,
+        "raw_score": 80.0
+      },
+      "direct_mentions": [
+        {
+          "instrument_id": "TWSE:2317",
+          "symbol": "2317",
+          "exchange": "TWSE",
+          "name_zh": "鴻海",
+          "direct_event_count": 1,
+          "latest_mentioned_at": "2026-09-10T07:05:12Z"
+        },
+        {
+          "instrument_id": "TWSE:2455",
+          "symbol": "2455",
+          "exchange": "TWSE",
+          "name_zh": "全新",
+          "direct_event_count": 1,
+          "latest_mentioned_at": "2026-09-09T23:56:04Z"
+        }
+      ],
+      "supply_chain_candidates": [
+        {
+          "instrument_id": "TPEX:3105",
+          "symbol": "3105",
+          "exchange": "TPEX",
+          "name_zh": "穩懋",
+          "direct_event_count": 0,
+          "official_evidence_count": 0,
+          "company_rank_score": 1,
+          "latest_mentioned_at": null,
+          "latest_official_at": null
+        }
+      ],
+      "representative_news": {
+        "cluster_id": "cluster-c90d00824db4195e",
+        "id": "cnyes-afb19cfd8721",
+        "title_zh": "iPhone Duo賣得動嗎？TrendForce估今年出貨500萬支、市占24.8%",
+        "summary": "蘋果(AAPL-US) 正式推出首款摺疊手機 iPhone Duo，配備 7.6 吋內螢幕與 5.4 吋外螢幕，起售價 1,999 美元。新機亮相後市場評價分歧，TrendForce預估，iPhone Duo今年出貨量約 500 萬支，可望協助蘋果取得全球摺疊手機市場約 24.8%市占率，但高昂售價",
+        "source_id": "cnyes",
+        "source": "鉅亨網 Cnyes",
+        "published_at": "2026-09-10T13:00:04Z",
+        "canonical_url": "https://news.cnyes.com/news/id/6603969"
+      }
+    },
+    {
+      "rank": 2,
+      "theme_id": "defense_drone",
+      "name_zh": "國防與無人機",
+      "heat_score": 79,
       "summaries": {
         "event_count": 7,
         "source_count": 3,
-        "tracking_candidate_count": 4,
+        "tracking_candidate_count": 1,
         "taiwan_mapping_count": 5
       },
       "heat_reason": {
@@ -40,9 +120,119 @@
           "weighted": 18.75
         },
         "candidate_component": {
-          "input": 4,
+          "input": 1,
+          "normalized": 25.0,
+          "weighted": 5.0
+        },
+        "mapping_component": {
+          "mapping_count": 5,
+          "direct_mapping_event_count": 2,
           "normalized": 100.0,
-          "weighted": 20.0
+          "weighted": 30.0
+        },
+        "single_source_concentration": 0.429,
+        "concentration_penalty": 0.0,
+        "raw_score": 78.75
+      },
+      "direct_mentions": [
+        {
+          "instrument_id": "TWSE:8033",
+          "symbol": "8033",
+          "exchange": "TWSE",
+          "name_zh": "雷虎",
+          "direct_event_count": 1,
+          "latest_mentioned_at": "2026-09-10T09:50:36Z"
+        },
+        {
+          "instrument_id": "TWSE:2031",
+          "symbol": "2031",
+          "exchange": "TWSE",
+          "name_zh": "新光鋼",
+          "direct_event_count": 1,
+          "latest_mentioned_at": "2026-09-10T03:02:00Z"
+        },
+        {
+          "instrument_id": "TWSE:2032",
+          "symbol": "2032",
+          "exchange": "TWSE",
+          "name_zh": "新鋼",
+          "direct_event_count": 1,
+          "latest_mentioned_at": "2026-09-10T03:02:00Z"
+        }
+      ],
+      "supply_chain_candidates": [
+        {
+          "instrument_id": "TWSE:8033",
+          "symbol": "8033",
+          "exchange": "TWSE",
+          "name_zh": "雷虎",
+          "direct_event_count": 1,
+          "official_evidence_count": 0,
+          "company_rank_score": 5,
+          "latest_mentioned_at": "2026-09-10T09:50:36Z",
+          "latest_official_at": null
+        },
+        {
+          "instrument_id": "TPEX:5371",
+          "symbol": "5371",
+          "exchange": "TPEX",
+          "name_zh": "中光電",
+          "direct_event_count": 0,
+          "official_evidence_count": 0,
+          "company_rank_score": 1,
+          "latest_mentioned_at": null,
+          "latest_official_at": null
+        },
+        {
+          "instrument_id": "TWSE:2634",
+          "symbol": "2634",
+          "exchange": "TWSE",
+          "name_zh": "漢翔",
+          "direct_event_count": 0,
+          "official_evidence_count": 0,
+          "company_rank_score": 1,
+          "latest_mentioned_at": null,
+          "latest_official_at": null
+        }
+      ],
+      "representative_news": {
+        "cluster_id": "cluster-182f8f706d581fc2",
+        "id": "digitimes_tw-7b809239dfc8",
+        "title_zh": "福斯百年Osnabrück廠轉型軍工　攜Rafael生產鐵穹支援裝備",
+        "summary": "福斯汽車集團（Volkswagen AG）與以色列私募股權公司Aurelius Capital達成初步協議，將變更福斯位於德國的Osnabr&uuml;ck工廠用途，並攜手以色列軍工大廠Rafael（Rafael Advanced Defense Systems），共同生產軍事裝備。據9月7日公布的計畫，Aurelius",
+        "source_id": "digitimes_tw",
+        "source": "DIGITIMES",
+        "published_at": "2026-09-09T18:34:44Z",
+        "canonical_url": "https://www.digitimes.com.tw/tech/dt/n/shwnws.asp?id=0000767729_14B8F4DD13U64JLUL3D70"
+      }
+    },
+    {
+      "rank": 3,
+      "theme_id": "memory_hbm",
+      "name_zh": "記憶體與 HBM",
+      "heat_score": 74,
+      "summaries": {
+        "event_count": 6,
+        "source_count": 2,
+        "tracking_candidate_count": 3,
+        "taiwan_mapping_count": 5
+      },
+      "heat_reason": {
+        "rule_version": "public_theme_heat_v0.8",
+        "event_component": {
+          "input": 6,
+          "normalized": 100.0,
+          "weighted": 25.0
+        },
+        "source_component": {
+          "input": 2,
+          "normalized": 50.0,
+          "weighted": 12.5
+        },
+        "candidate_component": {
+          "input": 3,
+          "normalized": 75.0,
+          "weighted": 15.0
         },
         "mapping_component": {
           "mapping_count": 5,
@@ -50,9 +240,9 @@
           "normalized": 100.0,
           "weighted": 30.0
         },
-        "single_source_concentration": 0.714,
-        "concentration_penalty": 4.286,
-        "raw_score": 89.464
+        "single_source_concentration": 0.833,
+        "concentration_penalty": 8.75,
+        "raw_score": 73.75
       },
       "direct_mentions": [
         {
@@ -119,27 +309,27 @@
       }
     },
     {
-      "rank": 2,
+      "rank": 4,
       "theme_id": "statementdog_tag_1517",
       "name_zh": "AI",
-      "heat_score": 80,
+      "heat_score": 71,
       "summaries": {
-        "event_count": 33,
-        "source_count": 4,
+        "event_count": 30,
+        "source_count": 3,
         "tracking_candidate_count": 0,
-        "taiwan_mapping_count": 118
+        "taiwan_mapping_count": 126
       },
       "heat_reason": {
         "rule_version": "public_theme_heat_v0.8",
         "event_component": {
-          "input": 33,
+          "input": 30,
           "normalized": 100.0,
           "weighted": 25.0
         },
         "source_component": {
-          "input": 4,
-          "normalized": 100.0,
-          "weighted": 25.0
+          "input": 3,
+          "normalized": 75.0,
+          "weighted": 18.75
         },
         "candidate_component": {
           "input": 0,
@@ -147,32 +337,16 @@
           "weighted": 0.0
         },
         "mapping_component": {
-          "mapping_count": 118,
-          "direct_mapping_event_count": 17,
+          "mapping_count": 126,
+          "direct_mapping_event_count": 12,
           "normalized": 100.0,
           "weighted": 30.0
         },
-        "single_source_concentration": 0.606,
-        "concentration_penalty": 0.227,
-        "raw_score": 79.773
+        "single_source_concentration": 0.667,
+        "concentration_penalty": 2.5,
+        "raw_score": 71.25
       },
       "direct_mentions": [
-        {
-          "instrument_id": "TWSE:2027",
-          "symbol": "2027",
-          "exchange": "TWSE",
-          "name_zh": "大成鋼",
-          "direct_event_count": 4,
-          "latest_mentioned_at": "2026-09-10T09:25:41Z"
-        },
-        {
-          "instrument_id": "TWSE:2030",
-          "symbol": "2030",
-          "exchange": "TWSE",
-          "name_zh": "彰源",
-          "direct_event_count": 4,
-          "latest_mentioned_at": "2026-09-10T08:20:51Z"
-        },
         {
           "instrument_id": "TWSE:2028",
           "symbol": "2028",
@@ -180,6 +354,14 @@
           "name_zh": "威致",
           "direct_event_count": 3,
           "latest_mentioned_at": "2026-09-10T09:11:53Z"
+        },
+        {
+          "instrument_id": "TWSE:2027",
+          "symbol": "2027",
+          "exchange": "TWSE",
+          "name_zh": "大成鋼",
+          "direct_event_count": 3,
+          "latest_mentioned_at": "2026-09-10T07:02:59Z"
         },
         {
           "instrument_id": "TWSE:2455",
@@ -198,6 +380,14 @@
           "latest_mentioned_at": "2026-09-10T05:40:03Z"
         },
         {
+          "instrument_id": "TWSE:2030",
+          "symbol": "2030",
+          "exchange": "TWSE",
+          "name_zh": "彰源",
+          "direct_event_count": 1,
+          "latest_mentioned_at": "2026-09-10T08:20:51Z"
+        },
+        {
           "instrument_id": "TWSE:2357",
           "symbol": "2357",
           "exchange": "TWSE",
@@ -212,14 +402,6 @@
           "name_zh": "日月光投控",
           "direct_event_count": 1,
           "latest_mentioned_at": "2026-09-10T05:34:23Z"
-        },
-        {
-          "instrument_id": "TWSE:2634",
-          "symbol": "2634",
-          "exchange": "TWSE",
-          "name_zh": "漢翔",
-          "direct_event_count": 1,
-          "latest_mentioned_at": "2026-09-10T03:09:07Z"
         },
         {
           "instrument_id": "TWSE:2308",
@@ -274,33 +456,33 @@
         }
       ],
       "representative_news": {
-        "cluster_id": "cluster-4f3c3c29b187da5f",
-        "id": "yahoo_finance_tw-cab7de890c5e",
-        "title_zh": "德勤預測2027財政趨勢：企業財政領袖肩負AI與技術主權新使命",
-        "summary": "商傳媒｜方承業／綜合外電報導全球專業服務網路德勤（Deloitte）近期發布「2027年財政趨勢」報告，指出全球財政領袖的角色正在快速轉變，已從傳統的財務監督，擴展至人工智慧（AI）與技術投資等更廣泛",
-        "source_id": "yahoo_finance_tw",
-        "source": "Yahoo Finance Taiwan",
-        "published_at": "2026-09-10T09:25:41Z",
-        "canonical_url": "https://tw.stock.yahoo.com/news/%E5%BE%B7%E5%8B%A4%E9%A0%90%E6%B8%AC2027%E8%B2%A1%E6%94%BF%E8%B6%A8%E5%8B%A2-%E4%BC%81%E6%A5%AD%E8%B2%A1%E6%94%BF%E9%A0%98%E8%A2%96%E8%82%A9%E8%B2%A0ai%E8%88%87%E6%8A%80%E8%A1%93%E4%B8%BB%E6%AC%8A%E6%96%B0%E4%BD%BF%E5%91%BD-092541796.html"
+        "cluster_id": "cluster-518df21685038bea",
+        "id": "technews-bce9c57b5123",
+        "title_zh": "AI、車用雙引擎助攻：強茂 8 月營收 13.77 億元、年增近 3 成",
+        "summary": "強茂下半年營運動能看增，AI 資料中心需求升溫、車用電子電氣化趨勢延續，加上產品組合改善，成為營運三大支撐。強 [&#8230;]",
+        "source_id": "technews",
+        "source": "TechNews",
+        "published_at": "2026-09-10T10:22:43Z",
+        "canonical_url": "https://finance.technews.tw/2026/09/10/panjit-august-revenue-1-377-billion-up-30-yoy-ai-automotive-engines/"
       }
     },
     {
-      "rank": 3,
-      "theme_id": "defense_drone",
-      "name_zh": "國防與無人機",
-      "heat_score": 75,
+      "rank": 5,
+      "theme_id": "energy_grid",
+      "name_zh": "能源與電網",
+      "heat_score": 70,
       "summaries": {
-        "event_count": 5,
+        "event_count": 4,
         "source_count": 3,
         "tracking_candidate_count": 1,
-        "taiwan_mapping_count": 5
+        "taiwan_mapping_count": 6
       },
       "heat_reason": {
         "rule_version": "public_theme_heat_v0.8",
         "event_component": {
-          "input": 5,
-          "normalized": 83.333,
-          "weighted": 20.833
+          "input": 4,
+          "normalized": 66.667,
+          "weighted": 16.667
         },
         "source_component": {
           "input": 3,
@@ -313,69 +495,77 @@
           "weighted": 5.0
         },
         "mapping_component": {
-          "mapping_count": 5,
+          "mapping_count": 6,
           "direct_mapping_event_count": 2,
           "normalized": 100.0,
           "weighted": 30.0
         },
-        "single_source_concentration": 0.6,
+        "single_source_concentration": 0.5,
         "concentration_penalty": 0.0,
-        "raw_score": 74.583
+        "raw_score": 70.417
       },
       "direct_mentions": [
         {
-          "instrument_id": "TWSE:8033",
-          "symbol": "8033",
+          "instrument_id": "TWSE:2027",
+          "symbol": "2027",
           "exchange": "TWSE",
-          "name_zh": "雷虎",
-          "direct_event_count": 1,
-          "latest_mentioned_at": "2026-09-10T09:17:01Z"
+          "name_zh": "大成鋼",
+          "direct_event_count": 2,
+          "latest_mentioned_at": "2026-09-10T10:38:44Z"
         },
         {
-          "instrument_id": "TWSE:2031",
-          "symbol": "2031",
+          "instrument_id": "TWSE:1503",
+          "symbol": "1503",
           "exchange": "TWSE",
-          "name_zh": "新光鋼",
+          "name_zh": "士電",
           "direct_event_count": 1,
-          "latest_mentioned_at": "2026-09-10T03:02:00Z"
+          "latest_mentioned_at": "2026-09-10T10:38:44Z"
         },
         {
-          "instrument_id": "TWSE:2032",
-          "symbol": "2032",
+          "instrument_id": "TWSE:2029",
+          "symbol": "2029",
           "exchange": "TWSE",
-          "name_zh": "新鋼",
+          "name_zh": "盛餘",
           "direct_event_count": 1,
-          "latest_mentioned_at": "2026-09-10T03:02:00Z"
-        }
-      ],
-      "supply_chain_candidates": [
-        {
-          "instrument_id": "TWSE:8033",
-          "symbol": "8033",
-          "exchange": "TWSE",
-          "name_zh": "雷虎",
-          "direct_event_count": 1,
-          "official_evidence_count": 0,
-          "company_rank_score": 5,
-          "latest_mentioned_at": "2026-09-10T09:17:01Z",
-          "latest_official_at": null
-        },
-        {
-          "instrument_id": "TPEX:5371",
-          "symbol": "5371",
-          "exchange": "TPEX",
-          "name_zh": "中光電",
-          "direct_event_count": 0,
-          "official_evidence_count": 0,
-          "company_rank_score": 1,
-          "latest_mentioned_at": null,
-          "latest_official_at": null
+          "latest_mentioned_at": "2026-09-10T10:38:44Z"
         },
         {
           "instrument_id": "TWSE:2634",
           "symbol": "2634",
           "exchange": "TWSE",
           "name_zh": "漢翔",
+          "direct_event_count": 1,
+          "latest_mentioned_at": "2026-09-10T10:38:44Z"
+        }
+      ],
+      "supply_chain_candidates": [
+        {
+          "instrument_id": "TWSE:1503",
+          "symbol": "1503",
+          "exchange": "TWSE",
+          "name_zh": "士電",
+          "direct_event_count": 1,
+          "official_evidence_count": 0,
+          "company_rank_score": 5,
+          "latest_mentioned_at": "2026-09-10T10:38:44Z",
+          "latest_official_at": null
+        },
+        {
+          "instrument_id": "TWSE:1513",
+          "symbol": "1513",
+          "exchange": "TWSE",
+          "name_zh": "中興電",
+          "direct_event_count": 0,
+          "official_evidence_count": 0,
+          "company_rank_score": 1,
+          "latest_mentioned_at": null,
+          "latest_official_at": null
+        },
+        {
+          "instrument_id": "TWSE:1519",
+          "symbol": "1519",
+          "exchange": "TWSE",
+          "name_zh": "華城",
           "direct_event_count": 0,
           "official_evidence_count": 0,
           "company_rank_score": 1,
@@ -384,242 +574,14 @@
         }
       ],
       "representative_news": {
-        "cluster_id": "cluster-182f8f706d581fc2",
-        "id": "digitimes_tw-7b809239dfc8",
-        "title_zh": "福斯百年Osnabrück廠轉型軍工　攜Rafael生產鐵穹支援裝備",
-        "summary": "福斯汽車集團（Volkswagen AG）與以色列私募股權公司Aurelius Capital達成初步協議，將變更福斯位於德國的Osnabr&uuml;ck工廠用途，並攜手以色列軍工大廠Rafael（Rafael Advanced Defense Systems），共同生產軍事裝備。據9月7日公布的計畫，Aurelius",
+        "cluster_id": "cluster-8f408bf24e2071ba",
+        "id": "digitimes_tw-da980bcdb9e2",
+        "title_zh": "士電重電訂單看到2029年　T4廠2027年9月投產",
+        "summary": "受惠台電電網強韌、能源轉型及AI資料中心（AIDC）等市場需求持續增加，士林電機看好重電及能源相關業務後續成長，並將透過擴充變壓器產能、強化工程統包及布局太陽能與儲能服務，擴大能源整合業務。士電表示",
         "source_id": "digitimes_tw",
         "source": "DIGITIMES",
-        "published_at": "2026-09-09T18:34:44Z",
-        "canonical_url": "https://www.digitimes.com.tw/tech/dt/n/shwnws.asp?id=0000767729_14B8F4DD13U64JLUL3D70"
-      }
-    },
-    {
-      "rank": 4,
-      "theme_id": "statementdog_tag_4082",
-      "name_zh": "iPhone",
-      "heat_score": 74,
-      "summaries": {
-        "event_count": 14,
-        "source_count": 3,
-        "tracking_candidate_count": 0,
-        "taiwan_mapping_count": 13
-      },
-      "heat_reason": {
-        "rule_version": "public_theme_heat_v0.8",
-        "event_component": {
-          "input": 14,
-          "normalized": 100.0,
-          "weighted": 25.0
-        },
-        "source_component": {
-          "input": 3,
-          "normalized": 75.0,
-          "weighted": 18.75
-        },
-        "candidate_component": {
-          "input": 0,
-          "normalized": 0.0,
-          "weighted": 0.0
-        },
-        "mapping_component": {
-          "mapping_count": 13,
-          "direct_mapping_event_count": 3,
-          "normalized": 100.0,
-          "weighted": 30.0
-        },
-        "single_source_concentration": 0.571,
-        "concentration_penalty": 0.0,
-        "raw_score": 73.75
-      },
-      "direct_mentions": [
-        {
-          "instrument_id": "TWSE:2455",
-          "symbol": "2455",
-          "exchange": "TWSE",
-          "name_zh": "全新",
-          "direct_event_count": 2,
-          "latest_mentioned_at": "2026-09-10T05:05:18Z"
-        },
-        {
-          "instrument_id": "TWSE:2317",
-          "symbol": "2317",
-          "exchange": "TWSE",
-          "name_zh": "鴻海",
-          "direct_event_count": 1,
-          "latest_mentioned_at": "2026-09-10T07:05:12Z"
-        }
-      ],
-      "supply_chain_candidates": [
-        {
-          "instrument_id": "TWSE:2317",
-          "symbol": "2317",
-          "exchange": "TWSE",
-          "name_zh": "鴻海",
-          "direct_event_count": 1,
-          "official_evidence_count": 0,
-          "company_rank_score": 5,
-          "latest_mentioned_at": "2026-09-10T07:05:12Z",
-          "latest_official_at": null
-        },
-        {
-          "instrument_id": "TPEX:3105",
-          "symbol": "3105",
-          "exchange": "TPEX",
-          "name_zh": "穩懋",
-          "direct_event_count": 0,
-          "official_evidence_count": 0,
-          "company_rank_score": 1,
-          "latest_mentioned_at": null,
-          "latest_official_at": null
-        },
-        {
-          "instrument_id": "TWSE:2313",
-          "symbol": "2313",
-          "exchange": "TWSE",
-          "name_zh": "華通",
-          "direct_event_count": 0,
-          "official_evidence_count": 0,
-          "company_rank_score": 1,
-          "latest_mentioned_at": null,
-          "latest_official_at": null
-        }
-      ],
-      "representative_news": {
-        "cluster_id": "cluster-92dc94618f5a888d",
-        "id": "technews-0c0c6654c2e0",
-        "title_zh": "預估 2026 年 iPhone Duo 市占近 25%，Apple 首款摺疊機催化供應鏈升級",
-        "summary": "Apple 正式推出首款摺疊手機 iPhone Duo，採書本式內摺設計，搭載 7.6 吋內螢幕、5.4 吋外 [&#8230;]",
-        "source_id": "technews",
-        "source": "TechNews",
-        "published_at": "2026-09-10T09:10:54Z",
-        "canonical_url": "https://technews.tw/2026/09/10/iphone-duo-market-share-estimated-near-25-by-2026-apple-first-foldable-device-catalyzes-supply-chain-upgrade/"
-      }
-    },
-    {
-      "rank": 5,
-      "theme_id": "statementdog_tag_52",
-      "name_zh": "蘋果",
-      "heat_score": 70,
-      "summaries": {
-        "event_count": 5,
-        "source_count": 3,
-        "tracking_candidate_count": 0,
-        "taiwan_mapping_count": 20
-      },
-      "heat_reason": {
-        "rule_version": "public_theme_heat_v0.8",
-        "event_component": {
-          "input": 5,
-          "normalized": 83.333,
-          "weighted": 20.833
-        },
-        "source_component": {
-          "input": 3,
-          "normalized": 75.0,
-          "weighted": 18.75
-        },
-        "candidate_component": {
-          "input": 0,
-          "normalized": 0.0,
-          "weighted": 0.0
-        },
-        "mapping_component": {
-          "mapping_count": 20,
-          "direct_mapping_event_count": 4,
-          "normalized": 100.0,
-          "weighted": 30.0
-        },
-        "single_source_concentration": 0.4,
-        "concentration_penalty": 0.0,
-        "raw_score": 69.583
-      },
-      "direct_mentions": [
-        {
-          "instrument_id": "TWSE:2330",
-          "symbol": "2330",
-          "exchange": "TWSE",
-          "name_zh": "台積電",
-          "direct_event_count": 2,
-          "latest_mentioned_at": "2026-09-10T08:00:08Z"
-        },
-        {
-          "instrument_id": "TWSE:2317",
-          "symbol": "2317",
-          "exchange": "TWSE",
-          "name_zh": "鴻海",
-          "direct_event_count": 1,
-          "latest_mentioned_at": "2026-09-10T07:30:13Z"
-        },
-        {
-          "instrument_id": "TWSE:3017",
-          "symbol": "3017",
-          "exchange": "TWSE",
-          "name_zh": "奇鋐",
-          "direct_event_count": 1,
-          "latest_mentioned_at": "2026-09-10T07:30:13Z"
-        },
-        {
-          "instrument_id": "TWSE:2025",
-          "symbol": "2025",
-          "exchange": "TWSE",
-          "name_zh": "千興",
-          "direct_event_count": 1,
-          "latest_mentioned_at": "2026-09-10T06:31:15Z"
-        },
-        {
-          "instrument_id": "TWSE:2455",
-          "symbol": "2455",
-          "exchange": "TWSE",
-          "name_zh": "全新",
-          "direct_event_count": 1,
-          "latest_mentioned_at": "2026-09-10T05:01:12Z"
-        }
-      ],
-      "supply_chain_candidates": [
-        {
-          "instrument_id": "TWSE:2330",
-          "symbol": "2330",
-          "exchange": "TWSE",
-          "name_zh": "台積電",
-          "direct_event_count": 2,
-          "official_evidence_count": 0,
-          "company_rank_score": 9,
-          "latest_mentioned_at": "2026-09-10T08:00:08Z",
-          "latest_official_at": null
-        },
-        {
-          "instrument_id": "TWSE:2317",
-          "symbol": "2317",
-          "exchange": "TWSE",
-          "name_zh": "鴻海",
-          "direct_event_count": 1,
-          "official_evidence_count": 0,
-          "company_rank_score": 5,
-          "latest_mentioned_at": "2026-09-10T07:30:13Z",
-          "latest_official_at": null
-        },
-        {
-          "instrument_id": "TWSE:2308",
-          "symbol": "2308",
-          "exchange": "TWSE",
-          "name_zh": "台達電",
-          "direct_event_count": 0,
-          "official_evidence_count": 0,
-          "company_rank_score": 1,
-          "latest_mentioned_at": null,
-          "latest_official_at": null
-        }
-      ],
-      "representative_news": {
-        "cluster_id": "cluster-1b0b1d04a0b044d2",
-        "id": "cnyes-93a93b7ab922",
-        "title_zh": "蘋果改寫晶片封裝：A20 Pro攜台積電2奈米登場　棄PoP轉WMCM",
-        "summary": "蘋果周三(9日)召開2026秋季發布會，推出iPhone 18 Pro、iPhone 18 Pro Max與摺疊機iPhone Duo，並更新Apple Watch。相比外觀與影像迭代，最大亮點是晶片革新，A20 Pro登場，首次把2nm製程帶入iPhone，並放棄沿用多年的PoP垂直堆疊封裝。",
-        "source_id": "cnyes",
-        "source": "鉅亨網 Cnyes",
-        "published_at": "2026-09-10T08:00:08Z",
-        "canonical_url": "https://news.cnyes.com/news/id/6602646"
+        "published_at": "2026-09-10T10:38:44Z",
+        "canonical_url": "https://www.digitimes.com.tw/tech/dt/n/shwnws.asp?id=0000768148_C8U2L9HG30JCWQ9HAZ4OW"
       }
     }
   ]
