@@ -1,17 +1,17 @@
 {
   "schema_version": "nexus_stock_watchlist.v1",
   "methodology_version": "stock_watchlist_v1",
-  "generated_at": "2026-09-11T09:44:26.425239Z",
-  "candidate_as_of": "2026-09-11T09:00:00Z",
+  "generated_at": "2026-09-11T14:27:41.950591Z",
+  "candidate_as_of": "2026-09-11T14:00:00Z",
   "sources": {
     "momentum": {
-      "generated_at": "2026-09-11T09:44:26.425239Z",
-      "observed_hour": "2026-09-11T09:00:00Z"
+      "generated_at": "2026-09-11T14:27:41.950591Z",
+      "observed_hour": "2026-09-11T14:00:00Z"
     },
     "institutional": {
       "as_of": [
         "2026-08-21",
-        "2026-09-10"
+        "2026-09-11"
       ]
     },
     "fundamentals": {
@@ -21,7 +21,7 @@
     },
     "day_trading_activity": {
       "TWSE": {
-        "as_of": "2026-09-08",
+        "as_of": "2026-09-09",
         "finality": "settled_t_plus_2",
         "numerator_url": "https://www.twse.com.tw/rwd/zh/dayTrading/TWTB4U",
         "denominator_url": "https://www.twse.com.tw/rwd/zh/afterTrading/MI_INDEX",
@@ -29,7 +29,7 @@
         "error": null
       },
       "TPEX": {
-        "as_of": "2026-09-08",
+        "as_of": "2026-09-09",
         "finality": "settled_t_plus_2",
         "numerator_url": "https://www.tpex.org.tw/www/zh-tw/intraday/stat",
         "denominator_url": "https://www.tpex.org.tw/www/zh-tw/afterTrading/dailyQuotes",
@@ -82,6 +82,146 @@
     "items": [
       {
         "instrument": {
+          "instrument_id": "TWSE:2408",
+          "symbol": "2408",
+          "exchange": "TWSE",
+          "name_zh": "南亞科"
+        },
+        "themes": [
+          {
+            "theme_id": "memory_hbm",
+            "name_zh": "記憶體與 HBM",
+            "relation": "related",
+            "heat_score": 58.0,
+            "heat_change_24h": null,
+            "momentum_score": 29.0
+          }
+        ],
+        "short": {
+          "rank": 1,
+          "score": 65,
+          "components": {
+            "theme_attention": {
+              "raw": 40.6725,
+              "normalized": 40.6725,
+              "base_weight": 0.55,
+              "effective_weight": 0.55,
+              "available": true
+            },
+            "institutional_short_activity": {
+              "raw": 28511788.0,
+              "normalized": 89,
+              "base_weight": 0.2,
+              "effective_weight": 0.2,
+              "available": true
+            },
+            "daytrade_activity": {
+              "raw": 0.5291,
+              "normalized": 100.0,
+              "base_weight": 0.15,
+              "effective_weight": 0.15,
+              "available": true
+            },
+            "fundamental_defense": {
+              "raw": 99.1667,
+              "normalized": 99.16666666666666,
+              "base_weight": 0.1,
+              "effective_weight": 0.1,
+              "available": true
+            }
+          },
+          "risk_adjustment": {
+            "overnight_risk_adjustment": {
+              "value": null,
+              "applied": 0.0,
+              "missing_reason": "no reliable overnight source"
+            }
+          }
+        },
+        "long": {
+          "rank": 1,
+          "score": 79,
+          "components": {
+            "fundamental_quality": {
+              "raw": 95.2167,
+              "normalized": 95.21666666666667,
+              "base_weight": 0.6,
+              "effective_weight": 0.6,
+              "available": true
+            },
+            "institutional_support": {
+              "raw": 28511788.0,
+              "normalized": 89,
+              "base_weight": 0.2,
+              "effective_weight": 0.2,
+              "available": true
+            },
+            "theme_persistence": {
+              "raw": 24.65,
+              "normalized": 24.65,
+              "base_weight": 0.15,
+              "effective_weight": 0.15,
+              "available": true
+            },
+            "trading_stability": {
+              "raw": 0.5291,
+              "normalized": 0.0,
+              "base_weight": 0.05,
+              "effective_weight": 0.05,
+              "available": true
+            }
+          }
+        },
+        "institutional": {
+          "direction": "positive",
+          "as_of": "2026-09-11",
+          "observation_count": 5,
+          "five_day_net": 28511788.0
+        },
+        "trading_activity": {
+          "as_of": "2026-09-09",
+          "day_trading_volume": 19850000,
+          "total_volume": 37518171,
+          "day_trading_volume_ratio": 0.5290769637997546,
+          "overnight_risk": null,
+          "overnight_missing_reason": "no reliable overnight source"
+        },
+        "fundamentals": {
+          "score": 95,
+          "fiscal_quarter": "2026Q2",
+          "comparison_basis": "YoY",
+          "revenue_growth": 683.95,
+          "revenue_direction": "up",
+          "eps_growth": 1210.61,
+          "eps_direction": "up",
+          "gross_margin": 0.7949121744397335,
+          "operating_margin": 0.7368867353119322,
+          "operating_cash_flow": 558.6,
+          "operating_cash_flow_margin": 0.6767,
+          "debt_ratio": 0.168
+        },
+        "flags": [
+          {
+            "key": "high_daytrade",
+            "type": "risk"
+          },
+          {
+            "key": "fundamentals_improving",
+            "type": "positive"
+          },
+          {
+            "key": "institutional_positive",
+            "type": "positive"
+          }
+        ],
+        "coverage": {
+          "short_ratio": 1.0,
+          "long_ratio": 1.0,
+          "missing": []
+        }
+      },
+      {
+        "instrument": {
           "instrument_id": "TWSE:6770",
           "symbol": "6770",
           "exchange": "TWSE",
@@ -98,7 +238,7 @@
           }
         ],
         "short": {
-          "rank": 1,
+          "rank": 2,
           "score": 63,
           "components": {
             "theme_attention": {
@@ -109,14 +249,14 @@
               "available": true
             },
             "institutional_short_activity": {
-              "raw": 141020140.0,
+              "raw": 116256209.0,
               "normalized": 100,
               "base_weight": 0.2,
               "effective_weight": 0.2,
               "available": true
             },
             "daytrade_activity": {
-              "raw": 0.634,
+              "raw": 0.6762,
               "normalized": 100.0,
               "base_weight": 0.15,
               "effective_weight": 0.15,
@@ -150,7 +290,7 @@
               "available": true
             },
             "institutional_support": {
-              "raw": 141020140.0,
+              "raw": 116256209.0,
               "normalized": 100,
               "base_weight": 0.2,
               "effective_weight": 0.2,
@@ -164,7 +304,7 @@
               "available": true
             },
             "trading_stability": {
-              "raw": 0.634,
+              "raw": 0.6762,
               "normalized": 0.0,
               "base_weight": 0.05,
               "effective_weight": 0.05,
@@ -174,15 +314,15 @@
         },
         "institutional": {
           "direction": "positive",
-          "as_of": "2026-09-10",
+          "as_of": "2026-09-11",
           "observation_count": 5,
-          "five_day_net": 141020140.0
+          "five_day_net": 116256209.0
         },
         "trading_activity": {
-          "as_of": "2026-09-08",
-          "day_trading_volume": 109549000,
-          "total_volume": 172801850,
-          "day_trading_volume_ratio": 0.633957333211421,
+          "as_of": "2026-09-09",
+          "day_trading_volume": 77269000,
+          "total_volume": 114261094,
+          "day_trading_volume_ratio": 0.6762494327246683,
           "overnight_risk": null,
           "overnight_missing_reason": "no reliable overnight source"
         },
@@ -238,8 +378,8 @@
           }
         ],
         "short": {
-          "rank": 2,
-          "score": 61,
+          "rank": 3,
+          "score": 62,
           "components": {
             "theme_attention": {
               "raw": 40.6725,
@@ -249,15 +389,15 @@
               "available": true
             },
             "institutional_short_activity": {
-              "raw": 78936113.0,
+              "raw": 46579957.0,
               "normalized": 95,
               "base_weight": 0.2,
               "effective_weight": 0.2,
               "available": true
             },
             "daytrade_activity": {
-              "raw": 0.4076,
-              "normalized": 81.5142030559948,
+              "raw": 0.4113,
+              "normalized": 82.26459105862243,
               "base_weight": 0.15,
               "effective_weight": 0.15,
               "available": true
@@ -290,7 +430,7 @@
               "available": true
             },
             "institutional_support": {
-              "raw": 78936113.0,
+              "raw": 46579957.0,
               "normalized": 95,
               "base_weight": 0.2,
               "effective_weight": 0.2,
@@ -304,8 +444,8 @@
               "available": true
             },
             "trading_stability": {
-              "raw": 0.4076,
-              "normalized": 18.4857969440052,
+              "raw": 0.4113,
+              "normalized": 17.73540894137757,
               "base_weight": 0.05,
               "effective_weight": 0.05,
               "available": true
@@ -314,15 +454,15 @@
         },
         "institutional": {
           "direction": "positive",
-          "as_of": "2026-09-10",
+          "as_of": "2026-09-11",
           "observation_count": 5,
-          "five_day_net": 78936113.0
+          "five_day_net": 46579957.0
         },
         "trading_activity": {
-          "as_of": "2026-09-08",
-          "day_trading_volume": 90587000,
-          "total_volume": 222260653,
-          "day_trading_volume_ratio": 0.407571015279974,
+          "as_of": "2026-09-09",
+          "day_trading_volume": 57750000,
+          "total_volume": 140400625,
+          "day_trading_volume_ratio": 0.41132295529311214,
           "overnight_risk": null,
           "overnight_missing_reason": "no reliable overnight source"
         },
@@ -339,146 +479,6 @@
           "operating_cash_flow": 233.1,
           "operating_cash_flow_margin": 0.3895,
           "debt_ratio": 0.408
-        },
-        "flags": [
-          {
-            "key": "high_daytrade",
-            "type": "risk"
-          },
-          {
-            "key": "fundamentals_improving",
-            "type": "positive"
-          },
-          {
-            "key": "institutional_positive",
-            "type": "positive"
-          }
-        ],
-        "coverage": {
-          "short_ratio": 1.0,
-          "long_ratio": 1.0,
-          "missing": []
-        }
-      },
-      {
-        "instrument": {
-          "instrument_id": "TWSE:2408",
-          "symbol": "2408",
-          "exchange": "TWSE",
-          "name_zh": "南亞科"
-        },
-        "themes": [
-          {
-            "theme_id": "memory_hbm",
-            "name_zh": "記憶體與 HBM",
-            "relation": "related",
-            "heat_score": 58.0,
-            "heat_change_24h": null,
-            "momentum_score": 29.0
-          }
-        ],
-        "short": {
-          "rank": 3,
-          "score": 61,
-          "components": {
-            "theme_attention": {
-              "raw": 40.6725,
-              "normalized": 40.6725,
-              "base_weight": 0.55,
-              "effective_weight": 0.55,
-              "available": true
-            },
-            "institutional_short_activity": {
-              "raw": 40696314.0,
-              "normalized": 84,
-              "base_weight": 0.2,
-              "effective_weight": 0.2,
-              "available": true
-            },
-            "daytrade_activity": {
-              "raw": 0.3873,
-              "normalized": 77.45606053133798,
-              "base_weight": 0.15,
-              "effective_weight": 0.15,
-              "available": true
-            },
-            "fundamental_defense": {
-              "raw": 99.1667,
-              "normalized": 99.16666666666666,
-              "base_weight": 0.1,
-              "effective_weight": 0.1,
-              "available": true
-            }
-          },
-          "risk_adjustment": {
-            "overnight_risk_adjustment": {
-              "value": null,
-              "applied": 0.0,
-              "missing_reason": "no reliable overnight source"
-            }
-          }
-        },
-        "long": {
-          "rank": 1,
-          "score": 79,
-          "components": {
-            "fundamental_quality": {
-              "raw": 95.2167,
-              "normalized": 95.21666666666667,
-              "base_weight": 0.6,
-              "effective_weight": 0.6,
-              "available": true
-            },
-            "institutional_support": {
-              "raw": 40696314.0,
-              "normalized": 84,
-              "base_weight": 0.2,
-              "effective_weight": 0.2,
-              "available": true
-            },
-            "theme_persistence": {
-              "raw": 24.65,
-              "normalized": 24.65,
-              "base_weight": 0.15,
-              "effective_weight": 0.15,
-              "available": true
-            },
-            "trading_stability": {
-              "raw": 0.3873,
-              "normalized": 22.543939468662018,
-              "base_weight": 0.05,
-              "effective_weight": 0.05,
-              "available": true
-            }
-          }
-        },
-        "institutional": {
-          "direction": "positive",
-          "as_of": "2026-09-10",
-          "observation_count": 5,
-          "five_day_net": 40696314.0
-        },
-        "trading_activity": {
-          "as_of": "2026-09-08",
-          "day_trading_volume": 29519000,
-          "total_volume": 76221279,
-          "day_trading_volume_ratio": 0.3872803026566899,
-          "overnight_risk": null,
-          "overnight_missing_reason": "no reliable overnight source"
-        },
-        "fundamentals": {
-          "score": 95,
-          "fiscal_quarter": "2026Q2",
-          "comparison_basis": "YoY",
-          "revenue_growth": 683.95,
-          "revenue_direction": "up",
-          "eps_growth": 1210.61,
-          "eps_direction": "up",
-          "gross_margin": 0.7949121744397335,
-          "operating_margin": 0.7368867353119322,
-          "operating_cash_flow": 558.6,
-          "operating_cash_flow_margin": 0.6767,
-          "debt_ratio": 0.168
         },
         "flags": [
           {
@@ -519,7 +519,7 @@
         ],
         "short": {
           "rank": 4,
-          "score": 57,
+          "score": 61,
           "components": {
             "theme_attention": {
               "raw": 40.6725,
@@ -529,15 +529,15 @@
               "available": true
             },
             "institutional_short_activity": {
-              "raw": 43746525.0,
-              "normalized": 89,
+              "raw": 15585169.0,
+              "normalized": 79,
               "base_weight": 0.2,
               "effective_weight": 0.2,
               "available": true
             },
             "daytrade_activity": {
-              "raw": 0.3073,
-              "normalized": 61.45014391695428,
+              "raw": 0.5486,
+              "normalized": 100.0,
               "base_weight": 0.15,
               "effective_weight": 0.15,
               "available": true
@@ -560,7 +560,7 @@
         },
         "long": {
           "rank": 4,
-          "score": 63,
+          "score": 59,
           "components": {
             "fundamental_quality": {
               "raw": 66.3583,
@@ -570,8 +570,8 @@
               "available": true
             },
             "institutional_support": {
-              "raw": 43746525.0,
-              "normalized": 89,
+              "raw": 15585169.0,
+              "normalized": 79,
               "base_weight": 0.2,
               "effective_weight": 0.2,
               "available": true
@@ -584,8 +584,8 @@
               "available": true
             },
             "trading_stability": {
-              "raw": 0.3073,
-              "normalized": 38.54985608304572,
+              "raw": 0.5486,
+              "normalized": 0.0,
               "base_weight": 0.05,
               "effective_weight": 0.05,
               "available": true
@@ -594,15 +594,15 @@
         },
         "institutional": {
           "direction": "positive",
-          "as_of": "2026-09-10",
+          "as_of": "2026-09-11",
           "observation_count": 5,
-          "five_day_net": 43746525.0
+          "five_day_net": 15585169.0
         },
         "trading_activity": {
-          "as_of": "2026-09-08",
-          "day_trading_volume": 67342000,
-          "total_volume": 219176053,
-          "day_trading_volume_ratio": 0.3072507195847714,
+          "as_of": "2026-09-09",
+          "day_trading_volume": 148472000,
+          "total_volume": 270644784,
+          "day_trading_volume_ratio": 0.5485862236310455,
           "overnight_risk": null,
           "overnight_missing_reason": "no reliable overnight source"
         },
@@ -659,7 +659,7 @@
         ],
         "short": {
           "rank": 5,
-          "score": 53,
+          "score": 55,
           "components": {
             "theme_attention": {
               "raw": 40.6725,
@@ -669,15 +669,15 @@
               "available": true
             },
             "institutional_short_activity": {
-              "raw": 4625814.0,
-              "normalized": 63,
+              "raw": 7439342.0,
+              "normalized": 68,
               "base_weight": 0.2,
               "effective_weight": 0.2,
               "available": true
             },
             "daytrade_activity": {
-              "raw": 0.4652,
-              "normalized": 93.04906527627162,
+              "raw": 0.492,
+              "normalized": 98.39320013453478,
               "base_weight": 0.15,
               "effective_weight": 0.15,
               "available": true
@@ -699,8 +699,8 @@
           }
         },
         "long": {
-          "rank": 7,
-          "score": 51,
+          "rank": 8,
+          "score": 52,
           "components": {
             "fundamental_quality": {
               "raw": 57.5333,
@@ -710,8 +710,8 @@
               "available": true
             },
             "institutional_support": {
-              "raw": 4625814.0,
-              "normalized": 63,
+              "raw": 7439342.0,
+              "normalized": 68,
               "base_weight": 0.2,
               "effective_weight": 0.2,
               "available": true
@@ -724,8 +724,8 @@
               "available": true
             },
             "trading_stability": {
-              "raw": 0.4652,
-              "normalized": 6.9509347237283805,
+              "raw": 0.492,
+              "normalized": 1.60679986546522,
               "base_weight": 0.05,
               "effective_weight": 0.05,
               "available": true
@@ -734,15 +734,15 @@
         },
         "institutional": {
           "direction": "positive",
-          "as_of": "2026-09-10",
+          "as_of": "2026-09-11",
           "observation_count": 5,
-          "five_day_net": 4625814.0
+          "five_day_net": 7439342.0
         },
         "trading_activity": {
-          "as_of": "2026-09-08",
-          "day_trading_volume": 8287000,
-          "total_volume": 17812108,
-          "day_trading_volume_ratio": 0.4652453263813581,
+          "as_of": "2026-09-09",
+          "day_trading_volume": 10495000,
+          "total_volume": 21332775,
+          "day_trading_volume_ratio": 0.4919660006726739,
           "overnight_risk": null,
           "overnight_missing_reason": "no reliable overnight source"
         },
@@ -782,146 +782,6 @@
       },
       {
         "instrument": {
-          "instrument_id": "TWSE:6239",
-          "symbol": "6239",
-          "exchange": "TWSE",
-          "name_zh": "力成"
-        },
-        "themes": [
-          {
-            "theme_id": "memory_hbm",
-            "name_zh": "記憶體與 HBM",
-            "relation": "related",
-            "heat_score": 58.0,
-            "heat_change_24h": null,
-            "momentum_score": 29.0
-          }
-        ],
-        "short": {
-          "rank": 6,
-          "score": 53,
-          "components": {
-            "theme_attention": {
-              "raw": 40.6725,
-              "normalized": 40.6725,
-              "base_weight": 0.55,
-              "effective_weight": 0.55,
-              "available": true
-            },
-            "institutional_short_activity": {
-              "raw": 2131825.0,
-              "normalized": 58,
-              "base_weight": 0.2,
-              "effective_weight": 0.2,
-              "available": true
-            },
-            "daytrade_activity": {
-              "raw": 0.4944,
-              "normalized": 98.88790986648964,
-              "base_weight": 0.15,
-              "effective_weight": 0.15,
-              "available": true
-            },
-            "fundamental_defense": {
-              "raw": 44.5,
-              "normalized": 44.5,
-              "base_weight": 0.1,
-              "effective_weight": 0.1,
-              "available": true
-            }
-          },
-          "risk_adjustment": {
-            "overnight_risk_adjustment": {
-              "value": null,
-              "applied": 0.0,
-              "missing_reason": "no reliable overnight source"
-            }
-          }
-        },
-        "long": {
-          "rank": 12,
-          "score": 40,
-          "components": {
-            "fundamental_quality": {
-              "raw": 41.85,
-              "normalized": 41.85,
-              "base_weight": 0.6,
-              "effective_weight": 0.6,
-              "available": true
-            },
-            "institutional_support": {
-              "raw": 2131825.0,
-              "normalized": 58,
-              "base_weight": 0.2,
-              "effective_weight": 0.2,
-              "available": true
-            },
-            "theme_persistence": {
-              "raw": 24.65,
-              "normalized": 24.65,
-              "base_weight": 0.15,
-              "effective_weight": 0.15,
-              "available": true
-            },
-            "trading_stability": {
-              "raw": 0.4944,
-              "normalized": 1.112090133510364,
-              "base_weight": 0.05,
-              "effective_weight": 0.05,
-              "available": true
-            }
-          }
-        },
-        "institutional": {
-          "direction": "positive",
-          "as_of": "2026-09-10",
-          "observation_count": 5,
-          "five_day_net": 2131825.0
-        },
-        "trading_activity": {
-          "as_of": "2026-09-08",
-          "day_trading_volume": 7190000,
-          "total_volume": 14541717,
-          "day_trading_volume_ratio": 0.49443954933244816,
-          "overnight_risk": null,
-          "overnight_missing_reason": "no reliable overnight source"
-        },
-        "fundamentals": {
-          "score": 42,
-          "fiscal_quarter": "2026Q2",
-          "comparison_basis": "YoY",
-          "revenue_growth": 28.02,
-          "revenue_direction": "up",
-          "eps_growth": 130.77,
-          "eps_direction": "up",
-          "gross_margin": 0.21760380622837372,
-          "operating_margin": 0.1527249134948097,
-          "operating_cash_flow": 59.72,
-          "operating_cash_flow_margin": 0.2583,
-          "debt_ratio": 0.449
-        },
-        "flags": [
-          {
-            "key": "high_daytrade",
-            "type": "risk"
-          },
-          {
-            "key": "fundamentals_improving",
-            "type": "positive"
-          },
-          {
-            "key": "institutional_positive",
-            "type": "positive"
-          }
-        ],
-        "coverage": {
-          "short_ratio": 1.0,
-          "long_ratio": 1.0,
-          "missing": []
-        }
-      },
-      {
-        "instrument": {
           "instrument_id": "TPEX:3680",
           "symbol": "3680",
           "exchange": "TPEX",
@@ -938,8 +798,8 @@
           }
         ],
         "short": {
-          "rank": 7,
-          "score": 51,
+          "rank": 6,
+          "score": 52,
           "components": {
             "theme_attention": {
               "raw": 40.6725,
@@ -949,14 +809,14 @@
               "available": true
             },
             "institutional_short_activity": {
-              "raw": 1654847.0,
-              "normalized": 42,
+              "raw": 1117063.0,
+              "normalized": 47,
               "base_weight": 0.2,
               "effective_weight": 0.2,
               "available": true
             },
             "daytrade_activity": {
-              "raw": 0.5444,
+              "raw": 0.5364,
               "normalized": 100.0,
               "base_weight": 0.15,
               "effective_weight": 0.15,
@@ -980,7 +840,7 @@
         },
         "long": {
           "rank": 9,
-          "score": 49,
+          "score": 50,
           "components": {
             "fundamental_quality": {
               "raw": 61.0667,
@@ -990,8 +850,8 @@
               "available": true
             },
             "institutional_support": {
-              "raw": 1654847.0,
-              "normalized": 42,
+              "raw": 1117063.0,
+              "normalized": 47,
               "base_weight": 0.2,
               "effective_weight": 0.2,
               "available": true
@@ -1004,7 +864,7 @@
               "available": true
             },
             "trading_stability": {
-              "raw": 0.5444,
+              "raw": 0.5364,
               "normalized": 0.0,
               "base_weight": 0.05,
               "effective_weight": 0.05,
@@ -1014,15 +874,15 @@
         },
         "institutional": {
           "direction": "positive",
-          "as_of": "2026-09-10",
+          "as_of": "2026-09-11",
           "observation_count": 5,
-          "five_day_net": 1654847.0
+          "five_day_net": 1117063.0
         },
         "trading_activity": {
-          "as_of": "2026-09-08",
-          "day_trading_volume": 1196000,
-          "total_volume": 2196819,
-          "day_trading_volume_ratio": 0.5444235505974775,
+          "as_of": "2026-09-09",
+          "day_trading_volume": 4236000,
+          "total_volume": 7897112,
+          "day_trading_volume_ratio": 0.5363986226863694,
           "overnight_risk": null,
           "overnight_missing_reason": "no reliable overnight source"
         },
@@ -1039,6 +899,146 @@
           "operating_cash_flow": null,
           "operating_cash_flow_margin": null,
           "debt_ratio": 0.47100000000000003
+        },
+        "flags": [
+          {
+            "key": "high_daytrade",
+            "type": "risk"
+          },
+          {
+            "key": "fundamentals_improving",
+            "type": "positive"
+          },
+          {
+            "key": "institutional_positive",
+            "type": "positive"
+          }
+        ],
+        "coverage": {
+          "short_ratio": 1.0,
+          "long_ratio": 1.0,
+          "missing": []
+        }
+      },
+      {
+        "instrument": {
+          "instrument_id": "TWSE:8046",
+          "symbol": "8046",
+          "exchange": "TWSE",
+          "name_zh": "南電"
+        },
+        "themes": [
+          {
+            "theme_id": "memory_hbm",
+            "name_zh": "記憶體與 HBM",
+            "relation": "related",
+            "heat_score": 58.0,
+            "heat_change_24h": null,
+            "momentum_score": 29.0
+          }
+        ],
+        "short": {
+          "rank": 7,
+          "score": 52,
+          "components": {
+            "theme_attention": {
+              "raw": 40.6725,
+              "normalized": 40.6725,
+              "base_weight": 0.55,
+              "effective_weight": 0.55,
+              "available": true
+            },
+            "institutional_short_activity": {
+              "raw": 1648306.0,
+              "normalized": 58,
+              "base_weight": 0.2,
+              "effective_weight": 0.2,
+              "available": true
+            },
+            "daytrade_activity": {
+              "raw": 0.4385,
+              "normalized": 87.70585142765681,
+              "base_weight": 0.15,
+              "effective_weight": 0.15,
+              "available": true
+            },
+            "fundamental_defense": {
+              "raw": 50.6667,
+              "normalized": 50.66666666666667,
+              "base_weight": 0.1,
+              "effective_weight": 0.1,
+              "available": true
+            }
+          },
+          "risk_adjustment": {
+            "overnight_risk_adjustment": {
+              "value": null,
+              "applied": 0.0,
+              "missing_reason": "no reliable overnight source"
+            }
+          }
+        },
+        "long": {
+          "rank": 7,
+          "score": 54,
+          "components": {
+            "fundamental_quality": {
+              "raw": 62.6667,
+              "normalized": 62.66666666666667,
+              "base_weight": 0.6,
+              "effective_weight": 0.6,
+              "available": true
+            },
+            "institutional_support": {
+              "raw": 1648306.0,
+              "normalized": 58,
+              "base_weight": 0.2,
+              "effective_weight": 0.2,
+              "available": true
+            },
+            "theme_persistence": {
+              "raw": 24.65,
+              "normalized": 24.65,
+              "base_weight": 0.15,
+              "effective_weight": 0.15,
+              "available": true
+            },
+            "trading_stability": {
+              "raw": 0.4385,
+              "normalized": 12.29414857234319,
+              "base_weight": 0.05,
+              "effective_weight": 0.05,
+              "available": true
+            }
+          }
+        },
+        "institutional": {
+          "direction": "positive",
+          "as_of": "2026-09-11",
+          "observation_count": 5,
+          "five_day_net": 1648306.0
+        },
+        "trading_activity": {
+          "as_of": "2026-09-09",
+          "day_trading_volume": 5381000,
+          "total_volume": 12270561,
+          "day_trading_volume_ratio": 0.43852925713828406,
+          "overnight_risk": null,
+          "overnight_missing_reason": "no reliable overnight source"
+        },
+        "fundamentals": {
+          "score": 63,
+          "fiscal_quarter": "2026Q2",
+          "comparison_basis": "YoY",
+          "revenue_growth": 41.71,
+          "revenue_direction": "up",
+          "eps_growth": 1306.9,
+          "eps_direction": "up",
+          "gross_margin": 0.24742268041237112,
+          "operating_margin": 0.21347569955817375,
+          "operating_cash_flow": 10.16,
+          "operating_cash_flow_margin": 0.0748,
+          "debt_ratio": 0.24
         },
         "flags": [
           {
@@ -1079,7 +1079,7 @@
         ],
         "short": {
           "rank": 8,
-          "score": 51,
+          "score": 50,
           "components": {
             "theme_attention": {
               "raw": 40.6725,
@@ -1089,15 +1089,15 @@
               "available": true
             },
             "institutional_short_activity": {
-              "raw": 19550926.0,
+              "raw": 8748680.0,
               "normalized": 74,
               "base_weight": 0.2,
               "effective_weight": 0.2,
               "available": true
             },
             "daytrade_activity": {
-              "raw": 0.1704,
-              "normalized": 34.08026843361453,
+              "raw": 0.1284,
+              "normalized": 25.675823346964364,
               "base_weight": 0.15,
               "effective_weight": 0.15,
               "available": true
@@ -1130,7 +1130,7 @@
               "available": true
             },
             "institutional_support": {
-              "raw": 19550926.0,
+              "raw": 8748680.0,
               "normalized": 74,
               "base_weight": 0.2,
               "effective_weight": 0.2,
@@ -1144,8 +1144,8 @@
               "available": true
             },
             "trading_stability": {
-              "raw": 0.1704,
-              "normalized": 65.91973156638548,
+              "raw": 0.1284,
+              "normalized": 74.32417665303564,
               "base_weight": 0.05,
               "effective_weight": 0.05,
               "available": true
@@ -1154,15 +1154,15 @@
         },
         "institutional": {
           "direction": "positive",
-          "as_of": "2026-09-10",
+          "as_of": "2026-09-11",
           "observation_count": 5,
-          "five_day_net": 19550926.0
+          "five_day_net": 8748680.0
         },
         "trading_activity": {
-          "as_of": "2026-09-08",
-          "day_trading_volume": 4930000,
-          "total_volume": 28931697,
-          "day_trading_volume_ratio": 0.17040134216807262,
+          "as_of": "2026-09-09",
+          "day_trading_volume": 2285000,
+          "total_volume": 17798845,
+          "day_trading_volume_ratio": 0.12837911673482183,
           "overnight_risk": null,
           "overnight_missing_reason": "no reliable overnight source"
         },
@@ -1198,430 +1198,6 @@
       },
       {
         "instrument": {
-          "instrument_id": "TWSE:3711",
-          "symbol": "3711",
-          "exchange": "TWSE",
-          "name_zh": "日月光投控"
-        },
-        "themes": [
-          {
-            "theme_id": "memory_hbm",
-            "name_zh": "記憶體與 HBM",
-            "relation": "related",
-            "heat_score": 58.0,
-            "heat_change_24h": null,
-            "momentum_score": 29.0
-          }
-        ],
-        "short": {
-          "rank": 9,
-          "score": 51,
-          "components": {
-            "theme_attention": {
-              "raw": 40.6725,
-              "normalized": 40.6725,
-              "base_weight": 0.55,
-              "effective_weight": 0.55,
-              "available": true
-            },
-            "institutional_short_activity": {
-              "raw": 29923628.0,
-              "normalized": 79,
-              "base_weight": 0.2,
-              "effective_weight": 0.2,
-              "available": true
-            },
-            "daytrade_activity": {
-              "raw": 0.3385,
-              "normalized": 67.70857897688363,
-              "base_weight": 0.15,
-              "effective_weight": 0.15,
-              "available": true
-            },
-            "fundamental_defense": {
-              "raw": 30.8333,
-              "normalized": 30.833333333333336,
-              "base_weight": 0.1,
-              "effective_weight": 0.1,
-              "available": true
-            }
-          },
-          "risk_adjustment": {
-            "overnight_risk_adjustment": {
-              "value": null,
-              "applied": 0.0,
-              "missing_reason": "no reliable overnight source"
-            }
-          }
-        },
-        "long": {
-          "rank": 10,
-          "score": 43,
-          "components": {
-            "fundamental_quality": {
-              "raw": 35.6833,
-              "normalized": 35.68333333333334,
-              "base_weight": 0.6,
-              "effective_weight": 0.6,
-              "available": true
-            },
-            "institutional_support": {
-              "raw": 29923628.0,
-              "normalized": 79,
-              "base_weight": 0.2,
-              "effective_weight": 0.2,
-              "available": true
-            },
-            "theme_persistence": {
-              "raw": 24.65,
-              "normalized": 24.65,
-              "base_weight": 0.15,
-              "effective_weight": 0.15,
-              "available": true
-            },
-            "trading_stability": {
-              "raw": 0.3385,
-              "normalized": 32.29142102311637,
-              "base_weight": 0.05,
-              "effective_weight": 0.05,
-              "available": true
-            }
-          }
-        },
-        "institutional": {
-          "direction": "positive",
-          "as_of": "2026-09-10",
-          "observation_count": 5,
-          "five_day_net": 29923628.0
-        },
-        "trading_activity": {
-          "as_of": "2026-09-08",
-          "day_trading_volume": 4515000,
-          "total_volume": 13336567,
-          "day_trading_volume_ratio": 0.33854289488441813,
-          "overnight_risk": null,
-          "overnight_missing_reason": "no reliable overnight source"
-        },
-        "fundamentals": {
-          "score": 36,
-          "fiscal_quarter": "2026Q2",
-          "comparison_basis": "YoY",
-          "revenue_growth": 26.72,
-          "revenue_direction": "up",
-          "eps_growth": 175.86,
-          "eps_direction": "up",
-          "gross_margin": 0.21009942438513868,
-          "operating_margin": 0.11057038199895343,
-          "operating_cash_flow": 470.1,
-          "operating_cash_flow_margin": 0.246,
-          "debt_ratio": 0.609
-        },
-        "flags": [
-          {
-            "key": "high_daytrade",
-            "type": "risk"
-          },
-          {
-            "key": "high_leverage",
-            "type": "risk"
-          },
-          {
-            "key": "fundamentals_improving",
-            "type": "positive"
-          },
-          {
-            "key": "institutional_positive",
-            "type": "positive"
-          }
-        ],
-        "coverage": {
-          "short_ratio": 1.0,
-          "long_ratio": 1.0,
-          "missing": []
-        }
-      },
-      {
-        "instrument": {
-          "instrument_id": "TWSE:8046",
-          "symbol": "8046",
-          "exchange": "TWSE",
-          "name_zh": "南電"
-        },
-        "themes": [
-          {
-            "theme_id": "memory_hbm",
-            "name_zh": "記憶體與 HBM",
-            "relation": "related",
-            "heat_score": 58.0,
-            "heat_change_24h": null,
-            "momentum_score": 29.0
-          }
-        ],
-        "short": {
-          "rank": 10,
-          "score": 51,
-          "components": {
-            "theme_attention": {
-              "raw": 40.6725,
-              "normalized": 40.6725,
-              "base_weight": 0.55,
-              "effective_weight": 0.55,
-              "available": true
-            },
-            "institutional_short_activity": {
-              "raw": 1843011.0,
-              "normalized": 47,
-              "base_weight": 0.2,
-              "effective_weight": 0.2,
-              "available": true
-            },
-            "daytrade_activity": {
-              "raw": 0.4816,
-              "normalized": 96.3150754414016,
-              "base_weight": 0.15,
-              "effective_weight": 0.15,
-              "available": true
-            },
-            "fundamental_defense": {
-              "raw": 50.6667,
-              "normalized": 50.66666666666667,
-              "base_weight": 0.1,
-              "effective_weight": 0.1,
-              "available": true
-            }
-          },
-          "risk_adjustment": {
-            "overnight_risk_adjustment": {
-              "value": null,
-              "applied": 0.0,
-              "missing_reason": "no reliable overnight source"
-            }
-          }
-        },
-        "long": {
-          "rank": 8,
-          "score": 51,
-          "components": {
-            "fundamental_quality": {
-              "raw": 62.6667,
-              "normalized": 62.66666666666667,
-              "base_weight": 0.6,
-              "effective_weight": 0.6,
-              "available": true
-            },
-            "institutional_support": {
-              "raw": 1843011.0,
-              "normalized": 47,
-              "base_weight": 0.2,
-              "effective_weight": 0.2,
-              "available": true
-            },
-            "theme_persistence": {
-              "raw": 24.65,
-              "normalized": 24.65,
-              "base_weight": 0.15,
-              "effective_weight": 0.15,
-              "available": true
-            },
-            "trading_stability": {
-              "raw": 0.4816,
-              "normalized": 3.6849245585983965,
-              "base_weight": 0.05,
-              "effective_weight": 0.05,
-              "available": true
-            }
-          }
-        },
-        "institutional": {
-          "direction": "positive",
-          "as_of": "2026-09-10",
-          "observation_count": 5,
-          "five_day_net": 1843011.0
-        },
-        "trading_activity": {
-          "as_of": "2026-09-08",
-          "day_trading_volume": 3117000,
-          "total_volume": 6472507,
-          "day_trading_volume_ratio": 0.48157537720700805,
-          "overnight_risk": null,
-          "overnight_missing_reason": "no reliable overnight source"
-        },
-        "fundamentals": {
-          "score": 63,
-          "fiscal_quarter": "2026Q2",
-          "comparison_basis": "YoY",
-          "revenue_growth": 41.71,
-          "revenue_direction": "up",
-          "eps_growth": 1306.9,
-          "eps_direction": "up",
-          "gross_margin": 0.24742268041237112,
-          "operating_margin": 0.21347569955817375,
-          "operating_cash_flow": 10.16,
-          "operating_cash_flow_margin": 0.0748,
-          "debt_ratio": 0.24
-        },
-        "flags": [
-          {
-            "key": "high_daytrade",
-            "type": "risk"
-          },
-          {
-            "key": "fundamentals_improving",
-            "type": "positive"
-          },
-          {
-            "key": "institutional_positive",
-            "type": "positive"
-          }
-        ],
-        "coverage": {
-          "short_ratio": 1.0,
-          "long_ratio": 1.0,
-          "missing": []
-        }
-      },
-      {
-        "instrument": {
-          "instrument_id": "TPEX:8299",
-          "symbol": "8299",
-          "exchange": "TPEX",
-          "name_zh": "群聯"
-        },
-        "themes": [
-          {
-            "theme_id": "memory_hbm",
-            "name_zh": "記憶體與 HBM",
-            "relation": "related",
-            "heat_score": 58.0,
-            "heat_change_24h": null,
-            "momentum_score": 29.0
-          }
-        ],
-        "short": {
-          "rank": 11,
-          "score": 50,
-          "components": {
-            "theme_attention": {
-              "raw": 40.6725,
-              "normalized": 40.6725,
-              "base_weight": 0.55,
-              "effective_weight": 0.55,
-              "available": true
-            },
-            "institutional_short_activity": {
-              "raw": 661326.0,
-              "normalized": 37,
-              "base_weight": 0.2,
-              "effective_weight": 0.2,
-              "available": true
-            },
-            "daytrade_activity": {
-              "raw": 0.4636,
-              "normalized": 92.71194789835373,
-              "base_weight": 0.15,
-              "effective_weight": 0.15,
-              "available": true
-            },
-            "fundamental_defense": {
-              "raw": 59.6667,
-              "normalized": 59.666666666666664,
-              "base_weight": 0.1,
-              "effective_weight": 0.1,
-              "available": true
-            }
-          },
-          "risk_adjustment": {
-            "overnight_risk_adjustment": {
-              "value": null,
-              "applied": 0.0,
-              "missing_reason": "no reliable overnight source"
-            }
-          }
-        },
-        "long": {
-          "rank": 6,
-          "score": 57,
-          "components": {
-            "fundamental_quality": {
-              "raw": 76.0667,
-              "normalized": 76.06666666666666,
-              "base_weight": 0.6,
-              "effective_weight": 0.6,
-              "available": true
-            },
-            "institutional_support": {
-              "raw": 661326.0,
-              "normalized": 37,
-              "base_weight": 0.2,
-              "effective_weight": 0.2,
-              "available": true
-            },
-            "theme_persistence": {
-              "raw": 24.65,
-              "normalized": 24.65,
-              "base_weight": 0.15,
-              "effective_weight": 0.15,
-              "available": true
-            },
-            "trading_stability": {
-              "raw": 0.4636,
-              "normalized": 7.288052101646272,
-              "base_weight": 0.05,
-              "effective_weight": 0.05,
-              "available": true
-            }
-          }
-        },
-        "institutional": {
-          "direction": "positive",
-          "as_of": "2026-09-10",
-          "observation_count": 5,
-          "five_day_net": 661326.0
-        },
-        "trading_activity": {
-          "as_of": "2026-09-08",
-          "day_trading_volume": 1277000,
-          "total_volume": 2754769,
-          "day_trading_volume_ratio": 0.46355973949176865,
-          "overnight_risk": null,
-          "overnight_missing_reason": "no reliable overnight source"
-        },
-        "fundamentals": {
-          "score": 76,
-          "fiscal_quarter": "2026Q2",
-          "comparison_basis": "YoY",
-          "revenue_growth": 279.49,
-          "revenue_direction": "up",
-          "eps_growth": 3193.61,
-          "eps_direction": "up",
-          "gross_margin": 0.6534099278244219,
-          "operating_margin": 0.3884224480777729,
-          "operating_cash_flow": null,
-          "operating_cash_flow_margin": null,
-          "debt_ratio": 0.473
-        },
-        "flags": [
-          {
-            "key": "high_daytrade",
-            "type": "risk"
-          },
-          {
-            "key": "fundamentals_improving",
-            "type": "positive"
-          },
-          {
-            "key": "institutional_positive",
-            "type": "positive"
-          }
-        ],
-        "coverage": {
-          "short_ratio": 1.0,
-          "long_ratio": 1.0,
-          "missing": []
-        }
-      },
-      {
-        "instrument": {
           "instrument_id": "TWSE:2454",
           "symbol": "2454",
           "exchange": "TWSE",
@@ -1638,7 +1214,7 @@
           }
         ],
         "short": {
-          "rank": 12,
+          "rank": 9,
           "score": 50,
           "components": {
             "theme_attention": {
@@ -1649,15 +1225,15 @@
               "available": true
             },
             "institutional_short_activity": {
-              "raw": 6661539.0,
-              "normalized": 68,
+              "raw": 5028587.0,
+              "normalized": 63,
               "base_weight": 0.2,
               "effective_weight": 0.2,
               "available": true
             },
             "daytrade_activity": {
-              "raw": 0.3274,
-              "normalized": 65.48006067655153,
+              "raw": 0.3555,
+              "normalized": 71.10065668122132,
               "base_weight": 0.15,
               "effective_weight": 0.15,
               "available": true
@@ -1680,7 +1256,7 @@
         },
         "long": {
           "rank": 13,
-          "score": 38,
+          "score": 36,
           "components": {
             "fundamental_quality": {
               "raw": 31.0917,
@@ -1690,8 +1266,8 @@
               "available": true
             },
             "institutional_support": {
-              "raw": 6661539.0,
-              "normalized": 68,
+              "raw": 5028587.0,
+              "normalized": 63,
               "base_weight": 0.2,
               "effective_weight": 0.2,
               "available": true
@@ -1704,8 +1280,8 @@
               "available": true
             },
             "trading_stability": {
-              "raw": 0.3274,
-              "normalized": 34.51993932344847,
+              "raw": 0.3555,
+              "normalized": 28.899343318778676,
               "base_weight": 0.05,
               "effective_weight": 0.05,
               "available": true
@@ -1714,15 +1290,15 @@
         },
         "institutional": {
           "direction": "positive",
-          "as_of": "2026-09-10",
+          "as_of": "2026-09-11",
           "observation_count": 5,
-          "five_day_net": 6661539.0
+          "five_day_net": 5028587.0
         },
         "trading_activity": {
-          "as_of": "2026-09-08",
-          "day_trading_volume": 2132000,
-          "total_volume": 6511906,
-          "day_trading_volume_ratio": 0.32740030338275766,
+          "as_of": "2026-09-09",
+          "day_trading_volume": 1920000,
+          "total_volume": 5400794,
+          "day_trading_volume_ratio": 0.3555032834061066,
           "overnight_risk": null,
           "overnight_missing_reason": "no reliable overnight source"
         },
@@ -1758,10 +1334,10 @@
       },
       {
         "instrument": {
-          "instrument_id": "TWSE:3532",
-          "symbol": "3532",
+          "instrument_id": "TWSE:3711",
+          "symbol": "3711",
           "exchange": "TWSE",
-          "name_zh": "台勝科"
+          "name_zh": "日月光投控"
         },
         "themes": [
           {
@@ -1774,8 +1350,8 @@
           }
         ],
         "short": {
-          "rank": 13,
-          "score": 49,
+          "rank": 10,
+          "score": 50,
           "components": {
             "theme_attention": {
               "raw": 40.6725,
@@ -1785,22 +1361,22 @@
               "available": true
             },
             "institutional_short_activity": {
-              "raw": 1955705.0,
-              "normalized": 53,
+              "raw": 25582206.0,
+              "normalized": 84,
               "base_weight": 0.2,
               "effective_weight": 0.2,
               "available": true
             },
             "daytrade_activity": {
-              "raw": 0.6991,
-              "normalized": 100.0,
+              "raw": 0.2739,
+              "normalized": 54.78614192904201,
               "base_weight": 0.15,
               "effective_weight": 0.15,
               "available": true
             },
             "fundamental_defense": {
-              "raw": 12.4167,
-              "normalized": 12.416666666666666,
+              "raw": 30.8333,
+              "normalized": 30.833333333333336,
               "base_weight": 0.1,
               "effective_weight": 0.1,
               "available": true
@@ -1815,19 +1391,19 @@
           }
         },
         "long": {
-          "rank": 16,
-          "score": 28,
+          "rank": 11,
+          "score": 44,
           "components": {
             "fundamental_quality": {
-              "raw": 22.5417,
-              "normalized": 22.541666666666668,
+              "raw": 35.6833,
+              "normalized": 35.68333333333334,
               "base_weight": 0.6,
               "effective_weight": 0.6,
               "available": true
             },
             "institutional_support": {
-              "raw": 1955705.0,
-              "normalized": 53,
+              "raw": 25582206.0,
+              "normalized": 84,
               "base_weight": 0.2,
               "effective_weight": 0.2,
               "available": true
@@ -1840,8 +1416,8 @@
               "available": true
             },
             "trading_stability": {
-              "raw": 0.6991,
-              "normalized": 0.0,
+              "raw": 0.2739,
+              "normalized": 45.21385807095799,
               "base_weight": 0.05,
               "effective_weight": 0.05,
               "available": true
@@ -1850,35 +1426,35 @@
         },
         "institutional": {
           "direction": "positive",
-          "as_of": "2026-09-10",
+          "as_of": "2026-09-11",
           "observation_count": 5,
-          "five_day_net": 1955705.0
+          "five_day_net": 25582206.0
         },
         "trading_activity": {
-          "as_of": "2026-09-08",
-          "day_trading_volume": 6556000,
-          "total_volume": 9378177,
-          "day_trading_volume_ratio": 0.699069765904397,
+          "as_of": "2026-09-09",
+          "day_trading_volume": 6288000,
+          "total_volume": 22954710,
+          "day_trading_volume_ratio": 0.27393070964521005,
           "overnight_risk": null,
           "overnight_missing_reason": "no reliable overnight source"
         },
         "fundamentals": {
-          "score": 23,
+          "score": 36,
           "fiscal_quarter": "2026Q2",
           "comparison_basis": "YoY",
-          "revenue_growth": 20.61,
+          "revenue_growth": 26.72,
           "revenue_direction": "up",
-          "eps_growth": 131.58,
+          "eps_growth": 175.86,
           "eps_direction": "up",
-          "gross_margin": 0.06897506925207757,
-          "operating_margin": 0.02631578947368421,
-          "operating_cash_flow": 2.61,
-          "operating_cash_flow_margin": 0.0723,
-          "debt_ratio": 0.526
+          "gross_margin": 0.21009942438513868,
+          "operating_margin": 0.11057038199895343,
+          "operating_cash_flow": 470.1,
+          "operating_cash_flow_margin": 0.246,
+          "debt_ratio": 0.609
         },
         "flags": [
           {
-            "key": "high_daytrade",
+            "key": "high_leverage",
             "type": "risk"
           },
           {
@@ -1914,8 +1490,8 @@
           }
         ],
         "short": {
-          "rank": 14,
-          "score": 48,
+          "rank": 11,
+          "score": 49,
           "components": {
             "theme_attention": {
               "raw": 40.6725,
@@ -1925,14 +1501,14 @@
               "available": true
             },
             "institutional_short_activity": {
-              "raw": 268491.0,
-              "normalized": 32,
+              "raw": 69376.0,
+              "normalized": 37,
               "base_weight": 0.2,
               "effective_weight": 0.2,
               "available": true
             },
             "daytrade_activity": {
-              "raw": 0.5501,
+              "raw": 0.5797,
               "normalized": 100.0,
               "base_weight": 0.15,
               "effective_weight": 0.15,
@@ -1955,8 +1531,8 @@
           }
         },
         "long": {
-          "rank": 14,
-          "score": 38,
+          "rank": 12,
+          "score": 39,
           "components": {
             "fundamental_quality": {
               "raw": 47.3333,
@@ -1966,8 +1542,8 @@
               "available": true
             },
             "institutional_support": {
-              "raw": 268491.0,
-              "normalized": 32,
+              "raw": 69376.0,
+              "normalized": 37,
               "base_weight": 0.2,
               "effective_weight": 0.2,
               "available": true
@@ -1980,7 +1556,7 @@
               "available": true
             },
             "trading_stability": {
-              "raw": 0.5501,
+              "raw": 0.5797,
               "normalized": 0.0,
               "base_weight": 0.05,
               "effective_weight": 0.05,
@@ -1990,15 +1566,15 @@
         },
         "institutional": {
           "direction": "positive",
-          "as_of": "2026-09-10",
+          "as_of": "2026-09-11",
           "observation_count": 5,
-          "five_day_net": 268491.0
+          "five_day_net": 69376.0
         },
         "trading_activity": {
-          "as_of": "2026-09-08",
-          "day_trading_volume": 6091000,
-          "total_volume": 11072227,
-          "day_trading_volume_ratio": 0.5501151665333451,
+          "as_of": "2026-09-09",
+          "day_trading_volume": 8827000,
+          "total_volume": 15225627,
+          "day_trading_volume_ratio": 0.5797462396786681,
           "overnight_risk": null,
           "overnight_missing_reason": "no reliable overnight source"
         },
@@ -2038,49 +1614,49 @@
       },
       {
         "instrument": {
-          "instrument_id": "TWSE:8033",
-          "symbol": "8033",
+          "instrument_id": "TWSE:3532",
+          "symbol": "3532",
           "exchange": "TWSE",
-          "name_zh": "雷虎"
+          "name_zh": "台勝科"
         },
         "themes": [
           {
-            "theme_id": "defense_drone",
-            "name_zh": "國防與無人機",
+            "theme_id": "memory_hbm",
+            "name_zh": "記憶體與 HBM",
             "relation": "related",
-            "heat_score": 71.0,
+            "heat_score": 58.0,
             "heat_change_24h": null,
-            "momentum_score": 36.0
+            "momentum_score": 29.0
           }
         ],
         "short": {
-          "rank": 15,
-          "score": 43,
+          "rank": 12,
+          "score": 49,
           "components": {
             "theme_attention": {
-              "raw": 49.9375,
-              "normalized": 49.9375,
+              "raw": 40.6725,
+              "normalized": 40.6725,
               "base_weight": 0.55,
               "effective_weight": 0.55,
               "available": true
             },
             "institutional_short_activity": {
-              "raw": -583568.0,
-              "normalized": 16,
+              "raw": 1505695.0,
+              "normalized": 53,
               "base_weight": 0.2,
               "effective_weight": 0.2,
               "available": true
             },
             "daytrade_activity": {
-              "raw": 0.297,
-              "normalized": 59.40480066254735,
+              "raw": 0.6199,
+              "normalized": 100.0,
               "base_weight": 0.15,
               "effective_weight": 0.15,
               "available": true
             },
             "fundamental_defense": {
-              "raw": 36.0833,
-              "normalized": 36.083333333333336,
+              "raw": 12.4167,
+              "normalized": 12.416666666666666,
               "base_weight": 0.1,
               "effective_weight": 0.1,
               "available": true
@@ -2095,33 +1671,33 @@
           }
         },
         "long": {
-          "rank": 18,
-          "score": 25,
+          "rank": 16,
+          "score": 28,
           "components": {
             "fundamental_quality": {
-              "raw": 25.7083,
-              "normalized": 25.708333333333332,
+              "raw": 22.5417,
+              "normalized": 22.541666666666668,
               "base_weight": 0.6,
               "effective_weight": 0.6,
               "available": true
             },
             "institutional_support": {
-              "raw": -583568.0,
-              "normalized": 16,
+              "raw": 1505695.0,
+              "normalized": 53,
               "base_weight": 0.2,
               "effective_weight": 0.2,
               "available": true
             },
             "theme_persistence": {
-              "raw": 30.6,
-              "normalized": 30.599999999999998,
+              "raw": 24.65,
+              "normalized": 24.65,
               "base_weight": 0.15,
               "effective_weight": 0.15,
               "available": true
             },
             "trading_stability": {
-              "raw": 0.297,
-              "normalized": 40.59519933745265,
+              "raw": 0.6199,
+              "normalized": 0.0,
               "base_weight": 0.05,
               "effective_weight": 0.05,
               "available": true
@@ -2129,37 +1705,185 @@
           }
         },
         "institutional": {
-          "direction": "negative",
-          "as_of": "2026-09-10",
+          "direction": "positive",
+          "as_of": "2026-09-11",
           "observation_count": 5,
-          "five_day_net": -583568.0
+          "five_day_net": 1505695.0
         },
         "trading_activity": {
-          "as_of": "2026-09-08",
-          "day_trading_volume": 614000,
-          "total_volume": 2067173,
-          "day_trading_volume_ratio": 0.29702400331273676,
+          "as_of": "2026-09-09",
+          "day_trading_volume": 5688000,
+          "total_volume": 9176282,
+          "day_trading_volume_ratio": 0.6198588927410905,
           "overnight_risk": null,
           "overnight_missing_reason": "no reliable overnight source"
         },
         "fundamentals": {
-          "score": 26,
+          "score": 23,
           "fiscal_quarter": "2026Q2",
           "comparison_basis": "YoY",
-          "revenue_growth": 10.74,
+          "revenue_growth": 20.61,
           "revenue_direction": "up",
-          "eps_growth": -37.78,
-          "eps_direction": "down",
-          "gross_margin": 0.3556034482758621,
-          "operating_margin": 0.001077586206896552,
-          "operating_cash_flow": -1.33,
-          "operating_cash_flow_margin": -0.2866,
-          "debt_ratio": 0.23399999999999999
+          "eps_growth": 131.58,
+          "eps_direction": "up",
+          "gross_margin": 0.06897506925207757,
+          "operating_margin": 0.02631578947368421,
+          "operating_cash_flow": 2.61,
+          "operating_cash_flow_margin": 0.0723,
+          "debt_ratio": 0.526
         },
         "flags": [
           {
-            "key": "cashflow_weak",
+            "key": "high_daytrade",
             "type": "risk"
+          },
+          {
+            "key": "fundamentals_improving",
+            "type": "positive"
+          },
+          {
+            "key": "institutional_positive",
+            "type": "positive"
+          }
+        ],
+        "coverage": {
+          "short_ratio": 1.0,
+          "long_ratio": 1.0,
+          "missing": []
+        }
+      },
+      {
+        "instrument": {
+          "instrument_id": "TWSE:2449",
+          "symbol": "2449",
+          "exchange": "TWSE",
+          "name_zh": "京元電子"
+        },
+        "themes": [
+          {
+            "theme_id": "memory_hbm",
+            "name_zh": "記憶體與 HBM",
+            "relation": "related",
+            "heat_score": 58.0,
+            "heat_change_24h": null,
+            "momentum_score": 29.0
+          }
+        ],
+        "short": {
+          "rank": 13,
+          "score": 48,
+          "components": {
+            "theme_attention": {
+              "raw": 40.6725,
+              "normalized": 40.6725,
+              "base_weight": 0.55,
+              "effective_weight": 0.55,
+              "available": true
+            },
+            "institutional_short_activity": {
+              "raw": 499724.0,
+              "normalized": 42,
+              "base_weight": 0.2,
+              "effective_weight": 0.2,
+              "available": true
+            },
+            "daytrade_activity": {
+              "raw": 0.376,
+              "normalized": 75.19394619094315,
+              "base_weight": 0.15,
+              "effective_weight": 0.15,
+              "available": true
+            },
+            "fundamental_defense": {
+              "raw": 56.1667,
+              "normalized": 56.166666666666664,
+              "base_weight": 0.1,
+              "effective_weight": 0.1,
+              "available": true
+            }
+          },
+          "risk_adjustment": {
+            "overnight_risk_adjustment": {
+              "value": null,
+              "applied": 0.0,
+              "missing_reason": "no reliable overnight source"
+            }
+          }
+        },
+        "long": {
+          "rank": 10,
+          "score": 44,
+          "components": {
+            "fundamental_quality": {
+              "raw": 50.7167,
+              "normalized": 50.71666666666667,
+              "base_weight": 0.6,
+              "effective_weight": 0.6,
+              "available": true
+            },
+            "institutional_support": {
+              "raw": 499724.0,
+              "normalized": 42,
+              "base_weight": 0.2,
+              "effective_weight": 0.2,
+              "available": true
+            },
+            "theme_persistence": {
+              "raw": 24.65,
+              "normalized": 24.65,
+              "base_weight": 0.15,
+              "effective_weight": 0.15,
+              "available": true
+            },
+            "trading_stability": {
+              "raw": 0.376,
+              "normalized": 24.80605380905685,
+              "base_weight": 0.05,
+              "effective_weight": 0.05,
+              "available": true
+            }
+          }
+        },
+        "institutional": {
+          "direction": "positive",
+          "as_of": "2026-09-11",
+          "observation_count": 5,
+          "five_day_net": 499724.0
+        },
+        "trading_activity": {
+          "as_of": "2026-09-09",
+          "day_trading_volume": 4697000,
+          "total_volume": 12493027,
+          "day_trading_volume_ratio": 0.37596973095471575,
+          "overnight_risk": null,
+          "overnight_missing_reason": "no reliable overnight source"
+        },
+        "fundamentals": {
+          "score": 51,
+          "fiscal_quarter": "2026Q2",
+          "comparison_basis": "YoY",
+          "revenue_growth": 33.22,
+          "revenue_direction": "up",
+          "eps_growth": 14.61,
+          "eps_direction": "up",
+          "gross_margin": 0.3949730700179533,
+          "operating_margin": 0.25385996409335726,
+          "operating_cash_flow": 26.32,
+          "operating_cash_flow_margin": 0.2363,
+          "debt_ratio": 0.513
+        },
+        "flags": [
+          {
+            "key": "high_daytrade",
+            "type": "risk"
+          },
+          {
+            "key": "fundamentals_improving",
+            "type": "positive"
+          },
+          {
+            "key": "institutional_positive",
+            "type": "positive"
           }
         ],
         "coverage": {
@@ -2186,8 +1910,8 @@
           }
         ],
         "short": {
-          "rank": 16,
-          "score": 43,
+          "rank": 14,
+          "score": 44,
           "components": {
             "theme_attention": {
               "raw": 40.6725,
@@ -2197,15 +1921,15 @@
               "available": true
             },
             "institutional_short_activity": {
-              "raw": 138364.0,
-              "normalized": 26,
+              "raw": 36275.0,
+              "normalized": 32,
               "base_weight": 0.2,
               "effective_weight": 0.2,
               "available": true
             },
             "daytrade_activity": {
-              "raw": 0.418,
-              "normalized": 83.60075414846972,
+              "raw": 0.4075,
+              "normalized": 81.50650454949484,
               "base_weight": 0.15,
               "effective_weight": 0.15,
               "available": true
@@ -2228,7 +1952,7 @@
         },
         "long": {
           "rank": 17,
-          "score": 26,
+          "score": 27,
           "components": {
             "fundamental_quality": {
               "raw": 27.0,
@@ -2238,8 +1962,8 @@
               "available": true
             },
             "institutional_support": {
-              "raw": 138364.0,
-              "normalized": 26,
+              "raw": 36275.0,
+              "normalized": 32,
               "base_weight": 0.2,
               "effective_weight": 0.2,
               "available": true
@@ -2252,8 +1976,8 @@
               "available": true
             },
             "trading_stability": {
-              "raw": 0.418,
-              "normalized": 16.39924585153028,
+              "raw": 0.4075,
+              "normalized": 18.493495450505165,
               "base_weight": 0.05,
               "effective_weight": 0.05,
               "available": true
@@ -2262,15 +1986,15 @@
         },
         "institutional": {
           "direction": "positive",
-          "as_of": "2026-09-10",
+          "as_of": "2026-09-11",
           "observation_count": 5,
-          "five_day_net": 138364.0
+          "five_day_net": 36275.0
         },
         "trading_activity": {
-          "as_of": "2026-09-08",
-          "day_trading_volume": 384000,
-          "total_volume": 918652,
-          "day_trading_volume_ratio": 0.41800377074234857,
+          "as_of": "2026-09-09",
+          "day_trading_volume": 370000,
+          "total_volume": 907903,
+          "day_trading_volume_ratio": 0.40753252274747415,
           "overnight_risk": null,
           "overnight_missing_reason": "no reliable overnight source"
         },
@@ -2314,150 +2038,10 @@
       },
       {
         "instrument": {
-          "instrument_id": "TWSE:2634",
-          "symbol": "2634",
-          "exchange": "TWSE",
-          "name_zh": "漢翔"
-        },
-        "themes": [
-          {
-            "theme_id": "defense_drone",
-            "name_zh": "國防與無人機",
-            "relation": "related",
-            "heat_score": 71.0,
-            "heat_change_24h": null,
-            "momentum_score": 36.0
-          }
-        ],
-        "short": {
-          "rank": 17,
-          "score": 42,
-          "components": {
-            "theme_attention": {
-              "raw": 49.9375,
-              "normalized": 49.9375,
-              "base_weight": 0.55,
-              "effective_weight": 0.55,
-              "available": true
-            },
-            "institutional_short_activity": {
-              "raw": -8062648.0,
-              "normalized": 0,
-              "base_weight": 0.2,
-              "effective_weight": 0.2,
-              "available": true
-            },
-            "daytrade_activity": {
-              "raw": 0.3641,
-              "normalized": 72.81161275480515,
-              "base_weight": 0.15,
-              "effective_weight": 0.15,
-              "available": true
-            },
-            "fundamental_defense": {
-              "raw": 33.8333,
-              "normalized": 33.833333333333336,
-              "base_weight": 0.1,
-              "effective_weight": 0.1,
-              "available": true
-            }
-          },
-          "risk_adjustment": {
-            "overnight_risk_adjustment": {
-              "value": null,
-              "applied": 0.0,
-              "missing_reason": "no reliable overnight source"
-            }
-          }
-        },
-        "long": {
-          "rank": 15,
-          "score": 29,
-          "components": {
-            "fundamental_quality": {
-              "raw": 38.1833,
-              "normalized": 38.18333333333334,
-              "base_weight": 0.6,
-              "effective_weight": 0.6,
-              "available": true
-            },
-            "institutional_support": {
-              "raw": -8062648.0,
-              "normalized": 0,
-              "base_weight": 0.2,
-              "effective_weight": 0.2,
-              "available": true
-            },
-            "theme_persistence": {
-              "raw": 30.6,
-              "normalized": 30.599999999999998,
-              "base_weight": 0.15,
-              "effective_weight": 0.15,
-              "available": true
-            },
-            "trading_stability": {
-              "raw": 0.3641,
-              "normalized": 27.188387245194846,
-              "base_weight": 0.05,
-              "effective_weight": 0.05,
-              "available": true
-            }
-          }
-        },
-        "institutional": {
-          "direction": "negative",
-          "as_of": "2026-09-10",
-          "observation_count": 5,
-          "five_day_net": -8062648.0
-        },
-        "trading_activity": {
-          "as_of": "2026-09-08",
-          "day_trading_volume": 7308000,
-          "total_volume": 20073721,
-          "day_trading_volume_ratio": 0.3640580637740258,
-          "overnight_risk": null,
-          "overnight_missing_reason": "no reliable overnight source"
-        },
-        "fundamentals": {
-          "score": 38,
-          "fiscal_quarter": "2026Q2",
-          "comparison_basis": "YoY",
-          "revenue_growth": 12.97,
-          "revenue_direction": "up",
-          "eps_growth": 525.0,
-          "eps_direction": "up",
-          "gross_margin": 0.18986515876468033,
-          "operating_margin": 0.15224010439321445,
-          "operating_cash_flow": 43.33,
-          "operating_cash_flow_margin": 0.4712,
-          "debt_ratio": 0.632
-        },
-        "flags": [
-          {
-            "key": "high_daytrade",
-            "type": "risk"
-          },
-          {
-            "key": "high_leverage",
-            "type": "risk"
-          },
-          {
-            "key": "fundamentals_improving",
-            "type": "positive"
-          }
-        ],
-        "coverage": {
-          "short_ratio": 1.0,
-          "long_ratio": 1.0,
-          "missing": []
-        }
-      },
-      {
-        "instrument": {
-          "instrument_id": "TWSE:2449",
-          "symbol": "2449",
-          "exchange": "TWSE",
-          "name_zh": "京元電子"
+          "instrument_id": "TPEX:8299",
+          "symbol": "8299",
+          "exchange": "TPEX",
+          "name_zh": "群聯"
         },
         "themes": [
           {
@@ -2470,8 +2054,8 @@
           }
         ],
         "short": {
-          "rank": 18,
-          "score": 42,
+          "rank": 15,
+          "score": 44,
           "components": {
             "theme_attention": {
               "raw": 40.6725,
@@ -2481,22 +2065,22 @@
               "available": true
             },
             "institutional_short_activity": {
-              "raw": -345050.0,
-              "normalized": 21,
+              "raw": -2859.0,
+              "normalized": 26,
               "base_weight": 0.2,
               "effective_weight": 0.2,
               "available": true
             },
             "daytrade_activity": {
-              "raw": 0.3115,
-              "normalized": 62.30281705463463,
+              "raw": 0.3585,
+              "normalized": 71.69141880379016,
               "base_weight": 0.15,
               "effective_weight": 0.15,
               "available": true
             },
             "fundamental_defense": {
-              "raw": 56.1667,
-              "normalized": 56.166666666666664,
+              "raw": 59.6667,
+              "normalized": 59.666666666666664,
               "base_weight": 0.1,
               "effective_weight": 0.1,
               "available": true
@@ -2511,19 +2095,19 @@
           }
         },
         "long": {
-          "rank": 11,
-          "score": 40,
+          "rank": 6,
+          "score": 56,
           "components": {
             "fundamental_quality": {
-              "raw": 50.7167,
-              "normalized": 50.71666666666667,
+              "raw": 76.0667,
+              "normalized": 76.06666666666666,
               "base_weight": 0.6,
               "effective_weight": 0.6,
               "available": true
             },
             "institutional_support": {
-              "raw": -345050.0,
-              "normalized": 21,
+              "raw": -2859.0,
+              "normalized": 26,
               "base_weight": 0.2,
               "effective_weight": 0.2,
               "available": true
@@ -2536,8 +2120,8 @@
               "available": true
             },
             "trading_stability": {
-              "raw": 0.3115,
-              "normalized": 37.69718294536537,
+              "raw": 0.3585,
+              "normalized": 28.308581196209843,
               "base_weight": 0.05,
               "effective_weight": 0.05,
               "available": true
@@ -2546,31 +2130,31 @@
         },
         "institutional": {
           "direction": "negative",
-          "as_of": "2026-09-10",
+          "as_of": "2026-09-11",
           "observation_count": 5,
-          "five_day_net": -345050.0
+          "five_day_net": -2859.0
         },
         "trading_activity": {
-          "as_of": "2026-09-08",
-          "day_trading_volume": 5011000,
-          "total_volume": 16085950,
-          "day_trading_volume_ratio": 0.31151408527317315,
+          "as_of": "2026-09-09",
+          "day_trading_volume": 726000,
+          "total_volume": 2025347,
+          "day_trading_volume_ratio": 0.3584570940189508,
           "overnight_risk": null,
           "overnight_missing_reason": "no reliable overnight source"
         },
         "fundamentals": {
-          "score": 51,
+          "score": 76,
           "fiscal_quarter": "2026Q2",
           "comparison_basis": "YoY",
-          "revenue_growth": 33.22,
+          "revenue_growth": 279.49,
           "revenue_direction": "up",
-          "eps_growth": 14.61,
+          "eps_growth": 3193.61,
           "eps_direction": "up",
-          "gross_margin": 0.3949730700179533,
-          "operating_margin": 0.25385996409335726,
-          "operating_cash_flow": 26.32,
-          "operating_cash_flow_margin": 0.2363,
-          "debt_ratio": 0.513
+          "gross_margin": 0.6534099278244219,
+          "operating_margin": 0.3884224480777729,
+          "operating_cash_flow": null,
+          "operating_cash_flow_margin": null,
+          "debt_ratio": 0.473
         },
         "flags": [
           {
@@ -2606,7 +2190,7 @@
           }
         ],
         "short": {
-          "rank": 19,
+          "rank": 16,
           "score": 41,
           "components": {
             "theme_attention": {
@@ -2617,14 +2201,14 @@
               "available": true
             },
             "institutional_short_activity": {
-              "raw": -4356048.0,
+              "raw": -6428963.0,
               "normalized": 5,
               "base_weight": 0.2,
               "effective_weight": 0.2,
               "available": true
             },
             "daytrade_activity": {
-              "raw": 0.533,
+              "raw": 0.5316,
               "normalized": 100.0,
               "base_weight": 0.15,
               "effective_weight": 0.15,
@@ -2658,7 +2242,7 @@
               "available": true
             },
             "institutional_support": {
-              "raw": -4356048.0,
+              "raw": -6428963.0,
               "normalized": 5,
               "base_weight": 0.2,
               "effective_weight": 0.2,
@@ -2672,7 +2256,7 @@
               "available": true
             },
             "trading_stability": {
-              "raw": 0.533,
+              "raw": 0.5316,
               "normalized": 0.0,
               "base_weight": 0.05,
               "effective_weight": 0.05,
@@ -2682,15 +2266,15 @@
         },
         "institutional": {
           "direction": "negative",
-          "as_of": "2026-09-10",
+          "as_of": "2026-09-11",
           "observation_count": 5,
-          "five_day_net": -4356048.0
+          "five_day_net": -6428963.0
         },
         "trading_activity": {
-          "as_of": "2026-09-08",
-          "day_trading_volume": 5127000,
-          "total_volume": 9619199,
-          "day_trading_volume_ratio": 0.5329965623956839,
+          "as_of": "2026-09-09",
+          "day_trading_volume": 2386000,
+          "total_volume": 4488526,
+          "day_trading_volume_ratio": 0.5315776270428199,
           "overnight_risk": null,
           "overnight_missing_reason": "no reliable overnight source"
         },
@@ -2722,6 +2306,410 @@
       },
       {
         "instrument": {
+          "instrument_id": "TWSE:6239",
+          "symbol": "6239",
+          "exchange": "TWSE",
+          "name_zh": "力成"
+        },
+        "themes": [
+          {
+            "theme_id": "memory_hbm",
+            "name_zh": "記憶體與 HBM",
+            "relation": "related",
+            "heat_score": 58.0,
+            "heat_change_24h": null,
+            "momentum_score": 29.0
+          }
+        ],
+        "short": {
+          "rank": 17,
+          "score": 40,
+          "components": {
+            "theme_attention": {
+              "raw": 40.6725,
+              "normalized": 40.6725,
+              "base_weight": 0.55,
+              "effective_weight": 0.55,
+              "available": true
+            },
+            "institutional_short_activity": {
+              "raw": -3097984.0,
+              "normalized": 11,
+              "base_weight": 0.2,
+              "effective_weight": 0.2,
+              "available": true
+            },
+            "daytrade_activity": {
+              "raw": 0.3593,
+              "normalized": 71.85596223333792,
+              "base_weight": 0.15,
+              "effective_weight": 0.15,
+              "available": true
+            },
+            "fundamental_defense": {
+              "raw": 44.5,
+              "normalized": 44.5,
+              "base_weight": 0.1,
+              "effective_weight": 0.1,
+              "available": true
+            }
+          },
+          "risk_adjustment": {
+            "overnight_risk_adjustment": {
+              "value": null,
+              "applied": 0.0,
+              "missing_reason": "no reliable overnight source"
+            }
+          }
+        },
+        "long": {
+          "rank": 14,
+          "score": 32,
+          "components": {
+            "fundamental_quality": {
+              "raw": 41.85,
+              "normalized": 41.85,
+              "base_weight": 0.6,
+              "effective_weight": 0.6,
+              "available": true
+            },
+            "institutional_support": {
+              "raw": -3097984.0,
+              "normalized": 11,
+              "base_weight": 0.2,
+              "effective_weight": 0.2,
+              "available": true
+            },
+            "theme_persistence": {
+              "raw": 24.65,
+              "normalized": 24.65,
+              "base_weight": 0.15,
+              "effective_weight": 0.15,
+              "available": true
+            },
+            "trading_stability": {
+              "raw": 0.3593,
+              "normalized": 28.14403776666208,
+              "base_weight": 0.05,
+              "effective_weight": 0.05,
+              "available": true
+            }
+          }
+        },
+        "institutional": {
+          "direction": "negative",
+          "as_of": "2026-09-11",
+          "observation_count": 5,
+          "five_day_net": -3097984.0
+        },
+        "trading_activity": {
+          "as_of": "2026-09-09",
+          "day_trading_volume": 4631000,
+          "total_volume": 12889675,
+          "day_trading_volume_ratio": 0.3592798111666896,
+          "overnight_risk": null,
+          "overnight_missing_reason": "no reliable overnight source"
+        },
+        "fundamentals": {
+          "score": 42,
+          "fiscal_quarter": "2026Q2",
+          "comparison_basis": "YoY",
+          "revenue_growth": 28.02,
+          "revenue_direction": "up",
+          "eps_growth": 130.77,
+          "eps_direction": "up",
+          "gross_margin": 0.21760380622837372,
+          "operating_margin": 0.1527249134948097,
+          "operating_cash_flow": 59.72,
+          "operating_cash_flow_margin": 0.2583,
+          "debt_ratio": 0.449
+        },
+        "flags": [
+          {
+            "key": "high_daytrade",
+            "type": "risk"
+          },
+          {
+            "key": "fundamentals_improving",
+            "type": "positive"
+          }
+        ],
+        "coverage": {
+          "short_ratio": 1.0,
+          "long_ratio": 1.0,
+          "missing": []
+        }
+      },
+      {
+        "instrument": {
+          "instrument_id": "TWSE:8033",
+          "symbol": "8033",
+          "exchange": "TWSE",
+          "name_zh": "雷虎"
+        },
+        "themes": [
+          {
+            "theme_id": "defense_drone",
+            "name_zh": "國防與無人機",
+            "relation": "related",
+            "heat_score": 52.0,
+            "heat_change_24h": null,
+            "momentum_score": 26.0
+          }
+        ],
+        "short": {
+          "rank": 18,
+          "score": 36,
+          "components": {
+            "theme_attention": {
+              "raw": 36.465,
+              "normalized": 36.465,
+              "base_weight": 0.55,
+              "effective_weight": 0.55,
+              "available": true
+            },
+            "institutional_short_activity": {
+              "raw": -1346273.0,
+              "normalized": 21,
+              "base_weight": 0.2,
+              "effective_weight": 0.2,
+              "available": true
+            },
+            "daytrade_activity": {
+              "raw": 0.2711,
+              "normalized": 54.218221091467875,
+              "base_weight": 0.15,
+              "effective_weight": 0.15,
+              "available": true
+            },
+            "fundamental_defense": {
+              "raw": 36.0833,
+              "normalized": 36.083333333333336,
+              "base_weight": 0.1,
+              "effective_weight": 0.1,
+              "available": true
+            }
+          },
+          "risk_adjustment": {
+            "overnight_risk_adjustment": {
+              "value": null,
+              "applied": 0.0,
+              "missing_reason": "no reliable overnight source"
+            }
+          }
+        },
+        "long": {
+          "rank": 18,
+          "score": 25,
+          "components": {
+            "fundamental_quality": {
+              "raw": 25.7083,
+              "normalized": 25.708333333333332,
+              "base_weight": 0.6,
+              "effective_weight": 0.6,
+              "available": true
+            },
+            "institutional_support": {
+              "raw": -1346273.0,
+              "normalized": 21,
+              "base_weight": 0.2,
+              "effective_weight": 0.2,
+              "available": true
+            },
+            "theme_persistence": {
+              "raw": 22.1,
+              "normalized": 22.099999999999998,
+              "base_weight": 0.15,
+              "effective_weight": 0.15,
+              "available": true
+            },
+            "trading_stability": {
+              "raw": 0.2711,
+              "normalized": 45.781778908532125,
+              "base_weight": 0.05,
+              "effective_weight": 0.05,
+              "available": true
+            }
+          }
+        },
+        "institutional": {
+          "direction": "negative",
+          "as_of": "2026-09-11",
+          "observation_count": 5,
+          "five_day_net": -1346273.0
+        },
+        "trading_activity": {
+          "as_of": "2026-09-09",
+          "day_trading_volume": 374000,
+          "total_volume": 1379610,
+          "day_trading_volume_ratio": 0.2710911054573394,
+          "overnight_risk": null,
+          "overnight_missing_reason": "no reliable overnight source"
+        },
+        "fundamentals": {
+          "score": 26,
+          "fiscal_quarter": "2026Q2",
+          "comparison_basis": "YoY",
+          "revenue_growth": 10.74,
+          "revenue_direction": "up",
+          "eps_growth": -37.78,
+          "eps_direction": "down",
+          "gross_margin": 0.3556034482758621,
+          "operating_margin": 0.001077586206896552,
+          "operating_cash_flow": -1.33,
+          "operating_cash_flow_margin": -0.2866,
+          "debt_ratio": 0.23399999999999999
+        },
+        "flags": [
+          {
+            "key": "cashflow_weak",
+            "type": "risk"
+          }
+        ],
+        "coverage": {
+          "short_ratio": 1.0,
+          "long_ratio": 1.0,
+          "missing": []
+        }
+      },
+      {
+        "instrument": {
+          "instrument_id": "TWSE:2634",
+          "symbol": "2634",
+          "exchange": "TWSE",
+          "name_zh": "漢翔"
+        },
+        "themes": [
+          {
+            "theme_id": "defense_drone",
+            "name_zh": "國防與無人機",
+            "relation": "related",
+            "heat_score": 52.0,
+            "heat_change_24h": null,
+            "momentum_score": 26.0
+          }
+        ],
+        "short": {
+          "rank": 19,
+          "score": 31,
+          "components": {
+            "theme_attention": {
+              "raw": 36.465,
+              "normalized": 36.465,
+              "base_weight": 0.55,
+              "effective_weight": 0.55,
+              "available": true
+            },
+            "institutional_short_activity": {
+              "raw": -11704127.0,
+              "normalized": 0,
+              "base_weight": 0.2,
+              "effective_weight": 0.2,
+              "available": true
+            },
+            "daytrade_activity": {
+              "raw": 0.2434,
+              "normalized": 48.67156559084073,
+              "base_weight": 0.15,
+              "effective_weight": 0.15,
+              "available": true
+            },
+            "fundamental_defense": {
+              "raw": 33.8333,
+              "normalized": 33.833333333333336,
+              "base_weight": 0.1,
+              "effective_weight": 0.1,
+              "available": true
+            }
+          },
+          "risk_adjustment": {
+            "overnight_risk_adjustment": {
+              "value": null,
+              "applied": 0.0,
+              "missing_reason": "no reliable overnight source"
+            }
+          }
+        },
+        "long": {
+          "rank": 15,
+          "score": 29,
+          "components": {
+            "fundamental_quality": {
+              "raw": 38.1833,
+              "normalized": 38.18333333333334,
+              "base_weight": 0.6,
+              "effective_weight": 0.6,
+              "available": true
+            },
+            "institutional_support": {
+              "raw": -11704127.0,
+              "normalized": 0,
+              "base_weight": 0.2,
+              "effective_weight": 0.2,
+              "available": true
+            },
+            "theme_persistence": {
+              "raw": 22.1,
+              "normalized": 22.099999999999998,
+              "base_weight": 0.15,
+              "effective_weight": 0.15,
+              "available": true
+            },
+            "trading_stability": {
+              "raw": 0.2434,
+              "normalized": 51.32843440915927,
+              "base_weight": 0.05,
+              "effective_weight": 0.05,
+              "available": true
+            }
+          }
+        },
+        "institutional": {
+          "direction": "negative",
+          "as_of": "2026-09-11",
+          "observation_count": 5,
+          "five_day_net": -11704127.0
+        },
+        "trading_activity": {
+          "as_of": "2026-09-09",
+          "day_trading_volume": 1813000,
+          "total_volume": 7449935,
+          "day_trading_volume_ratio": 0.24335782795420363,
+          "overnight_risk": null,
+          "overnight_missing_reason": "no reliable overnight source"
+        },
+        "fundamentals": {
+          "score": 38,
+          "fiscal_quarter": "2026Q2",
+          "comparison_basis": "YoY",
+          "revenue_growth": 12.97,
+          "revenue_direction": "up",
+          "eps_growth": 525.0,
+          "eps_direction": "up",
+          "gross_margin": 0.18986515876468033,
+          "operating_margin": 0.15224010439321445,
+          "operating_cash_flow": 43.33,
+          "operating_cash_flow_margin": 0.4712,
+          "debt_ratio": 0.632
+        },
+        "flags": [
+          {
+            "key": "high_leverage",
+            "type": "risk"
+          },
+          {
+            "key": "fundamentals_improving",
+            "type": "positive"
+          }
+        ],
+        "coverage": {
+          "short_ratio": 1.0,
+          "long_ratio": 1.0,
+          "missing": []
+        }
+      },
+      {
+        "instrument": {
           "instrument_id": "TPEX:5371",
           "symbol": "5371",
           "exchange": "TPEX",
@@ -2732,25 +2720,25 @@
             "theme_id": "defense_drone",
             "name_zh": "國防與無人機",
             "relation": "related",
-            "heat_score": 71.0,
+            "heat_score": 52.0,
             "heat_change_24h": null,
-            "momentum_score": 36.0
+            "momentum_score": 26.0
           }
         ],
         "short": {
           "rank": 20,
-          "score": 37,
+          "score": 29,
           "components": {
             "theme_attention": {
-              "raw": 49.9375,
-              "normalized": 49.9375,
+              "raw": 36.465,
+              "normalized": 36.465,
               "base_weight": 0.55,
               "effective_weight": 0.6470588235294118,
               "available": true
             },
             "institutional_short_activity": {
               "raw": -1391454.0,
-              "normalized": 11,
+              "normalized": 16,
               "base_weight": 0.2,
               "effective_weight": 0.23529411764705885,
               "available": true
@@ -2791,14 +2779,14 @@
             },
             "institutional_support": {
               "raw": -1391454.0,
-              "normalized": 11,
+              "normalized": 16,
               "base_weight": 0.2,
               "effective_weight": 0.21052631578947367,
               "available": true
             },
             "theme_persistence": {
-              "raw": 30.6,
-              "normalized": 30.599999999999998,
+              "raw": 22.1,
+              "normalized": 22.099999999999998,
               "base_weight": 0.15,
               "effective_weight": 0.15789473684210525,
               "available": true
@@ -2878,8 +2866,8 @@
           }
         ],
         "short": {
-          "rank": 3,
-          "score": 61,
+          "rank": 1,
+          "score": 65,
           "components": {
             "theme_attention": {
               "raw": 40.6725,
@@ -2889,15 +2877,15 @@
               "available": true
             },
             "institutional_short_activity": {
-              "raw": 40696314.0,
-              "normalized": 84,
+              "raw": 28511788.0,
+              "normalized": 89,
               "base_weight": 0.2,
               "effective_weight": 0.2,
               "available": true
             },
             "daytrade_activity": {
-              "raw": 0.3873,
-              "normalized": 77.45606053133798,
+              "raw": 0.5291,
+              "normalized": 100.0,
               "base_weight": 0.15,
               "effective_weight": 0.15,
               "available": true
@@ -2930,8 +2918,8 @@
               "available": true
             },
             "institutional_support": {
-              "raw": 40696314.0,
-              "normalized": 84,
+              "raw": 28511788.0,
+              "normalized": 89,
               "base_weight": 0.2,
               "effective_weight": 0.2,
               "available": true
@@ -2944,8 +2932,8 @@
               "available": true
             },
             "trading_stability": {
-              "raw": 0.3873,
-              "normalized": 22.543939468662018,
+              "raw": 0.5291,
+              "normalized": 0.0,
               "base_weight": 0.05,
               "effective_weight": 0.05,
               "available": true
@@ -2954,15 +2942,15 @@
         },
         "institutional": {
           "direction": "positive",
-          "as_of": "2026-09-10",
+          "as_of": "2026-09-11",
           "observation_count": 5,
-          "five_day_net": 40696314.0
+          "five_day_net": 28511788.0
         },
         "trading_activity": {
-          "as_of": "2026-09-08",
-          "day_trading_volume": 29519000,
-          "total_volume": 76221279,
-          "day_trading_volume_ratio": 0.3872803026566899,
+          "as_of": "2026-09-09",
+          "day_trading_volume": 19850000,
+          "total_volume": 37518171,
+          "day_trading_volume_ratio": 0.5290769637997546,
           "overnight_risk": null,
           "overnight_missing_reason": "no reliable overnight source"
         },
@@ -3018,8 +3006,8 @@
           }
         ],
         "short": {
-          "rank": 2,
-          "score": 61,
+          "rank": 3,
+          "score": 62,
           "components": {
             "theme_attention": {
               "raw": 40.6725,
@@ -3029,15 +3017,15 @@
               "available": true
             },
             "institutional_short_activity": {
-              "raw": 78936113.0,
+              "raw": 46579957.0,
               "normalized": 95,
               "base_weight": 0.2,
               "effective_weight": 0.2,
               "available": true
             },
             "daytrade_activity": {
-              "raw": 0.4076,
-              "normalized": 81.5142030559948,
+              "raw": 0.4113,
+              "normalized": 82.26459105862243,
               "base_weight": 0.15,
               "effective_weight": 0.15,
               "available": true
@@ -3070,7 +3058,7 @@
               "available": true
             },
             "institutional_support": {
-              "raw": 78936113.0,
+              "raw": 46579957.0,
               "normalized": 95,
               "base_weight": 0.2,
               "effective_weight": 0.2,
@@ -3084,8 +3072,8 @@
               "available": true
             },
             "trading_stability": {
-              "raw": 0.4076,
-              "normalized": 18.4857969440052,
+              "raw": 0.4113,
+              "normalized": 17.73540894137757,
               "base_weight": 0.05,
               "effective_weight": 0.05,
               "available": true
@@ -3094,15 +3082,15 @@
         },
         "institutional": {
           "direction": "positive",
-          "as_of": "2026-09-10",
+          "as_of": "2026-09-11",
           "observation_count": 5,
-          "five_day_net": 78936113.0
+          "five_day_net": 46579957.0
         },
         "trading_activity": {
-          "as_of": "2026-09-08",
-          "day_trading_volume": 90587000,
-          "total_volume": 222260653,
-          "day_trading_volume_ratio": 0.407571015279974,
+          "as_of": "2026-09-09",
+          "day_trading_volume": 57750000,
+          "total_volume": 140400625,
+          "day_trading_volume_ratio": 0.41132295529311214,
           "overnight_risk": null,
           "overnight_missing_reason": "no reliable overnight source"
         },
@@ -3159,7 +3147,7 @@
         ],
         "short": {
           "rank": 8,
-          "score": 51,
+          "score": 50,
           "components": {
             "theme_attention": {
               "raw": 40.6725,
@@ -3169,15 +3157,15 @@
               "available": true
             },
             "institutional_short_activity": {
-              "raw": 19550926.0,
+              "raw": 8748680.0,
               "normalized": 74,
               "base_weight": 0.2,
               "effective_weight": 0.2,
               "available": true
             },
             "daytrade_activity": {
-              "raw": 0.1704,
-              "normalized": 34.08026843361453,
+              "raw": 0.1284,
+              "normalized": 25.675823346964364,
               "base_weight": 0.15,
               "effective_weight": 0.15,
               "available": true
@@ -3210,7 +3198,7 @@
               "available": true
             },
             "institutional_support": {
-              "raw": 19550926.0,
+              "raw": 8748680.0,
               "normalized": 74,
               "base_weight": 0.2,
               "effective_weight": 0.2,
@@ -3224,8 +3212,8 @@
               "available": true
             },
             "trading_stability": {
-              "raw": 0.1704,
-              "normalized": 65.91973156638548,
+              "raw": 0.1284,
+              "normalized": 74.32417665303564,
               "base_weight": 0.05,
               "effective_weight": 0.05,
               "available": true
@@ -3234,15 +3222,15 @@
         },
         "institutional": {
           "direction": "positive",
-          "as_of": "2026-09-10",
+          "as_of": "2026-09-11",
           "observation_count": 5,
-          "five_day_net": 19550926.0
+          "five_day_net": 8748680.0
         },
         "trading_activity": {
-          "as_of": "2026-09-08",
-          "day_trading_volume": 4930000,
-          "total_volume": 28931697,
-          "day_trading_volume_ratio": 0.17040134216807262,
+          "as_of": "2026-09-09",
+          "day_trading_volume": 2285000,
+          "total_volume": 17798845,
+          "day_trading_volume_ratio": 0.12837911673482183,
           "overnight_risk": null,
           "overnight_missing_reason": "no reliable overnight source"
         },
@@ -3295,7 +3283,7 @@
         ],
         "short": {
           "rank": 4,
-          "score": 57,
+          "score": 61,
           "components": {
             "theme_attention": {
               "raw": 40.6725,
@@ -3305,15 +3293,15 @@
               "available": true
             },
             "institutional_short_activity": {
-              "raw": 43746525.0,
-              "normalized": 89,
+              "raw": 15585169.0,
+              "normalized": 79,
               "base_weight": 0.2,
               "effective_weight": 0.2,
               "available": true
             },
             "daytrade_activity": {
-              "raw": 0.3073,
-              "normalized": 61.45014391695428,
+              "raw": 0.5486,
+              "normalized": 100.0,
               "base_weight": 0.15,
               "effective_weight": 0.15,
               "available": true
@@ -3336,7 +3324,7 @@
         },
         "long": {
           "rank": 4,
-          "score": 63,
+          "score": 59,
           "components": {
             "fundamental_quality": {
               "raw": 66.3583,
@@ -3346,8 +3334,8 @@
               "available": true
             },
             "institutional_support": {
-              "raw": 43746525.0,
-              "normalized": 89,
+              "raw": 15585169.0,
+              "normalized": 79,
               "base_weight": 0.2,
               "effective_weight": 0.2,
               "available": true
@@ -3360,8 +3348,8 @@
               "available": true
             },
             "trading_stability": {
-              "raw": 0.3073,
-              "normalized": 38.54985608304572,
+              "raw": 0.5486,
+              "normalized": 0.0,
               "base_weight": 0.05,
               "effective_weight": 0.05,
               "available": true
@@ -3370,15 +3358,15 @@
         },
         "institutional": {
           "direction": "positive",
-          "as_of": "2026-09-10",
+          "as_of": "2026-09-11",
           "observation_count": 5,
-          "five_day_net": 43746525.0
+          "five_day_net": 15585169.0
         },
         "trading_activity": {
-          "as_of": "2026-09-08",
-          "day_trading_volume": 67342000,
-          "total_volume": 219176053,
-          "day_trading_volume_ratio": 0.3072507195847714,
+          "as_of": "2026-09-09",
+          "day_trading_volume": 148472000,
+          "total_volume": 270644784,
+          "day_trading_volume_ratio": 0.5485862236310455,
           "overnight_risk": null,
           "overnight_missing_reason": "no reliable overnight source"
         },
@@ -3434,7 +3422,7 @@
           }
         ],
         "short": {
-          "rank": 1,
+          "rank": 2,
           "score": 63,
           "components": {
             "theme_attention": {
@@ -3445,14 +3433,14 @@
               "available": true
             },
             "institutional_short_activity": {
-              "raw": 141020140.0,
+              "raw": 116256209.0,
               "normalized": 100,
               "base_weight": 0.2,
               "effective_weight": 0.2,
               "available": true
             },
             "daytrade_activity": {
-              "raw": 0.634,
+              "raw": 0.6762,
               "normalized": 100.0,
               "base_weight": 0.15,
               "effective_weight": 0.15,
@@ -3486,7 +3474,7 @@
               "available": true
             },
             "institutional_support": {
-              "raw": 141020140.0,
+              "raw": 116256209.0,
               "normalized": 100,
               "base_weight": 0.2,
               "effective_weight": 0.2,
@@ -3500,7 +3488,7 @@
               "available": true
             },
             "trading_stability": {
-              "raw": 0.634,
+              "raw": 0.6762,
               "normalized": 0.0,
               "base_weight": 0.05,
               "effective_weight": 0.05,
@@ -3510,15 +3498,15 @@
         },
         "institutional": {
           "direction": "positive",
-          "as_of": "2026-09-10",
+          "as_of": "2026-09-11",
           "observation_count": 5,
-          "five_day_net": 141020140.0
+          "five_day_net": 116256209.0
         },
         "trading_activity": {
-          "as_of": "2026-09-08",
-          "day_trading_volume": 109549000,
-          "total_volume": 172801850,
-          "day_trading_volume_ratio": 0.633957333211421,
+          "as_of": "2026-09-09",
+          "day_trading_volume": 77269000,
+          "total_volume": 114261094,
+          "day_trading_volume_ratio": 0.6762494327246683,
           "overnight_risk": null,
           "overnight_missing_reason": "no reliable overnight source"
         },
@@ -3574,8 +3562,8 @@
           }
         ],
         "short": {
-          "rank": 11,
-          "score": 50,
+          "rank": 15,
+          "score": 44,
           "components": {
             "theme_attention": {
               "raw": 40.6725,
@@ -3585,15 +3573,15 @@
               "available": true
             },
             "institutional_short_activity": {
-              "raw": 661326.0,
-              "normalized": 37,
+              "raw": -2859.0,
+              "normalized": 26,
               "base_weight": 0.2,
               "effective_weight": 0.2,
               "available": true
             },
             "daytrade_activity": {
-              "raw": 0.4636,
-              "normalized": 92.71194789835373,
+              "raw": 0.3585,
+              "normalized": 71.69141880379016,
               "base_weight": 0.15,
               "effective_weight": 0.15,
               "available": true
@@ -3616,7 +3604,7 @@
         },
         "long": {
           "rank": 6,
-          "score": 57,
+          "score": 56,
           "components": {
             "fundamental_quality": {
               "raw": 76.0667,
@@ -3626,8 +3614,8 @@
               "available": true
             },
             "institutional_support": {
-              "raw": 661326.0,
-              "normalized": 37,
+              "raw": -2859.0,
+              "normalized": 26,
               "base_weight": 0.2,
               "effective_weight": 0.2,
               "available": true
@@ -3640,8 +3628,8 @@
               "available": true
             },
             "trading_stability": {
-              "raw": 0.4636,
-              "normalized": 7.288052101646272,
+              "raw": 0.3585,
+              "normalized": 28.308581196209843,
               "base_weight": 0.05,
               "effective_weight": 0.05,
               "available": true
@@ -3649,16 +3637,16 @@
           }
         },
         "institutional": {
-          "direction": "positive",
-          "as_of": "2026-09-10",
+          "direction": "negative",
+          "as_of": "2026-09-11",
           "observation_count": 5,
-          "five_day_net": 661326.0
+          "five_day_net": -2859.0
         },
         "trading_activity": {
-          "as_of": "2026-09-08",
-          "day_trading_volume": 1277000,
-          "total_volume": 2754769,
-          "day_trading_volume_ratio": 0.46355973949176865,
+          "as_of": "2026-09-09",
+          "day_trading_volume": 726000,
+          "total_volume": 2025347,
+          "day_trading_volume_ratio": 0.3584570940189508,
           "overnight_risk": null,
           "overnight_missing_reason": "no reliable overnight source"
         },
@@ -3675,6 +3663,142 @@
           "operating_cash_flow": null,
           "operating_cash_flow_margin": null,
           "debt_ratio": 0.473
+        },
+        "flags": [
+          {
+            "key": "high_daytrade",
+            "type": "risk"
+          },
+          {
+            "key": "fundamentals_improving",
+            "type": "positive"
+          }
+        ],
+        "coverage": {
+          "short_ratio": 1.0,
+          "long_ratio": 1.0,
+          "missing": []
+        }
+      },
+      {
+        "instrument": {
+          "instrument_id": "TWSE:8046",
+          "symbol": "8046",
+          "exchange": "TWSE",
+          "name_zh": "南電"
+        },
+        "themes": [
+          {
+            "theme_id": "memory_hbm",
+            "name_zh": "記憶體與 HBM",
+            "relation": "related",
+            "heat_score": 58.0,
+            "heat_change_24h": null,
+            "momentum_score": 29.0
+          }
+        ],
+        "short": {
+          "rank": 7,
+          "score": 52,
+          "components": {
+            "theme_attention": {
+              "raw": 40.6725,
+              "normalized": 40.6725,
+              "base_weight": 0.55,
+              "effective_weight": 0.55,
+              "available": true
+            },
+            "institutional_short_activity": {
+              "raw": 1648306.0,
+              "normalized": 58,
+              "base_weight": 0.2,
+              "effective_weight": 0.2,
+              "available": true
+            },
+            "daytrade_activity": {
+              "raw": 0.4385,
+              "normalized": 87.70585142765681,
+              "base_weight": 0.15,
+              "effective_weight": 0.15,
+              "available": true
+            },
+            "fundamental_defense": {
+              "raw": 50.6667,
+              "normalized": 50.66666666666667,
+              "base_weight": 0.1,
+              "effective_weight": 0.1,
+              "available": true
+            }
+          },
+          "risk_adjustment": {
+            "overnight_risk_adjustment": {
+              "value": null,
+              "applied": 0.0,
+              "missing_reason": "no reliable overnight source"
+            }
+          }
+        },
+        "long": {
+          "rank": 7,
+          "score": 54,
+          "components": {
+            "fundamental_quality": {
+              "raw": 62.6667,
+              "normalized": 62.66666666666667,
+              "base_weight": 0.6,
+              "effective_weight": 0.6,
+              "available": true
+            },
+            "institutional_support": {
+              "raw": 1648306.0,
+              "normalized": 58,
+              "base_weight": 0.2,
+              "effective_weight": 0.2,
+              "available": true
+            },
+            "theme_persistence": {
+              "raw": 24.65,
+              "normalized": 24.65,
+              "base_weight": 0.15,
+              "effective_weight": 0.15,
+              "available": true
+            },
+            "trading_stability": {
+              "raw": 0.4385,
+              "normalized": 12.29414857234319,
+              "base_weight": 0.05,
+              "effective_weight": 0.05,
+              "available": true
+            }
+          }
+        },
+        "institutional": {
+          "direction": "positive",
+          "as_of": "2026-09-11",
+          "observation_count": 5,
+          "five_day_net": 1648306.0
+        },
+        "trading_activity": {
+          "as_of": "2026-09-09",
+          "day_trading_volume": 5381000,
+          "total_volume": 12270561,
+          "day_trading_volume_ratio": 0.43852925713828406,
+          "overnight_risk": null,
+          "overnight_missing_reason": "no reliable overnight source"
+        },
+        "fundamentals": {
+          "score": 63,
+          "fiscal_quarter": "2026Q2",
+          "comparison_basis": "YoY",
+          "revenue_growth": 41.71,
+          "revenue_direction": "up",
+          "eps_growth": 1306.9,
+          "eps_direction": "up",
+          "gross_margin": 0.24742268041237112,
+          "operating_margin": 0.21347569955817375,
+          "operating_cash_flow": 10.16,
+          "operating_cash_flow_margin": 0.0748,
+          "debt_ratio": 0.24
         },
         "flags": [
           {
@@ -3715,7 +3839,7 @@
         ],
         "short": {
           "rank": 5,
-          "score": 53,
+          "score": 55,
           "components": {
             "theme_attention": {
               "raw": 40.6725,
@@ -3725,15 +3849,15 @@
               "available": true
             },
             "institutional_short_activity": {
-              "raw": 4625814.0,
-              "normalized": 63,
+              "raw": 7439342.0,
+              "normalized": 68,
               "base_weight": 0.2,
               "effective_weight": 0.2,
               "available": true
             },
             "daytrade_activity": {
-              "raw": 0.4652,
-              "normalized": 93.04906527627162,
+              "raw": 0.492,
+              "normalized": 98.39320013453478,
               "base_weight": 0.15,
               "effective_weight": 0.15,
               "available": true
@@ -3755,8 +3879,8 @@
           }
         },
         "long": {
-          "rank": 7,
-          "score": 51,
+          "rank": 8,
+          "score": 52,
           "components": {
             "fundamental_quality": {
               "raw": 57.5333,
@@ -3766,8 +3890,8 @@
               "available": true
             },
             "institutional_support": {
-              "raw": 4625814.0,
-              "normalized": 63,
+              "raw": 7439342.0,
+              "normalized": 68,
               "base_weight": 0.2,
               "effective_weight": 0.2,
               "available": true
@@ -3780,8 +3904,8 @@
               "available": true
             },
             "trading_stability": {
-              "raw": 0.4652,
-              "normalized": 6.9509347237283805,
+              "raw": 0.492,
+              "normalized": 1.60679986546522,
               "base_weight": 0.05,
               "effective_weight": 0.05,
               "available": true
@@ -3790,15 +3914,15 @@
         },
         "institutional": {
           "direction": "positive",
-          "as_of": "2026-09-10",
+          "as_of": "2026-09-11",
           "observation_count": 5,
-          "five_day_net": 4625814.0
+          "five_day_net": 7439342.0
         },
         "trading_activity": {
-          "as_of": "2026-09-08",
-          "day_trading_volume": 8287000,
-          "total_volume": 17812108,
-          "day_trading_volume_ratio": 0.4652453263813581,
+          "as_of": "2026-09-09",
+          "day_trading_volume": 10495000,
+          "total_volume": 21332775,
+          "day_trading_volume_ratio": 0.4919660006726739,
           "overnight_risk": null,
           "overnight_missing_reason": "no reliable overnight source"
         },
@@ -3838,146 +3962,6 @@
       },
       {
         "instrument": {
-          "instrument_id": "TWSE:8046",
-          "symbol": "8046",
-          "exchange": "TWSE",
-          "name_zh": "南電"
-        },
-        "themes": [
-          {
-            "theme_id": "memory_hbm",
-            "name_zh": "記憶體與 HBM",
-            "relation": "related",
-            "heat_score": 58.0,
-            "heat_change_24h": null,
-            "momentum_score": 29.0
-          }
-        ],
-        "short": {
-          "rank": 10,
-          "score": 51,
-          "components": {
-            "theme_attention": {
-              "raw": 40.6725,
-              "normalized": 40.6725,
-              "base_weight": 0.55,
-              "effective_weight": 0.55,
-              "available": true
-            },
-            "institutional_short_activity": {
-              "raw": 1843011.0,
-              "normalized": 47,
-              "base_weight": 0.2,
-              "effective_weight": 0.2,
-              "available": true
-            },
-            "daytrade_activity": {
-              "raw": 0.4816,
-              "normalized": 96.3150754414016,
-              "base_weight": 0.15,
-              "effective_weight": 0.15,
-              "available": true
-            },
-            "fundamental_defense": {
-              "raw": 50.6667,
-              "normalized": 50.66666666666667,
-              "base_weight": 0.1,
-              "effective_weight": 0.1,
-              "available": true
-            }
-          },
-          "risk_adjustment": {
-            "overnight_risk_adjustment": {
-              "value": null,
-              "applied": 0.0,
-              "missing_reason": "no reliable overnight source"
-            }
-          }
-        },
-        "long": {
-          "rank": 8,
-          "score": 51,
-          "components": {
-            "fundamental_quality": {
-              "raw": 62.6667,
-              "normalized": 62.66666666666667,
-              "base_weight": 0.6,
-              "effective_weight": 0.6,
-              "available": true
-            },
-            "institutional_support": {
-              "raw": 1843011.0,
-              "normalized": 47,
-              "base_weight": 0.2,
-              "effective_weight": 0.2,
-              "available": true
-            },
-            "theme_persistence": {
-              "raw": 24.65,
-              "normalized": 24.65,
-              "base_weight": 0.15,
-              "effective_weight": 0.15,
-              "available": true
-            },
-            "trading_stability": {
-              "raw": 0.4816,
-              "normalized": 3.6849245585983965,
-              "base_weight": 0.05,
-              "effective_weight": 0.05,
-              "available": true
-            }
-          }
-        },
-        "institutional": {
-          "direction": "positive",
-          "as_of": "2026-09-10",
-          "observation_count": 5,
-          "five_day_net": 1843011.0
-        },
-        "trading_activity": {
-          "as_of": "2026-09-08",
-          "day_trading_volume": 3117000,
-          "total_volume": 6472507,
-          "day_trading_volume_ratio": 0.48157537720700805,
-          "overnight_risk": null,
-          "overnight_missing_reason": "no reliable overnight source"
-        },
-        "fundamentals": {
-          "score": 63,
-          "fiscal_quarter": "2026Q2",
-          "comparison_basis": "YoY",
-          "revenue_growth": 41.71,
-          "revenue_direction": "up",
-          "eps_growth": 1306.9,
-          "eps_direction": "up",
-          "gross_margin": 0.24742268041237112,
-          "operating_margin": 0.21347569955817375,
-          "operating_cash_flow": 10.16,
-          "operating_cash_flow_margin": 0.0748,
-          "debt_ratio": 0.24
-        },
-        "flags": [
-          {
-            "key": "high_daytrade",
-            "type": "risk"
-          },
-          {
-            "key": "fundamentals_improving",
-            "type": "positive"
-          },
-          {
-            "key": "institutional_positive",
-            "type": "positive"
-          }
-        ],
-        "coverage": {
-          "short_ratio": 1.0,
-          "long_ratio": 1.0,
-          "missing": []
-        }
-      },
-      {
-        "instrument": {
           "instrument_id": "TPEX:3680",
           "symbol": "3680",
           "exchange": "TPEX",
@@ -3994,8 +3978,8 @@
           }
         ],
         "short": {
-          "rank": 7,
-          "score": 51,
+          "rank": 6,
+          "score": 52,
           "components": {
             "theme_attention": {
               "raw": 40.6725,
@@ -4005,14 +3989,14 @@
               "available": true
             },
             "institutional_short_activity": {
-              "raw": 1654847.0,
-              "normalized": 42,
+              "raw": 1117063.0,
+              "normalized": 47,
               "base_weight": 0.2,
               "effective_weight": 0.2,
               "available": true
             },
             "daytrade_activity": {
-              "raw": 0.5444,
+              "raw": 0.5364,
               "normalized": 100.0,
               "base_weight": 0.15,
               "effective_weight": 0.15,
@@ -4036,7 +4020,7 @@
         },
         "long": {
           "rank": 9,
-          "score": 49,
+          "score": 50,
           "components": {
             "fundamental_quality": {
               "raw": 61.0667,
@@ -4046,8 +4030,8 @@
               "available": true
             },
             "institutional_support": {
-              "raw": 1654847.0,
-              "normalized": 42,
+              "raw": 1117063.0,
+              "normalized": 47,
               "base_weight": 0.2,
               "effective_weight": 0.2,
               "available": true
@@ -4060,7 +4044,7 @@
               "available": true
             },
             "trading_stability": {
-              "raw": 0.5444,
+              "raw": 0.5364,
               "normalized": 0.0,
               "base_weight": 0.05,
               "effective_weight": 0.05,
@@ -4070,15 +4054,15 @@
         },
         "institutional": {
           "direction": "positive",
-          "as_of": "2026-09-10",
+          "as_of": "2026-09-11",
           "observation_count": 5,
-          "five_day_net": 1654847.0
+          "five_day_net": 1117063.0
         },
         "trading_activity": {
-          "as_of": "2026-09-08",
-          "day_trading_volume": 1196000,
-          "total_volume": 2196819,
-          "day_trading_volume_ratio": 0.5444235505974775,
+          "as_of": "2026-09-09",
+          "day_trading_volume": 4236000,
+          "total_volume": 7897112,
+          "day_trading_volume_ratio": 0.5363986226863694,
           "overnight_risk": null,
           "overnight_missing_reason": "no reliable overnight source"
         },
@@ -4118,150 +4102,6 @@
       },
       {
         "instrument": {
-          "instrument_id": "TWSE:3711",
-          "symbol": "3711",
-          "exchange": "TWSE",
-          "name_zh": "日月光投控"
-        },
-        "themes": [
-          {
-            "theme_id": "memory_hbm",
-            "name_zh": "記憶體與 HBM",
-            "relation": "related",
-            "heat_score": 58.0,
-            "heat_change_24h": null,
-            "momentum_score": 29.0
-          }
-        ],
-        "short": {
-          "rank": 9,
-          "score": 51,
-          "components": {
-            "theme_attention": {
-              "raw": 40.6725,
-              "normalized": 40.6725,
-              "base_weight": 0.55,
-              "effective_weight": 0.55,
-              "available": true
-            },
-            "institutional_short_activity": {
-              "raw": 29923628.0,
-              "normalized": 79,
-              "base_weight": 0.2,
-              "effective_weight": 0.2,
-              "available": true
-            },
-            "daytrade_activity": {
-              "raw": 0.3385,
-              "normalized": 67.70857897688363,
-              "base_weight": 0.15,
-              "effective_weight": 0.15,
-              "available": true
-            },
-            "fundamental_defense": {
-              "raw": 30.8333,
-              "normalized": 30.833333333333336,
-              "base_weight": 0.1,
-              "effective_weight": 0.1,
-              "available": true
-            }
-          },
-          "risk_adjustment": {
-            "overnight_risk_adjustment": {
-              "value": null,
-              "applied": 0.0,
-              "missing_reason": "no reliable overnight source"
-            }
-          }
-        },
-        "long": {
-          "rank": 10,
-          "score": 43,
-          "components": {
-            "fundamental_quality": {
-              "raw": 35.6833,
-              "normalized": 35.68333333333334,
-              "base_weight": 0.6,
-              "effective_weight": 0.6,
-              "available": true
-            },
-            "institutional_support": {
-              "raw": 29923628.0,
-              "normalized": 79,
-              "base_weight": 0.2,
-              "effective_weight": 0.2,
-              "available": true
-            },
-            "theme_persistence": {
-              "raw": 24.65,
-              "normalized": 24.65,
-              "base_weight": 0.15,
-              "effective_weight": 0.15,
-              "available": true
-            },
-            "trading_stability": {
-              "raw": 0.3385,
-              "normalized": 32.29142102311637,
-              "base_weight": 0.05,
-              "effective_weight": 0.05,
-              "available": true
-            }
-          }
-        },
-        "institutional": {
-          "direction": "positive",
-          "as_of": "2026-09-10",
-          "observation_count": 5,
-          "five_day_net": 29923628.0
-        },
-        "trading_activity": {
-          "as_of": "2026-09-08",
-          "day_trading_volume": 4515000,
-          "total_volume": 13336567,
-          "day_trading_volume_ratio": 0.33854289488441813,
-          "overnight_risk": null,
-          "overnight_missing_reason": "no reliable overnight source"
-        },
-        "fundamentals": {
-          "score": 36,
-          "fiscal_quarter": "2026Q2",
-          "comparison_basis": "YoY",
-          "revenue_growth": 26.72,
-          "revenue_direction": "up",
-          "eps_growth": 175.86,
-          "eps_direction": "up",
-          "gross_margin": 0.21009942438513868,
-          "operating_margin": 0.11057038199895343,
-          "operating_cash_flow": 470.1,
-          "operating_cash_flow_margin": 0.246,
-          "debt_ratio": 0.609
-        },
-        "flags": [
-          {
-            "key": "high_daytrade",
-            "type": "risk"
-          },
-          {
-            "key": "high_leverage",
-            "type": "risk"
-          },
-          {
-            "key": "fundamentals_improving",
-            "type": "positive"
-          },
-          {
-            "key": "institutional_positive",
-            "type": "positive"
-          }
-        ],
-        "coverage": {
-          "short_ratio": 1.0,
-          "long_ratio": 1.0,
-          "missing": []
-        }
-      },
-      {
-        "instrument": {
           "instrument_id": "TWSE:2449",
           "symbol": "2449",
           "exchange": "TWSE",
@@ -4278,8 +4118,8 @@
           }
         ],
         "short": {
-          "rank": 18,
-          "score": 42,
+          "rank": 13,
+          "score": 48,
           "components": {
             "theme_attention": {
               "raw": 40.6725,
@@ -4289,15 +4129,15 @@
               "available": true
             },
             "institutional_short_activity": {
-              "raw": -345050.0,
-              "normalized": 21,
+              "raw": 499724.0,
+              "normalized": 42,
               "base_weight": 0.2,
               "effective_weight": 0.2,
               "available": true
             },
             "daytrade_activity": {
-              "raw": 0.3115,
-              "normalized": 62.30281705463463,
+              "raw": 0.376,
+              "normalized": 75.19394619094315,
               "base_weight": 0.15,
               "effective_weight": 0.15,
               "available": true
@@ -4319,8 +4159,8 @@
           }
         },
         "long": {
-          "rank": 11,
-          "score": 40,
+          "rank": 10,
+          "score": 44,
           "components": {
             "fundamental_quality": {
               "raw": 50.7167,
@@ -4330,8 +4170,8 @@
               "available": true
             },
             "institutional_support": {
-              "raw": -345050.0,
-              "normalized": 21,
+              "raw": 499724.0,
+              "normalized": 42,
               "base_weight": 0.2,
               "effective_weight": 0.2,
               "available": true
@@ -4344,8 +4184,8 @@
               "available": true
             },
             "trading_stability": {
-              "raw": 0.3115,
-              "normalized": 37.69718294536537,
+              "raw": 0.376,
+              "normalized": 24.80605380905685,
               "base_weight": 0.05,
               "effective_weight": 0.05,
               "available": true
@@ -4353,16 +4193,16 @@
           }
         },
         "institutional": {
-          "direction": "negative",
-          "as_of": "2026-09-10",
+          "direction": "positive",
+          "as_of": "2026-09-11",
           "observation_count": 5,
-          "five_day_net": -345050.0
+          "five_day_net": 499724.0
         },
         "trading_activity": {
-          "as_of": "2026-09-08",
-          "day_trading_volume": 5011000,
-          "total_volume": 16085950,
-          "day_trading_volume_ratio": 0.31151408527317315,
+          "as_of": "2026-09-09",
+          "day_trading_volume": 4697000,
+          "total_volume": 12493027,
+          "day_trading_volume_ratio": 0.37596973095471575,
           "overnight_risk": null,
           "overnight_missing_reason": "no reliable overnight source"
         },
@@ -4388,142 +4228,6 @@
           {
             "key": "fundamentals_improving",
             "type": "positive"
-          }
-        ],
-        "coverage": {
-          "short_ratio": 1.0,
-          "long_ratio": 1.0,
-          "missing": []
-        }
-      },
-      {
-        "instrument": {
-          "instrument_id": "TWSE:6239",
-          "symbol": "6239",
-          "exchange": "TWSE",
-          "name_zh": "力成"
-        },
-        "themes": [
-          {
-            "theme_id": "memory_hbm",
-            "name_zh": "記憶體與 HBM",
-            "relation": "related",
-            "heat_score": 58.0,
-            "heat_change_24h": null,
-            "momentum_score": 29.0
-          }
-        ],
-        "short": {
-          "rank": 6,
-          "score": 53,
-          "components": {
-            "theme_attention": {
-              "raw": 40.6725,
-              "normalized": 40.6725,
-              "base_weight": 0.55,
-              "effective_weight": 0.55,
-              "available": true
-            },
-            "institutional_short_activity": {
-              "raw": 2131825.0,
-              "normalized": 58,
-              "base_weight": 0.2,
-              "effective_weight": 0.2,
-              "available": true
-            },
-            "daytrade_activity": {
-              "raw": 0.4944,
-              "normalized": 98.88790986648964,
-              "base_weight": 0.15,
-              "effective_weight": 0.15,
-              "available": true
-            },
-            "fundamental_defense": {
-              "raw": 44.5,
-              "normalized": 44.5,
-              "base_weight": 0.1,
-              "effective_weight": 0.1,
-              "available": true
-            }
-          },
-          "risk_adjustment": {
-            "overnight_risk_adjustment": {
-              "value": null,
-              "applied": 0.0,
-              "missing_reason": "no reliable overnight source"
-            }
-          }
-        },
-        "long": {
-          "rank": 12,
-          "score": 40,
-          "components": {
-            "fundamental_quality": {
-              "raw": 41.85,
-              "normalized": 41.85,
-              "base_weight": 0.6,
-              "effective_weight": 0.6,
-              "available": true
-            },
-            "institutional_support": {
-              "raw": 2131825.0,
-              "normalized": 58,
-              "base_weight": 0.2,
-              "effective_weight": 0.2,
-              "available": true
-            },
-            "theme_persistence": {
-              "raw": 24.65,
-              "normalized": 24.65,
-              "base_weight": 0.15,
-              "effective_weight": 0.15,
-              "available": true
-            },
-            "trading_stability": {
-              "raw": 0.4944,
-              "normalized": 1.112090133510364,
-              "base_weight": 0.05,
-              "effective_weight": 0.05,
-              "available": true
-            }
-          }
-        },
-        "institutional": {
-          "direction": "positive",
-          "as_of": "2026-09-10",
-          "observation_count": 5,
-          "five_day_net": 2131825.0
-        },
-        "trading_activity": {
-          "as_of": "2026-09-08",
-          "day_trading_volume": 7190000,
-          "total_volume": 14541717,
-          "day_trading_volume_ratio": 0.49443954933244816,
-          "overnight_risk": null,
-          "overnight_missing_reason": "no reliable overnight source"
-        },
-        "fundamentals": {
-          "score": 42,
-          "fiscal_quarter": "2026Q2",
-          "comparison_basis": "YoY",
-          "revenue_growth": 28.02,
-          "revenue_direction": "up",
-          "eps_growth": 130.77,
-          "eps_direction": "up",
-          "gross_margin": 0.21760380622837372,
-          "operating_margin": 0.1527249134948097,
-          "operating_cash_flow": 59.72,
-          "operating_cash_flow_margin": 0.2583,
-          "debt_ratio": 0.449
-        },
-        "flags": [
-          {
-            "key": "high_daytrade",
-            "type": "risk"
-          },
-          {
-            "key": "fundamentals_improving",
-            "type": "positive"
           },
           {
             "key": "institutional_positive",
@@ -4538,10 +4242,10 @@
       },
       {
         "instrument": {
-          "instrument_id": "TWSE:2454",
-          "symbol": "2454",
+          "instrument_id": "TWSE:3711",
+          "symbol": "3711",
           "exchange": "TWSE",
-          "name_zh": "聯發科"
+          "name_zh": "日月光投控"
         },
         "themes": [
           {
@@ -4554,7 +4258,7 @@
           }
         ],
         "short": {
-          "rank": 12,
+          "rank": 10,
           "score": 50,
           "components": {
             "theme_attention": {
@@ -4565,22 +4269,22 @@
               "available": true
             },
             "institutional_short_activity": {
-              "raw": 6661539.0,
-              "normalized": 68,
+              "raw": 25582206.0,
+              "normalized": 84,
               "base_weight": 0.2,
               "effective_weight": 0.2,
               "available": true
             },
             "daytrade_activity": {
-              "raw": 0.3274,
-              "normalized": 65.48006067655153,
+              "raw": 0.2739,
+              "normalized": 54.78614192904201,
               "base_weight": 0.15,
               "effective_weight": 0.15,
               "available": true
             },
             "fundamental_defense": {
-              "raw": 45.9167,
-              "normalized": 45.91666666666667,
+              "raw": 30.8333,
+              "normalized": 30.833333333333336,
               "base_weight": 0.1,
               "effective_weight": 0.1,
               "available": true
@@ -4595,19 +4299,19 @@
           }
         },
         "long": {
-          "rank": 13,
-          "score": 38,
+          "rank": 11,
+          "score": 44,
           "components": {
             "fundamental_quality": {
-              "raw": 31.0917,
-              "normalized": 31.091666666666665,
+              "raw": 35.6833,
+              "normalized": 35.68333333333334,
               "base_weight": 0.6,
               "effective_weight": 0.6,
               "available": true
             },
             "institutional_support": {
-              "raw": 6661539.0,
-              "normalized": 68,
+              "raw": 25582206.0,
+              "normalized": 84,
               "base_weight": 0.2,
               "effective_weight": 0.2,
               "available": true
@@ -4620,8 +4324,8 @@
               "available": true
             },
             "trading_stability": {
-              "raw": 0.3274,
-              "normalized": 34.51993932344847,
+              "raw": 0.2739,
+              "normalized": 45.21385807095799,
               "base_weight": 0.05,
               "effective_weight": 0.05,
               "available": true
@@ -4630,36 +4334,40 @@
         },
         "institutional": {
           "direction": "positive",
-          "as_of": "2026-09-10",
+          "as_of": "2026-09-11",
           "observation_count": 5,
-          "five_day_net": 6661539.0
+          "five_day_net": 25582206.0
         },
         "trading_activity": {
-          "as_of": "2026-09-08",
-          "day_trading_volume": 2132000,
-          "total_volume": 6511906,
-          "day_trading_volume_ratio": 0.32740030338275766,
+          "as_of": "2026-09-09",
+          "day_trading_volume": 6288000,
+          "total_volume": 22954710,
+          "day_trading_volume_ratio": 0.27393070964521005,
           "overnight_risk": null,
           "overnight_missing_reason": "no reliable overnight source"
         },
         "fundamentals": {
-          "score": 31,
+          "score": 36,
           "fiscal_quarter": "2026Q2",
           "comparison_basis": "YoY",
-          "revenue_growth": 1.2,
+          "revenue_growth": 26.72,
           "revenue_direction": "up",
-          "eps_growth": -12.69,
-          "eps_direction": "down",
-          "gross_margin": 0.46195795006570306,
-          "operating_margin": 0.1502628120893561,
-          "operating_cash_flow": 242.5,
-          "operating_cash_flow_margin": 0.1593,
-          "debt_ratio": 0.451
+          "eps_growth": 175.86,
+          "eps_direction": "up",
+          "gross_margin": 0.21009942438513868,
+          "operating_margin": 0.11057038199895343,
+          "operating_cash_flow": 470.1,
+          "operating_cash_flow_margin": 0.246,
+          "debt_ratio": 0.609
         },
         "flags": [
           {
-            "key": "high_daytrade",
+            "key": "high_leverage",
             "type": "risk"
+          },
+          {
+            "key": "fundamentals_improving",
+            "type": "positive"
           },
           {
             "key": "institutional_positive",
@@ -4690,8 +4398,8 @@
           }
         ],
         "short": {
-          "rank": 14,
-          "score": 48,
+          "rank": 11,
+          "score": 49,
           "components": {
             "theme_attention": {
               "raw": 40.6725,
@@ -4701,14 +4409,14 @@
               "available": true
             },
             "institutional_short_activity": {
-              "raw": 268491.0,
-              "normalized": 32,
+              "raw": 69376.0,
+              "normalized": 37,
               "base_weight": 0.2,
               "effective_weight": 0.2,
               "available": true
             },
             "daytrade_activity": {
-              "raw": 0.5501,
+              "raw": 0.5797,
               "normalized": 100.0,
               "base_weight": 0.15,
               "effective_weight": 0.15,
@@ -4731,8 +4439,8 @@
           }
         },
         "long": {
-          "rank": 14,
-          "score": 38,
+          "rank": 12,
+          "score": 39,
           "components": {
             "fundamental_quality": {
               "raw": 47.3333,
@@ -4742,8 +4450,8 @@
               "available": true
             },
             "institutional_support": {
-              "raw": 268491.0,
-              "normalized": 32,
+              "raw": 69376.0,
+              "normalized": 37,
               "base_weight": 0.2,
               "effective_weight": 0.2,
               "available": true
@@ -4756,7 +4464,7 @@
               "available": true
             },
             "trading_stability": {
-              "raw": 0.5501,
+              "raw": 0.5797,
               "normalized": 0.0,
               "base_weight": 0.05,
               "effective_weight": 0.05,
@@ -4766,15 +4474,15 @@
         },
         "institutional": {
           "direction": "positive",
-          "as_of": "2026-09-10",
+          "as_of": "2026-09-11",
           "observation_count": 5,
-          "five_day_net": 268491.0
+          "five_day_net": 69376.0
         },
         "trading_activity": {
-          "as_of": "2026-09-08",
-          "day_trading_volume": 6091000,
-          "total_volume": 11072227,
-          "day_trading_volume_ratio": 0.5501151665333451,
+          "as_of": "2026-09-09",
+          "day_trading_volume": 8827000,
+          "total_volume": 15225627,
+          "day_trading_volume_ratio": 0.5797462396786681,
           "overnight_risk": null,
           "overnight_missing_reason": "no reliable overnight source"
         },
@@ -4814,6 +4522,278 @@
       },
       {
         "instrument": {
+          "instrument_id": "TWSE:2454",
+          "symbol": "2454",
+          "exchange": "TWSE",
+          "name_zh": "聯發科"
+        },
+        "themes": [
+          {
+            "theme_id": "memory_hbm",
+            "name_zh": "記憶體與 HBM",
+            "relation": "related",
+            "heat_score": 58.0,
+            "heat_change_24h": null,
+            "momentum_score": 29.0
+          }
+        ],
+        "short": {
+          "rank": 9,
+          "score": 50,
+          "components": {
+            "theme_attention": {
+              "raw": 40.6725,
+              "normalized": 40.6725,
+              "base_weight": 0.55,
+              "effective_weight": 0.55,
+              "available": true
+            },
+            "institutional_short_activity": {
+              "raw": 5028587.0,
+              "normalized": 63,
+              "base_weight": 0.2,
+              "effective_weight": 0.2,
+              "available": true
+            },
+            "daytrade_activity": {
+              "raw": 0.3555,
+              "normalized": 71.10065668122132,
+              "base_weight": 0.15,
+              "effective_weight": 0.15,
+              "available": true
+            },
+            "fundamental_defense": {
+              "raw": 45.9167,
+              "normalized": 45.91666666666667,
+              "base_weight": 0.1,
+              "effective_weight": 0.1,
+              "available": true
+            }
+          },
+          "risk_adjustment": {
+            "overnight_risk_adjustment": {
+              "value": null,
+              "applied": 0.0,
+              "missing_reason": "no reliable overnight source"
+            }
+          }
+        },
+        "long": {
+          "rank": 13,
+          "score": 36,
+          "components": {
+            "fundamental_quality": {
+              "raw": 31.0917,
+              "normalized": 31.091666666666665,
+              "base_weight": 0.6,
+              "effective_weight": 0.6,
+              "available": true
+            },
+            "institutional_support": {
+              "raw": 5028587.0,
+              "normalized": 63,
+              "base_weight": 0.2,
+              "effective_weight": 0.2,
+              "available": true
+            },
+            "theme_persistence": {
+              "raw": 24.65,
+              "normalized": 24.65,
+              "base_weight": 0.15,
+              "effective_weight": 0.15,
+              "available": true
+            },
+            "trading_stability": {
+              "raw": 0.3555,
+              "normalized": 28.899343318778676,
+              "base_weight": 0.05,
+              "effective_weight": 0.05,
+              "available": true
+            }
+          }
+        },
+        "institutional": {
+          "direction": "positive",
+          "as_of": "2026-09-11",
+          "observation_count": 5,
+          "five_day_net": 5028587.0
+        },
+        "trading_activity": {
+          "as_of": "2026-09-09",
+          "day_trading_volume": 1920000,
+          "total_volume": 5400794,
+          "day_trading_volume_ratio": 0.3555032834061066,
+          "overnight_risk": null,
+          "overnight_missing_reason": "no reliable overnight source"
+        },
+        "fundamentals": {
+          "score": 31,
+          "fiscal_quarter": "2026Q2",
+          "comparison_basis": "YoY",
+          "revenue_growth": 1.2,
+          "revenue_direction": "up",
+          "eps_growth": -12.69,
+          "eps_direction": "down",
+          "gross_margin": 0.46195795006570306,
+          "operating_margin": 0.1502628120893561,
+          "operating_cash_flow": 242.5,
+          "operating_cash_flow_margin": 0.1593,
+          "debt_ratio": 0.451
+        },
+        "flags": [
+          {
+            "key": "high_daytrade",
+            "type": "risk"
+          },
+          {
+            "key": "institutional_positive",
+            "type": "positive"
+          }
+        ],
+        "coverage": {
+          "short_ratio": 1.0,
+          "long_ratio": 1.0,
+          "missing": []
+        }
+      },
+      {
+        "instrument": {
+          "instrument_id": "TWSE:6239",
+          "symbol": "6239",
+          "exchange": "TWSE",
+          "name_zh": "力成"
+        },
+        "themes": [
+          {
+            "theme_id": "memory_hbm",
+            "name_zh": "記憶體與 HBM",
+            "relation": "related",
+            "heat_score": 58.0,
+            "heat_change_24h": null,
+            "momentum_score": 29.0
+          }
+        ],
+        "short": {
+          "rank": 17,
+          "score": 40,
+          "components": {
+            "theme_attention": {
+              "raw": 40.6725,
+              "normalized": 40.6725,
+              "base_weight": 0.55,
+              "effective_weight": 0.55,
+              "available": true
+            },
+            "institutional_short_activity": {
+              "raw": -3097984.0,
+              "normalized": 11,
+              "base_weight": 0.2,
+              "effective_weight": 0.2,
+              "available": true
+            },
+            "daytrade_activity": {
+              "raw": 0.3593,
+              "normalized": 71.85596223333792,
+              "base_weight": 0.15,
+              "effective_weight": 0.15,
+              "available": true
+            },
+            "fundamental_defense": {
+              "raw": 44.5,
+              "normalized": 44.5,
+              "base_weight": 0.1,
+              "effective_weight": 0.1,
+              "available": true
+            }
+          },
+          "risk_adjustment": {
+            "overnight_risk_adjustment": {
+              "value": null,
+              "applied": 0.0,
+              "missing_reason": "no reliable overnight source"
+            }
+          }
+        },
+        "long": {
+          "rank": 14,
+          "score": 32,
+          "components": {
+            "fundamental_quality": {
+              "raw": 41.85,
+              "normalized": 41.85,
+              "base_weight": 0.6,
+              "effective_weight": 0.6,
+              "available": true
+            },
+            "institutional_support": {
+              "raw": -3097984.0,
+              "normalized": 11,
+              "base_weight": 0.2,
+              "effective_weight": 0.2,
+              "available": true
+            },
+            "theme_persistence": {
+              "raw": 24.65,
+              "normalized": 24.65,
+              "base_weight": 0.15,
+              "effective_weight": 0.15,
+              "available": true
+            },
+            "trading_stability": {
+              "raw": 0.3593,
+              "normalized": 28.14403776666208,
+              "base_weight": 0.05,
+              "effective_weight": 0.05,
+              "available": true
+            }
+          }
+        },
+        "institutional": {
+          "direction": "negative",
+          "as_of": "2026-09-11",
+          "observation_count": 5,
+          "five_day_net": -3097984.0
+        },
+        "trading_activity": {
+          "as_of": "2026-09-09",
+          "day_trading_volume": 4631000,
+          "total_volume": 12889675,
+          "day_trading_volume_ratio": 0.3592798111666896,
+          "overnight_risk": null,
+          "overnight_missing_reason": "no reliable overnight source"
+        },
+        "fundamentals": {
+          "score": 42,
+          "fiscal_quarter": "2026Q2",
+          "comparison_basis": "YoY",
+          "revenue_growth": 28.02,
+          "revenue_direction": "up",
+          "eps_growth": 130.77,
+          "eps_direction": "up",
+          "gross_margin": 0.21760380622837372,
+          "operating_margin": 0.1527249134948097,
+          "operating_cash_flow": 59.72,
+          "operating_cash_flow_margin": 0.2583,
+          "debt_ratio": 0.449
+        },
+        "flags": [
+          {
+            "key": "high_daytrade",
+            "type": "risk"
+          },
+          {
+            "key": "fundamentals_improving",
+            "type": "positive"
+          }
+        ],
+        "coverage": {
+          "short_ratio": 1.0,
+          "long_ratio": 1.0,
+          "missing": []
+        }
+      },
+      {
+        "instrument": {
           "instrument_id": "TWSE:2634",
           "symbol": "2634",
           "exchange": "TWSE",
@@ -4824,32 +4804,32 @@
             "theme_id": "defense_drone",
             "name_zh": "國防與無人機",
             "relation": "related",
-            "heat_score": 71.0,
+            "heat_score": 52.0,
             "heat_change_24h": null,
-            "momentum_score": 36.0
+            "momentum_score": 26.0
           }
         ],
         "short": {
-          "rank": 17,
-          "score": 42,
+          "rank": 19,
+          "score": 31,
           "components": {
             "theme_attention": {
-              "raw": 49.9375,
-              "normalized": 49.9375,
+              "raw": 36.465,
+              "normalized": 36.465,
               "base_weight": 0.55,
               "effective_weight": 0.55,
               "available": true
             },
             "institutional_short_activity": {
-              "raw": -8062648.0,
+              "raw": -11704127.0,
               "normalized": 0,
               "base_weight": 0.2,
               "effective_weight": 0.2,
               "available": true
             },
             "daytrade_activity": {
-              "raw": 0.3641,
-              "normalized": 72.81161275480515,
+              "raw": 0.2434,
+              "normalized": 48.67156559084073,
               "base_weight": 0.15,
               "effective_weight": 0.15,
               "available": true
@@ -4882,22 +4862,22 @@
               "available": true
             },
             "institutional_support": {
-              "raw": -8062648.0,
+              "raw": -11704127.0,
               "normalized": 0,
               "base_weight": 0.2,
               "effective_weight": 0.2,
               "available": true
             },
             "theme_persistence": {
-              "raw": 30.6,
-              "normalized": 30.599999999999998,
+              "raw": 22.1,
+              "normalized": 22.099999999999998,
               "base_weight": 0.15,
               "effective_weight": 0.15,
               "available": true
             },
             "trading_stability": {
-              "raw": 0.3641,
-              "normalized": 27.188387245194846,
+              "raw": 0.2434,
+              "normalized": 51.32843440915927,
               "base_weight": 0.05,
               "effective_weight": 0.05,
               "available": true
@@ -4906,15 +4886,15 @@
         },
         "institutional": {
           "direction": "negative",
-          "as_of": "2026-09-10",
+          "as_of": "2026-09-11",
           "observation_count": 5,
-          "five_day_net": -8062648.0
+          "five_day_net": -11704127.0
         },
         "trading_activity": {
-          "as_of": "2026-09-08",
-          "day_trading_volume": 7308000,
-          "total_volume": 20073721,
-          "day_trading_volume_ratio": 0.3640580637740258,
+          "as_of": "2026-09-09",
+          "day_trading_volume": 1813000,
+          "total_volume": 7449935,
+          "day_trading_volume_ratio": 0.24335782795420363,
           "overnight_risk": null,
           "overnight_missing_reason": "no reliable overnight source"
         },
@@ -4933,10 +4913,6 @@
           "debt_ratio": 0.632
         },
         "flags": [
-          {
-            "key": "high_daytrade",
-            "type": "risk"
-          },
           {
             "key": "high_leverage",
             "type": "risk"
@@ -4970,7 +4946,7 @@
           }
         ],
         "short": {
-          "rank": 13,
+          "rank": 12,
           "score": 49,
           "components": {
             "theme_attention": {
@@ -4981,14 +4957,14 @@
               "available": true
             },
             "institutional_short_activity": {
-              "raw": 1955705.0,
+              "raw": 1505695.0,
               "normalized": 53,
               "base_weight": 0.2,
               "effective_weight": 0.2,
               "available": true
             },
             "daytrade_activity": {
-              "raw": 0.6991,
+              "raw": 0.6199,
               "normalized": 100.0,
               "base_weight": 0.15,
               "effective_weight": 0.15,
@@ -5022,7 +4998,7 @@
               "available": true
             },
             "institutional_support": {
-              "raw": 1955705.0,
+              "raw": 1505695.0,
               "normalized": 53,
               "base_weight": 0.2,
               "effective_weight": 0.2,
@@ -5036,7 +5012,7 @@
               "available": true
             },
             "trading_stability": {
-              "raw": 0.6991,
+              "raw": 0.6199,
               "normalized": 0.0,
               "base_weight": 0.05,
               "effective_weight": 0.05,
@@ -5046,15 +5022,15 @@
         },
         "institutional": {
           "direction": "positive",
-          "as_of": "2026-09-10",
+          "as_of": "2026-09-11",
           "observation_count": 5,
-          "five_day_net": 1955705.0
+          "five_day_net": 1505695.0
         },
         "trading_activity": {
-          "as_of": "2026-09-08",
-          "day_trading_volume": 6556000,
-          "total_volume": 9378177,
-          "day_trading_volume_ratio": 0.699069765904397,
+          "as_of": "2026-09-09",
+          "day_trading_volume": 5688000,
+          "total_volume": 9176282,
+          "day_trading_volume_ratio": 0.6198588927410905,
           "overnight_risk": null,
           "overnight_missing_reason": "no reliable overnight source"
         },
@@ -5110,8 +5086,8 @@
           }
         ],
         "short": {
-          "rank": 16,
-          "score": 43,
+          "rank": 14,
+          "score": 44,
           "components": {
             "theme_attention": {
               "raw": 40.6725,
@@ -5121,15 +5097,15 @@
               "available": true
             },
             "institutional_short_activity": {
-              "raw": 138364.0,
-              "normalized": 26,
+              "raw": 36275.0,
+              "normalized": 32,
               "base_weight": 0.2,
               "effective_weight": 0.2,
               "available": true
             },
             "daytrade_activity": {
-              "raw": 0.418,
-              "normalized": 83.60075414846972,
+              "raw": 0.4075,
+              "normalized": 81.50650454949484,
               "base_weight": 0.15,
               "effective_weight": 0.15,
               "available": true
@@ -5152,7 +5128,7 @@
         },
         "long": {
           "rank": 17,
-          "score": 26,
+          "score": 27,
           "components": {
             "fundamental_quality": {
               "raw": 27.0,
@@ -5162,8 +5138,8 @@
               "available": true
             },
             "institutional_support": {
-              "raw": 138364.0,
-              "normalized": 26,
+              "raw": 36275.0,
+              "normalized": 32,
               "base_weight": 0.2,
               "effective_weight": 0.2,
               "available": true
@@ -5176,8 +5152,8 @@
               "available": true
             },
             "trading_stability": {
-              "raw": 0.418,
-              "normalized": 16.39924585153028,
+              "raw": 0.4075,
+              "normalized": 18.493495450505165,
               "base_weight": 0.05,
               "effective_weight": 0.05,
               "available": true
@@ -5186,15 +5162,15 @@
         },
         "institutional": {
           "direction": "positive",
-          "as_of": "2026-09-10",
+          "as_of": "2026-09-11",
           "observation_count": 5,
-          "five_day_net": 138364.0
+          "five_day_net": 36275.0
         },
         "trading_activity": {
-          "as_of": "2026-09-08",
-          "day_trading_volume": 384000,
-          "total_volume": 918652,
-          "day_trading_volume_ratio": 0.41800377074234857,
+          "as_of": "2026-09-09",
+          "day_trading_volume": 370000,
+          "total_volume": 907903,
+          "day_trading_volume_ratio": 0.40753252274747415,
           "overnight_risk": null,
           "overnight_missing_reason": "no reliable overnight source"
         },
@@ -5248,32 +5224,32 @@
             "theme_id": "defense_drone",
             "name_zh": "國防與無人機",
             "relation": "related",
-            "heat_score": 71.0,
+            "heat_score": 52.0,
             "heat_change_24h": null,
-            "momentum_score": 36.0
+            "momentum_score": 26.0
           }
         ],
         "short": {
-          "rank": 15,
-          "score": 43,
+          "rank": 18,
+          "score": 36,
           "components": {
             "theme_attention": {
-              "raw": 49.9375,
-              "normalized": 49.9375,
+              "raw": 36.465,
+              "normalized": 36.465,
               "base_weight": 0.55,
               "effective_weight": 0.55,
               "available": true
             },
             "institutional_short_activity": {
-              "raw": -583568.0,
-              "normalized": 16,
+              "raw": -1346273.0,
+              "normalized": 21,
               "base_weight": 0.2,
               "effective_weight": 0.2,
               "available": true
             },
             "daytrade_activity": {
-              "raw": 0.297,
-              "normalized": 59.40480066254735,
+              "raw": 0.2711,
+              "normalized": 54.218221091467875,
               "base_weight": 0.15,
               "effective_weight": 0.15,
               "available": true
@@ -5306,22 +5282,22 @@
               "available": true
             },
             "institutional_support": {
-              "raw": -583568.0,
-              "normalized": 16,
+              "raw": -1346273.0,
+              "normalized": 21,
               "base_weight": 0.2,
               "effective_weight": 0.2,
               "available": true
             },
             "theme_persistence": {
-              "raw": 30.6,
-              "normalized": 30.599999999999998,
+              "raw": 22.1,
+              "normalized": 22.099999999999998,
               "base_weight": 0.15,
               "effective_weight": 0.15,
               "available": true
             },
             "trading_stability": {
-              "raw": 0.297,
-              "normalized": 40.59519933745265,
+              "raw": 0.2711,
+              "normalized": 45.781778908532125,
               "base_weight": 0.05,
               "effective_weight": 0.05,
               "available": true
@@ -5330,15 +5306,15 @@
         },
         "institutional": {
           "direction": "negative",
-          "as_of": "2026-09-10",
+          "as_of": "2026-09-11",
           "observation_count": 5,
-          "five_day_net": -583568.0
+          "five_day_net": -1346273.0
         },
         "trading_activity": {
-          "as_of": "2026-09-08",
-          "day_trading_volume": 614000,
-          "total_volume": 2067173,
-          "day_trading_volume_ratio": 0.29702400331273676,
+          "as_of": "2026-09-09",
+          "day_trading_volume": 374000,
+          "total_volume": 1379610,
+          "day_trading_volume_ratio": 0.2710911054573394,
           "overnight_risk": null,
           "overnight_missing_reason": "no reliable overnight source"
         },
@@ -5386,7 +5362,7 @@
           }
         ],
         "short": {
-          "rank": 19,
+          "rank": 16,
           "score": 41,
           "components": {
             "theme_attention": {
@@ -5397,14 +5373,14 @@
               "available": true
             },
             "institutional_short_activity": {
-              "raw": -4356048.0,
+              "raw": -6428963.0,
               "normalized": 5,
               "base_weight": 0.2,
               "effective_weight": 0.2,
               "available": true
             },
             "daytrade_activity": {
-              "raw": 0.533,
+              "raw": 0.5316,
               "normalized": 100.0,
               "base_weight": 0.15,
               "effective_weight": 0.15,
@@ -5438,7 +5414,7 @@
               "available": true
             },
             "institutional_support": {
-              "raw": -4356048.0,
+              "raw": -6428963.0,
               "normalized": 5,
               "base_weight": 0.2,
               "effective_weight": 0.2,
@@ -5452,7 +5428,7 @@
               "available": true
             },
             "trading_stability": {
-              "raw": 0.533,
+              "raw": 0.5316,
               "normalized": 0.0,
               "base_weight": 0.05,
               "effective_weight": 0.05,
@@ -5462,15 +5438,15 @@
         },
         "institutional": {
           "direction": "negative",
-          "as_of": "2026-09-10",
+          "as_of": "2026-09-11",
           "observation_count": 5,
-          "five_day_net": -4356048.0
+          "five_day_net": -6428963.0
         },
         "trading_activity": {
-          "as_of": "2026-09-08",
-          "day_trading_volume": 5127000,
-          "total_volume": 9619199,
-          "day_trading_volume_ratio": 0.5329965623956839,
+          "as_of": "2026-09-09",
+          "day_trading_volume": 2386000,
+          "total_volume": 4488526,
+          "day_trading_volume_ratio": 0.5315776270428199,
           "overnight_risk": null,
           "overnight_missing_reason": "no reliable overnight source"
         },
@@ -5512,25 +5488,25 @@
             "theme_id": "defense_drone",
             "name_zh": "國防與無人機",
             "relation": "related",
-            "heat_score": 71.0,
+            "heat_score": 52.0,
             "heat_change_24h": null,
-            "momentum_score": 36.0
+            "momentum_score": 26.0
           }
         ],
         "short": {
           "rank": 20,
-          "score": 37,
+          "score": 29,
           "components": {
             "theme_attention": {
-              "raw": 49.9375,
-              "normalized": 49.9375,
+              "raw": 36.465,
+              "normalized": 36.465,
               "base_weight": 0.55,
               "effective_weight": 0.6470588235294118,
               "available": true
             },
             "institutional_short_activity": {
               "raw": -1391454.0,
-              "normalized": 11,
+              "normalized": 16,
               "base_weight": 0.2,
               "effective_weight": 0.23529411764705885,
               "available": true
@@ -5571,14 +5547,14 @@
             },
             "institutional_support": {
               "raw": -1391454.0,
-              "normalized": 11,
+              "normalized": 16,
               "base_weight": 0.2,
               "effective_weight": 0.21052631578947367,
               "available": true
             },
             "theme_persistence": {
-              "raw": 30.6,
-              "normalized": 30.599999999999998,
+              "raw": 22.1,
+              "normalized": 22.099999999999998,
               "base_weight": 0.15,
               "effective_weight": 0.15789473684210525,
               "available": true
@@ -5656,7 +5632,7 @@
         }
       ],
       "selected_top50": true,
-      "short_rank": 16,
+      "short_rank": 14,
       "long_rank": 17,
       "flags": [
         {
@@ -5695,7 +5671,7 @@
         }
       ],
       "selected_top50": true,
-      "short_rank": 7,
+      "short_rank": 6,
       "long_rank": 9,
       "flags": [
         {
@@ -5724,9 +5700,9 @@
           "theme_id": "defense_drone",
           "name_zh": "國防與無人機",
           "relation": "related",
-          "heat_score": 71.0,
+          "heat_score": 52.0,
           "heat_change_24h": null,
-          "momentum_score": 36.0
+          "momentum_score": 26.0
         }
       ],
       "selected_top50": true,
@@ -5757,7 +5733,7 @@
         }
       ],
       "selected_top50": true,
-      "short_rank": 19,
+      "short_rank": 16,
       "long_rank": 19,
       "flags": [
         {
@@ -5784,7 +5760,7 @@
         }
       ],
       "selected_top50": true,
-      "short_rank": 11,
+      "short_rank": 15,
       "long_rank": 6,
       "flags": [
         {
@@ -5793,10 +5769,6 @@
         },
         {
           "key": "fundamentals_improving",
-          "type": "positive"
-        },
-        {
-          "key": "institutional_positive",
           "type": "positive"
         }
       ]
@@ -5885,7 +5857,7 @@
         }
       ],
       "selected_top50": true,
-      "short_rank": 2,
+      "short_rank": 3,
       "long_rank": 2,
       "flags": [
         {
@@ -5920,7 +5892,7 @@
         }
       ],
       "selected_top50": true,
-      "short_rank": 3,
+      "short_rank": 1,
       "long_rank": 1,
       "flags": [
         {
@@ -5955,8 +5927,8 @@
         }
       ],
       "selected_top50": true,
-      "short_rank": 18,
-      "long_rank": 11,
+      "short_rank": 13,
+      "long_rank": 10,
       "flags": [
         {
           "key": "high_daytrade",
@@ -5964,6 +5936,10 @@
         },
         {
           "key": "fundamentals_improving",
+          "type": "positive"
+        },
+        {
+          "key": "institutional_positive",
           "type": "positive"
         }
       ]
@@ -5986,7 +5962,7 @@
         }
       ],
       "selected_top50": true,
-      "short_rank": 12,
+      "short_rank": 9,
       "long_rank": 13,
       "flags": [
         {
@@ -6011,19 +5987,15 @@
           "theme_id": "defense_drone",
           "name_zh": "國防與無人機",
           "relation": "related",
-          "heat_score": 71.0,
+          "heat_score": 52.0,
           "heat_change_24h": null,
-          "momentum_score": 36.0
+          "momentum_score": 26.0
         }
       ],
       "selected_top50": true,
-      "short_rank": 17,
+      "short_rank": 19,
       "long_rank": 15,
       "flags": [
-        {
-          "key": "high_daytrade",
-          "type": "risk"
-        },
         {
           "key": "high_leverage",
           "type": "risk"
@@ -6053,7 +6025,7 @@
       ],
       "selected_top50": true,
       "short_rank": 5,
-      "long_rank": 7,
+      "long_rank": 8,
       "flags": [
         {
           "key": "high_daytrade",
@@ -6087,8 +6059,8 @@
         }
       ],
       "selected_top50": true,
-      "short_rank": 14,
-      "long_rank": 14,
+      "short_rank": 11,
+      "long_rank": 12,
       "flags": [
         {
           "key": "high_daytrade",
@@ -6122,7 +6094,7 @@
         }
       ],
       "selected_top50": true,
-      "short_rank": 13,
+      "short_rank": 12,
       "long_rank": 16,
       "flags": [
         {
@@ -6157,13 +6129,9 @@
         }
       ],
       "selected_top50": true,
-      "short_rank": 9,
-      "long_rank": 10,
+      "short_rank": 10,
+      "long_rank": 11,
       "flags": [
-        {
-          "key": "high_daytrade",
-          "type": "risk"
-        },
         {
           "key": "high_leverage",
           "type": "risk"
@@ -6196,8 +6164,8 @@
         }
       ],
       "selected_top50": true,
-      "short_rank": 6,
-      "long_rank": 12,
+      "short_rank": 17,
+      "long_rank": 14,
       "flags": [
         {
           "key": "high_daytrade",
@@ -6205,10 +6173,6 @@
         },
         {
           "key": "fundamentals_improving",
-          "type": "positive"
-        },
-        {
-          "key": "institutional_positive",
           "type": "positive"
         }
       ]
@@ -6231,7 +6195,7 @@
         }
       ],
       "selected_top50": true,
-      "short_rank": 1,
+      "short_rank": 2,
       "long_rank": 5,
       "flags": [
         {
@@ -6260,13 +6224,13 @@
           "theme_id": "defense_drone",
           "name_zh": "國防與無人機",
           "relation": "related",
-          "heat_score": 71.0,
+          "heat_score": 52.0,
           "heat_change_24h": null,
-          "momentum_score": 36.0
+          "momentum_score": 26.0
         }
       ],
       "selected_top50": true,
-      "short_rank": 15,
+      "short_rank": 18,
       "long_rank": 18,
       "flags": [
         {
@@ -6293,8 +6257,8 @@
         }
       ],
       "selected_top50": true,
-      "short_rank": 10,
-      "long_rank": 8,
+      "short_rank": 7,
+      "long_rank": 7,
       "flags": [
         {
           "key": "high_daytrade",
