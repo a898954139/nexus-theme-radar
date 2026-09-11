@@ -2,14 +2,14 @@
   "schema_version": "nexus_public_theme_ranking.v0.8",
   "ranking_rule_version": "public_theme_heat_v0.8",
   "company_rule_version": "public_company_evidence_v0.8",
-  "generated_at": "2026-09-11T14:27:41.950591Z",
+  "generated_at": "2026-09-11T18:35:20.119064Z",
   "market_id": "TW_EQUITY",
   "market_scope": [
     "TW_EQUITY"
   ],
   "window_hours": 72,
   "max_themes": 5,
-  "qualified_theme_count": 6,
+  "qualified_theme_count": 9,
   "displayed_theme_count": 5,
   "threshold_note": null,
   "generation_status": "complete",
@@ -20,24 +20,24 @@
       "rank": 1,
       "theme_id": "statementdog_tag_1517",
       "name_zh": "AI",
-      "heat_score": 80,
+      "heat_score": 74,
       "summaries": {
-        "event_count": 24,
-        "source_count": 4,
+        "event_count": 26,
+        "source_count": 3,
         "tracking_candidate_count": 0,
-        "taiwan_mapping_count": 86
+        "taiwan_mapping_count": 87
       },
       "heat_reason": {
         "rule_version": "public_theme_heat_v0.8",
         "event_component": {
-          "input": 24,
+          "input": 26,
           "normalized": 100.0,
           "weighted": 25.0
         },
         "source_component": {
-          "input": 4,
-          "normalized": 100.0,
-          "weighted": 25.0
+          "input": 3,
+          "normalized": 75.0,
+          "weighted": 18.75
         },
         "candidate_component": {
           "input": 0,
@@ -45,14 +45,14 @@
           "weighted": 0.0
         },
         "mapping_component": {
-          "mapping_count": 86,
-          "direct_mapping_event_count": 8,
+          "mapping_count": 87,
+          "direct_mapping_event_count": 10,
           "normalized": 100.0,
           "weighted": 30.0
         },
-        "single_source_concentration": 0.583,
+        "single_source_concentration": 0.538,
         "concentration_penalty": 0.0,
-        "raw_score": 80.0
+        "raw_score": 73.75
       },
       "direct_mentions": [
         {
@@ -88,20 +88,36 @@
           "latest_mentioned_at": "2026-09-11T08:22:26Z"
         },
         {
+          "instrument_id": "TWSE:2028",
+          "symbol": "2028",
+          "exchange": "TWSE",
+          "name_zh": "威致",
+          "direct_event_count": 1,
+          "latest_mentioned_at": "2026-09-11T06:30:11Z"
+        },
+        {
+          "instrument_id": "TWSE:2007",
+          "symbol": "2007",
+          "exchange": "TWSE",
+          "name_zh": "燁興",
+          "direct_event_count": 1,
+          "latest_mentioned_at": "2026-09-11T06:23:14Z"
+        },
+        {
+          "instrument_id": "TWSE:7788",
+          "symbol": "7788",
+          "exchange": "TWSE",
+          "name_zh": "松川精密",
+          "direct_event_count": 1,
+          "latest_mentioned_at": "2026-09-11T04:35:35Z"
+        },
+        {
           "instrument_id": "TWSE:2032",
           "symbol": "2032",
           "exchange": "TWSE",
           "name_zh": "新鋼",
           "direct_event_count": 1,
           "latest_mentioned_at": "2026-09-11T03:51:42Z"
-        },
-        {
-          "instrument_id": "TWSE:2455",
-          "symbol": "2455",
-          "exchange": "TWSE",
-          "name_zh": "全新",
-          "direct_event_count": 1,
-          "latest_mentioned_at": "2026-09-11T03:40:01Z"
         },
         {
           "instrument_id": "TWSE:2395",
@@ -148,18 +164,103 @@
         }
       ],
       "representative_news": {
-        "cluster_id": "cluster-a1136e41db5b98bd",
-        "id": "yahoo_finance_tw-370a4193522e",
-        "title_zh": "AI自動化隱藏陷阱：部署前工作流程設計成關鍵",
-        "summary": "圖／示意圖商傳媒｜林昭衡／綜合外電報導企業在導入人工智慧（AI）自動化時，面臨一項潛在風險：即使AI模型尚未啟動，錯誤的工作流程（workflow）設計就可能導致營運失誤。專家強調，若僅依賴書面化的標",
-        "source_id": "yahoo_finance_tw",
-        "source": "Yahoo Finance Taiwan",
-        "published_at": "2026-09-11T13:24:34Z",
-        "canonical_url": "https://tw.stock.yahoo.com/news/ai%E8%87%AA%E5%8B%95%E5%8C%96%E9%9A%B1%E8%97%8F%E9%99%B7%E9%98%B1-%E9%83%A8%E7%BD%B2%E5%89%8D%E5%B7%A5%E4%BD%9C%E6%B5%81%E7%A8%8B%E8%A8%AD%E8%A8%88%E6%88%90%E9%97%9C%E9%8D%B5-132434154.html"
+        "cluster_id": "cluster-d72a0b5744de84ea",
+        "id": "technews-85c11dac8d5d",
+        "title_zh": "AI 資料中心有多吃電？EIA：商業部門占美國新增用電逾 6 成",
+        "summary": "AI 資料中心持續擴張，美國電力需求也跟著攀升。美國能源資訊署（EIA）最新 9 月《短期能源展望》預估，美國 [&#8230;]",
+        "source_id": "technews",
+        "source": "TechNews",
+        "published_at": "2026-09-11T09:47:19Z",
+        "canonical_url": "https://technews.tw/2026/09/11/ai-data-center-power-consumption-eia-us-commercial-sector-over-60-new-electricity/"
       }
     },
     {
       "rank": 2,
+      "theme_id": "defense_drone",
+      "name_zh": "國防與無人機",
+      "heat_score": 65,
+      "summaries": {
+        "event_count": 7,
+        "source_count": 2,
+        "tracking_candidate_count": 2,
+        "taiwan_mapping_count": 3
+      },
+      "heat_reason": {
+        "rule_version": "public_theme_heat_v0.8",
+        "event_component": {
+          "input": 7,
+          "normalized": 100.0,
+          "weighted": 25.0
+        },
+        "source_component": {
+          "input": 2,
+          "normalized": 50.0,
+          "weighted": 12.5
+        },
+        "candidate_component": {
+          "input": 2,
+          "normalized": 50.0,
+          "weighted": 10.0
+        },
+        "mapping_component": {
+          "mapping_count": 3,
+          "direct_mapping_event_count": 0,
+          "normalized": 60.0,
+          "weighted": 18.0
+        },
+        "single_source_concentration": 0.625,
+        "concentration_penalty": 0.938,
+        "raw_score": 64.563
+      },
+      "direct_mentions": [],
+      "supply_chain_candidates": [
+        {
+          "instrument_id": "TPEX:5371",
+          "symbol": "5371",
+          "exchange": "TPEX",
+          "name_zh": "中光電",
+          "direct_event_count": 0,
+          "official_evidence_count": 0,
+          "company_rank_score": 1,
+          "latest_mentioned_at": null,
+          "latest_official_at": null
+        },
+        {
+          "instrument_id": "TWSE:2634",
+          "symbol": "2634",
+          "exchange": "TWSE",
+          "name_zh": "漢翔",
+          "direct_event_count": 0,
+          "official_evidence_count": 0,
+          "company_rank_score": 1,
+          "latest_mentioned_at": null,
+          "latest_official_at": null
+        },
+        {
+          "instrument_id": "TWSE:8033",
+          "symbol": "8033",
+          "exchange": "TWSE",
+          "name_zh": "雷虎",
+          "direct_event_count": 0,
+          "official_evidence_count": 0,
+          "company_rank_score": 1,
+          "latest_mentioned_at": null,
+          "latest_official_at": null
+        }
+      ],
+      "representative_news": {
+        "cluster_id": "cluster-e01ee70ee40397bf",
+        "id": "cnyes-60d085017748",
+        "title_zh": "視察「無人系統訓練指揮部」 賴清德：國軍應發展符合防衛無人系統戰術強化國防韌性",
+        "summary": "總統賴清德今日也前往台南，視察剛從「無人機訓練中心」改制升格的陸軍「無人系統訓練指揮部」。賴清德表示，除了發展無人載具對強化台灣防衛韌性及提升不對稱戰力重要外，政府也將持續投入研發、訓練及戰力建構。",
+        "source_id": "cnyes",
+        "source": "鉅亨網 Cnyes",
+        "published_at": "2026-09-11T10:44:00Z",
+        "canonical_url": "https://news.cnyes.com/news/id/6588803"
+      }
+    },
+    {
+      "rank": 3,
       "theme_id": "statementdog_tag_52",
       "name_zh": "蘋果",
       "heat_score": 61,
@@ -261,7 +362,70 @@
       }
     },
     {
-      "rank": 3,
+      "rank": 4,
+      "theme_id": "statementdog_tag_4082",
+      "name_zh": "iPhone",
+      "heat_score": 61,
+      "summaries": {
+        "event_count": 8,
+        "source_count": 3,
+        "tracking_candidate_count": 0,
+        "taiwan_mapping_count": 12
+      },
+      "heat_reason": {
+        "rule_version": "public_theme_heat_v0.8",
+        "event_component": {
+          "input": 8,
+          "normalized": 100.0,
+          "weighted": 25.0
+        },
+        "source_component": {
+          "input": 3,
+          "normalized": 75.0,
+          "weighted": 18.75
+        },
+        "candidate_component": {
+          "input": 0,
+          "normalized": 0.0,
+          "weighted": 0.0
+        },
+        "mapping_component": {
+          "mapping_count": 12,
+          "direct_mapping_event_count": 0,
+          "normalized": 60.0,
+          "weighted": 18.0
+        },
+        "single_source_concentration": 0.625,
+        "concentration_penalty": 0.938,
+        "raw_score": 60.813
+      },
+      "direct_mentions": [],
+      "supply_chain_candidates": [
+        {
+          "instrument_id": "TPEX:3105",
+          "symbol": "3105",
+          "exchange": "TPEX",
+          "name_zh": "穩懋",
+          "direct_event_count": 0,
+          "official_evidence_count": 0,
+          "company_rank_score": 1,
+          "latest_mentioned_at": null,
+          "latest_official_at": null
+        }
+      ],
+      "representative_news": {
+        "cluster_id": "cluster-846f1d4a8736f733",
+        "id": "yahoo_finance_tw-6f232ffaec22",
+        "title_zh": "iPhone 18 Pro掀熱潮　電信業預約2分鐘額滿",
+        "summary": "（中央社記者江明晏台北2026年09月11日電）電信三雄啟動iPhone 18 Pro系列與蘋果首款摺疊iPhone Duo預約，中華電表示，2分鐘內即預約額滿，遠傳iPhone18 Pro系列預約量",
+        "source_id": "yahoo_finance_tw",
+        "source": "Yahoo Finance Taiwan",
+        "published_at": "2026-09-11T14:35:19Z",
+        "canonical_url": "https://tw.stock.yahoo.com/news/iphone-18-pro%E6%8E%80%E7%86%B1%E6%BD%AE-%E9%9B%BB%E4%BF%A1%E6%A5%AD%E9%A0%90%E7%B4%842%E5%88%86%E9%90%98%E9%A1%8D%E6%BB%BF-143519175.html"
+      }
+    },
+    {
+      "rank": 5,
       "theme_id": "memory_hbm",
       "name_zh": "記憶體與 HBM",
       "heat_score": 58,
@@ -335,184 +499,14 @@
         }
       ],
       "representative_news": {
-        "cluster_id": "cluster-f560144ea47f79c6",
-        "id": "yahoo_finance_tw-f6638d363efb",
-        "title_zh": "長鑫存儲利潤率82%超越三星！DRAM市占率首破10%",
-        "summary": "據全球經濟調查分析平台QUICK FactSet最新數據顯示，2026年第二季大陸記憶體大廠長鑫存儲息稅前利潤率達到82％，一舉超越韓國巨頭SK海力士的76％與三星電子半導體業務的70％，成為當期全球",
-        "source_id": "yahoo_finance_tw",
-        "source": "Yahoo Finance Taiwan",
-        "published_at": "2026-09-11T13:28:13Z",
-        "canonical_url": "https://tw.news.yahoo.com/%E9%95%B7%E9%91%AB%E5%AD%98%E5%84%B2%E5%88%A9%E6%BD%A4%E7%8E%8782-%E8%B6%85%E8%B6%8A%E4%B8%89%E6%98%9F-dram%E5%B8%82%E5%8D%A0%E7%8E%87%E9%A6%96%E7%A0%B410-132813112.html"
-      }
-    },
-    {
-      "rank": 4,
-      "theme_id": "energy_grid",
-      "name_zh": "能源與電網",
-      "heat_score": 53,
-      "summaries": {
-        "event_count": 4,
-        "source_count": 3,
-        "tracking_candidate_count": 0,
-        "taiwan_mapping_count": 3
-      },
-      "heat_reason": {
-        "rule_version": "public_theme_heat_v0.8",
-        "event_component": {
-          "input": 4,
-          "normalized": 66.667,
-          "weighted": 16.667
-        },
-        "source_component": {
-          "input": 3,
-          "normalized": 75.0,
-          "weighted": 18.75
-        },
-        "candidate_component": {
-          "input": 0,
-          "normalized": 0.0,
-          "weighted": 0.0
-        },
-        "mapping_component": {
-          "mapping_count": 3,
-          "direct_mapping_event_count": 0,
-          "normalized": 60.0,
-          "weighted": 18.0
-        },
-        "single_source_concentration": 0.5,
-        "concentration_penalty": 0.0,
-        "raw_score": 53.417
-      },
-      "direct_mentions": [],
-      "supply_chain_candidates": [
-        {
-          "instrument_id": "TWSE:1503",
-          "symbol": "1503",
-          "exchange": "TWSE",
-          "name_zh": "士電",
-          "direct_event_count": 0,
-          "official_evidence_count": 0,
-          "company_rank_score": 1,
-          "latest_mentioned_at": null,
-          "latest_official_at": null
-        },
-        {
-          "instrument_id": "TWSE:1513",
-          "symbol": "1513",
-          "exchange": "TWSE",
-          "name_zh": "中興電",
-          "direct_event_count": 0,
-          "official_evidence_count": 0,
-          "company_rank_score": 1,
-          "latest_mentioned_at": null,
-          "latest_official_at": null
-        },
-        {
-          "instrument_id": "TWSE:1519",
-          "symbol": "1519",
-          "exchange": "TWSE",
-          "name_zh": "華城",
-          "direct_event_count": 0,
-          "official_evidence_count": 0,
-          "company_rank_score": 1,
-          "latest_mentioned_at": null,
-          "latest_official_at": null
-        }
-      ],
-      "representative_news": {
-        "cluster_id": "cluster-c8bf9e1949737280",
-        "id": "yahoo_finance_tw-540f390e35ab",
-        "title_zh": "AI、模組化儲能與DC耦合引領能源變革 德國斯圖加特聚焦再生能源經濟新貌",
-        "summary": "圖／本報資料庫商傳媒｜何映辰／台北報導Sigenergy Technology Inc.於德國斯圖加特舉辦「Sigenergy Day Europe 2026」論壇，吸引近400位全球投資者、工程採購",
-        "source_id": "yahoo_finance_tw",
-        "source": "Yahoo Finance Taiwan",
-        "published_at": "2026-09-11T11:52:04Z",
-        "canonical_url": "https://tw.stock.yahoo.com/news/ai-%E6%A8%A1%E7%B5%84%E5%8C%96%E5%84%B2%E8%83%BD%E8%88%87dc%E8%80%A6%E5%90%88%E5%BC%95%E9%A0%98%E8%83%BD%E6%BA%90%E8%AE%8A%E9%9D%A9-%E5%BE%B7%E5%9C%8B%E6%96%AF%E5%9C%96%E5%8A%A0%E7%89%B9%E8%81%9A%E7%84%A6%E5%86%8D%E7%94%9F%E8%83%BD%E6%BA%90%E7%B6%93%E6%BF%9F%E6%96%B0%E8%B2%8C-115204852.html"
-      }
-    },
-    {
-      "rank": 5,
-      "theme_id": "defense_drone",
-      "name_zh": "國防與無人機",
-      "heat_score": 52,
-      "summaries": {
-        "event_count": 6,
-        "source_count": 2,
-        "tracking_candidate_count": 1,
-        "taiwan_mapping_count": 3
-      },
-      "heat_reason": {
-        "rule_version": "public_theme_heat_v0.8",
-        "event_component": {
-          "input": 6,
-          "normalized": 100.0,
-          "weighted": 25.0
-        },
-        "source_component": {
-          "input": 2,
-          "normalized": 50.0,
-          "weighted": 12.5
-        },
-        "candidate_component": {
-          "input": 1,
-          "normalized": 25.0,
-          "weighted": 5.0
-        },
-        "mapping_component": {
-          "mapping_count": 3,
-          "direct_mapping_event_count": 0,
-          "normalized": 60.0,
-          "weighted": 18.0
-        },
-        "single_source_concentration": 0.833,
-        "concentration_penalty": 8.75,
-        "raw_score": 51.75
-      },
-      "direct_mentions": [],
-      "supply_chain_candidates": [
-        {
-          "instrument_id": "TPEX:5371",
-          "symbol": "5371",
-          "exchange": "TPEX",
-          "name_zh": "中光電",
-          "direct_event_count": 0,
-          "official_evidence_count": 0,
-          "company_rank_score": 1,
-          "latest_mentioned_at": null,
-          "latest_official_at": null
-        },
-        {
-          "instrument_id": "TWSE:2634",
-          "symbol": "2634",
-          "exchange": "TWSE",
-          "name_zh": "漢翔",
-          "direct_event_count": 0,
-          "official_evidence_count": 0,
-          "company_rank_score": 1,
-          "latest_mentioned_at": null,
-          "latest_official_at": null
-        },
-        {
-          "instrument_id": "TWSE:8033",
-          "symbol": "8033",
-          "exchange": "TWSE",
-          "name_zh": "雷虎",
-          "direct_event_count": 0,
-          "official_evidence_count": 0,
-          "company_rank_score": 1,
-          "latest_mentioned_at": null,
-          "latest_official_at": null
-        }
-      ],
-      "representative_news": {
-        "cluster_id": "cluster-e01ee70ee40397bf",
-        "id": "cnyes-60d085017748",
-        "title_zh": "視察「無人系統訓練指揮部」 賴清德：國軍應發展符合防衛無人系統戰術強化國防韌性",
-        "summary": "總統賴清德今日也前往台南，視察剛從「無人機訓練中心」改制升格的陸軍「無人系統訓練指揮部」。賴清德表示，除了發展無人載具對強化台灣防衛韌性及提升不對稱戰力重要外，政府也將持續投入研發、訓練及戰力建構。",
+        "cluster_id": "cluster-a7a25e6aabf4dbcc",
+        "id": "cnyes-bfbc1c45846f",
+        "title_zh": "DeepSeek引發需求疑慮 南韓記憶體晶片股復甦遇阻",
+        "summary": "人工智慧模型 DeepSeek 推出新技術，聲稱已減少高頻寬記憶體(HBM)需求，引發市場對半導體需求放緩的疑慮，加上美國升息陰影，致使三星電子與 SK 海力士股價周五(11日)盤中雙雙重挫逾 3%。",
         "source_id": "cnyes",
         "source": "鉅亨網 Cnyes",
-        "published_at": "2026-09-11T10:44:00Z",
-        "canonical_url": "https://news.cnyes.com/news/id/6588803"
+        "published_at": "2026-09-11T06:30:11Z",
+        "canonical_url": "https://news.cnyes.com/news/id/6604500"
       }
     }
   ]

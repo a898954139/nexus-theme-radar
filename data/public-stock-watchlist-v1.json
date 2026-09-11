@@ -1,12 +1,12 @@
 {
   "schema_version": "nexus_stock_watchlist.v1",
   "methodology_version": "stock_watchlist_v1",
-  "generated_at": "2026-09-11T14:27:41.950591Z",
-  "candidate_as_of": "2026-09-11T14:00:00Z",
+  "generated_at": "2026-09-11T18:35:20.119064Z",
+  "candidate_as_of": "2026-09-11T18:00:00Z",
   "sources": {
     "momentum": {
-      "generated_at": "2026-09-11T14:27:41.950591Z",
-      "observed_hour": "2026-09-11T14:00:00Z"
+      "generated_at": "2026-09-11T18:35:20.119064Z",
+      "observed_hour": "2026-09-11T18:00:00Z"
     },
     "institutional": {
       "as_of": [
@@ -2174,6 +2174,138 @@
       },
       {
         "instrument": {
+          "instrument_id": "TWSE:8033",
+          "symbol": "8033",
+          "exchange": "TWSE",
+          "name_zh": "雷虎"
+        },
+        "themes": [
+          {
+            "theme_id": "defense_drone",
+            "name_zh": "國防與無人機",
+            "relation": "related",
+            "heat_score": 65.0,
+            "heat_change_24h": null,
+            "momentum_score": 33.0
+          }
+        ],
+        "short": {
+          "rank": 16,
+          "score": 41,
+          "components": {
+            "theme_attention": {
+              "raw": 45.73,
+              "normalized": 45.73,
+              "base_weight": 0.55,
+              "effective_weight": 0.55,
+              "available": true
+            },
+            "institutional_short_activity": {
+              "raw": -1346273.0,
+              "normalized": 21,
+              "base_weight": 0.2,
+              "effective_weight": 0.2,
+              "available": true
+            },
+            "daytrade_activity": {
+              "raw": 0.2711,
+              "normalized": 54.218221091467875,
+              "base_weight": 0.15,
+              "effective_weight": 0.15,
+              "available": true
+            },
+            "fundamental_defense": {
+              "raw": 36.0833,
+              "normalized": 36.083333333333336,
+              "base_weight": 0.1,
+              "effective_weight": 0.1,
+              "available": true
+            }
+          },
+          "risk_adjustment": {
+            "overnight_risk_adjustment": {
+              "value": null,
+              "applied": 0.0,
+              "missing_reason": "no reliable overnight source"
+            }
+          }
+        },
+        "long": {
+          "rank": 18,
+          "score": 26,
+          "components": {
+            "fundamental_quality": {
+              "raw": 25.7083,
+              "normalized": 25.708333333333332,
+              "base_weight": 0.6,
+              "effective_weight": 0.6,
+              "available": true
+            },
+            "institutional_support": {
+              "raw": -1346273.0,
+              "normalized": 21,
+              "base_weight": 0.2,
+              "effective_weight": 0.2,
+              "available": true
+            },
+            "theme_persistence": {
+              "raw": 28.05,
+              "normalized": 28.05,
+              "base_weight": 0.15,
+              "effective_weight": 0.15,
+              "available": true
+            },
+            "trading_stability": {
+              "raw": 0.2711,
+              "normalized": 45.781778908532125,
+              "base_weight": 0.05,
+              "effective_weight": 0.05,
+              "available": true
+            }
+          }
+        },
+        "institutional": {
+          "direction": "negative",
+          "as_of": "2026-09-11",
+          "observation_count": 5,
+          "five_day_net": -1346273.0
+        },
+        "trading_activity": {
+          "as_of": "2026-09-09",
+          "day_trading_volume": 374000,
+          "total_volume": 1379610,
+          "day_trading_volume_ratio": 0.2710911054573394,
+          "overnight_risk": null,
+          "overnight_missing_reason": "no reliable overnight source"
+        },
+        "fundamentals": {
+          "score": 26,
+          "fiscal_quarter": "2026Q2",
+          "comparison_basis": "YoY",
+          "revenue_growth": 10.74,
+          "revenue_direction": "up",
+          "eps_growth": -37.78,
+          "eps_direction": "down",
+          "gross_margin": 0.3556034482758621,
+          "operating_margin": 0.001077586206896552,
+          "operating_cash_flow": -1.33,
+          "operating_cash_flow_margin": -0.2866,
+          "debt_ratio": 0.23399999999999999
+        },
+        "flags": [
+          {
+            "key": "cashflow_weak",
+            "type": "risk"
+          }
+        ],
+        "coverage": {
+          "short_ratio": 1.0,
+          "long_ratio": 1.0,
+          "missing": []
+        }
+      },
+      {
+        "instrument": {
           "instrument_id": "TPEX:6488",
           "symbol": "6488",
           "exchange": "TPEX",
@@ -2190,7 +2322,7 @@
           }
         ],
         "short": {
-          "rank": 16,
+          "rank": 17,
           "score": 41,
           "components": {
             "theme_attention": {
@@ -2322,7 +2454,7 @@
           }
         ],
         "short": {
-          "rank": 17,
+          "rank": 18,
           "score": 40,
           "components": {
             "theme_attention": {
@@ -2442,138 +2574,6 @@
       },
       {
         "instrument": {
-          "instrument_id": "TWSE:8033",
-          "symbol": "8033",
-          "exchange": "TWSE",
-          "name_zh": "雷虎"
-        },
-        "themes": [
-          {
-            "theme_id": "defense_drone",
-            "name_zh": "國防與無人機",
-            "relation": "related",
-            "heat_score": 52.0,
-            "heat_change_24h": null,
-            "momentum_score": 26.0
-          }
-        ],
-        "short": {
-          "rank": 18,
-          "score": 36,
-          "components": {
-            "theme_attention": {
-              "raw": 36.465,
-              "normalized": 36.465,
-              "base_weight": 0.55,
-              "effective_weight": 0.55,
-              "available": true
-            },
-            "institutional_short_activity": {
-              "raw": -1346273.0,
-              "normalized": 21,
-              "base_weight": 0.2,
-              "effective_weight": 0.2,
-              "available": true
-            },
-            "daytrade_activity": {
-              "raw": 0.2711,
-              "normalized": 54.218221091467875,
-              "base_weight": 0.15,
-              "effective_weight": 0.15,
-              "available": true
-            },
-            "fundamental_defense": {
-              "raw": 36.0833,
-              "normalized": 36.083333333333336,
-              "base_weight": 0.1,
-              "effective_weight": 0.1,
-              "available": true
-            }
-          },
-          "risk_adjustment": {
-            "overnight_risk_adjustment": {
-              "value": null,
-              "applied": 0.0,
-              "missing_reason": "no reliable overnight source"
-            }
-          }
-        },
-        "long": {
-          "rank": 18,
-          "score": 25,
-          "components": {
-            "fundamental_quality": {
-              "raw": 25.7083,
-              "normalized": 25.708333333333332,
-              "base_weight": 0.6,
-              "effective_weight": 0.6,
-              "available": true
-            },
-            "institutional_support": {
-              "raw": -1346273.0,
-              "normalized": 21,
-              "base_weight": 0.2,
-              "effective_weight": 0.2,
-              "available": true
-            },
-            "theme_persistence": {
-              "raw": 22.1,
-              "normalized": 22.099999999999998,
-              "base_weight": 0.15,
-              "effective_weight": 0.15,
-              "available": true
-            },
-            "trading_stability": {
-              "raw": 0.2711,
-              "normalized": 45.781778908532125,
-              "base_weight": 0.05,
-              "effective_weight": 0.05,
-              "available": true
-            }
-          }
-        },
-        "institutional": {
-          "direction": "negative",
-          "as_of": "2026-09-11",
-          "observation_count": 5,
-          "five_day_net": -1346273.0
-        },
-        "trading_activity": {
-          "as_of": "2026-09-09",
-          "day_trading_volume": 374000,
-          "total_volume": 1379610,
-          "day_trading_volume_ratio": 0.2710911054573394,
-          "overnight_risk": null,
-          "overnight_missing_reason": "no reliable overnight source"
-        },
-        "fundamentals": {
-          "score": 26,
-          "fiscal_quarter": "2026Q2",
-          "comparison_basis": "YoY",
-          "revenue_growth": 10.74,
-          "revenue_direction": "up",
-          "eps_growth": -37.78,
-          "eps_direction": "down",
-          "gross_margin": 0.3556034482758621,
-          "operating_margin": 0.001077586206896552,
-          "operating_cash_flow": -1.33,
-          "operating_cash_flow_margin": -0.2866,
-          "debt_ratio": 0.23399999999999999
-        },
-        "flags": [
-          {
-            "key": "cashflow_weak",
-            "type": "risk"
-          }
-        ],
-        "coverage": {
-          "short_ratio": 1.0,
-          "long_ratio": 1.0,
-          "missing": []
-        }
-      },
-      {
-        "instrument": {
           "instrument_id": "TWSE:2634",
           "symbol": "2634",
           "exchange": "TWSE",
@@ -2584,18 +2584,18 @@
             "theme_id": "defense_drone",
             "name_zh": "國防與無人機",
             "relation": "related",
-            "heat_score": 52.0,
+            "heat_score": 65.0,
             "heat_change_24h": null,
-            "momentum_score": 26.0
+            "momentum_score": 33.0
           }
         ],
         "short": {
           "rank": 19,
-          "score": 31,
+          "score": 36,
           "components": {
             "theme_attention": {
-              "raw": 36.465,
-              "normalized": 36.465,
+              "raw": 45.73,
+              "normalized": 45.73,
               "base_weight": 0.55,
               "effective_weight": 0.55,
               "available": true
@@ -2632,7 +2632,7 @@
         },
         "long": {
           "rank": 15,
-          "score": 29,
+          "score": 30,
           "components": {
             "fundamental_quality": {
               "raw": 38.1833,
@@ -2649,8 +2649,8 @@
               "available": true
             },
             "theme_persistence": {
-              "raw": 22.1,
-              "normalized": 22.099999999999998,
+              "raw": 28.05,
+              "normalized": 28.05,
               "base_weight": 0.15,
               "effective_weight": 0.15,
               "available": true
@@ -2720,18 +2720,18 @@
             "theme_id": "defense_drone",
             "name_zh": "國防與無人機",
             "relation": "related",
-            "heat_score": 52.0,
+            "heat_score": 65.0,
             "heat_change_24h": null,
-            "momentum_score": 26.0
+            "momentum_score": 33.0
           }
         ],
         "short": {
           "rank": 20,
-          "score": 29,
+          "score": 35,
           "components": {
             "theme_attention": {
-              "raw": 36.465,
-              "normalized": 36.465,
+              "raw": 45.73,
+              "normalized": 45.73,
               "base_weight": 0.55,
               "effective_weight": 0.6470588235294118,
               "available": true
@@ -2768,7 +2768,7 @@
         },
         "long": {
           "rank": 20,
-          "score": 14,
+          "score": 15,
           "components": {
             "fundamental_quality": {
               "raw": 10.7833,
@@ -2785,8 +2785,8 @@
               "available": true
             },
             "theme_persistence": {
-              "raw": 22.1,
-              "normalized": 22.099999999999998,
+              "raw": 28.05,
+              "normalized": 28.05,
               "base_weight": 0.15,
               "effective_weight": 0.15789473684210525,
               "available": true
@@ -4674,7 +4674,7 @@
           }
         ],
         "short": {
-          "rank": 17,
+          "rank": 18,
           "score": 40,
           "components": {
             "theme_attention": {
@@ -4804,18 +4804,18 @@
             "theme_id": "defense_drone",
             "name_zh": "國防與無人機",
             "relation": "related",
-            "heat_score": 52.0,
+            "heat_score": 65.0,
             "heat_change_24h": null,
-            "momentum_score": 26.0
+            "momentum_score": 33.0
           }
         ],
         "short": {
           "rank": 19,
-          "score": 31,
+          "score": 36,
           "components": {
             "theme_attention": {
-              "raw": 36.465,
-              "normalized": 36.465,
+              "raw": 45.73,
+              "normalized": 45.73,
               "base_weight": 0.55,
               "effective_weight": 0.55,
               "available": true
@@ -4852,7 +4852,7 @@
         },
         "long": {
           "rank": 15,
-          "score": 29,
+          "score": 30,
           "components": {
             "fundamental_quality": {
               "raw": 38.1833,
@@ -4869,8 +4869,8 @@
               "available": true
             },
             "theme_persistence": {
-              "raw": 22.1,
-              "normalized": 22.099999999999998,
+              "raw": 28.05,
+              "normalized": 28.05,
               "base_weight": 0.15,
               "effective_weight": 0.15,
               "available": true
@@ -5224,18 +5224,18 @@
             "theme_id": "defense_drone",
             "name_zh": "國防與無人機",
             "relation": "related",
-            "heat_score": 52.0,
+            "heat_score": 65.0,
             "heat_change_24h": null,
-            "momentum_score": 26.0
+            "momentum_score": 33.0
           }
         ],
         "short": {
-          "rank": 18,
-          "score": 36,
+          "rank": 16,
+          "score": 41,
           "components": {
             "theme_attention": {
-              "raw": 36.465,
-              "normalized": 36.465,
+              "raw": 45.73,
+              "normalized": 45.73,
               "base_weight": 0.55,
               "effective_weight": 0.55,
               "available": true
@@ -5272,7 +5272,7 @@
         },
         "long": {
           "rank": 18,
-          "score": 25,
+          "score": 26,
           "components": {
             "fundamental_quality": {
               "raw": 25.7083,
@@ -5289,8 +5289,8 @@
               "available": true
             },
             "theme_persistence": {
-              "raw": 22.1,
-              "normalized": 22.099999999999998,
+              "raw": 28.05,
+              "normalized": 28.05,
               "base_weight": 0.15,
               "effective_weight": 0.15,
               "available": true
@@ -5362,7 +5362,7 @@
           }
         ],
         "short": {
-          "rank": 16,
+          "rank": 17,
           "score": 41,
           "components": {
             "theme_attention": {
@@ -5488,18 +5488,18 @@
             "theme_id": "defense_drone",
             "name_zh": "國防與無人機",
             "relation": "related",
-            "heat_score": 52.0,
+            "heat_score": 65.0,
             "heat_change_24h": null,
-            "momentum_score": 26.0
+            "momentum_score": 33.0
           }
         ],
         "short": {
           "rank": 20,
-          "score": 29,
+          "score": 35,
           "components": {
             "theme_attention": {
-              "raw": 36.465,
-              "normalized": 36.465,
+              "raw": 45.73,
+              "normalized": 45.73,
               "base_weight": 0.55,
               "effective_weight": 0.6470588235294118,
               "available": true
@@ -5536,7 +5536,7 @@
         },
         "long": {
           "rank": 20,
-          "score": 14,
+          "score": 15,
           "components": {
             "fundamental_quality": {
               "raw": 10.7833,
@@ -5553,8 +5553,8 @@
               "available": true
             },
             "theme_persistence": {
-              "raw": 22.1,
-              "normalized": 22.099999999999998,
+              "raw": 28.05,
+              "normalized": 28.05,
               "base_weight": 0.15,
               "effective_weight": 0.15789473684210525,
               "available": true
@@ -5700,9 +5700,9 @@
           "theme_id": "defense_drone",
           "name_zh": "國防與無人機",
           "relation": "related",
-          "heat_score": 52.0,
+          "heat_score": 65.0,
           "heat_change_24h": null,
-          "momentum_score": 26.0
+          "momentum_score": 33.0
         }
       ],
       "selected_top50": true,
@@ -5733,7 +5733,7 @@
         }
       ],
       "selected_top50": true,
-      "short_rank": 16,
+      "short_rank": 17,
       "long_rank": 19,
       "flags": [
         {
@@ -5987,9 +5987,9 @@
           "theme_id": "defense_drone",
           "name_zh": "國防與無人機",
           "relation": "related",
-          "heat_score": 52.0,
+          "heat_score": 65.0,
           "heat_change_24h": null,
-          "momentum_score": 26.0
+          "momentum_score": 33.0
         }
       ],
       "selected_top50": true,
@@ -6164,7 +6164,7 @@
         }
       ],
       "selected_top50": true,
-      "short_rank": 17,
+      "short_rank": 18,
       "long_rank": 14,
       "flags": [
         {
@@ -6224,13 +6224,13 @@
           "theme_id": "defense_drone",
           "name_zh": "國防與無人機",
           "relation": "related",
-          "heat_score": 52.0,
+          "heat_score": 65.0,
           "heat_change_24h": null,
-          "momentum_score": 26.0
+          "momentum_score": 33.0
         }
       ],
       "selected_top50": true,
-      "short_rank": 18,
+      "short_rank": 16,
       "long_rank": 18,
       "flags": [
         {
