@@ -2,14 +2,14 @@
   "schema_version": "nexus_public_theme_ranking.v0.8",
   "ranking_rule_version": "public_theme_heat_v0.8",
   "company_rule_version": "public_company_evidence_v0.8",
-  "generated_at": "2026-09-11T18:35:20.119064Z",
+  "generated_at": "2026-09-11T21:44:36.633453Z",
   "market_id": "TW_EQUITY",
   "market_scope": [
     "TW_EQUITY"
   ],
   "window_hours": 72,
   "max_themes": 5,
-  "qualified_theme_count": 9,
+  "qualified_theme_count": 7,
   "displayed_theme_count": 5,
   "threshold_note": null,
   "generation_status": "complete",
@@ -18,19 +18,121 @@
   "themes": [
     {
       "rank": 1,
-      "theme_id": "statementdog_tag_1517",
-      "name_zh": "AI",
-      "heat_score": 74,
+      "theme_id": "defense_drone",
+      "name_zh": "國防與無人機",
+      "heat_score": 73,
       "summaries": {
-        "event_count": 26,
+        "event_count": 7,
         "source_count": 3,
-        "tracking_candidate_count": 0,
-        "taiwan_mapping_count": 87
+        "tracking_candidate_count": 2,
+        "taiwan_mapping_count": 3
       },
       "heat_reason": {
         "rule_version": "public_theme_heat_v0.8",
         "event_component": {
-          "input": 26,
+          "input": 7,
+          "normalized": 100.0,
+          "weighted": 25.0
+        },
+        "source_component": {
+          "input": 3,
+          "normalized": 75.0,
+          "weighted": 18.75
+        },
+        "candidate_component": {
+          "input": 2,
+          "normalized": 50.0,
+          "weighted": 10.0
+        },
+        "mapping_component": {
+          "mapping_count": 3,
+          "direct_mapping_event_count": 1,
+          "normalized": 80.0,
+          "weighted": 24.0
+        },
+        "single_source_concentration": 0.714,
+        "concentration_penalty": 4.286,
+        "raw_score": 73.464
+      },
+      "direct_mentions": [
+        {
+          "instrument_id": "TWSE:2634",
+          "symbol": "2634",
+          "exchange": "TWSE",
+          "name_zh": "漢翔",
+          "direct_event_count": 1,
+          "latest_mentioned_at": "2026-09-11T21:00:02Z"
+        },
+        {
+          "instrument_id": "TWSE:8033",
+          "symbol": "8033",
+          "exchange": "TWSE",
+          "name_zh": "雷虎",
+          "direct_event_count": 1,
+          "latest_mentioned_at": "2026-09-11T21:00:02Z"
+        }
+      ],
+      "supply_chain_candidates": [
+        {
+          "instrument_id": "TWSE:2634",
+          "symbol": "2634",
+          "exchange": "TWSE",
+          "name_zh": "漢翔",
+          "direct_event_count": 1,
+          "official_evidence_count": 0,
+          "company_rank_score": 5,
+          "latest_mentioned_at": "2026-09-11T21:00:02Z",
+          "latest_official_at": null
+        },
+        {
+          "instrument_id": "TWSE:8033",
+          "symbol": "8033",
+          "exchange": "TWSE",
+          "name_zh": "雷虎",
+          "direct_event_count": 1,
+          "official_evidence_count": 0,
+          "company_rank_score": 5,
+          "latest_mentioned_at": "2026-09-11T21:00:02Z",
+          "latest_official_at": null
+        },
+        {
+          "instrument_id": "TPEX:5371",
+          "symbol": "5371",
+          "exchange": "TPEX",
+          "name_zh": "中光電",
+          "direct_event_count": 0,
+          "official_evidence_count": 0,
+          "company_rank_score": 1,
+          "latest_mentioned_at": null,
+          "latest_official_at": null
+        }
+      ],
+      "representative_news": {
+        "cluster_id": "cluster-675082cc6c00e839",
+        "id": "yahoo_finance_tw-29040e6a3e4e",
+        "title_zh": "雷虎、漢翔、亞航…軍工無人機概念股可以買？無人機條例副署！政院：國防預算簽長約，就像簽了大谷翔平",
+        "summary": "針對藍白於立法院聯手通過的《強化國防自主暨無人載具產業發展條例》（無人機條例），行政院秘書長張惇涵周五(9/11)表示，儘管立法院三讀的並非行政院版本，然而，院長卓榮泰已副署該條例。 張惇涵強調，社會",
+        "source_id": "yahoo_finance_tw",
+        "source": "Yahoo Finance Taiwan",
+        "published_at": "2026-09-11T21:00:02Z",
+        "canonical_url": "https://tw.news.yahoo.com/%E9%9B%B7%E8%99%8E-%E6%BC%A2%E7%BF%94-%E4%BA%9E%E8%88%AA-%E8%BB%8D%E5%B7%A5%E7%84%A1%E4%BA%BA%E6%A9%9F%E6%A6%82%E5%BF%B5%E8%82%A1%E5%8F%AF%E4%BB%A5%E8%B2%B7-%E7%84%A1%E4%BA%BA%E6%A9%9F%E6%A2%9D%E4%BE%8B%E5%89%AF%E7%BD%B2-210002504.html"
+      }
+    },
+    {
+      "rank": 2,
+      "theme_id": "statementdog_tag_1517",
+      "name_zh": "AI",
+      "heat_score": 67,
+      "summaries": {
+        "event_count": 18,
+        "source_count": 3,
+        "tracking_candidate_count": 0,
+        "taiwan_mapping_count": 72
+      },
+      "heat_reason": {
+        "rule_version": "public_theme_heat_v0.8",
+        "event_component": {
+          "input": 18,
           "normalized": 100.0,
           "weighted": 25.0
         },
@@ -45,14 +147,14 @@
           "weighted": 0.0
         },
         "mapping_component": {
-          "mapping_count": 87,
-          "direct_mapping_event_count": 10,
+          "mapping_count": 72,
+          "direct_mapping_event_count": 5,
           "normalized": 100.0,
           "weighted": 30.0
         },
-        "single_source_concentration": 0.538,
-        "concentration_penalty": 0.0,
-        "raw_score": 73.75
+        "single_source_concentration": 0.778,
+        "concentration_penalty": 6.667,
+        "raw_score": 67.083
       },
       "direct_mentions": [
         {
@@ -70,46 +172,6 @@
           "name_zh": "訊舟",
           "direct_event_count": 1,
           "latest_mentioned_at": "2026-09-11T09:46:33Z"
-        },
-        {
-          "instrument_id": "TWSE:2347",
-          "symbol": "2347",
-          "exchange": "TWSE",
-          "name_zh": "聯強",
-          "direct_event_count": 1,
-          "latest_mentioned_at": "2026-09-11T08:39:29Z"
-        },
-        {
-          "instrument_id": "TWSE:2357",
-          "symbol": "2357",
-          "exchange": "TWSE",
-          "name_zh": "華碩",
-          "direct_event_count": 1,
-          "latest_mentioned_at": "2026-09-11T08:22:26Z"
-        },
-        {
-          "instrument_id": "TWSE:2028",
-          "symbol": "2028",
-          "exchange": "TWSE",
-          "name_zh": "威致",
-          "direct_event_count": 1,
-          "latest_mentioned_at": "2026-09-11T06:30:11Z"
-        },
-        {
-          "instrument_id": "TWSE:2007",
-          "symbol": "2007",
-          "exchange": "TWSE",
-          "name_zh": "燁興",
-          "direct_event_count": 1,
-          "latest_mentioned_at": "2026-09-11T06:23:14Z"
-        },
-        {
-          "instrument_id": "TWSE:7788",
-          "symbol": "7788",
-          "exchange": "TWSE",
-          "name_zh": "松川精密",
-          "direct_event_count": 1,
-          "latest_mentioned_at": "2026-09-11T04:35:35Z"
         },
         {
           "instrument_id": "TWSE:2032",
@@ -172,91 +234,6 @@
         "source": "TechNews",
         "published_at": "2026-09-11T09:47:19Z",
         "canonical_url": "https://technews.tw/2026/09/11/ai-data-center-power-consumption-eia-us-commercial-sector-over-60-new-electricity/"
-      }
-    },
-    {
-      "rank": 2,
-      "theme_id": "defense_drone",
-      "name_zh": "國防與無人機",
-      "heat_score": 65,
-      "summaries": {
-        "event_count": 7,
-        "source_count": 2,
-        "tracking_candidate_count": 2,
-        "taiwan_mapping_count": 3
-      },
-      "heat_reason": {
-        "rule_version": "public_theme_heat_v0.8",
-        "event_component": {
-          "input": 7,
-          "normalized": 100.0,
-          "weighted": 25.0
-        },
-        "source_component": {
-          "input": 2,
-          "normalized": 50.0,
-          "weighted": 12.5
-        },
-        "candidate_component": {
-          "input": 2,
-          "normalized": 50.0,
-          "weighted": 10.0
-        },
-        "mapping_component": {
-          "mapping_count": 3,
-          "direct_mapping_event_count": 0,
-          "normalized": 60.0,
-          "weighted": 18.0
-        },
-        "single_source_concentration": 0.625,
-        "concentration_penalty": 0.938,
-        "raw_score": 64.563
-      },
-      "direct_mentions": [],
-      "supply_chain_candidates": [
-        {
-          "instrument_id": "TPEX:5371",
-          "symbol": "5371",
-          "exchange": "TPEX",
-          "name_zh": "中光電",
-          "direct_event_count": 0,
-          "official_evidence_count": 0,
-          "company_rank_score": 1,
-          "latest_mentioned_at": null,
-          "latest_official_at": null
-        },
-        {
-          "instrument_id": "TWSE:2634",
-          "symbol": "2634",
-          "exchange": "TWSE",
-          "name_zh": "漢翔",
-          "direct_event_count": 0,
-          "official_evidence_count": 0,
-          "company_rank_score": 1,
-          "latest_mentioned_at": null,
-          "latest_official_at": null
-        },
-        {
-          "instrument_id": "TWSE:8033",
-          "symbol": "8033",
-          "exchange": "TWSE",
-          "name_zh": "雷虎",
-          "direct_event_count": 0,
-          "official_evidence_count": 0,
-          "company_rank_score": 1,
-          "latest_mentioned_at": null,
-          "latest_official_at": null
-        }
-      ],
-      "representative_news": {
-        "cluster_id": "cluster-e01ee70ee40397bf",
-        "id": "cnyes-60d085017748",
-        "title_zh": "視察「無人系統訓練指揮部」 賴清德：國軍應發展符合防衛無人系統戰術強化國防韌性",
-        "summary": "總統賴清德今日也前往台南，視察剛從「無人機訓練中心」改制升格的陸軍「無人系統訓練指揮部」。賴清德表示，除了發展無人載具對強化台灣防衛韌性及提升不對稱戰力重要外，政府也將持續投入研發、訓練及戰力建構。",
-        "source_id": "cnyes",
-        "source": "鉅亨網 Cnyes",
-        "published_at": "2026-09-11T10:44:00Z",
-        "canonical_url": "https://news.cnyes.com/news/id/6588803"
       }
     },
     {
@@ -365,10 +342,10 @@
       "rank": 4,
       "theme_id": "statementdog_tag_4082",
       "name_zh": "iPhone",
-      "heat_score": 61,
+      "heat_score": 55,
       "summaries": {
         "event_count": 8,
-        "source_count": 3,
+        "source_count": 2,
         "tracking_candidate_count": 0,
         "taiwan_mapping_count": 12
       },
@@ -380,9 +357,9 @@
           "weighted": 25.0
         },
         "source_component": {
-          "input": 3,
-          "normalized": 75.0,
-          "weighted": 18.75
+          "input": 2,
+          "normalized": 50.0,
+          "weighted": 12.5
         },
         "candidate_component": {
           "input": 0,
@@ -397,7 +374,7 @@
         },
         "single_source_concentration": 0.625,
         "concentration_penalty": 0.938,
-        "raw_score": 60.813
+        "raw_score": 54.563
       },
       "direct_mentions": [],
       "supply_chain_candidates": [
@@ -411,64 +388,86 @@
           "company_rank_score": 1,
           "latest_mentioned_at": null,
           "latest_official_at": null
+        },
+        {
+          "instrument_id": "TWSE:2313",
+          "symbol": "2313",
+          "exchange": "TWSE",
+          "name_zh": "華通",
+          "direct_event_count": 0,
+          "official_evidence_count": 0,
+          "company_rank_score": 1,
+          "latest_mentioned_at": null,
+          "latest_official_at": null
+        },
+        {
+          "instrument_id": "TWSE:2317",
+          "symbol": "2317",
+          "exchange": "TWSE",
+          "name_zh": "鴻海",
+          "direct_event_count": 0,
+          "official_evidence_count": 0,
+          "company_rank_score": 1,
+          "latest_mentioned_at": null,
+          "latest_official_at": null
         }
       ],
       "representative_news": {
-        "cluster_id": "cluster-846f1d4a8736f733",
-        "id": "yahoo_finance_tw-6f232ffaec22",
-        "title_zh": "iPhone 18 Pro掀熱潮　電信業預約2分鐘額滿",
-        "summary": "（中央社記者江明晏台北2026年09月11日電）電信三雄啟動iPhone 18 Pro系列與蘋果首款摺疊iPhone Duo預約，中華電表示，2分鐘內即預約額滿，遠傳iPhone18 Pro系列預約量",
+        "cluster_id": "cluster-0f4224040cd33147",
+        "id": "yahoo_finance_tw-9bacd182b0a4",
+        "title_zh": "星展秋季促刷抽iPhone　聯邦卡購機12期0利率",
+        "summary": "秋季促刷活動開跑，刷卡滿額抽iPhone新機，聚餐、旅遊享回饋(圖/卡優新聞網)",
         "source_id": "yahoo_finance_tw",
         "source": "Yahoo Finance Taiwan",
-        "published_at": "2026-09-11T14:35:19Z",
-        "canonical_url": "https://tw.stock.yahoo.com/news/iphone-18-pro%E6%8E%80%E7%86%B1%E6%BD%AE-%E9%9B%BB%E4%BF%A1%E6%A5%AD%E9%A0%90%E7%B4%842%E5%88%86%E9%90%98%E9%A1%8D%E6%BB%BF-143519175.html"
+        "published_at": "2026-09-11T20:24:46Z",
+        "canonical_url": "https://tw.news.yahoo.com/%E6%98%9F%E5%B1%95%E7%A7%8B%E5%AD%A3%E4%BF%83%E5%88%B7%E6%8A%BDiphone-%E8%81%AF%E9%82%A6%E5%8D%A1%E8%B3%BC%E6%A9%9F12%E6%9C%9F0%E5%88%A9%E7%8E%87-202446411.html"
       }
     },
     {
       "rank": 5,
-      "theme_id": "memory_hbm",
-      "name_zh": "記憶體與 HBM",
-      "heat_score": 58,
+      "theme_id": "robotics",
+      "name_zh": "機器人",
+      "heat_score": 41,
       "summaries": {
-        "event_count": 4,
-        "source_count": 3,
-        "tracking_candidate_count": 1,
-        "taiwan_mapping_count": 20
+        "event_count": 3,
+        "source_count": 2,
+        "tracking_candidate_count": 0,
+        "taiwan_mapping_count": 25
       },
       "heat_reason": {
         "rule_version": "public_theme_heat_v0.8",
         "event_component": {
-          "input": 4,
-          "normalized": 66.667,
-          "weighted": 16.667
+          "input": 3,
+          "normalized": 50.0,
+          "weighted": 12.5
         },
         "source_component": {
-          "input": 3,
-          "normalized": 75.0,
-          "weighted": 18.75
+          "input": 2,
+          "normalized": 50.0,
+          "weighted": 12.5
         },
         "candidate_component": {
-          "input": 1,
-          "normalized": 25.0,
-          "weighted": 5.0
+          "input": 0,
+          "normalized": 0.0,
+          "weighted": 0.0
         },
         "mapping_component": {
-          "mapping_count": 20,
+          "mapping_count": 25,
           "direct_mapping_event_count": 0,
           "normalized": 60.0,
           "weighted": 18.0
         },
-        "single_source_concentration": 0.5,
-        "concentration_penalty": 0.0,
-        "raw_score": 58.417
+        "single_source_concentration": 0.667,
+        "concentration_penalty": 2.5,
+        "raw_score": 40.5
       },
       "direct_mentions": [],
       "supply_chain_candidates": [
         {
-          "instrument_id": "TPEX:8299",
-          "symbol": "8299",
+          "instrument_id": "TPEX:3379",
+          "symbol": "3379",
           "exchange": "TPEX",
-          "name_zh": "群聯",
+          "name_zh": "彬台",
           "direct_event_count": 0,
           "official_evidence_count": 0,
           "company_rank_score": 1,
@@ -476,10 +475,10 @@
           "latest_official_at": null
         },
         {
-          "instrument_id": "TWSE:2344",
-          "symbol": "2344",
-          "exchange": "TWSE",
-          "name_zh": "華邦電",
+          "instrument_id": "TPEX:3577",
+          "symbol": "3577",
+          "exchange": "TPEX",
+          "name_zh": "泓格",
           "direct_event_count": 0,
           "official_evidence_count": 0,
           "company_rank_score": 1,
@@ -487,10 +486,10 @@
           "latest_official_at": null
         },
         {
-          "instrument_id": "TWSE:2408",
-          "symbol": "2408",
-          "exchange": "TWSE",
-          "name_zh": "南亞科",
+          "instrument_id": "TPEX:5289",
+          "symbol": "5289",
+          "exchange": "TPEX",
+          "name_zh": "宜鼎",
           "direct_event_count": 0,
           "official_evidence_count": 0,
           "company_rank_score": 1,
@@ -499,14 +498,14 @@
         }
       ],
       "representative_news": {
-        "cluster_id": "cluster-a7a25e6aabf4dbcc",
-        "id": "cnyes-bfbc1c45846f",
-        "title_zh": "DeepSeek引發需求疑慮 南韓記憶體晶片股復甦遇阻",
-        "summary": "人工智慧模型 DeepSeek 推出新技術，聲稱已減少高頻寬記憶體(HBM)需求，引發市場對半導體需求放緩的疑慮，加上美國升息陰影，致使三星電子與 SK 海力士股價周五(11日)盤中雙雙重挫逾 3%。",
-        "source_id": "cnyes",
-        "source": "鉅亨網 Cnyes",
-        "published_at": "2026-09-11T06:30:11Z",
-        "canonical_url": "https://news.cnyes.com/news/id/6604500"
+        "cluster_id": "cluster-ac6b13280a1d118f",
+        "id": "technews-bf950a43b98b",
+        "title_zh": "擁美系 PQC 大單、機器人市場！通寶半導體 8 月營收強彈 579%",
+        "summary": "通寶半導體公告 8 月營收達 6,224 萬元，年增 579.28%；累計前 8 月營收達 4.22 億元，年 [&#8230;]",
+        "source_id": "technews",
+        "source": "TechNews",
+        "published_at": "2026-09-11T06:02:12Z",
+        "canonical_url": "https://finance.technews.tw/2026/09/11/sinchip-pqc/"
       }
     }
   ]
