@@ -2,19 +2,19 @@
   "schema_version": "nexus_public_theme_ranking.v0.8",
   "ranking_rule_version": "public_theme_heat_v0.8",
   "company_rule_version": "public_company_evidence_v0.8",
-  "generated_at": "2026-09-13T01:02:29.802542Z",
+  "generated_at": "2026-09-13T06:12:43.463960Z",
   "market_id": "TW_EQUITY",
   "market_scope": [
     "TW_EQUITY"
   ],
   "window_hours": 72,
   "max_themes": 5,
-  "qualified_theme_count": 5,
+  "qualified_theme_count": 7,
   "displayed_theme_count": 5,
   "threshold_note": null,
   "generation_status": "complete",
   "failed_source_count": 0,
-  "official_evidence_status": "available",
+  "official_evidence_status": "unavailable",
   "themes": [
     {
       "rank": 1,
@@ -22,15 +22,15 @@
       "name_zh": "AI",
       "heat_score": 80,
       "summaries": {
-        "event_count": 24,
+        "event_count": 28,
         "source_count": 4,
         "tracking_candidate_count": 0,
-        "taiwan_mapping_count": 74
+        "taiwan_mapping_count": 100
       },
       "heat_reason": {
         "rule_version": "public_theme_heat_v0.8",
         "event_component": {
-          "input": 24,
+          "input": 28,
           "normalized": 100.0,
           "weighted": 25.0
         },
@@ -45,16 +45,24 @@
           "weighted": 0.0
         },
         "mapping_component": {
-          "mapping_count": 74,
-          "direct_mapping_event_count": 8,
+          "mapping_count": 100,
+          "direct_mapping_event_count": 9,
           "normalized": 100.0,
           "weighted": 30.0
         },
-        "single_source_concentration": 0.56,
+        "single_source_concentration": 0.483,
         "concentration_penalty": 0.0,
         "raw_score": 80.0
       },
       "direct_mentions": [
+        {
+          "instrument_id": "TWSE:2455",
+          "symbol": "2455",
+          "exchange": "TWSE",
+          "name_zh": "全新",
+          "direct_event_count": 2,
+          "latest_mentioned_at": "2026-09-13T05:29:42Z"
+        },
         {
           "instrument_id": "TWSE:2027",
           "symbol": "2027",
@@ -62,14 +70,6 @@
           "name_zh": "大成鋼",
           "direct_event_count": 2,
           "latest_mentioned_at": "2026-09-11T08:03:23Z"
-        },
-        {
-          "instrument_id": "TWSE:2455",
-          "symbol": "2455",
-          "exchange": "TWSE",
-          "name_zh": "全新",
-          "direct_event_count": 1,
-          "latest_mentioned_at": "2026-09-12T05:30:28Z"
         },
         {
           "instrument_id": "TWSE:2014",
@@ -148,18 +148,222 @@
         }
       ],
       "representative_news": {
-        "cluster_id": "cluster-13fafb7dbc2f2137",
-        "id": "cnyes-c0b70a551679",
-        "title_zh": "南韓半導體出口首破400兆韓元！AI需求推升三星、SK海力士業績",
-        "summary": "南韓半導體出口今年首度突破400兆韓元，9月前10天出口年增270.1%，占整體出口47.1%；AI與HBM需求帶動三星電子、SK海力士業績成長。",
+        "cluster_id": "cluster-e172526c4bfbf293",
+        "id": "cnyes-7503e68b43bf",
+        "title_zh": "台股Q4攻堅有靠山！法人力挺「AI+金融」雙引擎 高息ETF成避風港",
+        "summary": "時序即將步入2026年第四季，台股大盤在歷經第三季高檔拉回洗牌後，整體多頭架構依然穩固。市場法人認為，在全球貨幣政策轉趨寬鬆與AI基礎建設需求熱絡的加持下",
         "source_id": "cnyes",
         "source": "鉅亨網 Cnyes",
-        "published_at": "2026-09-12T13:10:02Z",
-        "canonical_url": "https://news.cnyes.com/news/id/6605079"
+        "published_at": "2026-09-13T04:24:25Z",
+        "canonical_url": "https://news.cnyes.com/news/id/6605151"
       }
     },
     {
       "rank": 2,
+      "theme_id": "statementdog_tag_4082",
+      "name_zh": "iPhone",
+      "heat_score": 68,
+      "summaries": {
+        "event_count": 10,
+        "source_count": 3,
+        "tracking_candidate_count": 0,
+        "taiwan_mapping_count": 14
+      },
+      "heat_reason": {
+        "rule_version": "public_theme_heat_v0.8",
+        "event_component": {
+          "input": 10,
+          "normalized": 100.0,
+          "weighted": 25.0
+        },
+        "source_component": {
+          "input": 3,
+          "normalized": 75.0,
+          "weighted": 18.75
+        },
+        "candidate_component": {
+          "input": 0,
+          "normalized": 0.0,
+          "weighted": 0.0
+        },
+        "mapping_component": {
+          "mapping_count": 14,
+          "direct_mapping_event_count": 1,
+          "normalized": 80.0,
+          "weighted": 24.0
+        },
+        "single_source_concentration": 0.545,
+        "concentration_penalty": 0.0,
+        "raw_score": 67.75
+      },
+      "direct_mentions": [
+        {
+          "instrument_id": "TWSE:2430",
+          "symbol": "2430",
+          "exchange": "TWSE",
+          "name_zh": "燦坤",
+          "direct_event_count": 1,
+          "latest_mentioned_at": "2026-09-13T04:17:13Z"
+        },
+        {
+          "instrument_id": "TWSE:2450",
+          "symbol": "2450",
+          "exchange": "TWSE",
+          "name_zh": "神腦",
+          "direct_event_count": 1,
+          "latest_mentioned_at": "2026-09-13T04:17:13Z"
+        }
+      ],
+      "supply_chain_candidates": [
+        {
+          "instrument_id": "TPEX:3105",
+          "symbol": "3105",
+          "exchange": "TPEX",
+          "name_zh": "穩懋",
+          "direct_event_count": 0,
+          "official_evidence_count": 0,
+          "company_rank_score": 1,
+          "latest_mentioned_at": null,
+          "latest_official_at": null
+        },
+        {
+          "instrument_id": "TWSE:2313",
+          "symbol": "2313",
+          "exchange": "TWSE",
+          "name_zh": "華通",
+          "direct_event_count": 0,
+          "official_evidence_count": 0,
+          "company_rank_score": 1,
+          "latest_mentioned_at": null,
+          "latest_official_at": null
+        },
+        {
+          "instrument_id": "TWSE:2324",
+          "symbol": "2324",
+          "exchange": "TWSE",
+          "name_zh": "仁寶",
+          "direct_event_count": 0,
+          "official_evidence_count": 0,
+          "company_rank_score": 1,
+          "latest_mentioned_at": null,
+          "latest_official_at": null
+        }
+      ],
+      "representative_news": {
+        "cluster_id": "cluster-b3a7d19c5c50aca9",
+        "id": "cnyes-a8c522be3960",
+        "title_zh": "蘋果iPhone 18系列與首款摺疊機亮相 台灣手機通路全力備戰預購潮",
+        "summary": "蘋果正式推出年度旗艦iPhone 18 Pro系列與首款摺疊手機iPhone Duo，台灣各大手機通路商於全面展開預購備戰行動。包含神腦(2450-TW)、燦坤(2430-TW)等業者，啟動線上線下預約機制，藉由信用卡現",
+        "source_id": "cnyes",
+        "source": "鉅亨網 Cnyes",
+        "published_at": "2026-09-13T04:17:13Z",
+        "canonical_url": "https://news.cnyes.com/news/id/6605012"
+      }
+    },
+    {
+      "rank": 3,
+      "theme_id": "statementdog_tag_52",
+      "name_zh": "蘋果",
+      "heat_score": 67,
+      "summaries": {
+        "event_count": 8,
+        "source_count": 3,
+        "tracking_candidate_count": 0,
+        "taiwan_mapping_count": 18
+      },
+      "heat_reason": {
+        "rule_version": "public_theme_heat_v0.8",
+        "event_component": {
+          "input": 8,
+          "normalized": 100.0,
+          "weighted": 25.0
+        },
+        "source_component": {
+          "input": 3,
+          "normalized": 75.0,
+          "weighted": 18.75
+        },
+        "candidate_component": {
+          "input": 0,
+          "normalized": 0.0,
+          "weighted": 0.0
+        },
+        "mapping_component": {
+          "mapping_count": 18,
+          "direct_mapping_event_count": 2,
+          "normalized": 100.0,
+          "weighted": 30.0
+        },
+        "single_source_concentration": 0.778,
+        "concentration_penalty": 6.667,
+        "raw_score": 67.083
+      },
+      "direct_mentions": [
+        {
+          "instrument_id": "TWSE:2330",
+          "symbol": "2330",
+          "exchange": "TWSE",
+          "name_zh": "台積電",
+          "direct_event_count": 1,
+          "latest_mentioned_at": "2026-09-13T04:13:01Z"
+        },
+        {
+          "instrument_id": "TWSE:2455",
+          "symbol": "2455",
+          "exchange": "TWSE",
+          "name_zh": "全新",
+          "direct_event_count": 1,
+          "latest_mentioned_at": "2026-09-11T02:21:39Z"
+        }
+      ],
+      "supply_chain_candidates": [
+        {
+          "instrument_id": "TWSE:2330",
+          "symbol": "2330",
+          "exchange": "TWSE",
+          "name_zh": "台積電",
+          "direct_event_count": 1,
+          "official_evidence_count": 0,
+          "company_rank_score": 5,
+          "latest_mentioned_at": "2026-09-13T04:13:01Z",
+          "latest_official_at": null
+        },
+        {
+          "instrument_id": "TWSE:2308",
+          "symbol": "2308",
+          "exchange": "TWSE",
+          "name_zh": "台達電",
+          "direct_event_count": 0,
+          "official_evidence_count": 0,
+          "company_rank_score": 1,
+          "latest_mentioned_at": null,
+          "latest_official_at": null
+        },
+        {
+          "instrument_id": "TWSE:2313",
+          "symbol": "2313",
+          "exchange": "TWSE",
+          "name_zh": "華通",
+          "direct_event_count": 0,
+          "official_evidence_count": 0,
+          "company_rank_score": 1,
+          "latest_mentioned_at": null,
+          "latest_official_at": null
+        }
+      ],
+      "representative_news": {
+        "cluster_id": "cluster-54fcfa557dacb0da",
+        "id": "cnyes-23fb768ef1e6",
+        "title_zh": "蘋果新機亮相、台積電8月營收首度突破5字頭、8月CPI再踩紅線 本周大事回顧",
+        "summary": "蘋果舉辦秋季新品發表會，推出iPhone 18 Pro系列，首款摺疊機iPhone Duo亮相；台積電8月營收達5148億元，首度突破5000億元大關；主計總處周二公布8月CPI年增率達2.04%，連4個月衝破警戒線。",
+        "source_id": "cnyes",
+        "source": "鉅亨網 Cnyes",
+        "published_at": "2026-09-13T04:13:01Z",
+        "canonical_url": "https://news.cnyes.com/news/id/6604765"
+      }
+    },
+    {
+      "rank": 4,
       "theme_id": "defense_drone",
       "name_zh": "國防與無人機",
       "heat_score": 62,
@@ -241,217 +445,6 @@
         "source": "TechNews",
         "published_at": "2026-09-12T03:00:03Z",
         "canonical_url": "https://technews.tw/2026/09/12/mara-spike/"
-      }
-    },
-    {
-      "rank": 3,
-      "theme_id": "statementdog_tag_4082",
-      "name_zh": "iPhone",
-      "heat_score": 62,
-      "summaries": {
-        "event_count": 9,
-        "source_count": 3,
-        "tracking_candidate_count": 0,
-        "taiwan_mapping_count": 12
-      },
-      "heat_reason": {
-        "rule_version": "public_theme_heat_v0.8",
-        "event_component": {
-          "input": 9,
-          "normalized": 100.0,
-          "weighted": 25.0
-        },
-        "source_component": {
-          "input": 3,
-          "normalized": 75.0,
-          "weighted": 18.75
-        },
-        "candidate_component": {
-          "input": 0,
-          "normalized": 0.0,
-          "weighted": 0.0
-        },
-        "mapping_component": {
-          "mapping_count": 12,
-          "direct_mapping_event_count": 0,
-          "normalized": 60.0,
-          "weighted": 18.0
-        },
-        "single_source_concentration": 0.6,
-        "concentration_penalty": 0.0,
-        "raw_score": 61.75
-      },
-      "direct_mentions": [],
-      "supply_chain_candidates": [
-        {
-          "instrument_id": "TPEX:3105",
-          "symbol": "3105",
-          "exchange": "TPEX",
-          "name_zh": "穩懋",
-          "direct_event_count": 0,
-          "official_evidence_count": 0,
-          "company_rank_score": 1,
-          "latest_mentioned_at": null,
-          "latest_official_at": null
-        },
-        {
-          "instrument_id": "TWSE:2313",
-          "symbol": "2313",
-          "exchange": "TWSE",
-          "name_zh": "華通",
-          "direct_event_count": 0,
-          "official_evidence_count": 0,
-          "company_rank_score": 1,
-          "latest_mentioned_at": null,
-          "latest_official_at": null
-        },
-        {
-          "instrument_id": "TWSE:2324",
-          "symbol": "2324",
-          "exchange": "TWSE",
-          "name_zh": "仁寶",
-          "direct_event_count": 0,
-          "official_evidence_count": 0,
-          "company_rank_score": 1,
-          "latest_mentioned_at": null,
-          "latest_official_at": null
-        }
-      ],
-      "representative_news": {
-        "cluster_id": "cluster-d0e93b27b7983d3e",
-        "id": "cnyes-3d663b27df86",
-        "title_zh": "iPhone 18 Pro系列在中國正式預售 開售數分鐘首批貨源賣光",
-        "summary": "蘋果iPhone 18 Pro系列12日（周六）晚8點正式啟動預售，開售僅數分鐘，蘋果中國官網、淘寶、京東等主流電商平台多個熱門型號首批貨源相繼售罄。",
-        "source_id": "cnyes",
-        "source": "鉅亨網 Cnyes",
-        "published_at": "2026-09-12T13:41:20Z",
-        "canonical_url": "https://news.cnyes.com/news/id/6605130"
-      }
-    },
-    {
-      "rank": 4,
-      "theme_id": "optical_cpo",
-      "name_zh": "矽光子 CPO",
-      "heat_score": 53,
-      "summaries": {
-        "event_count": 3,
-        "source_count": 2,
-        "tracking_candidate_count": 0,
-        "taiwan_mapping_count": 5
-      },
-      "heat_reason": {
-        "rule_version": "public_theme_heat_v0.8",
-        "event_component": {
-          "input": 3,
-          "normalized": 50.0,
-          "weighted": 12.5
-        },
-        "source_component": {
-          "input": 2,
-          "normalized": 50.0,
-          "weighted": 12.5
-        },
-        "candidate_component": {
-          "input": 0,
-          "normalized": 0.0,
-          "weighted": 0.0
-        },
-        "mapping_component": {
-          "mapping_count": 5,
-          "direct_mapping_event_count": 3,
-          "normalized": 100.0,
-          "weighted": 30.0
-        },
-        "single_source_concentration": 0.667,
-        "concentration_penalty": 2.5,
-        "raw_score": 52.5
-      },
-      "direct_mentions": [
-        {
-          "instrument_id": "TPEX:3264",
-          "symbol": "3264",
-          "exchange": "TPEX",
-          "name_zh": "欣銓",
-          "direct_event_count": 1,
-          "latest_mentioned_at": "2026-09-12T21:40:30Z"
-        },
-        {
-          "instrument_id": "TWSE:2360",
-          "symbol": "2360",
-          "exchange": "TWSE",
-          "name_zh": "致茂",
-          "direct_event_count": 1,
-          "latest_mentioned_at": "2026-09-12T21:40:30Z"
-        },
-        {
-          "instrument_id": "TWSE:3711",
-          "symbol": "3711",
-          "exchange": "TWSE",
-          "name_zh": "日月光投控",
-          "direct_event_count": 1,
-          "latest_mentioned_at": "2026-09-12T21:40:30Z"
-        },
-        {
-          "instrument_id": "TWSE:6669",
-          "symbol": "6669",
-          "exchange": "TWSE",
-          "name_zh": "緯穎",
-          "direct_event_count": 1,
-          "latest_mentioned_at": "2026-09-11T07:21:15Z"
-        },
-        {
-          "instrument_id": "TWSE:2030",
-          "symbol": "2030",
-          "exchange": "TWSE",
-          "name_zh": "彰源",
-          "direct_event_count": 1,
-          "latest_mentioned_at": "2026-09-10T18:31:30Z"
-        }
-      ],
-      "supply_chain_candidates": [
-        {
-          "instrument_id": "TWSE:2360",
-          "symbol": "2360",
-          "exchange": "TWSE",
-          "name_zh": "致茂",
-          "direct_event_count": 1,
-          "official_evidence_count": 0,
-          "company_rank_score": 5,
-          "latest_mentioned_at": "2026-09-12T21:40:30Z",
-          "latest_official_at": null
-        },
-        {
-          "instrument_id": "TWSE:3711",
-          "symbol": "3711",
-          "exchange": "TWSE",
-          "name_zh": "日月光投控",
-          "direct_event_count": 1,
-          "official_evidence_count": 0,
-          "company_rank_score": 5,
-          "latest_mentioned_at": "2026-09-12T21:40:30Z",
-          "latest_official_at": null
-        },
-        {
-          "instrument_id": "TPEX:3081",
-          "symbol": "3081",
-          "exchange": "TPEX",
-          "name_zh": "聯亞",
-          "direct_event_count": 0,
-          "official_evidence_count": 0,
-          "company_rank_score": 1,
-          "latest_mentioned_at": null,
-          "latest_official_at": null
-        }
-      ],
-      "representative_news": {
-        "cluster_id": "cluster-bcf972c0c526c224",
-        "id": "yahoo_finance_tw-5fb25ab12edb",
-        "title_zh": "封測15強目標價1次看》日月光、京元電、力成、致茂、世禾、均華...誰8月營收低預期？誰爽啖矽光子？大咖投顧總盤點",
-        "summary": "第4季多座半導體廠務工程即將完工，預計明年上半年起，正式進入設備驗收期，法人認為，今起3年受惠AI基建需求，封測、半導體設備產業展望樂觀，並從8月營收觀察，包括日月光、京元電、欣銓(3264)、力成(",
-        "source_id": "yahoo_finance_tw",
-        "source": "Yahoo Finance Taiwan",
-        "published_at": "2026-09-12T21:40:30Z",
-        "canonical_url": "https://tw.stock.yahoo.com/news/%E5%B0%81%E6%B8%AC15%E5%BC%B7%E7%9B%AE%E6%A8%99%E5%83%B91%E6%AC%A1%E7%9C%8B-%E6%97%A5%E6%9C%88%E5%85%89-%E4%BA%AC%E5%85%83%E9%9B%BB-%E5%8A%9B%E6%88%90-%E8%87%B4%E8%8C%82-214030653.html"
       }
     },
     {
