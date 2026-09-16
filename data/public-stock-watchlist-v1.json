@@ -1,12 +1,12 @@
 {
   "schema_version": "nexus_stock_watchlist.v1",
   "methodology_version": "stock_watchlist_v1",
-  "generated_at": "2026-09-16T20:09:45.935721Z",
-  "candidate_as_of": "2026-09-16T20:00:00Z",
+  "generated_at": "2026-09-16T22:58:07.595130Z",
+  "candidate_as_of": "2026-09-16T22:00:00Z",
   "sources": {
     "momentum": {
-      "generated_at": "2026-09-16T20:09:45.935721Z",
-      "observed_hour": "2026-09-16T20:00:00Z"
+      "generated_at": "2026-09-16T22:58:07.595130Z",
+      "observed_hour": "2026-09-16T22:00:00Z"
     },
     "institutional": {
       "as_of": [
@@ -1878,6 +1878,166 @@
       },
       {
         "instrument": {
+          "instrument_id": "TPEX:5289",
+          "symbol": "5289",
+          "exchange": "TPEX",
+          "name_zh": "宜鼎"
+        },
+        "themes": [
+          {
+            "theme_id": "memory_hbm",
+            "name_zh": "記憶體與 HBM",
+            "relation": "related",
+            "heat_score": 100.0,
+            "heat_change_24h": null,
+            "momentum_score": 50.0
+          },
+          {
+            "theme_id": "statementdog_tag_1517",
+            "name_zh": "AI",
+            "relation": "related",
+            "heat_score": 71.0,
+            "heat_change_24h": null,
+            "momentum_score": 36.0
+          },
+          {
+            "theme_id": "robotics",
+            "name_zh": "機器人",
+            "relation": "related",
+            "heat_score": 52.0,
+            "heat_change_24h": null,
+            "momentum_score": 22.0
+          }
+        ],
+        "short": {
+          "rank": 12,
+          "score": 76,
+          "components": {
+            "theme_attention": {
+              "raw": 80.125,
+              "normalized": 80.125,
+              "base_weight": 0.55,
+              "effective_weight": 0.55,
+              "available": true
+            },
+            "institutional_short_activity": {
+              "raw": 31.0,
+              "normalized": 68,
+              "base_weight": 0.2,
+              "effective_weight": 0.2,
+              "available": true
+            },
+            "daytrade_activity": {
+              "raw": 0.4132,
+              "normalized": 82.64182608769357,
+              "base_weight": 0.15,
+              "effective_weight": 0.15,
+              "available": true
+            },
+            "fundamental_defense": {
+              "raw": 62.75,
+              "normalized": 62.75,
+              "base_weight": 0.1,
+              "effective_weight": 0.1,
+              "available": true
+            }
+          },
+          "risk_adjustment": {
+            "overnight_risk_adjustment": {
+              "value": null,
+              "applied": 0.0,
+              "missing_reason": "no reliable overnight source"
+            }
+          }
+        },
+        "long": {
+          "rank": 2,
+          "score": 69,
+          "components": {
+            "fundamental_quality": {
+              "raw": 79.975,
+              "normalized": 79.975,
+              "base_weight": 0.6,
+              "effective_weight": 0.6,
+              "available": true
+            },
+            "institutional_support": {
+              "raw": 31.0,
+              "normalized": 68,
+              "base_weight": 0.2,
+              "effective_weight": 0.2,
+              "available": true
+            },
+            "theme_persistence": {
+              "raw": 42.5,
+              "normalized": 42.5,
+              "base_weight": 0.15,
+              "effective_weight": 0.15,
+              "available": true
+            },
+            "trading_stability": {
+              "raw": 0.4132,
+              "normalized": 17.358173912306427,
+              "base_weight": 0.05,
+              "effective_weight": 0.05,
+              "available": true
+            }
+          }
+        },
+        "institutional": {
+          "direction": "positive",
+          "as_of": "2026-09-16",
+          "observation_count": 5,
+          "five_day_net": 31.0
+        },
+        "trading_activity": {
+          "as_of": "2026-09-14",
+          "day_trading_volume": 390000,
+          "total_volume": 943832,
+          "day_trading_volume_ratio": 0.41320913043846785,
+          "overnight_risk": null,
+          "overnight_missing_reason": "no reliable overnight source"
+        },
+        "fundamentals": {
+          "score": 80,
+          "fiscal_quarter": "2026Q2",
+          "comparison_basis": "YoY",
+          "revenue_growth": 641.08,
+          "revenue_direction": "up",
+          "eps_growth": 5292.57,
+          "eps_direction": "up",
+          "gross_margin": 0.6501782531194296,
+          "operating_margin": 0.5860071301247771,
+          "operating_cash_flow": 10.53,
+          "operating_cash_flow_margin": 0.0469,
+          "debt_ratio": 0.49
+        },
+        "flags": [
+          {
+            "key": "high_daytrade",
+            "type": "risk"
+          },
+          {
+            "key": "fundamentals_improving",
+            "type": "positive"
+          },
+          {
+            "key": "institutional_positive",
+            "type": "positive"
+          },
+          {
+            "key": "multi_theme",
+            "type": "info"
+          }
+        ],
+        "coverage": {
+          "short_ratio": 1.0,
+          "long_ratio": 1.0,
+          "missing": []
+        }
+      },
+      {
+        "instrument": {
           "instrument_id": "TPEX:6274",
           "symbol": "6274",
           "exchange": "TPEX",
@@ -1910,7 +2070,7 @@
           }
         ],
         "short": {
-          "rank": 12,
+          "rank": 13,
           "score": 74,
           "components": {
             "theme_attention": {
@@ -2023,158 +2183,6 @@
           },
           {
             "key": "fundamentals_improving",
-            "type": "positive"
-          },
-          {
-            "key": "multi_theme",
-            "type": "info"
-          }
-        ],
-        "coverage": {
-          "short_ratio": 1.0,
-          "long_ratio": 1.0,
-          "missing": []
-        }
-      },
-      {
-        "instrument": {
-          "instrument_id": "TPEX:5289",
-          "symbol": "5289",
-          "exchange": "TPEX",
-          "name_zh": "宜鼎"
-        },
-        "themes": [
-          {
-            "theme_id": "memory_hbm",
-            "name_zh": "記憶體與 HBM",
-            "relation": "related",
-            "heat_score": 100.0,
-            "heat_change_24h": null,
-            "momentum_score": 50.0
-          },
-          {
-            "theme_id": "robotics",
-            "name_zh": "機器人",
-            "relation": "related",
-            "heat_score": 52.0,
-            "heat_change_24h": null,
-            "momentum_score": 22.0
-          }
-        ],
-        "short": {
-          "rank": 13,
-          "score": 74,
-          "components": {
-            "theme_attention": {
-              "raw": 75.125,
-              "normalized": 75.125,
-              "base_weight": 0.55,
-              "effective_weight": 0.55,
-              "available": true
-            },
-            "institutional_short_activity": {
-              "raw": 31.0,
-              "normalized": 68,
-              "base_weight": 0.2,
-              "effective_weight": 0.2,
-              "available": true
-            },
-            "daytrade_activity": {
-              "raw": 0.4132,
-              "normalized": 82.64182608769357,
-              "base_weight": 0.15,
-              "effective_weight": 0.15,
-              "available": true
-            },
-            "fundamental_defense": {
-              "raw": 62.75,
-              "normalized": 62.75,
-              "base_weight": 0.1,
-              "effective_weight": 0.1,
-              "available": true
-            }
-          },
-          "risk_adjustment": {
-            "overnight_risk_adjustment": {
-              "value": null,
-              "applied": 0.0,
-              "missing_reason": "no reliable overnight source"
-            }
-          }
-        },
-        "long": {
-          "rank": 2,
-          "score": 69,
-          "components": {
-            "fundamental_quality": {
-              "raw": 79.975,
-              "normalized": 79.975,
-              "base_weight": 0.6,
-              "effective_weight": 0.6,
-              "available": true
-            },
-            "institutional_support": {
-              "raw": 31.0,
-              "normalized": 68,
-              "base_weight": 0.2,
-              "effective_weight": 0.2,
-              "available": true
-            },
-            "theme_persistence": {
-              "raw": 42.5,
-              "normalized": 42.5,
-              "base_weight": 0.15,
-              "effective_weight": 0.15,
-              "available": true
-            },
-            "trading_stability": {
-              "raw": 0.4132,
-              "normalized": 17.358173912306427,
-              "base_weight": 0.05,
-              "effective_weight": 0.05,
-              "available": true
-            }
-          }
-        },
-        "institutional": {
-          "direction": "positive",
-          "as_of": "2026-09-16",
-          "observation_count": 5,
-          "five_day_net": 31.0
-        },
-        "trading_activity": {
-          "as_of": "2026-09-14",
-          "day_trading_volume": 390000,
-          "total_volume": 943832,
-          "day_trading_volume_ratio": 0.41320913043846785,
-          "overnight_risk": null,
-          "overnight_missing_reason": "no reliable overnight source"
-        },
-        "fundamentals": {
-          "score": 80,
-          "fiscal_quarter": "2026Q2",
-          "comparison_basis": "YoY",
-          "revenue_growth": 641.08,
-          "revenue_direction": "up",
-          "eps_growth": 5292.57,
-          "eps_direction": "up",
-          "gross_margin": 0.6501782531194296,
-          "operating_margin": 0.5860071301247771,
-          "operating_cash_flow": 10.53,
-          "operating_cash_flow_margin": 0.0469,
-          "debt_ratio": 0.49
-        },
-        "flags": [
-          {
-            "key": "high_daytrade",
-            "type": "risk"
-          },
-          {
-            "key": "fundamentals_improving",
-            "type": "positive"
-          },
-          {
-            "key": "institutional_positive",
             "type": "positive"
           },
           {
@@ -4122,6 +4130,302 @@
       },
       {
         "instrument": {
+          "instrument_id": "TWSE:2451",
+          "symbol": "2451",
+          "exchange": "TWSE",
+          "name_zh": "創見"
+        },
+        "themes": [
+          {
+            "theme_id": "memory_hbm",
+            "name_zh": "記憶體與 HBM",
+            "relation": "related",
+            "heat_score": 100.0,
+            "heat_change_24h": null,
+            "momentum_score": 50.0
+          },
+          {
+            "theme_id": "statementdog_tag_1517",
+            "name_zh": "AI",
+            "relation": "related",
+            "heat_score": 71.0,
+            "heat_change_24h": null,
+            "momentum_score": 36.0
+          }
+        ],
+        "short": {
+          "rank": 26,
+          "score": 66,
+          "components": {
+            "theme_attention": {
+              "raw": 75.125,
+              "normalized": 75.125,
+              "base_weight": 0.55,
+              "effective_weight": 0.55,
+              "available": true
+            },
+            "institutional_short_activity": {
+              "raw": -1058346.0,
+              "normalized": 31,
+              "base_weight": 0.2,
+              "effective_weight": 0.2,
+              "available": true
+            },
+            "daytrade_activity": {
+              "raw": 0.3287,
+              "normalized": 65.7409123521233,
+              "base_weight": 0.15,
+              "effective_weight": 0.15,
+              "available": true
+            },
+            "fundamental_defense": {
+              "raw": 91.1667,
+              "normalized": 91.16666666666666,
+              "base_weight": 0.1,
+              "effective_weight": 0.1,
+              "available": true
+            }
+          },
+          "risk_adjustment": {
+            "overnight_risk_adjustment": {
+              "value": null,
+              "applied": 0.0,
+              "missing_reason": "no reliable overnight source"
+            }
+          }
+        },
+        "long": {
+          "rank": 1,
+          "score": 71,
+          "components": {
+            "fundamental_quality": {
+              "raw": 94.0167,
+              "normalized": 94.01666666666667,
+              "base_weight": 0.6,
+              "effective_weight": 0.6,
+              "available": true
+            },
+            "institutional_support": {
+              "raw": -1058346.0,
+              "normalized": 31,
+              "base_weight": 0.2,
+              "effective_weight": 0.2,
+              "available": true
+            },
+            "theme_persistence": {
+              "raw": 42.5,
+              "normalized": 42.5,
+              "base_weight": 0.15,
+              "effective_weight": 0.15,
+              "available": true
+            },
+            "trading_stability": {
+              "raw": 0.3287,
+              "normalized": 34.2590876478767,
+              "base_weight": 0.05,
+              "effective_weight": 0.05,
+              "available": true
+            }
+          }
+        },
+        "institutional": {
+          "direction": "negative",
+          "as_of": "2026-09-16",
+          "observation_count": 5,
+          "five_day_net": -1058346.0
+        },
+        "trading_activity": {
+          "as_of": "2026-09-14",
+          "day_trading_volume": 509000,
+          "total_volume": 1548503,
+          "day_trading_volume_ratio": 0.3287045617606165,
+          "overnight_risk": null,
+          "overnight_missing_reason": "no reliable overnight source"
+        },
+        "fundamentals": {
+          "score": 94,
+          "fiscal_quarter": "2026Q2",
+          "comparison_basis": "YoY",
+          "revenue_growth": 482.66,
+          "revenue_direction": "up",
+          "eps_growth": 2726.53,
+          "eps_direction": "up",
+          "gross_margin": 0.7699256110520724,
+          "operating_margin": 0.750797024442083,
+          "operating_cash_flow": 74.79,
+          "operating_cash_flow_margin": 0.3974,
+          "debt_ratio": 0.287
+        },
+        "flags": [
+          {
+            "key": "high_daytrade",
+            "type": "risk"
+          },
+          {
+            "key": "fundamentals_improving",
+            "type": "positive"
+          },
+          {
+            "key": "multi_theme",
+            "type": "info"
+          }
+        ],
+        "coverage": {
+          "short_ratio": 1.0,
+          "long_ratio": 1.0,
+          "missing": []
+        }
+      },
+      {
+        "instrument": {
+          "instrument_id": "TWSE:2337",
+          "symbol": "2337",
+          "exchange": "TWSE",
+          "name_zh": "旺宏"
+        },
+        "themes": [
+          {
+            "theme_id": "memory_hbm",
+            "name_zh": "記憶體與 HBM",
+            "relation": "related",
+            "heat_score": 100.0,
+            "heat_change_24h": null,
+            "momentum_score": 50.0
+          },
+          {
+            "theme_id": "statementdog_tag_1517",
+            "name_zh": "AI",
+            "relation": "related",
+            "heat_score": 71.0,
+            "heat_change_24h": null,
+            "momentum_score": 36.0
+          }
+        ],
+        "short": {
+          "rank": 27,
+          "score": 65,
+          "components": {
+            "theme_attention": {
+              "raw": 75.125,
+              "normalized": 75.125,
+              "base_weight": 0.55,
+              "effective_weight": 0.55,
+              "available": true
+            },
+            "institutional_short_activity": {
+              "raw": -10432881.0,
+              "normalized": 10,
+              "base_weight": 0.2,
+              "effective_weight": 0.2,
+              "available": true
+            },
+            "daytrade_activity": {
+              "raw": 0.4239,
+              "normalized": 84.77921059758978,
+              "base_weight": 0.15,
+              "effective_weight": 0.15,
+              "available": true
+            },
+            "fundamental_defense": {
+              "raw": 84.9167,
+              "normalized": 84.91666666666666,
+              "base_weight": 0.1,
+              "effective_weight": 0.1,
+              "available": true
+            }
+          },
+          "risk_adjustment": {
+            "overnight_risk_adjustment": {
+              "value": null,
+              "applied": 0.0,
+              "missing_reason": "no reliable overnight source"
+            }
+          }
+        },
+        "long": {
+          "rank": 13,
+          "score": 61,
+          "components": {
+            "fundamental_quality": {
+              "raw": 87.1917,
+              "normalized": 87.19166666666666,
+              "base_weight": 0.6,
+              "effective_weight": 0.6,
+              "available": true
+            },
+            "institutional_support": {
+              "raw": -10432881.0,
+              "normalized": 10,
+              "base_weight": 0.2,
+              "effective_weight": 0.2,
+              "available": true
+            },
+            "theme_persistence": {
+              "raw": 42.5,
+              "normalized": 42.5,
+              "base_weight": 0.15,
+              "effective_weight": 0.15,
+              "available": true
+            },
+            "trading_stability": {
+              "raw": 0.4239,
+              "normalized": 15.220789402410219,
+              "base_weight": 0.05,
+              "effective_weight": 0.05,
+              "available": true
+            }
+          }
+        },
+        "institutional": {
+          "direction": "negative",
+          "as_of": "2026-09-16",
+          "observation_count": 5,
+          "five_day_net": -10432881.0
+        },
+        "trading_activity": {
+          "as_of": "2026-09-14",
+          "day_trading_volume": 9447000,
+          "total_volume": 22286124,
+          "day_trading_volume_ratio": 0.4238960529879489,
+          "overnight_risk": null,
+          "overnight_missing_reason": "no reliable overnight source"
+        },
+        "fundamentals": {
+          "score": 87,
+          "fiscal_quarter": "2026Q2",
+          "comparison_basis": "YoY",
+          "revenue_growth": 181.22,
+          "revenue_direction": "up",
+          "eps_growth": 666.67,
+          "eps_direction": "up",
+          "gross_margin": 0.6443514644351465,
+          "operating_margin": 0.46903765690376575,
+          "operating_cash_flow": 78.39,
+          "operating_cash_flow_margin": 0.41,
+          "debt_ratio": 0.358
+        },
+        "flags": [
+          {
+            "key": "high_daytrade",
+            "type": "risk"
+          },
+          {
+            "key": "fundamentals_improving",
+            "type": "positive"
+          },
+          {
+            "key": "multi_theme",
+            "type": "info"
+          }
+        ],
+        "coverage": {
+          "short_ratio": 1.0,
+          "long_ratio": 1.0,
+          "missing": []
+        }
+      },
+      {
+        "instrument": {
           "instrument_id": "TWSE:2408",
           "symbol": "2408",
           "exchange": "TWSE",
@@ -4146,7 +4450,7 @@
           }
         ],
         "short": {
-          "rank": 26,
+          "rank": 28,
           "score": 65,
           "components": {
             "theme_attention": {
@@ -4270,10 +4574,10 @@
       },
       {
         "instrument": {
-          "instrument_id": "TWSE:2451",
-          "symbol": "2451",
+          "instrument_id": "TWSE:4967",
+          "symbol": "4967",
           "exchange": "TWSE",
-          "name_zh": "創見"
+          "name_zh": "十銓"
         },
         "themes": [
           {
@@ -4283,36 +4587,44 @@
             "heat_score": 100.0,
             "heat_change_24h": null,
             "momentum_score": 50.0
+          },
+          {
+            "theme_id": "statementdog_tag_1517",
+            "name_zh": "AI",
+            "relation": "related",
+            "heat_score": 71.0,
+            "heat_change_24h": null,
+            "momentum_score": 36.0
           }
         ],
         "short": {
-          "rank": 27,
+          "rank": 29,
           "score": 64,
           "components": {
             "theme_attention": {
-              "raw": 70.125,
-              "normalized": 70.125,
+              "raw": 75.125,
+              "normalized": 75.125,
               "base_weight": 0.55,
               "effective_weight": 0.55,
               "available": true
             },
             "institutional_short_activity": {
-              "raw": -1058346.0,
-              "normalized": 31,
+              "raw": -595288.0,
+              "normalized": 41,
               "base_weight": 0.2,
               "effective_weight": 0.2,
               "available": true
             },
             "daytrade_activity": {
-              "raw": 0.3287,
-              "normalized": 65.7409123521233,
+              "raw": 0.3279,
+              "normalized": 65.58424321920296,
               "base_weight": 0.15,
               "effective_weight": 0.15,
               "available": true
             },
             "fundamental_defense": {
-              "raw": 91.1667,
-              "normalized": 91.16666666666666,
+              "raw": 51.4167,
+              "normalized": 51.416666666666664,
               "base_weight": 0.1,
               "effective_weight": 0.1,
               "available": true
@@ -4327,19 +4639,19 @@
           }
         },
         "long": {
-          "rank": 1,
-          "score": 71,
+          "rank": 16,
+          "score": 58,
           "components": {
             "fundamental_quality": {
-              "raw": 94.0167,
-              "normalized": 94.01666666666667,
+              "raw": 69.4417,
+              "normalized": 69.44166666666666,
               "base_weight": 0.6,
               "effective_weight": 0.6,
               "available": true
             },
             "institutional_support": {
-              "raw": -1058346.0,
-              "normalized": 31,
+              "raw": -595288.0,
+              "normalized": 41,
               "base_weight": 0.2,
               "effective_weight": 0.2,
               "available": true
@@ -4352,8 +4664,8 @@
               "available": true
             },
             "trading_stability": {
-              "raw": 0.3287,
-              "normalized": 34.2590876478767,
+              "raw": 0.3279,
+              "normalized": 34.41575678079704,
               "base_weight": 0.05,
               "effective_weight": 0.05,
               "available": true
@@ -4364,29 +4676,181 @@
           "direction": "negative",
           "as_of": "2026-09-16",
           "observation_count": 5,
-          "five_day_net": -1058346.0
+          "five_day_net": -595288.0
         },
         "trading_activity": {
           "as_of": "2026-09-14",
-          "day_trading_volume": 509000,
-          "total_volume": 1548503,
-          "day_trading_volume_ratio": 0.3287045617606165,
+          "day_trading_volume": 887000,
+          "total_volume": 2704918,
+          "day_trading_volume_ratio": 0.32792121609601477,
           "overnight_risk": null,
           "overnight_missing_reason": "no reliable overnight source"
         },
         "fundamentals": {
-          "score": 94,
+          "score": 69,
           "fiscal_quarter": "2026Q2",
           "comparison_basis": "YoY",
-          "revenue_growth": 482.66,
+          "revenue_growth": 66.18,
           "revenue_direction": "up",
-          "eps_growth": 2726.53,
+          "eps_growth": 20261.54,
           "eps_direction": "up",
-          "gross_margin": 0.7699256110520724,
-          "operating_margin": 0.750797024442083,
-          "operating_cash_flow": 74.79,
-          "operating_cash_flow_margin": 0.3974,
-          "debt_ratio": 0.287
+          "gross_margin": 0.42764891934633636,
+          "operating_margin": 0.40498154981549817,
+          "operating_cash_flow": -6.0,
+          "operating_cash_flow_margin": -0.0791,
+          "debt_ratio": 0.507
+        },
+        "flags": [
+          {
+            "key": "cashflow_weak",
+            "type": "risk"
+          },
+          {
+            "key": "high_daytrade",
+            "type": "risk"
+          },
+          {
+            "key": "fundamentals_improving",
+            "type": "positive"
+          },
+          {
+            "key": "multi_theme",
+            "type": "info"
+          }
+        ],
+        "coverage": {
+          "short_ratio": 1.0,
+          "long_ratio": 1.0,
+          "missing": []
+        }
+      },
+      {
+        "instrument": {
+          "instrument_id": "TWSE:8271",
+          "symbol": "8271",
+          "exchange": "TWSE",
+          "name_zh": "宇瞻"
+        },
+        "themes": [
+          {
+            "theme_id": "memory_hbm",
+            "name_zh": "記憶體與 HBM",
+            "relation": "related",
+            "heat_score": 100.0,
+            "heat_change_24h": null,
+            "momentum_score": 50.0
+          },
+          {
+            "theme_id": "statementdog_tag_1517",
+            "name_zh": "AI",
+            "relation": "related",
+            "heat_score": 71.0,
+            "heat_change_24h": null,
+            "momentum_score": 36.0
+          }
+        ],
+        "short": {
+          "rank": 30,
+          "score": 64,
+          "components": {
+            "theme_attention": {
+              "raw": 75.125,
+              "normalized": 75.125,
+              "base_weight": 0.55,
+              "effective_weight": 0.55,
+              "available": true
+            },
+            "institutional_short_activity": {
+              "raw": -935990.0,
+              "normalized": 34,
+              "base_weight": 0.2,
+              "effective_weight": 0.2,
+              "available": true
+            },
+            "daytrade_activity": {
+              "raw": 0.3351,
+              "normalized": 67.02514046597568,
+              "base_weight": 0.15,
+              "effective_weight": 0.15,
+              "available": true
+            },
+            "fundamental_defense": {
+              "raw": 53.3333,
+              "normalized": 53.333333333333336,
+              "base_weight": 0.1,
+              "effective_weight": 0.1,
+              "available": true
+            }
+          },
+          "risk_adjustment": {
+            "overnight_risk_adjustment": {
+              "value": null,
+              "applied": 0.0,
+              "missing_reason": "no reliable overnight source"
+            }
+          }
+        },
+        "long": {
+          "rank": 17,
+          "score": 58,
+          "components": {
+            "fundamental_quality": {
+              "raw": 72.4333,
+              "normalized": 72.43333333333334,
+              "base_weight": 0.6,
+              "effective_weight": 0.6,
+              "available": true
+            },
+            "institutional_support": {
+              "raw": -935990.0,
+              "normalized": 34,
+              "base_weight": 0.2,
+              "effective_weight": 0.2,
+              "available": true
+            },
+            "theme_persistence": {
+              "raw": 42.5,
+              "normalized": 42.5,
+              "base_weight": 0.15,
+              "effective_weight": 0.15,
+              "available": true
+            },
+            "trading_stability": {
+              "raw": 0.3351,
+              "normalized": 32.97485953402432,
+              "base_weight": 0.05,
+              "effective_weight": 0.05,
+              "available": true
+            }
+          }
+        },
+        "institutional": {
+          "direction": "negative",
+          "as_of": "2026-09-16",
+          "observation_count": 5,
+          "five_day_net": -935990.0
+        },
+        "trading_activity": {
+          "as_of": "2026-09-14",
+          "day_trading_volume": 333000,
+          "total_volume": 993657,
+          "day_trading_volume_ratio": 0.3351257023298784,
+          "overnight_risk": null,
+          "overnight_missing_reason": "no reliable overnight source"
+        },
+        "fundamentals": {
+          "score": 72,
+          "fiscal_quarter": "2026Q2",
+          "comparison_basis": "YoY",
+          "revenue_growth": 256.78,
+          "revenue_direction": "up",
+          "eps_growth": 1951.96,
+          "eps_direction": "up",
+          "gross_margin": 0.5125051674245557,
+          "operating_margin": 0.36109962794543193,
+          "operating_cash_flow": 4.12,
+          "operating_cash_flow_margin": 0.0426,
+          "debt_ratio": 0.5579999999999999
         },
         "flags": [
           {
@@ -4396,6 +4860,10 @@
           {
             "key": "fundamentals_improving",
             "type": "positive"
+          },
+          {
+            "key": "multi_theme",
+            "type": "info"
           }
         ],
         "coverage": {
@@ -4421,20 +4889,20 @@
             "momentum_score": 50.0
           },
           {
-            "theme_id": "statementdog_tag_1517",
-            "name_zh": "AI",
-            "relation": "direct",
-            "heat_score": 71.0,
-            "heat_change_24h": null,
-            "momentum_score": 36.0
-          },
-          {
             "theme_id": "optical_cpo",
             "name_zh": "矽光子 CPO",
             "relation": "related",
             "heat_score": 75.0,
             "heat_change_24h": null,
             "momentum_score": 38.0
+          },
+          {
+            "theme_id": "statementdog_tag_1517",
+            "name_zh": "AI",
+            "relation": "related",
+            "heat_score": 71.0,
+            "heat_change_24h": null,
+            "momentum_score": 36.0
           },
           {
             "theme_id": "robotics",
@@ -4454,7 +4922,7 @@
           }
         ],
         "short": {
-          "rank": 28,
+          "rank": 31,
           "score": 63,
           "components": {
             "theme_attention": {
@@ -4606,7 +5074,7 @@
           }
         ],
         "short": {
-          "rank": 29,
+          "rank": 32,
           "score": 63,
           "components": {
             "theme_attention": {
@@ -4765,7 +5233,7 @@
           }
         ],
         "short": {
-          "rank": 30,
+          "rank": 33,
           "score": 63,
           "components": {
             "theme_attention": {
@@ -4893,6 +5361,154 @@
       },
       {
         "instrument": {
+          "instrument_id": "TWSE:6770",
+          "symbol": "6770",
+          "exchange": "TWSE",
+          "name_zh": "力積電"
+        },
+        "themes": [
+          {
+            "theme_id": "memory_hbm",
+            "name_zh": "記憶體與 HBM",
+            "relation": "related",
+            "heat_score": 100.0,
+            "heat_change_24h": null,
+            "momentum_score": 50.0
+          },
+          {
+            "theme_id": "statementdog_tag_1517",
+            "name_zh": "AI",
+            "relation": "related",
+            "heat_score": 71.0,
+            "heat_change_24h": null,
+            "momentum_score": 36.0
+          }
+        ],
+        "short": {
+          "rank": 34,
+          "score": 63,
+          "components": {
+            "theme_attention": {
+              "raw": 75.125,
+              "normalized": 75.125,
+              "base_weight": 0.55,
+              "effective_weight": 0.55,
+              "available": true
+            },
+            "institutional_short_activity": {
+              "raw": -34683505.0,
+              "normalized": 4,
+              "base_weight": 0.2,
+              "effective_weight": 0.2,
+              "available": true
+            },
+            "daytrade_activity": {
+              "raw": 0.6921,
+              "normalized": 100.0,
+              "base_weight": 0.15,
+              "effective_weight": 0.15,
+              "available": true
+            },
+            "fundamental_defense": {
+              "raw": 56.75,
+              "normalized": 56.75,
+              "base_weight": 0.1,
+              "effective_weight": 0.1,
+              "available": true
+            }
+          },
+          "risk_adjustment": {
+            "overnight_risk_adjustment": {
+              "value": null,
+              "applied": 0.0,
+              "missing_reason": "no reliable overnight source"
+            }
+          }
+        },
+        "long": {
+          "rank": 34,
+          "score": 43,
+          "components": {
+            "fundamental_quality": {
+              "raw": 59.175,
+              "normalized": 59.175,
+              "base_weight": 0.6,
+              "effective_weight": 0.6,
+              "available": true
+            },
+            "institutional_support": {
+              "raw": -34683505.0,
+              "normalized": 4,
+              "base_weight": 0.2,
+              "effective_weight": 0.2,
+              "available": true
+            },
+            "theme_persistence": {
+              "raw": 42.5,
+              "normalized": 42.5,
+              "base_weight": 0.15,
+              "effective_weight": 0.15,
+              "available": true
+            },
+            "trading_stability": {
+              "raw": 0.6921,
+              "normalized": 0.0,
+              "base_weight": 0.05,
+              "effective_weight": 0.05,
+              "available": true
+            }
+          }
+        },
+        "institutional": {
+          "direction": "negative",
+          "as_of": "2026-09-16",
+          "observation_count": 5,
+          "five_day_net": -34683505.0
+        },
+        "trading_activity": {
+          "as_of": "2026-09-14",
+          "day_trading_volume": 62662000,
+          "total_volume": 90532617,
+          "day_trading_volume_ratio": 0.692148333677353,
+          "overnight_risk": null,
+          "overnight_missing_reason": "no reliable overnight source"
+        },
+        "fundamentals": {
+          "score": 59,
+          "fiscal_quarter": "2026Q2",
+          "comparison_basis": "YoY",
+          "revenue_growth": 53.28,
+          "revenue_direction": "up",
+          "eps_growth": 195.0,
+          "eps_direction": "up",
+          "gross_margin": 0.2827646038172354,
+          "operating_margin": 0.21307113938692887,
+          "operating_cash_flow": 17.13,
+          "operating_cash_flow_margin": 0.0991,
+          "debt_ratio": 0.34600000000000003
+        },
+        "flags": [
+          {
+            "key": "high_daytrade",
+            "type": "risk"
+          },
+          {
+            "key": "fundamentals_improving",
+            "type": "positive"
+          },
+          {
+            "key": "multi_theme",
+            "type": "info"
+          }
+        ],
+        "coverage": {
+          "short_ratio": 1.0,
+          "long_ratio": 1.0,
+          "missing": []
+        }
+      },
+      {
+        "instrument": {
           "instrument_id": "TWSE:3711",
           "symbol": "3711",
           "exchange": "TWSE",
@@ -4933,7 +5549,7 @@
           }
         ],
         "short": {
-          "rank": 31,
+          "rank": 35,
           "score": 62,
           "components": {
             "theme_attention": {
@@ -5061,10 +5677,10 @@
       },
       {
         "instrument": {
-          "instrument_id": "TWSE:2337",
-          "symbol": "2337",
+          "instrument_id": "TWSE:8150",
+          "symbol": "8150",
           "exchange": "TWSE",
-          "name_zh": "旺宏"
+          "name_zh": "南茂"
         },
         "themes": [
           {
@@ -5074,312 +5690,44 @@
             "heat_score": 100.0,
             "heat_change_24h": null,
             "momentum_score": 50.0
-          }
-        ],
-        "short": {
-          "rank": 32,
-          "score": 62,
-          "components": {
-            "theme_attention": {
-              "raw": 70.125,
-              "normalized": 70.125,
-              "base_weight": 0.55,
-              "effective_weight": 0.55,
-              "available": true
-            },
-            "institutional_short_activity": {
-              "raw": -10432881.0,
-              "normalized": 10,
-              "base_weight": 0.2,
-              "effective_weight": 0.2,
-              "available": true
-            },
-            "daytrade_activity": {
-              "raw": 0.4239,
-              "normalized": 84.77921059758978,
-              "base_weight": 0.15,
-              "effective_weight": 0.15,
-              "available": true
-            },
-            "fundamental_defense": {
-              "raw": 84.9167,
-              "normalized": 84.91666666666666,
-              "base_weight": 0.1,
-              "effective_weight": 0.1,
-              "available": true
-            }
-          },
-          "risk_adjustment": {
-            "overnight_risk_adjustment": {
-              "value": null,
-              "applied": 0.0,
-              "missing_reason": "no reliable overnight source"
-            }
-          }
-        },
-        "long": {
-          "rank": 13,
-          "score": 61,
-          "components": {
-            "fundamental_quality": {
-              "raw": 87.1917,
-              "normalized": 87.19166666666666,
-              "base_weight": 0.6,
-              "effective_weight": 0.6,
-              "available": true
-            },
-            "institutional_support": {
-              "raw": -10432881.0,
-              "normalized": 10,
-              "base_weight": 0.2,
-              "effective_weight": 0.2,
-              "available": true
-            },
-            "theme_persistence": {
-              "raw": 42.5,
-              "normalized": 42.5,
-              "base_weight": 0.15,
-              "effective_weight": 0.15,
-              "available": true
-            },
-            "trading_stability": {
-              "raw": 0.4239,
-              "normalized": 15.220789402410219,
-              "base_weight": 0.05,
-              "effective_weight": 0.05,
-              "available": true
-            }
-          }
-        },
-        "institutional": {
-          "direction": "negative",
-          "as_of": "2026-09-16",
-          "observation_count": 5,
-          "five_day_net": -10432881.0
-        },
-        "trading_activity": {
-          "as_of": "2026-09-14",
-          "day_trading_volume": 9447000,
-          "total_volume": 22286124,
-          "day_trading_volume_ratio": 0.4238960529879489,
-          "overnight_risk": null,
-          "overnight_missing_reason": "no reliable overnight source"
-        },
-        "fundamentals": {
-          "score": 87,
-          "fiscal_quarter": "2026Q2",
-          "comparison_basis": "YoY",
-          "revenue_growth": 181.22,
-          "revenue_direction": "up",
-          "eps_growth": 666.67,
-          "eps_direction": "up",
-          "gross_margin": 0.6443514644351465,
-          "operating_margin": 0.46903765690376575,
-          "operating_cash_flow": 78.39,
-          "operating_cash_flow_margin": 0.41,
-          "debt_ratio": 0.358
-        },
-        "flags": [
-          {
-            "key": "high_daytrade",
-            "type": "risk"
           },
           {
-            "key": "fundamentals_improving",
-            "type": "positive"
-          }
-        ],
-        "coverage": {
-          "short_ratio": 1.0,
-          "long_ratio": 1.0,
-          "missing": []
-        }
-      },
-      {
-        "instrument": {
-          "instrument_id": "TWSE:4967",
-          "symbol": "4967",
-          "exchange": "TWSE",
-          "name_zh": "十銓"
-        },
-        "themes": [
-          {
-            "theme_id": "memory_hbm",
-            "name_zh": "記憶體與 HBM",
+            "theme_id": "statementdog_tag_1517",
+            "name_zh": "AI",
             "relation": "related",
-            "heat_score": 100.0,
+            "heat_score": 71.0,
             "heat_change_24h": null,
-            "momentum_score": 50.0
+            "momentum_score": 36.0
           }
         ],
         "short": {
-          "rank": 33,
-          "score": 62,
-          "components": {
-            "theme_attention": {
-              "raw": 70.125,
-              "normalized": 70.125,
-              "base_weight": 0.55,
-              "effective_weight": 0.55,
-              "available": true
-            },
-            "institutional_short_activity": {
-              "raw": -595288.0,
-              "normalized": 41,
-              "base_weight": 0.2,
-              "effective_weight": 0.2,
-              "available": true
-            },
-            "daytrade_activity": {
-              "raw": 0.3279,
-              "normalized": 65.58424321920296,
-              "base_weight": 0.15,
-              "effective_weight": 0.15,
-              "available": true
-            },
-            "fundamental_defense": {
-              "raw": 51.4167,
-              "normalized": 51.416666666666664,
-              "base_weight": 0.1,
-              "effective_weight": 0.1,
-              "available": true
-            }
-          },
-          "risk_adjustment": {
-            "overnight_risk_adjustment": {
-              "value": null,
-              "applied": 0.0,
-              "missing_reason": "no reliable overnight source"
-            }
-          }
-        },
-        "long": {
-          "rank": 16,
-          "score": 58,
-          "components": {
-            "fundamental_quality": {
-              "raw": 69.4417,
-              "normalized": 69.44166666666666,
-              "base_weight": 0.6,
-              "effective_weight": 0.6,
-              "available": true
-            },
-            "institutional_support": {
-              "raw": -595288.0,
-              "normalized": 41,
-              "base_weight": 0.2,
-              "effective_weight": 0.2,
-              "available": true
-            },
-            "theme_persistence": {
-              "raw": 42.5,
-              "normalized": 42.5,
-              "base_weight": 0.15,
-              "effective_weight": 0.15,
-              "available": true
-            },
-            "trading_stability": {
-              "raw": 0.3279,
-              "normalized": 34.41575678079704,
-              "base_weight": 0.05,
-              "effective_weight": 0.05,
-              "available": true
-            }
-          }
-        },
-        "institutional": {
-          "direction": "negative",
-          "as_of": "2026-09-16",
-          "observation_count": 5,
-          "five_day_net": -595288.0
-        },
-        "trading_activity": {
-          "as_of": "2026-09-14",
-          "day_trading_volume": 887000,
-          "total_volume": 2704918,
-          "day_trading_volume_ratio": 0.32792121609601477,
-          "overnight_risk": null,
-          "overnight_missing_reason": "no reliable overnight source"
-        },
-        "fundamentals": {
-          "score": 69,
-          "fiscal_quarter": "2026Q2",
-          "comparison_basis": "YoY",
-          "revenue_growth": 66.18,
-          "revenue_direction": "up",
-          "eps_growth": 20261.54,
-          "eps_direction": "up",
-          "gross_margin": 0.42764891934633636,
-          "operating_margin": 0.40498154981549817,
-          "operating_cash_flow": -6.0,
-          "operating_cash_flow_margin": -0.0791,
-          "debt_ratio": 0.507
-        },
-        "flags": [
-          {
-            "key": "cashflow_weak",
-            "type": "risk"
-          },
-          {
-            "key": "high_daytrade",
-            "type": "risk"
-          },
-          {
-            "key": "fundamentals_improving",
-            "type": "positive"
-          }
-        ],
-        "coverage": {
-          "short_ratio": 1.0,
-          "long_ratio": 1.0,
-          "missing": []
-        }
-      },
-      {
-        "instrument": {
-          "instrument_id": "TWSE:8271",
-          "symbol": "8271",
-          "exchange": "TWSE",
-          "name_zh": "宇瞻"
-        },
-        "themes": [
-          {
-            "theme_id": "memory_hbm",
-            "name_zh": "記憶體與 HBM",
-            "relation": "related",
-            "heat_score": 100.0,
-            "heat_change_24h": null,
-            "momentum_score": 50.0
-          }
-        ],
-        "short": {
-          "rank": 34,
+          "rank": 36,
           "score": 61,
           "components": {
             "theme_attention": {
-              "raw": 70.125,
-              "normalized": 70.125,
+              "raw": 75.125,
+              "normalized": 75.125,
               "base_weight": 0.55,
               "effective_weight": 0.55,
               "available": true
             },
             "institutional_short_activity": {
-              "raw": -935990.0,
-              "normalized": 34,
+              "raw": -14242184.0,
+              "normalized": 7,
               "base_weight": 0.2,
               "effective_weight": 0.2,
               "available": true
             },
             "daytrade_activity": {
-              "raw": 0.3351,
-              "normalized": 67.02514046597568,
+              "raw": 0.6112,
+              "normalized": 100.0,
               "base_weight": 0.15,
               "effective_weight": 0.15,
               "available": true
             },
             "fundamental_defense": {
-              "raw": 53.3333,
-              "normalized": 53.333333333333336,
+              "raw": 29.5,
+              "normalized": 29.5,
               "base_weight": 0.1,
               "effective_weight": 0.1,
               "available": true
@@ -5394,19 +5742,19 @@
           }
         },
         "long": {
-          "rank": 17,
-          "score": 58,
+          "rank": 45,
+          "score": 30,
           "components": {
             "fundamental_quality": {
-              "raw": 72.4333,
-              "normalized": 72.43333333333334,
+              "raw": 36.35,
+              "normalized": 36.35,
               "base_weight": 0.6,
               "effective_weight": 0.6,
               "available": true
             },
             "institutional_support": {
-              "raw": -935990.0,
-              "normalized": 34,
+              "raw": -14242184.0,
+              "normalized": 7,
               "base_weight": 0.2,
               "effective_weight": 0.2,
               "available": true
@@ -5419,8 +5767,8 @@
               "available": true
             },
             "trading_stability": {
-              "raw": 0.3351,
-              "normalized": 32.97485953402432,
+              "raw": 0.6112,
+              "normalized": 0.0,
               "base_weight": 0.05,
               "effective_weight": 0.05,
               "available": true
@@ -5431,29 +5779,29 @@
           "direction": "negative",
           "as_of": "2026-09-16",
           "observation_count": 5,
-          "five_day_net": -935990.0
+          "five_day_net": -14242184.0
         },
         "trading_activity": {
           "as_of": "2026-09-14",
-          "day_trading_volume": 333000,
-          "total_volume": 993657,
-          "day_trading_volume_ratio": 0.3351257023298784,
+          "day_trading_volume": 6638000,
+          "total_volume": 10859992,
+          "day_trading_volume_ratio": 0.6112343360842255,
           "overnight_risk": null,
           "overnight_missing_reason": "no reliable overnight source"
         },
         "fundamentals": {
-          "score": 72,
-          "fiscal_quarter": "2026Q2",
+          "score": 36,
+          "fiscal_quarter": "2026Q1",
           "comparison_basis": "YoY",
-          "revenue_growth": 256.78,
+          "revenue_growth": 25.38,
           "revenue_direction": "up",
-          "eps_growth": 1951.96,
+          "eps_growth": 200.0,
           "eps_direction": "up",
-          "gross_margin": 0.5125051674245557,
-          "operating_margin": 0.36109962794543193,
-          "operating_cash_flow": 4.12,
-          "operating_cash_flow_margin": 0.0426,
-          "debt_ratio": 0.5579999999999999
+          "gross_margin": 0.13768742791234143,
+          "operating_margin": 0.07497116493656286,
+          "operating_cash_flow": 3.28,
+          "operating_cash_flow_margin": 0.0473,
+          "debt_ratio": 0.451
         },
         "flags": [
           {
@@ -5463,6 +5811,10 @@
           {
             "key": "fundamentals_improving",
             "type": "positive"
+          },
+          {
+            "key": "multi_theme",
+            "type": "info"
           }
         ],
         "coverage": {
@@ -5497,7 +5849,7 @@
           }
         ],
         "short": {
-          "rank": 35,
+          "rank": 37,
           "score": 61,
           "components": {
             "theme_attention": {
@@ -5621,142 +5973,6 @@
       },
       {
         "instrument": {
-          "instrument_id": "TWSE:6770",
-          "symbol": "6770",
-          "exchange": "TWSE",
-          "name_zh": "力積電"
-        },
-        "themes": [
-          {
-            "theme_id": "memory_hbm",
-            "name_zh": "記憶體與 HBM",
-            "relation": "related",
-            "heat_score": 100.0,
-            "heat_change_24h": null,
-            "momentum_score": 50.0
-          }
-        ],
-        "short": {
-          "rank": 36,
-          "score": 60,
-          "components": {
-            "theme_attention": {
-              "raw": 70.125,
-              "normalized": 70.125,
-              "base_weight": 0.55,
-              "effective_weight": 0.55,
-              "available": true
-            },
-            "institutional_short_activity": {
-              "raw": -34683505.0,
-              "normalized": 4,
-              "base_weight": 0.2,
-              "effective_weight": 0.2,
-              "available": true
-            },
-            "daytrade_activity": {
-              "raw": 0.6921,
-              "normalized": 100.0,
-              "base_weight": 0.15,
-              "effective_weight": 0.15,
-              "available": true
-            },
-            "fundamental_defense": {
-              "raw": 56.75,
-              "normalized": 56.75,
-              "base_weight": 0.1,
-              "effective_weight": 0.1,
-              "available": true
-            }
-          },
-          "risk_adjustment": {
-            "overnight_risk_adjustment": {
-              "value": null,
-              "applied": 0.0,
-              "missing_reason": "no reliable overnight source"
-            }
-          }
-        },
-        "long": {
-          "rank": 34,
-          "score": 43,
-          "components": {
-            "fundamental_quality": {
-              "raw": 59.175,
-              "normalized": 59.175,
-              "base_weight": 0.6,
-              "effective_weight": 0.6,
-              "available": true
-            },
-            "institutional_support": {
-              "raw": -34683505.0,
-              "normalized": 4,
-              "base_weight": 0.2,
-              "effective_weight": 0.2,
-              "available": true
-            },
-            "theme_persistence": {
-              "raw": 42.5,
-              "normalized": 42.5,
-              "base_weight": 0.15,
-              "effective_weight": 0.15,
-              "available": true
-            },
-            "trading_stability": {
-              "raw": 0.6921,
-              "normalized": 0.0,
-              "base_weight": 0.05,
-              "effective_weight": 0.05,
-              "available": true
-            }
-          }
-        },
-        "institutional": {
-          "direction": "negative",
-          "as_of": "2026-09-16",
-          "observation_count": 5,
-          "five_day_net": -34683505.0
-        },
-        "trading_activity": {
-          "as_of": "2026-09-14",
-          "day_trading_volume": 62662000,
-          "total_volume": 90532617,
-          "day_trading_volume_ratio": 0.692148333677353,
-          "overnight_risk": null,
-          "overnight_missing_reason": "no reliable overnight source"
-        },
-        "fundamentals": {
-          "score": 59,
-          "fiscal_quarter": "2026Q2",
-          "comparison_basis": "YoY",
-          "revenue_growth": 53.28,
-          "revenue_direction": "up",
-          "eps_growth": 195.0,
-          "eps_direction": "up",
-          "gross_margin": 0.2827646038172354,
-          "operating_margin": 0.21307113938692887,
-          "operating_cash_flow": 17.13,
-          "operating_cash_flow_margin": 0.0991,
-          "debt_ratio": 0.34600000000000003
-        },
-        "flags": [
-          {
-            "key": "high_daytrade",
-            "type": "risk"
-          },
-          {
-            "key": "fundamentals_improving",
-            "type": "positive"
-          }
-        ],
-        "coverage": {
-          "short_ratio": 1.0,
-          "long_ratio": 1.0,
-          "missing": []
-        }
-      },
-      {
-        "instrument": {
           "instrument_id": "TWSE:2308",
           "symbol": "2308",
           "exchange": "TWSE",
@@ -5805,7 +6021,7 @@
           }
         ],
         "short": {
-          "rank": 37,
+          "rank": 38,
           "score": 59,
           "components": {
             "theme_attention": {
@@ -5965,7 +6181,7 @@
           }
         ],
         "short": {
-          "rank": 38,
+          "rank": 39,
           "score": 59,
           "components": {
             "theme_attention": {
@@ -6121,7 +6337,7 @@
           }
         ],
         "short": {
-          "rank": 39,
+          "rank": 40,
           "score": 59,
           "components": {
             "theme_attention": {
@@ -6289,7 +6505,7 @@
           }
         ],
         "short": {
-          "rank": 40,
+          "rank": 41,
           "score": 58,
           "components": {
             "theme_attention": {
@@ -6441,7 +6657,7 @@
           }
         ],
         "short": {
-          "rank": 41,
+          "rank": 42,
           "score": 58,
           "components": {
             "theme_attention": {
@@ -6551,142 +6767,6 @@
           {
             "key": "multi_theme",
             "type": "info"
-          }
-        ],
-        "coverage": {
-          "short_ratio": 1.0,
-          "long_ratio": 1.0,
-          "missing": []
-        }
-      },
-      {
-        "instrument": {
-          "instrument_id": "TWSE:8150",
-          "symbol": "8150",
-          "exchange": "TWSE",
-          "name_zh": "南茂"
-        },
-        "themes": [
-          {
-            "theme_id": "memory_hbm",
-            "name_zh": "記憶體與 HBM",
-            "relation": "related",
-            "heat_score": 100.0,
-            "heat_change_24h": null,
-            "momentum_score": 50.0
-          }
-        ],
-        "short": {
-          "rank": 42,
-          "score": 58,
-          "components": {
-            "theme_attention": {
-              "raw": 70.125,
-              "normalized": 70.125,
-              "base_weight": 0.55,
-              "effective_weight": 0.55,
-              "available": true
-            },
-            "institutional_short_activity": {
-              "raw": -14242184.0,
-              "normalized": 7,
-              "base_weight": 0.2,
-              "effective_weight": 0.2,
-              "available": true
-            },
-            "daytrade_activity": {
-              "raw": 0.6112,
-              "normalized": 100.0,
-              "base_weight": 0.15,
-              "effective_weight": 0.15,
-              "available": true
-            },
-            "fundamental_defense": {
-              "raw": 29.5,
-              "normalized": 29.5,
-              "base_weight": 0.1,
-              "effective_weight": 0.1,
-              "available": true
-            }
-          },
-          "risk_adjustment": {
-            "overnight_risk_adjustment": {
-              "value": null,
-              "applied": 0.0,
-              "missing_reason": "no reliable overnight source"
-            }
-          }
-        },
-        "long": {
-          "rank": 45,
-          "score": 30,
-          "components": {
-            "fundamental_quality": {
-              "raw": 36.35,
-              "normalized": 36.35,
-              "base_weight": 0.6,
-              "effective_weight": 0.6,
-              "available": true
-            },
-            "institutional_support": {
-              "raw": -14242184.0,
-              "normalized": 7,
-              "base_weight": 0.2,
-              "effective_weight": 0.2,
-              "available": true
-            },
-            "theme_persistence": {
-              "raw": 42.5,
-              "normalized": 42.5,
-              "base_weight": 0.15,
-              "effective_weight": 0.15,
-              "available": true
-            },
-            "trading_stability": {
-              "raw": 0.6112,
-              "normalized": 0.0,
-              "base_weight": 0.05,
-              "effective_weight": 0.05,
-              "available": true
-            }
-          }
-        },
-        "institutional": {
-          "direction": "negative",
-          "as_of": "2026-09-16",
-          "observation_count": 5,
-          "five_day_net": -14242184.0
-        },
-        "trading_activity": {
-          "as_of": "2026-09-14",
-          "day_trading_volume": 6638000,
-          "total_volume": 10859992,
-          "day_trading_volume_ratio": 0.6112343360842255,
-          "overnight_risk": null,
-          "overnight_missing_reason": "no reliable overnight source"
-        },
-        "fundamentals": {
-          "score": 36,
-          "fiscal_quarter": "2026Q1",
-          "comparison_basis": "YoY",
-          "revenue_growth": 25.38,
-          "revenue_direction": "up",
-          "eps_growth": 200.0,
-          "eps_direction": "up",
-          "gross_margin": 0.13768742791234143,
-          "operating_margin": 0.07497116493656286,
-          "operating_cash_flow": 3.28,
-          "operating_cash_flow_margin": 0.0473,
-          "debt_ratio": 0.451
-        },
-        "flags": [
-          {
-            "key": "high_daytrade",
-            "type": "risk"
-          },
-          {
-            "key": "fundamentals_improving",
-            "type": "positive"
           }
         ],
         "coverage": {
@@ -7016,6 +7096,302 @@
       },
       {
         "instrument": {
+          "instrument_id": "TPEX:3260",
+          "symbol": "3260",
+          "exchange": "TPEX",
+          "name_zh": "威剛"
+        },
+        "themes": [
+          {
+            "theme_id": "memory_hbm",
+            "name_zh": "記憶體與 HBM",
+            "relation": "related",
+            "heat_score": 100.0,
+            "heat_change_24h": null,
+            "momentum_score": 50.0
+          },
+          {
+            "theme_id": "statementdog_tag_1517",
+            "name_zh": "AI",
+            "relation": "related",
+            "heat_score": 71.0,
+            "heat_change_24h": null,
+            "momentum_score": 36.0
+          }
+        ],
+        "short": {
+          "rank": 45,
+          "score": 57,
+          "components": {
+            "theme_attention": {
+              "raw": 75.125,
+              "normalized": 75.125,
+              "base_weight": 0.55,
+              "effective_weight": 0.55,
+              "available": true
+            },
+            "institutional_short_activity": {
+              "raw": -6287681.0,
+              "normalized": 14,
+              "base_weight": 0.2,
+              "effective_weight": 0.2,
+              "available": true
+            },
+            "daytrade_activity": {
+              "raw": 0.2642,
+              "normalized": 52.83607986727925,
+              "base_weight": 0.15,
+              "effective_weight": 0.15,
+              "available": true
+            },
+            "fundamental_defense": {
+              "raw": 46.1667,
+              "normalized": 46.166666666666664,
+              "base_weight": 0.1,
+              "effective_weight": 0.1,
+              "available": true
+            }
+          },
+          "risk_adjustment": {
+            "overnight_risk_adjustment": {
+              "value": null,
+              "applied": 0.0,
+              "missing_reason": "no reliable overnight source"
+            }
+          }
+        },
+        "long": {
+          "rank": 22,
+          "score": 52,
+          "components": {
+            "fundamental_quality": {
+              "raw": 67.3167,
+              "normalized": 67.31666666666666,
+              "base_weight": 0.6,
+              "effective_weight": 0.6,
+              "available": true
+            },
+            "institutional_support": {
+              "raw": -6287681.0,
+              "normalized": 14,
+              "base_weight": 0.2,
+              "effective_weight": 0.2,
+              "available": true
+            },
+            "theme_persistence": {
+              "raw": 42.5,
+              "normalized": 42.5,
+              "base_weight": 0.15,
+              "effective_weight": 0.15,
+              "available": true
+            },
+            "trading_stability": {
+              "raw": 0.2642,
+              "normalized": 47.16392013272075,
+              "base_weight": 0.05,
+              "effective_weight": 0.05,
+              "available": true
+            }
+          }
+        },
+        "institutional": {
+          "direction": "negative",
+          "as_of": "2026-09-16",
+          "observation_count": 5,
+          "five_day_net": -6287681.0
+        },
+        "trading_activity": {
+          "as_of": "2026-09-14",
+          "day_trading_volume": 1215000,
+          "total_volume": 4599130,
+          "day_trading_volume_ratio": 0.26418039933639625,
+          "overnight_risk": null,
+          "overnight_missing_reason": "no reliable overnight source"
+        },
+        "fundamentals": {
+          "score": 67,
+          "fiscal_quarter": "2026Q2",
+          "comparison_basis": "YoY",
+          "revenue_growth": 197.5,
+          "revenue_direction": "up",
+          "eps_growth": 1077.82,
+          "eps_direction": "up",
+          "gross_margin": 0.42108023072889356,
+          "operating_margin": 0.3348190875721028,
+          "operating_cash_flow": -1.16,
+          "operating_cash_flow_margin": -0.003,
+          "debt_ratio": 0.629
+        },
+        "flags": [
+          {
+            "key": "cashflow_weak",
+            "type": "risk"
+          },
+          {
+            "key": "high_leverage",
+            "type": "risk"
+          },
+          {
+            "key": "fundamentals_improving",
+            "type": "positive"
+          },
+          {
+            "key": "multi_theme",
+            "type": "info"
+          }
+        ],
+        "coverage": {
+          "short_ratio": 1.0,
+          "long_ratio": 1.0,
+          "missing": []
+        }
+      },
+      {
+        "instrument": {
+          "instrument_id": "TWSE:8131",
+          "symbol": "8131",
+          "exchange": "TWSE",
+          "name_zh": "福懋科"
+        },
+        "themes": [
+          {
+            "theme_id": "memory_hbm",
+            "name_zh": "記憶體與 HBM",
+            "relation": "related",
+            "heat_score": 100.0,
+            "heat_change_24h": null,
+            "momentum_score": 50.0
+          },
+          {
+            "theme_id": "statementdog_tag_1517",
+            "name_zh": "AI",
+            "relation": "related",
+            "heat_score": 71.0,
+            "heat_change_24h": null,
+            "momentum_score": 36.0
+          }
+        ],
+        "short": {
+          "rank": 46,
+          "score": 57,
+          "components": {
+            "theme_attention": {
+              "raw": 75.125,
+              "normalized": 75.125,
+              "base_weight": 0.55,
+              "effective_weight": 0.55,
+              "available": true
+            },
+            "institutional_short_activity": {
+              "raw": -2486198.0,
+              "normalized": 22,
+              "base_weight": 0.2,
+              "effective_weight": 0.2,
+              "available": true
+            },
+            "daytrade_activity": {
+              "raw": 0.2154,
+              "normalized": 43.07996956655709,
+              "base_weight": 0.15,
+              "effective_weight": 0.15,
+              "available": true
+            },
+            "fundamental_defense": {
+              "raw": 46.5,
+              "normalized": 46.5,
+              "base_weight": 0.1,
+              "effective_weight": 0.1,
+              "available": true
+            }
+          },
+          "risk_adjustment": {
+            "overnight_risk_adjustment": {
+              "value": null,
+              "applied": 0.0,
+              "missing_reason": "no reliable overnight source"
+            }
+          }
+        },
+        "long": {
+          "rank": 32,
+          "score": 46,
+          "components": {
+            "fundamental_quality": {
+              "raw": 54.05,
+              "normalized": 54.05,
+              "base_weight": 0.6,
+              "effective_weight": 0.6,
+              "available": true
+            },
+            "institutional_support": {
+              "raw": -2486198.0,
+              "normalized": 22,
+              "base_weight": 0.2,
+              "effective_weight": 0.2,
+              "available": true
+            },
+            "theme_persistence": {
+              "raw": 42.5,
+              "normalized": 42.5,
+              "base_weight": 0.15,
+              "effective_weight": 0.15,
+              "available": true
+            },
+            "trading_stability": {
+              "raw": 0.2154,
+              "normalized": 56.92003043344291,
+              "base_weight": 0.05,
+              "effective_weight": 0.05,
+              "available": true
+            }
+          }
+        },
+        "institutional": {
+          "direction": "negative",
+          "as_of": "2026-09-16",
+          "observation_count": 5,
+          "five_day_net": -2486198.0
+        },
+        "trading_activity": {
+          "as_of": "2026-09-14",
+          "day_trading_volume": 295000,
+          "total_volume": 1369546,
+          "day_trading_volume_ratio": 0.21539984783278546,
+          "overnight_risk": null,
+          "overnight_missing_reason": "no reliable overnight source"
+        },
+        "fundamentals": {
+          "score": 54,
+          "fiscal_quarter": "2026Q2",
+          "comparison_basis": "YoY",
+          "revenue_growth": 50.19,
+          "revenue_direction": "up",
+          "eps_growth": 294.0,
+          "eps_direction": "up",
+          "gross_margin": 0.19638897687678175,
+          "operating_margin": 0.1536268609439341,
+          "operating_cash_flow": 0.053,
+          "operating_cash_flow_margin": 0.0017,
+          "debt_ratio": 0.212
+        },
+        "flags": [
+          {
+            "key": "fundamentals_improving",
+            "type": "positive"
+          },
+          {
+            "key": "multi_theme",
+            "type": "info"
+          }
+        ],
+        "coverage": {
+          "short_ratio": 1.0,
+          "long_ratio": 1.0,
+          "missing": []
+        }
+      },
+      {
+        "instrument": {
           "instrument_id": "TWSE:2317",
           "symbol": "2317",
           "exchange": "TWSE",
@@ -7064,7 +7440,7 @@
           }
         ],
         "short": {
-          "rank": 45,
+          "rank": 47,
           "score": 56,
           "components": {
             "theme_attention": {
@@ -7232,7 +7608,7 @@
           }
         ],
         "short": {
-          "rank": 46,
+          "rank": 48,
           "score": 56,
           "components": {
             "theme_attention": {
@@ -7354,278 +7730,6 @@
           {
             "key": "multi_theme",
             "type": "info"
-          }
-        ],
-        "coverage": {
-          "short_ratio": 1.0,
-          "long_ratio": 1.0,
-          "missing": []
-        }
-      },
-      {
-        "instrument": {
-          "instrument_id": "TPEX:3260",
-          "symbol": "3260",
-          "exchange": "TPEX",
-          "name_zh": "威剛"
-        },
-        "themes": [
-          {
-            "theme_id": "memory_hbm",
-            "name_zh": "記憶體與 HBM",
-            "relation": "related",
-            "heat_score": 100.0,
-            "heat_change_24h": null,
-            "momentum_score": 50.0
-          }
-        ],
-        "short": {
-          "rank": 47,
-          "score": 54,
-          "components": {
-            "theme_attention": {
-              "raw": 70.125,
-              "normalized": 70.125,
-              "base_weight": 0.55,
-              "effective_weight": 0.55,
-              "available": true
-            },
-            "institutional_short_activity": {
-              "raw": -6287681.0,
-              "normalized": 14,
-              "base_weight": 0.2,
-              "effective_weight": 0.2,
-              "available": true
-            },
-            "daytrade_activity": {
-              "raw": 0.2642,
-              "normalized": 52.83607986727925,
-              "base_weight": 0.15,
-              "effective_weight": 0.15,
-              "available": true
-            },
-            "fundamental_defense": {
-              "raw": 46.1667,
-              "normalized": 46.166666666666664,
-              "base_weight": 0.1,
-              "effective_weight": 0.1,
-              "available": true
-            }
-          },
-          "risk_adjustment": {
-            "overnight_risk_adjustment": {
-              "value": null,
-              "applied": 0.0,
-              "missing_reason": "no reliable overnight source"
-            }
-          }
-        },
-        "long": {
-          "rank": 22,
-          "score": 52,
-          "components": {
-            "fundamental_quality": {
-              "raw": 67.3167,
-              "normalized": 67.31666666666666,
-              "base_weight": 0.6,
-              "effective_weight": 0.6,
-              "available": true
-            },
-            "institutional_support": {
-              "raw": -6287681.0,
-              "normalized": 14,
-              "base_weight": 0.2,
-              "effective_weight": 0.2,
-              "available": true
-            },
-            "theme_persistence": {
-              "raw": 42.5,
-              "normalized": 42.5,
-              "base_weight": 0.15,
-              "effective_weight": 0.15,
-              "available": true
-            },
-            "trading_stability": {
-              "raw": 0.2642,
-              "normalized": 47.16392013272075,
-              "base_weight": 0.05,
-              "effective_weight": 0.05,
-              "available": true
-            }
-          }
-        },
-        "institutional": {
-          "direction": "negative",
-          "as_of": "2026-09-16",
-          "observation_count": 5,
-          "five_day_net": -6287681.0
-        },
-        "trading_activity": {
-          "as_of": "2026-09-14",
-          "day_trading_volume": 1215000,
-          "total_volume": 4599130,
-          "day_trading_volume_ratio": 0.26418039933639625,
-          "overnight_risk": null,
-          "overnight_missing_reason": "no reliable overnight source"
-        },
-        "fundamentals": {
-          "score": 67,
-          "fiscal_quarter": "2026Q2",
-          "comparison_basis": "YoY",
-          "revenue_growth": 197.5,
-          "revenue_direction": "up",
-          "eps_growth": 1077.82,
-          "eps_direction": "up",
-          "gross_margin": 0.42108023072889356,
-          "operating_margin": 0.3348190875721028,
-          "operating_cash_flow": -1.16,
-          "operating_cash_flow_margin": -0.003,
-          "debt_ratio": 0.629
-        },
-        "flags": [
-          {
-            "key": "cashflow_weak",
-            "type": "risk"
-          },
-          {
-            "key": "high_leverage",
-            "type": "risk"
-          },
-          {
-            "key": "fundamentals_improving",
-            "type": "positive"
-          }
-        ],
-        "coverage": {
-          "short_ratio": 1.0,
-          "long_ratio": 1.0,
-          "missing": []
-        }
-      },
-      {
-        "instrument": {
-          "instrument_id": "TWSE:8131",
-          "symbol": "8131",
-          "exchange": "TWSE",
-          "name_zh": "福懋科"
-        },
-        "themes": [
-          {
-            "theme_id": "memory_hbm",
-            "name_zh": "記憶體與 HBM",
-            "relation": "related",
-            "heat_score": 100.0,
-            "heat_change_24h": null,
-            "momentum_score": 50.0
-          }
-        ],
-        "short": {
-          "rank": 48,
-          "score": 54,
-          "components": {
-            "theme_attention": {
-              "raw": 70.125,
-              "normalized": 70.125,
-              "base_weight": 0.55,
-              "effective_weight": 0.55,
-              "available": true
-            },
-            "institutional_short_activity": {
-              "raw": -2486198.0,
-              "normalized": 22,
-              "base_weight": 0.2,
-              "effective_weight": 0.2,
-              "available": true
-            },
-            "daytrade_activity": {
-              "raw": 0.2154,
-              "normalized": 43.07996956655709,
-              "base_weight": 0.15,
-              "effective_weight": 0.15,
-              "available": true
-            },
-            "fundamental_defense": {
-              "raw": 46.5,
-              "normalized": 46.5,
-              "base_weight": 0.1,
-              "effective_weight": 0.1,
-              "available": true
-            }
-          },
-          "risk_adjustment": {
-            "overnight_risk_adjustment": {
-              "value": null,
-              "applied": 0.0,
-              "missing_reason": "no reliable overnight source"
-            }
-          }
-        },
-        "long": {
-          "rank": 32,
-          "score": 46,
-          "components": {
-            "fundamental_quality": {
-              "raw": 54.05,
-              "normalized": 54.05,
-              "base_weight": 0.6,
-              "effective_weight": 0.6,
-              "available": true
-            },
-            "institutional_support": {
-              "raw": -2486198.0,
-              "normalized": 22,
-              "base_weight": 0.2,
-              "effective_weight": 0.2,
-              "available": true
-            },
-            "theme_persistence": {
-              "raw": 42.5,
-              "normalized": 42.5,
-              "base_weight": 0.15,
-              "effective_weight": 0.15,
-              "available": true
-            },
-            "trading_stability": {
-              "raw": 0.2154,
-              "normalized": 56.92003043344291,
-              "base_weight": 0.05,
-              "effective_weight": 0.05,
-              "available": true
-            }
-          }
-        },
-        "institutional": {
-          "direction": "negative",
-          "as_of": "2026-09-16",
-          "observation_count": 5,
-          "five_day_net": -2486198.0
-        },
-        "trading_activity": {
-          "as_of": "2026-09-14",
-          "day_trading_volume": 295000,
-          "total_volume": 1369546,
-          "day_trading_volume_ratio": 0.21539984783278546,
-          "overnight_risk": null,
-          "overnight_missing_reason": "no reliable overnight source"
-        },
-        "fundamentals": {
-          "score": 54,
-          "fiscal_quarter": "2026Q2",
-          "comparison_basis": "YoY",
-          "revenue_growth": 50.19,
-          "revenue_direction": "up",
-          "eps_growth": 294.0,
-          "eps_direction": "up",
-          "gross_margin": 0.19638897687678175,
-          "operating_margin": 0.1536268609439341,
-          "operating_cash_flow": 0.053,
-          "operating_cash_flow_margin": 0.0017,
-          "debt_ratio": 0.212
-        },
-        "flags": [
-          {
-            "key": "fundamentals_improving",
-            "type": "positive"
           }
         ],
         "coverage": {
@@ -7950,15 +8054,23 @@
             "heat_score": 100.0,
             "heat_change_24h": null,
             "momentum_score": 50.0
+          },
+          {
+            "theme_id": "statementdog_tag_1517",
+            "name_zh": "AI",
+            "relation": "related",
+            "heat_score": 71.0,
+            "heat_change_24h": null,
+            "momentum_score": 36.0
           }
         ],
         "short": {
-          "rank": 27,
-          "score": 64,
+          "rank": 26,
+          "score": 66,
           "components": {
             "theme_attention": {
-              "raw": 70.125,
-              "normalized": 70.125,
+              "raw": 75.125,
+              "normalized": 75.125,
               "base_weight": 0.55,
               "effective_weight": 0.55,
               "available": true
@@ -8063,6 +8175,10 @@
           {
             "key": "fundamentals_improving",
             "type": "positive"
+          },
+          {
+            "key": "multi_theme",
+            "type": "info"
           }
         ],
         "coverage": {
@@ -8088,6 +8204,14 @@
             "momentum_score": 50.0
           },
           {
+            "theme_id": "statementdog_tag_1517",
+            "name_zh": "AI",
+            "relation": "related",
+            "heat_score": 71.0,
+            "heat_change_24h": null,
+            "momentum_score": 36.0
+          },
+          {
             "theme_id": "robotics",
             "name_zh": "機器人",
             "relation": "related",
@@ -8097,12 +8221,12 @@
           }
         ],
         "short": {
-          "rank": 13,
-          "score": 74,
+          "rank": 12,
+          "score": 76,
           "components": {
             "theme_attention": {
-              "raw": 75.125,
-              "normalized": 75.125,
+              "raw": 80.125,
+              "normalized": 80.125,
               "base_weight": 0.55,
               "effective_weight": 0.55,
               "available": true
@@ -8405,7 +8529,7 @@
           }
         ],
         "short": {
-          "rank": 26,
+          "rank": 28,
           "score": 65,
           "components": {
             "theme_attention": {
@@ -9505,7 +9629,7 @@
           }
         ],
         "short": {
-          "rank": 41,
+          "rank": 42,
           "score": 58,
           "components": {
             "theme_attention": {
@@ -9806,15 +9930,23 @@
             "heat_score": 100.0,
             "heat_change_24h": null,
             "momentum_score": 50.0
+          },
+          {
+            "theme_id": "statementdog_tag_1517",
+            "name_zh": "AI",
+            "relation": "related",
+            "heat_score": 71.0,
+            "heat_change_24h": null,
+            "momentum_score": 36.0
           }
         ],
         "short": {
-          "rank": 32,
-          "score": 62,
+          "rank": 27,
+          "score": 65,
           "components": {
             "theme_attention": {
-              "raw": 70.125,
-              "normalized": 70.125,
+              "raw": 75.125,
+              "normalized": 75.125,
               "base_weight": 0.55,
               "effective_weight": 0.55,
               "available": true
@@ -9919,6 +10051,10 @@
           {
             "key": "fundamentals_improving",
             "type": "positive"
+          },
+          {
+            "key": "multi_theme",
+            "type": "info"
           }
         ],
         "coverage": {
@@ -10262,15 +10398,23 @@
             "heat_score": 100.0,
             "heat_change_24h": null,
             "momentum_score": 50.0
+          },
+          {
+            "theme_id": "statementdog_tag_1517",
+            "name_zh": "AI",
+            "relation": "related",
+            "heat_score": 71.0,
+            "heat_change_24h": null,
+            "momentum_score": 36.0
           }
         ],
         "short": {
-          "rank": 33,
-          "score": 62,
+          "rank": 29,
+          "score": 64,
           "components": {
             "theme_attention": {
-              "raw": 70.125,
-              "normalized": 70.125,
+              "raw": 75.125,
+              "normalized": 75.125,
               "base_weight": 0.55,
               "effective_weight": 0.55,
               "available": true
@@ -10379,6 +10523,10 @@
           {
             "key": "fundamentals_improving",
             "type": "positive"
+          },
+          {
+            "key": "multi_theme",
+            "type": "info"
           }
         ],
         "coverage": {
@@ -10402,15 +10550,23 @@
             "heat_score": 100.0,
             "heat_change_24h": null,
             "momentum_score": 50.0
+          },
+          {
+            "theme_id": "statementdog_tag_1517",
+            "name_zh": "AI",
+            "relation": "related",
+            "heat_score": 71.0,
+            "heat_change_24h": null,
+            "momentum_score": 36.0
           }
         ],
         "short": {
-          "rank": 34,
-          "score": 61,
+          "rank": 30,
+          "score": 64,
           "components": {
             "theme_attention": {
-              "raw": 70.125,
-              "normalized": 70.125,
+              "raw": 75.125,
+              "normalized": 75.125,
               "base_weight": 0.55,
               "effective_weight": 0.55,
               "available": true
@@ -10515,6 +10671,10 @@
           {
             "key": "fundamentals_improving",
             "type": "positive"
+          },
+          {
+            "key": "multi_theme",
+            "type": "info"
           }
         ],
         "coverage": {
@@ -10872,20 +11032,20 @@
             "momentum_score": 50.0
           },
           {
-            "theme_id": "statementdog_tag_1517",
-            "name_zh": "AI",
-            "relation": "direct",
-            "heat_score": 71.0,
-            "heat_change_24h": null,
-            "momentum_score": 36.0
-          },
-          {
             "theme_id": "optical_cpo",
             "name_zh": "矽光子 CPO",
             "relation": "related",
             "heat_score": 75.0,
             "heat_change_24h": null,
             "momentum_score": 38.0
+          },
+          {
+            "theme_id": "statementdog_tag_1517",
+            "name_zh": "AI",
+            "relation": "related",
+            "heat_score": 71.0,
+            "heat_change_24h": null,
+            "momentum_score": 36.0
           },
           {
             "theme_id": "robotics",
@@ -10905,7 +11065,7 @@
           }
         ],
         "short": {
-          "rank": 28,
+          "rank": 31,
           "score": 63,
           "components": {
             "theme_attention": {
@@ -11193,15 +11353,23 @@
             "heat_score": 100.0,
             "heat_change_24h": null,
             "momentum_score": 50.0
+          },
+          {
+            "theme_id": "statementdog_tag_1517",
+            "name_zh": "AI",
+            "relation": "related",
+            "heat_score": 71.0,
+            "heat_change_24h": null,
+            "momentum_score": 36.0
           }
         ],
         "short": {
-          "rank": 47,
-          "score": 54,
+          "rank": 45,
+          "score": 57,
           "components": {
             "theme_attention": {
-              "raw": 70.125,
-              "normalized": 70.125,
+              "raw": 75.125,
+              "normalized": 75.125,
               "base_weight": 0.55,
               "effective_weight": 0.55,
               "available": true
@@ -11310,6 +11478,10 @@
           {
             "key": "fundamentals_improving",
             "type": "positive"
+          },
+          {
+            "key": "multi_theme",
+            "type": "info"
           }
         ],
         "coverage": {
@@ -11352,7 +11524,7 @@
           }
         ],
         "short": {
-          "rank": 12,
+          "rank": 13,
           "score": 74,
           "components": {
             "theme_attention": {
@@ -12684,7 +12856,7 @@
           }
         ],
         "short": {
-          "rank": 29,
+          "rank": 32,
           "score": 63,
           "components": {
             "theme_attention": {
@@ -12824,15 +12996,23 @@
             "heat_score": 100.0,
             "heat_change_24h": null,
             "momentum_score": 50.0
+          },
+          {
+            "theme_id": "statementdog_tag_1517",
+            "name_zh": "AI",
+            "relation": "related",
+            "heat_score": 71.0,
+            "heat_change_24h": null,
+            "momentum_score": 36.0
           }
         ],
         "short": {
-          "rank": 48,
-          "score": 54,
+          "rank": 46,
+          "score": 57,
           "components": {
             "theme_attention": {
-              "raw": 70.125,
-              "normalized": 70.125,
+              "raw": 75.125,
+              "normalized": 75.125,
               "base_weight": 0.55,
               "effective_weight": 0.55,
               "available": true
@@ -12933,6 +13113,10 @@
           {
             "key": "fundamentals_improving",
             "type": "positive"
+          },
+          {
+            "key": "multi_theme",
+            "type": "info"
           }
         ],
         "coverage": {
@@ -12967,7 +13151,7 @@
           }
         ],
         "short": {
-          "rank": 35,
+          "rank": 37,
           "score": 61,
           "components": {
             "theme_attention": {
@@ -13104,15 +13288,23 @@
             "heat_score": 100.0,
             "heat_change_24h": null,
             "momentum_score": 50.0
+          },
+          {
+            "theme_id": "statementdog_tag_1517",
+            "name_zh": "AI",
+            "relation": "related",
+            "heat_score": 71.0,
+            "heat_change_24h": null,
+            "momentum_score": 36.0
           }
         ],
         "short": {
-          "rank": 36,
-          "score": 60,
+          "rank": 34,
+          "score": 63,
           "components": {
             "theme_attention": {
-              "raw": 70.125,
-              "normalized": 70.125,
+              "raw": 75.125,
+              "normalized": 75.125,
               "base_weight": 0.55,
               "effective_weight": 0.55,
               "available": true
@@ -13217,6 +13409,10 @@
           {
             "key": "fundamentals_improving",
             "type": "positive"
+          },
+          {
+            "key": "multi_theme",
+            "type": "info"
           }
         ],
         "coverage": {
@@ -13275,7 +13471,7 @@
           }
         ],
         "short": {
-          "rank": 37,
+          "rank": 38,
           "score": 59,
           "components": {
             "theme_attention": {
@@ -13419,7 +13615,7 @@
           }
         ],
         "short": {
-          "rank": 39,
+          "rank": 40,
           "score": 59,
           "components": {
             "theme_attention": {
@@ -14059,7 +14255,7 @@
           }
         ],
         "short": {
-          "rank": 40,
+          "rank": 41,
           "score": 58,
           "components": {
             "theme_attention": {
@@ -14383,7 +14579,7 @@
           }
         ],
         "short": {
-          "rank": 31,
+          "rank": 35,
           "score": 62,
           "components": {
             "theme_attention": {
@@ -14687,7 +14883,7 @@
           }
         ],
         "short": {
-          "rank": 30,
+          "rank": 33,
           "score": 63,
           "components": {
             "theme_attention": {
@@ -14828,15 +15024,23 @@
             "heat_score": 100.0,
             "heat_change_24h": null,
             "momentum_score": 50.0
+          },
+          {
+            "theme_id": "statementdog_tag_1517",
+            "name_zh": "AI",
+            "relation": "related",
+            "heat_score": 71.0,
+            "heat_change_24h": null,
+            "momentum_score": 36.0
           }
         ],
         "short": {
-          "rank": 42,
-          "score": 58,
+          "rank": 36,
+          "score": 61,
           "components": {
             "theme_attention": {
-              "raw": 70.125,
-              "normalized": 70.125,
+              "raw": 75.125,
+              "normalized": 75.125,
               "base_weight": 0.55,
               "effective_weight": 0.55,
               "available": true
@@ -14941,6 +15145,10 @@
           {
             "key": "fundamentals_improving",
             "type": "positive"
+          },
+          {
+            "key": "multi_theme",
+            "type": "info"
           }
         ],
         "coverage": {
@@ -14991,7 +15199,7 @@
           }
         ],
         "short": {
-          "rank": 46,
+          "rank": 48,
           "score": 56,
           "components": {
             "theme_attention": {
@@ -15171,7 +15379,7 @@
           }
         ],
         "short": {
-          "rank": 45,
+          "rank": 47,
           "score": 56,
           "components": {
             "theme_attention": {
@@ -15503,7 +15711,7 @@
           }
         ],
         "short": {
-          "rank": 38,
+          "rank": 39,
           "score": 59,
           "components": {
             "theme_attention": {
@@ -15900,7 +16108,7 @@
         }
       ],
       "selected_top50": true,
-      "short_rank": 39,
+      "short_rank": 40,
       "long_rank": 36,
       "flags": [
         {
@@ -16006,10 +16214,18 @@
           "heat_score": 100.0,
           "heat_change_24h": null,
           "momentum_score": 50.0
+        },
+        {
+          "theme_id": "statementdog_tag_1517",
+          "name_zh": "AI",
+          "relation": "related",
+          "heat_score": 71.0,
+          "heat_change_24h": null,
+          "momentum_score": 36.0
         }
       ],
       "selected_top50": true,
-      "short_rank": 47,
+      "short_rank": 45,
       "long_rank": 22,
       "flags": [
         {
@@ -16023,6 +16239,10 @@
         {
           "key": "fundamentals_improving",
           "type": "positive"
+        },
+        {
+          "key": "multi_theme",
+          "type": "info"
         }
       ]
     },
@@ -16095,7 +16315,7 @@
         }
       ],
       "selected_top50": true,
-      "short_rank": 29,
+      "short_rank": 32,
       "long_rank": 31,
       "flags": [
         {
@@ -16449,6 +16669,14 @@
           "momentum_score": 50.0
         },
         {
+          "theme_id": "statementdog_tag_1517",
+          "name_zh": "AI",
+          "relation": "related",
+          "heat_score": 71.0,
+          "heat_change_24h": null,
+          "momentum_score": 36.0
+        },
+        {
           "theme_id": "robotics",
           "name_zh": "機器人",
           "relation": "related",
@@ -16458,7 +16686,7 @@
         }
       ],
       "selected_top50": true,
-      "short_rank": 13,
+      "short_rank": 12,
       "long_rank": 2,
       "flags": [
         {
@@ -16658,7 +16886,7 @@
         }
       ],
       "selected_top50": true,
-      "short_rank": 12,
+      "short_rank": 13,
       "long_rank": 23,
       "flags": [
         {
@@ -17086,7 +17314,7 @@
         }
       ],
       "selected_top50": true,
-      "short_rank": 30,
+      "short_rank": 33,
       "long_rank": 44,
       "flags": [
         {
@@ -17204,7 +17432,7 @@
         }
       ],
       "selected_top50": true,
-      "short_rank": 37,
+      "short_rank": 38,
       "long_rank": 35,
       "flags": [
         {
@@ -17267,7 +17495,7 @@
         }
       ],
       "selected_top50": true,
-      "short_rank": 45,
+      "short_rank": 47,
       "long_rank": 47,
       "flags": [
         {
@@ -17305,20 +17533,20 @@
           "momentum_score": 50.0
         },
         {
-          "theme_id": "statementdog_tag_1517",
-          "name_zh": "AI",
-          "relation": "direct",
-          "heat_score": 71.0,
-          "heat_change_24h": null,
-          "momentum_score": 36.0
-        },
-        {
           "theme_id": "optical_cpo",
           "name_zh": "矽光子 CPO",
           "relation": "related",
           "heat_score": 75.0,
           "heat_change_24h": null,
           "momentum_score": 38.0
+        },
+        {
+          "theme_id": "statementdog_tag_1517",
+          "name_zh": "AI",
+          "relation": "related",
+          "heat_score": 71.0,
+          "heat_change_24h": null,
+          "momentum_score": 36.0
         },
         {
           "theme_id": "robotics",
@@ -17338,7 +17566,7 @@
         }
       ],
       "selected_top50": true,
-      "short_rank": 28,
+      "short_rank": 31,
       "long_rank": 20,
       "flags": [
         {
@@ -17366,10 +17594,18 @@
           "heat_score": 100.0,
           "heat_change_24h": null,
           "momentum_score": 50.0
+        },
+        {
+          "theme_id": "statementdog_tag_1517",
+          "name_zh": "AI",
+          "relation": "related",
+          "heat_score": 71.0,
+          "heat_change_24h": null,
+          "momentum_score": 36.0
         }
       ],
       "selected_top50": true,
-      "short_rank": 32,
+      "short_rank": 27,
       "long_rank": 13,
       "flags": [
         {
@@ -17379,6 +17615,10 @@
         {
           "key": "fundamentals_improving",
           "type": "positive"
+        },
+        {
+          "key": "multi_theme",
+          "type": "info"
         }
       ]
     },
@@ -17408,7 +17648,7 @@
         }
       ],
       "selected_top50": true,
-      "short_rank": 41,
+      "short_rank": 42,
       "long_rank": 11,
       "flags": [
         {
@@ -17463,7 +17703,7 @@
         }
       ],
       "selected_top50": true,
-      "short_rank": 40,
+      "short_rank": 41,
       "long_rank": 40,
       "flags": [
         {
@@ -17875,7 +18115,7 @@
         }
       ],
       "selected_top50": true,
-      "short_rank": 26,
+      "short_rank": 28,
       "long_rank": 4,
       "flags": [
         {
@@ -18056,10 +18296,18 @@
           "heat_score": 100.0,
           "heat_change_24h": null,
           "momentum_score": 50.0
+        },
+        {
+          "theme_id": "statementdog_tag_1517",
+          "name_zh": "AI",
+          "relation": "related",
+          "heat_score": 71.0,
+          "heat_change_24h": null,
+          "momentum_score": 36.0
         }
       ],
       "selected_top50": true,
-      "short_rank": 27,
+      "short_rank": 26,
       "long_rank": 1,
       "flags": [
         {
@@ -18069,6 +18317,10 @@
         {
           "key": "fundamentals_improving",
           "type": "positive"
+        },
+        {
+          "key": "multi_theme",
+          "type": "info"
         }
       ]
     },
@@ -18572,7 +18824,7 @@
         }
       ],
       "selected_top50": true,
-      "short_rank": 46,
+      "short_rank": 48,
       "long_rank": 46,
       "flags": [
         {
@@ -18780,7 +19032,7 @@
         }
       ],
       "selected_top50": true,
-      "short_rank": 35,
+      "short_rank": 37,
       "long_rank": 33,
       "flags": [
         {
@@ -19015,7 +19267,7 @@
         }
       ],
       "selected_top50": true,
-      "short_rank": 31,
+      "short_rank": 35,
       "long_rank": 42,
       "flags": [
         {
@@ -19338,10 +19590,18 @@
           "heat_score": 100.0,
           "heat_change_24h": null,
           "momentum_score": 50.0
+        },
+        {
+          "theme_id": "statementdog_tag_1517",
+          "name_zh": "AI",
+          "relation": "related",
+          "heat_score": 71.0,
+          "heat_change_24h": null,
+          "momentum_score": 36.0
         }
       ],
       "selected_top50": true,
-      "short_rank": 33,
+      "short_rank": 29,
       "long_rank": 16,
       "flags": [
         {
@@ -19355,6 +19615,10 @@
         {
           "key": "fundamentals_improving",
           "type": "positive"
+        },
+        {
+          "key": "multi_theme",
+          "type": "info"
         }
       ]
     },
@@ -19791,7 +20055,7 @@
         }
       ],
       "selected_top50": true,
-      "short_rank": 38,
+      "short_rank": 39,
       "long_rank": 49,
       "flags": [
         {
@@ -19831,10 +20095,18 @@
           "heat_score": 100.0,
           "heat_change_24h": null,
           "momentum_score": 50.0
+        },
+        {
+          "theme_id": "statementdog_tag_1517",
+          "name_zh": "AI",
+          "relation": "related",
+          "heat_score": 71.0,
+          "heat_change_24h": null,
+          "momentum_score": 36.0
         }
       ],
       "selected_top50": true,
-      "short_rank": 36,
+      "short_rank": 34,
       "long_rank": 34,
       "flags": [
         {
@@ -19844,6 +20116,10 @@
         {
           "key": "fundamentals_improving",
           "type": "positive"
+        },
+        {
+          "key": "multi_theme",
+          "type": "info"
         }
       ]
     },
@@ -20128,15 +20404,27 @@
           "heat_score": 100.0,
           "heat_change_24h": null,
           "momentum_score": 50.0
+        },
+        {
+          "theme_id": "statementdog_tag_1517",
+          "name_zh": "AI",
+          "relation": "related",
+          "heat_score": 71.0,
+          "heat_change_24h": null,
+          "momentum_score": 36.0
         }
       ],
       "selected_top50": true,
-      "short_rank": 48,
+      "short_rank": 46,
       "long_rank": 32,
       "flags": [
         {
           "key": "fundamentals_improving",
           "type": "positive"
+        },
+        {
+          "key": "multi_theme",
+          "type": "info"
         }
       ]
     },
@@ -20155,10 +20443,18 @@
           "heat_score": 100.0,
           "heat_change_24h": null,
           "momentum_score": 50.0
+        },
+        {
+          "theme_id": "statementdog_tag_1517",
+          "name_zh": "AI",
+          "relation": "related",
+          "heat_score": 71.0,
+          "heat_change_24h": null,
+          "momentum_score": 36.0
         }
       ],
       "selected_top50": true,
-      "short_rank": 42,
+      "short_rank": 36,
       "long_rank": 45,
       "flags": [
         {
@@ -20168,6 +20464,10 @@
         {
           "key": "fundamentals_improving",
           "type": "positive"
+        },
+        {
+          "key": "multi_theme",
+          "type": "info"
         }
       ]
     },
@@ -20186,10 +20486,18 @@
           "heat_score": 100.0,
           "heat_change_24h": null,
           "momentum_score": 50.0
+        },
+        {
+          "theme_id": "statementdog_tag_1517",
+          "name_zh": "AI",
+          "relation": "related",
+          "heat_score": 71.0,
+          "heat_change_24h": null,
+          "momentum_score": 36.0
         }
       ],
       "selected_top50": true,
-      "short_rank": 34,
+      "short_rank": 30,
       "long_rank": 17,
       "flags": [
         {
@@ -20199,6 +20507,10 @@
         {
           "key": "fundamentals_improving",
           "type": "positive"
+        },
+        {
+          "key": "multi_theme",
+          "type": "info"
         }
       ]
     },
