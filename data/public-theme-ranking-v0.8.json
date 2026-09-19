@@ -2,14 +2,14 @@
   "schema_version": "nexus_public_theme_ranking.v0.8",
   "ranking_rule_version": "public_theme_heat_v0.8",
   "company_rule_version": "public_company_evidence_v0.8",
-  "generated_at": "2026-09-18T22:35:52.914958Z",
+  "generated_at": "2026-09-19T01:11:58.542084Z",
   "market_id": "TW_EQUITY",
   "market_scope": [
     "TW_EQUITY"
   ],
   "window_hours": 72,
   "max_themes": 5,
-  "qualified_theme_count": 11,
+  "qualified_theme_count": 12,
   "displayed_theme_count": 5,
   "threshold_note": null,
   "generation_status": "complete",
@@ -20,24 +20,24 @@
       "rank": 1,
       "theme_id": "memory_hbm",
       "name_zh": "記憶體與 HBM",
-      "heat_score": 84,
+      "heat_score": 94,
       "summaries": {
-        "event_count": 11,
-        "source_count": 3,
+        "event_count": 12,
+        "source_count": 4,
         "tracking_candidate_count": 3,
-        "taiwan_mapping_count": 37
+        "taiwan_mapping_count": 44
       },
       "heat_reason": {
         "rule_version": "public_theme_heat_v0.8",
         "event_component": {
-          "input": 11,
+          "input": 12,
           "normalized": 100.0,
           "weighted": 25.0
         },
         "source_component": {
-          "input": 3,
-          "normalized": 75.0,
-          "weighted": 18.75
+          "input": 4,
+          "normalized": 100.0,
+          "weighted": 25.0
         },
         "candidate_component": {
           "input": 3,
@@ -45,14 +45,14 @@
           "weighted": 15.0
         },
         "mapping_component": {
-          "mapping_count": 37,
+          "mapping_count": 44,
           "direct_mapping_event_count": 2,
           "normalized": 100.0,
           "weighted": 30.0
         },
-        "single_source_concentration": 0.727,
-        "concentration_penalty": 4.773,
-        "raw_score": 83.977
+        "single_source_concentration": 0.615,
+        "concentration_penalty": 0.577,
+        "raw_score": 94.423
       },
       "direct_mentions": [
         {
@@ -120,6 +120,140 @@
     },
     {
       "rank": 2,
+      "theme_id": "defense_drone",
+      "name_zh": "國防與無人機",
+      "heat_score": 90,
+      "summaries": {
+        "event_count": 10,
+        "source_count": 4,
+        "tracking_candidate_count": 2,
+        "taiwan_mapping_count": 8
+      },
+      "heat_reason": {
+        "rule_version": "public_theme_heat_v0.8",
+        "event_component": {
+          "input": 10,
+          "normalized": 100.0,
+          "weighted": 25.0
+        },
+        "source_component": {
+          "input": 4,
+          "normalized": 100.0,
+          "weighted": 25.0
+        },
+        "candidate_component": {
+          "input": 2,
+          "normalized": 50.0,
+          "weighted": 10.0
+        },
+        "mapping_component": {
+          "mapping_count": 8,
+          "direct_mapping_event_count": 5,
+          "normalized": 100.0,
+          "weighted": 30.0
+        },
+        "single_source_concentration": 0.5,
+        "concentration_penalty": 0.0,
+        "raw_score": 90.0
+      },
+      "direct_mentions": [
+        {
+          "instrument_id": "TWSE:8033",
+          "symbol": "8033",
+          "exchange": "TWSE",
+          "name_zh": "雷虎",
+          "direct_event_count": 2,
+          "latest_mentioned_at": "2026-09-19T01:00:00Z"
+        },
+        {
+          "instrument_id": "TWSE:1477",
+          "symbol": "1477",
+          "exchange": "TWSE",
+          "name_zh": "聚陽",
+          "direct_event_count": 1,
+          "latest_mentioned_at": "2026-09-18T06:59:36Z"
+        },
+        {
+          "instrument_id": "TWSE:6589",
+          "symbol": "6589",
+          "exchange": "TWSE",
+          "name_zh": "台康生技",
+          "direct_event_count": 1,
+          "latest_mentioned_at": "2026-09-18T06:59:36Z"
+        },
+        {
+          "instrument_id": "TWSE:6789",
+          "symbol": "6789",
+          "exchange": "TWSE",
+          "name_zh": "采鈺",
+          "direct_event_count": 1,
+          "latest_mentioned_at": "2026-09-18T06:59:36Z"
+        },
+        {
+          "instrument_id": "TWSE:2027",
+          "symbol": "2027",
+          "exchange": "TWSE",
+          "name_zh": "大成鋼",
+          "direct_event_count": 1,
+          "latest_mentioned_at": "2026-09-17T19:04:33Z"
+        },
+        {
+          "instrument_id": "TWSE:2025",
+          "symbol": "2025",
+          "exchange": "TWSE",
+          "name_zh": "千興",
+          "direct_event_count": 1,
+          "latest_mentioned_at": "2026-09-17T18:35:52Z"
+        }
+      ],
+      "supply_chain_candidates": [
+        {
+          "instrument_id": "TWSE:8033",
+          "symbol": "8033",
+          "exchange": "TWSE",
+          "name_zh": "雷虎",
+          "direct_event_count": 2,
+          "official_evidence_count": 0,
+          "company_rank_score": 9,
+          "latest_mentioned_at": "2026-09-19T01:00:00Z",
+          "latest_official_at": null
+        },
+        {
+          "instrument_id": "TPEX:5371",
+          "symbol": "5371",
+          "exchange": "TPEX",
+          "name_zh": "中光電",
+          "direct_event_count": 0,
+          "official_evidence_count": 0,
+          "company_rank_score": 1,
+          "latest_mentioned_at": null,
+          "latest_official_at": null
+        },
+        {
+          "instrument_id": "TWSE:2634",
+          "symbol": "2634",
+          "exchange": "TWSE",
+          "name_zh": "漢翔",
+          "direct_event_count": 0,
+          "official_evidence_count": 0,
+          "company_rank_score": 1,
+          "latest_mentioned_at": null,
+          "latest_official_at": null
+        }
+      ],
+      "representative_news": {
+        "cluster_id": "cluster-e4a5dbd58e021bb2",
+        "id": "digitimes_tw-2370e345831d",
+        "title_zh": "Terra Drone押注國防無人機　擴張期虧損擴大、全年預估收斂",
+        "summary": "在2026年8月取得日本攔截無人機訂單的新創Terra Drone，於9月14日發表2026年度上半（2026/2~7月）。營收雖較2025年同期成長15%，但因大舉投資海外國防事業，導致2026年度上半淨損6.8億日圓（約438萬美元），較2025年同期虧損3.94億日圓擴大73%。根據Terra",
+        "source_id": "digitimes_tw",
+        "source": "DIGITIMES",
+        "published_at": "2026-09-17T18:35:52Z",
+        "canonical_url": "https://www.digitimes.com.tw/tech/dt/n/shwnws.asp?id=0000768665_7U45KKWN784V4Q45MN3GJ"
+      }
+    },
+    {
+      "rank": 3,
       "theme_id": "optical_cpo",
       "name_zh": "矽光子 CPO",
       "heat_score": 83,
@@ -237,7 +371,7 @@
       }
     },
     {
-      "rank": 3,
+      "rank": 4,
       "theme_id": "robotics",
       "name_zh": "機器人",
       "heat_score": 79,
@@ -344,132 +478,6 @@
         "source": "DIGITIMES",
         "published_at": "2026-09-17T18:51:05Z",
         "canonical_url": "https://www.digitimes.com.tw/tech/dt/n/shwnws.asp?id=0000768896_80R9N5388BANXF7ICVT3T"
-      }
-    },
-    {
-      "rank": 4,
-      "theme_id": "defense_drone",
-      "name_zh": "國防與無人機",
-      "heat_score": 78,
-      "summaries": {
-        "event_count": 8,
-        "source_count": 3,
-        "tracking_candidate_count": 1,
-        "taiwan_mapping_count": 8
-      },
-      "heat_reason": {
-        "rule_version": "public_theme_heat_v0.8",
-        "event_component": {
-          "input": 8,
-          "normalized": 100.0,
-          "weighted": 25.0
-        },
-        "source_component": {
-          "input": 3,
-          "normalized": 75.0,
-          "weighted": 18.75
-        },
-        "candidate_component": {
-          "input": 1,
-          "normalized": 25.0,
-          "weighted": 5.0
-        },
-        "mapping_component": {
-          "mapping_count": 8,
-          "direct_mapping_event_count": 3,
-          "normalized": 100.0,
-          "weighted": 30.0
-        },
-        "single_source_concentration": 0.625,
-        "concentration_penalty": 0.938,
-        "raw_score": 77.813
-      },
-      "direct_mentions": [
-        {
-          "instrument_id": "TWSE:1477",
-          "symbol": "1477",
-          "exchange": "TWSE",
-          "name_zh": "聚陽",
-          "direct_event_count": 1,
-          "latest_mentioned_at": "2026-09-18T06:59:36Z"
-        },
-        {
-          "instrument_id": "TWSE:6589",
-          "symbol": "6589",
-          "exchange": "TWSE",
-          "name_zh": "台康生技",
-          "direct_event_count": 1,
-          "latest_mentioned_at": "2026-09-18T06:59:36Z"
-        },
-        {
-          "instrument_id": "TWSE:6789",
-          "symbol": "6789",
-          "exchange": "TWSE",
-          "name_zh": "采鈺",
-          "direct_event_count": 1,
-          "latest_mentioned_at": "2026-09-18T06:59:36Z"
-        },
-        {
-          "instrument_id": "TWSE:2027",
-          "symbol": "2027",
-          "exchange": "TWSE",
-          "name_zh": "大成鋼",
-          "direct_event_count": 1,
-          "latest_mentioned_at": "2026-09-17T19:04:33Z"
-        },
-        {
-          "instrument_id": "TWSE:2025",
-          "symbol": "2025",
-          "exchange": "TWSE",
-          "name_zh": "千興",
-          "direct_event_count": 1,
-          "latest_mentioned_at": "2026-09-17T18:35:52Z"
-        }
-      ],
-      "supply_chain_candidates": [
-        {
-          "instrument_id": "TPEX:5371",
-          "symbol": "5371",
-          "exchange": "TPEX",
-          "name_zh": "中光電",
-          "direct_event_count": 0,
-          "official_evidence_count": 0,
-          "company_rank_score": 1,
-          "latest_mentioned_at": null,
-          "latest_official_at": null
-        },
-        {
-          "instrument_id": "TWSE:2634",
-          "symbol": "2634",
-          "exchange": "TWSE",
-          "name_zh": "漢翔",
-          "direct_event_count": 0,
-          "official_evidence_count": 0,
-          "company_rank_score": 1,
-          "latest_mentioned_at": null,
-          "latest_official_at": null
-        },
-        {
-          "instrument_id": "TWSE:8033",
-          "symbol": "8033",
-          "exchange": "TWSE",
-          "name_zh": "雷虎",
-          "direct_event_count": 0,
-          "official_evidence_count": 0,
-          "company_rank_score": 1,
-          "latest_mentioned_at": null,
-          "latest_official_at": null
-        }
-      ],
-      "representative_news": {
-        "cluster_id": "cluster-e4a5dbd58e021bb2",
-        "id": "digitimes_tw-2370e345831d",
-        "title_zh": "Terra Drone押注國防無人機　擴張期虧損擴大、全年預估收斂",
-        "summary": "在2026年8月取得日本攔截無人機訂單的新創Terra Drone，於9月14日發表2026年度上半（2026/2~7月）。營收雖較2025年同期成長15%，但因大舉投資海外國防事業，導致2026年度上半淨損6.8億日圓（約438萬美元），較2025年同期虧損3.94億日圓擴大73%。根據Terra",
-        "source_id": "digitimes_tw",
-        "source": "DIGITIMES",
-        "published_at": "2026-09-17T18:35:52Z",
-        "canonical_url": "https://www.digitimes.com.tw/tech/dt/n/shwnws.asp?id=0000768665_7U45KKWN784V4Q45MN3GJ"
       }
     },
     {
@@ -580,14 +588,14 @@
         }
       ],
       "representative_news": {
-        "cluster_id": "cluster-69909ef1a3edd7c7",
-        "id": "yahoo_finance_tw-4af72096182b",
-        "title_zh": "iPhone 18 Pro首賣日熱　電信業銷量年增約5至6成",
-        "summary": "（中央社記者江明晏台北2026年09月18日電）電信三雄今天開賣iPhone 18 Pro系列，晚間公布銷售狀況。中華電表示，首賣日iPhone 18 Pro系列較去年17 Pro系列成長超過6成，台",
+        "cluster_id": "cluster-e99252ed71eacc5c",
+        "id": "yahoo_finance_tw-0aababcdd6cc",
+        "title_zh": "搶iPhone頭香徹夜排隊　搭資費舊換新成趨勢",
+        "summary": "iPhone 18 Pro系列手機正式發售，吸引果粉徹夜排隊搶當頭香(圖/卡優新聞網)",
         "source_id": "yahoo_finance_tw",
         "source": "Yahoo Finance Taiwan",
-        "published_at": "2026-09-18T13:43:44Z",
-        "canonical_url": "https://tw.stock.yahoo.com/news/iphone-18-pro%E9%A6%96%E8%B3%A3%E6%97%A5%E7%86%B1-%E9%9B%BB%E4%BF%A1%E6%A5%AD%E9%8A%B7%E9%87%8F%E5%B9%B4%E5%A2%9E%E7%B4%845%E8%87%B36%E6%88%90-134344240.html"
+        "published_at": "2026-09-19T00:01:10Z",
+        "canonical_url": "https://tw.news.yahoo.com/%E6%90%B6iphone%E9%A0%AD%E9%A6%99%E5%BE%B9%E5%A4%9C%E6%8E%92%E9%9A%8A-%E6%90%AD%E8%B3%87%E8%B2%BB%E8%88%8A%E6%8F%9B%E6%96%B0%E6%88%90%E8%B6%A8%E5%8B%A2-000110669.html"
       }
     }
   ]
