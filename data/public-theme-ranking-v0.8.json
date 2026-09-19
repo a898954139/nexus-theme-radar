@@ -2,14 +2,14 @@
   "schema_version": "nexus_public_theme_ranking.v0.8",
   "ranking_rule_version": "public_theme_heat_v0.8",
   "company_rule_version": "public_company_evidence_v0.8",
-  "generated_at": "2026-09-19T01:11:58.542084Z",
+  "generated_at": "2026-09-19T05:55:36.226404Z",
   "market_id": "TW_EQUITY",
   "market_scope": [
     "TW_EQUITY"
   ],
   "window_hours": 72,
   "max_themes": 5,
-  "qualified_theme_count": 12,
+  "qualified_theme_count": 13,
   "displayed_theme_count": 5,
   "threshold_note": null,
   "generation_status": "complete",
@@ -20,17 +20,17 @@
       "rank": 1,
       "theme_id": "memory_hbm",
       "name_zh": "記憶體與 HBM",
-      "heat_score": 94,
+      "heat_score": 100,
       "summaries": {
-        "event_count": 12,
+        "event_count": 14,
         "source_count": 4,
-        "tracking_candidate_count": 3,
-        "taiwan_mapping_count": 44
+        "tracking_candidate_count": 4,
+        "taiwan_mapping_count": 45
       },
       "heat_reason": {
         "rule_version": "public_theme_heat_v0.8",
         "event_component": {
-          "input": 12,
+          "input": 14,
           "normalized": 100.0,
           "weighted": 25.0
         },
@@ -40,19 +40,19 @@
           "weighted": 25.0
         },
         "candidate_component": {
-          "input": 3,
-          "normalized": 75.0,
-          "weighted": 15.0
+          "input": 4,
+          "normalized": 100.0,
+          "weighted": 20.0
         },
         "mapping_component": {
-          "mapping_count": 44,
-          "direct_mapping_event_count": 2,
+          "mapping_count": 45,
+          "direct_mapping_event_count": 4,
           "normalized": 100.0,
           "weighted": 30.0
         },
-        "single_source_concentration": 0.615,
-        "concentration_penalty": 0.577,
-        "raw_score": 94.423
+        "single_source_concentration": 0.533,
+        "concentration_penalty": 0.0,
+        "raw_score": 100.0
       },
       "direct_mentions": [
         {
@@ -60,8 +60,24 @@
           "symbol": "2344",
           "exchange": "TWSE",
           "name_zh": "華邦電",
+          "direct_event_count": 2,
+          "latest_mentioned_at": "2026-09-19T01:18:01Z"
+        },
+        {
+          "instrument_id": "TWSE:2030",
+          "symbol": "2030",
+          "exchange": "TWSE",
+          "name_zh": "彰源",
           "direct_event_count": 1,
-          "latest_mentioned_at": "2026-09-17T18:22:09Z"
+          "latest_mentioned_at": "2026-09-19T05:00:05Z"
+        },
+        {
+          "instrument_id": "TWSE:2330",
+          "symbol": "2330",
+          "exchange": "TWSE",
+          "name_zh": "台積電",
+          "direct_event_count": 1,
+          "latest_mentioned_at": "2026-09-19T01:18:01Z"
         },
         {
           "instrument_id": "TWSE:2028",
@@ -78,10 +94,10 @@
           "symbol": "2344",
           "exchange": "TWSE",
           "name_zh": "華邦電",
-          "direct_event_count": 1,
+          "direct_event_count": 2,
           "official_evidence_count": 0,
-          "company_rank_score": 5,
-          "latest_mentioned_at": "2026-09-17T18:22:09Z",
+          "company_rank_score": 9,
+          "latest_mentioned_at": "2026-09-19T01:18:01Z",
           "latest_official_at": null
         },
         {
@@ -108,25 +124,25 @@
         }
       ],
       "representative_news": {
-        "cluster_id": "cluster-a410d73d9e35b846",
-        "id": "digitimes_tw-2e8af2e87e66",
-        "title_zh": "【動物農莊】AI伺服器搶記憶體　PC出貨下降、價格反上漲",
-        "summary": "人工智慧（AI）資料中心大舉搶佔高頻寬記憶體（HBM）與伺服器DRAM產能，記憶體供應緊張開始外溢至PC市場。IDC數據顯示，2026年第2季全球PC出貨量年減4.9%，但全年PC平均售價可能上漲約20%",
-        "source_id": "digitimes_tw",
-        "source": "DIGITIMES",
-        "published_at": "2026-09-17T18:50:53Z",
-        "canonical_url": "https://www.digitimes.com.tw/tech/dt/n/shwnws.asp?id=0000768447_3HO3ZNFC5OPUJ26VTIS3A"
+        "cluster_id": "cluster-e810955ce0bed12c",
+        "id": "cnyes-a7bac2f54078",
+        "title_zh": "美光財報倒數 輝達、SK海力士釋記憶體市場強烈訊號",
+        "summary": "輝達稱記憶體價格處於「極端」水準，且明年還會進一步走高，第四季毛利率估71%至72%。&#10;SK海力士估記憶體市場最快2030年才供需平衡，並將投資約383億美元擴建南韓兩座廠區。&#10;美光9月30日將公布財報，HBM供應已售罄、2026年供貨滿單，市場偏向下一季業績可能再超預期。",
+        "source_id": "cnyes",
+        "source": "鉅亨網 Cnyes",
+        "published_at": "2026-09-19T05:00:05Z",
+        "canonical_url": "https://news.cnyes.com/news/id/6610739"
       }
     },
     {
       "rank": 2,
       "theme_id": "defense_drone",
       "name_zh": "國防與無人機",
-      "heat_score": 90,
+      "heat_score": 85,
       "summaries": {
         "event_count": 10,
         "source_count": 4,
-        "tracking_candidate_count": 2,
+        "tracking_candidate_count": 1,
         "taiwan_mapping_count": 8
       },
       "heat_reason": {
@@ -142,29 +158,21 @@
           "weighted": 25.0
         },
         "candidate_component": {
-          "input": 2,
-          "normalized": 50.0,
-          "weighted": 10.0
+          "input": 1,
+          "normalized": 25.0,
+          "weighted": 5.0
         },
         "mapping_component": {
           "mapping_count": 8,
-          "direct_mapping_event_count": 5,
+          "direct_mapping_event_count": 3,
           "normalized": 100.0,
           "weighted": 30.0
         },
         "single_source_concentration": 0.5,
         "concentration_penalty": 0.0,
-        "raw_score": 90.0
+        "raw_score": 85.0
       },
       "direct_mentions": [
-        {
-          "instrument_id": "TWSE:8033",
-          "symbol": "8033",
-          "exchange": "TWSE",
-          "name_zh": "雷虎",
-          "direct_event_count": 2,
-          "latest_mentioned_at": "2026-09-19T01:00:00Z"
-        },
         {
           "instrument_id": "TWSE:1477",
           "symbol": "1477",
@@ -208,17 +216,6 @@
       ],
       "supply_chain_candidates": [
         {
-          "instrument_id": "TWSE:8033",
-          "symbol": "8033",
-          "exchange": "TWSE",
-          "name_zh": "雷虎",
-          "direct_event_count": 2,
-          "official_evidence_count": 0,
-          "company_rank_score": 9,
-          "latest_mentioned_at": "2026-09-19T01:00:00Z",
-          "latest_official_at": null
-        },
-        {
           "instrument_id": "TPEX:5371",
           "symbol": "5371",
           "exchange": "TPEX",
@@ -234,6 +231,17 @@
           "symbol": "2634",
           "exchange": "TWSE",
           "name_zh": "漢翔",
+          "direct_event_count": 0,
+          "official_evidence_count": 0,
+          "company_rank_score": 1,
+          "latest_mentioned_at": null,
+          "latest_official_at": null
+        },
+        {
+          "instrument_id": "TWSE:8033",
+          "symbol": "8033",
+          "exchange": "TWSE",
+          "name_zh": "雷虎",
           "direct_event_count": 0,
           "official_evidence_count": 0,
           "company_rank_score": 1,
@@ -372,6 +380,108 @@
     },
     {
       "rank": 4,
+      "theme_id": "statementdog_tag_4082",
+      "name_zh": "iPhone",
+      "heat_score": 80,
+      "summaries": {
+        "event_count": 6,
+        "source_count": 4,
+        "tracking_candidate_count": 0,
+        "taiwan_mapping_count": 13
+      },
+      "heat_reason": {
+        "rule_version": "public_theme_heat_v0.8",
+        "event_component": {
+          "input": 6,
+          "normalized": 100.0,
+          "weighted": 25.0
+        },
+        "source_component": {
+          "input": 4,
+          "normalized": 100.0,
+          "weighted": 25.0
+        },
+        "candidate_component": {
+          "input": 0,
+          "normalized": 0.0,
+          "weighted": 0.0
+        },
+        "mapping_component": {
+          "mapping_count": 13,
+          "direct_mapping_event_count": 2,
+          "normalized": 100.0,
+          "weighted": 30.0
+        },
+        "single_source_concentration": 0.333,
+        "concentration_penalty": 0.0,
+        "raw_score": 80.0
+      },
+      "direct_mentions": [
+        {
+          "instrument_id": "TWSE:4938",
+          "symbol": "4938",
+          "exchange": "TWSE",
+          "name_zh": "和碩",
+          "direct_event_count": 1,
+          "latest_mentioned_at": "2026-09-18T09:00:11Z"
+        },
+        {
+          "instrument_id": "TPEX:1599",
+          "symbol": "1599",
+          "exchange": "TPEX",
+          "name_zh": "宏佳騰",
+          "direct_event_count": 1,
+          "latest_mentioned_at": "2026-09-18T07:01:06Z"
+        }
+      ],
+      "supply_chain_candidates": [
+        {
+          "instrument_id": "TWSE:4938",
+          "symbol": "4938",
+          "exchange": "TWSE",
+          "name_zh": "和碩",
+          "direct_event_count": 1,
+          "official_evidence_count": 0,
+          "company_rank_score": 5,
+          "latest_mentioned_at": "2026-09-18T09:00:11Z",
+          "latest_official_at": null
+        },
+        {
+          "instrument_id": "TPEX:3105",
+          "symbol": "3105",
+          "exchange": "TPEX",
+          "name_zh": "穩懋",
+          "direct_event_count": 0,
+          "official_evidence_count": 0,
+          "company_rank_score": 1,
+          "latest_mentioned_at": null,
+          "latest_official_at": null
+        },
+        {
+          "instrument_id": "TWSE:2313",
+          "symbol": "2313",
+          "exchange": "TWSE",
+          "name_zh": "華通",
+          "direct_event_count": 0,
+          "official_evidence_count": 0,
+          "company_rank_score": 1,
+          "latest_mentioned_at": null,
+          "latest_official_at": null
+        }
+      ],
+      "representative_news": {
+        "cluster_id": "cluster-682e91f4b21510ad",
+        "id": "yahoo_finance_tw-ef9c0398cc52",
+        "title_zh": "買iPhone 18 Pro半天就後悔…跟17沒差！果粉改搶「這支爆款新機」",
+        "summary": "蘋果新機iPhone 18 Pro、iPhone 18 Pro Max於18日正式開賣，不過新機才上市，就有網友直呼「半天就膩了」，認為實際使用後與上一代iPhone 17 Pro差異不大，甚至決定暫",
+        "source_id": "yahoo_finance_tw",
+        "source": "Yahoo Finance Taiwan",
+        "published_at": "2026-09-19T05:03:56Z",
+        "canonical_url": "https://tw.stock.yahoo.com/news/%E8%B2%B7iphone-18-pro%E5%8D%8A%E5%A4%A9%E5%B0%B1%E5%BE%8C%E6%82%94-%E8%B7%9F17%E6%B2%92%E5%B7%AE-%E6%9E%9C%E7%B2%89%E6%94%B9%E6%90%B6-050356307.html"
+      }
+    },
+    {
+      "rank": 5,
       "theme_id": "robotics",
       "name_zh": "機器人",
       "heat_score": 79,
@@ -478,124 +588,6 @@
         "source": "DIGITIMES",
         "published_at": "2026-09-17T18:51:05Z",
         "canonical_url": "https://www.digitimes.com.tw/tech/dt/n/shwnws.asp?id=0000768896_80R9N5388BANXF7ICVT3T"
-      }
-    },
-    {
-      "rank": 5,
-      "theme_id": "statementdog_tag_4082",
-      "name_zh": "iPhone",
-      "heat_score": 71,
-      "summaries": {
-        "event_count": 6,
-        "source_count": 3,
-        "tracking_candidate_count": 0,
-        "taiwan_mapping_count": 15
-      },
-      "heat_reason": {
-        "rule_version": "public_theme_heat_v0.8",
-        "event_component": {
-          "input": 6,
-          "normalized": 100.0,
-          "weighted": 25.0
-        },
-        "source_component": {
-          "input": 3,
-          "normalized": 75.0,
-          "weighted": 18.75
-        },
-        "candidate_component": {
-          "input": 0,
-          "normalized": 0.0,
-          "weighted": 0.0
-        },
-        "mapping_component": {
-          "mapping_count": 15,
-          "direct_mapping_event_count": 4,
-          "normalized": 100.0,
-          "weighted": 30.0
-        },
-        "single_source_concentration": 0.667,
-        "concentration_penalty": 2.5,
-        "raw_score": 71.25
-      },
-      "direct_mentions": [
-        {
-          "instrument_id": "TWSE:4938",
-          "symbol": "4938",
-          "exchange": "TWSE",
-          "name_zh": "和碩",
-          "direct_event_count": 1,
-          "latest_mentioned_at": "2026-09-18T09:00:11Z"
-        },
-        {
-          "instrument_id": "TPEX:1599",
-          "symbol": "1599",
-          "exchange": "TPEX",
-          "name_zh": "宏佳騰",
-          "direct_event_count": 1,
-          "latest_mentioned_at": "2026-09-18T07:01:06Z"
-        },
-        {
-          "instrument_id": "TWSE:3045",
-          "symbol": "3045",
-          "exchange": "TWSE",
-          "name_zh": "台灣大",
-          "direct_event_count": 1,
-          "latest_mentioned_at": "2026-09-18T03:49:10Z"
-        },
-        {
-          "instrument_id": "TWSE:2412",
-          "symbol": "2412",
-          "exchange": "TWSE",
-          "name_zh": "中華電",
-          "direct_event_count": 1,
-          "latest_mentioned_at": "2026-09-18T02:53:36Z"
-        }
-      ],
-      "supply_chain_candidates": [
-        {
-          "instrument_id": "TWSE:4938",
-          "symbol": "4938",
-          "exchange": "TWSE",
-          "name_zh": "和碩",
-          "direct_event_count": 1,
-          "official_evidence_count": 0,
-          "company_rank_score": 5,
-          "latest_mentioned_at": "2026-09-18T09:00:11Z",
-          "latest_official_at": null
-        },
-        {
-          "instrument_id": "TPEX:3105",
-          "symbol": "3105",
-          "exchange": "TPEX",
-          "name_zh": "穩懋",
-          "direct_event_count": 0,
-          "official_evidence_count": 0,
-          "company_rank_score": 1,
-          "latest_mentioned_at": null,
-          "latest_official_at": null
-        },
-        {
-          "instrument_id": "TWSE:2313",
-          "symbol": "2313",
-          "exchange": "TWSE",
-          "name_zh": "華通",
-          "direct_event_count": 0,
-          "official_evidence_count": 0,
-          "company_rank_score": 1,
-          "latest_mentioned_at": null,
-          "latest_official_at": null
-        }
-      ],
-      "representative_news": {
-        "cluster_id": "cluster-e99252ed71eacc5c",
-        "id": "yahoo_finance_tw-0aababcdd6cc",
-        "title_zh": "搶iPhone頭香徹夜排隊　搭資費舊換新成趨勢",
-        "summary": "iPhone 18 Pro系列手機正式發售，吸引果粉徹夜排隊搶當頭香(圖/卡優新聞網)",
-        "source_id": "yahoo_finance_tw",
-        "source": "Yahoo Finance Taiwan",
-        "published_at": "2026-09-19T00:01:10Z",
-        "canonical_url": "https://tw.news.yahoo.com/%E6%90%B6iphone%E9%A0%AD%E9%A6%99%E5%BE%B9%E5%A4%9C%E6%8E%92%E9%9A%8A-%E6%90%AD%E8%B3%87%E8%B2%BB%E8%88%8A%E6%8F%9B%E6%96%B0%E6%88%90%E8%B6%A8%E5%8B%A2-000110669.html"
       }
     }
   ]
