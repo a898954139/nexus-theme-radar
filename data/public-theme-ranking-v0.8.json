@@ -2,35 +2,35 @@
   "schema_version": "nexus_public_theme_ranking.v0.8",
   "ranking_rule_version": "public_theme_heat_v0.8",
   "company_rule_version": "public_company_evidence_v0.8",
-  "generated_at": "2026-09-20T22:27:55.996192Z",
+  "generated_at": "2026-09-21T01:08:25.881634Z",
   "market_id": "TW_EQUITY",
   "market_scope": [
     "TW_EQUITY"
   ],
   "window_hours": 72,
   "max_themes": 5,
-  "qualified_theme_count": 5,
+  "qualified_theme_count": 6,
   "displayed_theme_count": 5,
   "threshold_note": null,
   "generation_status": "complete",
   "failed_source_count": 0,
-  "official_evidence_status": "unavailable",
+  "official_evidence_status": "available",
   "themes": [
     {
       "rank": 1,
-      "theme_id": "statementdog_tag_1517",
-      "name_zh": "AI",
-      "heat_score": 80,
+      "theme_id": "memory_hbm",
+      "name_zh": "記憶體與 HBM",
+      "heat_score": 95,
       "summaries": {
-        "event_count": 13,
+        "event_count": 7,
         "source_count": 4,
-        "tracking_candidate_count": 0,
-        "taiwan_mapping_count": 73
+        "tracking_candidate_count": 3,
+        "taiwan_mapping_count": 7
       },
       "heat_reason": {
         "rule_version": "public_theme_heat_v0.8",
         "event_component": {
-          "input": 13,
+          "input": 7,
           "normalized": 100.0,
           "weighted": 25.0
         },
@@ -40,21 +40,163 @@
           "weighted": 25.0
         },
         "candidate_component": {
+          "input": 3,
+          "normalized": 75.0,
+          "weighted": 15.0
+        },
+        "mapping_component": {
+          "mapping_count": 7,
+          "direct_mapping_event_count": 2,
+          "normalized": 100.0,
+          "weighted": 30.0
+        },
+        "single_source_concentration": 0.429,
+        "concentration_penalty": 0.0,
+        "raw_score": 95.0
+      },
+      "direct_mentions": [
+        {
+          "instrument_id": "TWSE:2030",
+          "symbol": "2030",
+          "exchange": "TWSE",
+          "name_zh": "彰源",
+          "direct_event_count": 2,
+          "latest_mentioned_at": "2026-09-21T00:40:05Z"
+        },
+        {
+          "instrument_id": "TPEX:2035",
+          "symbol": "2035",
+          "exchange": "TPEX",
+          "name_zh": "唐榮公司",
+          "direct_event_count": 1,
+          "latest_mentioned_at": "2026-09-21T00:40:05Z"
+        },
+        {
+          "instrument_id": "TWSE:2020",
+          "symbol": "2020",
+          "exchange": "TWSE",
+          "name_zh": "美亞",
+          "direct_event_count": 1,
+          "latest_mentioned_at": "2026-09-21T00:40:05Z"
+        },
+        {
+          "instrument_id": "TWSE:2027",
+          "symbol": "2027",
+          "exchange": "TWSE",
+          "name_zh": "大成鋼",
+          "direct_event_count": 1,
+          "latest_mentioned_at": "2026-09-20T18:29:21Z"
+        }
+      ],
+      "supply_chain_candidates": [
+        {
+          "instrument_id": "TPEX:8299",
+          "symbol": "8299",
+          "exchange": "TPEX",
+          "name_zh": "群聯",
+          "direct_event_count": 0,
+          "official_evidence_count": 0,
+          "company_rank_score": 1,
+          "latest_mentioned_at": null,
+          "latest_official_at": null
+        },
+        {
+          "instrument_id": "TWSE:2344",
+          "symbol": "2344",
+          "exchange": "TWSE",
+          "name_zh": "華邦電",
+          "direct_event_count": 0,
+          "official_evidence_count": 0,
+          "company_rank_score": 1,
+          "latest_mentioned_at": null,
+          "latest_official_at": null
+        },
+        {
+          "instrument_id": "TWSE:2408",
+          "symbol": "2408",
+          "exchange": "TWSE",
+          "name_zh": "南亞科",
+          "direct_event_count": 0,
+          "official_evidence_count": 0,
+          "company_rank_score": 1,
+          "latest_mentioned_at": null,
+          "latest_official_at": null
+        }
+      ],
+      "representative_news": {
+        "cluster_id": "cluster-a5bbfc2aad2d5131",
+        "id": "digitimes_tw-5ced42465f33",
+        "title_zh": "DRAM如何分工製造？　SK海力士探索記憶體與邏輯新架構",
+        "summary": "人工智慧（AI）對記憶體頻寬與能源效率的要求提高，競爭焦點也從單純微縮製程，延伸至記憶體、邏輯電路與封裝的共同設計。SK海力士（SK Hynix）正探索下一代DRAM的製程分工，提出將負責資料儲存的記憶體單",
+        "source_id": "digitimes_tw",
+        "source": "DIGITIMES",
+        "published_at": "2026-09-20T18:47:51Z",
+        "canonical_url": "https://www.digitimes.com.tw/tech/dt/n/shwnws.asp?id=0000769078_RYH149LI6CUCVJ9JISWG6"
+      }
+    },
+    {
+      "rank": 2,
+      "theme_id": "statementdog_tag_1517",
+      "name_zh": "AI",
+      "heat_score": 80,
+      "summaries": {
+        "event_count": 19,
+        "source_count": 5,
+        "tracking_candidate_count": 0,
+        "taiwan_mapping_count": 79
+      },
+      "heat_reason": {
+        "rule_version": "public_theme_heat_v0.8",
+        "event_component": {
+          "input": 19,
+          "normalized": 100.0,
+          "weighted": 25.0
+        },
+        "source_component": {
+          "input": 5,
+          "normalized": 100.0,
+          "weighted": 25.0
+        },
+        "candidate_component": {
           "input": 0,
           "normalized": 0.0,
           "weighted": 0.0
         },
         "mapping_component": {
-          "mapping_count": 73,
-          "direct_mapping_event_count": 4,
+          "mapping_count": 79,
+          "direct_mapping_event_count": 6,
           "normalized": 100.0,
           "weighted": 30.0
         },
-        "single_source_concentration": 0.5,
+        "single_source_concentration": 0.368,
         "concentration_penalty": 0.0,
         "raw_score": 80.0
       },
       "direct_mentions": [
+        {
+          "instrument_id": "TWSE:2030",
+          "symbol": "2030",
+          "exchange": "TWSE",
+          "name_zh": "彰源",
+          "direct_event_count": 3,
+          "latest_mentioned_at": "2026-09-21T00:35:39Z"
+        },
+        {
+          "instrument_id": "TWSE:2449",
+          "symbol": "2449",
+          "exchange": "TWSE",
+          "name_zh": "京元電子",
+          "direct_event_count": 1,
+          "latest_mentioned_at": "2026-09-20T23:10:16Z"
+        },
+        {
+          "instrument_id": "TWSE:3711",
+          "symbol": "3711",
+          "exchange": "TWSE",
+          "name_zh": "日月光投控",
+          "direct_event_count": 1,
+          "latest_mentioned_at": "2026-09-20T23:10:16Z"
+        },
         {
           "instrument_id": "TWSE:2330",
           "symbol": "2330",
@@ -78,25 +220,31 @@
           "name_zh": "盛餘",
           "direct_event_count": 1,
           "latest_mentioned_at": "2026-09-20T13:10:07Z"
-        },
-        {
-          "instrument_id": "TWSE:2030",
-          "symbol": "2030",
-          "exchange": "TWSE",
-          "name_zh": "彰源",
-          "direct_event_count": 1,
-          "latest_mentioned_at": "2026-09-20T01:10:03Z"
-        },
-        {
-          "instrument_id": "TWSE:2455",
-          "symbol": "2455",
-          "exchange": "TWSE",
-          "name_zh": "全新",
-          "direct_event_count": 1,
-          "latest_mentioned_at": "2026-09-19T01:30:43Z"
         }
       ],
       "supply_chain_candidates": [
+        {
+          "instrument_id": "TWSE:2449",
+          "symbol": "2449",
+          "exchange": "TWSE",
+          "name_zh": "京元電子",
+          "direct_event_count": 1,
+          "official_evidence_count": 0,
+          "company_rank_score": 5,
+          "latest_mentioned_at": "2026-09-20T23:10:16Z",
+          "latest_official_at": null
+        },
+        {
+          "instrument_id": "TWSE:3711",
+          "symbol": "3711",
+          "exchange": "TWSE",
+          "name_zh": "日月光投控",
+          "direct_event_count": 1,
+          "official_evidence_count": 0,
+          "company_rank_score": 5,
+          "latest_mentioned_at": "2026-09-20T23:10:16Z",
+          "latest_official_at": null
+        },
         {
           "instrument_id": "TWSE:2330",
           "symbol": "2330",
@@ -107,141 +255,17 @@
           "company_rank_score": 5,
           "latest_mentioned_at": "2026-09-20T19:00:00Z",
           "latest_official_at": null
-        },
-        {
-          "instrument_id": "TPEX:3081",
-          "symbol": "3081",
-          "exchange": "TPEX",
-          "name_zh": "聯亞",
-          "direct_event_count": 0,
-          "official_evidence_count": 0,
-          "company_rank_score": 1,
-          "latest_mentioned_at": null,
-          "latest_official_at": null
-        },
-        {
-          "instrument_id": "TPEX:3324",
-          "symbol": "3324",
-          "exchange": "TPEX",
-          "name_zh": "雙鴻",
-          "direct_event_count": 0,
-          "official_evidence_count": 0,
-          "company_rank_score": 1,
-          "latest_mentioned_at": null,
-          "latest_official_at": null
         }
       ],
       "representative_news": {
-        "cluster_id": "cluster-bb623940585968d4",
-        "id": "cnyes-c2d9a74a9439",
-        "title_zh": "馬斯克看旺AI紅利 預言美國明年GDP成長翻倍至4％",
-        "summary": "馬斯克估AI明年可使美國GDP成長率由約2%升至4%，甚至更高&#10;美國科技公司料至2027年在晶片與資料中心投入近1兆美元，AI資本支出2027至2029年或達GDP約3%&#10;主流預測仍偏保守，利率上升恐增加中小企業AI籌資難度",
-        "source_id": "cnyes",
-        "source": "鉅亨網 Cnyes",
-        "published_at": "2026-09-20T13:10:07Z",
-        "canonical_url": "https://news.cnyes.com/news/id/6611097"
-      }
-    },
-    {
-      "rank": 2,
-      "theme_id": "optical_cpo",
-      "name_zh": "矽光子 CPO",
-      "heat_score": 73,
-      "summaries": {
-        "event_count": 4,
-        "source_count": 2,
-        "tracking_candidate_count": 4,
-        "taiwan_mapping_count": 20
-      },
-      "heat_reason": {
-        "rule_version": "public_theme_heat_v0.8",
-        "event_component": {
-          "input": 4,
-          "normalized": 66.667,
-          "weighted": 16.667
-        },
-        "source_component": {
-          "input": 2,
-          "normalized": 50.0,
-          "weighted": 12.5
-        },
-        "candidate_component": {
-          "input": 4,
-          "normalized": 100.0,
-          "weighted": 20.0
-        },
-        "mapping_component": {
-          "mapping_count": 20,
-          "direct_mapping_event_count": 1,
-          "normalized": 80.0,
-          "weighted": 24.0
-        },
-        "single_source_concentration": 0.5,
-        "concentration_penalty": 0.0,
-        "raw_score": 73.167
-      },
-      "direct_mentions": [
-        {
-          "instrument_id": "TPEX:6223",
-          "symbol": "6223",
-          "exchange": "TPEX",
-          "name_zh": "旺矽",
-          "direct_event_count": 1,
-          "latest_mentioned_at": "2026-09-20T18:40:54Z"
-        },
-        {
-          "instrument_id": "TWSE:2330",
-          "symbol": "2330",
-          "exchange": "TWSE",
-          "name_zh": "台積電",
-          "direct_event_count": 1,
-          "latest_mentioned_at": "2026-09-20T18:40:54Z"
-        }
-      ],
-      "supply_chain_candidates": [
-        {
-          "instrument_id": "TPEX:4971",
-          "symbol": "4971",
-          "exchange": "TPEX",
-          "name_zh": "IET-KY",
-          "direct_event_count": 0,
-          "official_evidence_count": 0,
-          "company_rank_score": 1,
-          "latest_mentioned_at": null,
-          "latest_official_at": null
-        },
-        {
-          "instrument_id": "TWSE:2303",
-          "symbol": "2303",
-          "exchange": "TWSE",
-          "name_zh": "聯電",
-          "direct_event_count": 0,
-          "official_evidence_count": 0,
-          "company_rank_score": 1,
-          "latest_mentioned_at": null,
-          "latest_official_at": null
-        },
-        {
-          "instrument_id": "TWSE:2317",
-          "symbol": "2317",
-          "exchange": "TWSE",
-          "name_zh": "鴻海",
-          "direct_event_count": 0,
-          "official_evidence_count": 0,
-          "company_rank_score": 1,
-          "latest_mentioned_at": null,
-          "latest_official_at": null
-        }
-      ],
-      "representative_news": {
-        "cluster_id": "cluster-b7ef0eddef45e11c",
-        "id": "technews-a19ca88e13f0",
-        "title_zh": "CPO 產品結構持續演進，均英精密 FAU 客製檢測從抽樣導入量產測試",
-        "summary": "均英精密持續擴大共同封裝光學（CPO）檢測布局，針對光纖陣列單元（FAU）及其零配件的高精度與客製化檢測需求， [&#8230;]",
-        "source_id": "technews",
-        "source": "TechNews",
-        "published_at": "2026-09-20T06:00:08Z",
-        "canonical_url": "https://technews.tw/2026/09/20/gen-precision-brings-custom-fau-testing-into-mass-production-testing/"
+        "cluster_id": "cluster-eb21fea0f50e5a2b",
+        "id": "moneydj-f260dc7ecdee",
+        "title_zh": "中美經貿高層會談，AI權重、稀土與原產地規則成川習會前最後試金石",
+        "summary": "<a href=\"https://www.moneydj.com/kmdj/news/newsviewer.aspx?a=8b49696b-fb1e-4212-a2bd-17903808bd64&amp;utm_source=96591857962667576857965937&amp;utm_medium=RSS\">內文連結</a>",
+        "source_id": "moneydj",
+        "source": "MoneyDJ",
+        "published_at": "2026-09-21T00:37:00Z",
+        "canonical_url": "https://www.moneydj.com/kmdj/news/newsviewer.aspx?a=8b49696b-fb1e-4212-a2bd-17903808bd64&utm_source=96591857962667576857965937&utm_medium=RSS"
       }
     },
     {
@@ -331,6 +355,108 @@
     },
     {
       "rank": 4,
+      "theme_id": "optical_cpo",
+      "name_zh": "矽光子 CPO",
+      "heat_score": 62,
+      "summaries": {
+        "event_count": 3,
+        "source_count": 2,
+        "tracking_candidate_count": 3,
+        "taiwan_mapping_count": 20
+      },
+      "heat_reason": {
+        "rule_version": "public_theme_heat_v0.8",
+        "event_component": {
+          "input": 3,
+          "normalized": 50.0,
+          "weighted": 12.5
+        },
+        "source_component": {
+          "input": 2,
+          "normalized": 50.0,
+          "weighted": 12.5
+        },
+        "candidate_component": {
+          "input": 3,
+          "normalized": 75.0,
+          "weighted": 15.0
+        },
+        "mapping_component": {
+          "mapping_count": 20,
+          "direct_mapping_event_count": 1,
+          "normalized": 80.0,
+          "weighted": 24.0
+        },
+        "single_source_concentration": 0.667,
+        "concentration_penalty": 2.5,
+        "raw_score": 61.5
+      },
+      "direct_mentions": [
+        {
+          "instrument_id": "TPEX:6223",
+          "symbol": "6223",
+          "exchange": "TPEX",
+          "name_zh": "旺矽",
+          "direct_event_count": 1,
+          "latest_mentioned_at": "2026-09-20T18:40:54Z"
+        },
+        {
+          "instrument_id": "TWSE:2330",
+          "symbol": "2330",
+          "exchange": "TWSE",
+          "name_zh": "台積電",
+          "direct_event_count": 1,
+          "latest_mentioned_at": "2026-09-20T18:40:54Z"
+        }
+      ],
+      "supply_chain_candidates": [
+        {
+          "instrument_id": "TPEX:4971",
+          "symbol": "4971",
+          "exchange": "TPEX",
+          "name_zh": "IET-KY",
+          "direct_event_count": 0,
+          "official_evidence_count": 0,
+          "company_rank_score": 1,
+          "latest_mentioned_at": null,
+          "latest_official_at": null
+        },
+        {
+          "instrument_id": "TWSE:2303",
+          "symbol": "2303",
+          "exchange": "TWSE",
+          "name_zh": "聯電",
+          "direct_event_count": 0,
+          "official_evidence_count": 0,
+          "company_rank_score": 1,
+          "latest_mentioned_at": null,
+          "latest_official_at": null
+        },
+        {
+          "instrument_id": "TWSE:2317",
+          "symbol": "2317",
+          "exchange": "TWSE",
+          "name_zh": "鴻海",
+          "direct_event_count": 0,
+          "official_evidence_count": 0,
+          "company_rank_score": 1,
+          "latest_mentioned_at": null,
+          "latest_official_at": null
+        }
+      ],
+      "representative_news": {
+        "cluster_id": "cluster-b7ef0eddef45e11c",
+        "id": "technews-a19ca88e13f0",
+        "title_zh": "CPO 產品結構持續演進，均英精密 FAU 客製檢測從抽樣導入量產測試",
+        "summary": "均英精密持續擴大共同封裝光學（CPO）檢測布局，針對光纖陣列單元（FAU）及其零配件的高精度與客製化檢測需求， [&#8230;]",
+        "source_id": "technews",
+        "source": "TechNews",
+        "published_at": "2026-09-20T06:00:08Z",
+        "canonical_url": "https://technews.tw/2026/09/20/gen-precision-brings-custom-fau-testing-into-mass-production-testing/"
+      }
+    },
+    {
+      "rank": 5,
       "theme_id": "robotics",
       "name_zh": "機器人",
       "heat_score": 46,
@@ -412,69 +538,6 @@
         "source": "DIGITIMES",
         "published_at": "2026-09-20T18:51:41Z",
         "canonical_url": "https://www.digitimes.com.tw/tech/dt/n/shwnws.asp?id=0000769079_PG5L8L7Y8T8DD08GBXM2I"
-      }
-    },
-    {
-      "rank": 5,
-      "theme_id": "statementdog_tag_4082",
-      "name_zh": "iPhone",
-      "heat_score": 39,
-      "summaries": {
-        "event_count": 2,
-        "source_count": 2,
-        "tracking_candidate_count": 0,
-        "taiwan_mapping_count": 12
-      },
-      "heat_reason": {
-        "rule_version": "public_theme_heat_v0.8",
-        "event_component": {
-          "input": 2,
-          "normalized": 33.333,
-          "weighted": 8.333
-        },
-        "source_component": {
-          "input": 2,
-          "normalized": 50.0,
-          "weighted": 12.5
-        },
-        "candidate_component": {
-          "input": 0,
-          "normalized": 0.0,
-          "weighted": 0.0
-        },
-        "mapping_component": {
-          "mapping_count": 12,
-          "direct_mapping_event_count": 0,
-          "normalized": 60.0,
-          "weighted": 18.0
-        },
-        "single_source_concentration": 0.5,
-        "concentration_penalty": 0.0,
-        "raw_score": 38.833
-      },
-      "direct_mentions": [],
-      "supply_chain_candidates": [
-        {
-          "instrument_id": "TPEX:3105",
-          "symbol": "3105",
-          "exchange": "TPEX",
-          "name_zh": "穩懋",
-          "direct_event_count": 0,
-          "official_evidence_count": 0,
-          "company_rank_score": 1,
-          "latest_mentioned_at": null,
-          "latest_official_at": null
-        }
-      ],
-      "representative_news": {
-        "cluster_id": "cluster-e7ef003e2192555c",
-        "id": "digitimes_tw-17aeaaf4583a",
-        "title_zh": "iPhone Duo將接棒18 Pro延續換機潮　電信三雄看好全年買氣",
-        "summary": "蘋果（Apple）今年調整iPhone產品上市節奏，將高階新品拆成兩波推出，iPhone 18 Pro系列率先於9月18日正式開賣，首款折疊機iPhone Duo則接棒在10月23日上市。電信三雄普遍看好，兩波新品接力有助於延續下",
-        "source_id": "digitimes_tw",
-        "source": "DIGITIMES",
-        "published_at": "2026-09-20T18:22:51Z",
-        "canonical_url": "https://www.digitimes.com.tw/tech/dt/n/shwnws.asp?id=0000768917_KH5LXCD80NGE7Q8IOEGNJ"
       }
     }
   ]
