@@ -2,14 +2,14 @@
   "schema_version": "nexus_public_theme_ranking.v0.8",
   "ranking_rule_version": "public_theme_heat_v0.8",
   "company_rule_version": "public_company_evidence_v0.8",
-  "generated_at": "2026-09-21T14:12:41.873468Z",
+  "generated_at": "2026-09-21T19:30:50.704339Z",
   "market_id": "TW_EQUITY",
   "market_scope": [
     "TW_EQUITY"
   ],
   "window_hours": 72,
   "max_themes": 5,
-  "qualified_theme_count": 8,
+  "qualified_theme_count": 6,
   "displayed_theme_count": 5,
   "threshold_note": null,
   "generation_status": "complete",
@@ -18,19 +18,19 @@
   "themes": [
     {
       "rank": 1,
-      "theme_id": "robotics",
-      "name_zh": "機器人",
-      "heat_score": 89,
+      "theme_id": "statementdog_tag_1517",
+      "name_zh": "AI",
+      "heat_score": 74,
       "summaries": {
-        "event_count": 7,
+        "event_count": 9,
         "source_count": 3,
-        "tracking_candidate_count": 4,
-        "taiwan_mapping_count": 26
+        "tracking_candidate_count": 0,
+        "taiwan_mapping_count": 77
       },
       "heat_reason": {
         "rule_version": "public_theme_heat_v0.8",
         "event_component": {
-          "input": 7,
+          "input": 9,
           "normalized": 100.0,
           "weighted": 25.0
         },
@@ -40,28 +40,214 @@
           "weighted": 18.75
         },
         "candidate_component": {
-          "input": 4,
-          "normalized": 100.0,
-          "weighted": 20.0
+          "input": 0,
+          "normalized": 0.0,
+          "weighted": 0.0
         },
         "mapping_component": {
-          "mapping_count": 26,
+          "mapping_count": 77,
           "direct_mapping_event_count": 3,
           "normalized": 100.0,
           "weighted": 30.0
         },
-        "single_source_concentration": 0.714,
-        "concentration_penalty": 4.286,
-        "raw_score": 89.464
+        "single_source_concentration": 0.556,
+        "concentration_penalty": 0.0,
+        "raw_score": 73.75
       },
       "direct_mentions": [
+        {
+          "instrument_id": "TWSE:2455",
+          "symbol": "2455",
+          "exchange": "TWSE",
+          "name_zh": "全新",
+          "direct_event_count": 2,
+          "latest_mentioned_at": "2026-09-21T06:24:35Z"
+        },
+        {
+          "instrument_id": "TWSE:2330",
+          "symbol": "2330",
+          "exchange": "TWSE",
+          "name_zh": "台積電",
+          "direct_event_count": 1,
+          "latest_mentioned_at": "2026-09-21T05:00:28Z"
+        }
+      ],
+      "supply_chain_candidates": [
+        {
+          "instrument_id": "TWSE:2330",
+          "symbol": "2330",
+          "exchange": "TWSE",
+          "name_zh": "台積電",
+          "direct_event_count": 1,
+          "official_evidence_count": 0,
+          "company_rank_score": 5,
+          "latest_mentioned_at": "2026-09-21T05:00:28Z",
+          "latest_official_at": null
+        },
+        {
+          "instrument_id": "TPEX:3081",
+          "symbol": "3081",
+          "exchange": "TPEX",
+          "name_zh": "聯亞",
+          "direct_event_count": 0,
+          "official_evidence_count": 0,
+          "company_rank_score": 1,
+          "latest_mentioned_at": null,
+          "latest_official_at": null
+        },
+        {
+          "instrument_id": "TPEX:3324",
+          "symbol": "3324",
+          "exchange": "TPEX",
+          "name_zh": "雙鴻",
+          "direct_event_count": 0,
+          "official_evidence_count": 0,
+          "company_rank_score": 1,
+          "latest_mentioned_at": null,
+          "latest_official_at": null
+        }
+      ],
+      "representative_news": {
+        "cluster_id": "cluster-2dc126cc1d7c7342",
+        "id": "digitimes_tw-365f37dd58ab",
+        "title_zh": "華擎營運重心轉向AI　永擎伺服器放量、東擎拓邊緣運算",
+        "summary": "繼永擎掛牌上市後，華擎旗下工業電腦廠東擎也將轉上市，華擎集團由板卡跨向AI伺服器、邊緣AI（Edge AI）的布局逐步成形。隨著AI伺服器需求續強，永擎料況改善、AI伺服器出貨放量，加上東擎受惠Edge",
+        "source_id": "digitimes_tw",
+        "source": "DIGITIMES",
+        "published_at": "2026-09-21T18:47:01Z",
+        "canonical_url": "https://www.digitimes.com.tw/tech/dt/n/shwnws.asp?id=0000769221_SUC1CGR63AKVQ60JATDVR"
+      }
+    },
+    {
+      "rank": 2,
+      "theme_id": "cowos_supply_chain",
+      "name_zh": "CoWoS 先進封裝",
+      "heat_score": 53,
+      "summaries": {
+        "event_count": 3,
+        "source_count": 2,
+        "tracking_candidate_count": 0,
+        "taiwan_mapping_count": 4
+      },
+      "heat_reason": {
+        "rule_version": "public_theme_heat_v0.8",
+        "event_component": {
+          "input": 3,
+          "normalized": 50.0,
+          "weighted": 12.5
+        },
+        "source_component": {
+          "input": 2,
+          "normalized": 50.0,
+          "weighted": 12.5
+        },
+        "candidate_component": {
+          "input": 0,
+          "normalized": 0.0,
+          "weighted": 0.0
+        },
+        "mapping_component": {
+          "mapping_count": 4,
+          "direct_mapping_event_count": 2,
+          "normalized": 100.0,
+          "weighted": 30.0
+        },
+        "single_source_concentration": 0.667,
+        "concentration_penalty": 2.5,
+        "raw_score": 52.5
+      },
+      "direct_mentions": [
+        {
+          "instrument_id": "TWSE:2330",
+          "symbol": "2330",
+          "exchange": "TWSE",
+          "name_zh": "台積電",
+          "direct_event_count": 2,
+          "latest_mentioned_at": "2026-09-21T18:47:56Z"
+        },
+        {
+          "instrument_id": "TWSE:2317",
+          "symbol": "2317",
+          "exchange": "TWSE",
+          "name_zh": "鴻海",
+          "direct_event_count": 1,
+          "latest_mentioned_at": "2026-09-21T18:47:56Z"
+        },
+        {
+          "instrument_id": "TWSE:3711",
+          "symbol": "3711",
+          "exchange": "TWSE",
+          "name_zh": "日月光投控",
+          "direct_event_count": 1,
+          "latest_mentioned_at": "2026-09-21T18:47:56Z"
+        }
+      ],
+      "supply_chain_candidates": [],
+      "representative_news": {
+        "cluster_id": "cluster-ac9ba0e23c1bdcb4",
+        "id": "digitimes_tw-57df740aa970",
+        "title_zh": "蔡司半導體探照台灣先進製程與先進封裝的未來",
+        "summary": "生成式AI所引爆的巨量算力需求，激勵一系列AI資料中心的龐大投資與智慧應用大爆發，並全面重構全球半導體產業的營收天花板。包括SEMI在內與幾家大型國際機構的最新預估顯示，拜AI晶片與高頻寬記憶體量價齊揚之賜，2026年全球半導體營收可望突破1兆美元門檻。市場樂觀熱絡的氛圍，使SEMICON Taiwan",
+        "source_id": "digitimes_tw",
+        "source": "DIGITIMES",
+        "published_at": "2026-09-21T19:20:28Z",
+        "canonical_url": "https://www.digitimes.com.tw/tech/dt/n/shwnws.asp?id=0000769262_4H515UK67KJ2D31OORO2C"
+      }
+    },
+    {
+      "rank": 3,
+      "theme_id": "robotics",
+      "name_zh": "機器人",
+      "heat_score": 50,
+      "summaries": {
+        "event_count": 2,
+        "source_count": 2,
+        "tracking_candidate_count": 1,
+        "taiwan_mapping_count": 2
+      },
+      "heat_reason": {
+        "rule_version": "public_theme_heat_v0.8",
+        "event_component": {
+          "input": 2,
+          "normalized": 33.333,
+          "weighted": 8.333
+        },
+        "source_component": {
+          "input": 2,
+          "normalized": 50.0,
+          "weighted": 12.5
+        },
+        "candidate_component": {
+          "input": 1,
+          "normalized": 25.0,
+          "weighted": 5.0
+        },
+        "mapping_component": {
+          "mapping_count": 2,
+          "direct_mapping_event_count": 2,
+          "normalized": 80.0,
+          "weighted": 24.0
+        },
+        "single_source_concentration": 0.5,
+        "concentration_penalty": 0.0,
+        "raw_score": 49.833
+      },
+      "direct_mentions": [
+        {
+          "instrument_id": "TWSE:2027",
+          "symbol": "2027",
+          "exchange": "TWSE",
+          "name_zh": "大成鋼",
+          "direct_event_count": 1,
+          "latest_mentioned_at": "2026-09-21T18:07:10Z"
+        },
         {
           "instrument_id": "TWSE:2025",
           "symbol": "2025",
           "exchange": "TWSE",
           "name_zh": "千興",
-          "direct_event_count": 3,
-          "latest_mentioned_at": "2026-09-21T09:21:38Z"
+          "direct_event_count": 1,
+          "latest_mentioned_at": "2026-09-21T08:10:42Z"
         }
       ],
       "supply_chain_candidates": [
@@ -100,268 +286,38 @@
         }
       ],
       "representative_news": {
-        "cluster_id": "cluster-088760dd4c9c8ffc",
-        "id": "digitimes_tw-6e6ef403161e",
-        "title_zh": "四足機器人「中企吃下逾9成市場」　中大型需求升溫",
-        "summary": "中國除了掌握全球大半人形機器人市場，在四足機器人市場同樣實力雄厚。研調機構Counterpoint Research最新報告指出，2025年全球四足機器人出貨量達4.6萬台，其中，中國企業在全球市場佔比超過90%。2026年四足",
+        "cluster_id": "cluster-64153d7400baa10b",
+        "id": "digitimes_tw-b3437fe02592",
+        "title_zh": "日本新創Atom設AI人形機器人學習資料工廠　尋求2027量產爆發式擴大",
+        "summary": "開發日本製AI人形機器人的新創Atom Humanoid，於日本東京豐洲開設學習資料據點「Atom實體AI工廠」。Business",
         "source_id": "digitimes_tw",
         "source": "DIGITIMES",
-        "published_at": "2026-09-21T09:21:38Z",
-        "canonical_url": "https://www.digitimes.com.tw/tech/dt/n/shwnws.asp?id=0000769260_GO53PU015SLXTZ1O0YR80"
-      }
-    },
-    {
-      "rank": 2,
-      "theme_id": "memory_hbm",
-      "name_zh": "記憶體與 HBM",
-      "heat_score": 88,
-      "summaries": {
-        "event_count": 9,
-        "source_count": 2,
-        "tracking_candidate_count": 7,
-        "taiwan_mapping_count": 5
-      },
-      "heat_reason": {
-        "rule_version": "public_theme_heat_v0.8",
-        "event_component": {
-          "input": 9,
-          "normalized": 100.0,
-          "weighted": 25.0
-        },
-        "source_component": {
-          "input": 2,
-          "normalized": 50.0,
-          "weighted": 12.5
-        },
-        "candidate_component": {
-          "input": 7,
-          "normalized": 100.0,
-          "weighted": 20.0
-        },
-        "mapping_component": {
-          "mapping_count": 5,
-          "direct_mapping_event_count": 4,
-          "normalized": 100.0,
-          "weighted": 30.0
-        },
-        "single_source_concentration": 0.556,
-        "concentration_penalty": 0.0,
-        "raw_score": 87.5
-      },
-      "direct_mentions": [
-        {
-          "instrument_id": "TWSE:2027",
-          "symbol": "2027",
-          "exchange": "TWSE",
-          "name_zh": "大成鋼",
-          "direct_event_count": 4,
-          "latest_mentioned_at": "2026-09-21T07:10:05Z"
-        },
-        {
-          "instrument_id": "TWSE:2030",
-          "symbol": "2030",
-          "exchange": "TWSE",
-          "name_zh": "彰源",
-          "direct_event_count": 1,
-          "latest_mentioned_at": "2026-09-20T18:29:21Z"
-        }
-      ],
-      "supply_chain_candidates": [
-        {
-          "instrument_id": "TPEX:8299",
-          "symbol": "8299",
-          "exchange": "TPEX",
-          "name_zh": "群聯",
-          "direct_event_count": 0,
-          "official_evidence_count": 0,
-          "company_rank_score": 1,
-          "latest_mentioned_at": null,
-          "latest_official_at": null
-        },
-        {
-          "instrument_id": "TWSE:2344",
-          "symbol": "2344",
-          "exchange": "TWSE",
-          "name_zh": "華邦電",
-          "direct_event_count": 0,
-          "official_evidence_count": 0,
-          "company_rank_score": 1,
-          "latest_mentioned_at": null,
-          "latest_official_at": null
-        },
-        {
-          "instrument_id": "TWSE:2408",
-          "symbol": "2408",
-          "exchange": "TWSE",
-          "name_zh": "南亞科",
-          "direct_event_count": 0,
-          "official_evidence_count": 0,
-          "company_rank_score": 1,
-          "latest_mentioned_at": null,
-          "latest_official_at": null
-        }
-      ],
-      "representative_news": {
-        "cluster_id": "cluster-a5bbfc2aad2d5131",
-        "id": "digitimes_tw-5ced42465f33",
-        "title_zh": "DRAM如何分工製造？　SK海力士探索記憶體與邏輯新架構",
-        "summary": "人工智慧（AI）對記憶體頻寬與能源效率的要求提高，競爭焦點也從單純微縮製程，延伸至記憶體、邏輯電路與封裝的共同設計。SK海力士（SK Hynix）正探索下一代DRAM的製程分工，提出將負責資料儲存的記憶體單",
-        "source_id": "digitimes_tw",
-        "source": "DIGITIMES",
-        "published_at": "2026-09-20T18:47:51Z",
-        "canonical_url": "https://www.digitimes.com.tw/tech/dt/n/shwnws.asp?id=0000769078_RYH149LI6CUCVJ9JISWG6"
-      }
-    },
-    {
-      "rank": 3,
-      "theme_id": "pcb_abf_hdi",
-      "name_zh": "PCB／ABF／HDI",
-      "heat_score": 83,
-      "summaries": {
-        "event_count": 6,
-        "source_count": 2,
-        "tracking_candidate_count": 3,
-        "taiwan_mapping_count": 9
-      },
-      "heat_reason": {
-        "rule_version": "public_theme_heat_v0.8",
-        "event_component": {
-          "input": 6,
-          "normalized": 100.0,
-          "weighted": 25.0
-        },
-        "source_component": {
-          "input": 2,
-          "normalized": 50.0,
-          "weighted": 12.5
-        },
-        "candidate_component": {
-          "input": 3,
-          "normalized": 75.0,
-          "weighted": 15.0
-        },
-        "mapping_component": {
-          "mapping_count": 9,
-          "direct_mapping_event_count": 3,
-          "normalized": 100.0,
-          "weighted": 30.0
-        },
-        "single_source_concentration": 0.5,
-        "concentration_penalty": 0.0,
-        "raw_score": 82.5
-      },
-      "direct_mentions": [
-        {
-          "instrument_id": "TWSE:4958",
-          "symbol": "4958",
-          "exchange": "TWSE",
-          "name_zh": "臻鼎-KY",
-          "direct_event_count": 1,
-          "latest_mentioned_at": "2026-09-21T05:37:27Z"
-        },
-        {
-          "instrument_id": "TWSE:3037",
-          "symbol": "3037",
-          "exchange": "TWSE",
-          "name_zh": "欣興",
-          "direct_event_count": 1,
-          "latest_mentioned_at": "2026-09-21T02:00:04Z"
-        },
-        {
-          "instrument_id": "TWSE:3189",
-          "symbol": "3189",
-          "exchange": "TWSE",
-          "name_zh": "景碩",
-          "direct_event_count": 1,
-          "latest_mentioned_at": "2026-09-21T02:00:04Z"
-        },
-        {
-          "instrument_id": "TWSE:8046",
-          "symbol": "8046",
-          "exchange": "TWSE",
-          "name_zh": "南電",
-          "direct_event_count": 1,
-          "latest_mentioned_at": "2026-09-21T02:00:04Z"
-        },
-        {
-          "instrument_id": "TWSE:2308",
-          "symbol": "2308",
-          "exchange": "TWSE",
-          "name_zh": "台達電",
-          "direct_event_count": 1,
-          "latest_mentioned_at": "2026-09-21T01:44:32Z"
-        },
-        {
-          "instrument_id": "TWSE:2317",
-          "symbol": "2317",
-          "exchange": "TWSE",
-          "name_zh": "鴻海",
-          "direct_event_count": 1,
-          "latest_mentioned_at": "2026-09-21T01:44:32Z"
-        },
-        {
-          "instrument_id": "TWSE:2330",
-          "symbol": "2330",
-          "exchange": "TWSE",
-          "name_zh": "台積電",
-          "direct_event_count": 1,
-          "latest_mentioned_at": "2026-09-21T01:44:32Z"
-        },
-        {
-          "instrument_id": "TWSE:3711",
-          "symbol": "3711",
-          "exchange": "TWSE",
-          "name_zh": "日月光投控",
-          "direct_event_count": 1,
-          "latest_mentioned_at": "2026-09-21T01:44:32Z"
-        }
-      ],
-      "supply_chain_candidates": [
-        {
-          "instrument_id": "TWSE:2368",
-          "symbol": "2368",
-          "exchange": "TWSE",
-          "name_zh": "金像電",
-          "direct_event_count": 0,
-          "official_evidence_count": 0,
-          "company_rank_score": 1,
-          "latest_mentioned_at": null,
-          "latest_official_at": null
-        }
-      ],
-      "representative_news": {
-        "cluster_id": "cluster-ffbae0174f03a4af",
-        "id": "cnyes-481df58bb30a",
-        "title_zh": "〈焦點股〉外資指ABF載板供需缺口擴大 欣興獲買盤簇擁重返千金",
-        "summary": "外資高盛報告指出ABF載板供需缺口擴大之中，明後年缺口尤甚，刺激載板欣興(3037-TW)、南電(8046-TW)及景碩(3189-TW)，其中，欣興上漲超過5.5早盤最高達1055元。  PCB及IC載板廠欣興最新營收資訊，2026年8月營收以177.46億元創新高，月增9.18%，年增56.26",
-        "source_id": "cnyes",
-        "source": "鉅亨網 Cnyes",
-        "published_at": "2026-09-21T02:00:04Z",
-        "canonical_url": "https://news.cnyes.com/news/id/6611712"
+        "published_at": "2026-09-21T18:07:10Z",
+        "canonical_url": "https://www.digitimes.com.tw/tech/dt/n/shwnws.asp?id=0000769238_WXK3ZDBD2172IK90RGZ2S"
       }
     },
     {
       "rank": 4,
-      "theme_id": "statementdog_tag_1517",
-      "name_zh": "AI",
-      "heat_score": 80,
+      "theme_id": "energy_grid",
+      "name_zh": "能源與電網",
+      "heat_score": 41,
       "summaries": {
-        "event_count": 24,
-        "source_count": 4,
+        "event_count": 3,
+        "source_count": 2,
         "tracking_candidate_count": 0,
-        "taiwan_mapping_count": 118
+        "taiwan_mapping_count": 3
       },
       "heat_reason": {
         "rule_version": "public_theme_heat_v0.8",
         "event_component": {
-          "input": 24,
-          "normalized": 100.0,
-          "weighted": 25.0
+          "input": 3,
+          "normalized": 50.0,
+          "weighted": 12.5
         },
         "source_component": {
-          "input": 4,
-          "normalized": 100.0,
-          "weighted": 25.0
+          "input": 2,
+          "normalized": 50.0,
+          "weighted": 12.5
         },
         "candidate_component": {
           "input": 0,
@@ -369,66 +325,22 @@
           "weighted": 0.0
         },
         "mapping_component": {
-          "mapping_count": 118,
-          "direct_mapping_event_count": 8,
-          "normalized": 100.0,
-          "weighted": 30.0
+          "mapping_count": 3,
+          "direct_mapping_event_count": 0,
+          "normalized": 60.0,
+          "weighted": 18.0
         },
-        "single_source_concentration": 0.5,
-        "concentration_penalty": 0.0,
-        "raw_score": 80.0
+        "single_source_concentration": 0.667,
+        "concentration_penalty": 2.5,
+        "raw_score": 40.5
       },
-      "direct_mentions": [
-        {
-          "instrument_id": "TWSE:2455",
-          "symbol": "2455",
-          "exchange": "TWSE",
-          "name_zh": "全新",
-          "direct_event_count": 4,
-          "latest_mentioned_at": "2026-09-21T13:36:00Z"
-        },
-        {
-          "instrument_id": "TWSE:2330",
-          "symbol": "2330",
-          "exchange": "TWSE",
-          "name_zh": "台積電",
-          "direct_event_count": 2,
-          "latest_mentioned_at": "2026-09-21T05:00:28Z"
-        },
-        {
-          "instrument_id": "TWSE:2030",
-          "symbol": "2030",
-          "exchange": "TWSE",
-          "name_zh": "彰源",
-          "direct_event_count": 2,
-          "latest_mentioned_at": "2026-09-21T03:47:50Z"
-        },
-        {
-          "instrument_id": "TWSE:2025",
-          "symbol": "2025",
-          "exchange": "TWSE",
-          "name_zh": "千興",
-          "direct_event_count": 1,
-          "latest_mentioned_at": "2026-09-21T03:47:50Z"
-        }
-      ],
+      "direct_mentions": [],
       "supply_chain_candidates": [
         {
-          "instrument_id": "TWSE:2330",
-          "symbol": "2330",
+          "instrument_id": "TWSE:1503",
+          "symbol": "1503",
           "exchange": "TWSE",
-          "name_zh": "台積電",
-          "direct_event_count": 2,
-          "official_evidence_count": 0,
-          "company_rank_score": 9,
-          "latest_mentioned_at": "2026-09-21T05:00:28Z",
-          "latest_official_at": null
-        },
-        {
-          "instrument_id": "TPEX:3081",
-          "symbol": "3081",
-          "exchange": "TPEX",
-          "name_zh": "聯亞",
+          "name_zh": "士電",
           "direct_event_count": 0,
           "official_evidence_count": 0,
           "company_rank_score": 1,
@@ -436,10 +348,21 @@
           "latest_official_at": null
         },
         {
-          "instrument_id": "TPEX:3324",
-          "symbol": "3324",
-          "exchange": "TPEX",
-          "name_zh": "雙鴻",
+          "instrument_id": "TWSE:1513",
+          "symbol": "1513",
+          "exchange": "TWSE",
+          "name_zh": "中興電",
+          "direct_event_count": 0,
+          "official_evidence_count": 0,
+          "company_rank_score": 1,
+          "latest_mentioned_at": null,
+          "latest_official_at": null
+        },
+        {
+          "instrument_id": "TWSE:1519",
+          "symbol": "1519",
+          "exchange": "TWSE",
+          "name_zh": "華城",
           "direct_event_count": 0,
           "official_evidence_count": 0,
           "company_rank_score": 1,
@@ -448,33 +371,33 @@
         }
       ],
       "representative_news": {
-        "cluster_id": "cluster-fd7316958401fea0",
-        "id": "yahoo_finance_tw-e433b07db633",
-        "title_zh": "構建「以客戶為中心」的「華為+夥伴」協同體系 讓AI惠及千行百業",
-        "summary": "在華為全聯接大會2026期間，華為高級副總裁兼企業銷售總裁陳雷發表了「攜手夥伴，讓AI惠及千行百業」主題演講，正式對外發佈全新「SCALE」夥伴支持體系。華為希望借助該體系，助力夥伴推動客戶智能化從單",
-        "source_id": "yahoo_finance_tw",
-        "source": "Yahoo Finance Taiwan",
-        "published_at": "2026-09-21T13:36:00Z",
-        "canonical_url": "https://tw.stock.yahoo.com/news/%E6%A7%8B%E5%BB%BA-%E4%BB%A5%E5%AE%A2%E6%88%B6%E7%82%BA%E4%B8%AD%E5%BF%83-%E7%9A%84-%E8%8F%AF%E7%82%BA-%E5%A4%A5%E4%BC%B4-133600269.html"
+        "cluster_id": "cluster-1d3aa326ea31e41c",
+        "id": "digitimes_tw-949313579fff",
+        "title_zh": "【動物農莊】南韓半導體大擴產　韓電的電網救命錢誰來出？",
+        "summary": "南韓半導體大擴產，現在碰到的新難題不是「要不要蓋Fab」，而是「電網誰先買單」。南韓電力公社（KEPCO；以下簡稱韓電）希望三星電子（Samsung Electronics）與SK海力士（SK",
+        "source_id": "digitimes_tw",
+        "source": "DIGITIMES",
+        "published_at": "2026-09-21T18:11:25Z",
+        "canonical_url": "https://www.digitimes.com.tw/tech/dt/n/shwnws.asp?id=0000769037_38517N0N2KG9YE8S0S1QQ"
       }
     },
     {
       "rank": 5,
       "theme_id": "optical_cpo",
       "name_zh": "矽光子 CPO",
-      "heat_score": 74,
+      "heat_score": 39,
       "summaries": {
-        "event_count": 4,
+        "event_count": 2,
         "source_count": 2,
-        "tracking_candidate_count": 3,
-        "taiwan_mapping_count": 21
+        "tracking_candidate_count": 0,
+        "taiwan_mapping_count": 20
       },
       "heat_reason": {
         "rule_version": "public_theme_heat_v0.8",
         "event_component": {
-          "input": 4,
-          "normalized": 66.667,
-          "weighted": 16.667
+          "input": 2,
+          "normalized": 33.333,
+          "weighted": 8.333
         },
         "source_component": {
           "input": 2,
@@ -482,46 +405,21 @@
           "weighted": 12.5
         },
         "candidate_component": {
-          "input": 3,
-          "normalized": 75.0,
-          "weighted": 15.0
+          "input": 0,
+          "normalized": 0.0,
+          "weighted": 0.0
         },
         "mapping_component": {
-          "mapping_count": 21,
-          "direct_mapping_event_count": 2,
-          "normalized": 100.0,
-          "weighted": 30.0
+          "mapping_count": 20,
+          "direct_mapping_event_count": 0,
+          "normalized": 60.0,
+          "weighted": 18.0
         },
         "single_source_concentration": 0.5,
         "concentration_penalty": 0.0,
-        "raw_score": 74.167
+        "raw_score": 38.833
       },
-      "direct_mentions": [
-        {
-          "instrument_id": "TWSE:6456",
-          "symbol": "6456",
-          "exchange": "TWSE",
-          "name_zh": "GIS-KY",
-          "direct_event_count": 1,
-          "latest_mentioned_at": "2026-09-21T03:30:18Z"
-        },
-        {
-          "instrument_id": "TPEX:6223",
-          "symbol": "6223",
-          "exchange": "TPEX",
-          "name_zh": "旺矽",
-          "direct_event_count": 1,
-          "latest_mentioned_at": "2026-09-20T18:40:54Z"
-        },
-        {
-          "instrument_id": "TWSE:2330",
-          "symbol": "2330",
-          "exchange": "TWSE",
-          "name_zh": "台積電",
-          "direct_event_count": 1,
-          "latest_mentioned_at": "2026-09-20T18:40:54Z"
-        }
-      ],
+      "direct_mentions": [],
       "supply_chain_candidates": [
         {
           "instrument_id": "TPEX:3289",
@@ -558,14 +456,14 @@
         }
       ],
       "representative_news": {
-        "cluster_id": "cluster-ea96890ea4bb4251",
-        "id": "cnyes-b65a71931187",
-        "title_zh": "〈焦點股〉GIS-KY布局矽光子、AR高毛利領域 盤中放量漲停",
-        "summary": "觸控面板廠GIS-KY(6456-TW)跨足高階光通訊與AR等高毛利新業務，並於近期追加近34億元資本支出，今(21)日股價強勁，早盤以66.7元開出後，在買盤湧入下迅速攻上漲停價71.9元，成交量逾1.1萬張，較前一日放大近10倍。  GIS-KY董事會日前通過代台灣子公司英特盛科技與越南子公司新",
-        "source_id": "cnyes",
-        "source": "鉅亨網 Cnyes",
-        "published_at": "2026-09-21T03:30:18Z",
-        "canonical_url": "https://news.cnyes.com/news/id/6607938"
+        "cluster_id": "cluster-ad68ff11e4d42671",
+        "id": "digitimes_tw-61a39759a63b",
+        "title_zh": "光通訊供不應求　穩懋擴廠、砸8億元購入ASML DUV機台",
+        "summary": "AI資料中心的運算需求激增，「傳輸」成為算力發展的瓶頸，市場技術走向光銅並進、光通訊朝向800G、1.6T加速前進，化合物半導體晶圓代工廠穩懋規劃擴充接收端（PD）、發射端（LD）的產能，並與客戶合作開發200G元件。穩懋近期於8月26日及9月16日公告，訂購機器設備和廠務工程金額共約新台幣11.6億元，其中斥資近8.",
+        "source_id": "digitimes_tw",
+        "source": "DIGITIMES",
+        "published_at": "2026-09-21T18:33:13Z",
+        "canonical_url": "https://www.digitimes.com.tw/tech/dt/n/shwnws.asp?id=0000769227_9ZW3SHRN1NUZ508J4HWCG"
       }
     }
   ]
