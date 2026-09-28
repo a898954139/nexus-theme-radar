@@ -2,16 +2,16 @@
   "schema_version": "nexus_public_theme_ranking.v0.8",
   "ranking_rule_version": "public_theme_heat_v0.8",
   "company_rule_version": "public_company_evidence_v0.8",
-  "generated_at": "2026-09-28T00:50:27.911764Z",
+  "generated_at": "2026-09-28T06:57:11.171480Z",
   "market_id": "TW_EQUITY",
   "market_scope": [
     "TW_EQUITY"
   ],
   "window_hours": 72,
   "max_themes": 5,
-  "qualified_theme_count": 2,
-  "displayed_theme_count": 2,
-  "threshold_note": "目前僅 2 個題材達到上榜門檻",
+  "qualified_theme_count": 5,
+  "displayed_theme_count": 5,
+  "threshold_note": null,
   "generation_status": "complete",
   "failed_source_count": 0,
   "official_evidence_status": "available",
@@ -20,24 +20,24 @@
       "rank": 1,
       "theme_id": "statementdog_tag_1517",
       "name_zh": "AI",
-      "heat_score": 71,
+      "heat_score": 78,
       "summaries": {
-        "event_count": 9,
-        "source_count": 3,
+        "event_count": 13,
+        "source_count": 4,
         "tracking_candidate_count": 0,
-        "taiwan_mapping_count": 62
+        "taiwan_mapping_count": 56
       },
       "heat_reason": {
         "rule_version": "public_theme_heat_v0.8",
         "event_component": {
-          "input": 9,
+          "input": 13,
           "normalized": 100.0,
           "weighted": 25.0
         },
         "source_component": {
-          "input": 3,
-          "normalized": 75.0,
-          "weighted": 18.75
+          "input": 4,
+          "normalized": 100.0,
+          "weighted": 25.0
         },
         "candidate_component": {
           "input": 0,
@@ -45,14 +45,14 @@
           "weighted": 0.0
         },
         "mapping_component": {
-          "mapping_count": 62,
-          "direct_mapping_event_count": 3,
+          "mapping_count": 56,
+          "direct_mapping_event_count": 8,
           "normalized": 100.0,
           "weighted": 30.0
         },
-        "single_source_concentration": 0.667,
-        "concentration_penalty": 2.5,
-        "raw_score": 71.25
+        "single_source_concentration": 0.643,
+        "concentration_penalty": 1.607,
+        "raw_score": 78.393
       },
       "direct_mentions": [
         {
@@ -60,8 +60,40 @@
           "symbol": "2027",
           "exchange": "TWSE",
           "name_zh": "大成鋼",
-          "direct_event_count": 2,
-          "latest_mentioned_at": "2026-09-27T06:10:03Z"
+          "direct_event_count": 4,
+          "latest_mentioned_at": "2026-09-28T04:11:36Z"
+        },
+        {
+          "instrument_id": "TPEX:5347",
+          "symbol": "5347",
+          "exchange": "TPEX",
+          "name_zh": "世界",
+          "direct_event_count": 1,
+          "latest_mentioned_at": "2026-09-28T03:59:00Z"
+        },
+        {
+          "instrument_id": "TWSE:2015",
+          "symbol": "2015",
+          "exchange": "TWSE",
+          "name_zh": "豐興",
+          "direct_event_count": 1,
+          "latest_mentioned_at": "2026-09-28T03:35:15Z"
+        },
+        {
+          "instrument_id": "TWSE:2025",
+          "symbol": "2025",
+          "exchange": "TWSE",
+          "name_zh": "千興",
+          "direct_event_count": 1,
+          "latest_mentioned_at": "2026-09-28T02:31:23Z"
+        },
+        {
+          "instrument_id": "TWSE:2032",
+          "symbol": "2032",
+          "exchange": "TWSE",
+          "name_zh": "新鋼",
+          "direct_event_count": 1,
+          "latest_mentioned_at": "2026-09-28T02:31:23Z"
         },
         {
           "instrument_id": "TWSE:2340",
@@ -116,24 +148,266 @@
         }
       ],
       "representative_news": {
-        "cluster_id": "cluster-3afd6fb4f67cf28b",
-        "id": "cnyes-a9815791b69b",
-        "title_zh": "Meta首席AI長揭Muse「第二大腦」願景！上線12天下載280萬次",
-        "summary": "Meta AI長Alexandr Wang表示，Muse定位為「第二大腦」，協助一般人把想法付諸實現。&#10;Muse上線12天美加下載280萬次，9月19日單日下載26.4萬次。&#10;Muse走紅帶動Meta市值5個交易日增2340億美元，也讓Wang的Scale AI交易再受關注。",
+        "cluster_id": "cluster-2dad0ab15e565e1e",
+        "id": "cnyes-552ce2a7310e",
+        "title_zh": "〈VSMC開幕〉NXP：VSMC鎖定40至130奈米 將成Physical AI製造基地",
+        "summary": "NXP執行長Sotomayor出席VSMC新加坡12吋晶圓廠開幕，宣布新廠正式啟用。&#10;新廠聚焦130奈米至40奈米，生產混合訊號、電源管理及類比產品，支援NXP成熟製程需求與Physical AI。&#10;這是NXP自2015年收購Freescale以來最大投資，並強化全球供應鏈韌性與新加坡半導體生態系。",
         "source_id": "cnyes",
         "source": "鉅亨網 Cnyes",
-        "published_at": "2026-09-27T12:10:03Z",
-        "canonical_url": "https://news.cnyes.com/news/id/6616738"
+        "published_at": "2026-09-28T03:35:15Z",
+        "canonical_url": "https://news.cnyes.com/news/id/6617054"
       }
     },
     {
       "rank": 2,
-      "theme_id": "memory_hbm",
-      "name_zh": "記憶體與 HBM",
-      "heat_score": 51,
+      "theme_id": "pcb_abf_hdi",
+      "name_zh": "PCB／ABF／HDI",
+      "heat_score": 55,
       "summaries": {
         "event_count": 2,
-        "source_count": 3,
+        "source_count": 2,
+        "tracking_candidate_count": 2,
+        "taiwan_mapping_count": 4
+      },
+      "heat_reason": {
+        "rule_version": "public_theme_heat_v0.8",
+        "event_component": {
+          "input": 2,
+          "normalized": 33.333,
+          "weighted": 8.333
+        },
+        "source_component": {
+          "input": 2,
+          "normalized": 50.0,
+          "weighted": 12.5
+        },
+        "candidate_component": {
+          "input": 2,
+          "normalized": 50.0,
+          "weighted": 10.0
+        },
+        "mapping_component": {
+          "mapping_count": 4,
+          "direct_mapping_event_count": 1,
+          "normalized": 80.0,
+          "weighted": 24.0
+        },
+        "single_source_concentration": 0.5,
+        "concentration_penalty": 0.0,
+        "raw_score": 54.833
+      },
+      "direct_mentions": [
+        {
+          "instrument_id": "TWSE:2030",
+          "symbol": "2030",
+          "exchange": "TWSE",
+          "name_zh": "彰源",
+          "direct_event_count": 1,
+          "latest_mentioned_at": "2026-09-28T06:10:04Z"
+        }
+      ],
+      "supply_chain_candidates": [],
+      "representative_news": {
+        "cluster_id": "cluster-09dbeb881924224c",
+        "id": "yahoo_finance_tw-3c323dc572cb",
+        "title_zh": "「10年AI需求能見度」遭質疑！分析師示警：記憶體、ABF載板成關鍵瓶頸",
+        "summary": "Mr. P指超大型雲端業者難準確預測2年後需求，10年能見度說法不可信，AI資本支出未必可長期延續。 他估明年雲端業者資本支出達1.1兆至1.2兆美元，記憶體占50%至60%；三星已收到10年合約要求",
+        "source_id": "yahoo_finance_tw",
+        "source": "Yahoo Finance Taiwan",
+        "published_at": "2026-09-28T06:10:04Z",
+        "canonical_url": "https://tw.stock.yahoo.com/news/10%E5%B9%B4ai%E9%9C%80%E6%B1%82%E8%83%BD%E8%A6%8B%E5%BA%A6-%E9%81%AD%E8%B3%AA%E7%96%91-%E5%88%86%E6%9E%90%E5%B8%AB%E7%A4%BA%E8%AD%A6-%E8%A8%98%E6%86%B6%E9%AB%94-abf%E8%BC%89%E6%9D%BF%E6%88%90%E9%97%9C%E9%8D%B5%E7%93%B6%E9%A0%B8-061004375.html"
+      }
+    },
+    {
+      "rank": 3,
+      "theme_id": "robotics",
+      "name_zh": "機器人",
+      "heat_score": 54,
+      "summaries": {
+        "event_count": 4,
+        "source_count": 2,
+        "tracking_candidate_count": 0,
+        "taiwan_mapping_count": 27
+      },
+      "heat_reason": {
+        "rule_version": "public_theme_heat_v0.8",
+        "event_component": {
+          "input": 4,
+          "normalized": 66.667,
+          "weighted": 16.667
+        },
+        "source_component": {
+          "input": 2,
+          "normalized": 50.0,
+          "weighted": 12.5
+        },
+        "candidate_component": {
+          "input": 0,
+          "normalized": 0.0,
+          "weighted": 0.0
+        },
+        "mapping_component": {
+          "mapping_count": 27,
+          "direct_mapping_event_count": 3,
+          "normalized": 100.0,
+          "weighted": 30.0
+        },
+        "single_source_concentration": 0.75,
+        "concentration_penalty": 5.625,
+        "raw_score": 53.542
+      },
+      "direct_mentions": [
+        {
+          "instrument_id": "TWSE:2455",
+          "symbol": "2455",
+          "exchange": "TWSE",
+          "name_zh": "全新",
+          "direct_event_count": 1,
+          "latest_mentioned_at": "2026-09-28T06:30:31Z"
+        },
+        {
+          "instrument_id": "TWSE:2027",
+          "symbol": "2027",
+          "exchange": "TWSE",
+          "name_zh": "大成鋼",
+          "direct_event_count": 1,
+          "latest_mentioned_at": "2026-09-28T06:00:47Z"
+        },
+        {
+          "instrument_id": "TWSE:2317",
+          "symbol": "2317",
+          "exchange": "TWSE",
+          "name_zh": "鴻海",
+          "direct_event_count": 1,
+          "latest_mentioned_at": "2026-09-27T02:16:39Z"
+        }
+      ],
+      "supply_chain_candidates": [
+        {
+          "instrument_id": "TWSE:2317",
+          "symbol": "2317",
+          "exchange": "TWSE",
+          "name_zh": "鴻海",
+          "direct_event_count": 1,
+          "official_evidence_count": 0,
+          "company_rank_score": 5,
+          "latest_mentioned_at": "2026-09-27T02:16:39Z",
+          "latest_official_at": null
+        },
+        {
+          "instrument_id": "TPEX:3379",
+          "symbol": "3379",
+          "exchange": "TPEX",
+          "name_zh": "彬台",
+          "direct_event_count": 0,
+          "official_evidence_count": 0,
+          "company_rank_score": 1,
+          "latest_mentioned_at": null,
+          "latest_official_at": null
+        },
+        {
+          "instrument_id": "TPEX:3577",
+          "symbol": "3577",
+          "exchange": "TPEX",
+          "name_zh": "泓格",
+          "direct_event_count": 0,
+          "official_evidence_count": 0,
+          "company_rank_score": 1,
+          "latest_mentioned_at": null,
+          "latest_official_at": null
+        }
+      ],
+      "representative_news": {
+        "cluster_id": "cluster-085f35abd23aec7d",
+        "id": "technews-9b8a5635f3ce",
+        "title_zh": "11 秒完成 10 次後空翻，MIT 研發 AI 微型機器人速度狂飆 450%",
+        "summary": "美國麻省理工學院（MIT）研究團隊近日取得重大突破，成功開發出一套全新的 AI 控制系統，使微型飛行機器人的移 [&#8230;]",
+        "source_id": "technews",
+        "source": "TechNews",
+        "published_at": "2026-09-28T06:30:31Z",
+        "canonical_url": "https://technews.tw/2026/09/28/mit-ai-micro-robots/"
+      }
+    },
+    {
+      "rank": 4,
+      "theme_id": "optical_cpo",
+      "name_zh": "矽光子 CPO",
+      "heat_score": 50,
+      "summaries": {
+        "event_count": 2,
+        "source_count": 2,
+        "tracking_candidate_count": 1,
+        "taiwan_mapping_count": 21
+      },
+      "heat_reason": {
+        "rule_version": "public_theme_heat_v0.8",
+        "event_component": {
+          "input": 2,
+          "normalized": 33.333,
+          "weighted": 8.333
+        },
+        "source_component": {
+          "input": 2,
+          "normalized": 50.0,
+          "weighted": 12.5
+        },
+        "candidate_component": {
+          "input": 1,
+          "normalized": 25.0,
+          "weighted": 5.0
+        },
+        "mapping_component": {
+          "mapping_count": 21,
+          "direct_mapping_event_count": 1,
+          "normalized": 80.0,
+          "weighted": 24.0
+        },
+        "single_source_concentration": 0.5,
+        "concentration_penalty": 0.0,
+        "raw_score": 49.833
+      },
+      "direct_mentions": [
+        {
+          "instrument_id": "TWSE:2033",
+          "symbol": "2033",
+          "exchange": "TWSE",
+          "name_zh": "佳大",
+          "direct_event_count": 1,
+          "latest_mentioned_at": "2026-09-27T00:53:19Z"
+        }
+      ],
+      "supply_chain_candidates": [
+        {
+          "instrument_id": "TWSE:2317",
+          "symbol": "2317",
+          "exchange": "TWSE",
+          "name_zh": "鴻海",
+          "direct_event_count": 0,
+          "official_evidence_count": 0,
+          "company_rank_score": 1,
+          "latest_mentioned_at": null,
+          "latest_official_at": null
+        }
+      ],
+      "representative_news": {
+        "cluster_id": "cluster-b05bffc01f0194d7",
+        "id": "cnyes-f5b6556734da",
+        "title_zh": "英特爾跨入Micro LED CPO 台LED廠迎AI矽光子商機",
+        "summary": "英特爾與友達合作Micro LED CPO，將Micro LED嵌入IC封裝玻璃基板，以TGV實現光電互連。&#10;Micro LED具耐熱120度、壽命逾3萬小時，單通道功耗僅矽光方案五分之一，模組功耗可由30瓦降至1.6瓦。&#10;富采、鼎元、錼創、光鋐加速布局；研調估CPO市場2033年達19.6億美元。",
+        "source_id": "cnyes",
+        "source": "鉅亨網 Cnyes",
+        "published_at": "2026-09-27T00:53:19Z",
+        "canonical_url": "https://news.cnyes.com/news/id/6615424"
+      }
+    },
+    {
+      "rank": 5,
+      "theme_id": "memory_hbm",
+      "name_zh": "記憶體與 HBM",
+      "heat_score": 45,
+      "summaries": {
+        "event_count": 2,
+        "source_count": 2,
         "tracking_candidate_count": 0,
         "taiwan_mapping_count": 4
       },
@@ -145,9 +419,9 @@
           "weighted": 8.333
         },
         "source_component": {
-          "input": 3,
-          "normalized": 75.0,
-          "weighted": 18.75
+          "input": 2,
+          "normalized": 50.0,
+          "weighted": 12.5
         },
         "candidate_component": {
           "input": 0,
@@ -160,9 +434,9 @@
           "normalized": 80.0,
           "weighted": 24.0
         },
-        "single_source_concentration": 0.333,
+        "single_source_concentration": 0.5,
         "concentration_penalty": 0.0,
-        "raw_score": 51.083
+        "raw_score": 44.833
       },
       "direct_mentions": [
         {
@@ -210,7 +484,7 @@
         }
       ],
       "representative_news": {
-        "cluster_id": "cluster-cbf3e07189158d37",
+        "cluster_id": "cluster-ef3cd358be7bb502",
         "id": "cnyes-2cac45e7f1f5",
         "title_zh": "全球AI交易考驗將來臨！三星與SK海力士第3季財報面臨「極高預期 」、記憶體漲價成焦點",
         "summary": "三星、SK海力士第3季財報在即，市場估兩家公司營業利益合計近189.9兆韓元。&#10;分析師預期近3月下修，主因韓元升值，市場也關注記憶體漲勢與LTA影響。&#10;HBM4競賽升溫，三星拚2027年底供樣，晶圓代工第3季有望轉盈。",
