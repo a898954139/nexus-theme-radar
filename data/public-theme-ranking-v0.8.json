@@ -2,14 +2,14 @@
   "schema_version": "nexus_public_theme_ranking.v0.8",
   "ranking_rule_version": "public_theme_heat_v0.8",
   "company_rule_version": "public_company_evidence_v0.8",
-  "generated_at": "2026-09-29T20:49:31.203321Z",
+  "generated_at": "2026-09-30T00:29:29.604824Z",
   "market_id": "TW_EQUITY",
   "market_scope": [
     "TW_EQUITY"
   ],
   "window_hours": 72,
   "max_themes": 5,
-  "qualified_theme_count": 8,
+  "qualified_theme_count": 10,
   "displayed_theme_count": 5,
   "threshold_note": null,
   "generation_status": "complete",
@@ -20,9 +20,9 @@
       "rank": 1,
       "theme_id": "memory_hbm",
       "name_zh": "記憶體與 HBM",
-      "heat_score": 81,
+      "heat_score": 84,
       "summaries": {
-        "event_count": 9,
+        "event_count": 10,
         "source_count": 2,
         "tracking_candidate_count": 5,
         "taiwan_mapping_count": 21
@@ -30,7 +30,7 @@
       "heat_reason": {
         "rule_version": "public_theme_heat_v0.8",
         "event_component": {
-          "input": 9,
+          "input": 10,
           "normalized": 100.0,
           "weighted": 25.0
         },
@@ -50,9 +50,9 @@
           "normalized": 100.0,
           "weighted": 30.0
         },
-        "single_source_concentration": 0.778,
-        "concentration_penalty": 6.667,
-        "raw_score": 80.833
+        "single_source_concentration": 0.7,
+        "concentration_penalty": 3.75,
+        "raw_score": 83.75
       },
       "direct_mentions": [
         {
@@ -124,15 +124,15 @@
       "name_zh": "AI",
       "heat_score": 80,
       "summaries": {
-        "event_count": 22,
+        "event_count": 20,
         "source_count": 4,
         "tracking_candidate_count": 0,
-        "taiwan_mapping_count": 108
+        "taiwan_mapping_count": 107
       },
       "heat_reason": {
         "rule_version": "public_theme_heat_v0.8",
         "event_component": {
-          "input": 22,
+          "input": 20,
           "normalized": 100.0,
           "weighted": 25.0
         },
@@ -147,16 +147,40 @@
           "weighted": 0.0
         },
         "mapping_component": {
-          "mapping_count": 108,
-          "direct_mapping_event_count": 5,
+          "mapping_count": 107,
+          "direct_mapping_event_count": 6,
           "normalized": 100.0,
           "weighted": 30.0
         },
-        "single_source_concentration": 0.409,
+        "single_source_concentration": 0.4,
         "concentration_penalty": 0.0,
         "raw_score": 80.0
       },
       "direct_mentions": [
+        {
+          "instrument_id": "TWSE:2028",
+          "symbol": "2028",
+          "exchange": "TWSE",
+          "name_zh": "威致",
+          "direct_event_count": 2,
+          "latest_mentioned_at": "2026-09-29T22:20:05Z"
+        },
+        {
+          "instrument_id": "TWSE:2027",
+          "symbol": "2027",
+          "exchange": "TWSE",
+          "name_zh": "大成鋼",
+          "direct_event_count": 1,
+          "latest_mentioned_at": "2026-09-29T23:20:02Z"
+        },
+        {
+          "instrument_id": "TWSE:2030",
+          "symbol": "2030",
+          "exchange": "TWSE",
+          "name_zh": "彰源",
+          "direct_event_count": 1,
+          "latest_mentioned_at": "2026-09-29T23:20:02Z"
+        },
         {
           "instrument_id": "TWSE:2025",
           "symbol": "2025",
@@ -180,22 +204,6 @@
           "name_zh": "唐榮公司",
           "direct_event_count": 1,
           "latest_mentioned_at": "2026-09-29T07:20:02Z"
-        },
-        {
-          "instrument_id": "TWSE:2028",
-          "symbol": "2028",
-          "exchange": "TWSE",
-          "name_zh": "威致",
-          "direct_event_count": 1,
-          "latest_mentioned_at": "2026-09-29T07:10:04Z"
-        },
-        {
-          "instrument_id": "TWSE:2024",
-          "symbol": "2024",
-          "exchange": "TWSE",
-          "name_zh": "志聯",
-          "direct_event_count": 1,
-          "latest_mentioned_at": "2026-09-29T05:40:03Z"
         }
       ],
       "supply_chain_candidates": [
@@ -234,38 +242,38 @@
         }
       ],
       "representative_news": {
-        "cluster_id": "cluster-115ec04ddaf174a3",
-        "id": "digitimes_tw-4b172a5e8a3b",
-        "title_zh": "AI SEO 服務商的隱形冠軍 91APP 四年服務逾 200 家品牌",
-        "summary": "生成式AI快速改變消費者搜尋行為，當ChatGPT、Gemini成為新的資訊入口，品牌競爭也從「被搜尋到」進一步走向「被AI理解、引用與推薦」。而台灣規模最大的SEO/AI SEO/GEO服務商之一，是一家你可能沒聯想",
-        "source_id": "digitimes_tw",
-        "source": "DIGITIMES",
-        "published_at": "2026-09-29T19:55:20Z",
-        "canonical_url": "https://www.digitimes.com.tw/tech/dt/n/shwnws.asp?id=0000769792_K8W8GRPD8C78I33QLWPWD"
+        "cluster_id": "cluster-6965d3a5f0078ba1",
+        "id": "technews-8ecd50179d63",
+        "title_zh": "下指令要求 AI「不要產生幻覺」也無效，研究：系統設計就是「非答不可」",
+        "summary": "一項最新研究與相關分析指出，生成式 AI 之所以常出現所謂「幻覺」，關鍵問題可能不只是模型會猜，而是系統本身被 [&#8230;]",
+        "source_id": "technews",
+        "source": "TechNews",
+        "published_at": "2026-09-30T00:10:18Z",
+        "canonical_url": "https://technews.tw/2026/09/30/ai-hallucinations-believed-to-be-stoppable-by-letting-ai-know-it-is-okay-to-be-wrong-sometimes/"
       }
     },
     {
       "rank": 3,
       "theme_id": "robotics",
       "name_zh": "機器人",
-      "heat_score": 68,
+      "heat_score": 79,
       "summaries": {
-        "event_count": 5,
-        "source_count": 2,
+        "event_count": 7,
+        "source_count": 3,
         "tracking_candidate_count": 1,
         "taiwan_mapping_count": 26
       },
       "heat_reason": {
         "rule_version": "public_theme_heat_v0.8",
         "event_component": {
-          "input": 5,
-          "normalized": 83.333,
-          "weighted": 20.833
+          "input": 7,
+          "normalized": 100.0,
+          "weighted": 25.0
         },
         "source_component": {
-          "input": 2,
-          "normalized": 50.0,
-          "weighted": 12.5
+          "input": 3,
+          "normalized": 75.0,
+          "weighted": 18.75
         },
         "candidate_component": {
           "input": 1,
@@ -278,9 +286,9 @@
           "normalized": 100.0,
           "weighted": 30.0
         },
-        "single_source_concentration": 0.6,
+        "single_source_concentration": 0.429,
         "concentration_penalty": 0.0,
-        "raw_score": 68.333
+        "raw_score": 78.75
       },
       "direct_mentions": [
         {
@@ -348,128 +356,26 @@
     },
     {
       "rank": 4,
-      "theme_id": "optical_cpo",
-      "name_zh": "矽光子 CPO",
-      "heat_score": 53,
-      "summaries": {
-        "event_count": 3,
-        "source_count": 2,
-        "tracking_candidate_count": 0,
-        "taiwan_mapping_count": 22
-      },
-      "heat_reason": {
-        "rule_version": "public_theme_heat_v0.8",
-        "event_component": {
-          "input": 3,
-          "normalized": 50.0,
-          "weighted": 12.5
-        },
-        "source_component": {
-          "input": 2,
-          "normalized": 50.0,
-          "weighted": 12.5
-        },
-        "candidate_component": {
-          "input": 0,
-          "normalized": 0.0,
-          "weighted": 0.0
-        },
-        "mapping_component": {
-          "mapping_count": 22,
-          "direct_mapping_event_count": 2,
-          "normalized": 100.0,
-          "weighted": 30.0
-        },
-        "single_source_concentration": 0.667,
-        "concentration_penalty": 2.5,
-        "raw_score": 52.5
-      },
-      "direct_mentions": [
-        {
-          "instrument_id": "TWSE:2028",
-          "symbol": "2028",
-          "exchange": "TWSE",
-          "name_zh": "威致",
-          "direct_event_count": 1,
-          "latest_mentioned_at": "2026-09-29T08:00:17Z"
-        },
-        {
-          "instrument_id": "TWSE:6456",
-          "symbol": "6456",
-          "exchange": "TWSE",
-          "name_zh": "GIS-KY",
-          "direct_event_count": 1,
-          "latest_mentioned_at": "2026-09-29T03:44:22Z"
-        }
-      ],
-      "supply_chain_candidates": [
-        {
-          "instrument_id": "TPEX:3289",
-          "symbol": "3289",
-          "exchange": "TPEX",
-          "name_zh": "宜特",
-          "direct_event_count": 0,
-          "official_evidence_count": 0,
-          "company_rank_score": 1,
-          "latest_mentioned_at": null,
-          "latest_official_at": null
-        },
-        {
-          "instrument_id": "TPEX:3587",
-          "symbol": "3587",
-          "exchange": "TPEX",
-          "name_zh": "閎康",
-          "direct_event_count": 0,
-          "official_evidence_count": 0,
-          "company_rank_score": 1,
-          "latest_mentioned_at": null,
-          "latest_official_at": null
-        },
-        {
-          "instrument_id": "TWSE:2303",
-          "symbol": "2303",
-          "exchange": "TWSE",
-          "name_zh": "聯電",
-          "direct_event_count": 0,
-          "official_evidence_count": 0,
-          "company_rank_score": 1,
-          "latest_mentioned_at": null,
-          "latest_official_at": null
-        }
-      ],
-      "representative_news": {
-        "cluster_id": "cluster-7f9afa39c28ea15e",
-        "id": "digitimes_tw-558046931fee",
-        "title_zh": "聯嘉布局三大成長引擎　進擊AI光通訊拚1Q27送樣",
-        "summary": "受惠於前五大客戶釋出新車訂單銷售成長，帶動汽車光電與Mini LED模組大廠聯嘉光電投控2026年營運回溫。聯嘉總經理黃昉鈺表示，集團規劃三大成長引擎，其中，墨西哥新廠在2026年底產線將擴增至8條，多項汽車專",
-        "source_id": "digitimes_tw",
-        "source": "DIGITIMES",
-        "published_at": "2026-09-29T18:34:08Z",
-        "canonical_url": "https://www.digitimes.com.tw/tech/dt/n/shwnws.asp?id=0000769859_PZT9MZJ44694IYLJXEFSE"
-      }
-    },
-    {
-      "rank": 5,
       "theme_id": "statementdog_tag_259",
       "name_zh": "汽車",
-      "heat_score": 49,
+      "heat_score": 60,
       "summaries": {
-        "event_count": 3,
-        "source_count": 3,
+        "event_count": 4,
+        "source_count": 4,
         "tracking_candidate_count": 0,
         "taiwan_mapping_count": 24
       },
       "heat_reason": {
         "rule_version": "public_theme_heat_v0.8",
         "event_component": {
-          "input": 3,
-          "normalized": 50.0,
-          "weighted": 12.5
+          "input": 4,
+          "normalized": 66.667,
+          "weighted": 16.667
         },
         "source_component": {
-          "input": 3,
-          "normalized": 75.0,
-          "weighted": 18.75
+          "input": 4,
+          "normalized": 100.0,
+          "weighted": 25.0
         },
         "candidate_component": {
           "input": 0,
@@ -482,9 +388,9 @@
           "normalized": 60.0,
           "weighted": 18.0
         },
-        "single_source_concentration": 0.333,
+        "single_source_concentration": 0.25,
         "concentration_penalty": 0.0,
-        "raw_score": 49.25
+        "raw_score": 59.667
       },
       "direct_mentions": [],
       "supply_chain_candidates": [
@@ -523,14 +429,74 @@
         }
       ],
       "representative_news": {
-        "cluster_id": "cluster-e6be10616bf2f16b",
-        "id": "digitimes_tw-e217e5d604af",
-        "title_zh": "川習會沒談成汽車協議　中國EV叩關美國仍只是「時間問題」？",
-        "summary": "此次華府川習會未如外界預期，出現美國總統川普（Donald Trump）允許中國電動車（EV）進入美國市場的重大協議。雖讓美國市場既有汽車製造商暫時鬆一口氣，但外界分析認為，中國汽車進入美國市場只是時間早晚問",
+        "cluster_id": "cluster-bbbd539ec8aa6086",
+        "id": "moneydj-270d79d6fc5c",
+        "title_zh": "鼎好汽車9/30起登錄創櫃板",
+        "summary": "<a href=\"https://www.moneydj.com/kmdj/news/newsviewer.aspx?a=7c819f77-4e06-4ba0-a904-11d1b6893c1a&amp;utm_source=18565796186857185937572618&amp;utm_medium=RSS\">內文連結</a>",
+        "source_id": "moneydj",
+        "source": "MoneyDJ",
+        "published_at": "2026-09-30T00:12:00Z",
+        "canonical_url": "https://www.moneydj.com/kmdj/news/newsviewer.aspx?a=7c819f77-4e06-4ba0-a904-11d1b6893c1a&utm_source=18565796186857185937572618&utm_medium=RSS"
+      }
+    },
+    {
+      "rank": 5,
+      "theme_id": "pcb_abf_hdi",
+      "name_zh": "PCB／ABF／HDI",
+      "heat_score": 55,
+      "summaries": {
+        "event_count": 2,
+        "source_count": 2,
+        "tracking_candidate_count": 2,
+        "taiwan_mapping_count": 4
+      },
+      "heat_reason": {
+        "rule_version": "public_theme_heat_v0.8",
+        "event_component": {
+          "input": 2,
+          "normalized": 33.333,
+          "weighted": 8.333
+        },
+        "source_component": {
+          "input": 2,
+          "normalized": 50.0,
+          "weighted": 12.5
+        },
+        "candidate_component": {
+          "input": 2,
+          "normalized": 50.0,
+          "weighted": 10.0
+        },
+        "mapping_component": {
+          "mapping_count": 4,
+          "direct_mapping_event_count": 1,
+          "normalized": 80.0,
+          "weighted": 24.0
+        },
+        "single_source_concentration": 0.5,
+        "concentration_penalty": 0.0,
+        "raw_score": 54.833
+      },
+      "direct_mentions": [
+        {
+          "instrument_id": "TWSE:2027",
+          "symbol": "2027",
+          "exchange": "TWSE",
+          "name_zh": "大成鋼",
+          "direct_event_count": 1,
+          "latest_mentioned_at": "2026-09-29T18:20:01Z"
+        }
+      ],
+      "supply_chain_candidates": [],
+      "representative_news": {
+        "cluster_id": "cluster-ebf49abe5620813b",
+        "id": "digitimes_tw-4c5ae67381fb",
+        "title_zh": "ASIC出貨2027年首超GPU　ABF載板、高層數PCB接棒成瓶頸",
+        "summary": "高階雲端AI加速器市場2027年將出現結構性轉折，ASIC總出貨量將首度超越GPU，主要受到Google、亞馬遜（Amazon）、華為等業者擴大出貨所帶動，整體市場將迎來「NVIDIA與Google雙強競爭、多家業者加速追",
         "source_id": "digitimes_tw",
         "source": "DIGITIMES",
-        "published_at": "2026-09-29T18:33:29Z",
-        "canonical_url": "https://www.digitimes.com.tw/tech/dt/n/shwnws.asp?id=0000769866_VOF7323G7KCHPL533OLJG"
+        "published_at": "2026-09-29T18:20:01Z",
+        "canonical_url": "https://www.digitimes.com.tw/tech/dt/n/shwnws.asp?id=0000769893_WSC9XOBK84PQYC43O42JQ"
       }
     }
   ]
