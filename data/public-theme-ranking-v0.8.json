@@ -2,7 +2,7 @@
   "schema_version": "nexus_public_theme_ranking.v0.8",
   "ranking_rule_version": "public_theme_heat_v0.8",
   "company_rule_version": "public_company_evidence_v0.8",
-  "generated_at": "2026-09-30T23:52:37.609510Z",
+  "generated_at": "2026-10-01T05:59:00.035416Z",
   "market_id": "TW_EQUITY",
   "market_scope": [
     "TW_EQUITY"
@@ -20,24 +20,24 @@
       "rank": 1,
       "theme_id": "memory_hbm",
       "name_zh": "記憶體與 HBM",
-      "heat_score": 82,
+      "heat_score": 100,
       "summaries": {
-        "event_count": 6,
-        "source_count": 3,
+        "event_count": 7,
+        "source_count": 4,
         "tracking_candidate_count": 4,
-        "taiwan_mapping_count": 6
+        "taiwan_mapping_count": 37
       },
       "heat_reason": {
         "rule_version": "public_theme_heat_v0.8",
         "event_component": {
-          "input": 6,
+          "input": 7,
           "normalized": 100.0,
           "weighted": 25.0
         },
         "source_component": {
-          "input": 3,
-          "normalized": 75.0,
-          "weighted": 18.75
+          "input": 4,
+          "normalized": 100.0,
+          "weighted": 25.0
         },
         "candidate_component": {
           "input": 4,
@@ -45,37 +45,59 @@
           "weighted": 20.0
         },
         "mapping_component": {
-          "mapping_count": 6,
-          "direct_mapping_event_count": 0,
-          "normalized": 60.0,
-          "weighted": 18.0
+          "mapping_count": 37,
+          "direct_mapping_event_count": 2,
+          "normalized": 100.0,
+          "weighted": 30.0
         },
-        "single_source_concentration": 0.333,
+        "single_source_concentration": 0.429,
         "concentration_penalty": 0.0,
-        "raw_score": 81.75
+        "raw_score": 100.0
       },
-      "direct_mentions": [],
-      "supply_chain_candidates": [
+      "direct_mentions": [
         {
-          "instrument_id": "TPEX:8299",
-          "symbol": "8299",
-          "exchange": "TPEX",
-          "name_zh": "群聯",
-          "direct_event_count": 0,
-          "official_evidence_count": 0,
-          "company_rank_score": 1,
-          "latest_mentioned_at": null,
-          "latest_official_at": null
+          "instrument_id": "TWSE:2028",
+          "symbol": "2028",
+          "exchange": "TWSE",
+          "name_zh": "威致",
+          "direct_event_count": 2,
+          "latest_mentioned_at": "2026-10-01T05:41:18Z"
+        },
+        {
+          "instrument_id": "TWSE:2027",
+          "symbol": "2027",
+          "exchange": "TWSE",
+          "name_zh": "大成鋼",
+          "direct_event_count": 1,
+          "latest_mentioned_at": "2026-10-01T05:41:18Z"
         },
         {
           "instrument_id": "TWSE:2344",
           "symbol": "2344",
           "exchange": "TWSE",
           "name_zh": "華邦電",
-          "direct_event_count": 0,
+          "direct_event_count": 1,
+          "latest_mentioned_at": "2026-10-01T05:41:18Z"
+        },
+        {
+          "instrument_id": "TWSE:2408",
+          "symbol": "2408",
+          "exchange": "TWSE",
+          "name_zh": "南亞科",
+          "direct_event_count": 1,
+          "latest_mentioned_at": "2026-10-01T05:41:18Z"
+        }
+      ],
+      "supply_chain_candidates": [
+        {
+          "instrument_id": "TWSE:2344",
+          "symbol": "2344",
+          "exchange": "TWSE",
+          "name_zh": "華邦電",
+          "direct_event_count": 1,
           "official_evidence_count": 0,
-          "company_rank_score": 1,
-          "latest_mentioned_at": null,
+          "company_rank_score": 5,
+          "latest_mentioned_at": "2026-10-01T05:41:18Z",
           "latest_official_at": null
         },
         {
@@ -83,6 +105,17 @@
           "symbol": "2408",
           "exchange": "TWSE",
           "name_zh": "南亞科",
+          "direct_event_count": 1,
+          "official_evidence_count": 0,
+          "company_rank_score": 5,
+          "latest_mentioned_at": "2026-10-01T05:41:18Z",
+          "latest_official_at": null
+        },
+        {
+          "instrument_id": "TPEX:8299",
+          "symbol": "8299",
+          "exchange": "TPEX",
+          "name_zh": "群聯",
           "direct_event_count": 0,
           "official_evidence_count": 0,
           "company_rank_score": 1,
@@ -107,20 +140,20 @@
       "name_zh": "AI",
       "heat_score": 80,
       "summaries": {
-        "event_count": 19,
-        "source_count": 4,
+        "event_count": 24,
+        "source_count": 5,
         "tracking_candidate_count": 0,
-        "taiwan_mapping_count": 91
+        "taiwan_mapping_count": 73
       },
       "heat_reason": {
         "rule_version": "public_theme_heat_v0.8",
         "event_component": {
-          "input": 19,
+          "input": 24,
           "normalized": 100.0,
           "weighted": 25.0
         },
         "source_component": {
-          "input": 4,
+          "input": 5,
           "normalized": 100.0,
           "weighted": 25.0
         },
@@ -130,23 +163,39 @@
           "weighted": 0.0
         },
         "mapping_component": {
-          "mapping_count": 91,
-          "direct_mapping_event_count": 10,
+          "mapping_count": 73,
+          "direct_mapping_event_count": 12,
           "normalized": 100.0,
           "weighted": 30.0
         },
-        "single_source_concentration": 0.45,
+        "single_source_concentration": 0.462,
         "concentration_penalty": 0.0,
         "raw_score": 80.0
       },
       "direct_mentions": [
+        {
+          "instrument_id": "TWSE:2027",
+          "symbol": "2027",
+          "exchange": "TWSE",
+          "name_zh": "大成鋼",
+          "direct_event_count": 4,
+          "latest_mentioned_at": "2026-10-01T04:38:35Z"
+        },
         {
           "instrument_id": "TWSE:2455",
           "symbol": "2455",
           "exchange": "TWSE",
           "name_zh": "全新",
           "direct_event_count": 3,
-          "latest_mentioned_at": "2026-09-30T19:42:19Z"
+          "latest_mentioned_at": "2026-10-01T02:42:18Z"
+        },
+        {
+          "instrument_id": "TWSE:2330",
+          "symbol": "2330",
+          "exchange": "TWSE",
+          "name_zh": "台積電",
+          "direct_event_count": 2,
+          "latest_mentioned_at": "2026-10-01T03:47:38Z"
         },
         {
           "instrument_id": "TWSE:2028",
@@ -154,63 +203,23 @@
           "exchange": "TWSE",
           "name_zh": "威致",
           "direct_event_count": 2,
-          "latest_mentioned_at": "2026-09-30T18:02:03Z"
+          "latest_mentioned_at": "2026-10-01T03:05:41Z"
         },
         {
-          "instrument_id": "TWSE:2022",
-          "symbol": "2022",
+          "instrument_id": "TWSE:9941",
+          "symbol": "9941",
           "exchange": "TWSE",
-          "name_zh": "聚亨",
+          "name_zh": "裕融",
           "direct_event_count": 1,
-          "latest_mentioned_at": "2026-09-30T21:50:02Z"
+          "latest_mentioned_at": "2026-10-01T05:14:00Z"
         },
         {
-          "instrument_id": "TWSE:2330",
-          "symbol": "2330",
+          "instrument_id": "TWSE:2390",
+          "symbol": "2390",
           "exchange": "TWSE",
-          "name_zh": "台積電",
+          "name_zh": "云辰",
           "direct_event_count": 1,
-          "latest_mentioned_at": "2026-09-30T18:11:35Z"
-        },
-        {
-          "instrument_id": "TWSE:2027",
-          "symbol": "2027",
-          "exchange": "TWSE",
-          "name_zh": "大成鋼",
-          "direct_event_count": 1,
-          "latest_mentioned_at": "2026-09-30T15:30:02Z"
-        },
-        {
-          "instrument_id": "TWSE:2029",
-          "symbol": "2029",
-          "exchange": "TWSE",
-          "name_zh": "盛餘",
-          "direct_event_count": 1,
-          "latest_mentioned_at": "2026-09-30T15:30:02Z"
-        },
-        {
-          "instrument_id": "TWSE:3704",
-          "symbol": "3704",
-          "exchange": "TWSE",
-          "name_zh": "合勤控",
-          "direct_event_count": 1,
-          "latest_mentioned_at": "2026-09-30T09:08:49Z"
-        },
-        {
-          "instrument_id": "TWSE:2002",
-          "symbol": "2002",
-          "exchange": "TWSE",
-          "name_zh": "中鋼",
-          "direct_event_count": 1,
-          "latest_mentioned_at": "2026-09-30T06:41:36Z"
-        },
-        {
-          "instrument_id": "TWSE:2007",
-          "symbol": "2007",
-          "exchange": "TWSE",
-          "name_zh": "燁興",
-          "direct_event_count": 1,
-          "latest_mentioned_at": "2026-09-30T06:41:36Z"
+          "latest_mentioned_at": "2026-10-01T04:28:10Z"
         }
       ],
       "supply_chain_candidates": [
@@ -219,10 +228,10 @@
           "symbol": "2330",
           "exchange": "TWSE",
           "name_zh": "台積電",
-          "direct_event_count": 1,
+          "direct_event_count": 2,
           "official_evidence_count": 0,
-          "company_rank_score": 5,
-          "latest_mentioned_at": "2026-09-30T18:11:35Z",
+          "company_rank_score": 9,
+          "latest_mentioned_at": "2026-10-01T03:47:38Z",
           "latest_official_at": null
         },
         {
@@ -249,26 +258,26 @@
         }
       ],
       "representative_news": {
-        "cluster_id": "cluster-85cf22232c1121a2",
-        "id": "cnyes-4aaa38e5e3e5",
-        "title_zh": "Muse帶旺AI題材 Meta 9月暴漲27%創近四年最佳單月表現",
-        "summary": "Meta 9月受惠個人AI代理Muse熱度，股價月漲約27%，創2022年11月來最佳單月表現。&#10;Muse下載量一度超越ChatGPT，祖克柏稱其為核心策略，並推出Muse Charm AI吊墜等新硬體。&#10;分析師憂Muse需更高基建投入、壓力ROIC；Meta今年資本支出估倍增至約1400億美元。",
+        "cluster_id": "cluster-4397599a8aec1ecb",
+        "id": "cnyes-fdea46ec5b69",
+        "title_zh": "小摩看好後市！日股科技ETF強勢強彈 代理式AI引爆半導體新機會",
+        "summary": "小摩看好AI需求強勁，科技股修正後評價與籌碼沉澱，重申後市正向。&#10;00954、00951近1個月各漲逾7%，日本半導體設備與上游供應鏈受惠。&#10;CSP 2027年資本支出上看1.4兆美元，東京威力科創、愛德萬測試長期受惠。",
         "source_id": "cnyes",
         "source": "鉅亨網 Cnyes",
-        "published_at": "2026-09-30T21:50:02Z",
-        "canonical_url": "https://news.cnyes.com/news/id/6619182"
+        "published_at": "2026-10-01T04:38:35Z",
+        "canonical_url": "https://news.cnyes.com/news/id/6619464"
       }
     },
     {
       "rank": 3,
-      "theme_id": "pcb_abf_hdi",
-      "name_zh": "PCB／ABF／HDI",
+      "theme_id": "robotics",
+      "name_zh": "機器人",
       "heat_score": 79,
       "summaries": {
         "event_count": 6,
-        "source_count": 3,
-        "tracking_candidate_count": 1,
-        "taiwan_mapping_count": 5
+        "source_count": 2,
+        "tracking_candidate_count": 4,
+        "taiwan_mapping_count": 28
       },
       "heat_reason": {
         "rule_version": "public_theme_heat_v0.8",
@@ -278,152 +287,42 @@
           "weighted": 25.0
         },
         "source_component": {
-          "input": 3,
-          "normalized": 75.0,
-          "weighted": 18.75
+          "input": 2,
+          "normalized": 50.0,
+          "weighted": 12.5
         },
         "candidate_component": {
-          "input": 1,
-          "normalized": 25.0,
-          "weighted": 5.0
+          "input": 4,
+          "normalized": 100.0,
+          "weighted": 20.0
         },
         "mapping_component": {
-          "mapping_count": 5,
-          "direct_mapping_event_count": 6,
+          "mapping_count": 28,
+          "direct_mapping_event_count": 3,
           "normalized": 100.0,
           "weighted": 30.0
         },
-        "single_source_concentration": 0.5,
-        "concentration_penalty": 0.0,
+        "single_source_concentration": 0.833,
+        "concentration_penalty": 8.75,
         "raw_score": 78.75
       },
       "direct_mentions": [
         {
-          "instrument_id": "TWSE:3037",
-          "symbol": "3037",
+          "instrument_id": "TWSE:2029",
+          "symbol": "2029",
           "exchange": "TWSE",
-          "name_zh": "欣興",
-          "direct_event_count": 2,
-          "latest_mentioned_at": "2026-09-30T23:45:33Z"
-        },
-        {
-          "instrument_id": "TWSE:2027",
-          "symbol": "2027",
-          "exchange": "TWSE",
-          "name_zh": "大成鋼",
-          "direct_event_count": 2,
-          "latest_mentioned_at": "2026-09-30T18:36:17Z"
-        },
-        {
-          "instrument_id": "TWSE:3711",
-          "symbol": "3711",
-          "exchange": "TWSE",
-          "name_zh": "日月光投控",
+          "name_zh": "盛餘",
           "direct_event_count": 1,
-          "latest_mentioned_at": "2026-09-30T18:25:16Z"
+          "latest_mentioned_at": "2026-10-01T04:06:15Z"
         },
         {
-          "instrument_id": "TWSE:3563",
-          "symbol": "3563",
+          "instrument_id": "TWSE:2030",
+          "symbol": "2030",
           "exchange": "TWSE",
-          "name_zh": "牧德",
+          "name_zh": "彰源",
           "direct_event_count": 1,
-          "latest_mentioned_at": "2026-09-30T10:12:42Z"
+          "latest_mentioned_at": "2026-10-01T03:25:37Z"
         },
-        {
-          "instrument_id": "TWSE:7610",
-          "symbol": "7610",
-          "exchange": "TWSE",
-          "name_zh": "聯友金屬-創",
-          "direct_event_count": 1,
-          "latest_mentioned_at": "2026-09-30T08:48:21Z"
-        }
-      ],
-      "supply_chain_candidates": [
-        {
-          "instrument_id": "TWSE:3037",
-          "symbol": "3037",
-          "exchange": "TWSE",
-          "name_zh": "欣興",
-          "direct_event_count": 2,
-          "official_evidence_count": 0,
-          "company_rank_score": 9,
-          "latest_mentioned_at": "2026-09-30T23:45:33Z",
-          "latest_official_at": null
-        },
-        {
-          "instrument_id": "TWSE:2368",
-          "symbol": "2368",
-          "exchange": "TWSE",
-          "name_zh": "金像電",
-          "direct_event_count": 0,
-          "official_evidence_count": 0,
-          "company_rank_score": 1,
-          "latest_mentioned_at": null,
-          "latest_official_at": null
-        },
-        {
-          "instrument_id": "TWSE:8046",
-          "symbol": "8046",
-          "exchange": "TWSE",
-          "name_zh": "南電",
-          "direct_event_count": 0,
-          "official_evidence_count": 0,
-          "company_rank_score": 1,
-          "latest_mentioned_at": null,
-          "latest_official_at": null
-        }
-      ],
-      "representative_news": {
-        "cluster_id": "cluster-e93c6e9f382022bc",
-        "id": "cnyes-7cf8e42be516",
-        "title_zh": "牧德營收將進一步成長 對應AI應用設備比重將再拉高到80-90%",
-        "summary": "AOI設備廠牧德科技(3563-TW)今(30)日召開法人說明會，牧德指出，隨 AI 伺服器、高效能運算及高速傳輸等應用持續發展，高階 PCB 、 MSAP 、ABF 載板及半導體先進封裝等相關檢測需求同步提升，2026年對應AI需求的設備占比約70%，2027年整體營收將持續成長， 對應AI需求的",
-        "source_id": "cnyes",
-        "source": "鉅亨網 Cnyes",
-        "published_at": "2026-09-30T10:12:42Z",
-        "canonical_url": "https://news.cnyes.com/news/id/6618815"
-      }
-    },
-    {
-      "rank": 4,
-      "theme_id": "robotics",
-      "name_zh": "機器人",
-      "heat_score": 79,
-      "summaries": {
-        "event_count": 5,
-        "source_count": 3,
-        "tracking_candidate_count": 3,
-        "taiwan_mapping_count": 26
-      },
-      "heat_reason": {
-        "rule_version": "public_theme_heat_v0.8",
-        "event_component": {
-          "input": 5,
-          "normalized": 83.333,
-          "weighted": 20.833
-        },
-        "source_component": {
-          "input": 3,
-          "normalized": 75.0,
-          "weighted": 18.75
-        },
-        "candidate_component": {
-          "input": 3,
-          "normalized": 75.0,
-          "weighted": 15.0
-        },
-        "mapping_component": {
-          "mapping_count": 26,
-          "direct_mapping_event_count": 1,
-          "normalized": 80.0,
-          "weighted": 24.0
-        },
-        "single_source_concentration": 0.6,
-        "concentration_penalty": 0.0,
-        "raw_score": 78.583
-      },
-      "direct_mentions": [
         {
           "instrument_id": "TWSE:3711",
           "symbol": "3711",
@@ -469,61 +368,61 @@
         }
       ],
       "representative_news": {
-        "cluster_id": "cluster-161184a96b946236",
-        "id": "digitimes_tw-595e9f94572b",
-        "title_zh": "DIGITIMES Today；華為手機大復活 | AWS Trainium 3出貨暫卡關 |中國人形機器人1H26出貨佔全球約95%",
-        "summary": "日月光投控7月30日宣布斥資新台幣約56.72億元，向乖乖取得中壢工業區土地及廠房，以因應中壢廠未來產能擴充之需求，但也意外成為導火線，乖乖工會日前發起罷工投票，並前往日月光中壢廠門口抗議。AI晶片封裝持續放大，玻璃基板的「尺寸戰」浮上檯面，值得注意的是，全球四大玻璃廠的核心基板不約而同都選擇510&times",
+        "cluster_id": "cluster-92020b620a65e010",
+        "id": "digitimes_tw-42a0b2bc3158",
+        "title_zh": "Panasonic進軍人形機器人　電池優勢成關鍵技術底氣",
+        "summary": "Panasonic集團（Panasonic Holdings）將開發人形機器人，目標於2029年開始量產，初期將鎖定工廠產線與倉庫等應用場景。日經新聞（Nikkei）報導，Panasonic集團最高人工智慧官（CAIO）榊原彰透露上述消息",
         "source_id": "digitimes_tw",
         "source": "DIGITIMES",
-        "published_at": "2026-09-30T21:41:27Z",
-        "canonical_url": "https://www.digitimes.com.tw/tech/dt/n/shwnws.asp?id=0000770085_0V0LU7IN9F7H3F4M8YQDH"
+        "published_at": "2026-10-01T04:06:15Z",
+        "canonical_url": "https://www.digitimes.com.tw/tech/dt/n/shwnws.asp?id=0000770132_7RY2384P2NL9WK3HX9LA5"
       }
     },
     {
-      "rank": 5,
-      "theme_id": "statementdog_tag_52",
-      "name_zh": "蘋果",
-      "heat_score": 47,
+      "rank": 4,
+      "theme_id": "defense_drone",
+      "name_zh": "國防與無人機",
+      "heat_score": 63,
       "summaries": {
-        "event_count": 4,
-        "source_count": 2,
-        "tracking_candidate_count": 0,
-        "taiwan_mapping_count": 17
+        "event_count": 5,
+        "source_count": 3,
+        "tracking_candidate_count": 1,
+        "taiwan_mapping_count": 3
       },
       "heat_reason": {
         "rule_version": "public_theme_heat_v0.8",
         "event_component": {
-          "input": 4,
-          "normalized": 66.667,
-          "weighted": 16.667
+          "input": 5,
+          "normalized": 83.333,
+          "weighted": 20.833
         },
         "source_component": {
-          "input": 2,
-          "normalized": 50.0,
-          "weighted": 12.5
+          "input": 3,
+          "normalized": 75.0,
+          "weighted": 18.75
         },
         "candidate_component": {
-          "input": 0,
-          "normalized": 0.0,
-          "weighted": 0.0
+          "input": 1,
+          "normalized": 25.0,
+          "weighted": 5.0
         },
         "mapping_component": {
-          "mapping_count": 17,
+          "mapping_count": 3,
           "direct_mapping_event_count": 0,
           "normalized": 60.0,
           "weighted": 18.0
         },
-        "single_source_concentration": 0.5,
+        "single_source_concentration": 0.6,
         "concentration_penalty": 0.0,
-        "raw_score": 47.167
+        "raw_score": 62.583
       },
       "direct_mentions": [],
       "supply_chain_candidates": [
         {
-          "instrument_id": "TWSE:2308",
-          "symbol": "2308",
-          "exchange": "TWSE",
-          "name_zh": "台達電",
+          "instrument_id": "TPEX:5371",
+          "symbol": "5371",
+          "exchange": "TPEX",
+          "name_zh": "中光電",
           "direct_event_count": 0,
           "official_evidence_count": 0,
           "company_rank_score": 1,
@@ -531,10 +430,10 @@
           "latest_official_at": null
         },
         {
-          "instrument_id": "TWSE:2313",
-          "symbol": "2313",
+          "instrument_id": "TWSE:2634",
+          "symbol": "2634",
           "exchange": "TWSE",
-          "name_zh": "華通",
+          "name_zh": "漢翔",
           "direct_event_count": 0,
           "official_evidence_count": 0,
           "company_rank_score": 1,
@@ -542,10 +441,10 @@
           "latest_official_at": null
         },
         {
-          "instrument_id": "TWSE:2317",
-          "symbol": "2317",
+          "instrument_id": "TWSE:8033",
+          "symbol": "8033",
           "exchange": "TWSE",
-          "name_zh": "鴻海",
+          "name_zh": "雷虎",
           "direct_event_count": 0,
           "official_evidence_count": 0,
           "company_rank_score": 1,
@@ -554,14 +453,82 @@
         }
       ],
       "representative_news": {
-        "cluster_id": "cluster-5547bcde0b2ce770",
-        "id": "cnyes-28492cc9944e",
-        "title_zh": "蘋果智慧家庭布局要來了！傳10月13日推三款新品",
-        "summary": "蘋果傳10/13推首款螢幕家庭中樞、HomePod mini與Apple TV，主打新版Siri AI。&#10;J490中樞配約6吋螢幕，能辨識成員、顯示個人化內容，支援控制家電。&#10;Siri AI延誤曾拖累上市，蘋果盼藉新品切入智慧家庭市場，擴大HomeKit生態系。",
-        "source_id": "cnyes",
-        "source": "鉅亨網 Cnyes",
-        "published_at": "2026-09-30T12:00:03Z",
-        "canonical_url": "https://news.cnyes.com/news/id/6618945"
+        "cluster_id": "cluster-6bc8f85f52182f3c",
+        "id": "technews-9acaa7ec422e",
+        "title_zh": "由四星上將領導，美軍擬成立無人機專屬「自主作戰司令部」",
+        "summary": "美國國防部長赫格塞斯（Pete Hegseth）昨日宣布，計劃成立由四星上將領導的「自主作戰司令部」（Auto [&#8230;]",
+        "source_id": "technews",
+        "source": "TechNews",
+        "published_at": "2026-10-01T02:19:12Z",
+        "canonical_url": "https://technews.tw/2026/10/01/the-pentagon-is-planning-to-establish-new-autowarcom/"
+      }
+    },
+    {
+      "rank": 5,
+      "theme_id": "pcb_abf_hdi",
+      "name_zh": "PCB／ABF／HDI",
+      "heat_score": 58,
+      "summaries": {
+        "event_count": 3,
+        "source_count": 2,
+        "tracking_candidate_count": 1,
+        "taiwan_mapping_count": 5
+      },
+      "heat_reason": {
+        "rule_version": "public_theme_heat_v0.8",
+        "event_component": {
+          "input": 3,
+          "normalized": 50.0,
+          "weighted": 12.5
+        },
+        "source_component": {
+          "input": 2,
+          "normalized": 50.0,
+          "weighted": 12.5
+        },
+        "candidate_component": {
+          "input": 1,
+          "normalized": 25.0,
+          "weighted": 5.0
+        },
+        "mapping_component": {
+          "mapping_count": 5,
+          "direct_mapping_event_count": 2,
+          "normalized": 100.0,
+          "weighted": 30.0
+        },
+        "single_source_concentration": 0.667,
+        "concentration_penalty": 2.5,
+        "raw_score": 57.5
+      },
+      "direct_mentions": [
+        {
+          "instrument_id": "TWSE:2027",
+          "symbol": "2027",
+          "exchange": "TWSE",
+          "name_zh": "大成鋼",
+          "direct_event_count": 1,
+          "latest_mentioned_at": "2026-09-30T18:36:17Z"
+        },
+        {
+          "instrument_id": "TWSE:3711",
+          "symbol": "3711",
+          "exchange": "TWSE",
+          "name_zh": "日月光投控",
+          "direct_event_count": 1,
+          "latest_mentioned_at": "2026-09-30T18:25:16Z"
+        }
+      ],
+      "supply_chain_candidates": [],
+      "representative_news": {
+        "cluster_id": "cluster-f1827048c84b3fc1",
+        "id": "yahoo_finance_tw-a80d3e92f72a",
+        "title_zh": "資金輪動，台股Q4首日重回4萬8，被動元件、ABF載板接棒走強",
+        "summary": "【財訊快報／黃冠豪】台股今日迎接第四季首個交易日，美股前一晚科技股相對有撐，加上亞洲半導體股氣氛回溫，台股早盤開高，加權指數以47,961.98點開出後，一度衝上48,181.49點，上漲超過240點",
+        "source_id": "yahoo_finance_tw",
+        "source": "Yahoo Finance Taiwan",
+        "published_at": "2026-10-01T04:37:25Z",
+        "canonical_url": "https://tw.stock.yahoo.com/news/%E8%B3%87%E9%87%91%E8%BC%AA%E5%8B%95-%E5%8F%B0%E8%82%A1q4%E9%A6%96%E6%97%A5%E9%87%8D%E5%9B%9E4%E8%90%AC8-%E8%A2%AB%E5%8B%95%E5%85%83%E4%BB%B6-abf%E8%BC%89%E6%9D%BF%E6%8E%A5%E6%A3%92%E8%B5%B0%E5%BC%B7-043725737.html"
       }
     }
   ]
