@@ -2,14 +2,14 @@
   "schema_version": "nexus_public_theme_ranking.v0.8",
   "ranking_rule_version": "public_theme_heat_v0.8",
   "company_rule_version": "public_company_evidence_v0.8",
-  "generated_at": "2026-10-10T07:10:57.843363Z",
+  "generated_at": "2026-10-10T13:45:19.209896Z",
   "market_id": "TW_EQUITY",
   "market_scope": [
     "TW_EQUITY"
   ],
   "window_hours": 72,
   "max_themes": 5,
-  "qualified_theme_count": 5,
+  "qualified_theme_count": 6,
   "displayed_theme_count": 5,
   "threshold_note": null,
   "generation_status": "complete",
@@ -18,21 +18,21 @@
   "themes": [
     {
       "rank": 1,
-      "theme_id": "statementdog_tag_1517",
-      "name_zh": "AI",
-      "heat_score": 78,
+      "theme_id": "energy_grid",
+      "name_zh": "能源與電網",
+      "heat_score": 72,
       "summaries": {
-        "event_count": 32,
+        "event_count": 4,
         "source_count": 4,
         "tracking_candidate_count": 0,
-        "taiwan_mapping_count": 135
+        "taiwan_mapping_count": 5
       },
       "heat_reason": {
         "rule_version": "public_theme_heat_v0.8",
         "event_component": {
-          "input": 32,
-          "normalized": 100.0,
-          "weighted": 25.0
+          "input": 4,
+          "normalized": 66.667,
+          "weighted": 16.667
         },
         "source_component": {
           "input": 4,
@@ -45,24 +45,118 @@
           "weighted": 0.0
         },
         "mapping_component": {
-          "mapping_count": 135,
-          "direct_mapping_event_count": 13,
+          "mapping_count": 5,
+          "direct_mapping_event_count": 2,
           "normalized": 100.0,
           "weighted": 30.0
         },
-        "single_source_concentration": 0.667,
-        "concentration_penalty": 2.5,
-        "raw_score": 77.5
+        "single_source_concentration": 0.4,
+        "concentration_penalty": 0.0,
+        "raw_score": 71.667
       },
       "direct_mentions": [
         {
-          "instrument_id": "TWSE:2455",
-          "symbol": "2455",
+          "instrument_id": "TWSE:2027",
+          "symbol": "2027",
           "exchange": "TWSE",
-          "name_zh": "全新",
-          "direct_event_count": 3,
-          "latest_mentioned_at": "2026-10-10T05:30:56Z"
+          "name_zh": "大成鋼",
+          "direct_event_count": 1,
+          "latest_mentioned_at": "2026-10-10T11:58:42Z"
         },
+        {
+          "instrument_id": "TWSE:2028",
+          "symbol": "2028",
+          "exchange": "TWSE",
+          "name_zh": "威致",
+          "direct_event_count": 1,
+          "latest_mentioned_at": "2026-10-08T12:22:35Z"
+        }
+      ],
+      "supply_chain_candidates": [
+        {
+          "instrument_id": "TWSE:1503",
+          "symbol": "1503",
+          "exchange": "TWSE",
+          "name_zh": "士電",
+          "direct_event_count": 0,
+          "official_evidence_count": 0,
+          "company_rank_score": 1,
+          "latest_mentioned_at": null,
+          "latest_official_at": null
+        },
+        {
+          "instrument_id": "TWSE:1513",
+          "symbol": "1513",
+          "exchange": "TWSE",
+          "name_zh": "中興電",
+          "direct_event_count": 0,
+          "official_evidence_count": 0,
+          "company_rank_score": 1,
+          "latest_mentioned_at": null,
+          "latest_official_at": null
+        },
+        {
+          "instrument_id": "TWSE:1519",
+          "symbol": "1519",
+          "exchange": "TWSE",
+          "name_zh": "華城",
+          "direct_event_count": 0,
+          "official_evidence_count": 0,
+          "company_rank_score": 1,
+          "latest_mentioned_at": null,
+          "latest_official_at": null
+        }
+      ],
+      "representative_news": {
+        "cluster_id": "cluster-36393bbd310e63b9",
+        "id": "cnyes-3bb98b4b9bb8",
+        "title_zh": "國慶演說 賴清德以打造「山巔之城」為題 期許科技帶百工百業向前行",
+        "summary": "賴清德國慶演說稱台灣今年經濟成長率可望逾11%，創39年新高，台股衝上4萬9千點、成全球第四大股市。&#10;他宣布推動多元綠能、儲能、電網強韌與13項核心戰略產業，並以中小微企業振興、AI新十大建設強化下一世代競爭力。&#10;賴清德也提跨國勞動力精進方案、連續調升基本工資，2027年普發每人1萬元AI紅利。",
+        "source_id": "cnyes",
+        "source": "鉅亨網 Cnyes",
+        "published_at": "2026-10-10T11:58:42Z",
+        "canonical_url": "https://news.cnyes.com/news/id/6627310"
+      }
+    },
+    {
+      "rank": 2,
+      "theme_id": "statementdog_tag_1517",
+      "name_zh": "AI",
+      "heat_score": 69,
+      "summaries": {
+        "event_count": 30,
+        "source_count": 3,
+        "tracking_candidate_count": 0,
+        "taiwan_mapping_count": 127
+      },
+      "heat_reason": {
+        "rule_version": "public_theme_heat_v0.8",
+        "event_component": {
+          "input": 30,
+          "normalized": 100.0,
+          "weighted": 25.0
+        },
+        "source_component": {
+          "input": 3,
+          "normalized": 75.0,
+          "weighted": 18.75
+        },
+        "candidate_component": {
+          "input": 0,
+          "normalized": 0.0,
+          "weighted": 0.0
+        },
+        "mapping_component": {
+          "mapping_count": 127,
+          "direct_mapping_event_count": 12,
+          "normalized": 100.0,
+          "weighted": 30.0
+        },
+        "single_source_concentration": 0.733,
+        "concentration_penalty": 5.0,
+        "raw_score": 68.75
+      },
+      "direct_mentions": [
         {
           "instrument_id": "TWSE:2028",
           "symbol": "2028",
@@ -70,6 +164,14 @@
           "name_zh": "威致",
           "direct_event_count": 3,
           "latest_mentioned_at": "2026-10-10T04:30:12Z"
+        },
+        {
+          "instrument_id": "TWSE:2455",
+          "symbol": "2455",
+          "exchange": "TWSE",
+          "name_zh": "全新",
+          "direct_event_count": 2,
+          "latest_mentioned_at": "2026-10-10T05:30:56Z"
         },
         {
           "instrument_id": "TWSE:2029",
@@ -180,132 +282,14 @@
         }
       ],
       "representative_news": {
-        "cluster_id": "cluster-516c8c7b176f5862",
-        "id": "cnyes-23500ae88ece",
-        "title_zh": "特斯拉漲逾2% 分析師：布局實體AI最直接標的之一",
-        "summary": "Ives重申特斯拉優於大盤，稱其本質是AI公司，FSD、Robotaxi、Optimus將主導估值。&#10;Ives估2028年SOTP中，電動車業務每股約165美元，其餘335美元來自自駕與Optimus。&#10;Robotaxi已在美6城營運、付費里程近250萬英里；但Optimus時程延後，成長仍有風險。",
+        "cluster_id": "cluster-10993f9c9faa3f7d",
+        "id": "cnyes-744ea721c66e",
+        "title_zh": "微軟、輝達聯手重塑 AI PC！黃仁勳揭下一代個人電腦與AI代理布局",
+        "summary": "微軟、輝達在 Windows 發表會談合作延伸至 AI 代理，從 PC 軟硬體走向 AI 基礎設施&#10;微軟提 MXC 作為代理安全邊界，需隔離、可觀測性、身分識別與治理&#10;黃仁勳稱新 PC 架構投入逾4,000工程人年、1 PFLOPS，測試超過1,200款應用",
         "source_id": "cnyes",
         "source": "鉅亨網 Cnyes",
-        "published_at": "2026-10-10T04:30:12Z",
-        "canonical_url": "https://news.cnyes.com/news/id/6627120"
-      }
-    },
-    {
-      "rank": 2,
-      "theme_id": "defense_drone",
-      "name_zh": "國防與無人機",
-      "heat_score": 75,
-      "summaries": {
-        "event_count": 6,
-        "source_count": 2,
-        "tracking_candidate_count": 2,
-        "taiwan_mapping_count": 5
-      },
-      "heat_reason": {
-        "rule_version": "public_theme_heat_v0.8",
-        "event_component": {
-          "input": 6,
-          "normalized": 100.0,
-          "weighted": 25.0
-        },
-        "source_component": {
-          "input": 2,
-          "normalized": 50.0,
-          "weighted": 12.5
-        },
-        "candidate_component": {
-          "input": 2,
-          "normalized": 50.0,
-          "weighted": 10.0
-        },
-        "mapping_component": {
-          "mapping_count": 5,
-          "direct_mapping_event_count": 3,
-          "normalized": 100.0,
-          "weighted": 30.0
-        },
-        "single_source_concentration": 0.667,
-        "concentration_penalty": 2.5,
-        "raw_score": 75.0
-      },
-      "direct_mentions": [
-        {
-          "instrument_id": "TWSE:2025",
-          "symbol": "2025",
-          "exchange": "TWSE",
-          "name_zh": "千興",
-          "direct_event_count": 1,
-          "latest_mentioned_at": "2026-10-08T03:37:17Z"
-        },
-        {
-          "instrument_id": "TWSE:2012",
-          "symbol": "2012",
-          "exchange": "TWSE",
-          "name_zh": "春雨",
-          "direct_event_count": 1,
-          "latest_mentioned_at": "2026-10-07T21:00:00Z"
-        },
-        {
-          "instrument_id": "TWSE:2258",
-          "symbol": "2258",
-          "exchange": "TWSE",
-          "name_zh": "鴻華先進-創",
-          "direct_event_count": 1,
-          "latest_mentioned_at": "2026-10-07T21:00:00Z"
-        },
-        {
-          "instrument_id": "TWSE:2028",
-          "symbol": "2028",
-          "exchange": "TWSE",
-          "name_zh": "威致",
-          "direct_event_count": 1,
-          "latest_mentioned_at": "2026-10-07T18:44:53Z"
-        }
-      ],
-      "supply_chain_candidates": [
-        {
-          "instrument_id": "TPEX:5371",
-          "symbol": "5371",
-          "exchange": "TPEX",
-          "name_zh": "中光電",
-          "direct_event_count": 0,
-          "official_evidence_count": 0,
-          "company_rank_score": 1,
-          "latest_mentioned_at": null,
-          "latest_official_at": null
-        },
-        {
-          "instrument_id": "TWSE:2634",
-          "symbol": "2634",
-          "exchange": "TWSE",
-          "name_zh": "漢翔",
-          "direct_event_count": 0,
-          "official_evidence_count": 0,
-          "company_rank_score": 1,
-          "latest_mentioned_at": null,
-          "latest_official_at": null
-        },
-        {
-          "instrument_id": "TWSE:8033",
-          "symbol": "8033",
-          "exchange": "TWSE",
-          "name_zh": "雷虎",
-          "direct_event_count": 0,
-          "official_evidence_count": 0,
-          "company_rank_score": 1,
-          "latest_mentioned_at": null,
-          "latest_official_at": null
-        }
-      ],
-      "representative_news": {
-        "cluster_id": "cluster-bb30f5f5c3ceeb55",
-        "id": "digitimes_tw-eddbcef26bd7",
-        "title_zh": "融程電訊推強固型邊緣AI平台　搶攻無人機、機器人商機",
-        "summary": "在國防軍工、半導體及邊緣AI等市場終端需求強勁的帶動下，工業電腦（IPC）業者融程電訊2026年9月營收為新台幣（以下同）5.35億元，月增31.8%、年增95.9%。融程電訊表示，國防軍工、半導體及邊緣AI（Edge AI",
-        "source_id": "digitimes_tw",
-        "source": "DIGITIMES",
-        "published_at": "2026-10-08T02:36:57Z",
-        "canonical_url": "https://www.digitimes.com.tw/tech/dt/n/shwnws.asp?id=0000770922_P9D8ACK03VFB2Y1JZ7HL9"
+        "published_at": "2026-10-10T08:10:03Z",
+        "canonical_url": "https://news.cnyes.com/news/id/6627216"
       }
     },
     {
@@ -412,6 +396,91 @@
     },
     {
       "rank": 4,
+      "theme_id": "robotics",
+      "name_zh": "機器人",
+      "heat_score": 58,
+      "summaries": {
+        "event_count": 5,
+        "source_count": 3,
+        "tracking_candidate_count": 0,
+        "taiwan_mapping_count": 25
+      },
+      "heat_reason": {
+        "rule_version": "public_theme_heat_v0.8",
+        "event_component": {
+          "input": 5,
+          "normalized": 83.333,
+          "weighted": 20.833
+        },
+        "source_component": {
+          "input": 3,
+          "normalized": 75.0,
+          "weighted": 18.75
+        },
+        "candidate_component": {
+          "input": 0,
+          "normalized": 0.0,
+          "weighted": 0.0
+        },
+        "mapping_component": {
+          "mapping_count": 25,
+          "direct_mapping_event_count": 0,
+          "normalized": 60.0,
+          "weighted": 18.0
+        },
+        "single_source_concentration": 0.429,
+        "concentration_penalty": 0.0,
+        "raw_score": 57.583
+      },
+      "direct_mentions": [],
+      "supply_chain_candidates": [
+        {
+          "instrument_id": "TPEX:3379",
+          "symbol": "3379",
+          "exchange": "TPEX",
+          "name_zh": "彬台",
+          "direct_event_count": 0,
+          "official_evidence_count": 0,
+          "company_rank_score": 1,
+          "latest_mentioned_at": null,
+          "latest_official_at": null
+        },
+        {
+          "instrument_id": "TPEX:3577",
+          "symbol": "3577",
+          "exchange": "TPEX",
+          "name_zh": "泓格",
+          "direct_event_count": 0,
+          "official_evidence_count": 0,
+          "company_rank_score": 1,
+          "latest_mentioned_at": null,
+          "latest_official_at": null
+        },
+        {
+          "instrument_id": "TPEX:5289",
+          "symbol": "5289",
+          "exchange": "TPEX",
+          "name_zh": "宜鼎",
+          "direct_event_count": 0,
+          "official_evidence_count": 0,
+          "company_rank_score": 1,
+          "latest_mentioned_at": null,
+          "latest_official_at": null
+        }
+      ],
+      "representative_news": {
+        "cluster_id": "cluster-47a59d1a31ae48df",
+        "id": "cnyes-de3562086224",
+        "title_zh": "全球首次！中國西湖科技機器人WR1比肩黃仁勳加碼投資的Figure　全身協同連貫自主摺衣",
+        "summary": "西湖機器人升級通用大腦WR1，直面家庭複雜家務場景&#10;WR1採全球首創大小腦雙預訓練架構，融合WM與VLA、GAE&#10;實測完成摺衣、取衣、跨房間收納等一鏡到底家務流程",
+        "source_id": "cnyes",
+        "source": "鉅亨網 Cnyes",
+        "published_at": "2026-10-10T10:00:03Z",
+        "canonical_url": "https://news.cnyes.com/news/id/6627251"
+      }
+    },
+    {
+      "rank": 5,
       "theme_id": "ai_server",
       "name_zh": "AI 伺服器",
       "heat_score": 54,
@@ -510,100 +579,6 @@
         "source": "TechNews",
         "published_at": "2026-10-10T00:00:27Z",
         "canonical_url": "https://finance.technews.tw/2026/10/10/king-slide-success-story-revealed/"
-      }
-    },
-    {
-      "rank": 5,
-      "theme_id": "energy_grid",
-      "name_zh": "能源與電網",
-      "heat_score": 47,
-      "summaries": {
-        "event_count": 3,
-        "source_count": 2,
-        "tracking_candidate_count": 0,
-        "taiwan_mapping_count": 4
-      },
-      "heat_reason": {
-        "rule_version": "public_theme_heat_v0.8",
-        "event_component": {
-          "input": 3,
-          "normalized": 50.0,
-          "weighted": 12.5
-        },
-        "source_component": {
-          "input": 2,
-          "normalized": 50.0,
-          "weighted": 12.5
-        },
-        "candidate_component": {
-          "input": 0,
-          "normalized": 0.0,
-          "weighted": 0.0
-        },
-        "mapping_component": {
-          "mapping_count": 4,
-          "direct_mapping_event_count": 1,
-          "normalized": 80.0,
-          "weighted": 24.0
-        },
-        "single_source_concentration": 0.667,
-        "concentration_penalty": 2.5,
-        "raw_score": 46.5
-      },
-      "direct_mentions": [
-        {
-          "instrument_id": "TWSE:2028",
-          "symbol": "2028",
-          "exchange": "TWSE",
-          "name_zh": "威致",
-          "direct_event_count": 1,
-          "latest_mentioned_at": "2026-10-08T12:22:35Z"
-        }
-      ],
-      "supply_chain_candidates": [
-        {
-          "instrument_id": "TWSE:1503",
-          "symbol": "1503",
-          "exchange": "TWSE",
-          "name_zh": "士電",
-          "direct_event_count": 0,
-          "official_evidence_count": 0,
-          "company_rank_score": 1,
-          "latest_mentioned_at": null,
-          "latest_official_at": null
-        },
-        {
-          "instrument_id": "TWSE:1513",
-          "symbol": "1513",
-          "exchange": "TWSE",
-          "name_zh": "中興電",
-          "direct_event_count": 0,
-          "official_evidence_count": 0,
-          "company_rank_score": 1,
-          "latest_mentioned_at": null,
-          "latest_official_at": null
-        },
-        {
-          "instrument_id": "TWSE:1519",
-          "symbol": "1519",
-          "exchange": "TWSE",
-          "name_zh": "華城",
-          "direct_event_count": 0,
-          "official_evidence_count": 0,
-          "company_rank_score": 1,
-          "latest_mentioned_at": null,
-          "latest_official_at": null
-        }
-      ],
-      "representative_news": {
-        "cluster_id": "cluster-c5f5ed2fabe67ec1",
-        "id": "technews-08f73161985e",
-        "title_zh": "AI 軍備競賽關鍵是電力！阿波羅電力採購特斯拉 1GWh 大型儲能設備",
-        "summary": "阿波羅電力近日與台灣特斯拉能源事業簽署總容量約 1GWh 大型儲能設備採購合約，總計採購 260 台的 Tes [&#8230;]",
-        "source_id": "technews",
-        "source": "TechNews",
-        "published_at": "2026-10-10T03:42:58Z",
-        "canonical_url": "https://finance.technews.tw/2026/10/10/1gwh/"
       }
     }
   ]
