@@ -2,14 +2,14 @@
   "schema_version": "nexus_public_theme_ranking.v0.8",
   "ranking_rule_version": "public_theme_heat_v0.8",
   "company_rule_version": "public_company_evidence_v0.8",
-  "generated_at": "2026-10-16T17:26:29.573798Z",
+  "generated_at": "2026-10-16T21:12:23.701047Z",
   "market_id": "TW_EQUITY",
   "market_scope": [
     "TW_EQUITY"
   ],
   "window_hours": 72,
   "max_themes": 5,
-  "qualified_theme_count": 14,
+  "qualified_theme_count": 12,
   "displayed_theme_count": 5,
   "threshold_note": null,
   "generation_status": "complete",
@@ -242,7 +242,7 @@
       "name_zh": "AI",
       "heat_score": 80,
       "summaries": {
-        "event_count": 24,
+        "event_count": 23,
         "source_count": 4,
         "tracking_candidate_count": 0,
         "taiwan_mapping_count": 131
@@ -250,7 +250,7 @@
       "heat_reason": {
         "rule_version": "public_theme_heat_v0.8",
         "event_component": {
-          "input": 24,
+          "input": 23,
           "normalized": 100.0,
           "weighted": 25.0
         },
@@ -270,7 +270,7 @@
           "normalized": 100.0,
           "weighted": 30.0
         },
-        "single_source_concentration": 0.56,
+        "single_source_concentration": 0.583,
         "concentration_penalty": 0.0,
         "raw_score": 80.0
       },
@@ -412,14 +412,14 @@
     },
     {
       "rank": 4,
-      "theme_id": "cowos_supply_chain",
-      "name_zh": "CoWoS 先進封裝",
-      "heat_score": 80,
+      "theme_id": "statementdog_tag_2163",
+      "name_zh": "半導體",
+      "heat_score": 71,
       "summaries": {
         "event_count": 6,
-        "source_count": 4,
+        "source_count": 3,
         "tracking_candidate_count": 0,
-        "taiwan_mapping_count": 4
+        "taiwan_mapping_count": 47
       },
       "heat_reason": {
         "rule_version": "public_theme_heat_v0.8",
@@ -429,9 +429,9 @@
           "weighted": 25.0
         },
         "source_component": {
-          "input": 4,
-          "normalized": 100.0,
-          "weighted": 25.0
+          "input": 3,
+          "normalized": 75.0,
+          "weighted": 18.75
         },
         "candidate_component": {
           "input": 0,
@@ -439,14 +439,14 @@
           "weighted": 0.0
         },
         "mapping_component": {
-          "mapping_count": 4,
+          "mapping_count": 47,
           "direct_mapping_event_count": 3,
           "normalized": 100.0,
           "weighted": 30.0
         },
-        "single_source_concentration": 0.571,
-        "concentration_penalty": 0.0,
-        "raw_score": 80.0
+        "single_source_concentration": 0.667,
+        "concentration_penalty": 2.5,
+        "raw_score": 71.25
       },
       "direct_mentions": [
         {
@@ -455,8 +455,102 @@
           "exchange": "TWSE",
           "name_zh": "台積電",
           "direct_event_count": 2,
-          "latest_mentioned_at": "2026-10-16T13:41:24Z"
+          "latest_mentioned_at": "2026-10-16T14:40:39Z"
         },
+        {
+          "instrument_id": "TWSE:2030",
+          "symbol": "2030",
+          "exchange": "TWSE",
+          "name_zh": "彰源",
+          "direct_event_count": 1,
+          "latest_mentioned_at": "2026-10-16T05:45:24Z"
+        }
+      ],
+      "supply_chain_candidates": [
+        {
+          "instrument_id": "TWSE:2330",
+          "symbol": "2330",
+          "exchange": "TWSE",
+          "name_zh": "台積電",
+          "direct_event_count": 2,
+          "official_evidence_count": 0,
+          "company_rank_score": 9,
+          "latest_mentioned_at": "2026-10-16T14:40:39Z",
+          "latest_official_at": null
+        },
+        {
+          "instrument_id": "TPEX:3131",
+          "symbol": "3131",
+          "exchange": "TPEX",
+          "name_zh": "弘塑",
+          "direct_event_count": 0,
+          "official_evidence_count": 0,
+          "company_rank_score": 1,
+          "latest_mentioned_at": null,
+          "latest_official_at": null
+        },
+        {
+          "instrument_id": "TPEX:3680",
+          "symbol": "3680",
+          "exchange": "TPEX",
+          "name_zh": "家登",
+          "direct_event_count": 0,
+          "official_evidence_count": 0,
+          "company_rank_score": 1,
+          "latest_mentioned_at": null,
+          "latest_official_at": null
+        }
+      ],
+      "representative_news": {
+        "cluster_id": "cluster-78b26c956d0da8f2",
+        "id": "yahoo_finance_tw-fd476d9bc6f5",
+        "title_zh": "全球半導體巨頭入列 低成本ETF如何配置台積電、三星、艾司摩爾",
+        "summary": "圖／本報資料庫商傳媒｜何映辰／台北報導近期，美國科技巨頭如輝達、蘋果公司、Alphabet、微軟與亞馬遜，已大幅改變標普500（S&amp;P 500）等主要股價指數的構成。這五家公司已成為全球市值最高的企業",
+        "source_id": "yahoo_finance_tw",
+        "source": "Yahoo Finance Taiwan",
+        "published_at": "2026-10-16T14:40:39Z",
+        "canonical_url": "https://tw.stock.yahoo.com/news/%E5%85%A8%E7%90%83%E5%8D%8A%E5%B0%8E%E9%AB%94%E5%B7%A8%E9%A0%AD%E5%85%A5%E5%88%97-%E4%BD%8E%E6%88%90%E6%9C%ACetf%E5%A6%82%E4%BD%95%E9%85%8D%E7%BD%AE%E5%8F%B0%E7%A9%8D%E9%9B%BB-%E4%B8%89%E6%98%9F-%E8%89%BE%E5%8F%B8%E6%91%A9%E7%88%BE-144039732.html"
+      }
+    },
+    {
+      "rank": 5,
+      "theme_id": "cowos_supply_chain",
+      "name_zh": "CoWoS 先進封裝",
+      "heat_score": 67,
+      "summaries": {
+        "event_count": 5,
+        "source_count": 3,
+        "tracking_candidate_count": 0,
+        "taiwan_mapping_count": 4
+      },
+      "heat_reason": {
+        "rule_version": "public_theme_heat_v0.8",
+        "event_component": {
+          "input": 5,
+          "normalized": 83.333,
+          "weighted": 20.833
+        },
+        "source_component": {
+          "input": 3,
+          "normalized": 75.0,
+          "weighted": 18.75
+        },
+        "candidate_component": {
+          "input": 0,
+          "normalized": 0.0,
+          "weighted": 0.0
+        },
+        "mapping_component": {
+          "mapping_count": 4,
+          "direct_mapping_event_count": 2,
+          "normalized": 100.0,
+          "weighted": 30.0
+        },
+        "single_source_concentration": 0.667,
+        "concentration_penalty": 2.5,
+        "raw_score": 67.083
+      },
+      "direct_mentions": [
         {
           "instrument_id": "TWSE:3711",
           "symbol": "3711",
@@ -472,6 +566,14 @@
           "name_zh": "威致",
           "direct_event_count": 1,
           "latest_mentioned_at": "2026-10-15T18:41:27Z"
+        },
+        {
+          "instrument_id": "TWSE:2330",
+          "symbol": "2330",
+          "exchange": "TWSE",
+          "name_zh": "台積電",
+          "direct_event_count": 1,
+          "latest_mentioned_at": "2026-10-15T18:41:27Z"
         }
       ],
       "supply_chain_candidates": [],
@@ -484,113 +586,6 @@
         "source": "鉅亨網 Cnyes",
         "published_at": "2026-10-16T04:19:28Z",
         "canonical_url": "https://news.cnyes.com/news/id/6631943"
-      }
-    },
-    {
-      "rank": 5,
-      "theme_id": "pcb_abf_hdi",
-      "name_zh": "PCB／ABF／HDI",
-      "heat_score": 73,
-      "summaries": {
-        "event_count": 5,
-        "source_count": 2,
-        "tracking_candidate_count": 2,
-        "taiwan_mapping_count": 7
-      },
-      "heat_reason": {
-        "rule_version": "public_theme_heat_v0.8",
-        "event_component": {
-          "input": 5,
-          "normalized": 83.333,
-          "weighted": 20.833
-        },
-        "source_component": {
-          "input": 2,
-          "normalized": 50.0,
-          "weighted": 12.5
-        },
-        "candidate_component": {
-          "input": 2,
-          "normalized": 50.0,
-          "weighted": 10.0
-        },
-        "mapping_component": {
-          "mapping_count": 7,
-          "direct_mapping_event_count": 4,
-          "normalized": 100.0,
-          "weighted": 30.0
-        },
-        "single_source_concentration": 0.6,
-        "concentration_penalty": 0.0,
-        "raw_score": 73.333
-      },
-      "direct_mentions": [
-        {
-          "instrument_id": "TWSE:2330",
-          "symbol": "2330",
-          "exchange": "TWSE",
-          "name_zh": "台積電",
-          "direct_event_count": 2,
-          "latest_mentioned_at": "2026-10-16T06:45:19Z"
-        },
-        {
-          "instrument_id": "TWSE:2367",
-          "symbol": "2367",
-          "exchange": "TWSE",
-          "name_zh": "燿華",
-          "direct_event_count": 1,
-          "latest_mentioned_at": "2026-10-16T01:23:13Z"
-        },
-        {
-          "instrument_id": "TWSE:2027",
-          "symbol": "2027",
-          "exchange": "TWSE",
-          "name_zh": "大成鋼",
-          "direct_event_count": 1,
-          "latest_mentioned_at": "2026-10-15T18:30:46Z"
-        },
-        {
-          "instrument_id": "TWSE:2028",
-          "symbol": "2028",
-          "exchange": "TWSE",
-          "name_zh": "威致",
-          "direct_event_count": 1,
-          "latest_mentioned_at": "2026-10-15T18:30:46Z"
-        }
-      ],
-      "supply_chain_candidates": [
-        {
-          "instrument_id": "TWSE:2368",
-          "symbol": "2368",
-          "exchange": "TWSE",
-          "name_zh": "金像電",
-          "direct_event_count": 0,
-          "official_evidence_count": 0,
-          "company_rank_score": 1,
-          "latest_mentioned_at": null,
-          "latest_official_at": null
-        },
-        {
-          "instrument_id": "TWSE:8046",
-          "symbol": "8046",
-          "exchange": "TWSE",
-          "name_zh": "南電",
-          "direct_event_count": 0,
-          "official_evidence_count": 0,
-          "company_rank_score": 1,
-          "latest_mentioned_at": null,
-          "latest_official_at": null
-        }
-      ],
-      "representative_news": {
-        "cluster_id": "cluster-5e6274836aabc1a6",
-        "id": "digitimes_tw-09b5c02d3071",
-        "title_zh": "DIGITIMES Today：台積電證實代理式AI帶飛CPU需求 | 陳立武的「示弱哲學」 | 三星電機ABF載板擴產壯舉恐遇阻",
-        "summary": "早安。台積電2026年第3季法說會再度繳出亮眼成績單，不僅獲利創下歷史新高，第4季營收更上看季增15%，全年美元營收成長率可望達44%。然而，比起財報數字，台積電憑藉先進製程技術領先與龐大產能規模，逐步掌握訂",
-        "source_id": "digitimes_tw",
-        "source": "DIGITIMES",
-        "published_at": "2026-10-15T22:01:53Z",
-        "canonical_url": "https://www.digitimes.com.tw/tech/dt/n/shwnws.asp?id=0000771690_EQ75UKHML4FUTSLVKQY0M"
       }
     }
   ]
