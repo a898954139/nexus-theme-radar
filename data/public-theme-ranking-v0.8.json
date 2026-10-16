@@ -2,14 +2,14 @@
   "schema_version": "nexus_public_theme_ranking.v0.8",
   "ranking_rule_version": "public_theme_heat_v0.8",
   "company_rule_version": "public_company_evidence_v0.8",
-  "generated_at": "2026-10-16T21:12:23.701047Z",
+  "generated_at": "2026-10-16T23:37:34.593677Z",
   "market_id": "TW_EQUITY",
   "market_scope": [
     "TW_EQUITY"
   ],
   "window_hours": 72,
   "max_themes": 5,
-  "qualified_theme_count": 12,
+  "qualified_theme_count": 11,
   "displayed_theme_count": 5,
   "threshold_note": null,
   "generation_status": "complete",
@@ -20,29 +20,29 @@
       "rank": 1,
       "theme_id": "defense_drone",
       "name_zh": "國防與無人機",
-      "heat_score": 95,
+      "heat_score": 84,
       "summaries": {
-        "event_count": 8,
-        "source_count": 4,
-        "tracking_candidate_count": 3,
+        "event_count": 7,
+        "source_count": 3,
+        "tracking_candidate_count": 2,
         "taiwan_mapping_count": 6
       },
       "heat_reason": {
         "rule_version": "public_theme_heat_v0.8",
         "event_component": {
-          "input": 8,
+          "input": 7,
           "normalized": 100.0,
           "weighted": 25.0
         },
         "source_component": {
-          "input": 4,
-          "normalized": 100.0,
-          "weighted": 25.0
-        },
-        "candidate_component": {
           "input": 3,
           "normalized": 75.0,
-          "weighted": 15.0
+          "weighted": 18.75
+        },
+        "candidate_component": {
+          "input": 2,
+          "normalized": 50.0,
+          "weighted": 10.0
         },
         "mapping_component": {
           "mapping_count": 6,
@@ -50,9 +50,9 @@
           "normalized": 100.0,
           "weighted": 30.0
         },
-        "single_source_concentration": 0.375,
+        "single_source_concentration": 0.429,
         "concentration_penalty": 0.0,
-        "raw_score": 95.0
+        "raw_score": 83.75
       },
       "direct_mentions": [
         {
@@ -130,10 +130,10 @@
       "rank": 2,
       "theme_id": "memory_hbm",
       "name_zh": "記憶體與 HBM",
-      "heat_score": 89,
+      "heat_score": 80,
       "summaries": {
         "event_count": 6,
-        "source_count": 3,
+        "source_count": 2,
         "tracking_candidate_count": 3,
         "taiwan_mapping_count": 41
       },
@@ -145,9 +145,9 @@
           "weighted": 25.0
         },
         "source_component": {
-          "input": 3,
-          "normalized": 75.0,
-          "weighted": 18.75
+          "input": 2,
+          "normalized": 50.0,
+          "weighted": 12.5
         },
         "candidate_component": {
           "input": 3,
@@ -160,9 +160,9 @@
           "normalized": 100.0,
           "weighted": 30.0
         },
-        "single_source_concentration": 0.571,
-        "concentration_penalty": 0.0,
-        "raw_score": 88.75
+        "single_source_concentration": 0.667,
+        "concentration_penalty": 2.5,
+        "raw_score": 80.0
       },
       "direct_mentions": [
         {
@@ -226,7 +226,7 @@
         }
       ],
       "representative_news": {
-        "cluster_id": "cluster-dbf41bfc9cc671e0",
+        "cluster_id": "cluster-5ab4c5f2c1a88599",
         "id": "cnyes-b800057f02f1",
         "title_zh": "摩根士丹利發出最新警告：記憶體股低本益比恐為周期頂峰「估值陷阱」",
         "summary": "AI需求推升全球記憶體進入超級周期，三星2026年Q3營益估800億美元，HBM市場2028年將翻三倍至1,000億美元。&#10;摩根士丹利指記憶體股本益比低恐是估值陷阱，若要續漲DRAM合約價須月增約70%，遠高於TrendForce預估。&#10;報告稱2026年DRAM資本支出將年增82%至980億美元。",
@@ -240,12 +240,12 @@
       "rank": 3,
       "theme_id": "statementdog_tag_1517",
       "name_zh": "AI",
-      "heat_score": 80,
+      "heat_score": 73,
       "summaries": {
         "event_count": 23,
-        "source_count": 4,
+        "source_count": 3,
         "tracking_candidate_count": 0,
-        "taiwan_mapping_count": 131
+        "taiwan_mapping_count": 134
       },
       "heat_reason": {
         "rule_version": "public_theme_heat_v0.8",
@@ -255,9 +255,9 @@
           "weighted": 25.0
         },
         "source_component": {
-          "input": 4,
-          "normalized": 100.0,
-          "weighted": 25.0
+          "input": 3,
+          "normalized": 75.0,
+          "weighted": 18.75
         },
         "candidate_component": {
           "input": 0,
@@ -265,24 +265,16 @@
           "weighted": 0.0
         },
         "mapping_component": {
-          "mapping_count": 131,
-          "direct_mapping_event_count": 10,
+          "mapping_count": 134,
+          "direct_mapping_event_count": 9,
           "normalized": 100.0,
           "weighted": 30.0
         },
-        "single_source_concentration": 0.583,
-        "concentration_penalty": 0.0,
-        "raw_score": 80.0
+        "single_source_concentration": 0.609,
+        "concentration_penalty": 0.326,
+        "raw_score": 73.424
       },
       "direct_mentions": [
-        {
-          "instrument_id": "TWSE:2455",
-          "symbol": "2455",
-          "exchange": "TWSE",
-          "name_zh": "全新",
-          "direct_event_count": 2,
-          "latest_mentioned_at": "2026-10-16T14:00:38Z"
-        },
         {
           "instrument_id": "TWSE:2025",
           "symbol": "2025",
@@ -322,6 +314,14 @@
           "name_zh": "華碩",
           "direct_event_count": 1,
           "latest_mentioned_at": "2026-10-16T06:27:30Z"
+        },
+        {
+          "instrument_id": "TWSE:2455",
+          "symbol": "2455",
+          "exchange": "TWSE",
+          "name_zh": "全新",
+          "direct_event_count": 1,
+          "latest_mentioned_at": "2026-10-16T04:13:50Z"
         },
         {
           "instrument_id": "TWSE:2030",
@@ -400,14 +400,14 @@
         }
       ],
       "representative_news": {
-        "cluster_id": "cluster-fe33f409aa7bd695",
-        "id": "cnyes-7b83abf02e79",
-        "title_zh": "〈美股早盤〉AI疑慮壓抑晶片股、特斯拉撐盤 主要指數漲跌互現",
-        "summary": "美股周五開盤漲跌互現，AI投資疑慮壓抑半導體與科技股，那指跌、費半重挫，台積電ADR跌4.60%。&#10;特斯拉發表第二代Roadster與SpaceX推進器技術，股價走揚；蘋果iPhone Duo預購迅速售罄。&#10;Fed未明確表態，交易員將10月升息押注降至約15%。",
+        "cluster_id": "cluster-ea4f4a44b3980560",
+        "id": "cnyes-d511cd4f84fd",
+        "title_zh": "兩岸收緊科技管制！中國擬管制AI等40項技術出口 台灣嚴堵晶片走私",
+        "summary": "中國擬修訂出口技術目錄，新增40項技術、AI占23項，涵蓋大型模型、AI代理與運算叢集。&#10;商務部稱管制重點在技術轉移，API、App、SaaS等多數AI服務仍可海外拓展，已先要求相關出口登記。&#10;台灣擬將AI伺服器與先進半導體納入出口管制，違規運送中國將追究刑責。",
         "source_id": "cnyes",
         "source": "鉅亨網 Cnyes",
-        "published_at": "2026-10-16T13:41:51Z",
-        "canonical_url": "https://news.cnyes.com/news/id/6632278"
+        "published_at": "2026-10-16T23:10:03Z",
+        "canonical_url": "https://news.cnyes.com/news/id/6632558"
       }
     },
     {
@@ -419,7 +419,7 @@
         "event_count": 6,
         "source_count": 3,
         "tracking_candidate_count": 0,
-        "taiwan_mapping_count": 47
+        "taiwan_mapping_count": 48
       },
       "heat_reason": {
         "rule_version": "public_theme_heat_v0.8",
@@ -439,7 +439,7 @@
           "weighted": 0.0
         },
         "mapping_component": {
-          "mapping_count": 47,
+          "mapping_count": 48,
           "direct_mapping_event_count": 3,
           "normalized": 100.0,
           "weighted": 30.0
@@ -450,12 +450,12 @@
       },
       "direct_mentions": [
         {
-          "instrument_id": "TWSE:2330",
-          "symbol": "2330",
+          "instrument_id": "TWSE:2031",
+          "symbol": "2031",
           "exchange": "TWSE",
-          "name_zh": "台積電",
-          "direct_event_count": 2,
-          "latest_mentioned_at": "2026-10-16T14:40:39Z"
+          "name_zh": "新光鋼",
+          "direct_event_count": 1,
+          "latest_mentioned_at": "2026-10-16T23:30:08Z"
         },
         {
           "instrument_id": "TWSE:2030",
@@ -464,6 +464,14 @@
           "name_zh": "彰源",
           "direct_event_count": 1,
           "latest_mentioned_at": "2026-10-16T05:45:24Z"
+        },
+        {
+          "instrument_id": "TWSE:2330",
+          "symbol": "2330",
+          "exchange": "TWSE",
+          "name_zh": "台積電",
+          "direct_event_count": 1,
+          "latest_mentioned_at": "2026-10-15T18:03:08Z"
         }
       ],
       "supply_chain_candidates": [
@@ -472,10 +480,10 @@
           "symbol": "2330",
           "exchange": "TWSE",
           "name_zh": "台積電",
-          "direct_event_count": 2,
+          "direct_event_count": 1,
           "official_evidence_count": 0,
-          "company_rank_score": 9,
-          "latest_mentioned_at": "2026-10-16T14:40:39Z",
+          "company_rank_score": 5,
+          "latest_mentioned_at": "2026-10-15T18:03:08Z",
           "latest_official_at": null
         },
         {
@@ -502,14 +510,14 @@
         }
       ],
       "representative_news": {
-        "cluster_id": "cluster-78b26c956d0da8f2",
-        "id": "yahoo_finance_tw-fd476d9bc6f5",
-        "title_zh": "全球半導體巨頭入列 低成本ETF如何配置台積電、三星、艾司摩爾",
-        "summary": "圖／本報資料庫商傳媒｜何映辰／台北報導近期，美國科技巨頭如輝達、蘋果公司、Alphabet、微軟與亞馬遜，已大幅改變標普500（S&amp;P 500）等主要股價指數的構成。這五家公司已成為全球市值最高的企業",
-        "source_id": "yahoo_finance_tw",
-        "source": "Yahoo Finance Taiwan",
-        "published_at": "2026-10-16T14:40:39Z",
-        "canonical_url": "https://tw.stock.yahoo.com/news/%E5%85%A8%E7%90%83%E5%8D%8A%E5%B0%8E%E9%AB%94%E5%B7%A8%E9%A0%AD%E5%85%A5%E5%88%97-%E4%BD%8E%E6%88%90%E6%9C%ACetf%E5%A6%82%E4%BD%95%E9%85%8D%E7%BD%AE%E5%8F%B0%E7%A9%8D%E9%9B%BB-%E4%B8%89%E6%98%9F-%E8%89%BE%E5%8F%B8%E6%91%A9%E7%88%BE-144039732.html"
+        "cluster_id": "cluster-06ea3a6b685172fb",
+        "id": "cnyes-82969541e6dc",
+        "title_zh": "「大賣空」貝瑞加碼做空美股！押注那斯達克與半導體股回檔",
+        "summary": "Bain估AI產業到2031年年收需6兆美元，現僅1.8兆，缺口4.2兆恐令資料中心支出失衡。&#10;貝瑞10月11日改押那斯達克100與SMH賣權，預期9個月內市場見高點，履約價約低現價20%。&#10;他仍看空AI熱門股與大型雲端承諾，稱市場集中度高、波動低，但能否泡沫化仍待營收成長驗證。",
+        "source_id": "cnyes",
+        "source": "鉅亨網 Cnyes",
+        "published_at": "2026-10-16T23:30:08Z",
+        "canonical_url": "https://news.cnyes.com/news/id/6631675"
       }
     },
     {
