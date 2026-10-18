@@ -2,7 +2,7 @@
   "schema_version": "nexus_public_theme_ranking.v0.8",
   "ranking_rule_version": "public_theme_heat_v0.8",
   "company_rule_version": "public_company_evidence_v0.8",
-  "generated_at": "2026-10-18T20:47:04.062743Z",
+  "generated_at": "2026-10-18T23:15:27.616458Z",
   "market_id": "TW_EQUITY",
   "market_scope": [
     "TW_EQUITY"
@@ -20,10 +20,10 @@
       "rank": 1,
       "theme_id": "memory_hbm",
       "name_zh": "記憶體與 HBM",
-      "heat_score": 100,
+      "heat_score": 94,
       "summaries": {
         "event_count": 11,
-        "source_count": 4,
+        "source_count": 3,
         "tracking_candidate_count": 7,
         "taiwan_mapping_count": 34
       },
@@ -35,9 +35,9 @@
           "weighted": 25.0
         },
         "source_component": {
-          "input": 4,
-          "normalized": 100.0,
-          "weighted": 25.0
+          "input": 3,
+          "normalized": 75.0,
+          "weighted": 18.75
         },
         "candidate_component": {
           "input": 7,
@@ -52,7 +52,7 @@
         },
         "single_source_concentration": 0.583,
         "concentration_penalty": 0.0,
-        "raw_score": 100.0
+        "raw_score": 93.75
       },
       "direct_mentions": [
         {
@@ -148,15 +148,15 @@
       "name_zh": "AI",
       "heat_score": 80,
       "summaries": {
-        "event_count": 18,
+        "event_count": 19,
         "source_count": 4,
         "tracking_candidate_count": 0,
-        "taiwan_mapping_count": 140
+        "taiwan_mapping_count": 141
       },
       "heat_reason": {
         "rule_version": "public_theme_heat_v0.8",
         "event_component": {
-          "input": 18,
+          "input": 19,
           "normalized": 100.0,
           "weighted": 25.0
         },
@@ -171,12 +171,12 @@
           "weighted": 0.0
         },
         "mapping_component": {
-          "mapping_count": 140,
+          "mapping_count": 141,
           "direct_mapping_event_count": 4,
           "normalized": 100.0,
           "weighted": 30.0
         },
-        "single_source_concentration": 0.421,
+        "single_source_concentration": 0.4,
         "concentration_penalty": 0.0,
         "raw_score": 80.0
       },
@@ -254,14 +254,14 @@
     },
     {
       "rank": 3,
-      "theme_id": "thermal_cooling",
-      "name_zh": "散熱與液冷",
-      "heat_score": 74,
+      "theme_id": "defense_drone",
+      "name_zh": "國防與無人機",
+      "heat_score": 75,
       "summaries": {
         "event_count": 4,
         "source_count": 3,
-        "tracking_candidate_count": 3,
-        "taiwan_mapping_count": 3
+        "tracking_candidate_count": 2,
+        "taiwan_mapping_count": 5
       },
       "heat_reason": {
         "rule_version": "public_theme_heat_v0.8",
@@ -276,81 +276,37 @@
           "weighted": 18.75
         },
         "candidate_component": {
-          "input": 3,
-          "normalized": 75.0,
-          "weighted": 15.0
-        },
-        "mapping_component": {
-          "mapping_count": 3,
-          "direct_mapping_event_count": 1,
-          "normalized": 80.0,
-          "weighted": 24.0
-        },
-        "single_source_concentration": 0.5,
-        "concentration_penalty": 0.0,
-        "raw_score": 74.417
-      },
-      "direct_mentions": [
-        {
-          "instrument_id": "TWSE:3653",
-          "symbol": "3653",
-          "exchange": "TWSE",
-          "name_zh": "健策",
-          "direct_event_count": 1,
-          "latest_mentioned_at": "2026-10-18T18:24:24Z"
-        }
-      ],
-      "supply_chain_candidates": [],
-      "representative_news": {
-        "cluster_id": "cluster-5bc577fac7a14c0e",
-        "id": "technews-f91ed923bc9c",
-        "title_zh": "優達科技於 2026 OCP 全球高峰會展示 1.6T AI 網路架構，動態實測液冷平台驗證散熱可行性",
-        "summary": "開放網路解決方案領導廠商優達科技（UfiSpace）宣布，於 2026 年 OCP 全球高峰會（OCP Glo [&#8230;]",
-        "source_id": "technews",
-        "source": "TechNews",
-        "published_at": "2026-10-18T06:00:29Z",
-        "canonical_url": "https://technews.tw/2026/10/18/ufispace-s9331-64ho3l/"
-      }
-    },
-    {
-      "rank": 4,
-      "theme_id": "defense_drone",
-      "name_zh": "國防與無人機",
-      "heat_score": 65,
-      "summaries": {
-        "event_count": 3,
-        "source_count": 3,
-        "tracking_candidate_count": 2,
-        "taiwan_mapping_count": 3
-      },
-      "heat_reason": {
-        "rule_version": "public_theme_heat_v0.8",
-        "event_component": {
-          "input": 3,
-          "normalized": 50.0,
-          "weighted": 12.5
-        },
-        "source_component": {
-          "input": 3,
-          "normalized": 75.0,
-          "weighted": 18.75
-        },
-        "candidate_component": {
           "input": 2,
           "normalized": 50.0,
           "weighted": 10.0
         },
         "mapping_component": {
-          "mapping_count": 3,
-          "direct_mapping_event_count": 1,
-          "normalized": 80.0,
-          "weighted": 24.0
+          "mapping_count": 5,
+          "direct_mapping_event_count": 2,
+          "normalized": 100.0,
+          "weighted": 30.0
         },
-        "single_source_concentration": 0.5,
+        "single_source_concentration": 0.4,
         "concentration_penalty": 0.0,
-        "raw_score": 65.25
+        "raw_score": 75.417
       },
       "direct_mentions": [
+        {
+          "instrument_id": "TPEX:5314",
+          "symbol": "5314",
+          "exchange": "TPEX",
+          "name_zh": "世紀*",
+          "direct_event_count": 1,
+          "latest_mentioned_at": "2026-10-18T23:04:10Z"
+        },
+        {
+          "instrument_id": "TPEX:6418",
+          "symbol": "6418",
+          "exchange": "TPEX",
+          "name_zh": "詠昇",
+          "direct_event_count": 1,
+          "latest_mentioned_at": "2026-10-18T23:04:10Z"
+        },
         {
           "instrument_id": "TWSE:8033",
           "symbol": "8033",
@@ -407,7 +363,7 @@
       }
     },
     {
-      "rank": 5,
+      "rank": 4,
       "theme_id": "statementdog_tag_2163",
       "name_zh": "半導體",
       "heat_score": 63,
@@ -530,6 +486,66 @@
         "source": "DIGITIMES",
         "published_at": "2026-10-18T18:37:55Z",
         "canonical_url": "https://www.digitimes.com.tw/tech/dt/n/shwnws.asp?id=0000771767_EQG8MT5J5LK2G58A0PLN6"
+      }
+    },
+    {
+      "rank": 5,
+      "theme_id": "thermal_cooling",
+      "name_zh": "散熱與液冷",
+      "heat_score": 62,
+      "summaries": {
+        "event_count": 3,
+        "source_count": 2,
+        "tracking_candidate_count": 3,
+        "taiwan_mapping_count": 3
+      },
+      "heat_reason": {
+        "rule_version": "public_theme_heat_v0.8",
+        "event_component": {
+          "input": 3,
+          "normalized": 50.0,
+          "weighted": 12.5
+        },
+        "source_component": {
+          "input": 2,
+          "normalized": 50.0,
+          "weighted": 12.5
+        },
+        "candidate_component": {
+          "input": 3,
+          "normalized": 75.0,
+          "weighted": 15.0
+        },
+        "mapping_component": {
+          "mapping_count": 3,
+          "direct_mapping_event_count": 1,
+          "normalized": 80.0,
+          "weighted": 24.0
+        },
+        "single_source_concentration": 0.667,
+        "concentration_penalty": 2.5,
+        "raw_score": 61.5
+      },
+      "direct_mentions": [
+        {
+          "instrument_id": "TWSE:3653",
+          "symbol": "3653",
+          "exchange": "TWSE",
+          "name_zh": "健策",
+          "direct_event_count": 1,
+          "latest_mentioned_at": "2026-10-18T18:24:24Z"
+        }
+      ],
+      "supply_chain_candidates": [],
+      "representative_news": {
+        "cluster_id": "cluster-5bc577fac7a14c0e",
+        "id": "technews-f91ed923bc9c",
+        "title_zh": "優達科技於 2026 OCP 全球高峰會展示 1.6T AI 網路架構，動態實測液冷平台驗證散熱可行性",
+        "summary": "開放網路解決方案領導廠商優達科技（UfiSpace）宣布，於 2026 年 OCP 全球高峰會（OCP Glo [&#8230;]",
+        "source_id": "technews",
+        "source": "TechNews",
+        "published_at": "2026-10-18T06:00:29Z",
+        "canonical_url": "https://technews.tw/2026/10/18/ufispace-s9331-64ho3l/"
       }
     }
   ]
