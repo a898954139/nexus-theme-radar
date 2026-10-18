@@ -2,7 +2,7 @@
   "schema_version": "nexus_public_theme_ranking.v0.8",
   "ranking_rule_version": "public_theme_heat_v0.8",
   "company_rule_version": "public_company_evidence_v0.8",
-  "generated_at": "2026-10-18T11:10:29.368370Z",
+  "generated_at": "2026-10-18T14:36:29.272351Z",
   "market_id": "TW_EQUITY",
   "market_scope": [
     "TW_EQUITY"
@@ -20,17 +20,17 @@
       "rank": 1,
       "theme_id": "memory_hbm",
       "name_zh": "記憶體與 HBM",
-      "heat_score": 90,
+      "heat_score": 95,
       "summaries": {
-        "event_count": 6,
+        "event_count": 7,
         "source_count": 4,
-        "tracking_candidate_count": 2,
+        "tracking_candidate_count": 3,
         "taiwan_mapping_count": 42
       },
       "heat_reason": {
         "rule_version": "public_theme_heat_v0.8",
         "event_component": {
-          "input": 6,
+          "input": 7,
           "normalized": 100.0,
           "weighted": 25.0
         },
@@ -40,21 +40,29 @@
           "weighted": 25.0
         },
         "candidate_component": {
-          "input": 2,
-          "normalized": 50.0,
-          "weighted": 10.0
+          "input": 3,
+          "normalized": 75.0,
+          "weighted": 15.0
         },
         "mapping_component": {
           "mapping_count": 42,
-          "direct_mapping_event_count": 2,
+          "direct_mapping_event_count": 3,
           "normalized": 100.0,
           "weighted": 30.0
         },
         "single_source_concentration": 0.571,
         "concentration_penalty": 0.0,
-        "raw_score": 90.0
+        "raw_score": 95.0
       },
       "direct_mentions": [
+        {
+          "instrument_id": "TWSE:2330",
+          "symbol": "2330",
+          "exchange": "TWSE",
+          "name_zh": "台積電",
+          "direct_event_count": 2,
+          "latest_mentioned_at": "2026-10-18T12:54:13Z"
+        },
         {
           "instrument_id": "TWSE:2027",
           "symbol": "2027",
@@ -70,14 +78,6 @@
           "name_zh": "盛餘",
           "direct_event_count": 1,
           "latest_mentioned_at": "2026-10-18T05:44:15Z"
-        },
-        {
-          "instrument_id": "TWSE:2330",
-          "symbol": "2330",
-          "exchange": "TWSE",
-          "name_zh": "台積電",
-          "direct_event_count": 1,
-          "latest_mentioned_at": "2026-10-15T18:15:57Z"
         },
         {
           "instrument_id": "TWSE:3711",
@@ -124,160 +124,18 @@
         }
       ],
       "representative_news": {
-        "cluster_id": "cluster-820e295e39c54f44",
-        "id": "technews-a8dc3a8cb86c",
-        "title_zh": "大摩記憶體與 AI 供應鏈展望，HBM 與 SSD 合約價飆升推動算力與網路列投資首選",
-        "summary": "外資摩根士丹利（Morgan Stanley；大摩）最新研究報告指出，受惠於AI需求推動與產能排擠效應，記憶體 [&#8230;]",
-        "source_id": "technews",
-        "source": "TechNews",
-        "published_at": "2026-10-17T03:00:16Z",
-        "canonical_url": "https://finance.technews.tw/2026/10/17/morgan-stanley-memory-and-ai-supply-chain-outlook/"
+        "cluster_id": "cluster-c5502123ec6dc634",
+        "id": "yahoo_finance_tw-98563d7deda4",
+        "title_zh": "韓媒：三星應輝達要求　下一代HBM基礎晶粒採台積電3奈米",
+        "summary": "（中央社首爾2026年10月18日綜合外電報導）韓國「首爾經濟日報」今天報導，三星電子將採用台積電的3奈米製程，為輝達（Nvidia）下一代客製化高頻寬記憶體（HBM）晶片製造基礎晶粒（base di",
+        "source_id": "yahoo_finance_tw",
+        "source": "Yahoo Finance Taiwan",
+        "published_at": "2026-10-18T12:54:13Z",
+        "canonical_url": "https://tw.stock.yahoo.com/news/%E9%9F%93%E5%AA%92-%E4%B8%89%E6%98%9F%E6%87%89%E8%BC%9D%E9%81%94%E8%A6%81%E6%B1%82-%E4%B8%8B-%E4%BB%A3hbm%E5%9F%BA%E7%A4%8E%E6%99%B6%E7%B2%92%E6%8E%A1%E5%8F%B0%E7%A9%8D%E9%9B%BB3%E5%A5%88%E7%B1%B3-125413217.html"
       }
     },
     {
       "rank": 2,
-      "theme_id": "statementdog_tag_1517",
-      "name_zh": "AI",
-      "heat_score": 80,
-      "summaries": {
-        "event_count": 29,
-        "source_count": 4,
-        "tracking_candidate_count": 0,
-        "taiwan_mapping_count": 160
-      },
-      "heat_reason": {
-        "rule_version": "public_theme_heat_v0.8",
-        "event_component": {
-          "input": 29,
-          "normalized": 100.0,
-          "weighted": 25.0
-        },
-        "source_component": {
-          "input": 4,
-          "normalized": 100.0,
-          "weighted": 25.0
-        },
-        "candidate_component": {
-          "input": 0,
-          "normalized": 0.0,
-          "weighted": 0.0
-        },
-        "mapping_component": {
-          "mapping_count": 160,
-          "direct_mapping_event_count": 8,
-          "normalized": 100.0,
-          "weighted": 30.0
-        },
-        "single_source_concentration": 0.533,
-        "concentration_penalty": 0.0,
-        "raw_score": 80.0
-      },
-      "direct_mentions": [
-        {
-          "instrument_id": "TWSE:2025",
-          "symbol": "2025",
-          "exchange": "TWSE",
-          "name_zh": "千興",
-          "direct_event_count": 2,
-          "latest_mentioned_at": "2026-10-16T14:00:00Z"
-        },
-        {
-          "instrument_id": "TWSE:2409",
-          "symbol": "2409",
-          "exchange": "TWSE",
-          "name_zh": "友達",
-          "direct_event_count": 1,
-          "latest_mentioned_at": "2026-10-17T07:03:06Z"
-        },
-        {
-          "instrument_id": "TWSE:2330",
-          "symbol": "2330",
-          "exchange": "TWSE",
-          "name_zh": "台積電",
-          "direct_event_count": 1,
-          "latest_mentioned_at": "2026-10-17T05:00:18Z"
-        },
-        {
-          "instrument_id": "TWSE:1809",
-          "symbol": "1809",
-          "exchange": "TWSE",
-          "name_zh": "中釉",
-          "direct_event_count": 1,
-          "latest_mentioned_at": "2026-10-17T02:10:10Z"
-        },
-        {
-          "instrument_id": "TWSE:3356",
-          "symbol": "3356",
-          "exchange": "TWSE",
-          "name_zh": "奇偶",
-          "direct_event_count": 1,
-          "latest_mentioned_at": "2026-10-17T02:00:04Z"
-        },
-        {
-          "instrument_id": "TWSE:2455",
-          "symbol": "2455",
-          "exchange": "TWSE",
-          "name_zh": "全新",
-          "direct_event_count": 1,
-          "latest_mentioned_at": "2026-10-16T04:13:50Z"
-        },
-        {
-          "instrument_id": "TWSE:2029",
-          "symbol": "2029",
-          "exchange": "TWSE",
-          "name_zh": "盛餘",
-          "direct_event_count": 1,
-          "latest_mentioned_at": "2026-10-15T18:43:02Z"
-        }
-      ],
-      "supply_chain_candidates": [
-        {
-          "instrument_id": "TWSE:2330",
-          "symbol": "2330",
-          "exchange": "TWSE",
-          "name_zh": "台積電",
-          "direct_event_count": 1,
-          "official_evidence_count": 0,
-          "company_rank_score": 5,
-          "latest_mentioned_at": "2026-10-17T05:00:18Z",
-          "latest_official_at": null
-        },
-        {
-          "instrument_id": "TPEX:3081",
-          "symbol": "3081",
-          "exchange": "TPEX",
-          "name_zh": "聯亞",
-          "direct_event_count": 0,
-          "official_evidence_count": 0,
-          "company_rank_score": 1,
-          "latest_mentioned_at": null,
-          "latest_official_at": null
-        },
-        {
-          "instrument_id": "TPEX:3324",
-          "symbol": "3324",
-          "exchange": "TPEX",
-          "name_zh": "雙鴻",
-          "direct_event_count": 0,
-          "official_evidence_count": 0,
-          "company_rank_score": 1,
-          "latest_mentioned_at": null,
-          "latest_official_at": null
-        }
-      ],
-      "representative_news": {
-        "cluster_id": "cluster-9157f8078d8d4cdc",
-        "id": "cnyes-9d48e8cf4e2b",
-        "title_zh": "〈智慧能源週〉淨零展、智慧能源周3天吸引1.8萬專業買主 聚焦AI時代兼顧能源與減碳需求",
-        "summary": "由外貿協會與SEMI旗下GESA綠能暨永續發展聯盟(GESA)攜手主辦的2026「台灣國際淨零永續展」與「台灣國際智慧能源周」上周圓滿落幕，據貿協統計今年共匯聚超過430家參展企業及近1,400個攤位，3天展期總計吸引近18,000名國內外專業買主與業界人士參觀，前五大買主國依序為新加坡、日本、韓國",
-        "source_id": "cnyes",
-        "source": "鉅亨網 Cnyes",
-        "published_at": "2026-10-18T04:41:02Z",
-        "canonical_url": "https://news.cnyes.com/news/id/6632884"
-      }
-    },
-    {
-      "rank": 3,
       "theme_id": "optical_cpo",
       "name_zh": "矽光子 CPO",
       "heat_score": 80,
@@ -387,22 +245,22 @@
       }
     },
     {
-      "rank": 4,
-      "theme_id": "cowos_supply_chain",
-      "name_zh": "CoWoS 先進封裝",
-      "heat_score": 67,
+      "rank": 3,
+      "theme_id": "statementdog_tag_1517",
+      "name_zh": "AI",
+      "heat_score": 74,
       "summaries": {
-        "event_count": 5,
+        "event_count": 29,
         "source_count": 3,
         "tracking_candidate_count": 0,
-        "taiwan_mapping_count": 5
+        "taiwan_mapping_count": 160
       },
       "heat_reason": {
         "rule_version": "public_theme_heat_v0.8",
         "event_component": {
-          "input": 5,
-          "normalized": 83.333,
-          "weighted": 20.833
+          "input": 29,
+          "normalized": 100.0,
+          "weighted": 25.0
         },
         "source_component": {
           "input": 3,
@@ -415,39 +273,31 @@
           "weighted": 0.0
         },
         "mapping_component": {
-          "mapping_count": 5,
-          "direct_mapping_event_count": 3,
+          "mapping_count": 160,
+          "direct_mapping_event_count": 8,
           "normalized": 100.0,
           "weighted": 30.0
         },
-        "single_source_concentration": 0.667,
-        "concentration_penalty": 2.5,
-        "raw_score": 67.083
+        "single_source_concentration": 0.552,
+        "concentration_penalty": 0.0,
+        "raw_score": 73.75
       },
       "direct_mentions": [
+        {
+          "instrument_id": "TWSE:2025",
+          "symbol": "2025",
+          "exchange": "TWSE",
+          "name_zh": "千興",
+          "direct_event_count": 2,
+          "latest_mentioned_at": "2026-10-16T14:00:00Z"
+        },
         {
           "instrument_id": "TWSE:2409",
           "symbol": "2409",
           "exchange": "TWSE",
           "name_zh": "友達",
           "direct_event_count": 1,
-          "latest_mentioned_at": "2026-10-18T04:36:45Z"
-        },
-        {
-          "instrument_id": "TWSE:3711",
-          "symbol": "3711",
-          "exchange": "TWSE",
-          "name_zh": "日月光投控",
-          "direct_event_count": 1,
-          "latest_mentioned_at": "2026-10-16T04:30:09Z"
-        },
-        {
-          "instrument_id": "TWSE:2028",
-          "symbol": "2028",
-          "exchange": "TWSE",
-          "name_zh": "威致",
-          "direct_event_count": 1,
-          "latest_mentioned_at": "2026-10-15T18:41:27Z"
+          "latest_mentioned_at": "2026-10-17T07:03:06Z"
         },
         {
           "instrument_id": "TWSE:2330",
@@ -455,43 +305,109 @@
           "exchange": "TWSE",
           "name_zh": "台積電",
           "direct_event_count": 1,
-          "latest_mentioned_at": "2026-10-15T18:41:27Z"
+          "latest_mentioned_at": "2026-10-17T05:00:18Z"
+        },
+        {
+          "instrument_id": "TWSE:1809",
+          "symbol": "1809",
+          "exchange": "TWSE",
+          "name_zh": "中釉",
+          "direct_event_count": 1,
+          "latest_mentioned_at": "2026-10-17T02:10:10Z"
+        },
+        {
+          "instrument_id": "TWSE:3356",
+          "symbol": "3356",
+          "exchange": "TWSE",
+          "name_zh": "奇偶",
+          "direct_event_count": 1,
+          "latest_mentioned_at": "2026-10-17T02:00:04Z"
+        },
+        {
+          "instrument_id": "TWSE:2455",
+          "symbol": "2455",
+          "exchange": "TWSE",
+          "name_zh": "全新",
+          "direct_event_count": 1,
+          "latest_mentioned_at": "2026-10-16T04:13:50Z"
+        },
+        {
+          "instrument_id": "TWSE:2029",
+          "symbol": "2029",
+          "exchange": "TWSE",
+          "name_zh": "盛餘",
+          "direct_event_count": 1,
+          "latest_mentioned_at": "2026-10-15T18:43:02Z"
         }
       ],
-      "supply_chain_candidates": [],
+      "supply_chain_candidates": [
+        {
+          "instrument_id": "TWSE:2330",
+          "symbol": "2330",
+          "exchange": "TWSE",
+          "name_zh": "台積電",
+          "direct_event_count": 1,
+          "official_evidence_count": 0,
+          "company_rank_score": 5,
+          "latest_mentioned_at": "2026-10-17T05:00:18Z",
+          "latest_official_at": null
+        },
+        {
+          "instrument_id": "TPEX:3081",
+          "symbol": "3081",
+          "exchange": "TPEX",
+          "name_zh": "聯亞",
+          "direct_event_count": 0,
+          "official_evidence_count": 0,
+          "company_rank_score": 1,
+          "latest_mentioned_at": null,
+          "latest_official_at": null
+        },
+        {
+          "instrument_id": "TPEX:3324",
+          "symbol": "3324",
+          "exchange": "TPEX",
+          "name_zh": "雙鴻",
+          "direct_event_count": 0,
+          "official_evidence_count": 0,
+          "company_rank_score": 1,
+          "latest_mentioned_at": null,
+          "latest_official_at": null
+        }
+      ],
       "representative_news": {
-        "cluster_id": "cluster-bf1621fbddd2c4f5",
-        "id": "cnyes-64a92577d6e2",
-        "title_zh": "〈友達運動會〉半導體領域相關業務成長快速 彭双浪：目標成為先進封裝重要夥伴",
-        "summary": "面板大廠友達(2409-TW)積極拓展半導體領域，董事長彭双浪表示，子公司布局半導體製程所需的關鍵工具、零組件或是服務，相關業務成長快速，而在先進封裝布局以「成為封裝廠的重要夥伴」為目標，而非取代現有廠商。  彭双浪表示，友達在玻璃封裝有車用衛星天線的經驗，但目前並不具備完整IC封裝能力，也沒有要轉",
+        "cluster_id": "cluster-531829bd1c4eecbb",
+        "id": "cnyes-9d48e8cf4e2b",
+        "title_zh": "〈智慧能源週〉淨零展、智慧能源周3天吸引1.8萬專業買主 聚焦AI時代兼顧能源與減碳需求",
+        "summary": "由外貿協會與SEMI旗下GESA綠能暨永續發展聯盟(GESA)攜手主辦的2026「台灣國際淨零永續展」與「台灣國際智慧能源周」上周圓滿落幕，據貿協統計今年共匯聚超過430家參展企業及近1,400個攤位，3天展期總計吸引近18,000名國內外專業買主與業界人士參觀，前五大買主國依序為新加坡、日本、韓國",
         "source_id": "cnyes",
         "source": "鉅亨網 Cnyes",
-        "published_at": "2026-10-18T04:36:45Z",
-        "canonical_url": "https://news.cnyes.com/news/id/6632784"
+        "published_at": "2026-10-18T04:41:02Z",
+        "canonical_url": "https://news.cnyes.com/news/id/6632884"
       }
     },
     {
-      "rank": 5,
+      "rank": 4,
       "theme_id": "statementdog_tag_2163",
       "name_zh": "半導體",
-      "heat_score": 56,
+      "heat_score": 71,
       "summaries": {
-        "event_count": 5,
-        "source_count": 2,
+        "event_count": 6,
+        "source_count": 3,
         "tracking_candidate_count": 0,
-        "taiwan_mapping_count": 47
+        "taiwan_mapping_count": 48
       },
       "heat_reason": {
         "rule_version": "public_theme_heat_v0.8",
         "event_component": {
-          "input": 5,
-          "normalized": 83.333,
-          "weighted": 20.833
+          "input": 6,
+          "normalized": 100.0,
+          "weighted": 25.0
         },
         "source_component": {
-          "input": 2,
-          "normalized": 50.0,
-          "weighted": 12.5
+          "input": 3,
+          "normalized": 75.0,
+          "weighted": 18.75
         },
         "candidate_component": {
           "input": 0,
@@ -499,16 +415,24 @@
           "weighted": 0.0
         },
         "mapping_component": {
-          "mapping_count": 47,
-          "direct_mapping_event_count": 2,
+          "mapping_count": 48,
+          "direct_mapping_event_count": 3,
           "normalized": 100.0,
           "weighted": 30.0
         },
-        "single_source_concentration": 0.8,
-        "concentration_penalty": 7.5,
-        "raw_score": 55.833
+        "single_source_concentration": 0.667,
+        "concentration_penalty": 2.5,
+        "raw_score": 71.25
       },
       "direct_mentions": [
+        {
+          "instrument_id": "TWSE:2646",
+          "symbol": "2646",
+          "exchange": "TWSE",
+          "name_zh": "星宇航空",
+          "direct_event_count": 1,
+          "latest_mentioned_at": "2026-10-18T14:13:25Z"
+        },
         {
           "instrument_id": "TWSE:2031",
           "symbol": "2031",
@@ -562,14 +486,98 @@
         }
       ],
       "representative_news": {
-        "cluster_id": "cluster-06ea3a6b685172fb",
-        "id": "cnyes-82969541e6dc",
-        "title_zh": "「大賣空」貝瑞加碼做空美股！押注那斯達克與半導體股回檔",
-        "summary": "Bain估AI產業到2031年年收需6兆美元，現僅1.8兆，缺口4.2兆恐令資料中心支出失衡。&#10;貝瑞10月11日改押那斯達克100與SMH賣權，預期9個月內市場見高點，履約價約低現價20%。&#10;他仍看空AI熱門股與大型雲端承諾，稱市場集中度高、波動低，但能否泡沫化仍待營收成長驗證。",
+        "cluster_id": "cluster-32d970eec564f538",
+        "id": "yahoo_finance_tw-07e4373fcf10",
+        "title_zh": "星宇直飛布拉格載客率逾8成　拓展觀光助半導體供應鏈串聯",
+        "summary": "（中央社記者江明晏布拉格2026年10月18日電）星宇航空(2646)8月開航布拉格直飛航線，10月起增為每週4班。星宇航空表示，布拉格航線8月開航後，單月載客率約82%，進入11月歐洲旅遊淡季仍維持",
+        "source_id": "yahoo_finance_tw",
+        "source": "Yahoo Finance Taiwan",
+        "published_at": "2026-10-18T14:13:25Z",
+        "canonical_url": "https://tw.stock.yahoo.com/news/%E6%98%9F%E5%AE%87%E7%9B%B4%E9%A3%9B%E5%B8%83%E6%8B%89%E6%A0%BC%E8%BC%89%E5%AE%A2%E7%8E%87%E9%80%BE8%E6%88%90-%E6%8B%93%E5%B1%95%E8%A7%80%E5%85%89%E5%8A%A9%E5%8D%8A%E5%B0%8E%E9%AB%94%E4%BE%9B%E6%87%89%E9%8F%88%E4%B8%B2%E8%81%AF-141325906.html"
+      }
+    },
+    {
+      "rank": 5,
+      "theme_id": "cowos_supply_chain",
+      "name_zh": "CoWoS 先進封裝",
+      "heat_score": 56,
+      "summaries": {
+        "event_count": 5,
+        "source_count": 2,
+        "tracking_candidate_count": 0,
+        "taiwan_mapping_count": 5
+      },
+      "heat_reason": {
+        "rule_version": "public_theme_heat_v0.8",
+        "event_component": {
+          "input": 5,
+          "normalized": 83.333,
+          "weighted": 20.833
+        },
+        "source_component": {
+          "input": 2,
+          "normalized": 50.0,
+          "weighted": 12.5
+        },
+        "candidate_component": {
+          "input": 0,
+          "normalized": 0.0,
+          "weighted": 0.0
+        },
+        "mapping_component": {
+          "mapping_count": 5,
+          "direct_mapping_event_count": 3,
+          "normalized": 100.0,
+          "weighted": 30.0
+        },
+        "single_source_concentration": 0.8,
+        "concentration_penalty": 7.5,
+        "raw_score": 55.833
+      },
+      "direct_mentions": [
+        {
+          "instrument_id": "TWSE:2409",
+          "symbol": "2409",
+          "exchange": "TWSE",
+          "name_zh": "友達",
+          "direct_event_count": 1,
+          "latest_mentioned_at": "2026-10-18T04:36:45Z"
+        },
+        {
+          "instrument_id": "TWSE:3711",
+          "symbol": "3711",
+          "exchange": "TWSE",
+          "name_zh": "日月光投控",
+          "direct_event_count": 1,
+          "latest_mentioned_at": "2026-10-16T04:30:09Z"
+        },
+        {
+          "instrument_id": "TWSE:2028",
+          "symbol": "2028",
+          "exchange": "TWSE",
+          "name_zh": "威致",
+          "direct_event_count": 1,
+          "latest_mentioned_at": "2026-10-15T18:41:27Z"
+        },
+        {
+          "instrument_id": "TWSE:2330",
+          "symbol": "2330",
+          "exchange": "TWSE",
+          "name_zh": "台積電",
+          "direct_event_count": 1,
+          "latest_mentioned_at": "2026-10-15T18:41:27Z"
+        }
+      ],
+      "supply_chain_candidates": [],
+      "representative_news": {
+        "cluster_id": "cluster-88ee0915e7dfa290",
+        "id": "cnyes-64a92577d6e2",
+        "title_zh": "〈友達運動會〉半導體領域相關業務成長快速 彭双浪：目標成為先進封裝重要夥伴",
+        "summary": "面板大廠友達(2409-TW)積極拓展半導體領域，董事長彭双浪表示，子公司布局半導體製程所需的關鍵工具、零組件或是服務，相關業務成長快速，而在先進封裝布局以「成為封裝廠的重要夥伴」為目標，而非取代現有廠商。  彭双浪表示，友達在玻璃封裝有車用衛星天線的經驗，但目前並不具備完整IC封裝能力，也沒有要轉",
         "source_id": "cnyes",
         "source": "鉅亨網 Cnyes",
-        "published_at": "2026-10-16T23:30:08Z",
-        "canonical_url": "https://news.cnyes.com/news/id/6631675"
+        "published_at": "2026-10-18T04:36:45Z",
+        "canonical_url": "https://news.cnyes.com/news/id/6632784"
       }
     }
   ]
