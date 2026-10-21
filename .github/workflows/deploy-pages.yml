@@ -48,6 +48,11 @@ jobs:
       - name: Build frontend
         run: npm run build
 
+      - name: Copy static reports
+        run: |
+          mkdir -p dist/reports
+          cp -R reports/. dist/reports/
+
       - name: Copy runtime data
         run: |
           mkdir -p dist/data
