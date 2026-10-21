@@ -3,137 +3,77 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Stock Audit｜台股中長期投資晨報｜2026-10-21</title>
+  <meta name="description" content="Nexus Stock Audit 台股中長期投資晨報">
+  <title>Stock Audit｜NEXUS 台股中長期投資晨報｜2026-10-21</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&family=Noto+Sans+TC:wght@400;500;700&family=Space+Grotesk:wght@500;600&display=swap" rel="stylesheet">
   <style>
-    :root { color-scheme: dark; --bg:#09111f; --panel:#111d2f; --panel2:#16263d; --text:#e8eef8; --muted:#9fb0c8; --line:#29405e; --green:#43d39e; --yellow:#f3c969; --red:#ff7d86; --blue:#79b8ff; }
-    * { box-sizing: border-box; }
-    body { margin:0; background:radial-gradient(circle at top right,#173254 0,#09111f 42%); color:var(--text); font:16px/1.65 -apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans TC",sans-serif; }
-    main { max-width:1080px; margin:0 auto; padding:32px 20px 64px; }
-    header { border-bottom:1px solid var(--line); padding-bottom:24px; margin-bottom:24px; }
-    .eyebrow { color:var(--blue); font-size:13px; letter-spacing:.12em; font-weight:700; }
-    h1,h2,h3 { line-height:1.25; margin:0 0 12px; }
-    h1 { font-size:clamp(28px,5vw,48px); margin-top:8px; }
-    h2 { font-size:24px; margin-top:34px; }
-    h3 { font-size:19px; }
-    p { margin:8px 0 14px; }
-    .muted { color:var(--muted); }
-    .decision { background:linear-gradient(135deg,#173c52,#14253d); border:1px solid #32648b; border-radius:16px; padding:20px; margin:20px 0; }
-    .decision strong { color:var(--green); font-size:20px; }
-    .grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:14px; }
-    .card { background:rgba(17,29,47,.92); border:1px solid var(--line); border-radius:14px; padding:18px; }
-    .card.core { border-color:#2b9276; }
-    .card.wait { border-color:#9a7b35; }
-    .badge { display:inline-block; border-radius:999px; padding:2px 9px; font-size:12px; font-weight:700; background:var(--panel2); color:var(--muted); margin-left:6px; }
-    .badge.buy { color:var(--green); } .badge.waiting { color:var(--yellow); } .badge.no { color:var(--red); }
-    table { width:100%; border-collapse:collapse; margin:12px 0 18px; font-size:14px; }
-    th,td { border-bottom:1px solid var(--line); padding:10px 8px; text-align:left; vertical-align:top; }
-    th { color:var(--muted); font-weight:600; }
-    .price { color:var(--yellow); font-weight:700; }
-    .action { color:var(--green); font-weight:700; }
-    .risk { color:var(--red); }
-    ol,ul { padding-left:22px; }
-    li { margin:5px 0; }
-    .footer { color:var(--muted); border-top:1px solid var(--line); margin-top:36px; padding-top:18px; font-size:13px; }
-    @media (max-width:640px) { main { padding:22px 14px 46px; } table { display:block; overflow-x:auto; white-space:nowrap; } .card { padding:15px; } }
+    :root {
+      --page-bg:#13161d; --shell-bg:#171a21; --surface:#1e222b; --card:#1b1f27;
+      --line:#232b3d; --sub-line:#161c2c; --text-hi:#f0f2f5; --text:#edeff3;
+      --muted:#9aa3b2; --faint:#626b7c; --gold:#c9a24a; --gold-hover:#e0be6a;
+      --gold-deep:#957326; --gold-bg:#12100a; --gold-line:#2c2413;
+      --green:#23b47e; --red:#e15b49; --cyan:#3fd0e8;
+      font-family:'IBM Plex Sans','Noto Sans TC',system-ui,sans-serif;
+      color:var(--text); background:var(--page-bg); font-synthesis:none;
+      text-rendering:optimizeLegibility;
+    }
+    *{box-sizing:border-box;font-feature-settings:'tnum' 1}
+    html,body{margin:0;min-height:100%;background:var(--page-bg)}
+    body{color:var(--text);font-size:13px;line-height:1.55;-webkit-font-smoothing:antialiased}
+    a{color:inherit}.mono{font-family:'IBM Plex Mono',ui-monospace,monospace;font-variant-numeric:tabular-nums}
+    .app{width:min(1180px,100%);min-height:100vh;margin:0 auto;background:var(--shell-bg);border-left:1px solid var(--line);border-right:1px solid var(--line)}
+    .prototype{height:40px;display:flex;align-items:center;justify-content:space-between;padding:0 18px;border-bottom:1px solid var(--line);background:#1a1e27;color:var(--faint);font:10px/1 'IBM Plex Mono',monospace;letter-spacing:.2em}
+    .prototype span:last-child{letter-spacing:.04em;color:var(--gold)}
+    nav{height:58px;display:flex;align-items:stretch;justify-content:space-between;border-bottom:1px solid var(--line);background:var(--surface)}
+    .brand{display:flex;align-items:center;gap:14px;padding:0 22px;white-space:nowrap}.brand-name{font:600 15px/1 'Space Grotesk',sans-serif;color:var(--text-hi)}
+    .divider{width:1px;height:15px;background:var(--line)}.brand-title{font:500 13px/1 'Noto Sans TC',sans-serif;color:var(--text)}
+    .nav-meta{display:flex;align-items:center;padding:0 20px;border-left:1px solid var(--line);color:var(--faint);font:10px 'IBM Plex Mono',monospace}
+    .nav-meta b{margin-left:8px;color:var(--green);font-weight:400}
+    .hero{display:grid;grid-template-columns:minmax(0,1fr) 250px;gap:28px;padding:28px 24px 26px;border-bottom:1px solid var(--line);background:linear-gradient(115deg,#171a21 0%,#1a202b 55%,#171a21 100%)}
+    .kicker{color:var(--gold);font:10px/1.4 'IBM Plex Mono',monospace;letter-spacing:.26em}.hero h1{margin:10px 0 0;color:var(--text-hi);font:500 clamp(26px,4vw,40px)/1.2 'Noto Sans TC',sans-serif;letter-spacing:-.03em}.rule{width:64px;height:2px;margin:14px 0;background:var(--gold)}
+    .hero p{max-width:70ch;margin:0;color:var(--muted);font:400 12px/1.85 'Noto Sans TC',sans-serif}.hero-side{align-self:end;padding-left:20px;border-left:1px solid var(--line)}.hero-side label{display:block;color:var(--faint);font:10px 'IBM Plex Mono',monospace}.hero-side strong{display:block;margin:8px 0 2px;color:var(--green);font:600 22px 'IBM Plex Mono',monospace}.hero-side small{color:var(--muted);font:11px 'Noto Sans TC',sans-serif}
+    .ticker{display:grid;grid-template-columns:repeat(5,1fr);border-bottom:1px solid var(--line);background:var(--shell-bg)}.ticker-item{padding:13px 16px;border-right:1px solid var(--line)}.ticker-item:last-child{border-right:0}.ticker-label{display:block;color:var(--faint);font:10px 'IBM Plex Mono',monospace}.ticker-value{display:block;margin-top:5px;color:var(--text-hi);font:600 16px 'IBM Plex Mono',monospace}.ticker-note{display:block;margin-top:2px;color:var(--muted);font-size:10px}.up{color:var(--green)!important}.warn{color:var(--gold)!important}.down{color:var(--red)!important}
+    .content{padding:0 24px 34px}.section{padding:24px 0;border-bottom:1px solid var(--line)}.section-head{display:flex;align-items:baseline;justify-content:space-between;gap:12px;margin-bottom:14px}.section-head h2{margin:0;color:var(--text-hi);font:500 17px/1.35 'Noto Sans TC',sans-serif}.section-note{color:var(--faint);font:10px 'IBM Plex Mono',monospace}
+    .state-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:14px}.panel{border:1px solid var(--line);border-radius:9px;background:var(--card);padding:17px}.panel.decision{border-color:var(--gold-line);background:var(--gold-bg)}.panel h3{margin:0 0 8px;color:var(--text-hi);font:500 14px 'Noto Sans TC',sans-serif}.panel p{margin:0;color:var(--muted);font:12px/1.8 'Noto Sans TC',sans-serif}.panel strong{color:var(--gold);font-weight:500}.compact-list{display:grid;gap:7px;margin:0;padding:0;list-style:none;color:var(--muted);font:12px 'Noto Sans TC',sans-serif}.compact-list li{position:relative;padding-left:14px}.compact-list li::before{content:'';position:absolute;left:0;top:.62em;width:5px;height:5px;border-radius:50%;background:var(--gold)}
+    .core-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.stock-card{min-height:330px;display:flex;flex-direction:column;border:1px solid var(--line);border-radius:9px;background:var(--card);overflow:hidden}.stock-card.priority{border-color:#496c62}.stock-card-head{display:flex;align-items:flex-start;justify-content:space-between;gap:8px;padding:16px;border-bottom:1px solid var(--sub-line)}.stock-card h3{margin:0;color:var(--text-hi);font:500 16px 'Noto Sans TC',sans-serif}.stock-card h3 span{margin-left:6px;color:var(--gold);font:500 12px 'IBM Plex Mono',monospace}.tag{display:inline-flex;align-items:center;min-height:22px;padding:0 7px;border:1px solid var(--gold-line);border-radius:4px;color:var(--gold);font:10px 'Noto Sans TC',sans-serif;white-space:nowrap}.tag.green{border-color:#214b3e;color:var(--green)}.stock-body{display:flex;flex:1;flex-direction:column;padding:15px 16px}.stock-meta{margin-bottom:11px;color:var(--faint);font:10px 'IBM Plex Mono',monospace}.stock-body p{margin:0 0 13px;color:var(--muted);font:12px/1.75 'Noto Sans TC',sans-serif}.levels{display:grid;gap:7px;margin-top:auto}.level{display:grid;grid-template-columns:92px 1fr;gap:10px;padding-top:7px;border-top:1px solid var(--sub-line);font-size:11px}.level label{color:var(--faint);font-family:'Noto Sans TC',sans-serif}.level b{color:var(--text);font:500 11px 'IBM Plex Mono',monospace}.level b.entry{color:var(--gold)}.level b.confirm{color:var(--green)}.level b.invalid{color:var(--red)}
+    table{width:100%;border-collapse:collapse;color:var(--text);font-size:12px}th,td{padding:11px 10px;border-bottom:1px solid var(--sub-line);text-align:left;vertical-align:top}th{color:var(--faint);font:10px 'IBM Plex Mono',monospace;font-weight:400}td{color:var(--muted)}td b{color:var(--text);font-weight:500}td.action{color:var(--gold)}
+    .execution{display:grid;grid-template-columns:1fr 1fr;gap:14px}.execution .panel{min-height:166px}.execution h3{display:flex;align-items:center;gap:8px}.execution h3::before{content:'01';color:var(--gold);font:10px 'IBM Plex Mono',monospace}.execution .avoid h3::before{content:'02';color:var(--red)}.execution ol{margin:0;padding-left:20px;color:var(--muted);font:12px/1.9 'Noto Sans TC',sans-serif}.execution li::marker{color:var(--gold);font-family:'IBM Plex Mono',monospace}
+    footer{padding:20px 24px 34px;color:var(--faint);font:11px/1.8 'Noto Sans TC',sans-serif;text-align:center}.footer-rule{width:44px;height:1px;margin:0 auto 12px;background:var(--gold)}
+    @media(max-width:820px){.hero{grid-template-columns:1fr}.hero-side{padding:12px 0 0;border-left:0;border-top:1px solid var(--line)}.ticker{grid-template-columns:repeat(3,1fr)}.ticker-item:nth-child(3){border-right:0}.ticker-item:nth-child(n+4){border-top:1px solid var(--line)}.core-grid{grid-template-columns:1fr}.stock-card{min-height:0}.state-grid,.execution{grid-template-columns:1fr}}
+    @media(max-width:520px){.prototype{padding:0 12px;font-size:9px}.prototype span:last-child{display:none}nav{height:52px}.brand{padding:0 14px;gap:10px}.brand-name{font-size:14px}.brand-title{font-size:12px}.nav-meta{padding:0 12px}.content{padding:0 14px 24px}.hero{padding:22px 14px}.hero h1{font-size:28px}.ticker{grid-template-columns:repeat(2,1fr)}.ticker-item:nth-child(2){border-right:0}.ticker-item:nth-child(3){border-right:1px solid var(--line)}.ticker-item:nth-child(n+3){border-top:1px solid var(--line)}.section{padding:20px 0}.section-head{align-items:flex-start;flex-direction:column;gap:5px}table{display:block;overflow-x:auto;white-space:nowrap}.panel{padding:14px}footer{padding:18px 14px 28px}}
+    @media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition:none!important}}
   </style>
 </head>
 <body>
-<main>
-  <header>
-    <div class="eyebrow">NEXUS THEME RADAR · STOCK AUDIT</div>
-    <h1>台股中長期投資晨報</h1>
-    <p class="muted">2026/10/21 收盤｜閱讀時間約 5–10 分鐘｜持有週期：3–12 個月</p>
+<div class="app">
+  <div class="prototype"><span>NEXUS / STOCK AUDIT</span><span>5–10 MIN MORNING BRIEF · 2026.10.21</span></div>
+  <nav><div class="brand"><span class="brand-name">NEXUS</span><span class="divider"></span><span class="brand-title">台股題材雷達</span></div><div class="nav-meta">DATA <b>VERIFIED + FALLBACK</b></div></nav>
+  <header class="hero">
+    <div><span class="kicker">MEDIUM-TERM INVESTMENT AUDIT</span><h1>台股中長期投資晨報</h1><div class="rule"></div><p>把基本面、估值、日線結構與 Bunker DCA 收斂成今天能執行的判斷。持有週期 3–12 個月，先處理位置，再處理故事。</p></div>
+    <div class="hero-side"><label>今日優先動作</label><strong>先看鴻海</strong><small>分批等台達電；聯發科只小部位觀察</small></div>
   </header>
-
-  <section class="decision">
-    <p><strong>今日決策：先看鴻海，分批等台達電；聯發科只小部位觀察，不追價。</strong></p>
-    <p>本報告把基本面、估值、日線結構與 Bunker DCA 合併。TradingView MCP 本次無法連線，技術面使用日線 OHLCV 代理；價位是條件區域，不是必然到達的預測。</p>
-  </section>
-
-  <h2>一、今日市場狀態</h2>
-  <ul>
-    <li><b>核心股修正：</b>台達電、聯發科。</li>
-    <li><b>估值較合理：</b>鴻海。</li>
-    <li><b>題材仍強但位置偏高：</b>奇鋐、金像電、臻鼎、南電。</li>
-    <li><b>短線過熱：</b>富世達、今國光、柏承。</li>
-  </ul>
-  <p class="risk">今天不追 5 日大漲股，也不因股價下跌就自動攤平。</p>
-
-  <h2>二、核心標的與進出場</h2>
-  <div class="grid">
-    <article class="card core">
-      <h3>鴻海 2317 <span class="badge buy">優先觀察</span></h3>
-      <p class="muted">收盤約 250 元｜中長期偏多｜區間偏多</p>
-      <p>9 月營收約 1.16 兆元，年增 38.42%；前九月累計年增 39.53%。近四季 EPS 約 15.22 元，本益比約 16 倍，估值相對合理。</p>
-      <p><b>第一段：</b><span class="price">240–247</span>，建立小部位。</p>
-      <p><b>第二段：</b><span class="price">230–237</span>，基本面未變才加碼。</p>
-      <p><b>突破確認：</b>站穩 256 並回測守住。</p>
-      <p><b>停止加碼：</b>237 跌破後無法收回。</p>
-      <p><b>退出條件：</b>跌破 230 且 AI server 獲利或營益率下修。</p>
-    </article>
-    <article class="card wait">
-      <h3>台達電 2308 <span class="badge waiting">等待止跌</span></h3>
-      <p class="muted">收盤約 1,625 元｜中長期偏多｜高位修正</p>
-      <p>9 月營收約 654 億元，年增 14.6%；AI server 電源、液冷與能源管理仍是主要成長來源。長期品質高，但估值與短線結構仍需消化。</p>
-      <p><b>第一段：</b><span class="price">1,590–1,650</span>，只做試探倉。</p>
-      <p><b>第二段：</b><span class="price">1,475–1,540</span>，基本面未下修才承接。</p>
-      <p><b>突破確認：</b>站回 1,775–1,820。</p>
-      <p><b>停止加碼：</b>1,475 失守且營收／毛利率轉弱。</p>
-    </article>
-    <article class="card wait">
-      <h3>聯發科 2454 <span class="badge waiting">小部位</span></h3>
-      <p class="muted">收盤約 4,140 元｜中期偏多｜深度 pullback</p>
-      <p>第三季營收創高並優於公司財測，後續關鍵是 AI ASIC 是否如期量產、放量並貢獻 EPS。估值高，不能只因跌深就買滿。</p>
-      <p><b>第一段：</b><span class="price">4,100–4,250</span>，只觀察小部位。</p>
-      <p><b>第二段：</b><span class="price">3,850–4,000</span>，ASIC 進度正常才考慮。</p>
-      <p><b>突破確認：</b>站回 4,475–4,625。</p>
-      <p><b>失效條件：</b>ASIC 延遲、獲利預估下修且跌破 4,000。</p>
-    </article>
+  <div class="ticker">
+    <div class="ticker-item"><span class="ticker-label">CORE / 01</span><span class="ticker-value">2317</span><span class="ticker-note up">鴻海 · 可分批</span></div>
+    <div class="ticker-item"><span class="ticker-label">CORE / 02</span><span class="ticker-value">2308</span><span class="ticker-note warn">台達電 · 等止跌</span></div>
+    <div class="ticker-item"><span class="ticker-label">CORE / 03</span><span class="ticker-value">2454</span><span class="ticker-note warn">聯發科 · 小部位</span></div>
+    <div class="ticker-item"><span class="ticker-label">CASH BUFFER</span><span class="ticker-value">15–25%</span><span class="ticker-note">保留彈性</span></div>
+    <div class="ticker-item"><span class="ticker-label">DATA QUALITY</span><span class="ticker-value">MEDIUM</span><span class="ticker-note">TradingView fallback</span></div>
   </div>
-
-  <h2>三、品質與趨勢衛星</h2>
-  <table>
-    <thead><tr><th>標的</th><th>目前判斷</th><th>進場區</th><th>確認條件</th><th>今日動作</th></tr></thead>
-    <tbody>
-      <tr><td><b>大立光 3008</b></td><td>高位修正</td><td>5,950–6,150；5,700–5,850</td><td>站回 6,600–6,850</td><td class="action">等待，不追</td></tr>
-      <tr><td><b>聯詠 3034</b></td><td>趨勢偏多、位置高</td><td>560–575；530–550</td><td>突破 597 後回測守住</td><td class="action">只等回踩</td></tr>
-      <tr><td><b>奇鋐 3017</b></td><td>中期強、估值高</td><td colspan="2">需等拉回減速與基本面確認</td><td class="action">Floating Stack</td></tr>
-      <tr><td><b>金像電 2368</b></td><td>PCB 強勢後修正</td><td colspan="2">追蹤毛利率與高階板需求</td><td class="action">小部位觀察</td></tr>
-    </tbody>
-  </table>
-
-  <h2>四、今日暫不碰</h2>
-  <table>
-    <thead><tr><th>標的</th><th>原因</th></tr></thead>
-    <tbody>
-      <tr><td>富世達 6805</td><td>60 日漲幅約 70%，PVA 偏熱。</td></tr>
-      <tr><td>今國光 6209</td><td>5 日、20 日漲幅與成交量都過高。</td></tr>
-      <tr><td>柏承 6141</td><td>量價偏熱，基本面資料不足以支撐核心 DCA。</td></tr>
-      <tr><td>南電 8046</td><td>營收強，但估值偏高。</td></tr>
-      <tr><td>臻鼎-KY 4958</td><td>題材成立，但近期漲幅已大。</td></tr>
-    </tbody>
-  </table>
-
-  <h2>五、投資組合執行</h2>
-  <ol>
-    <li><b>鴻海：</b>接近 240–247 元，建立第一段。</li>
-    <li><b>台達電：</b>1,590–1,650 元止跌時，小部位試單。</li>
-    <li><b>聯發科：</b>4,100–4,250 元只觀察，不急著放大。</li>
-    <li><b>現金：</b>保留 15%–25%，等待市場錯價。</li>
-  </ol>
-
-  <h2>六、晨報 VERDICT</h2>
-  <div class="decision">
-    <p><strong>2317 鴻海：目前最接近可執行的分批進場。</strong></p>
-    <p><strong>2308 台達電：長期品質高，等止跌承接。</strong></p>
-    <p><strong>2454 聯發科：中長期偏多，但估值與 ASIC 風險需控管。</strong></p>
-    <p class="muted">核心原則：進場看價格結構，續抱看基本面，退出看投資邏輯是否失效。</p>
-  </div>
-
-  <footer class="footer">
-    <p>資料基準：2026/10/21 收盤與公開公司營收／財務資訊。本文為研究與投資組合建構筆記，不構成個人化投資建議或報酬保證。</p>
-    <p>Generated by Stock Audit workflow｜Nexus Theme Radar</p>
-  </footer>
-</main>
+  <main class="content">
+    <section class="section"><div class="section-head"><h2>01 / Market state</h2><span class="section-note">BIAS ≠ ACTIONABILITY</span></div><div class="state-grid"><div class="panel decision"><h3>晨報判斷</h3><p><strong>台股 AI 供應鏈仍有基本面支撐，但今天不是全面追價盤。</strong><br>鴻海的估值與位置最可執行；台達電是品質優先但仍在修正；聯發科的中長期邏輯成立，價格與 ASIC 驗證仍是門檻。</p></div><div class="panel"><h3>今天先排除</h3><ul class="compact-list"><li>不追 5 日大漲股</li><li>不因下跌自動攤平</li><li>不把 AI 題材股視為同一資產</li><li>不一次投入全部計畫資金</li></ul></div></div></section>
+    <section class="section"><div class="section-head"><h2>02 / Core candidates</h2><span class="section-note">DEAD STACK CANDIDATES</span></div><div class="core-grid">
+      <article class="stock-card priority"><div class="stock-card-head"><h3>鴻海 <span>2317</span></h3><span class="tag green">優先觀察</span></div><div class="stock-body"><div class="stock-meta">250 · RANGE BIAS · 3–12M</div><p>9 月營收約 1.16 兆元，年增 38.42%；前九月累計年增 39.53%。近四季 EPS 約 15.22 元，本益比約 16 倍，估值相對合理。</p><div class="levels"><div class="level"><label>第一段</label><b class="entry">240–247</b></div><div class="level"><label>第二段</label><b class="entry">230–237</b></div><div class="level"><label>修復確認</label><b class="confirm">256 回測守住</b></div><div class="level"><label>停止加碼</label><b class="invalid">237 失守無法收回</b></div></div></div></article>
+      <article class="stock-card"><div class="stock-card-head"><h3>台達電 <span>2308</span></h3><span class="tag">等待止跌</span></div><div class="stock-body"><div class="stock-meta">1,625 · PULLBACK · 3–12M</div><p>9 月營收約 654 億元，年增 14.6%。AI server 電源、液冷與能源管理邏輯完整，但短線仍是高位修正。</p><div class="levels"><div class="level"><label>第一段</label><b class="entry">1,590–1,650</b></div><div class="level"><label>第二段</label><b class="entry">1,475–1,540</b></div><div class="level"><label>修復確認</label><b class="confirm">1,775–1,820</b></div><div class="level"><label>停止加碼</label><b class="invalid">1,475 + 基本面轉弱</b></div></div></div></article>
+      <article class="stock-card"><div class="stock-card-head"><h3>聯發科 <span>2454</span></h3><span class="tag">小部位</span></div><div class="stock-body"><div class="stock-meta">4,140 · DEEP PULLBACK · 3–12M</div><p>第三季營收創高並優於公司財測。後續要驗證 AI ASIC 量產與 EPS，估值高，不能只因跌深就買滿。</p><div class="levels"><div class="level"><label>第一段</label><b class="entry">4,100–4,250</b></div><div class="level"><label>第二段</label><b class="entry">3,850–4,000</b></div><div class="level"><label>修復確認</label><b class="confirm">4,475–4,625</b></div><div class="level"><label>投資失效</label><b class="invalid">ASIC 延遲 + 4,000 下破</b></div></div></div></article>
+    </div></section>
+    <section class="section"><div class="section-head"><h2>03 / Satellite watchlist</h2><span class="section-note">FLOATING STACK ONLY</span></div><table><thead><tr><th>標的</th><th>結構</th><th>進場觀察</th><th>確認條件</th><th>今日動作</th></tr></thead><tbody><tr><td><b>大立光 3008</b></td><td>高位修正</td><td>5,950–6,150<br>5,700–5,850</td><td>6,600–6,850</td><td class="action">等待，不追</td></tr><tr><td><b>聯詠 3034</b></td><td>趨勢偏多、位置高</td><td>560–575<br>530–550</td><td>597 突破後回測</td><td class="action">只等回踩</td></tr><tr><td><b>奇鋐 3017 / 金像電 2368</b></td><td>中期強、估值高</td><td colspan="2">等拉回減速與毛利率／訂單確認</td><td class="action">小部位</td></tr></tbody></table></section>
+    <section class="section"><div class="section-head"><h2>04 / Avoid chasing</h2><span class="section-note">PVA OVERHEAT</span></div><table><thead><tr><th>標的</th><th>不進核心的原因</th><th>分類</th></tr></thead><tbody><tr><td><b>富世達 6805</b></td><td>60 日漲幅約 70%，短線熱度過高。</td><td class="down">BLOCKED</td></tr><tr><td><b>今國光 6209</b></td><td>5 日、20 日漲幅與成交量都過高。</td><td class="down">BLOCKED</td></tr><tr><td><b>柏承 6141 / 南電 8046 / 臻鼎 4958</b></td><td>題材或營收成立，但估值、週期或位置仍不適合核心 DCA。</td><td class="action">WAIT</td></tr></tbody></table></section>
+    <section class="section"><div class="section-head"><h2>05 / Execution</h2><span class="section-note">TODAY ONLY</span></div><div class="execution"><div class="panel"><h3>可以做</h3><ol><li>鴻海接近 240–247 元，建立第一段。</li><li>台達電 1,590–1,650 元止跌時，小部位試單。</li><li>聯發科 4,100–4,250 元只觀察，不放大。</li><li>保留 15%–25% 現金。</li></ol></div><div class="panel avoid"><h3>不要做</h3><ol><li>不追富世達、今國光等短線強勢股。</li><li>不在基本面未確認前攤平。</li><li>不因單日紅 K 判定反轉。</li><li>不把突破價直接當買進價。</li></ol></div></div></section>
+    <section class="section"><div class="section-head"><h2>06 / Verdict</h2><span class="section-note">RESEARCH DECISION</span></div><div class="panel decision"><h3>一句話結論</h3><p><strong>今天若一定要部署，先選鴻海小部位；台達電等止跌；聯發科等更好價格或結構修復，其餘熱門股先不追。</strong></p><p style="margin-top:10px">進場看價格結構，續抱看基本面，退出看投資邏輯是否失效。</p></div></section>
+  </main>
+  <footer><div class="footer-rule"></div>資料基準：2026/10/21 收盤與公開公司營收／財務資訊。本文為研究與投資組合建構筆記，不構成個人化投資建議或報酬保證。<br><span class="mono">GENERATED BY STOCK AUDIT · NEXUS THEME RADAR</span></footer>
+</div>
 </body>
 </html>
