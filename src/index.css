@@ -368,6 +368,9 @@ a { color: inherit; }
 
 /* Stock watchlist */
 .watchlist-page, .watchlist-no-horizontal-scroll { max-width: 100%; overflow-x: hidden; }
+.watchlist-page .watchlist-list-heading strong::before { content: 'STOCK AUDIT · '; color: var(--gold); font: 400 10px 'IBM Plex Mono', monospace; letter-spacing: .04em; }
+.watchlist-page .watchlist-mobile-card { border-radius: 8px; }
+.watchlist-page .watchlist-row { min-height: 82px; }
 .watchlist-tabs { display: flex; gap: 0; padding: 0 20px 16px; border-bottom: 1px solid var(--line); }
 .watchlist-tabs button { min-width: 76px; min-height: 36px; padding: 0 14px; border: 1px solid var(--line); border-right: 0; background: var(--shell-bg); color: var(--muted); font-size: 11px; }
 .watchlist-tabs button:first-child { border-radius: 7px 0 0 7px; }

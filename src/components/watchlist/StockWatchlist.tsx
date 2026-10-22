@@ -1,15 +1,13 @@
-import React, { useEffect, useMemo, useState } from 'react';
-import { StockAuditChart } from './StockAuditChart';
+import React, { useMemo, useState } from 'react';
 import {
-  StockAuditOperation,
-  StockAuditReference,
-  StockAuditReport,
-  StockAuditStock,
-  StockAuditTerm,
-  fetchStockAudit
-} from '../../services/stockAudit';
-import { StockWatchlistData } from '../../types';
-import './stock-audit.css';
+  SearchableStock,
+  StockFlag,
+  StockFlagKey,
+  StockWatchlistData,
+  WatchlistDirection,
+  WatchlistInstrument,
+  WatchlistStock
+} from '../../types';
 
 export type WatchlistView = 'short' | 'long' | 'search';
 
@@ -26,277 +24,302 @@ export interface StockWatchlistProps {
   onGoHome?: () => void;
 }
 
-const TERMS: StockAuditTerm[] = ['短線', '中線', '長線'];
+const SEARCH_RESULT_LIMIT = 30;
+const views: Array<{ id: WatchlistView; label: string }> = [
+  { id: 'short', label: '短線' },
+  { id: 'long', label: '長線' },
+  { id: 'search', label: '搜尋個股' }
+];
 
-function formatPrice(value: number): string {
-  return value.toLocaleString('zh-TW', { minimumFractionDigits: 0, maximumFractionDigits: 2 });
+const auditFocus = ['2317', '2308', '2454', '3017', '2368', '3008'];
+
+const flagLabels: Record<StockFlagKey, string> = {
+  heat_rising: '熱度升溫',
+  multi_theme: '多題材共振',
+  institutional_positive: '法人偏多',
+  fundamentals_improving: '基本面改善',
+  high_daytrade: '高當沖',
+  overnight_risk: '隔日衝風險',
+  cashflow_weak: '現金流轉弱',
+  high_leverage: '高槓桿',
+  data_sparse: '資料不足'
+};
+
+type SearchTier =
+  | 'symbol-exact'
+  | 'name-exact'
+  | 'symbol-prefix'
+  | 'name-prefix'
+  | 'name-contains';
+
+const searchTierOrder: Record<SearchTier, number> = {
+  'symbol-exact': 0,
+  'name-exact': 1,
+  'symbol-prefix': 2,
+  'name-prefix': 3,
+  'name-contains': 4
+};
+
+function matchTier(instrument: WatchlistInstrument, query: string): SearchTier | null {
+  const needle = query.trim().toLocaleLowerCase('zh-TW');
+  const symbol = instrument.symbol.toLocaleLowerCase('zh-TW');
+  const name = instrument.name_zh.toLocaleLowerCase('zh-TW');
+  if (symbol === needle) return 'symbol-exact';
+  if (name === needle) return 'name-exact';
+  if (symbol.startsWith(needle)) return 'symbol-prefix';
+  if (name.startsWith(needle)) return 'name-prefix';
+  if (name.includes(needle)) return 'name-contains';
+  return null;
 }
 
-function formatNumber(value: number): string {
-  return value.toLocaleString('zh-TW', { maximumFractionDigits: 2 });
+function missingLabel(_missingReasons: string[], fallback: string): string {
+  return `—（${fallback}）`;
 }
 
-function formatPercent(value: number): string {
-  return `${value >= 0 ? '+' : ''}${value.toFixed(1)}%`;
+function formatMaybePercent(value: number | null, missingReasons: string[], fallback: string): string {
+  return value === null ? missingLabel(missingReasons, fallback) : `${(value * 100).toFixed(1)}%`;
 }
 
-function formatTimestamp(value: string): string {
-  return new Intl.DateTimeFormat('zh-TW', {
-    dateStyle: 'short',
-    timeStyle: 'short',
-    hour12: false,
-    timeZone: 'Asia/Taipei'
-  }).format(new Date(value));
+function formatMaybeNumber(value: number | null, missingReasons: string[], fallback: string): string {
+  return value === null ? missingLabel(missingReasons, fallback) : value.toLocaleString('zh-TW', { maximumFractionDigits: 1 });
 }
 
-function sourceHost(source: string): string {
-  try {
-    return new URL(source).hostname.replace(/^www\./, '');
-  } catch {
-    return source;
+function overnightMissingLabel(reason: string | null): string {
+  return reason === 'no reliable overnight source' ? '隔日衝資料不足' : reason || '隔日衝資料不足';
+}
+
+function institutionalLabel(item: WatchlistStock): string {
+  const labels = {
+    positive: '近 5 日偏多',
+    negative: '近 5 日偏空',
+    flat: '近 5 日持平',
+    insufficient: '資料不足'
+  } as const;
+  return labels[item.institutional.direction];
+}
+
+function directionArrow(direction: WatchlistDirection): string {
+  if (direction === 'up') return '↑';
+  if (direction === 'down') return '↓';
+  if (direction === 'flat') return '→';
+  return '—';
+}
+
+const FlagChips: React.FC<{ flags: StockFlag[] }> = ({ flags }) => (
+  <div className="watchlist-flags">
+    {flags.slice(0, 3).map((flag) => (
+      <span className={`watchlist-flag is-${flag.type}`} key={flag.key}>{flagLabels[flag.key]}</span>
+    ))}
+  </div>
+);
+
+const Themes: React.FC<{ item: Pick<WatchlistStock, 'themes'> }> = ({ item }) => (
+  <span className="watchlist-theme-names">
+    {item.themes.slice(0, 2).map((theme) => theme.name_zh).join(' · ') || '—'}
+  </span>
+);
+
+const WatchlistMetrics: React.FC<{ item: WatchlistStock; view: Exclude<WatchlistView, 'search'> }> = ({ item, view }) => {
+  const missingReasons = item.coverage.missing;
+  if (view === 'short') {
+    const themeAttention = item.short.components.theme_attention.normalized;
+    const heatChange = item.themes[0]?.heat_change_24h;
+    const overnight = item.trading_activity.overnight_risk;
+    return (
+      <>
+        <span><b>{formatMaybeNumber(themeAttention, missingReasons, '題材關注度資料不足')}</b><small>{heatChange === null || heatChange === undefined ? '—' : `${heatChange >= 0 ? '+' : ''}${heatChange.toFixed(1)} / 24h`}</small></span>
+        <span><b>{institutionalLabel(item)}</b><small>{item.institutional.observation_count} 筆觀測</small></span>
+        <span><b>{formatMaybePercent(item.trading_activity.day_trading_volume_ratio, missingReasons, '當沖比資料不足')}</b><small>{item.trading_activity.as_of ?? '日期缺值'}</small></span>
+        <span><b>{overnight === null ? `—（${overnightMissingLabel(item.trading_activity.overnight_missing_reason)}）` : `${overnight.toFixed(0)} 分`}</b><small>初版不扣分</small></span>
+      </>
+    );
   }
-}
-
-function sourceLink(source: string, label = '來源'): React.ReactNode {
-  return <a href={source} target="_blank" rel="noreferrer">{label} · {sourceHost(source)} ↗</a>;
-}
-
-const ReportSource: React.FC<{ source: string; asOf: string; label?: string }> = ({ source, asOf, label = '資料來源' }) => (
-  <p className="stock-audit-source">
-    <span>{label} · {formatTimestamp(asOf)}</span>
-    {sourceLink(source)}
-  </p>
-);
-
-const Metric: React.FC<{ label: string; value: React.ReactNode; note?: React.ReactNode; accent?: boolean }> = ({ label, value, note, accent = false }) => (
-  <div className={`stock-audit-metric${accent ? ' is-accent' : ''}`}>
-    <span>{label}</span>
-    <strong>{value}</strong>
-    {note ? <small>{note}</small> : null}
-  </div>
-);
-
-const SectionHeader: React.FC<{ id: string; title: string; note?: string }> = ({ id, title, note }) => (
-  <div className="stock-audit-section-header">
-    <h3 id={id}>{title}</h3>
-    {note ? <span className="mono-num">{note}</span> : null}
-  </div>
-);
-
-const ForecastReference: React.FC<{ reference: StockAuditReference }> = ({ reference }) => (
-  <article className="stock-audit-reference">
-    <div className="stock-audit-reference-head">
-      <strong>{reference.label}</strong>
-      <span className={reference.change_pct >= 0 ? 'positive' : 'negative'}>{formatPercent(reference.change_pct)}</span>
-    </div>
-    <b className="stock-audit-reference-value mono-num">{formatNumber(reference.value)}</b>
-    <small>{formatTimestamp(reference.as_of)}</small>
-    {sourceLink(reference.source, '資料')}
-  </article>
-);
-
-const Operations: React.FC<{ operations: StockAuditOperation[] }> = ({ operations }) => {
-  const byTerm = useMemo(() => new Map(operations.map((operation) => [operation.term, operation])), [operations]);
   return (
-    <div className="stock-audit-operations">
-      {TERMS.map((term) => {
-        const operation = byTerm.get(term);
-        if (!operation) return null;
-        return (
-          <article className="stock-audit-operation" key={operation.term}>
-            <header>
-              <strong>{operation.term}</strong>
-              <span>{operation.horizon}</span>
-            </header>
-            <dl>
-              <div><dt>進場時機</dt><dd>{operation.timing}</dd></div>
-              <div><dt>進場價</dt><dd className="mono-num">{formatPrice(operation.entry)}</dd></div>
-              <div><dt>加碼條件</dt><dd>{operation.add_condition}</dd></div>
-              <div><dt>加碼價</dt><dd className="mono-num">{formatPrice(operation.add)}</dd></div>
-              <div><dt>止損價</dt><dd className="mono-num">{formatPrice(operation.stop)}</dd></div>
-              <div><dt>停利價</dt><dd className="mono-num">{formatPrice(operation.take_profit)}</dd></div>
-            </dl>
-          </article>
-        );
-      })}
-    </div>
+    <>
+      <span><b>{formatMaybeNumber(item.fundamentals.score, missingReasons, '基本面資料不足')}</b><small>{item.fundamentals.fiscal_quarter ?? '季度缺值'}</small></span>
+      <span><b>營收{directionArrow(item.fundamentals.revenue_direction)} EPS{directionArrow(item.fundamentals.eps_direction)}</b><small>{item.fundamentals.comparison_basis ?? '比較基準缺值'}</small></span>
+      <span><b>{formatMaybePercent(item.fundamentals.gross_margin, missingReasons, '毛利率資料不足')}</b><small>毛利率</small></span>
+      <span><b>{formatMaybeNumber(item.fundamentals.operating_cash_flow, missingReasons, '現金流資料不足')}</b><small>負債比 {formatMaybePercent(item.fundamentals.debt_ratio, missingReasons, '資料不足')}</small></span>
+    </>
   );
 };
 
-const Fundamentals: React.FC<{ stock: StockAuditStock }> = ({ stock }) => (
-  <section className="stock-audit-detail-section" aria-labelledby={`${stock.symbol}-fundamentals`}>
-    <SectionHeader id={`${stock.symbol}-fundamentals`} title="基本面分析" note={stock.fundamentals.period} />
-    <div className="stock-audit-metric-grid">
-      <Metric label="營收" value={`${formatNumber(stock.fundamentals.revenue)} ${stock.fundamentals.revenue_unit}`} note={stock.fundamentals.period} />
-      <Metric label="EPS" value={formatNumber(stock.fundamentals.eps)} note={`TTM ${formatNumber(stock.fundamentals.ttm_eps)}`} />
-      <Metric label="本益比 PE" value={`${formatNumber(stock.fundamentals.pe)}x`} note="最新估值" accent />
-      <Metric
-        label="估值相對位置"
-        value={`${stock.valuation.percentile.toFixed(0)} 百分位`}
-        note={`${stock.valuation.sample_count} 筆樣本 · ${stock.valuation.baseline_label}`}
-      />
-    </div>
-    <div className="stock-audit-valuation-callout">
-      <span>相對基準溢價</span>
-      <strong className={stock.valuation.premium_pct > 0 ? 'status-delayed' : 'positive'}>{formatPercent(stock.valuation.premium_pct)}</strong>
-      <small>基準 PE {formatNumber(stock.valuation.baseline_pe)}x · {stock.valuation.analysis}</small>
-    </div>
-    <p className="stock-audit-analysis">{stock.fundamentals.analysis}</p>
-    <ReportSource source={stock.fundamentals.source} asOf={stock.fundamentals.as_of} label="財務資料" />
-    <ReportSource source={stock.valuation.source} asOf={stock.price_as_of} label="歷史 PE" />
-  </section>
-);
+export const StockWatchlist: React.FC<StockWatchlistProps> = ({
+  payload,
+  view,
+  query,
+  onViewChange,
+  onQueryChange,
+  onGoStock,
+  loading = false,
+  error = false,
+  onRetry,
+  onGoHome
+}) => {
+  const [showMethodology, setShowMethodology] = useState(false);
+  const searchResults = useMemo(() => {
+    if (!payload || !query.trim()) return [];
+    return payload.searchable
+      .map((instrument) => ({ instrument, tier: matchTier(instrument.instrument, query) }))
+      .filter((match): match is { instrument: SearchableStock; tier: SearchTier } => match.tier !== null)
+      .sort((left, right) => searchTierOrder[left.tier] - searchTierOrder[right.tier]
+        || left.instrument.instrument.instrument_id.localeCompare(right.instrument.instrument.instrument_id))
+      .map((match) => match.instrument)
+      .slice(0, SEARCH_RESULT_LIMIT);
+  }, [payload, query]);
 
-const Technical: React.FC<{ stock: StockAuditStock }> = ({ stock }) => {
-  const latestCandle = stock.technical.candles[stock.technical.candles.length - 1];
-  return (
-    <section className="stock-audit-detail-section" aria-labelledby={`${stock.symbol}-technical`}>
-      <SectionHeader id={`${stock.symbol}-technical`} title="技術分析" note={`日線 · ${latestCandle.date}`} />
-      <StockAuditChart symbol={stock.symbol} price={stock.price} technical={stock.technical} />
-      <div className="stock-audit-metric-grid stock-audit-technical-metrics">
-        <Metric label="現價" value={formatPrice(stock.price)} note={`報價 ${formatTimestamp(stock.price_as_of)}`} accent />
-        <Metric label="MA20" value={formatPrice(stock.technical.ma20)} note="20 日均線" />
-        <Metric label="MA60" value={formatPrice(stock.technical.ma60)} note="60 日均線" />
-        <Metric label="支撐 / 壓力" value={`${formatPrice(stock.technical.support)} / ${formatPrice(stock.technical.resistance)}`} note="日線區間" />
-      </div>
-      <p className="stock-audit-analysis">{stock.technical.analysis}</p>
-      <ReportSource source={stock.source} asOf={stock.price_as_of} label="行情資料" />
-    </section>
-  );
-};
-
-const QualitySummary: React.FC<{ stock: StockAuditStock }> = ({ stock }) => (
-  <div className="stock-audit-quality">
-    <div className="stock-audit-quality-heading">
-      <strong>成長曲線品質檢查</strong>
-      <span>選股後檢查 · 不作為基本面門檻</span>
-    </div>
-    <p>Sharpe、Sortino、TTR 與指數形狀只用於候選完成後的成長曲線品質檢查，不作為基本面分析的篩選條件。</p>
-    <div className="stock-audit-quality-grid">
-      <Metric label="Sharpe" value={stock.quality.sharpe.toFixed(2)} note={stock.quality.period} />
-      <Metric label="Sortino" value={stock.quality.sortino.toFixed(2)} note={stock.quality.period} />
-      <Metric label="TTR" value={`${stock.quality.ttr_days} 日`} note="回到高點所需時間" />
-      <Metric label="指數形狀" value={stock.quality.index_shape} />
-    </div>
-    <p className="stock-audit-quality-method">計算方法 · {stock.quality.method}</p>
-    <ReportSource source={stock.quality.source} asOf={stock.price_as_of} label="品質計算" />
-  </div>
-);
-
-const StockAuditCard: React.FC<{ stock: StockAuditStock; index: number }> = ({ stock, index }) => (
-  <details className="stock-audit-card" open={index === 0}>
-    <summary>
-      <span className="stock-audit-card-identity">
-        <span className="stock-audit-card-index mono-num">{String(index + 1)}</span>
-        <span><strong>{stock.name}</strong><small className="mono-num">{stock.symbol}</small></span>
-      </span>
-      <span className="stock-audit-card-price"><strong className="mono-num">{formatPrice(stock.price)}</strong><small>{formatTimestamp(stock.price_as_of)}</small></span>
-    </summary>
-    <div className="stock-audit-card-content">
-      <div className="stock-audit-card-source">{sourceLink(stock.source, '報價來源')}</div>
-      <Fundamentals stock={stock} />
-      <Technical stock={stock} />
-      <section className="stock-audit-detail-section" aria-labelledby={`${stock.symbol}-operations`}>
-        <SectionHeader id={`${stock.symbol}-operations`} title="操作" note="條件式情境" />
-        <p className="stock-audit-section-lead">短線、中線、長線分開列出進場、加碼、止損與停利價格；僅在條件成立時執行。</p>
-        <Operations operations={stock.operations} />
-      </section>
-      <section className="stock-audit-detail-section" aria-labelledby={`${stock.symbol}-summary`}>
-        <SectionHeader id={`${stock.symbol}-summary`} title="總結" />
-        <p className="stock-audit-summary">{stock.summary}</p>
-        <QualitySummary stock={stock} />
-      </section>
-    </div>
-  </details>
-);
-
-const LoadingState: React.FC = () => (
-  <section className="watchlist-state stock-audit-state" aria-live="polite">
-    <span className="stock-audit-loading-line watchlist-skeleton-row" />
-    <span className="stock-audit-loading-line watchlist-skeleton-row" />
-    <p>正在載入本期報告</p>
-  </section>
-);
-
-const ErrorState: React.FC<{ onRetry?: () => void; onGoHome?: () => void }> = ({ onRetry, onGoHome }) => (
-  <section className="watchlist-state stock-audit-state">
-    <h2>本期報告無法載入</h2>
-    <p>請稍後再試。</p>
-    <div>
-      {onRetry ? <button type="button" onClick={onRetry}>重新載入</button> : null}
-      {onGoHome ? <button type="button" onClick={onGoHome}>回題材雷達</button> : null}
-    </div>
-  </section>
-);
-
-export const StockWatchlist: React.FC<StockWatchlistProps> = ({ onRetry, onGoHome }) => {
-  const [report, setReport] = useState<StockAuditReport | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(false);
-  const [requestKey, setRequestKey] = useState(0);
-
-  useEffect(() => {
-    let active = true;
-    setLoading(true);
-    setError(false);
-    fetchStockAudit(requestKey > 0)
-      .then((nextReport) => {
-        if (active) setReport(nextReport);
-      })
-      .catch(() => {
-        if (active) {
-          setReport(null);
-          setError(true);
-        }
-      })
-      .finally(() => {
-        if (active) setLoading(false);
-      });
-    return () => {
-      active = false;
-    };
-  }, [requestKey]);
-
-  const handleRetry = () => {
-    setRequestKey((key) => key + 1);
-    onRetry?.();
+  const handleTabKeyDown = (event: React.KeyboardEvent<HTMLButtonElement>) => {
+    if (event.key !== 'ArrowRight' && event.key !== 'ArrowLeft') return;
+    event.preventDefault();
+    const current = views.findIndex((candidate) => candidate.id === view);
+    const offset = event.key === 'ArrowRight' ? 1 : -1;
+    const next = (current + offset + views.length) % views.length;
+    onViewChange(views[next].id);
+    event.currentTarget.parentElement?.querySelectorAll<HTMLButtonElement>('[role="tab"]')[next]?.focus();
   };
 
+  const handleRowKeyDown = (event: React.KeyboardEvent, instrument: WatchlistInstrument) => {
+    if (event.key === 'Enter' || event.key === ' ') {
+      event.preventDefault();
+      onGoStock(instrument.symbol, instrument.exchange);
+    }
+  };
+
+  const renderItem = (item: WatchlistStock) => {
+    const rank = view === 'long' ? item.long.rank : item.short.rank;
+    const score = view === 'long' ? Math.round(item.long.score) : Math.round(item.short.score);
+    return (
+      <React.Fragment key={item.instrument.instrument_id}>
+        <div
+          className="watchlist-row"
+          role="link"
+          tabIndex={0}
+          onClick={() => onGoStock(item.instrument.symbol, item.instrument.exchange)}
+          onKeyDown={(event) => handleRowKeyDown(event, item.instrument)}
+        >
+          <strong className="watchlist-rank mono-num">#{rank}</strong>
+          <span className="watchlist-stock-name"><b>{item.instrument.name_zh}</b><small className="mono-num">{item.instrument.symbol} · {item.instrument.exchange}</small></span>
+          <strong className="watchlist-score mono-num">{score}</strong>
+          <WatchlistMetrics item={item} view={view === 'long' ? 'long' : 'short'} />
+          <Themes item={item} />
+          <FlagChips flags={item.flags} />
+          <button type="button" onClick={(event) => { event.stopPropagation(); onGoStock(item.instrument.symbol, item.instrument.exchange); }}>查看分析 →</button>
+        </div>
+        <article
+          className="watchlist-mobile-card"
+          role="link"
+          tabIndex={0}
+          onClick={() => onGoStock(item.instrument.symbol, item.instrument.exchange)}
+          onKeyDown={(event) => handleRowKeyDown(event, item.instrument)}
+        >
+          <header><span><b>{item.instrument.name_zh}</b><small className="mono-num">{item.instrument.symbol} · {item.instrument.exchange}</small></span><strong className="mono-num">#{rank} · {score}</strong></header>
+          <div className="watchlist-metric-grid"><WatchlistMetrics item={item} view={view === 'long' ? 'long' : 'short'} /></div>
+          <Themes item={item} />
+          <FlagChips flags={item.flags} />
+          <button type="button" onClick={(event) => { event.stopPropagation(); onGoStock(item.instrument.symbol, item.instrument.exchange); }}>查看分析 →</button>
+        </article>
+      </React.Fragment>
+    );
+  };
+
+  const renderSearchItem = (item: SearchableStock) => (
+    <React.Fragment key={item.instrument.instrument_id}>
+      <div
+        className="watchlist-row watchlist-search-row"
+        role="link"
+        tabIndex={0}
+        onClick={() => onGoStock(item.instrument.symbol, item.instrument.exchange)}
+        onKeyDown={(event) => handleRowKeyDown(event, item.instrument)}
+      >
+        <strong className="watchlist-rank mono-num">{item.selected_top50 ? `#${item.short_rank ?? '—'}` : '—'}</strong>
+        <span className="watchlist-stock-name"><b>{item.instrument.name_zh}</b><small className="mono-num">{item.instrument.symbol} · {item.instrument.exchange}</small></span>
+        <span className="watchlist-search-status">{item.selected_top50 ? `短 #${item.short_rank} · 長 #${item.long_rank}` : '候選池'}</span>
+        <Themes item={item} />
+        <FlagChips flags={item.flags} />
+        <button type="button" onClick={(event) => { event.stopPropagation(); onGoStock(item.instrument.symbol, item.instrument.exchange); }}>查看分析 →</button>
+      </div>
+      <article className="watchlist-mobile-card" role="link" tabIndex={0} onClick={() => onGoStock(item.instrument.symbol, item.instrument.exchange)} onKeyDown={(event) => handleRowKeyDown(event, item.instrument)}>
+        <header><span><b>{item.instrument.name_zh}</b><small className="mono-num">{item.instrument.symbol} · {item.instrument.exchange}</small></span><strong>{item.selected_top50 ? 'Top 50' : '候選池'}</strong></header>
+        <div className="watchlist-metric-grid"><span><b>{item.short_rank ?? '—'}</b><small>短線排名</small></span><span><b>{item.long_rank ?? '—'}</b><small>長線排名</small></span></div>
+        <Themes item={item} />
+        <FlagChips flags={item.flags} />
+        <button type="button" onClick={(event) => { event.stopPropagation(); onGoStock(item.instrument.symbol, item.instrument.exchange); }}>查看分析 →</button>
+      </article>
+    </React.Fragment>
+  );
+
+  const listItems = payload
+    ? (view === 'long' ? payload.long.items : payload.short.items)
+      .filter((item) => auditFocus.includes(item.instrument.symbol))
+      .sort((left, right) => auditFocus.indexOf(left.instrument.symbol) - auditFocus.indexOf(right.instrument.symbol))
+    : [];
+  const resultCount = view === 'search' ? searchResults.length : listItems.length;
+
   return (
-    <div className="page-content stock-audit-page watchlist-page watchlist-no-horizontal-scroll">
-      {loading ? <LoadingState /> : null}
-      {error && !loading ? <ErrorState onRetry={handleRetry} onGoHome={onGoHome} /> : null}
-      {!loading && !error && report ? (
-        <>
-          <header className="page-intro stock-audit-intro">
-            <span className="stock-audit-kicker">Stock Audit · {report.report_date}</span>
-            <h1>個股稽核報告</h1>
-            <div className="gold-rule" />
-            <p>先看今日結論，再看明日市場參照與候選細節；本頁只呈現具備來源與時間戳的標的。</p>
-            <p className="stock-audit-generated">報告時間 · {formatTimestamp(report.generated_at)}</p>
-          </header>
-          <main className="stock-audit-report">
-            <section className="stock-audit-section stock-audit-conclusion" aria-labelledby="stock-audit-conclusion-title">
-              <div className="stock-audit-section-header"><h2 id="stock-audit-conclusion-title">今日結論</h2><span className="mono-num">{report.report_date}</span></div>
-              <p className="stock-audit-conclusion-copy">{report.conclusion}</p>
-            </section>
-            <section className="stock-audit-section stock-audit-forecast" aria-labelledby="stock-audit-forecast-title">
-              <div className="stock-audit-section-header"><h2 id="stock-audit-forecast-title">明日台股預測</h2><span className="mono-num">{report.forecast ? formatTimestamp(report.forecast.as_of) : '—'}</span></div>
-              {report.forecast ? (
-                <>
-                  <p className="stock-audit-forecast-summary">{report.forecast.summary}</p>
-                  <div className="stock-audit-reference-grid">{report.forecast.references.map((reference) => <ForecastReference key={`${reference.label}-${reference.as_of}`} reference={reference} />)}</div>
-                </>
-              ) : <p className="stock-audit-empty">本期不提供方向預測。</p>}
-            </section>
-            <section className="stock-audit-section stock-audit-candidates" aria-labelledby="stock-audit-candidates-title">
-              <div className="stock-audit-section-header"><h2 id="stock-audit-candidates-title">重點標的</h2><span className="mono-num">{report.stocks.length} 檔</span></div>
-              {report.stocks.length > 0 ? <><div className="stock-audit-card-list">{report.stocks.map((stock, index) => <StockAuditCard key={stock.symbol} stock={stock} index={index} />)}</div><p className="stock-audit-multi-note">本期完整分析 {report.stocks.length} 檔；每檔資料已集中於單一展開卡片。</p></> : <p className="stock-audit-empty">本期沒有可列出的標的。</p>}
-            </section>
-          </main>
-          <p className="disclaimer stock-audit-disclaimer">本報告提供資料與條件式情境，不構成投資建議。</p>
-        </>
+    <div className="page-content watchlist-page watchlist-no-horizontal-scroll">
+      <section className="page-intro">
+        <span className="page-kicker">STOCK AUDIT · MOBILE DECISION BRIEF</span>
+        <h1>個股稽核報告</h1>
+        <div className="gold-rule" />
+        <p>先看重點標的，再看基本面、技術面與操作條件。完整候選集中在手機可掃描的決策清單。</p>
+      </section>
+
+      <div className="watchlist-tabs" role="tablist" aria-label="個股雷達檢視">
+        {views.map((candidate) => (
+          <button
+            id={`watchlist-tab-${candidate.id}`}
+            className={view === candidate.id ? 'is-selected' : ''}
+            type="button"
+            role="tab"
+            aria-selected={view === candidate.id}
+            tabIndex={view === candidate.id ? 0 : -1}
+            onClick={() => onViewChange(candidate.id)}
+            onKeyDown={handleTabKeyDown}
+            key={candidate.id}
+          >
+            {candidate.label}
+          </button>
+        ))}
+      </div>
+
+      {view === 'search' ? (
+        <div className="watchlist-search">
+          <label htmlFor="watchlist-query">搜尋完整題材候選池</label>
+          <div><input id="watchlist-query" type="search" value={query} onChange={(event) => onQueryChange(event.target.value)} placeholder="例如：2330、台積電" />{query ? <button type="button" onClick={() => onQueryChange('')} aria-label="清除搜尋">×</button> : null}</div>
+        </div>
       ) : null}
+
+      <section className="watchlist-list-heading">
+        <div><strong>重點標的</strong><span>{payload?.candidate_as_of ?? '資料日期缺值'} · {resultCount} 檔</span></div>
+        {view !== 'search' ? <button type="button" aria-expanded={showMethodology} onClick={() => setShowMethodology((shown) => !shown)}>評分說明 ▾</button> : null}
+      </section>
+
+      {showMethodology && view !== 'search' ? (
+        <section className="watchlist-methodology">
+          <strong>{view === 'short' ? '短線權重' : '長線權重'}</strong>
+          <p>{view === 'short' ? '55% 題材關注度／20% 法人短期動向／15% 當沖活躍度／10% 基本面防守。' : '60% 基本面品質／20% 法人支持／15% 題材延續性／5% 交易籌碼穩定度。'}</p>
+          <p>缺值會由 pipeline 重新分配有效權重，不補 0；目前無可靠隔日衝資料，因此初版顯示缺值且不扣分。</p>
+        </section>
+      ) : null}
+
+      <div className="watchlist-result-count" aria-live="polite">顯示 {resultCount} 筆結果</div>
+
+      {loading ? <div className="watchlist-skeleton" aria-label="個股雷達載入中">{Array.from({ length: 8 }, (_, index) => <div className="watchlist-skeleton-row" key={index} />)}</div> : null}
+      {error && !loading ? <section className="watchlist-state"><h2>個股雷達暫時無法載入</h2><p>請稍後重試；既有題材雷達資料不受影響。</p><div>{onRetry ? <button type="button" onClick={onRetry}>重新載入</button> : null}{onGoHome ? <button type="button" onClick={onGoHome}>回題材雷達</button> : null}</div></section> : null}
+
+      {!loading && !error && payload && view !== 'search' && listItems.length ? (
+        <div className="watchlist-table">
+          <div className="watchlist-table-head"><span>#</span><span>股票</span><span>關注分數</span><span>{view === 'short' ? '題材關注度' : '基本面'}</span><span>{view === 'short' ? '法人' : '成長'}</span><span>{view === 'short' ? '當沖比' : '獲利'}</span><span>{view === 'short' ? '隔日衝' : '財務'}</span><span>題材</span><span>Flags</span><span>操作</span></div>
+          {listItems.map(renderItem)}
+        </div>
+      ) : null}
+
+      {!loading && !error && view !== 'search' && (!payload || listItems.length === 0) ? <section className="watchlist-state"><h2>目前沒有可顯示的個股雷達資料</h2></section> : null}
+      {!loading && !error && view === 'search' && !query.trim() ? <section className="watchlist-state"><h2>請輸入代號或公司名稱</h2><p>搜尋涵蓋完整題材候選池，包含未進入 Top 50 的股票。</p></section> : null}
+      {!loading && !error && view === 'search' && query.trim() && searchResults.length === 0 ? <section className="watchlist-state"><h2>找不到「{query.trim()}」</h2><p>請改用股票代號或完整公司名稱。</p></section> : null}
+      {!loading && !error && view === 'search' && searchResults.length ? <div className="watchlist-table watchlist-search-table">{searchResults.map(renderSearchItem)}</div> : null}
+
+      <p className="disclaimer">關注分數衡量題材、籌碼與基本面訊號強度，不代表預測漲跌，也不構成投資建議。</p>
     </div>
   );
 };
