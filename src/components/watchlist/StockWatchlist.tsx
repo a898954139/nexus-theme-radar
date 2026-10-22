@@ -291,7 +291,7 @@ export const StockWatchlist: React.FC<StockWatchlistProps> = ({ onRetry, onGoHom
             </section>
             <section className="stock-audit-section stock-audit-candidates" aria-labelledby="stock-audit-candidates-title">
               <div className="stock-audit-section-header"><h2 id="stock-audit-candidates-title">重點標的</h2><span className="mono-num">{report.stocks.length} 檔</span></div>
-              {report.stocks.length > 0 ? <div className="stock-audit-card-list">{report.stocks.map((stock, index) => <StockAuditCard key={stock.symbol} stock={stock} index={index} />)}</div> : <p className="stock-audit-empty">本期沒有可列出的標的。</p>}
+              {report.stocks.length > 0 ? <><div className="stock-audit-card-list">{report.stocks.map((stock, index) => <StockAuditCard key={stock.symbol} stock={stock} index={index} />)}</div><p className="stock-audit-multi-note">本期完整分析 {report.stocks.length} 檔；每檔資料已集中於單一展開卡片。</p></> : <p className="stock-audit-empty">本期沒有可列出的標的。</p>}
             </section>
           </main>
           <p className="disclaimer stock-audit-disclaimer">本報告提供資料與條件式情境，不構成投資建議。</p>
