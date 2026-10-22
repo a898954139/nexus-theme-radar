@@ -2,14 +2,14 @@
   "schema_version": "nexus_public_theme_ranking.v0.8",
   "ranking_rule_version": "public_theme_heat_v0.8",
   "company_rule_version": "public_company_evidence_v0.8",
-  "generated_at": "2026-10-22T20:09:03.602211Z",
+  "generated_at": "2026-10-22T23:24:31.998647Z",
   "market_id": "TW_EQUITY",
   "market_scope": [
     "TW_EQUITY"
   ],
   "window_hours": 72,
   "max_themes": 5,
-  "qualified_theme_count": 8,
+  "qualified_theme_count": 7,
   "displayed_theme_count": 5,
   "threshold_note": null,
   "generation_status": "complete",
@@ -22,15 +22,15 @@
       "name_zh": "AI",
       "heat_score": 80,
       "summaries": {
-        "event_count": 23,
+        "event_count": 20,
         "source_count": 4,
         "tracking_candidate_count": 0,
-        "taiwan_mapping_count": 122
+        "taiwan_mapping_count": 106
       },
       "heat_reason": {
         "rule_version": "public_theme_heat_v0.8",
         "event_component": {
-          "input": 23,
+          "input": 20,
           "normalized": 100.0,
           "weighted": 25.0
         },
@@ -45,16 +45,24 @@
           "weighted": 0.0
         },
         "mapping_component": {
-          "mapping_count": 122,
-          "direct_mapping_event_count": 9,
+          "mapping_count": 106,
+          "direct_mapping_event_count": 8,
           "normalized": 100.0,
           "weighted": 30.0
         },
-        "single_source_concentration": 0.417,
+        "single_source_concentration": 0.476,
         "concentration_penalty": 0.0,
         "raw_score": 80.0
       },
       "direct_mentions": [
+        {
+          "instrument_id": "TWSE:2330",
+          "symbol": "2330",
+          "exchange": "TWSE",
+          "name_zh": "台積電",
+          "direct_event_count": 2,
+          "latest_mentioned_at": "2026-10-22T22:06:09Z"
+        },
         {
           "instrument_id": "TWSE:2027",
           "symbol": "2027",
@@ -96,22 +104,6 @@
           "latest_mentioned_at": "2026-10-22T18:13:04Z"
         },
         {
-          "instrument_id": "TWSE:2308",
-          "symbol": "2308",
-          "exchange": "TWSE",
-          "name_zh": "台達電",
-          "direct_event_count": 1,
-          "latest_mentioned_at": "2026-10-22T14:08:45Z"
-        },
-        {
-          "instrument_id": "TWSE:2330",
-          "symbol": "2330",
-          "exchange": "TWSE",
-          "name_zh": "台積電",
-          "direct_event_count": 1,
-          "latest_mentioned_at": "2026-10-22T13:40:22Z"
-        },
-        {
           "instrument_id": "TWSE:2028",
           "symbol": "2028",
           "exchange": "TWSE",
@@ -126,17 +118,20 @@
           "name_zh": "千興",
           "direct_event_count": 1,
           "latest_mentioned_at": "2026-10-22T07:10:06Z"
-        },
-        {
-          "instrument_id": "TWSE:2395",
-          "symbol": "2395",
-          "exchange": "TWSE",
-          "name_zh": "研華",
-          "direct_event_count": 1,
-          "latest_mentioned_at": "2026-10-22T02:52:48Z"
         }
       ],
       "supply_chain_candidates": [
+        {
+          "instrument_id": "TWSE:2330",
+          "symbol": "2330",
+          "exchange": "TWSE",
+          "name_zh": "台積電",
+          "direct_event_count": 2,
+          "official_evidence_count": 0,
+          "company_rank_score": 9,
+          "latest_mentioned_at": "2026-10-22T22:06:09Z",
+          "latest_official_at": null
+        },
         {
           "instrument_id": "TWSE:2382",
           "symbol": "2382",
@@ -158,28 +153,17 @@
           "company_rank_score": 5,
           "latest_mentioned_at": "2026-10-22T18:13:21Z",
           "latest_official_at": null
-        },
-        {
-          "instrument_id": "TWSE:2308",
-          "symbol": "2308",
-          "exchange": "TWSE",
-          "name_zh": "台達電",
-          "direct_event_count": 1,
-          "official_evidence_count": 0,
-          "company_rank_score": 5,
-          "latest_mentioned_at": "2026-10-22T14:08:45Z",
-          "latest_official_at": null
         }
       ],
       "representative_news": {
-        "cluster_id": "cluster-561e93c920e827b6",
-        "id": "cnyes-1b7a61a5a5da",
-        "title_zh": "AI疑慮與戰火風險升溫！資金轉抱美債 10年期殖利率跌破5%",
-        "summary": "美債殖利率周四大跌，10年期跌15個基點至4.996%，為9月23日以來首次跌破5%。&#10;黃仁勳稱新型雲端業者需求「強勁到爆表」但資金短缺，AI基礎設施擴張疑慮拖累股市。&#10;中東緊張推升油價，WTI漲逾2%站上99美元；資金撤出股票轉向公債避險。",
+        "cluster_id": "cluster-52c65a7df9de25cb",
+        "id": "cnyes-cea856f5c451",
+        "title_zh": "〈美股盤後〉Meta重燃AI交易恐慌 費半狂瀉近7% 台積電ADR跌超4.5%",
+        "summary": "Meta財報後AI交易恐慌升溫，費半跌6.72%、那指跌2.6%，科技股與晶片股遭拋售&#10;中東局勢緊張推升油價至5個月高點，10年期美債殖利率跌破5%，資金湧向避險&#10;Meta上季營收優於預期但首見負自由現金流，CDS利差創高；威騰、科林研發等AI概念股重挫",
         "source_id": "cnyes",
         "source": "鉅亨網 Cnyes",
-        "published_at": "2026-10-22T16:31:14Z",
-        "canonical_url": "https://news.cnyes.com/news/id/6636276"
+        "published_at": "2026-10-22T22:06:09Z",
+        "canonical_url": "https://news.cnyes.com/news/id/6636334"
       }
     },
     {
@@ -294,108 +278,14 @@
     },
     {
       "rank": 3,
-      "theme_id": "robotics",
-      "name_zh": "機器人",
-      "heat_score": 73,
-      "summaries": {
-        "event_count": 6,
-        "source_count": 2,
-        "tracking_candidate_count": 5,
-        "taiwan_mapping_count": 26
-      },
-      "heat_reason": {
-        "rule_version": "public_theme_heat_v0.8",
-        "event_component": {
-          "input": 6,
-          "normalized": 100.0,
-          "weighted": 25.0
-        },
-        "source_component": {
-          "input": 2,
-          "normalized": 50.0,
-          "weighted": 12.5
-        },
-        "candidate_component": {
-          "input": 5,
-          "normalized": 100.0,
-          "weighted": 20.0
-        },
-        "mapping_component": {
-          "mapping_count": 26,
-          "direct_mapping_event_count": 1,
-          "normalized": 80.0,
-          "weighted": 24.0
-        },
-        "single_source_concentration": 0.833,
-        "concentration_penalty": 8.75,
-        "raw_score": 72.75
-      },
-      "direct_mentions": [
-        {
-          "instrument_id": "TWSE:2030",
-          "symbol": "2030",
-          "exchange": "TWSE",
-          "name_zh": "彰源",
-          "direct_event_count": 1,
-          "latest_mentioned_at": "2026-10-22T18:45:40Z"
-        }
-      ],
-      "supply_chain_candidates": [
-        {
-          "instrument_id": "TPEX:3379",
-          "symbol": "3379",
-          "exchange": "TPEX",
-          "name_zh": "彬台",
-          "direct_event_count": 0,
-          "official_evidence_count": 0,
-          "company_rank_score": 1,
-          "latest_mentioned_at": null,
-          "latest_official_at": null
-        },
-        {
-          "instrument_id": "TPEX:3577",
-          "symbol": "3577",
-          "exchange": "TPEX",
-          "name_zh": "泓格",
-          "direct_event_count": 0,
-          "official_evidence_count": 0,
-          "company_rank_score": 1,
-          "latest_mentioned_at": null,
-          "latest_official_at": null
-        },
-        {
-          "instrument_id": "TPEX:5289",
-          "symbol": "5289",
-          "exchange": "TPEX",
-          "name_zh": "宜鼎",
-          "direct_event_count": 0,
-          "official_evidence_count": 0,
-          "company_rank_score": 1,
-          "latest_mentioned_at": null,
-          "latest_official_at": null
-        }
-      ],
-      "representative_news": {
-        "cluster_id": "cluster-61ba7557e903053c",
-        "id": "digitimes_tw-a8545674f302",
-        "title_zh": "傳李在鎔10月底視察三星RX事業室　緊盯人形機器人CES備戰進度",
-        "summary": "三星電子（Samsung Electronics）會長李在鎔，傳最快將於10月底前往位於首爾牛眠洞的RX（Robotics eXperience）事業推進室，檢視人形機器人研發成果及CES",
-        "source_id": "digitimes_tw",
-        "source": "DIGITIMES",
-        "published_at": "2026-10-22T18:41:46Z",
-        "canonical_url": "https://www.digitimes.com.tw/tech/dt/n/shwnws.asp?id=0000772406_5W75MKPXL47GYP7STLNKY"
-      }
-    },
-    {
-      "rank": 4,
-      "theme_id": "pcb_abf_hdi",
-      "name_zh": "PCB／ABF／HDI",
+      "theme_id": "statementdog_tag_4082",
+      "name_zh": "iPhone",
       "heat_score": 59,
       "summaries": {
         "event_count": 4,
-        "source_count": 2,
+        "source_count": 3,
         "tracking_candidate_count": 0,
-        "taiwan_mapping_count": 6
+        "taiwan_mapping_count": 13
       },
       "heat_reason": {
         "rule_version": "public_theme_heat_v0.8",
@@ -405,9 +295,9 @@
           "weighted": 16.667
         },
         "source_component": {
-          "input": 2,
-          "normalized": 50.0,
-          "weighted": 12.5
+          "input": 3,
+          "normalized": 75.0,
+          "weighted": 18.75
         },
         "candidate_component": {
           "input": 0,
@@ -415,47 +305,31 @@
           "weighted": 0.0
         },
         "mapping_component": {
-          "mapping_count": 6,
-          "direct_mapping_event_count": 2,
-          "normalized": 100.0,
-          "weighted": 30.0
+          "mapping_count": 13,
+          "direct_mapping_event_count": 1,
+          "normalized": 80.0,
+          "weighted": 24.0
         },
         "single_source_concentration": 0.5,
         "concentration_penalty": 0.0,
-        "raw_score": 59.167
+        "raw_score": 59.417
       },
       "direct_mentions": [
         {
-          "instrument_id": "TPEX:4542",
-          "symbol": "4542",
-          "exchange": "TPEX",
-          "name_zh": "科嶠",
-          "direct_event_count": 1,
-          "latest_mentioned_at": "2026-10-22T13:08:05Z"
-        },
-        {
-          "instrument_id": "TPEX:8358",
-          "symbol": "8358",
-          "exchange": "TPEX",
-          "name_zh": "金居",
-          "direct_event_count": 1,
-          "latest_mentioned_at": "2026-10-22T13:08:05Z"
-        },
-        {
-          "instrument_id": "TWSE:2330",
-          "symbol": "2330",
+          "instrument_id": "TWSE:2027",
+          "symbol": "2027",
           "exchange": "TWSE",
-          "name_zh": "台積電",
+          "name_zh": "大成鋼",
           "direct_event_count": 1,
-          "latest_mentioned_at": "2026-10-22T01:44:06Z"
+          "latest_mentioned_at": "2026-10-22T18:23:20Z"
         }
       ],
       "supply_chain_candidates": [
         {
-          "instrument_id": "TWSE:2368",
-          "symbol": "2368",
-          "exchange": "TWSE",
-          "name_zh": "金像電",
+          "instrument_id": "TPEX:3105",
+          "symbol": "3105",
+          "exchange": "TPEX",
+          "name_zh": "穩懋",
           "direct_event_count": 0,
           "official_evidence_count": 0,
           "company_rank_score": 1,
@@ -463,10 +337,10 @@
           "latest_official_at": null
         },
         {
-          "instrument_id": "TWSE:3037",
-          "symbol": "3037",
+          "instrument_id": "TWSE:2313",
+          "symbol": "2313",
           "exchange": "TWSE",
-          "name_zh": "欣興",
+          "name_zh": "華通",
           "direct_event_count": 0,
           "official_evidence_count": 0,
           "company_rank_score": 1,
@@ -474,10 +348,10 @@
           "latest_official_at": null
         },
         {
-          "instrument_id": "TWSE:8046",
-          "symbol": "8046",
+          "instrument_id": "TWSE:2317",
+          "symbol": "2317",
           "exchange": "TWSE",
-          "name_zh": "南電",
+          "name_zh": "鴻海",
           "direct_event_count": 0,
           "official_evidence_count": 0,
           "company_rank_score": 1,
@@ -486,18 +360,18 @@
         }
       ],
       "representative_news": {
-        "cluster_id": "cluster-da6ee240de1c7870",
-        "id": "digitimes_tw-427aaea6b0ba",
-        "title_zh": "三星電機攜NVIDIA共同擴產　AI晶片載板長期供貨啟動",
-        "summary": "三星電機（Semco）與NVIDIA日前宣布戰略合作，將共同投資南韓世宗、釜山據點的AI半導體封裝載板專用產線，並自2026年起展開多年長期供貨，進一步擴大三星電機在AI基礎設施供應鏈的布局。根據本次公布資訊，三星電機將於世宗及釜山據點新建專用產線，供應NVIDIA運算晶片組所需載板，以及負責資料中心內晶片間高速連接的網",
-        "source_id": "digitimes_tw",
-        "source": "DIGITIMES",
-        "published_at": "2026-10-22T18:27:47Z",
-        "canonical_url": "https://www.digitimes.com.tw/tech/dt/n/shwnws.asp?id=0000772288_X3C3BEG175IOYQ9SX91I8"
+        "cluster_id": "cluster-d97f1af6196267d4",
+        "id": "yahoo_finance_tw-c92b851875a4",
+        "title_zh": "Delta 2.0 升級 iPhone 遊戲庫 Sega Genesis、任天堂DS 懷舊登場",
+        "summary": "圖／本報資料庫商傳媒｜方承業／綜合外電報導廣受 iPhone 使用者喜愛的遊戲模擬器 Delta 今日推出 2.0 版重大更新，不僅為 iPhone 帶來更豐富的復古遊戲體驗，更針對甫上市的雙螢幕手機",
+        "source_id": "yahoo_finance_tw",
+        "source": "Yahoo Finance Taiwan",
+        "published_at": "2026-10-22T22:59:52Z",
+        "canonical_url": "https://tw.stock.yahoo.com/news/delta-2-0-%E5%8D%87%E7%B4%9A-iphone-225952647.html"
       }
     },
     {
-      "rank": 5,
+      "rank": 4,
       "theme_id": "cowos_supply_chain",
       "name_zh": "CoWoS 先進封裝",
       "heat_score": 53,
@@ -570,6 +444,108 @@
         "source": "DIGITIMES",
         "published_at": "2026-10-22T18:47:14Z",
         "canonical_url": "https://www.digitimes.com.tw/tech/dt/n/shwnws.asp?id=0000772370_DEY2QPUD8D82JPL8J2IQE"
+      }
+    },
+    {
+      "rank": 5,
+      "theme_id": "pcb_abf_hdi",
+      "name_zh": "PCB／ABF／HDI",
+      "heat_score": 47,
+      "summaries": {
+        "event_count": 3,
+        "source_count": 2,
+        "tracking_candidate_count": 0,
+        "taiwan_mapping_count": 5
+      },
+      "heat_reason": {
+        "rule_version": "public_theme_heat_v0.8",
+        "event_component": {
+          "input": 3,
+          "normalized": 50.0,
+          "weighted": 12.5
+        },
+        "source_component": {
+          "input": 2,
+          "normalized": 50.0,
+          "weighted": 12.5
+        },
+        "candidate_component": {
+          "input": 0,
+          "normalized": 0.0,
+          "weighted": 0.0
+        },
+        "mapping_component": {
+          "mapping_count": 5,
+          "direct_mapping_event_count": 1,
+          "normalized": 80.0,
+          "weighted": 24.0
+        },
+        "single_source_concentration": 0.667,
+        "concentration_penalty": 2.5,
+        "raw_score": 46.5
+      },
+      "direct_mentions": [
+        {
+          "instrument_id": "TPEX:4542",
+          "symbol": "4542",
+          "exchange": "TPEX",
+          "name_zh": "科嶠",
+          "direct_event_count": 1,
+          "latest_mentioned_at": "2026-10-22T13:08:05Z"
+        },
+        {
+          "instrument_id": "TPEX:8358",
+          "symbol": "8358",
+          "exchange": "TPEX",
+          "name_zh": "金居",
+          "direct_event_count": 1,
+          "latest_mentioned_at": "2026-10-22T13:08:05Z"
+        }
+      ],
+      "supply_chain_candidates": [
+        {
+          "instrument_id": "TWSE:2368",
+          "symbol": "2368",
+          "exchange": "TWSE",
+          "name_zh": "金像電",
+          "direct_event_count": 0,
+          "official_evidence_count": 0,
+          "company_rank_score": 1,
+          "latest_mentioned_at": null,
+          "latest_official_at": null
+        },
+        {
+          "instrument_id": "TWSE:3037",
+          "symbol": "3037",
+          "exchange": "TWSE",
+          "name_zh": "欣興",
+          "direct_event_count": 0,
+          "official_evidence_count": 0,
+          "company_rank_score": 1,
+          "latest_mentioned_at": null,
+          "latest_official_at": null
+        },
+        {
+          "instrument_id": "TWSE:8046",
+          "symbol": "8046",
+          "exchange": "TWSE",
+          "name_zh": "南電",
+          "direct_event_count": 0,
+          "official_evidence_count": 0,
+          "company_rank_score": 1,
+          "latest_mentioned_at": null,
+          "latest_official_at": null
+        }
+      ],
+      "representative_news": {
+        "cluster_id": "cluster-da6ee240de1c7870",
+        "id": "digitimes_tw-427aaea6b0ba",
+        "title_zh": "三星電機攜NVIDIA共同擴產　AI晶片載板長期供貨啟動",
+        "summary": "三星電機（Semco）與NVIDIA日前宣布戰略合作，將共同投資南韓世宗、釜山據點的AI半導體封裝載板專用產線，並自2026年起展開多年長期供貨，進一步擴大三星電機在AI基礎設施供應鏈的布局。根據本次公布資訊，三星電機將於世宗及釜山據點新建專用產線，供應NVIDIA運算晶片組所需載板，以及負責資料中心內晶片間高速連接的網",
+        "source_id": "digitimes_tw",
+        "source": "DIGITIMES",
+        "published_at": "2026-10-22T18:27:47Z",
+        "canonical_url": "https://www.digitimes.com.tw/tech/dt/n/shwnws.asp?id=0000772288_X3C3BEG175IOYQ9SX91I8"
       }
     }
   ]
