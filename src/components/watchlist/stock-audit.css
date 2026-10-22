@@ -1,0 +1,852 @@
+/* Stock Audit / data-terminal: flat surfaces, restrained colour, evidence beside each answer. */
+.stock-audit-page {
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+.stock-audit-page .page-kicker {
+  font-size: 12px;
+  letter-spacing: normal;
+}
+
+.app-root .app-frame:has(.stock-audit-page) .status-bar,
+.app-root .app-frame:has(.stock-audit-page) .status-bar > *,
+.app-root .app-frame:has(.stock-audit-page) .status-bar button,
+.app-root .app-frame:has(.stock-audit-page) .status-bar strong,
+.app-root .app-frame:has(.stock-audit-page) .status-detail {
+  font-size: 12px;
+}
+
+.app-root .app-frame:has(.stock-audit-page) .nav-tabs button,
+.app-root .app-frame:has(.stock-audit-page) .mobile-bottom-nav button {
+  font-size: 12px;
+}
+
+.stock-audit-intro {
+  padding-bottom: 18px;
+}
+
+.stock-audit-generated {
+  margin-top: 12px !important;
+  color: var(--muted) !important;
+  font: 400 12px/1.5 'IBM Plex Mono', ui-monospace, monospace !important;
+}
+
+.stock-audit-report {
+  background: var(--shell-bg);
+}
+
+.stock-audit-section {
+  padding: 18px 16px 20px;
+  border-bottom: 1px solid var(--line);
+}
+
+.stock-audit-section-header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.stock-audit-section-header h2,
+.stock-audit-section-header h3 {
+  margin: 0;
+  color: var(--text-hi);
+  font-family: 'Noto Sans TC', sans-serif;
+  font-weight: 500;
+  letter-spacing: -.02em;
+}
+
+.stock-audit-section-header h2 {
+  font-size: 18px;
+}
+
+.stock-audit-section-header h3 {
+  font-size: 15px;
+}
+
+.stock-audit-section-header > span {
+  flex: 0 0 auto;
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.stock-audit-conclusion {
+  padding-top: 20px;
+  background: var(--gold-bg);
+}
+
+.stock-audit-conclusion-copy,
+.stock-audit-forecast-summary,
+.stock-audit-summary {
+  margin: 0;
+  color: var(--text);
+  font: 400 14px/1.85 'Noto Sans TC', sans-serif;
+}
+
+.stock-audit-page .page-intro p:not(.stock-audit-generated) {
+  font-size: 13px;
+}
+
+.stock-audit-conclusion-copy {
+  max-width: 70ch;
+  color: var(--text-hi);
+  font-size: 16px;
+  line-height: 1.75;
+}
+
+.stock-audit-forecast-summary {
+  margin-bottom: 14px;
+}
+
+.stock-audit-reference-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.stock-audit-reference {
+  min-width: 0;
+  padding: 12px;
+  border: 1px solid var(--line);
+  background: var(--card-bg);
+}
+
+.stock-audit-reference-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 8px;
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.stock-audit-reference-head strong {
+  min-width: 0;
+  overflow-wrap: anywhere;
+  color: var(--text);
+  font-weight: 500;
+}
+
+.stock-audit-reference-value {
+  display: block;
+  margin: 8px 0 3px;
+  color: var(--text-hi);
+  font-size: 19px;
+  font-weight: 600;
+}
+
+.stock-audit-reference small,
+.stock-audit-reference a {
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.stock-audit-reference a {
+  display: block;
+  margin-top: 4px;
+  color: var(--gold);
+  overflow-wrap: anywhere;
+  text-decoration: none;
+}
+
+.stock-audit-reference a:hover,
+.stock-audit-source a:hover,
+.stock-audit-card-source a:hover {
+  color: var(--gold-hover);
+}
+
+.stock-audit-candidates {
+  padding: 18px 0 0;
+}
+
+.stock-audit-candidates > .stock-audit-section-header {
+  padding: 0 16px;
+}
+
+.stock-audit-card-list {
+  border-top: 1px solid var(--line);
+}
+
+.stock-audit-card {
+  display: block;
+  border-bottom: 1px solid var(--line);
+  background: var(--card-bg);
+}
+
+.stock-audit-card > summary {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  min-height: 74px;
+  padding: 12px 16px 12px 40px;
+  color: var(--text);
+  cursor: pointer;
+  list-style: none;
+}
+
+.stock-audit-card > summary::-webkit-details-marker {
+  display: none;
+}
+
+.stock-audit-card > summary::before {
+  position: absolute;
+  left: 16px;
+  color: var(--gold);
+  content: '＋';
+  font: 500 16px/1 'IBM Plex Mono', monospace;
+}
+
+.stock-audit-card[open] > summary {
+  border-bottom: 1px solid var(--line);
+  background: var(--surface-bg);
+}
+
+.stock-audit-card[open] > summary::before {
+  content: '−';
+}
+
+.stock-audit-card > summary:focus-visible {
+  outline: 1px solid var(--gold);
+  outline-offset: -2px;
+}
+
+.stock-audit-card-identity,
+.stock-audit-card-price {
+  display: flex;
+  align-items: center;
+  min-width: 0;
+}
+
+.stock-audit-card-identity {
+  gap: 10px;
+}
+
+.stock-audit-card-index {
+  color: var(--gold);
+  font-size: 12px;
+}
+
+.stock-audit-card-identity > span:last-child {
+  min-width: 0;
+}
+
+.stock-audit-card-identity strong,
+.stock-audit-card-identity small,
+.stock-audit-card-price strong,
+.stock-audit-card-price small {
+  display: block;
+}
+
+.stock-audit-card-identity strong {
+  overflow-wrap: anywhere;
+  color: var(--text-hi);
+  font: 500 14px/1.35 'Noto Sans TC', sans-serif;
+}
+
+.stock-audit-card-identity small {
+  margin-top: 3px;
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.stock-audit-card-price {
+  flex: 0 0 auto;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.stock-audit-card-price strong {
+  color: var(--gold-hover);
+  font-size: 17px;
+}
+
+.stock-audit-card-price small {
+  margin-top: 4px;
+  color: var(--muted);
+  font: 400 12px 'IBM Plex Mono', monospace;
+}
+
+.stock-audit-card-content {
+  padding: 0 16px 20px;
+}
+
+.stock-audit-card-source {
+  padding: 10px 0 2px;
+  color: var(--muted);
+  font: 400 12px 'IBM Plex Mono', monospace;
+  text-align: right;
+}
+
+.stock-audit-card-source a {
+  color: var(--gold);
+  text-decoration: none;
+}
+
+.stock-audit-detail-section {
+  padding: 18px 0 20px;
+  border-bottom: 1px solid var(--sub-line);
+}
+
+.stock-audit-detail-section:last-child {
+  border-bottom: 0;
+}
+
+.stock-audit-metric-grid,
+.stock-audit-quality-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1px;
+  border: 1px solid var(--line);
+  background: var(--line);
+}
+
+.stock-audit-metric {
+  min-width: 0;
+  min-height: 76px;
+  padding: 10px;
+  background: var(--card-bg);
+}
+
+.stock-audit-metric > span,
+.stock-audit-metric > small {
+  display: block;
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.stock-audit-metric > strong {
+  display: block;
+  margin-top: 6px;
+  overflow-wrap: anywhere;
+  color: var(--text-hi);
+  font: 600 15px/1.35 'IBM Plex Mono', monospace;
+}
+
+.stock-audit-metric > small {
+  margin-top: 4px;
+  overflow-wrap: anywhere;
+  line-height: 1.4;
+}
+
+.stock-audit-metric.is-accent > strong {
+  color: var(--gold-hover);
+}
+
+.stock-audit-valuation-callout {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 6px 12px;
+  align-items: baseline;
+  margin-top: 10px;
+  padding: 12px;
+  border-left: 2px solid var(--gold);
+  background: var(--gold-bg);
+}
+
+.stock-audit-valuation-callout > span {
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.stock-audit-valuation-callout > strong {
+  font: 600 18px 'IBM Plex Mono', monospace;
+}
+
+.stock-audit-valuation-callout > small {
+  grid-column: 1 / -1;
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+.stock-audit-analysis,
+.stock-audit-section-lead {
+  margin: 12px 0 0;
+  color: var(--muted);
+  font: 400 13px/1.75 'Noto Sans TC', sans-serif;
+}
+
+.stock-audit-section-lead {
+  margin-top: -2px;
+  color: var(--muted);
+}
+
+.stock-audit-source {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 5px 12px;
+  margin: 12px 0 0;
+  color: var(--muted);
+  font: 400 12px/1.5 'IBM Plex Mono', monospace;
+}
+
+.stock-audit-source a {
+  color: var(--gold);
+  overflow-wrap: anywhere;
+  text-decoration: none;
+}
+
+.stock-audit-operations {
+  display: grid;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.stock-audit-operation {
+  border: 1px solid var(--line);
+  background: var(--card-bg);
+}
+
+.stock-audit-operation > header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--line);
+}
+
+.stock-audit-operation > header strong {
+  color: var(--gold-hover);
+  font: 600 13px 'Noto Sans TC', sans-serif;
+}
+
+.stock-audit-operation > header span {
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.stock-audit-operation dl {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  margin: 0;
+}
+
+.stock-audit-operation dl > div {
+  min-width: 0;
+  padding: 9px 10px;
+  border-bottom: 1px solid var(--sub-line);
+}
+
+.stock-audit-operation dl > div:nth-child(odd) {
+  border-right: 1px solid var(--sub-line);
+}
+
+.stock-audit-operation dl > div:nth-last-child(-n + 2) {
+  border-bottom: 0;
+}
+
+.stock-audit-operation dt,
+.stock-audit-operation dd {
+  margin: 0;
+}
+
+.stock-audit-operation dt {
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.stock-audit-operation dd {
+  margin-top: 4px;
+  overflow-wrap: anywhere;
+  color: var(--text);
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.stock-audit-operation dd.mono-num {
+  color: var(--text-hi);
+  font-size: 14px;
+}
+
+.stock-audit-summary {
+  color: var(--text-hi);
+  font-size: 14px;
+}
+
+.stock-audit-quality {
+  margin-top: 14px;
+  padding: 12px;
+  border: 1px solid var(--line);
+  background: var(--surface-bg);
+}
+
+.stock-audit-quality-heading {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.stock-audit-quality-heading strong {
+  color: var(--cyan);
+  font-size: 12px;
+}
+
+.stock-audit-quality-heading span {
+  color: var(--muted);
+  font-size: 12px;
+  text-align: right;
+}
+
+.stock-audit-quality > p {
+  margin: 8px 0 10px;
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.65;
+}
+
+.stock-audit-quality-grid {
+  border-color: var(--sub-line);
+  background: var(--sub-line);
+}
+
+.stock-audit-quality-method {
+  margin: 10px 0 0;
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.stock-audit-quality-grid .stock-audit-metric {
+  min-height: 68px;
+  background: var(--card-bg);
+}
+
+.stock-audit-quality-grid .stock-audit-metric > strong {
+  font-size: 13px;
+}
+
+.stock-audit-chart {
+  margin: 0 0 10px;
+}
+
+.stock-audit-chart-frame {
+  overflow: hidden;
+  border: 1px solid var(--line);
+  background: #151922;
+}
+
+.stock-audit-chart svg {
+  display: block;
+  width: 100%;
+  height: 300px;
+  min-height: 300px;
+}
+
+.stock-audit-chart-grid line {
+  stroke: var(--line);
+  stroke-width: 1;
+  vector-effect: non-scaling-stroke;
+}
+
+.stock-audit-chart-axis text,
+.stock-audit-chart-date-ticks text {
+  fill: var(--muted);
+  font: 11px 'IBM Plex Mono', monospace;
+}
+
+.stock-audit-chart-levels line {
+  fill: none;
+  stroke-width: 1;
+  stroke-dasharray: 4 4;
+  vector-effect: non-scaling-stroke;
+}
+
+.stock-audit-chart-levels .is-support {
+  stroke: var(--muted);
+  opacity: .72;
+}
+
+.stock-audit-chart-levels .is-resistance {
+  stroke: var(--muted);
+  opacity: .72;
+}
+
+.stock-audit-chart-levels .is-current {
+  stroke: var(--gold);
+  stroke-dasharray: 2 3;
+}
+
+.stock-audit-chart-levels text {
+  font: 11px 'IBM Plex Mono', monospace;
+}
+
+.stock-audit-chart-levels .is-support-label {
+  fill: var(--muted);
+}
+
+.stock-audit-chart-levels .is-resistance-label {
+  fill: var(--muted);
+}
+
+.stock-audit-chart-levels .is-current-label {
+  fill: var(--gold-hover);
+}
+
+.stock-audit-chart-candles line {
+  stroke: currentColor;
+  stroke-width: 1;
+  vector-effect: non-scaling-stroke;
+}
+
+.stock-audit-chart-candles rect {
+  fill: currentColor;
+  stroke: currentColor;
+  stroke-width: 1;
+  vector-effect: non-scaling-stroke;
+}
+
+.stock-audit-chart-candles .is-up {
+  color: var(--green);
+}
+
+.stock-audit-chart-candles .is-down {
+  color: var(--red);
+}
+
+.stock-audit-chart-ma {
+  fill: none;
+  stroke-width: 1.8;
+  vector-effect: non-scaling-stroke;
+}
+
+.stock-audit-chart-ma.is-ma20 {
+  stroke: var(--gold-hover);
+}
+
+.stock-audit-chart-ma.is-ma60 {
+  stroke: var(--muted);
+}
+
+.stock-audit-chart-volume rect {
+  opacity: .55;
+}
+
+.stock-audit-chart-volume .is-up {
+  fill: var(--green);
+}
+
+.stock-audit-chart-volume .is-down {
+  fill: var(--red);
+}
+
+.stock-audit-chart-caption {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 12px;
+  margin-top: 8px;
+  color: var(--muted);
+  font: 400 12px 'IBM Plex Mono', monospace;
+}
+
+.stock-audit-chart-legend {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.stock-audit-chart-legend i {
+  width: 14px;
+  height: 2px;
+  background: var(--muted);
+}
+
+.stock-audit-chart-legend i.is-current {
+  background: var(--gold);
+}
+
+.stock-audit-chart-legend i.is-ma20 {
+  background: var(--gold-hover);
+}
+
+.stock-audit-chart-legend i.is-ma60 {
+  background: var(--muted);
+}
+
+.stock-audit-chart-legend i.is-volume {
+  width: 8px;
+  height: 8px;
+  background: var(--muted);
+}
+
+.stock-audit-chart-legend b {
+  color: var(--text);
+  font-weight: 500;
+}
+
+.stock-audit-empty {
+  margin: 0;
+  padding: 16px 0 2px;
+  color: var(--muted);
+  font: 400 12px/1.7 'Noto Sans TC', sans-serif;
+}
+
+.stock-audit-state {
+  padding: 56px 16px;
+}
+
+.stock-audit-state > h2 {
+  color: var(--text-hi);
+  font: 500 17px 'Noto Sans TC', sans-serif;
+}
+
+.stock-audit-state > p {
+  margin: 8px 0 0;
+}
+
+.stock-audit-state > div {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 16px;
+}
+
+.stock-audit-state button {
+  min-height: 44px;
+  padding: 0 14px;
+  border: 1px solid var(--gold);
+  border-radius: 7px;
+  background: transparent;
+  color: var(--gold);
+}
+
+.stock-audit-loading-line {
+  display: block;
+  height: 58px;
+  margin: 0 auto 10px;
+  max-width: 720px;
+  border: 1px solid var(--line);
+  background: var(--surface-bg);
+}
+
+.stock-audit-disclaimer {
+  text-align: left;
+  color: var(--muted);
+}
+
+.app-frame:has(.stock-audit-page) .nav-feedback,
+.app-frame:has(.stock-audit-page) .nav-feedback-mobile {
+  min-width: 72px;
+  padding-right: 16px;
+  padding-left: 16px;
+  font-size: 12px;
+}
+
+@media (min-width: 721px) {
+  .stock-audit-section {
+    padding-right: 20px;
+    padding-left: 20px;
+  }
+
+  .stock-audit-candidates {
+    padding-right: 0;
+    padding-left: 0;
+  }
+
+  .stock-audit-candidates > .stock-audit-section-header {
+    padding-right: 20px;
+    padding-left: 20px;
+  }
+
+  .stock-audit-reference-grid {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+  }
+
+  .stock-audit-card > summary {
+    padding-right: 20px;
+    padding-left: 44px;
+  }
+
+  .stock-audit-card > summary::before {
+    left: 20px;
+  }
+
+  .stock-audit-card-content {
+    padding-right: 20px;
+    padding-left: 20px;
+  }
+
+  .stock-audit-detail-section {
+    max-width: 1120px;
+    margin-right: auto;
+    margin-left: auto;
+  }
+
+  .stock-audit-metric-grid,
+  .stock-audit-quality-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  .stock-audit-operations {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .stock-audit-chart svg {
+    height: 300px;
+    min-height: 300px;
+  }
+}
+
+@media (min-width: 1000px) {
+  .stock-audit-intro {
+    padding-right: 40px;
+    padding-left: 40px;
+  }
+
+  .stock-audit-section {
+    padding-right: 40px;
+    padding-left: 40px;
+  }
+
+  .stock-audit-candidates {
+    padding-right: 0;
+    padding-left: 0;
+  }
+
+  .stock-audit-candidates > .stock-audit-section-header {
+    padding-right: 40px;
+    padding-left: 40px;
+  }
+
+  .stock-audit-card > summary {
+    padding-right: 40px;
+    padding-left: 64px;
+  }
+
+  .stock-audit-card > summary::before {
+    left: 40px;
+  }
+
+  .stock-audit-card-content {
+    padding-right: 40px;
+    padding-left: 40px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .stock-audit-loading-line {
+    background: var(--card-bg);
+  }
+}
+
+@media (max-width: 720px) {
+  .stock-audit-reference-grid .stock-audit-reference:last-child:nth-child(odd) {
+    grid-column: 1 / -1;
+  }
+}
+
+
+/* This dated report owns its own source clocks; the theme pipeline stamp is unrelated. */
+.app-root:has(.stock-audit-page) .status-bar { display: none; }
+.app-root:has(.stock-audit-page) .mobile-bottom-nav button { font-size: 12px !important; }
+.stock-audit-page .stock-audit-disclaimer { color: var(--muted) !important; }
+.stock-audit-kicker { color: var(--muted); font-size: 12px; }
+.app-root:has(.stock-audit-page) .mobile-bottom-nav { padding-inline: 2px; }

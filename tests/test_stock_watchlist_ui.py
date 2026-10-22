@@ -80,114 +80,80 @@ def test_mobile_nav_keeps_the_feedback_action_visible() -> None:
     )
 
 
-def test_search_priority_is_five_tier_deterministic_and_bounded() -> None:
+def test_stock_audit_renders_fixed_order_and_one_expandable_detail() -> None:
     source = _read(COMPONENT)
 
-    for tier in (
-        "symbol-exact",
-        "name-exact",
-        "symbol-prefix",
-        "name-prefix",
-        "name-contains",
+    section_order = (
+        source.index('id="stock-audit-conclusion-title"'),
+        source.index('id="stock-audit-forecast-title"'),
+        source.index('id="stock-audit-candidates-title"'),
+    )
+    assert section_order == tuple(sorted(section_order))
+    assert '<details className="stock-audit-card"' in source
+
+    detail_order = (
+        source.index('title="基本面分析"'),
+        source.index('title="技術分析"'),
+        source.index('title="操作"'),
+        source.index('title="總結"'),
+    )
+    assert detail_order == tuple(sorted(detail_order))
+    assert 'open={index === 0}' in source
+    assert 'aria-labelledby' in source
+
+
+def test_stock_audit_fields_and_quality_semantics_are_visible() -> None:
+    source = _read(COMPONENT)
+    chart = _read(ROOT / "src" / "components" / "watchlist" / "StockAuditChart.tsx")
+
+    for marker in (
+        '現價', '資料來源', '營收', 'EPS', '本益比 PE', '估值相對位置',
+        '相對基準溢價', '進場時機', '加碼條件', '止損價', '停利價',
+        'Sharpe', 'Sortino', 'TTR', '指數形狀',
+        '不作為基本面門檻',
     ):
-        assert tier in source
-    assert "SEARCH_RESULT_LIMIT = 30" in source
-    assert ".slice(0, SEARCH_RESULT_LIMIT)" in source
-    assert "localeCompare" in source
-    assert "instrument.instrument_id" in source
-    assert "selected_top50" in source
+        assert marker in source
+    for marker in ('OHLCV', 'MA20', 'MA60', '支撐', '壓力', '成交量', 'viewBox'):
+        assert marker in chart
+    assert '本期不提供方向預測。' in source
+    assert 'pending verification' not in source.lower()
+    assert 'incomplete' not in source.lower()
+    assert '未完成' not in source
 
 
-def test_short_and_long_render_payload_order_without_score_recalculation() -> None:
-    source = _read(COMPONENT)
+def test_stock_audit_fetch_and_contract_fail_closed_at_browser_boundary() -> None:
+    service = _read(ROOT / "src" / "services" / "stockAudit.ts")
 
-    assert "payload.short.items" in source
-    assert "payload.long.items" in source
-    assert not re.search(r"(short|long)\.items\.sort|sort\([^)]*score", source)
-    assert "short.score *" not in source
-    assert "long.score *" not in source
-    assert "Math.round(item.short.score)" in source
-    assert "Math.round(item.long.score)" in source
-    assert "rank" in source
-
-
-def test_short_heat_metric_uses_pipeline_theme_attention_component() -> None:
-    source = _read(COMPONENT)
-
-    assert "item.short.components.theme_attention.normalized" in source
-    assert "題材關注度資料不足" in source
-    assert "item.themes[0]?.heat_score" not in source
-
-
-def test_missing_values_flags_and_failure_states_are_visible() -> None:
-    source = _read(COMPONENT)
-
-    assert "formatMaybePercent" in source
-    assert "missingReasons" in source
-    assert "overnight_missing_reason" in source
-    assert "隔日衝資料不足" in source
-    assert "reason === 'no reliable overnight source' ? '隔日衝資料不足'" in source
-    assert "—" in source
-    assert "missingReasons[0]" not in source
-
-    for flag in (
-        "heat_rising",
-        "multi_theme",
-        "institutional_positive",
-        "fundamentals_improving",
-        "high_daytrade",
-        "overnight_risk",
-        "cashflow_weak",
-        "high_leverage",
-        "data_sparse",
+    for marker in (
+        "STOCK_AUDIT_DATA_PATH = './data/stock-audit-latest.json'",
+        'STOCK_AUDIT_SCHEMA_VERSION',
+        'validateStockAuditReport',
+        'isStockAuditStock',
+        '.filter(isStockAuditStock)',
+        "cache: 'no-store'",
+        'REQUIRED_REFERENCE_GROUPS',
+        'source_receipts',
+        'operationsOrdered',
+        'Math.abs(value.valuation.premium_pct - premium)',
+        'Math.abs(value.technical.ma20 - ma20)',
+        'Math.abs(value.technical.ma60 - ma60)',
     ):
-        assert flag in source
-
-    assert "watchlist-skeleton-row" in source
-    assert "個股雷達暫時無法載入" in source
-    assert "重新載入" in source
-    assert "回題材雷達" in source
-    assert "請輸入代號或公司名稱" in source
-    assert "找不到「" in source
-    assert "目前沒有可顯示的個股雷達資料" in source
+        assert marker in service
 
 
-def test_accessibility_and_responsive_markers_exist() -> None:
+def test_stock_audit_screen_is_mobile_first_and_touch_safe() -> None:
     source = _read(COMPONENT)
-    css = _read(CSS)
+    css = _read(ROOT / "src" / "components" / "watchlist" / "stock-audit.css")
 
-    assert 'role="tablist"' in source
-    assert 'role="tab"' in source
-    assert "aria-selected" in source
-    assert 'aria-live="polite"' in source
-    assert "onKeyDown={handleTabKeyDown}" in source
-    assert "ArrowRight" in source
-    assert "ArrowLeft" in source
-    assert "tabIndex={0}" in source
-    assert "onKeyDown={(event) => handleRowKeyDown(event, item.instrument)}" in source
-    assert 'className="watchlist-mobile-card"\n          role="link"' in source
-    assert "onClick={() => onGoStock(item.instrument.symbol, item.instrument.exchange)}" in source
-
-    for class_name in (
-        "watchlist-page",
-        "watchlist-tabs",
-        "watchlist-table",
-        "watchlist-row",
-        "watchlist-mobile-card",
-        "watchlist-metric-grid",
-        "watchlist-no-horizontal-scroll",
-    ):
-        assert class_name in source
-        assert class_name in css
-
-
-def test_disclaimer_and_stock_navigation_contract() -> None:
-    source = _read(COMPONENT)
-
-    assert "關注分數衡量題材、籌碼與基本面訊號強度" in source
-    assert "不構成投資建議" in source
-    assert "查看分析" in source
-    assert "onGoStock(item.instrument.symbol, item.instrument.exchange)" in source
+    assert 'className="page-content stock-audit-page' in source
+    assert 'className="stock-audit-card"' in source
+    assert 'className="watchlist-mobile-card"' not in source
+    assert 'className="watchlist-table"' not in source
+    assert 'min-height: 44px' in css
+    assert 'grid-template-columns: repeat(2, minmax(0, 1fr))' in css
+    assert '@media (min-width: 721px)' in css
+    assert 'linear-gradient' not in css
+    assert 'overflow-x: hidden' in css
 
 
 def test_frontend_guard_checks_nested_exact_contract_and_rank_invariants() -> None:
