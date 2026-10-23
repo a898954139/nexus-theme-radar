@@ -2,14 +2,14 @@
   "schema_version": "nexus_public_theme_ranking.v0.8",
   "ranking_rule_version": "public_theme_heat_v0.8",
   "company_rule_version": "public_company_evidence_v0.8",
-  "generated_at": "2026-10-23T04:54:06.675749Z",
+  "generated_at": "2026-10-23T10:06:58.379854Z",
   "market_id": "TW_EQUITY",
   "market_scope": [
     "TW_EQUITY"
   ],
   "window_hours": 72,
   "max_themes": 5,
-  "qualified_theme_count": 9,
+  "qualified_theme_count": 7,
   "displayed_theme_count": 5,
   "threshold_note": null,
   "generation_status": "complete",
@@ -20,41 +20,49 @@
       "rank": 1,
       "theme_id": "memory_hbm",
       "name_zh": "記憶體與 HBM",
-      "heat_score": 82,
+      "heat_score": 94,
       "summaries": {
-        "event_count": 8,
-        "source_count": 2,
-        "tracking_candidate_count": 3,
+        "event_count": 7,
+        "source_count": 3,
+        "tracking_candidate_count": 4,
         "taiwan_mapping_count": 6
       },
       "heat_reason": {
         "rule_version": "public_theme_heat_v0.8",
         "event_component": {
-          "input": 8,
+          "input": 7,
           "normalized": 100.0,
           "weighted": 25.0
         },
         "source_component": {
-          "input": 2,
-          "normalized": 50.0,
-          "weighted": 12.5
-        },
-        "candidate_component": {
           "input": 3,
           "normalized": 75.0,
-          "weighted": 15.0
+          "weighted": 18.75
+        },
+        "candidate_component": {
+          "input": 4,
+          "normalized": 100.0,
+          "weighted": 20.0
         },
         "mapping_component": {
           "mapping_count": 6,
-          "direct_mapping_event_count": 5,
+          "direct_mapping_event_count": 6,
           "normalized": 100.0,
           "weighted": 30.0
         },
-        "single_source_concentration": 0.625,
-        "concentration_penalty": 0.938,
-        "raw_score": 81.563
+        "single_source_concentration": 0.429,
+        "concentration_penalty": 0.0,
+        "raw_score": 93.75
       },
       "direct_mentions": [
+        {
+          "instrument_id": "TWSE:2029",
+          "symbol": "2029",
+          "exchange": "TWSE",
+          "name_zh": "盛餘",
+          "direct_event_count": 3,
+          "latest_mentioned_at": "2026-10-23T06:15:50Z"
+        },
         {
           "instrument_id": "TWSE:2330",
           "symbol": "2330",
@@ -62,14 +70,6 @@
           "name_zh": "台積電",
           "direct_event_count": 2,
           "latest_mentioned_at": "2026-10-23T03:10:49Z"
-        },
-        {
-          "instrument_id": "TWSE:2029",
-          "symbol": "2029",
-          "exchange": "TWSE",
-          "name_zh": "盛餘",
-          "direct_event_count": 2,
-          "latest_mentioned_at": "2026-10-23T01:30:04Z"
         },
         {
           "instrument_id": "TWSE:2028",
@@ -116,38 +116,38 @@
         }
       ],
       "representative_news": {
-        "cluster_id": "cluster-959eb9eb3d1474ab",
-        "id": "cnyes-db70370d1605",
-        "title_zh": "從「晶片荒」到「紅海」？ 輝達黃仁勳：2029年記憶體市場過剩可能性不大",
-        "summary": "記憶體股近日遭拋售，市場憂過剩，閃迪、SK海力士、美光與DRAM ETF重挫。&#10;黃仁勳在柏林稱2029年記憶體供過於求機率不大，HBM仍是核心零組件，輝達將繼續大量採用LPDDR。&#10;Western Digital首季淨營收43.8億美元、年增55%，EPS 4.64美元優於預期，顯示AI需求仍強。",
+        "cluster_id": "cluster-94a58d4351c72d48",
+        "id": "cnyes-7f613e568854",
+        "title_zh": "美光股價重挫別擔心？黃仁勳高喊「記憶體永遠不嫌多」 分析師看好衝三倍高",
+        "summary": "市場憂AI支出持續性，美光股價跌6.3%，SK海力士ADR、Sandisk、威騰電子也同步重挫。&#10;黃仁勳稱記憶體供過於求不太可能在2029年前出現，認為記憶體需求不會降溫。&#10;D.A. Davidson重申美光「買進」與3,000美元目標價，看好DRAM、NAND、HBM成長潛力。",
         "source_id": "cnyes",
         "source": "鉅亨網 Cnyes",
-        "published_at": "2026-10-23T01:30:04Z",
-        "canonical_url": "https://news.cnyes.com/news/id/6636454"
+        "published_at": "2026-10-23T06:00:08Z",
+        "canonical_url": "https://news.cnyes.com/news/id/6636394"
       }
     },
     {
       "rank": 2,
       "theme_id": "statementdog_tag_1517",
       "name_zh": "AI",
-      "heat_score": 74,
+      "heat_score": 80,
       "summaries": {
-        "event_count": 22,
-        "source_count": 3,
+        "event_count": 26,
+        "source_count": 4,
         "tracking_candidate_count": 0,
-        "taiwan_mapping_count": 116
+        "taiwan_mapping_count": 120
       },
       "heat_reason": {
         "rule_version": "public_theme_heat_v0.8",
         "event_component": {
-          "input": 22,
+          "input": 26,
           "normalized": 100.0,
           "weighted": 25.0
         },
         "source_component": {
-          "input": 3,
-          "normalized": 75.0,
-          "weighted": 18.75
+          "input": 4,
+          "normalized": 100.0,
+          "weighted": 25.0
         },
         "candidate_component": {
           "input": 0,
@@ -155,23 +155,31 @@
           "weighted": 0.0
         },
         "mapping_component": {
-          "mapping_count": 116,
-          "direct_mapping_event_count": 9,
+          "mapping_count": 120,
+          "direct_mapping_event_count": 11,
           "normalized": 100.0,
           "weighted": 30.0
         },
-        "single_source_concentration": 0.5,
+        "single_source_concentration": 0.423,
         "concentration_penalty": 0.0,
-        "raw_score": 73.75
+        "raw_score": 80.0
       },
       "direct_mentions": [
+        {
+          "instrument_id": "TWSE:2025",
+          "symbol": "2025",
+          "exchange": "TWSE",
+          "name_zh": "千興",
+          "direct_event_count": 2,
+          "latest_mentioned_at": "2026-10-23T09:49:05Z"
+        },
         {
           "instrument_id": "TWSE:2027",
           "symbol": "2027",
           "exchange": "TWSE",
           "name_zh": "大成鋼",
           "direct_event_count": 2,
-          "latest_mentioned_at": "2026-10-23T03:21:44Z"
+          "latest_mentioned_at": "2026-10-23T06:40:03Z"
         },
         {
           "instrument_id": "TWSE:2330",
@@ -182,12 +190,20 @@
           "latest_mentioned_at": "2026-10-22T22:06:09Z"
         },
         {
-          "instrument_id": "TWSE:2303",
-          "symbol": "2303",
+          "instrument_id": "TWSE:2497",
+          "symbol": "2497",
           "exchange": "TWSE",
-          "name_zh": "聯電",
+          "name_zh": "怡利電",
           "direct_event_count": 1,
-          "latest_mentioned_at": "2026-10-23T00:30:00Z"
+          "latest_mentioned_at": "2026-10-23T08:37:55Z"
+        },
+        {
+          "instrument_id": "TPEX:2035",
+          "symbol": "2035",
+          "exchange": "TPEX",
+          "name_zh": "唐榮公司",
+          "direct_event_count": 1,
+          "latest_mentioned_at": "2026-10-23T06:40:03Z"
         },
         {
           "instrument_id": "TWSE:2008",
@@ -228,14 +244,6 @@
           "name_zh": "燁輝",
           "direct_event_count": 1,
           "latest_mentioned_at": "2026-10-22T18:13:04Z"
-        },
-        {
-          "instrument_id": "TWSE:2028",
-          "symbol": "2028",
-          "exchange": "TWSE",
-          "name_zh": "威致",
-          "direct_event_count": 1,
-          "latest_mentioned_at": "2026-10-22T07:30:05Z"
         }
       ],
       "supply_chain_candidates": [
@@ -274,38 +282,38 @@
         }
       ],
       "representative_news": {
-        "cluster_id": "cluster-a439ae564669ff42",
-        "id": "digitimes_tw-eed1c0e1b861",
-        "title_zh": "Rapidus會長：2H27 2奈米量產計畫穩步進行　客戶以美國AI需求為主",
-        "summary": "日本半導體國家Rapidus的會長東哲郎表示，Rapidus的目標是2027年下半量產2奈米晶片，目前幾乎按計畫進行。至於爭取客戶這項關鍵課題，他指出，初期客戶將以對AI相關需求強勁的美國為主。路透（Reuters）報導",
-        "source_id": "digitimes_tw",
-        "source": "DIGITIMES",
-        "published_at": "2026-10-23T03:21:44Z",
-        "canonical_url": "https://www.digitimes.com.tw/tech/dt/n/shwnws.asp?id=0000772455_AKF54XV24OZM5R64A9A5K"
+        "cluster_id": "cluster-822814d82ea8e88a",
+        "id": "yahoo_finance_tw-3387eb4a01fc",
+        "title_zh": "AI輔助創意而非取代 OpenArt看好生產力倍增潛力",
+        "summary": "圖／示意圖商傳媒｜責任編輯／綜合外電報導人工智慧（AI）已迅速從概念轉變為實用的專業工具，特別是在創意領域。《Adweek》報導指出，兩年前，AI 生成的影片技術仍被視為笑柄，但截至 2025 年底，",
+        "source_id": "yahoo_finance_tw",
+        "source": "Yahoo Finance Taiwan",
+        "published_at": "2026-10-23T09:49:05Z",
+        "canonical_url": "https://tw.stock.yahoo.com/news/ai%E8%BC%94%E5%8A%A9%E5%89%B5%E6%84%8F%E8%80%8C%E9%9D%9E%E5%8F%96%E4%BB%A3-openart%E7%9C%8B%E5%A5%BD%E7%94%9F%E7%94%A2%E5%8A%9B%E5%80%8D%E5%A2%9E%E6%BD%9B%E5%8A%9B-094905814.html"
       }
     },
     {
       "rank": 3,
       "theme_id": "statementdog_tag_4082",
       "name_zh": "iPhone",
-      "heat_score": 74,
+      "heat_score": 80,
       "summaries": {
-        "event_count": 8,
-        "source_count": 3,
+        "event_count": 10,
+        "source_count": 4,
         "tracking_candidate_count": 0,
         "taiwan_mapping_count": 13
       },
       "heat_reason": {
         "rule_version": "public_theme_heat_v0.8",
         "event_component": {
-          "input": 8,
+          "input": 10,
           "normalized": 100.0,
           "weighted": 25.0
         },
         "source_component": {
-          "input": 3,
-          "normalized": 75.0,
-          "weighted": 18.75
+          "input": 4,
+          "normalized": 100.0,
+          "weighted": 25.0
         },
         "candidate_component": {
           "input": 0,
@@ -318,9 +326,9 @@
           "normalized": 100.0,
           "weighted": 30.0
         },
-        "single_source_concentration": 0.5,
+        "single_source_concentration": 0.455,
         "concentration_penalty": 0.0,
-        "raw_score": 73.75
+        "raw_score": 80.0
       },
       "direct_mentions": [
         {
@@ -368,14 +376,14 @@
         }
       ],
       "representative_news": {
-        "cluster_id": "cluster-92727b65cb53725c",
-        "id": "yahoo_finance_tw-451465bf9a4c",
-        "title_zh": "蘋果首款摺疊手機iPhone Duo開賣　能否帶動市場受關注",
-        "summary": "（中央社雪梨2026年10月23日綜合外電報導）蘋果（Apple）首款摺疊手機iPhone Duo今天開賣，外界關注這款新機能否像當年的iPhone一樣，改變智慧型手機市場，帶動摺疊手機普及。路透社報",
-        "source_id": "yahoo_finance_tw",
-        "source": "Yahoo Finance Taiwan",
-        "published_at": "2026-10-23T04:11:35Z",
-        "canonical_url": "https://tw.stock.yahoo.com/news/%E8%98%8B%E6%9E%9C%E9%A6%96%E6%AC%BE%E6%91%BA%E7%96%8A%E6%89%8B%E6%A9%9Fiphone-duo%E9%96%8B%E8%B3%A3-%E8%83%BD%E5%90%A6%E5%B8%B6%E5%8B%95%E5%B8%82%E5%A0%B4%E5%8F%97%E9%97%9C%E6%B3%A8-041135065.html"
+        "cluster_id": "cluster-195d5751bdacf0f4",
+        "id": "cnyes-e1c50561ec74",
+        "title_zh": "iPhone Duo等貨排到明年1月 黃牛卻先降價、256GB還遭拒收",
+        "summary": "蘋果首款摺疊手機iPhone Duo正式開賣，中國售價人民幣15999至26499元，預購迅速售罄，官網一度無法進入&#10;首賣日黃牛加價轉弱，1TB版本溢價，部分256GB機型甚至被拒收&#10;Counterpoint稱溢價回落反映供應預期改善，但摩根大通估今年出貨僅800萬至900萬支，低於原訂1000萬支",
+        "source_id": "cnyes",
+        "source": "鉅亨網 Cnyes",
+        "published_at": "2026-10-23T09:00:06Z",
+        "canonical_url": "https://news.cnyes.com/news/id/6636649"
       }
     },
     {
