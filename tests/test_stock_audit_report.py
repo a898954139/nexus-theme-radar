@@ -128,3 +128,20 @@ def test_corrupted_precomputed_research_is_excluded_before_render():
     m = load_renderer(); data = source()
     data['stocks'][0]['research']['metrics']['median'] = 1
     assert '鴻海' not in m.render(data)
+
+
+def test_report_keeps_original_nexus_font_roles():
+    """The main site's font faces and weights are the independent brand reference."""
+    from urllib.parse import parse_qs, urlparse
+    css = (ROOT / 'reports/stock-audit.css').read_text()
+    main = BeautifulSoup((ROOT / 'index.html').read_text(), 'html.parser')
+    report = BeautifulSoup((ROOT / 'reports/stock-audit-2026-10-21.html').read_text(), 'html.parser')
+    main_url = next(a['href'] for a in main.select('link[href]') if 'fonts.googleapis.com/css2' in a['href'])
+    report_url = next(a['href'] for a in report.select('link[href]') if 'fonts.googleapis.com/css2' in a['href'])
+    assert set(parse_qs(urlparse(report_url).query)['family']) == set(parse_qs(urlparse(main_url).query)['family'])
+    assert "font-family: 'IBM Plex Sans', 'Noto Sans TC', system-ui, sans-serif" in css
+    assert "font-family: 'Space Grotesk', sans-serif" in css
+    assert "font-family: 'IBM Plex Mono', 'Noto Sans TC', ui-monospace, monospace" in css
+    for selector in ['h1', 'h2', 'h3', 'h4', '.lead', '.identity strong']:
+        block = css.split(selector + ' {', 1)[1].split('}', 1)[0]
+        assert 'font-weight: 500' in block, selector

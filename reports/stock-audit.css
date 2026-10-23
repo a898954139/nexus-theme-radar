@@ -4,7 +4,7 @@
   --text: #fff; --muted: #b4b4b4; --faint: #949494;
   --rule: #292929; --accent: #e5b85b; --control: #444;
   --gap: 14px; --radius: 20px;
-  font-family: 'Noto Sans TC', sans-serif;
+  font-family: 'IBM Plex Sans', 'Noto Sans TC', system-ui, sans-serif;
   color: var(--text); background: var(--ground); font-synthesis: none;
 }
 * { box-sizing: border-box; }
@@ -15,24 +15,24 @@ a:hover { color: var(--text); text-decoration-thickness: 2px; }
 a:focus-visible, summary:focus-visible { outline: 2px solid var(--accent); outline-offset: 5px; border-radius: 3px; }
 a, summary { -webkit-tap-highlight-color: var(--raised); }
 a:active, summary:active { opacity: .7; }
-.num, .price, dd, .symbol, svg text { font-family: 'IBM Plex Mono', monospace; font-variant-numeric: tabular-nums; }
+.num, .price, dd, .symbol, svg text { font-family: 'IBM Plex Mono', 'Noto Sans TC', ui-monospace, monospace; font-variant-numeric: tabular-nums; }
 .shell { max-width: 1088px; margin: auto; padding: 0 32px; }
 /* One centered column: 1088px = 32px + 1024px content + 32px. Mobile: 16 + (100vw - 32) + 16. */
 .masthead { display: flex; align-items: center; justify-content: space-between; min-height: 64px; gap: 16px; }
-.brand { display: inline-flex; align-items: center; gap: 14px; min-height: 44px; font-size: 18px; font-weight: 700; letter-spacing: .06em; text-decoration: none; }
-.brand span { color: var(--muted); font-size: 13px; letter-spacing: 0; font-weight: 500; }
+.brand { font-family: 'Space Grotesk', sans-serif; display: inline-flex; align-items: center; gap: 14px; min-height: 44px; font-size: 18px; font-weight: 600; letter-spacing: 0; text-decoration: none; }
+.brand span { font-family: 'Noto Sans TC', sans-serif; color: var(--muted); font-size: 13px; letter-spacing: 0; font-weight: 500; }
 .edition { font-size: 12px; color: var(--faint); }
 .skip { position: absolute; left: 16px; top: -100px; background: var(--text); color: var(--ground); padding: 10px; z-index: 2; }
 .skip:focus { top: 4px; }
 main > section { margin-bottom: 32px; scroll-margin-top: 24px; }
-h1 { font-size: 22px; line-height: 1.4; margin: 8px 0 20px; font-weight: 700; }
-h2 { margin: 0 0 16px; font-size: 18px; line-height: 1.4; font-weight: 700; }
-h3 { font-size: 18px; font-weight: 700; margin: 0 0 16px; }
-h4 { font-size: 14px; font-weight: 700; margin: 24px 0 10px; }
+h1 { font-size: 22px; line-height: 1.4; margin: 8px 0 20px; font-weight: 500; font-family: 'Noto Sans TC', sans-serif; }
+h2 { margin: 0 0 16px; font-size: 18px; line-height: 1.4; font-weight: 500; font-family: 'Noto Sans TC', sans-serif; }
+h3 { font-size: 18px; font-weight: 500; margin: 0 0 16px; font-family: 'Noto Sans TC', sans-serif; }
+h4 { font-size: 14px; font-weight: 500; margin: 24px 0 10px; font-family: 'Noto Sans TC', sans-serif; }
 p { margin: 0 0 16px; }
 .today { padding: 24px 0 0; }
 .today > h2 { color: var(--muted); font-size: 14px; margin-bottom: 4px; }
-.lead { font-size: 32px; font-weight: 700; letter-spacing: -.035em; line-height: 1.35; margin-bottom: 16px; }
+.lead { font-size: 32px; font-weight: 500; letter-spacing: -.035em; line-height: 1.35; margin-bottom: 16px; font-family: 'Noto Sans TC', sans-serif; }
 .strategy { color: var(--muted); max-width: 50ch; font-size: 15px; }
 dl { margin: 0; }
 dt { color: var(--muted); font-size: 13px; font-weight: 600; }
@@ -74,7 +74,7 @@ dd small { font-size: 12px; color: var(--muted); font-family: 'Noto Sans TC', sa
 .stock > summary { display: flex; align-items: center; gap: 14px; padding: 20px 24px; min-height: 88px; cursor: pointer; list-style: none; }
 summary::-webkit-details-marker { display: none; }
 .identity { display: grid; grid-template-columns: auto auto; align-items: baseline; justify-content: start; gap: 2px 20px; flex: 1; min-width: 0; }
-.identity strong { font-size: 18px; font-weight: 700; }
+.identity strong { font-size: 18px; font-weight: 500; font-family: 'Noto Sans TC', sans-serif; }
 .symbol { font-size: 12px; color: var(--muted); font-weight: 400; margin-left: 6px; }
 .price { font-size: 18px; }
 .type { grid-column: 1 / -1; color: var(--muted); font-size: 13px; }
