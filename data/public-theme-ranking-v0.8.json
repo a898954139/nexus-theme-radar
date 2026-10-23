@@ -2,14 +2,14 @@
   "schema_version": "nexus_public_theme_ranking.v0.8",
   "ranking_rule_version": "public_theme_heat_v0.8",
   "company_rule_version": "public_company_evidence_v0.8",
-  "generated_at": "2026-10-23T10:06:58.379854Z",
+  "generated_at": "2026-10-23T15:06:49.882619Z",
   "market_id": "TW_EQUITY",
   "market_scope": [
     "TW_EQUITY"
   ],
   "window_hours": 72,
   "max_themes": 5,
-  "qualified_theme_count": 7,
+  "qualified_theme_count": 5,
   "displayed_theme_count": 5,
   "threshold_note": null,
   "generation_status": "complete",
@@ -132,15 +132,15 @@
       "name_zh": "AI",
       "heat_score": 80,
       "summaries": {
-        "event_count": 26,
+        "event_count": 25,
         "source_count": 4,
         "tracking_candidate_count": 0,
-        "taiwan_mapping_count": 120
+        "taiwan_mapping_count": 125
       },
       "heat_reason": {
         "rule_version": "public_theme_heat_v0.8",
         "event_component": {
-          "input": 26,
+          "input": 25,
           "normalized": 100.0,
           "weighted": 25.0
         },
@@ -155,24 +155,16 @@
           "weighted": 0.0
         },
         "mapping_component": {
-          "mapping_count": 120,
-          "direct_mapping_event_count": 11,
+          "mapping_count": 125,
+          "direct_mapping_event_count": 10,
           "normalized": 100.0,
           "weighted": 30.0
         },
-        "single_source_concentration": 0.423,
+        "single_source_concentration": 0.48,
         "concentration_penalty": 0.0,
         "raw_score": 80.0
       },
       "direct_mentions": [
-        {
-          "instrument_id": "TWSE:2025",
-          "symbol": "2025",
-          "exchange": "TWSE",
-          "name_zh": "千興",
-          "direct_event_count": 2,
-          "latest_mentioned_at": "2026-10-23T09:49:05Z"
-        },
         {
           "instrument_id": "TWSE:2027",
           "symbol": "2027",
@@ -196,6 +188,14 @@
           "name_zh": "怡利電",
           "direct_event_count": 1,
           "latest_mentioned_at": "2026-10-23T08:37:55Z"
+        },
+        {
+          "instrument_id": "TWSE:2025",
+          "symbol": "2025",
+          "exchange": "TWSE",
+          "name_zh": "千興",
+          "direct_event_count": 1,
+          "latest_mentioned_at": "2026-10-23T07:30:42Z"
         },
         {
           "instrument_id": "TPEX:2035",
@@ -282,125 +282,31 @@
         }
       ],
       "representative_news": {
-        "cluster_id": "cluster-822814d82ea8e88a",
-        "id": "yahoo_finance_tw-3387eb4a01fc",
-        "title_zh": "AI輔助創意而非取代 OpenArt看好生產力倍增潛力",
-        "summary": "圖／示意圖商傳媒｜責任編輯／綜合外電報導人工智慧（AI）已迅速從概念轉變為實用的專業工具，特別是在創意領域。《Adweek》報導指出，兩年前，AI 生成的影片技術仍被視為笑柄，但截至 2025 年底，",
-        "source_id": "yahoo_finance_tw",
-        "source": "Yahoo Finance Taiwan",
-        "published_at": "2026-10-23T09:49:05Z",
-        "canonical_url": "https://tw.stock.yahoo.com/news/ai%E8%BC%94%E5%8A%A9%E5%89%B5%E6%84%8F%E8%80%8C%E9%9D%9E%E5%8F%96%E4%BB%A3-openart%E7%9C%8B%E5%A5%BD%E7%94%9F%E7%94%A2%E5%8A%9B%E5%80%8D%E5%A2%9E%E6%BD%9B%E5%8A%9B-094905814.html"
+        "cluster_id": "cluster-de90032c94dd655a",
+        "id": "digitimes_tw-841a54bea0d8",
+        "title_zh": "黃仁勳遇上4隻不聽話機器鴨　RTX Spark秀AI落地難題",
+        "summary": "NVIDIA GTC 2026柏林大會於德國當地時間10月21日登場，執行長黃仁勳在主題演講中，介紹AI基礎設施、安全架構及實體AI（Physical",
+        "source_id": "digitimes_tw",
+        "source": "DIGITIMES",
+        "published_at": "2026-10-23T14:00:00Z",
+        "canonical_url": "https://www.digitimes.com.tw/tech/dt/n/shwnws.asp?id=0000772432_2955JXWS224BW23H8AP6K"
       }
     },
     {
       "rank": 3,
-      "theme_id": "statementdog_tag_4082",
-      "name_zh": "iPhone",
-      "heat_score": 80,
+      "theme_id": "robotics",
+      "name_zh": "機器人",
+      "heat_score": 76,
       "summaries": {
         "event_count": 10,
-        "source_count": 4,
-        "tracking_candidate_count": 0,
-        "taiwan_mapping_count": 13
+        "source_count": 2,
+        "tracking_candidate_count": 5,
+        "taiwan_mapping_count": 27
       },
       "heat_reason": {
         "rule_version": "public_theme_heat_v0.8",
         "event_component": {
           "input": 10,
-          "normalized": 100.0,
-          "weighted": 25.0
-        },
-        "source_component": {
-          "input": 4,
-          "normalized": 100.0,
-          "weighted": 25.0
-        },
-        "candidate_component": {
-          "input": 0,
-          "normalized": 0.0,
-          "weighted": 0.0
-        },
-        "mapping_component": {
-          "mapping_count": 13,
-          "direct_mapping_event_count": 3,
-          "normalized": 100.0,
-          "weighted": 30.0
-        },
-        "single_source_concentration": 0.455,
-        "concentration_penalty": 0.0,
-        "raw_score": 80.0
-      },
-      "direct_mentions": [
-        {
-          "instrument_id": "TWSE:2027",
-          "symbol": "2027",
-          "exchange": "TWSE",
-          "name_zh": "大成鋼",
-          "direct_event_count": 3,
-          "latest_mentioned_at": "2026-10-23T03:27:35Z"
-        }
-      ],
-      "supply_chain_candidates": [
-        {
-          "instrument_id": "TPEX:3105",
-          "symbol": "3105",
-          "exchange": "TPEX",
-          "name_zh": "穩懋",
-          "direct_event_count": 0,
-          "official_evidence_count": 0,
-          "company_rank_score": 1,
-          "latest_mentioned_at": null,
-          "latest_official_at": null
-        },
-        {
-          "instrument_id": "TWSE:2313",
-          "symbol": "2313",
-          "exchange": "TWSE",
-          "name_zh": "華通",
-          "direct_event_count": 0,
-          "official_evidence_count": 0,
-          "company_rank_score": 1,
-          "latest_mentioned_at": null,
-          "latest_official_at": null
-        },
-        {
-          "instrument_id": "TWSE:2317",
-          "symbol": "2317",
-          "exchange": "TWSE",
-          "name_zh": "鴻海",
-          "direct_event_count": 0,
-          "official_evidence_count": 0,
-          "company_rank_score": 1,
-          "latest_mentioned_at": null,
-          "latest_official_at": null
-        }
-      ],
-      "representative_news": {
-        "cluster_id": "cluster-195d5751bdacf0f4",
-        "id": "cnyes-e1c50561ec74",
-        "title_zh": "iPhone Duo等貨排到明年1月 黃牛卻先降價、256GB還遭拒收",
-        "summary": "蘋果首款摺疊手機iPhone Duo正式開賣，中國售價人民幣15999至26499元，預購迅速售罄，官網一度無法進入&#10;首賣日黃牛加價轉弱，1TB版本溢價，部分256GB機型甚至被拒收&#10;Counterpoint稱溢價回落反映供應預期改善，但摩根大通估今年出貨僅800萬至900萬支，低於原訂1000萬支",
-        "source_id": "cnyes",
-        "source": "鉅亨網 Cnyes",
-        "published_at": "2026-10-23T09:00:06Z",
-        "canonical_url": "https://news.cnyes.com/news/id/6636649"
-      }
-    },
-    {
-      "rank": 4,
-      "theme_id": "robotics",
-      "name_zh": "機器人",
-      "heat_score": 71,
-      "summaries": {
-        "event_count": 8,
-        "source_count": 2,
-        "tracking_candidate_count": 5,
-        "taiwan_mapping_count": 26
-      },
-      "heat_reason": {
-        "rule_version": "public_theme_heat_v0.8",
-        "event_component": {
-          "input": 8,
           "normalized": 100.0,
           "weighted": 25.0
         },
@@ -415,16 +321,24 @@
           "weighted": 20.0
         },
         "mapping_component": {
-          "mapping_count": 26,
-          "direct_mapping_event_count": 1,
-          "normalized": 80.0,
-          "weighted": 24.0
+          "mapping_count": 27,
+          "direct_mapping_event_count": 2,
+          "normalized": 100.0,
+          "weighted": 30.0
         },
-        "single_source_concentration": 0.875,
-        "concentration_penalty": 10.313,
-        "raw_score": 71.188
+        "single_source_concentration": 0.9,
+        "concentration_penalty": 11.25,
+        "raw_score": 76.25
       },
       "direct_mentions": [
+        {
+          "instrument_id": "TWSE:2025",
+          "symbol": "2025",
+          "exchange": "TWSE",
+          "name_zh": "千興",
+          "direct_event_count": 1,
+          "latest_mentioned_at": "2026-10-23T13:00:00Z"
+        },
         {
           "instrument_id": "TWSE:2030",
           "symbol": "2030",
@@ -478,6 +392,100 @@
         "source": "DIGITIMES",
         "published_at": "2026-10-22T18:41:46Z",
         "canonical_url": "https://www.digitimes.com.tw/tech/dt/n/shwnws.asp?id=0000772406_5W75MKPXL47GYP7STLNKY"
+      }
+    },
+    {
+      "rank": 4,
+      "theme_id": "statementdog_tag_4082",
+      "name_zh": "iPhone",
+      "heat_score": 74,
+      "summaries": {
+        "event_count": 10,
+        "source_count": 3,
+        "tracking_candidate_count": 0,
+        "taiwan_mapping_count": 13
+      },
+      "heat_reason": {
+        "rule_version": "public_theme_heat_v0.8",
+        "event_component": {
+          "input": 10,
+          "normalized": 100.0,
+          "weighted": 25.0
+        },
+        "source_component": {
+          "input": 3,
+          "normalized": 75.0,
+          "weighted": 18.75
+        },
+        "candidate_component": {
+          "input": 0,
+          "normalized": 0.0,
+          "weighted": 0.0
+        },
+        "mapping_component": {
+          "mapping_count": 13,
+          "direct_mapping_event_count": 3,
+          "normalized": 100.0,
+          "weighted": 30.0
+        },
+        "single_source_concentration": 0.5,
+        "concentration_penalty": 0.0,
+        "raw_score": 73.75
+      },
+      "direct_mentions": [
+        {
+          "instrument_id": "TWSE:2027",
+          "symbol": "2027",
+          "exchange": "TWSE",
+          "name_zh": "大成鋼",
+          "direct_event_count": 3,
+          "latest_mentioned_at": "2026-10-23T03:27:35Z"
+        }
+      ],
+      "supply_chain_candidates": [
+        {
+          "instrument_id": "TPEX:3105",
+          "symbol": "3105",
+          "exchange": "TPEX",
+          "name_zh": "穩懋",
+          "direct_event_count": 0,
+          "official_evidence_count": 0,
+          "company_rank_score": 1,
+          "latest_mentioned_at": null,
+          "latest_official_at": null
+        },
+        {
+          "instrument_id": "TWSE:2313",
+          "symbol": "2313",
+          "exchange": "TWSE",
+          "name_zh": "華通",
+          "direct_event_count": 0,
+          "official_evidence_count": 0,
+          "company_rank_score": 1,
+          "latest_mentioned_at": null,
+          "latest_official_at": null
+        },
+        {
+          "instrument_id": "TWSE:2317",
+          "symbol": "2317",
+          "exchange": "TWSE",
+          "name_zh": "鴻海",
+          "direct_event_count": 0,
+          "official_evidence_count": 0,
+          "company_rank_score": 1,
+          "latest_mentioned_at": null,
+          "latest_official_at": null
+        }
+      ],
+      "representative_news": {
+        "cluster_id": "cluster-d15a8e5884c0128e",
+        "id": "cnyes-e1c50561ec74",
+        "title_zh": "iPhone Duo等貨排到明年1月 黃牛卻先降價、256GB還遭拒收",
+        "summary": "蘋果首款摺疊手機iPhone Duo正式開賣，中國售價人民幣15999至26499元，預購迅速售罄，官網一度無法進入&#10;首賣日黃牛加價轉弱，1TB版本溢價，部分256GB機型甚至被拒收&#10;Counterpoint稱溢價回落反映供應預期改善，但摩根大通估今年出貨僅800萬至900萬支，低於原訂1000萬支",
+        "source_id": "cnyes",
+        "source": "鉅亨網 Cnyes",
+        "published_at": "2026-10-23T09:00:06Z",
+        "canonical_url": "https://news.cnyes.com/news/id/6636649"
       }
     },
     {
