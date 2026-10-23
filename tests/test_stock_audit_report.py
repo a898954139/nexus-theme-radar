@@ -154,3 +154,36 @@ def test_report_versions_css_so_existing_readers_get_new_fonts():
     stylesheet = next(a['href'] for a in soup.select('link[rel="stylesheet"]') if 'stock-audit.css' in a['href'])
     expected = hashlib.sha256((ROOT / 'reports/stock-audit.css').read_bytes()).hexdigest()[:12]
     assert parse_qs(urlparse(stylesheet).query).get('v') == [expected]
+
+
+def test_report_uses_original_nexus_palette_and_color_roles():
+    import re
+    def root_tokens(text):
+        root = text.split(':root {', 1)[1].split('}', 1)[0]
+        return {k: v.strip() for k, v in re.findall(r'(--[a-z-]+):\s*([^;]+);', root)}
+    main = root_tokens((ROOT / 'src/index.css').read_text())
+    css = (ROOT / 'reports/stock-audit.css').read_text()
+    report = root_tokens(css)
+    for key in ['--page-bg', '--shell-bg', '--surface-bg', '--card-bg', '--line', '--sub-line',
+                '--text-hi', '--text', '--muted', '--faint', '--gold', '--gold-hover',
+                '--gold-bg', '--green', '--red', '--weakest']:
+        assert report.get(key) == main[key], key
+    for key, value in {'--ground':'var(--page-bg)', '--surface':'var(--card-bg)',
+                       '--raised':'var(--surface-bg)', '--rule':'var(--line)',
+                       '--accent':'var(--gold)', '--control':'var(--weakest)'}.items():
+        assert report[key] == value
+    assert 'background: var(--shell-bg)' in css.split('.shell {', 1)[1].split('}', 1)[0]
+    assert 'background: var(--gold)' in css.split('.primary {', 1)[1].split('}', 1)[0]
+    assert 'fill: var(--green)' in css.split('.candles .rise rect {', 1)[1].split('}', 1)[0]
+    assert 'stroke: var(--red)' in css.split('.candles .fall rect {', 1)[1].split('}', 1)[0]
+
+
+def test_print_keeps_new_palette_roles_readable_on_white_paper():
+    import re
+    css = (ROOT / 'reports/stock-audit.css').read_text()
+    root = css.split('@media print {', 1)[1].split(':root {', 1)[1].split('}', 1)[0]
+    tokens = {k:v.strip() for k,v in re.findall(r'(--[a-z-]+):\s*([^;]+);', root)}
+    for key in ['--ground','--surface','--shell-bg','--surface-bg']:
+        assert tokens.get(key) == '#fff', key
+    assert tokens.get('--text-hi') == '#000'
+    assert tokens['--text'] == '#000'
