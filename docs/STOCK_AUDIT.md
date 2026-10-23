@@ -20,6 +20,17 @@ HTML cross-checked). It does not copy the unrelated six-stock latest JSON. Missi
 research excludes a candidate; fewer than three complete candidates blocks output
 before any target file is replaced. All calculations and SVGs are pre-rendered;
 native `details` work without JavaScript and only the first stock starts open.
+The scan layer keeps dated price and four **short-scenario** levels visible even
+when a stock is closed. Opening it shows the existing conclusion's first sentence
+and the daily chart before a separate, initially closed full-analysis disclosure.
+The original fundamental → technical → operations → summary research remains in
+that disclosure unchanged. A price alone is not an entry: the visible context
+requires a close above the trigger and a subsequent-session retest.
+
+The chart marks the actual current-price line, the last-20-session low/high range
+and the existing resistance-to-entry retest band at their true price coordinates.
+These are **not OBs**. This snapshot has no confirmed Order Block evidence, and
+this UI-only iteration does not invent a detector or relabel support as an OB.
 Each stock carries source-backed written fundamental, valuation, curve, daily Nexus
 scenario and action/conclusion research; the renderer does not assign every stock
 the same classification. Stored numeric research is recomputed only for integrity

@@ -187,3 +187,57 @@ def test_print_keeps_new_palette_roles_readable_on_white_paper():
         assert tokens.get(key) == '#fff', key
     assert tokens.get('--text-hi') == '#000'
     assert tokens['--text'] == '#000'
+
+
+def test_scan_layer_exposes_prices_before_optional_analysis():
+    m = load_renderer(); data = source()
+    soup = BeautifulSoup(m.render(data), 'html.parser')
+    for stock in data['stocks']:
+        card = soup.select_one('#stock-' + stock['symbol'])
+        header = card.find('summary', recursive=False)
+        metrics = stock['research']['metrics']
+        assert header.select_one('.price').text == m.fmt(metrics['price']) + ' 元'
+        assert '2026-10-21' in header.text
+        expected = {'entry': metrics['entry'], 'add': metrics['add'], 'stop': metrics['stop'], 'profit': metrics['targets'][0]}
+        assert {n['data-level']:n.select_one('b').text for n in header.select('.quick-level')} == {k:m.fmt(v) for k,v in expected.items()}
+        assert '短線情境' in header.text and '回踩' in header.text
+        analysis = card.select_one('details.analysis')
+        assert analysis and not analysis.has_attr('open')
+        body = card.select_one('.stock-body')
+        assert body.select_one('figure') and body.select_one('.quick-verdict')
+        assert body.find('figure', recursive=False)
+        assert [h.text for h in analysis.select('h3')] == ['基本面分析','技術分析','操作','總結']
+        # Every original research sentence remains in the optional analysis.
+        for key in ['fundamentals','valuation','curve','technical','operation_rationale','conclusion']:
+            assert stock['research'][key] in analysis.get_text()
+
+
+def test_chart_highlights_only_sourced_ranges_not_invented_order_blocks():
+    m = load_renderer(); data = source()
+    soup = BeautifulSoup(m.render(data), 'html.parser')
+    for stock in data['stocks']:
+        card = soup.select_one('#stock-' + stock['symbol'])
+        metrics = stock['research']['metrics']
+        chart = card.select_one('svg')
+        assert chart.select_one('.range-zone')['data-low'] == str(metrics['support'])
+        assert chart.select_one('.range-zone')['data-high'] == str(metrics['resistance'])
+        assert chart.select_one('.retest-zone')['data-low'] == str(metrics['resistance'])
+        assert chart.select_one('.retest-zone')['data-high'] == str(metrics['entry'])
+        assert chart.select_one('.current-price-line')['data-price'] == str(metrics['price'])
+        assert not chart.select('[data-zone-type="ob"]')
+        assert '非 OB' in card.select_one('figcaption').text
+
+
+def test_overlay_geometry_uses_actual_price_scale_not_just_labels():
+    """Hand-worked oracle: padded scale88.2–112.2, 144px /24=6px per TWD."""
+    from datetime import date, timedelta
+    m = load_renderer()
+    candles = [dict(date=str(date(2025,1,1)+timedelta(days=i)),open=100,high=110,low=90,close=100,volume=10) for i in range(149)]
+    stock = dict(name='fixture',symbol='0000',candles=candles)
+    html = BeautifulSoup(m.chart(stock,dict(support=90,resistance=110,entry=111,price=100)), 'html.parser')
+    zone = html.select_one('.range-zone'); retest = html.select_one('.retest-zone')
+    assert float(zone['y']) == pytest.approx(33.2)
+    assert float(zone['height']) == pytest.approx(120)
+    assert float(retest['y']) == pytest.approx(27.2)
+    assert float(retest['height']) == pytest.approx(6)
+    assert html.select_one('.current-price-line')['d'] == 'M10 93.20H500'

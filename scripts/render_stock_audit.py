@@ -206,7 +206,11 @@ def chart(stock, m):
     vmax = max(c['volume'] for c in bars) or 1
     out = [f'<svg viewBox="0 0 {width} 240" role="img" aria-labelledby="chart-{stock["symbol"]}"><title id="chart-{stock["symbol"]}">{escape(stock["name"])}近90交易日日K、成交量、20日及60日均線；{bars[0]["date"]}至{bars[-1]["date"]}</title>']
     for value in [lo, (lo + hi) / 2, hi]:
-        out.append(f'<path class="grid" d="M10 {y(value):.2f}H{right}"/><text x="598" text-anchor="end" y="{y(value)+4:.2f}">{fmt(value)}</text>')
+        out.append(f'<path class="grid" d="M10 {y(value):.2f}H{right}"/>')
+    zone_x = x(len(bars) - 20)
+    out.append(f'<rect class="range-zone" data-low="{m["support"]}" data-high="{m["resistance"]}" x="{zone_x:.2f}" y="{y(m["resistance"]):.2f}" width="{right-zone_x:.2f}" height="{y(m["support"])-y(m["resistance"]):.2f}"/>')
+    out.append(f'<rect class="retest-zone" data-low="{m["resistance"]}" data-high="{m["entry"]}" x="{zone_x:.2f}" y="{y(m["entry"]):.2f}" width="{right-zone_x:.2f}" height="{y(m["resistance"])-y(m["entry"]):.2f}"/>')
+    out.append(f'<path class="range-boundary" d="M{zone_x:.2f} {y(m["support"]):.2f}H{right} M{zone_x:.2f} {y(m["resistance"]):.2f}H{right}"/>')
     out.append('<g class="candles">')
     for i, c in enumerate(bars):
         state = 'rise' if c['close'] >= c['open'] else 'fall'
@@ -223,6 +227,15 @@ def chart(stock, m):
             value = statistics.mean(c['close'] for c in allbars[end-window:end])
             points.append(f'{"M" if not points else "L"}{x(i):.2f},{y(value):.2f}')
         out.append(f'<path class="ma ma{window}" d="{" ".join(points)}"/>')
+    # Separate label positions without moving their true-price lines.
+    previous_label = -6
+    for index, (name, value) in enumerate([('resistance', m['resistance']), ('current', m['price']), ('support', m['support'])]):
+        actual = y(value)
+        label_y = max(previous_label + 26, min(actual, 164 - (2-index)*26))
+        previous_label = label_y
+        if name == 'current':
+            out.append(f'<path class="current-price-line" data-price="{value}" d="M10 {actual:.2f}H{right}"/>')
+        out.append(f'<path class="axis-leader" d="M{right+3} {actual:.2f}L{right+12} {label_y:.2f}"/><text class="axis-{name}" x="598" text-anchor="end" y="{label_y+5:.2f}">{fmt(value)}</text>')
     for i in [0, 44, 89]:
         out.append(f'<text x="{x(i):.2f}" y="235" text-anchor="{"start" if i==0 else "end" if i==89 else "middle"}">{bars[i]["date"][5:]}</text>')
     out.append('</svg>')
@@ -236,9 +249,15 @@ def cell(label, value):
 def stock_card(stock, m, first, day):
     f = stock['financial']; q = m['curve']; symbol = stock['symbol']; name = escape(stock['name'])
     r = stock['research']; summary = escape(r['conclusion'])
+    quick = ''.join(f'<span class="quick-level" data-level="{key}"><span>{label}</span><b class="num">{fmt(value)}</b></span>'
+                    for key, label, value in [('entry','進場觸發',m['entry']), ('add','加碼',m['add']),
+                                              ('stop','止損',m['stop']), ('profit','短止盈',m['targets'][0])])
+    brief = escape(r['conclusion'].split('。')[0] + '。')
+    preview = f'''<figure class="preview">{chart(stock,m)}<figcaption><span>日 K · 近 90 交易日 · 成交量</span><span class="ma20-key">MA20 {fmt(m['ma20'])}</span><span class="ma60-key">MA60 {fmt(m['ma60'])}</span><span>現價 {fmt(m['price'])}／支撐 {fmt(m['support'])}／壓力 {fmt(m['resistance'])}</span><span>陰影：近 20 日區間；金色窄帶：突破後回踩 {fmt(m['resistance'])}–{fmt(m['entry'])} 元，非 OB。</span></figcaption></figure>'''
     return f'''<details class="stock" id="stock-{symbol}"{' open' if first else ''}>
-<summary><span class="identity"><strong>{name} <span class="symbol">{symbol}</span></strong><span class="price">{fmt(m['price'])} 元</span><span class="type">{escape(r['investment_type'])}</span></span><span class="action">{escape(r['action'])}</span><span class="chevron" aria-hidden="true"></span></summary>
-<div class="stock-body">
+<summary><span class="identity"><strong>{name} <span class="symbol">{symbol}</span></strong><span class="price">{fmt(m['price'])} 元</span><span class="type">{escape(r['investment_type'])}</span><span class="quote-time">{day} 收盤</span></span><span class="action">{escape(r['action'])}</span><span class="chevron" aria-hidden="true"></span><span class="quick-levels" aria-label="短線情境價位，需符合突破與次日回踩條件">{quick}</span><span class="quick-context">短線情境｜收盤突破，次日回踩才分批；不是現價買入。</span></summary>
+<div class="stock-body">{preview}<p class="quick-verdict">{brief}</p>
+<details class="analysis"><summary>展開完整分析與操作條件<span aria-hidden="true">＋</span></summary><div class="analysis-body">
 <section><h3>基本面分析</h3><p class="meta">價格：{day} 收盤 · 財報：H1 累計／合併口徑</p>
 <dl class="facts">{cell('9 月營收',fmt(f['revenue_twd_100m'])+' <small>億元</small>')}{cell('營收年增',pct(f['revenue_yoy_pct']))}{cell('2026 H1 EPS',fmt(f['eps'])+' <small>元</small>')}{cell('H1 毛利率',fmt(f['gross_margin_pct'])+'%')}</dl><p class="reading">{escape(r['fundamentals'])}</p>
 <h4>估值位置</h4><dl class="ledger">{cell('目前本益比',fmt(m['pe'])+' 倍')}{cell('歷史 PE 中位數',fmt(m['median'])+' 倍')}{cell('歷史 PE 區間',fmt(m['pe_low'])+'–'+fmt(m['pe_high'])+' 倍')}{cell('相對中位數',pct(m['premium']))}</dl>
@@ -246,7 +265,7 @@ def stock_card(stock, m, first, day):
 <p class="reading">{escape(r['valuation'])}</p><h4>成長曲線檢查</h4><dl class="facts curve">{cell('Sharpe',fmt(q['sharpe']))}{cell('Sortino',fmt(q['sortino']))}{cell('最大回撤',fmt(q['max_drawdown_pct'])+'%')}{cell('TTR（最長已恢復）',str(q['ttr_sessions'])+' <small>交易日</small>')}{cell('指數擬合 R²',f"{q['r2']:.3f}")}{cell('本次未恢復回撤',str(q['underwater_sessions'])+' <small>交易日</small>')}</dl>
 <p class="note">觀察窗 {stock['candles'][0]['date']}–{day}；未還原權息、非含息報酬，年化 252 日／無風險利率 0。R² 為 log 價格對交易日的線性擬合；一年窗口不能證明長期複利。曲線只回答持有體驗，不作公司基本面資格。</p>
 <p class="reading">{escape(r['curve'])}</p><p class="sources">{link(f['source'],'月營收原表')} · {link(f['income_source'],'H1 損益原表')} · {link(stock['sources'][1],'歷史 PE')}</p></section>
-<section><h3>技術分析</h3><figure>{chart(stock,m)}<figcaption><span>日 K · 近 90 交易日 · 成交量</span><span class="ma20-key">MA20 {fmt(m['ma20'])}</span><span class="ma60-key">MA60 {fmt(m['ma60'])}</span></figcaption></figure>
+<section><h3>技術分析</h3>
 <dl class="ledger">{cell('Bias／方向',escape(r['nexus']['bias']))}{cell('Phase／階段',escape(r['nexus']['phase']))}{cell('Actionability／操作性',escape(r['action']))}{cell('結構支撐',fmt(m['support'])+' 元')}{cell('結構壓力',fmt(m['resistance'])+' 元')}{cell('距觀察窗前高',pct(m['distance_high']))}</dl>
 <p class="reading">{escape(r['technical'])}</p><p class="reading"><b>回踩條件：</b>{escape(r['nexus']['pullback'])}<br><b>失效條件：</b>{escape(r['nexus']['invalidation'])}</p><p class="note">日線簡化情境：方向採現價／MA20／MA60，支撐壓力為近 20 日日 K 低／高點；不是盤中 BOS／CHoCH 訊號。{link(stock['sources'][0],'TWSE 日 K 原表')}</p></section>
 <section class="operations"><h3>操作</h3><p class="meta">條件式情境，不是委託單或報酬預測</p><p class="reading">{escape(r['operation_rationale'])}</p>
@@ -256,7 +275,7 @@ def stock_card(stock, m, first, day):
 <div class="operation"><h4>止盈</h4><p>短線 <b class="num">{fmt(m['targets'][0])}</b>／中線 <b class="num">{fmt(m['targets'][1])}</b>／長線 <b class="num">{fmt(m['targets'][2])} 元</b>。</p><p class="note">三個價位分別以 20／60／120 日高點突破、對應窗口低點止損的 2R 毛目標計算，屬替代情境，不能共用停損或累加配置。中／長線完整進場及停損見下列數值。</p>
 <dl class="ledger">{long_scenarios(stock)}</dl></div></section>
 <section class="verdict"><h3>總結</h3><p>{summary}</p><p class="note">曲線與估值均不作買進保證。單一部位及總風險依個人承受度設定；本報告不指定配置比例。</p></section>
-</div></details>'''
+</div></details></div></details>'''
 
 
 def long_scenarios(stock):
