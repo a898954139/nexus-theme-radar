@@ -9,6 +9,7 @@ import argparse
 from datetime import date, datetime
 from decimal import Decimal, ROUND_CEILING, ROUND_FLOOR
 from html import escape
+import hashlib
 import json
 import math
 from pathlib import Path
@@ -268,6 +269,9 @@ def long_scenarios(stock):
 
 
 def render(data):
+    # A returning reader may still cache the previous font CSS for ten minutes.
+    css = Path(__file__).resolve().parents[1] / 'reports/stock-audit.css'
+    stylesheet_version = hashlib.sha256(css.read_bytes()).hexdigest()[:12]
     day = data['report_date']; date.fromisoformat(day)
     if day != '2026-10-21' or data['forecast_cutoff'] != '2026-10-22T06:00:00+08:00':
         raise ValueError('Wrong dated report scope')
@@ -292,7 +296,7 @@ def render(data):
     nav = ''.join(f'<a href="#stock-{s["symbol"]}">{escape(s["name"])}</a>' for s in stocks)
     return f'''<!doctype html>
 <html lang="zh-TW"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="description" content="NEXUS Stock Audit 台股中長期投資晨報，2026-10-21 歷史重建決策卡"><title>Stock Audit｜2026-10-21 台股投資決策卡</title>
-<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&amp;family=IBM+Plex+Sans:wght@400;500;600&amp;family=IBM+Plex+Mono:wght@400;500;600&amp;family=Noto+Sans+TC:wght@400;500;700&amp;display=swap" rel="stylesheet"><link rel="stylesheet" href="stock-audit.css"></head>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&amp;family=IBM+Plex+Sans:wght@400;500;600&amp;family=IBM+Plex+Mono:wght@400;500;600&amp;family=Noto+Sans+TC:wght@400;500;700&amp;display=swap" rel="stylesheet"><link rel="stylesheet" href="stock-audit.css?v={stylesheet_version}"></head>
 <body><a class="skip" href="#today">跳至今日結論</a><div class="shell"><header class="masthead"><a href="../index.html" class="brand" aria-label="NEXUS 題材雷達首頁">NEXUS<span>Stock Audit</span></a><span class="edition num">2026.10.21</span></header>
 <main><section id="today" class="today"><h2>今日結論</h2><h1>台股中長期投資晨報</h1><p class="lead">不追價。<br>突破後回踩，才分批。</p><p class="strategy">{strategy}。條件未成立，不因隔夜偏多就追買。</p>
 <dl class="report-meta">{cell('資料時間','10/21 台股收盤')}{cell('資料來源','TWSE／MOPS／TAIFEX／Yahoo')}{cell('資料完整度',f'{len(stocks)} 檔完整收錄')}{cell('明日市場方向',direction)}</dl>

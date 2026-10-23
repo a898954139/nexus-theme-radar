@@ -145,3 +145,12 @@ def test_report_keeps_original_nexus_font_roles():
     for selector in ['h1', 'h2', 'h3', 'h4', '.lead', '.identity strong']:
         block = css.split(selector + ' {', 1)[1].split('}', 1)[0]
         assert 'font-weight: 500' in block, selector
+
+
+def test_report_versions_css_so_existing_readers_get_new_fonts():
+    import hashlib
+    from urllib.parse import parse_qs, urlparse
+    soup = BeautifulSoup((ROOT / 'reports/stock-audit-2026-10-21.html').read_text(), 'html.parser')
+    stylesheet = next(a['href'] for a in soup.select('link[rel="stylesheet"]') if 'stock-audit.css' in a['href'])
+    expected = hashlib.sha256((ROOT / 'reports/stock-audit.css').read_bytes()).hexdigest()[:12]
+    assert parse_qs(urlparse(stylesheet).query).get('v') == [expected]
