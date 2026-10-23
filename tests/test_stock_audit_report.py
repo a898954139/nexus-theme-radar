@@ -241,3 +241,26 @@ def test_overlay_geometry_uses_actual_price_scale_not_just_labels():
     assert float(retest['y']) == pytest.approx(27.2)
     assert float(retest['height']) == pytest.approx(6)
     assert html.select_one('.current-price-line')['d'] == 'M10 93.20H500'
+
+
+def test_technical_basis_is_explicit_in_preview_and_expanded_analysis():
+    m = load_renderer(); data = source()
+    soup = BeautifulSoup(m.render(data), 'html.parser')
+    for stock in data['stocks']:
+        card = soup.select_one('#stock-' + stock['symbol'])
+        basis = card.select_one('.chart-basis')
+        assert basis is not None
+        assert basis.find_parent('details', class_='analysis') is None
+        assert '日 K（D1）' in basis.text
+        assert stock['candles'][-1]['date'] in basis.text and '收盤' in basis.text
+        assert 'MA20／MA60' in basis.text and '近 20 日高低區間' in basis.text
+        assert '參考 Nexus 框架' in basis.text
+        assert '非完整結構分析' in basis.text and '未使用 PVA' in basis.text
+        caption = card.select_one('figcaption').text
+        assert stock['candles'][-90]['date'] in caption and stock['candles'][-1]['date'] in caption
+        assert '90 交易日' in caption
+        detail = card.select_one('.technical-basis')
+        assert detail is not None and detail.find_parent('details', class_='analysis')
+        assert 'D1' in detail.text and '4H／1H／分 K' in detail.text
+        assert stock['candles'][0]['date'] in detail.text and str(len(stock['candles'])) in detail.text
+        assert '成交量僅展示，未執行 PVA' in detail.text

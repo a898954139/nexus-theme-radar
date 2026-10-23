@@ -29,7 +29,12 @@ requires a close above the trigger and a subsequent-session retest.
 
 The chart marks the actual current-price line, the last-20-session low/high range
 and the existing resistance-to-entry retest band at their true price coordinates.
-These are **not OBs**. This snapshot has no confirmed Order Block evidence, and
+The preview explicitly labels D1, the close date, its exact 90-session display
+window and the actual MA20/MA60 plus 20-session high/low technique. Expanded
+technical notes distinguish the full observed price history from that chart
+window. Nexus is a framework reference only, not a completed multi-timeframe
+structure engine; PVA is not executed and volume is displayed only. No 4H, 1H
+or intraday candles are used. These are **not OBs**. This snapshot has no confirmed Order Block evidence, and
 this UI-only iteration does not invent a detector or relabel support as an OB.
 Each stock carries source-backed written fundamental, valuation, curve, daily Nexus
 scenario and action/conclusion research; the renderer does not assign every stock
