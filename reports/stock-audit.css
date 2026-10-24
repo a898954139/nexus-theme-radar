@@ -15,6 +15,7 @@
   --gold-bg: #12100A;
   --green: #23B47E;
   --red: #E15B49;
+  --red-readable: #E76B5B;
   --weakest: #3A4251;
   --ground: var(--page-bg); --surface: var(--card-bg); --raised: var(--surface-bg);
   --rule: var(--line); --accent: var(--gold); --control: var(--weakest);
@@ -67,7 +68,7 @@ dd small { font-size: 12px; color: var(--muted); font-family: 'Noto Sans TC', sa
 .market-row { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 12px 0; border-bottom: 1px solid var(--rule); font-size: 14px; }
 .market-row > span { min-width: 0; }
 .market-row > .num { text-align: right; font-size: 14px; }
-.market-row strong { display: block; color: var(--accent); font-weight: 500; }
+.market-row strong { display: block; font-weight: 500; }
 .market-row small { display: block; font-size: 12px; color: var(--muted); }
 .conditions { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; padding: 4px 0 0; }
 .conditions p { font-size: 14px; }
@@ -108,10 +109,10 @@ figure svg { width: 100%; max-height: 360px; height: auto; display: block; overf
 svg text { font-size: 12px; fill: var(--muted); }
 .grid { stroke: var(--rule); stroke-width: 1; fill: none; }
 .candles path { stroke: var(--muted); stroke-width: 1; }
-.candles .rise rect { fill: var(--green); }
-.candles .rise path { stroke: var(--green); }
-.candles .fall path { stroke: var(--red); }
-.candles .fall rect { fill: var(--surface); stroke: var(--red); stroke-width: 1; }
+.candles .rise rect { fill: var(--red); }
+.candles .rise path { stroke: var(--red); }
+.candles .fall path { stroke: var(--green); }
+.candles .fall rect { fill: var(--surface); stroke: var(--green); stroke-width: 1; }
 .volume rect { fill: var(--control); }
 .ma { fill: none; stroke-width: 1.7; }
 .ma20 { stroke: var(--accent); }
@@ -214,11 +215,11 @@ svg .axis-support, svg .axis-resistance { fill: var(--gold); }
 .chart-basis strong { color: var(--text-hi); font-weight: 500; }
 
 .poi-zone { stroke-width: 1; fill-opacity: .10; stroke-opacity: .65; }
-.poi-bull { fill: var(--green); stroke: var(--green); }
-.poi-bear { fill: var(--red); stroke: var(--red); }
+.poi-bull { fill: var(--red); stroke: var(--red); }
+.poi-bear { fill: var(--green); stroke: var(--green); }
 .poi-key { padding-left: 8px; border-left: 2px solid; white-space: nowrap; }
-.poi-key.poi-bull { color: var(--muted); border-color: var(--green); }
-.poi-key.poi-bear { color: var(--muted); border-color: var(--red); }
+.poi-key.poi-bull { color: var(--muted); border-color: var(--red); }
+.poi-key.poi-bear { color: var(--muted); border-color: var(--green); }
 
 /* Screenshot-led card: chart first, paired ledgers, one optional research fold.
    At 390px: 16px shell + 1px border + 12px card + 332px content + mirror = 390px. */
@@ -280,3 +281,38 @@ svg .axis-support, svg .axis-resistance { fill: var(--gold); }
   .entry-plan tbody th small { display: inline; margin-left: 4px; }
   .preview figcaption.chart-basis { gap: 3px 10px; font-size: 11px; }
 }
+
+/* Signed figures retain signs/labels; color supplements rather than replaces meaning. */
+.metric-positive { color: var(--red); }
+.metric-negative { color: var(--green); }
+.metric-entry { color: var(--gold); }
+.metric-risk { color: var(--red); }
+.metric-neutral { color: var(--text); }
+.metric-muted { color: var(--muted); }
+@media print {
+  .metric-positive, .metric-negative, .metric-entry, .metric-risk, .metric-neutral, .metric-muted { color: var(--text); }
+}
+
+/* Desktop reading canvas: reduce outer gutters; keep phone composition unchanged. */
+@media(min-width:1200px) {
+  .shell { width: calc(100% - 48px); max-width: 1920px; padding: 0 24px; }
+  .stock > summary { padding: 14px 20px; min-height: 64px; }
+  .identity { display: flex; flex-wrap: wrap; gap: 6px 18px; }
+  .stock-body { display: grid; grid-template-columns: minmax(0,1.2fr) minmax(420px,1fr); grid-template-areas: "chart signals" "chart plan" "chart note" "analysis analysis"; column-gap: 24px; padding: 0 20px 8px; align-items: start; }
+  .stock-body > .preview { grid-area: chart; margin: 0; }
+  .stock-body > .preview svg { max-height: none; }
+  .stock-body > .technical-summary { grid-area: signals; grid-template-columns: repeat(2,minmax(0,1fr)); padding-top: 0; border-top: 0; }
+  .stock-body > .technical-summary .method-summary[data-method="pva"] { grid-column: 1 / -1; display: grid; grid-template-columns: 42px minmax(0,1fr); gap: 4px 10px; }
+  .stock-body > .technical-summary .method-summary[data-method="pva"] h4 { grid-row: 1 / 3; margin: 0; }
+  .stock-body > .technical-summary .method-summary[data-method="pva"] .method-insight { grid-column: 2; }
+  .stock-body > .entry-plan { grid-area: plan; }
+  .stock-body > .plan-footnote { grid-area: note; }
+  .stock-body > .analysis { grid-area: analysis; margin-top: 16px; }
+  .analysis-body { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 0 28px; }
+  .market-data { grid-template-columns: repeat(3,minmax(0,1fr)); }
+  .checklist ol { display: grid; grid-template-columns: repeat(5,minmax(0,1fr)); gap: 20px; padding-left: 20px; }
+  .checklist li { padding: 0 0 8px 4px; }
+}
+
+/* Small positive text on the raised market surface needs >=4.5:1 contrast. */
+@media screen { .market-row .metric-positive { color: var(--red-readable); } }
