@@ -56,3 +56,11 @@ For each stock:
 Keep `reports/stock-audit.css` and the shared renderer as the sole visual system. Cards expose chart → PVA/OB/FVG numeric interpretation → conditional price table, with detailed analysis collapsed. The producer compares headings, stock component layout, table headers, disclosures, fonts and stylesheet identity; it cannot prove equal pixel geometry or economic validity.
 
 Run focused report/technical/date/production tests, then inspect desktop and mobile. For source changes follow applicable repo review policy. Do not edit an approved older report just to make comparison pass. Scope release commits to requested files; preserve unrelated dirty work. After authorized Pages publishing, verify both HTTP success and content digest for the new dated artifacts.
+
+## Decision policy, not position execution
+
+Read [DCA + monthly floating-profit policy](dca-moon-decision.md) when drafting the existing research fields. Reuse the current PVA runtime and source receipts; a qualitative judgement does not require new sizing parameters. The current renderer and scripts have no monthly-cohort accounting or automatic portfolio execution. Do not change them, add unsupported schema fields, or claim those capabilities from this policy update. No personal-account state means no claimed floating-profit balance, cash availability, allocation or sale quantity—not exclusion of otherwise complete price research.
+
+Keep entry/add/invalidation/exit scenarios in the existing operation fields, with numeric source-bound prices and human confirmation. Use existing type/rationale/conclusion text for short/medium/long and DCA/tactical/core suitability, without new sections or duplicated strategy prose.
+
+A bar's opening timestamp before cutoff does not prove the bar was closed by cutoff; verify the session/HTF closing boundary. OB/FVG/pivot information becomes available at confirmation time, not retroactively at origin. Financial reporting periods and document event dates are not proof of publication availability. Unknown historical versions cannot be called strict point-in-time evidence. If using official TradingView MCP, check its actual current capabilities and source adjustment conventions; historical bars/documents do not automatically prove native Pine parity or non-repainting results.
