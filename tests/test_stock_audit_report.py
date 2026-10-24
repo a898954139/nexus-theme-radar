@@ -14,7 +14,7 @@ def test_target_is_a_decision_card_not_a_research_collage():
     assert headings == ['今日結論', '明日市場預測', '重點標的', '其他標的', '今日執行清單']
     cards = soup.select('details.stock')
     assert 3 <= len(cards) <= 5
-    assert [c.has_attr('open') for c in cards] == [True] + [False] * (len(cards) - 1)
+    assert all(c.has_attr('open') for c in cards)  # chart cards stack like the supplied reference
     for card in cards:
         assert [h.text for h in card.select('h3')] == ['基本面分析', '技術分析', '操作', '總結']
         assert len(card.select('svg[role="img"]')) == 1
@@ -23,7 +23,7 @@ def test_target_is_a_decision_card_not_a_research_collage():
     for text in ['待驗證', '待更新', '待確認', 'financial gate', '通過觀察', '回穩', '停買', '第一段', '第二段']:
         assert text not in soup.get_text()
     assert soup.find('script') is None  # No financial work, loading, or JS-only chart in frontend.
-    assert not soup.select('table')
+    assert len(soup.select('table.entry-plan')) == len(cards)
 
 
 def load_renderer():
@@ -110,15 +110,15 @@ def test_individual_research_is_rendered_not_replaced_by_a_uniform_signal():
     m = load_renderer(); data = source()
     soup = BeautifulSoup(m.render(data), 'html.parser')
     expected = {
-        '2317': ('等突破', '不列為長線核心'),
-        '2308': ('等回踩', '100 交易日仍未恢復'),
-        '2454': ('小部位', '57.17%'),
-        '3017': ('小部位', '高波動小部位'),
-        '2368': ('等回踩', '51.77%'),
+        '2317': ('不進場', 'P +1.837'),
+        '2308': ('不進場', '已收盤跌穿，不再當承接區'),
+        '2454': ('不進場', '4,360–4,475'),
+        '3017': ('不進場', '高位置下行加速'),
+        '2368': ('不進場', '負速度改善中，尚未恢復上行'),
     }
     for symbol, (action, finding) in expected.items():
         card = soup.select_one('#stock-' + symbol)
-        assert card.select_one('.action').text == action
+        assert card.select_one('.action').text == 'D1 回踩規劃'
         assert finding in card.text
     del data['stocks'][0]['research']['valuation']
     assert '鴻海' not in m.render(data)
@@ -174,8 +174,8 @@ def test_report_uses_original_nexus_palette_and_color_roles():
         assert report[key] == value
     assert 'background: var(--shell-bg)' in css.split('.shell {', 1)[1].split('}', 1)[0]
     assert 'background: var(--gold)' in css.split('.primary {', 1)[1].split('}', 1)[0]
-    assert 'fill: var(--green)' in css.split('.candles .rise rect {', 1)[1].split('}', 1)[0]
-    assert 'stroke: var(--red)' in css.split('.candles .fall rect {', 1)[1].split('}', 1)[0]
+    assert 'fill: var(--red)' in css.split('.candles .rise rect {', 1)[1].split('}', 1)[0]
+    assert 'stroke: var(--green)' in css.split('.candles .fall rect {', 1)[1].split('}', 1)[0]
 
 
 def test_print_keeps_new_palette_roles_readable_on_white_paper():
@@ -198,34 +198,39 @@ def test_scan_layer_exposes_prices_before_optional_analysis():
         metrics = stock['research']['metrics']
         assert header.select_one('.price').text == m.fmt(metrics['price']) + ' 元'
         assert '2026-10-21' in header.text
-        expected = {'entry': metrics['entry'], 'add': metrics['add'], 'stop': metrics['stop'], 'profit': metrics['targets'][0]}
-        assert {n['data-level']:n.select_one('b').text for n in header.select('.quick-level')} == {k:m.fmt(v) for k,v in expected.items()}
-        assert '短線情境' in header.text and '回踩' in header.text
+        row=card.select_one('.entry-plan tr[data-kind="entry"]')
+        assert row is not None
+        assert row.select_one('.level-price').text == m.brief_price(stock['research']['morning_brief']['entry_band'])
+        assert 'D1' in row.text
         analysis = card.select_one('details.analysis')
         assert analysis and not analysis.has_attr('open')
         body = card.select_one('.stock-body')
-        assert body.select_one('figure') and body.select_one('.quick-verdict')
+        assert body.select_one('figure') and body.select_one('.technical-summary')
         assert body.find('figure', recursive=False)
         assert [h.text for h in analysis.select('h3')] == ['基本面分析','技術分析','操作','總結']
         # Every original research sentence remains in the optional analysis.
-        for key in ['fundamentals','valuation','curve','technical','operation_rationale','conclusion']:
+        for key in ['fundamentals','valuation','curve','operation_rationale','conclusion']:
             assert stock['research'][key] in analysis.get_text()
 
 
-def test_chart_highlights_only_sourced_ranges_not_invented_order_blocks():
+def test_chart_ranges_and_order_blocks_trace_to_the_new_analysis():
     m = load_renderer(); data = source()
     soup = BeautifulSoup(m.render(data), 'html.parser')
     for stock in data['stocks']:
         card = soup.select_one('#stock-' + stock['symbol'])
-        metrics = stock['research']['metrics']
+        analysis = stock['technical_analysis']; watch=analysis['plan']['watch_levels']
         chart = card.select_one('svg')
-        assert chart.select_one('.range-zone')['data-low'] == str(metrics['support'])
-        assert chart.select_one('.range-zone')['data-high'] == str(metrics['resistance'])
-        assert chart.select_one('.retest-zone')['data-low'] == str(metrics['resistance'])
-        assert chart.select_one('.retest-zone')['data-high'] == str(metrics['entry'])
-        assert chart.select_one('.current-price-line')['data-price'] == str(metrics['price'])
-        assert not chart.select('[data-zone-type="ob"]')
-        assert '非 OB' in card.select_one('figcaption').text
+        if watch.get('defense') and watch.get('trigger'):
+            assert float(chart.select_one('.range-zone')['data-low']) == watch['defense']['price']
+            assert float(chart.select_one('.range-zone')['data-high']) == watch['trigger']['price']
+        else:
+            assert chart.select_one('.range-zone') is None  # rejected/swept floor cannot form a protected range
+        assert chart.select_one('.retest-zone') is None  # no executable plan in this snapshot
+        assert chart.select_one('.current-price-line')['data-price'] == str(stock['candles'][-1]['close'])
+        zones={z['id']:z for z in analysis['zones']}
+        for mark in chart.select('.poi-zone'):
+            assert mark['data-source-id'] in zones
+            assert zones[mark['data-source-id']]['chart_only_active']
 
 
 def test_overlay_geometry_uses_actual_price_scale_not_just_labels():
@@ -233,13 +238,13 @@ def test_overlay_geometry_uses_actual_price_scale_not_just_labels():
     from datetime import date, timedelta
     m = load_renderer()
     candles = [dict(date=str(date(2025,1,1)+timedelta(days=i)),open=100,high=110,low=90,close=100,volume=10) for i in range(149)]
-    stock = dict(name='fixture',symbol='0000',candles=candles)
+    stock = dict(name='fixture',symbol='0000',candles=candles,technical_analysis={'plan':{'watch_levels':{'trigger':{'price':110},'defense':{'price':90}}},'zones':[{'id':'fixture-OB','type':'ob','dir':1,'low':90,'high':95,'timeframe':'D1','chart_only_active':True,'origin':{'formation_date':candles[-20]['date'],'start_date':candles[-21]['date']}}]})
     html = BeautifulSoup(m.chart(stock,dict(support=90,resistance=110,entry=111,price=100)), 'html.parser')
-    zone = html.select_one('.range-zone'); retest = html.select_one('.retest-zone')
+    zone = html.select_one('.range-zone'); ob = html.select_one('.poi-zone')
     assert float(zone['y']) == pytest.approx(33.2)
     assert float(zone['height']) == pytest.approx(120)
-    assert float(retest['y']) == pytest.approx(27.2)
-    assert float(retest['height']) == pytest.approx(6)
+    assert float(ob['y']) == pytest.approx(123.2)
+    assert float(ob['height']) == pytest.approx(30)
     assert html.select_one('.current-price-line')['d'] == 'M10 93.20H500'
 
 
@@ -251,16 +256,35 @@ def test_technical_basis_is_explicit_in_preview_and_expanded_analysis():
         basis = card.select_one('.chart-basis')
         assert basis is not None
         assert basis.find_parent('details', class_='analysis') is None
-        assert '日 K（D1）' in basis.text
+        assert 'W1 週K＋D1 日K' in basis.text
         assert stock['candles'][-1]['date'] in basis.text and '收盤' in basis.text
-        assert 'MA20／MA60' in basis.text and '近 20 日高低區間' in basis.text
-        assert '參考 Nexus 框架' in basis.text
-        assert '非完整結構分析' in basis.text and '未使用 PVA' in basis.text
+        methods=card.select_one('.technical-summary')
+        assert all(methods.select_one('[data-method="'+k+'"]') for k in ['pva','ob','fvg'])
+        assert all(k+' ' in methods.text for k in ['P','V','A'])
+        assert '未使用 PVA' not in basis.text
         caption = card.select_one('figcaption').text
         assert stock['candles'][-90]['date'] in caption and stock['candles'][-1]['date'] in caption
-        assert '90 交易日' in caption
-        detail = card.select_one('.technical-basis')
-        assert detail is not None and detail.find_parent('details', class_='analysis')
-        assert 'D1' in detail.text and '4H／1H／分 K' in detail.text
-        assert stock['candles'][0]['date'] in detail.text and str(len(stock['candles'])) in detail.text
-        assert '成交量僅展示，未執行 PVA' in detail.text
+        assert '90 根日K' in caption
+        assert card.select_one('.technical-basis') is None
+        detail=card.select_one('.structure-evidence')
+        assert detail is not None and detail.find_parent('details',class_='analysis')
+        assert 'D1' in detail.text and 'W1' in detail.text
+        assert stock['technical_analysis']['pva']['post_seed_bar_count']>=400
+        assert stock['technical_analysis']['pva']['settings']['anchor_mode']=='EMA'
+
+
+def test_reference_cards_are_chart_first_with_compact_ledger_and_optional_research():
+    soup=BeautifulSoup(load_renderer().render(source()),'html.parser')
+    cards=soup.select('details.stock')
+    assert len(cards)==5 and all(c.has_attr('open') for c in cards)
+    for card in cards:
+        header=card.find('summary',recursive=False)
+        assert header.select_one('.price') and not header.select_one('.quick-levels')
+        body=card.select_one('.stock-body')
+        blocks=list(body.find_all(recursive=False))
+        assert blocks[0].name=='figure'
+        assert blocks[1].get('class')==['technical-summary']
+        assert blocks[2].name=='table' and blocks[2].get('class')==['entry-plan']
+        assert not body.select_one('details.analysis').has_attr('open')
+        assert body.select_one('svg').find_next_sibling(class_='chart-basis') is not None
+        assert 'TP1' not in card.text and 'ATM' not in card.text

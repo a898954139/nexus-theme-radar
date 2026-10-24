@@ -2,67 +2,102 @@
 
 ## Standalone mobile decision card
 
-Target: `reports/stock-audit-2026-10-21.html` (no redirect and no watchlist route change).
-The dated research input is `reports/stock-audit-2026-10-21.json`; its CSS is
-`reports/stock-audit.css`. Render after completing research, not in the browser:
+Target: `reports/stock-audit-2026-10-21.html`, with the original Nexus fonts,
+palette and expandable research layout. This target does not redirect or modify
+the watchlist route, its shared schema or hourly jobs.
 
 ```sh
 .venv/bin/python scripts/render_stock_audit.py \
   --input reports/stock-audit-2026-10-21.json \
   --output reports/stock-audit-2026-10-21.html
-.venv/bin/python -m pytest tests/test_stock_audit_report.py -q
+.venv/bin/python -m pytest tests/test_stock_audit_report.py \
+  tests/test_stock_audit_technical.py tests/test_stock_audit_pva_nexus_report.py -q
 ```
 
-This snapshot contains five independently collected TWSE daily price/PE histories
-(235 sessions, 2025-11-03 through 2026-10-21), September monthly revenue and YoY,
-and consolidated H1 cumulative EPS/margins from TWSE/MOPS (API, CSV and original
-HTML cross-checked). It does not copy the unrelated six-stock latest JSON. Missing
-research excludes a candidate; fewer than three complete candidates blocks output
-before any target file is replaced. All calculations and SVGs are pre-rendered;
-native `details` work without JavaScript and only the first stock starts open.
-The scan layer keeps dated price and four **short-scenario** levels visible even
-when a stock is closed. Opening it shows the existing conclusion's first sentence
-and the daily chart before a separate, initially closed full-analysis disclosure.
-The original fundamental → technical → operations → summary research remains in
-that disclosure unchanged. A price alone is not an entry: the visible context
-requires a close above the trigger and a subsequent-session retest.
+The JSON is completed research, not browser-computed analysis. Original five-stock
+fundamentals, valuation, 235 daily bars and curve diagnostics remain unchanged.
+Separate technical input contains 2023-01-03–2026-10-21 TWSE daily OHLCV: 917 bars
+per stock, except 2317 with 916. The official 2025-07-30 2317 row had zero volume
+and no OHLC price; it was explicitly excluded, never filled, and its reason was
+not established. All original 235-bar overlaps were checked exactly.
 
-The chart marks the actual current-price line, the last-20-session low/high range
-and the existing resistance-to-entry retest band at their true price coordinates.
-The preview explicitly labels D1, the close date, its exact 90-session display
-window and the actual MA20/MA60 plus 20-session high/low technique. Expanded
-technical notes distinguish the full observed price history from that chart
-window. Nexus is a framework reference only, not a completed multi-timeframe
-structure engine; PVA is not executed and volume is displayed only. No 4H, 1H
-or intraday candles are used. These are **not OBs**. This snapshot has no confirmed Order Block evidence, and
-this UI-only iteration does not invent a detector or relabel support as an OB.
-Each stock carries source-backed written fundamental, valuation, curve, daily Nexus
-scenario and action/conclusion research; the renderer does not assign every stock
-the same classification. Stored numeric research is recomputed only for integrity
-validation, with a tight roundoff tolerance across Python runtimes. A 90-session
-chart with MA60 needs at least 149 source candles; financial periods and both
-OHLCV/PE source URLs are required before a candidate may render.
+### Actual PVA + Nexus analysis
 
-**Historical reconstruction, not point-in-time evidence:** all sources were fetched
-on 2026-10-23 and may reflect revisions. Stock prices are 10/21 close. Forecast
-uses the completed US 10/21 session (10/22 04:00 Taipei) and TX November night
-session ending 10/22 05:00, with a 06:00 cutoff. The phase and levels are a daily-only
-Nexus-style simplification, not intraday structure verification. Market breadth is
-a conditional heuristic, not calibrated prediction odds. The future/spot difference
-uses different clocks and includes carry/contract effects. Next FOMC is linked to
-the official calendar; DXY/yields are omitted because they do not drive this bounded
-scenario. No complete peer valuation set was collected, so no industry-average PE
-is invented. A single year cannot establish long-term compound quality.
+- PVA is **Position / Velocity / Acceleration**, not price-volume analysis. The
+  offline builder calls the existing pure-Python `compute_pva_series` with the
+  native supported EMA200(HLC3) mode, ATR14, V=EMA3(ΔP), A=ΔV. P=(close-anchor)/ATR.
+  Session VWAP is not substituted on daily bars. Pre-seed zeros are excluded and
+  at least 400 post-seed updates are required. This D1 adaptation is not evidence
+  that an intraday XAUUSD strategy's profitability transfers to Taiwan equities.
+- Nexus runs the existing Dashboard `detectNexusStructure` on **D1 and completed
+  W1** bars. As of 10/21, W1 ends 10/16; the current incomplete week is excluded.
+  Its pinned mechanical fractal-5/body-close BOS/CHoCH detector supplies candidates
+  and OB/FVG evidence, followed by salience, lifecycle and individual research
+  review. It is not asserted to be canonical discretionary true-swing parity or
+  Structure Pine v2.1 parity. In particular, this detector creates OB candidates
+  after formal CHoCH rather than Pine's post-break FVG-confirmation rule.
+- Prefix replay retains zone history. Active chart/defense zones pass independent
+  body-close invalidation, FVG fill, age/current-engine and exhaustion checks.
+  An untouched OB remains a candidate; a defended/reaction-reviewed zone is not
+  called a universal or institutional guarantee. Expired, invalidated or exhausted
+  zones are not silently recycled as new support/resistance.
+- The exact foreign source SHA256/revision and parameters are recorded in each
+  stock's technical receipts. The builder refuses source drift before/after
+  execution, never launches a signal producer, broker or order tool, and returns
+  nonzero for unavailable research. Foreign repositories are not modified.
 
-Growth metrics use unadjusted closes, zero risk-free rate, 252-session annualization,
-completed peak-to-recovery sessions plus the current unrecovered duration, maximum
-drawdown and log-price regression R². They never gate fundamental eligibility.
-Entry/add/stop use valid TWSE ticks; the 20/60/120-session high/low generates three
-separate 2R scenarios. The short plan's stop must not be reused for the longer
-plans. No allocation percentages or analyst price targets are invented.
+Recompute machine research locally (the pinned external source checkouts are
+required; no new packages are installed):
 
-The existing Pages workflow already copies all of `reports/`, including CSS and
-research JSON. Local verification is not evidence of deployment.
+```sh
+.venv/bin/python scripts/analyze_stock_audit_technical.py \
+  --input reports/stock-audit-2026-10-21.json --output /tmp/stock-audit-computed.json \
+  --pva-path "$HOME/Dev/algoTrade/nexus_bridge/pva_reclaim_runtime.py" \
+  --detector-path "$HOME/Dev/iCloud-dev/NexusDashboard/src/lib/indicators/nexusStructureDetector.js"
+```
+
+Machine output is reviewed per stock and merged into the research snapshot before
+rendering. The report has no frontend financial computations. CI can validate the
+stored snapshot against its own candles and pinned receipts without importing
+those external repos; cross-repo integration tests explicitly skip only when the
+actual pinned source is unavailable, while local evidence records actual passes.
+
+### Operation contract, not an automatic trade
+
+A plan is either `conditional` or `no_trade`. Conditional entry originates from a
+strictly older structural/liquidity candidate, followed by future body-close,
+follow-through and PVA conditions. OB/FVG/PVA alone cannot trigger entry. Stops
+are source defense plus an explicitly disclosed ATR buffer. Targets are existing
+opposing supply/liquidity sources, never a new price made by entry+2R. W1 direction
+has priority; a bearish W1 blocks automatic countertrend long plans. The report's
+conservative first-barrier RR>=1 gate is disclosed as a policy, not a calibrated
+profitability claim.
+
+`no_trade` is a valid completed finding, not missing data: retain the stock,
+explain why and show source-linked repair/defense/pressure observations, but do not
+invent entry/add/stop/profit orders. This snapshot has no eligible new long plan
+for all five stocks. Old generic 20/60/120-extrema + fixed-2R targets are retired
+from this dated target; the separate legacy generator below is unchanged.
+
+Quick summaries keep dated current price and decision/observation levels visible.
+Opening a stock shows D1 chart, W1/D1/PVA context and concise conclusion; full
+fundamental → technical → operations → summary analysis remains initially folded.
+OB/FVG annotations include timeframe and source IDs. Fonts/palette stay canonical.
+The CSS link is content-versioned so returning readers receive updated styles.
+
+### Data and inference limits
+
+This is a **2026-10-23 historical reconstruction**, not unchanged point-in-time
+archival evidence. Prices are 10/21 close, unadjusted for corporate actions; source
+revisions and corporate actions can affect long-window interpretation. The US
+10/21 close / TX night ending 10/22 05:00 forecast retains its separate clocks and
+06:00 cutoff. It is not a fitted prediction-probability model. Existing fundamental
+and one-year return-quality limitations remain; PVA price momentum never qualifies
+fundamentals, moat or valuation. No personal allocation percentages are invented.
+
+The Pages workflow copies all of `reports/`, including CSS and the larger optional
+research JSON (not downloaded by the report page). Local green is not evidence of
+deployment; production HTML/CSS and browser behavior require read-back.
 
 ## Existing separate latest-snapshot workflow
 
@@ -129,3 +164,47 @@ user-authorized skipped gate, not full three-lane acceptance. The independent
 latest-snapshot/watchlist baseline regressions are outside this target release;
 no existing assertions were relaxed. Target and bounded source/pipeline checks
 passed (44 tests), alongside the frontend build and responsive browser checks.
+
+### Dated canonical structure adjudication
+
+The stored `canonical_review` separately evaluates market-respected swings using
+bar-cited rejection, displacement and later reactions. It retains the original
+`detector_structure`/`detector_plan` as machine evidence, not the current final bias.
+A detector recognition date can lag the first actual close through a level because
+of its age gate. `BOS`/`CHoCH` are events, never market phases. The final W1/D1
+bias and phase are separately recorded with qualification (`qualified`, `uncertain`,
+`rejected`) and dated OHLC citations. Qualified context alone is not an executable
+trade; uncertain/rejected candidates cannot be promoted into a conditional plan.
+
+The review withdrew 2317's swept 238 floor from active observations, recognized
+2454's already-completed 10/16 close below 4400, and recognized 2368's two completed
+weekly closes back above 1215. Five no-trade decisions are therefore based on the
+current structure/reaction review, not stale last-event bias gates. Every cited
+bar/price and the complete PVA recurrence from independent EMA/ATR seeds are
+validated offline. These checks establish evidence integrity, not future returns.
+
+## Reusable dated-report skill
+
+`skills/stock-audit-morning-report/SKILL.md` is the maintained workflow; the local
+Codex skill directory links to it. It separates fresh official input preparation,
+source-bound research, shared rendering, structural-format checks and authorized
+publication. Invoke `$stock-audit-morning-report` with a Taiwan session date.
+
+The dated producer (`scripts/produce_stock_audit_report.py`) requires reviewed
+research and an approved HTML baseline, refuses existing dated output, and uses
+`render_stock_audit.py` plus the unchanged `reports/stock-audit.css`. A structural
+format PASS means equal component contracts, not identical chart pixels or a
+validated trading strategy. Native TradingView/Pine v2.1 parity remains unverified.
+
+### 2026-10-22 format reproduction
+
+- Fresh TWSE closes/PE, 10/22 US close and actual 10/22→23 TX night session.
+  Oct23 closure was announced Oct22 20:10 before the forecast cutoff; W1 ends
+  Oct22. Next scheduled Taiwan session is Oct27, separate from actual night time.
+- Five source-bound financial/technical reviews; new dated output uses the shared
+  renderer/CSS. 10/21 HTML/JSON and stylesheet remain unchanged.
+- Independent Codex code-reviewer: APPROVE; architect: CLEAR. Financial-placeholder,
+  nearest-barrier, missing-source and calendar-boundary findings were repaired and
+  rechecked. Claude cross-model verification: SKIPPED (user-approved; subscription expired).
+- Native Pine v2.1 parity and historical point-in-time source immutability remain
+  unverified. This is a historical SVG detector preview, not validated execution.
