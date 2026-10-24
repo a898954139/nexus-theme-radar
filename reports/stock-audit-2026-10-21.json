@@ -2922,7 +2922,203 @@
           "invalidation": "週線整理、日線反彈，先不進場。留意251–253.5供給與257附近收盤反應；238已被掃低，不沿用舊防守單。",
           "timeframe": "W1 截至 2026-10-16／D1 截至 2026-10-21"
         },
-        "entry_outlook": "D1 先收復 251–253.5 供給並回踩守住，PVA 反彈續強；再評估 257／266.5 阻力。238 已被掃過，須形成新防守，且最近目標的風險報酬足夠才考慮進場。"
+        "entry_outlook": "D1 先收復 251–253.5 供給並回踩守住，PVA 反彈續強；再評估 257／266.5 阻力。238 已被掃過，須形成新防守，且最近目標的風險報酬足夠才考慮進場。",
+        "morning_brief": {
+          "symbol": "2317",
+          "as_of": "2026-10-21",
+          "final_plan_status": "no_trade",
+          "scenario_type": "future_conditional_reassessment_only",
+          "executable_now": false,
+          "candle_sha256": "d37b629f7a557f9c155bc0cb49808d62b5d306d971fe451671a2e97d536ee116",
+          "pva": {
+            "timeframe": "D1",
+            "P": 1.837195028301151,
+            "V": 0.71101858376109,
+            "A": 0.6872907961537924,
+            "insight": "反彈速度與加速度轉強，仍有上方供給",
+            "source_id": "technical_analysis.pva.latest",
+            "source_candle_id": "D1:candle-915-2026-10-21"
+          },
+          "execution_guard": "以下為未來收復／回踩情境，不是碰價買單；須收盤及後續反應確認、新防守與最近障礙風險報酬一併成立，才重評。",
+          "zones": [
+            {
+              "type": "OB",
+              "timeframe": "D1",
+              "low": 226.5,
+              "high": 237.5,
+              "state": "active",
+              "reviewed_valid": true,
+              "insight": "觸及有反應，不代表可直接承接",
+              "source_ids": [
+                "D1:ob-1-864-226.5-237.5"
+              ],
+              "candle_citations": [
+                {
+                  "source_candle_id": "D1:candle-859-2026-07-30",
+                  "timeframe": "D1",
+                  "date": "2026-07-30",
+                  "field": "low",
+                  "value": 226.5
+                },
+                {
+                  "source_candle_id": "D1:candle-859-2026-07-30",
+                  "timeframe": "D1",
+                  "date": "2026-07-30",
+                  "field": "high",
+                  "value": 237.5
+                }
+              ]
+            },
+            {
+              "type": "FVG",
+              "timeframe": "D1",
+              "low": 251,
+              "high": 253.5,
+              "state": "active",
+              "reviewed_valid": true,
+              "insight": "最近供給，先收復再看回踩",
+              "source_ids": [
+                "D1:fvg--1-907-251-253.5"
+              ],
+              "candle_citations": [
+                {
+                  "source_candle_id": "D1:candle-907-2026-10-08",
+                  "timeframe": "D1",
+                  "date": "2026-10-08",
+                  "field": "high",
+                  "value": 251.0
+                },
+                {
+                  "source_candle_id": "D1:candle-905-2026-10-06",
+                  "timeframe": "D1",
+                  "date": "2026-10-06",
+                  "field": "low",
+                  "value": 253.5
+                }
+              ]
+            }
+          ],
+          "entry_rows": [
+            {
+              "label": "進場評估區",
+              "condition": "收高於上緣後回踩守住",
+              "timeframe": "D1",
+              "price": null,
+              "range": {
+                "low": 251,
+                "high": 253.5
+              },
+              "source_ids": [
+                "D1:fvg--1-907-251-253.5"
+              ],
+              "candle_citations": [
+                {
+                  "source_candle_id": "D1:candle-907-2026-10-08",
+                  "timeframe": "D1",
+                  "date": "2026-10-08",
+                  "field": "high",
+                  "value": 251.0
+                },
+                {
+                  "source_candle_id": "D1:candle-905-2026-10-06",
+                  "timeframe": "D1",
+                  "date": "2026-10-06",
+                  "field": "low",
+                  "value": 253.5
+                }
+              ],
+              "requires_close_above": 253.5,
+              "low": 251,
+              "high": 253.5,
+              "low_ref": {
+                "source_id": "D1:candle-907-2026-10-08",
+                "field": "high"
+              },
+              "high_ref": {
+                "source_id": "D1:candle-905-2026-10-06",
+                "field": "low"
+              }
+            },
+            {
+              "label": "取消修復",
+              "condition": "收盤跌回此價下取消",
+              "timeframe": "D1",
+              "price": 251.0,
+              "range": null,
+              "source_ids": [
+                "D1:candle-907-2026-10-08"
+              ],
+              "candle_citations": [
+                {
+                  "source_candle_id": "D1:candle-907-2026-10-08",
+                  "timeframe": "D1",
+                  "date": "2026-10-08",
+                  "field": "high",
+                  "value": 251.0
+                }
+              ],
+              "cancellation_basis": "future_reclaimed_zone_low_not_protected_stop",
+              "low": 251.0,
+              "high": 251.0,
+              "low_ref": {
+                "source_id": "D1:candle-907-2026-10-08",
+                "field": "high"
+              },
+              "high_ref": {
+                "source_id": "D1:candle-907-2026-10-08",
+                "field": "high"
+              }
+            },
+            {
+              "label": "上方壓力",
+              "condition": "先處理此阻力再重評",
+              "timeframe": "D1",
+              "price": 257.0,
+              "range": null,
+              "source_ids": [
+                "D1:candle-898-2026-09-23"
+              ],
+              "candle_citations": [
+                {
+                  "source_candle_id": "D1:candle-898-2026-09-23",
+                  "timeframe": "D1",
+                  "date": "2026-09-23",
+                  "field": "high",
+                  "value": 257.0
+                }
+              ],
+              "qualification": "uncertain_context_only",
+              "low": 257.0,
+              "high": 257.0,
+              "low_ref": {
+                "source_id": "D1:candle-898-2026-09-23",
+                "field": "high"
+              },
+              "high_ref": {
+                "source_id": "D1:candle-898-2026-09-23",
+                "field": "high"
+              }
+            }
+          ],
+          "warnings": [
+            "238已被掃過，不作防守；251是未來供給收復情境的取消線，不是已建立的受保護低。",
+            "以253.5靠近進場區上緣估計，257僅距3.5元；未有新防守與足夠風險報酬，不繞過它改用266.5或遠方目標。"
+          ],
+          "entry_band": {
+            "low": 251,
+            "high": 253.5,
+            "low_ref": {
+              "source_id": "D1:candle-907-2026-10-08",
+              "field": "high"
+            },
+            "high_ref": {
+              "source_id": "D1:candle-905-2026-10-06",
+              "field": "low"
+            },
+            "timeframe": "D1",
+            "condition": "收高於上緣後回踩守住"
+          }
+        }
       },
       "technical_candles": [
         {
@@ -48640,7 +48836,203 @@
           "invalidation": "週日偏空，下跌減速不等於反轉。先不進場；1665–1775是修復觀察，1560是歷史風險位，不是新部位止損委託。",
           "timeframe": "W1 截至 2026-10-16／D1 截至 2026-10-21"
         },
-        "entry_outlook": "D1 先收復 1,665–1,775 供給並守住，W1 修復 1,790；PVA 下行停止、速度轉正後，還須有有效防守與足夠近端空間，才考慮分批。"
+        "entry_outlook": "D1 先收復 1,665–1,775 供給並守住，W1 修復 1,790；PVA 下行停止、速度轉正後，還須有有效防守與足夠近端空間，才考慮分批。",
+        "morning_brief": {
+          "symbol": "2308",
+          "as_of": "2026-10-21",
+          "final_plan_status": "no_trade",
+          "scenario_type": "future_conditional_reassessment_only",
+          "executable_now": false,
+          "candle_sha256": "8690b16510a9be47970bcc14e159a6657d3e072a16aa917aa46bae08e27b0b57",
+          "pva": {
+            "timeframe": "D1",
+            "P": -0.31191596168056057,
+            "V": -0.04596813219930229,
+            "A": 0.2800048516281314,
+            "insight": "速度仍負、加速度回升，跌勢放緩",
+            "source_id": "technical_analysis.pva.latest",
+            "source_candle_id": "D1:candle-916-2026-10-21"
+          },
+          "execution_guard": "以下為未來收復／回踩情境，不是碰價買單；須收盤及後續反應確認、新防守與最近障礙風險報酬一併成立，才重評。",
+          "zones": [
+            {
+              "type": "OB",
+              "timeframe": "D1",
+              "low": 1685,
+              "high": 1745,
+              "state": "invalidated",
+              "reviewed_valid": false,
+              "insight": "已收盤跌穿，不再當承接區",
+              "source_ids": [
+                "D1:ob-1-898-1685-1745"
+              ],
+              "candle_citations": [
+                {
+                  "source_candle_id": "D1:candle-895-2026-09-17",
+                  "timeframe": "D1",
+                  "date": "2026-09-17",
+                  "field": "low",
+                  "value": 1685.0
+                },
+                {
+                  "source_candle_id": "D1:candle-895-2026-09-17",
+                  "timeframe": "D1",
+                  "date": "2026-09-17",
+                  "field": "high",
+                  "value": 1745.0
+                }
+              ]
+            },
+            {
+              "type": "FVG",
+              "timeframe": "D1",
+              "low": 1665,
+              "high": 1775,
+              "state": "active",
+              "reviewed_valid": true,
+              "insight": "重疊供給帶，僅列修復情境",
+              "source_ids": [
+                "D1:fvg--1-913-1665-1775"
+              ],
+              "candle_citations": [
+                {
+                  "source_candle_id": "D1:candle-913-2026-10-16",
+                  "timeframe": "D1",
+                  "date": "2026-10-16",
+                  "field": "high",
+                  "value": 1665.0
+                },
+                {
+                  "source_candle_id": "D1:candle-911-2026-10-14",
+                  "timeframe": "D1",
+                  "date": "2026-10-14",
+                  "field": "low",
+                  "value": 1775.0
+                }
+              ]
+            }
+          ],
+          "entry_rows": [
+            {
+              "label": "進場評估區",
+              "condition": "收高於上緣後回踩守住",
+              "timeframe": "D1",
+              "price": null,
+              "range": {
+                "low": 1665,
+                "high": 1775
+              },
+              "source_ids": [
+                "D1:fvg--1-913-1665-1775"
+              ],
+              "candle_citations": [
+                {
+                  "source_candle_id": "D1:candle-913-2026-10-16",
+                  "timeframe": "D1",
+                  "date": "2026-10-16",
+                  "field": "high",
+                  "value": 1665.0
+                },
+                {
+                  "source_candle_id": "D1:candle-911-2026-10-14",
+                  "timeframe": "D1",
+                  "date": "2026-10-14",
+                  "field": "low",
+                  "value": 1775.0
+                }
+              ],
+              "requires_close_above": 1775,
+              "low": 1665,
+              "high": 1775,
+              "low_ref": {
+                "source_id": "D1:candle-913-2026-10-16",
+                "field": "high"
+              },
+              "high_ref": {
+                "source_id": "D1:candle-911-2026-10-14",
+                "field": "low"
+              }
+            },
+            {
+              "label": "週線修復",
+              "condition": "週收復後持續守住",
+              "timeframe": "W1",
+              "price": 1790.0,
+              "range": null,
+              "source_ids": [
+                "W1:candle-178-2026-06-26"
+              ],
+              "candle_citations": [
+                {
+                  "source_candle_id": "W1:candle-178-2026-06-26",
+                  "timeframe": "W1",
+                  "date": "2026-06-26",
+                  "field": "low",
+                  "value": 1790.0
+                }
+              ],
+              "dual_role": "nearest_overhead_reference_and_weekly_repair_gate",
+              "low": 1790.0,
+              "high": 1790.0,
+              "low_ref": {
+                "source_id": "W1:candle-178-2026-06-26",
+                "field": "low"
+              },
+              "high_ref": {
+                "source_id": "W1:candle-178-2026-06-26",
+                "field": "low"
+              }
+            },
+            {
+              "label": "取消修復",
+              "condition": "收盤跌回此價下取消",
+              "timeframe": "D1",
+              "price": 1665.0,
+              "range": null,
+              "source_ids": [
+                "D1:candle-913-2026-10-16"
+              ],
+              "candle_citations": [
+                {
+                  "source_candle_id": "D1:candle-913-2026-10-16",
+                  "timeframe": "D1",
+                  "date": "2026-10-16",
+                  "field": "high",
+                  "value": 1665.0
+                }
+              ],
+              "cancellation_basis": "future_reclaimed_zone_low_not_protected_stop",
+              "low": 1665.0,
+              "high": 1665.0,
+              "low_ref": {
+                "source_id": "D1:candle-913-2026-10-16",
+                "field": "high"
+              },
+              "high_ref": {
+                "source_id": "D1:candle-913-2026-10-16",
+                "field": "high"
+              }
+            }
+          ],
+          "warnings": [
+            "1790只比供給上緣1775高15元，不能用遠方1820或2115掩蓋近端空間不足。",
+            "須週線修復及PVA速度轉正；1685–1745舊OB失效，不能當新止損依據。"
+          ],
+          "entry_band": {
+            "low": 1665,
+            "high": 1775,
+            "low_ref": {
+              "source_id": "D1:candle-913-2026-10-16",
+              "field": "high"
+            },
+            "high_ref": {
+              "source_id": "D1:candle-911-2026-10-14",
+              "field": "low"
+            },
+            "timeframe": "D1",
+            "condition": "收高於上緣後回踩守住"
+          }
+        }
       },
       "technical_candles": [
         {
@@ -97082,7 +97474,241 @@
           "invalidation": "已收週線已跌回4400下，日線下降仍在；先不進場。不要用未完成本週當理由忽略10/16已確認的跌回。",
           "timeframe": "W1 截至 2026-10-16／D1 截至 2026-10-21"
         },
-        "entry_outlook": "D1 收復 4,360–4,475 並回踩守住，W1 重新站穩 4,400，PVA 速度轉正；形成更近且受保護的防守與合理目標後，才重評進場，不直接追 5,165。"
+        "entry_outlook": "D1 收復 4,360–4,475 並回踩守住，W1 重新站穩 4,400，PVA 速度轉正；形成更近且受保護的防守與合理目標後，才重評進場，不直接追 5,165。",
+        "morning_brief": {
+          "symbol": "2454",
+          "as_of": "2026-10-21",
+          "final_plan_status": "no_trade",
+          "scenario_type": "future_conditional_reassessment_only",
+          "executable_now": false,
+          "candle_sha256": "4fb7ba1294c928a72245adaf5a727ff7bc5db0fef330cbd97fd640735c19ddf3",
+          "pva": {
+            "timeframe": "D1",
+            "P": 3.681308005798273,
+            "V": -0.1788935958424792,
+            "A": 0.08430095801960913,
+            "insight": "高位置下滑放緩，尚未轉強",
+            "source_id": "technical_analysis.pva.latest",
+            "source_candle_id": "D1:candle-916-2026-10-21"
+          },
+          "execution_guard": "以下為未來收復／回踩情境，不是碰價買單；須收盤及後續反應確認、新防守與最近障礙風險報酬一併成立，才重評。",
+          "zones": [
+            {
+              "type": "OB",
+              "timeframe": "D1",
+              "low": 4980,
+              "high": 5165,
+              "state": "candidate",
+              "reviewed_valid": false,
+              "insight": "未獲後續覆核，只是空方候選",
+              "source_ids": [
+                "D1:ob--1-909-4980-5165"
+              ],
+              "candle_citations": [
+                {
+                  "source_candle_id": "D1:candle-905-2026-10-05",
+                  "timeframe": "D1",
+                  "date": "2026-10-05",
+                  "field": "low",
+                  "value": 4980.0
+                },
+                {
+                  "source_candle_id": "D1:candle-905-2026-10-05",
+                  "timeframe": "D1",
+                  "date": "2026-10-05",
+                  "field": "high",
+                  "value": 5165.0
+                }
+              ]
+            },
+            {
+              "type": "FVG",
+              "timeframe": "D1",
+              "low": 4360,
+              "high": 4475,
+              "state": "active",
+              "reviewed_valid": true,
+              "insight": "第一層供給，收復後才評估",
+              "source_ids": [
+                "D1:fvg--1-913-4360-4475"
+              ],
+              "candle_citations": [
+                {
+                  "source_candle_id": "D1:candle-913-2026-10-16",
+                  "timeframe": "D1",
+                  "date": "2026-10-16",
+                  "field": "high",
+                  "value": 4360.0
+                },
+                {
+                  "source_candle_id": "D1:candle-911-2026-10-14",
+                  "timeframe": "D1",
+                  "date": "2026-10-14",
+                  "field": "low",
+                  "value": 4475.0
+                }
+              ]
+            }
+          ],
+          "entry_rows": [
+            {
+              "label": "進場評估區",
+              "condition": "收高於上緣後回踩守住",
+              "timeframe": "D1",
+              "price": null,
+              "range": {
+                "low": 4360,
+                "high": 4475
+              },
+              "source_ids": [
+                "D1:fvg--1-913-4360-4475"
+              ],
+              "candle_citations": [
+                {
+                  "source_candle_id": "D1:candle-913-2026-10-16",
+                  "timeframe": "D1",
+                  "date": "2026-10-16",
+                  "field": "high",
+                  "value": 4360.0
+                },
+                {
+                  "source_candle_id": "D1:candle-911-2026-10-14",
+                  "timeframe": "D1",
+                  "date": "2026-10-14",
+                  "field": "low",
+                  "value": 4475.0
+                }
+              ],
+              "requires_close_above": 4475,
+              "low": 4360,
+              "high": 4475,
+              "low_ref": {
+                "source_id": "D1:candle-913-2026-10-16",
+                "field": "high"
+              },
+              "high_ref": {
+                "source_id": "D1:candle-911-2026-10-14",
+                "field": "low"
+              }
+            },
+            {
+              "label": "週線修復",
+              "condition": "週收重新站穩",
+              "timeframe": "W1",
+              "price": 4400.0,
+              "range": null,
+              "source_ids": [
+                "W1:candle-185-2026-08-14"
+              ],
+              "candle_citations": [
+                {
+                  "source_candle_id": "W1:candle-185-2026-08-14",
+                  "timeframe": "W1",
+                  "date": "2026-08-14",
+                  "field": "high",
+                  "value": 4400.0
+                }
+              ],
+              "low": 4400.0,
+              "high": 4400.0,
+              "low_ref": {
+                "source_id": "W1:candle-185-2026-08-14",
+                "field": "high"
+              },
+              "high_ref": {
+                "source_id": "W1:candle-185-2026-08-14",
+                "field": "high"
+              }
+            },
+            {
+              "label": "取消修復",
+              "condition": "收盤跌回此價下取消",
+              "timeframe": "D1",
+              "price": 4360.0,
+              "range": null,
+              "source_ids": [
+                "D1:candle-913-2026-10-16"
+              ],
+              "candle_citations": [
+                {
+                  "source_candle_id": "D1:candle-913-2026-10-16",
+                  "timeframe": "D1",
+                  "date": "2026-10-16",
+                  "field": "high",
+                  "value": 4360.0
+                }
+              ],
+              "cancellation_basis": "future_reclaimed_zone_low_not_protected_stop",
+              "low": 4360.0,
+              "high": 4360.0,
+              "low_ref": {
+                "source_id": "D1:candle-913-2026-10-16",
+                "field": "high"
+              },
+              "high_ref": {
+                "source_id": "D1:candle-913-2026-10-16",
+                "field": "high"
+              }
+            },
+            {
+              "label": "上方供給",
+              "condition": "先評估下緣阻力",
+              "timeframe": "W1",
+              "price": null,
+              "range": {
+                "low": 4660,
+                "high": 4875
+              },
+              "source_ids": [
+                "W1:fvg--1-194-4660-4875"
+              ],
+              "candle_citations": [
+                {
+                  "source_candle_id": "W1:candle-194-2026-10-16",
+                  "timeframe": "W1",
+                  "date": "2026-10-16",
+                  "field": "high",
+                  "value": 4660.0
+                },
+                {
+                  "source_candle_id": "W1:candle-192-2026-10-02",
+                  "timeframe": "W1",
+                  "date": "2026-10-02",
+                  "field": "low",
+                  "value": 4875.0
+                }
+              ],
+              "low": 4660,
+              "high": 4875,
+              "low_ref": {
+                "source_id": "W1:candle-194-2026-10-16",
+                "field": "high"
+              },
+              "high_ref": {
+                "source_id": "W1:candle-192-2026-10-02",
+                "field": "low"
+              }
+            }
+          ],
+          "warnings": [
+            "10/16已收週線低於4400，必須重新修復；候選OB不能取代有效區。",
+            "4360是未來收復情境取消參考，不冒充已形成受保護止損；3820僅局部歷史低。"
+          ],
+          "entry_band": {
+            "low": 4360,
+            "high": 4475,
+            "low_ref": {
+              "source_id": "D1:candle-913-2026-10-16",
+              "field": "high"
+            },
+            "high_ref": {
+              "source_id": "D1:candle-911-2026-10-14",
+              "field": "low"
+            },
+            "timeframe": "D1",
+            "condition": "收高於上緣後回踩守住"
+          }
+        }
       },
       "technical_candles": [
         {
@@ -145010,7 +145636,204 @@
           "invalidation": "週線回檔、日線下行加速，先不進場。3050暫作反應觀察，不能把短反彈或耗盡OB包裝成可執行加碼。",
           "timeframe": "W1 截至 2026-10-16／D1 截至 2026-10-21"
         },
-        "entry_outlook": "D1 先站回 3,285 並有後續守住，PVA 下行加速停止、速度恢復；3,050 仍須更多防守反應，且須出現可用的近端目標，才考慮進場。"
+        "entry_outlook": "D1 先站回 3,285 並有後續守住，PVA 下行加速停止、速度恢復；3,050 仍須更多防守反應，且須出現可用的近端目標，才考慮進場。",
+        "morning_brief": {
+          "symbol": "3017",
+          "as_of": "2026-10-21",
+          "final_plan_status": "no_trade",
+          "scenario_type": "future_conditional_reassessment_only",
+          "executable_now": false,
+          "candle_sha256": "5cde94275075ad0a8e18fa08e704aab3d81d1b3889265aa1f77034087ef9e0a1",
+          "pva": {
+            "timeframe": "D1",
+            "P": 3.912353055001989,
+            "V": -0.29753805325854743,
+            "A": -0.3574495322611708,
+            "insight": "高位置下行加速，反彈仍弱",
+            "source_id": "technical_analysis.pva.latest",
+            "source_candle_id": "D1:candle-916-2026-10-21"
+          },
+          "execution_guard": "以下為未來收復／回踩情境，不是碰價買單；須收盤及後續反應確認、新防守與最近障礙風險報酬一併成立，才重評。",
+          "zones": [
+            {
+              "type": "OB",
+              "timeframe": "D1",
+              "low": 3330,
+              "high": 3410,
+              "state": "exhausted",
+              "reviewed_valid": false,
+              "insight": "已耗盡，只留歷史反應提醒",
+              "source_ids": [
+                "D1:ob--1-910-3330-3410"
+              ],
+              "candle_citations": [
+                {
+                  "source_candle_id": "D1:candle-909-2026-10-12",
+                  "timeframe": "D1",
+                  "date": "2026-10-12",
+                  "field": "low",
+                  "value": 3330.0
+                },
+                {
+                  "source_candle_id": "D1:candle-909-2026-10-12",
+                  "timeframe": "D1",
+                  "date": "2026-10-12",
+                  "field": "high",
+                  "value": 3410.0
+                }
+              ]
+            },
+            {
+              "type": "FVG",
+              "timeframe": "W1",
+              "low": 2420,
+              "high": 2625,
+              "state": "active",
+              "reviewed_valid": true,
+              "insight": "距現價遠，不替代近端防守",
+              "source_ids": [
+                "W1:fvg-1-185-2420-2625"
+              ],
+              "candle_citations": [
+                {
+                  "source_candle_id": "W1:candle-183-2026-07-31",
+                  "timeframe": "W1",
+                  "date": "2026-07-31",
+                  "field": "high",
+                  "value": 2420.0
+                },
+                {
+                  "source_candle_id": "W1:candle-185-2026-08-14",
+                  "timeframe": "W1",
+                  "date": "2026-08-14",
+                  "field": "low",
+                  "value": 2625.0
+                }
+              ]
+            }
+          ],
+          "entry_rows": [
+            {
+              "label": "進場評估價",
+              "condition": "收復後回踩且動能轉強",
+              "timeframe": "D1",
+              "price": 3285.0,
+              "range": null,
+              "source_ids": [
+                "D1:candle-901-2026-09-29"
+              ],
+              "candle_citations": [
+                {
+                  "source_candle_id": "D1:candle-901-2026-09-29",
+                  "timeframe": "D1",
+                  "date": "2026-09-29",
+                  "field": "low",
+                  "value": 3285.0
+                }
+              ],
+              "requires_close_above": 3285,
+              "low": 3285.0,
+              "high": 3285.0,
+              "low_ref": {
+                "source_id": "D1:candle-901-2026-09-29",
+                "field": "low"
+              },
+              "high_ref": {
+                "source_id": "D1:candle-901-2026-09-29",
+                "field": "low"
+              }
+            },
+            {
+              "label": "反應帶",
+              "condition": "耗盡區只觀察反應",
+              "timeframe": "D1",
+              "price": null,
+              "range": {
+                "low": 3330,
+                "high": 3410
+              },
+              "source_ids": [
+                "D1:ob--1-910-3330-3410"
+              ],
+              "candle_citations": [
+                {
+                  "source_candle_id": "D1:candle-909-2026-10-12",
+                  "timeframe": "D1",
+                  "date": "2026-10-12",
+                  "field": "low",
+                  "value": 3330.0
+                },
+                {
+                  "source_candle_id": "D1:candle-909-2026-10-12",
+                  "timeframe": "D1",
+                  "date": "2026-10-12",
+                  "field": "high",
+                  "value": 3410.0
+                }
+              ],
+              "role": "historical_barrier_not_active_ob_not_target",
+              "low": 3330,
+              "high": 3410,
+              "low_ref": {
+                "source_id": "D1:candle-909-2026-10-12",
+                "field": "low"
+              },
+              "high_ref": {
+                "source_id": "D1:candle-909-2026-10-12",
+                "field": "high"
+              }
+            },
+            {
+              "label": "取消參考",
+              "condition": "收盤失守取消修復",
+              "timeframe": "D1",
+              "price": 3050.0,
+              "range": null,
+              "source_ids": [
+                "D1:candle-912-2026-10-15"
+              ],
+              "candle_citations": [
+                {
+                  "source_candle_id": "D1:candle-912-2026-10-15",
+                  "timeframe": "D1",
+                  "date": "2026-10-15",
+                  "field": "low",
+                  "value": 3050.0
+                }
+              ],
+              "qualification": "uncertain_provisional_reaction_low_not_stop",
+              "low": 3050.0,
+              "high": 3050.0,
+              "low_ref": {
+                "source_id": "D1:candle-912-2026-10-15",
+                "field": "low"
+              },
+              "high_ref": {
+                "source_id": "D1:candle-912-2026-10-15",
+                "field": "low"
+              }
+            }
+          ],
+          "warnings": [
+            "3330–3410為耗盡OB，不作active供給或新觸發；它是近端歷史反應提示，不是可用止盈。",
+            "3285到歷史反應帶3330僅45元，3050又是未成熟防守；不可跳過近端問題直接用3700製造可交易空間。",
+            "本資料沒有完成資格覆核的近端目標與新防守，表格僅為數字化重評情境。"
+          ],
+          "entry_band": {
+            "low": 3285.0,
+            "high": 3285.0,
+            "low_ref": {
+              "source_id": "D1:candle-901-2026-09-29",
+              "field": "low"
+            },
+            "high_ref": {
+              "source_id": "D1:candle-901-2026-09-29",
+              "field": "low"
+            },
+            "timeframe": "D1",
+            "condition": "收復後回踩且動能轉強"
+          }
+        }
       },
       "technical_candles": [
         {
@@ -193571,7 +194394,224 @@
           "invalidation": "週線已收復1215但仍在修復區間，日線回檔；先不進場。不要繼續以過時偏空gate解釋等待，也不要把局部反彈直接升格為買點。",
           "timeframe": "W1 截至 2026-10-16／D1 截至 2026-10-21"
         },
-        "entry_outlook": "W1 持續守住已收復的 1,215，D1 觀察 1,160 守位及 1,310／1,335 上方阻力；PVA 速度轉正、結構跟隨與近端風險報酬同時成立，才考慮進場。"
+        "entry_outlook": "W1 持續守住已收復的 1,215，D1 觀察 1,160 守位及 1,310／1,335 上方阻力；PVA 速度轉正、結構跟隨與近端風險報酬同時成立，才考慮進場。",
+        "morning_brief": {
+          "symbol": "2368",
+          "as_of": "2026-10-21",
+          "final_plan_status": "no_trade",
+          "scenario_type": "future_conditional_reassessment_only",
+          "executable_now": false,
+          "candle_sha256": "c1bea653e353ae01fff0144c24adb56329145ae3f2b342954d1194f9ab5e25cb",
+          "pva": {
+            "timeframe": "D1",
+            "P": 2.451674123037292,
+            "V": -0.13041165794849352,
+            "A": 0.24089452267276146,
+            "insight": "負速度改善中，尚未恢復上行",
+            "source_id": "technical_analysis.pva.latest",
+            "source_candle_id": "D1:candle-916-2026-10-21"
+          },
+          "execution_guard": "以下為未來收復／回踩情境，不是碰價買單；須收盤及後續反應確認、新防守與最近障礙風險報酬一併成立，才重評。",
+          "zones": [
+            {
+              "type": "OB",
+              "timeframe": "D1",
+              "low": 1075,
+              "high": 1150,
+              "state": "exhausted",
+              "reviewed_valid": false,
+              "insight": "多次觸及耗盡，不再當新支撐",
+              "source_ids": [
+                "D1:ob-1-901-1075-1150"
+              ],
+              "candle_citations": [
+                {
+                  "source_candle_id": "D1:candle-900-2026-09-24",
+                  "timeframe": "D1",
+                  "date": "2026-09-24",
+                  "field": "low",
+                  "value": 1075.0
+                },
+                {
+                  "source_candle_id": "D1:candle-900-2026-09-24",
+                  "timeframe": "D1",
+                  "date": "2026-09-24",
+                  "field": "high",
+                  "value": 1150.0
+                }
+              ]
+            },
+            {
+              "type": "FVG",
+              "timeframe": "D1",
+              "low": 903,
+              "high": 906,
+              "state": "active",
+              "reviewed_valid": true,
+              "insight": "需求遠離現價，不構成買點",
+              "source_ids": [
+                "D1:fvg-1-865-903-906"
+              ],
+              "candle_citations": [
+                {
+                  "source_candle_id": "D1:candle-863-2026-08-04",
+                  "timeframe": "D1",
+                  "date": "2026-08-04",
+                  "field": "high",
+                  "value": 903.0
+                },
+                {
+                  "source_candle_id": "D1:candle-865-2026-08-06",
+                  "timeframe": "D1",
+                  "date": "2026-08-06",
+                  "field": "low",
+                  "value": 906.0
+                }
+              ]
+            }
+          ],
+          "entry_rows": [
+            {
+              "label": "進場評估價",
+              "condition": "日收復回踩且週線守住",
+              "timeframe": "W1",
+              "price": 1215.0,
+              "range": null,
+              "source_ids": [
+                "W1:candle-173-2026-05-22"
+              ],
+              "candle_citations": [
+                {
+                  "source_candle_id": "W1:candle-173-2026-05-22",
+                  "timeframe": "W1",
+                  "date": "2026-05-22",
+                  "field": "low",
+                  "value": 1215.0
+                }
+              ],
+              "requires_daily_close_above": 1215,
+              "weekly_level_already_reclaimed": true,
+              "low": 1215.0,
+              "high": 1215.0,
+              "low_ref": {
+                "source_id": "W1:candle-173-2026-05-22",
+                "field": "low"
+              },
+              "high_ref": {
+                "source_id": "W1:candle-173-2026-05-22",
+                "field": "low"
+              }
+            },
+            {
+              "label": "取消參考",
+              "condition": "收盤失守取消修復",
+              "timeframe": "D1",
+              "price": 1120.0,
+              "range": null,
+              "source_ids": [
+                "D1:candle-910-2026-10-13"
+              ],
+              "candle_citations": [
+                {
+                  "source_candle_id": "D1:candle-910-2026-10-13",
+                  "timeframe": "D1",
+                  "date": "2026-10-13",
+                  "field": "low",
+                  "value": 1120.0
+                }
+              ],
+              "qualification": "uncertain_provisional_reaction_low_not_stop",
+              "low": 1120.0,
+              "high": 1120.0,
+              "low_ref": {
+                "source_id": "D1:candle-910-2026-10-13",
+                "field": "low"
+              },
+              "high_ref": {
+                "source_id": "D1:candle-910-2026-10-13",
+                "field": "low"
+              }
+            },
+            {
+              "label": "反彈阻力",
+              "condition": "收復後仍須續看上方",
+              "timeframe": "D1",
+              "price": 1295.0,
+              "range": null,
+              "source_ids": [
+                "D1:candle-913-2026-10-16"
+              ],
+              "candle_citations": [
+                {
+                  "source_candle_id": "D1:candle-913-2026-10-16",
+                  "timeframe": "D1",
+                  "date": "2026-10-16",
+                  "field": "high",
+                  "value": 1295.0
+                }
+              ],
+              "qualification": "uncertain_context_only",
+              "low": 1295.0,
+              "high": 1295.0,
+              "low_ref": {
+                "source_id": "D1:candle-913-2026-10-16",
+                "field": "high"
+              },
+              "high_ref": {
+                "source_id": "D1:candle-913-2026-10-16",
+                "field": "high"
+              }
+            },
+            {
+              "label": "次高點",
+              "condition": "未突破不視為趨勢延續",
+              "timeframe": "D1",
+              "price": 1310.0,
+              "range": null,
+              "source_ids": [
+                "D1:candle-907-2026-10-07"
+              ],
+              "candle_citations": [
+                {
+                  "source_candle_id": "D1:candle-907-2026-10-07",
+                  "timeframe": "D1",
+                  "date": "2026-10-07",
+                  "field": "high",
+                  "value": 1310.0
+                }
+              ],
+              "low": 1310.0,
+              "high": 1310.0,
+              "low_ref": {
+                "source_id": "D1:candle-907-2026-10-07",
+                "field": "high"
+              },
+              "high_ref": {
+                "source_id": "D1:candle-907-2026-10-07",
+                "field": "high"
+              }
+            }
+          ],
+          "warnings": [
+            "1215週線已收復，這裡是日線收復與週線維持，不是再次宣稱週線首次突破。",
+            "1295是低於1310的局部反彈高，先檢查此近端阻力；1120只有暫時反應，尚非可執行新止損。",
+            "須PVA速度轉正、結構跟隨及新防守；不能跳到1335以後估算獲利。"
+          ],
+          "entry_band": {
+            "low": 1215.0,
+            "high": 1215.0,
+            "low_ref": {
+              "source_id": "W1:candle-173-2026-05-22",
+              "field": "low"
+            },
+            "high_ref": {
+              "source_id": "W1:candle-173-2026-05-22",
+              "field": "low"
+            },
+            "timeframe": "W1",
+            "condition": "日收復回踩且週線守住"
+          }
+        }
       },
       "technical_candles": [
         {
