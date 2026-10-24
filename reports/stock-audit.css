@@ -85,8 +85,8 @@ dd small { font-size: 12px; color: var(--muted); font-family: 'Noto Sans TC', sa
 .source-disclosure[open] summary::after { content: '−'; }
 .stock-nav { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 16px; }
 .stock-nav a { min-height: 44px; display: inline-flex; align-items: center; padding: 8px 12px; background: var(--surface); border-radius: 999px; text-decoration: none; font-size: 13px; }
-.stock { background: var(--surface); border-radius: var(--radius); margin-bottom: var(--gap); }
-.stock > summary { display: flex; align-items: center; gap: 14px; padding: 20px 24px; min-height: 88px; cursor: pointer; list-style: none; }
+.stock { background: var(--surface); border: 1px solid var(--weakest); border-radius: 12px; margin-bottom: 18px; }
+.stock > summary { display: flex; align-items: center; gap: 14px; padding: 14px 16px; min-height: 72px; cursor: pointer; list-style: none; }
 summary::-webkit-details-marker { display: none; }
 .identity { display: grid; grid-template-columns: auto auto; align-items: baseline; justify-content: start; gap: 2px 20px; flex: 1; min-width: 0; }
 .identity strong { font-size: 18px; font-weight: 500; font-family: 'Noto Sans TC', sans-serif; }
@@ -96,7 +96,7 @@ summary::-webkit-details-marker { display: none; }
 .action { font-size: 13px; font-weight: 600; flex: none; }
 .chevron { width: 8px; height: 8px; border-right: 1px solid var(--muted); border-bottom: 1px solid var(--muted); transform: rotate(45deg); flex: none; margin: 0 2px 4px 8px; }
 .stock[open] > summary .chevron { transform: rotate(225deg); margin-top: 6px; }
-.stock-body { padding: 0 24px 8px; }
+.stock-body { padding: 0 16px 8px; }
 .stock-body > section { padding: 24px 0 8px; border-top: 1px solid var(--rule); }
 .facts { display: grid; grid-template-columns: repeat(4,minmax(0,1fr)); gap: 20px; }
 .facts dd { font-size: 20px; }
@@ -153,7 +153,7 @@ footer a { min-height: 44px; display: inline-flex; align-items: center; }
   .market-data, .conditions { grid-template-columns: 1fr; }
   .conditions { gap: 0; }
   .market-row { padding: 10px 0; }
-  .stock { border-radius: 16px; }
+  .stock { border-radius: 12px; }
   .stock > summary { padding: 16px; gap: 8px; }
   .identity { gap: 3px 12px; }
   .identity strong, .price { font-size: 16px; }
@@ -181,17 +181,18 @@ footer a { min-height: 44px; display: inline-flex; align-items: center; }
 .stock > summary { display: grid; grid-template-columns: minmax(0,1fr) auto 12px; gap: 12px; }
 .stock > summary .chevron { margin-left: 0; }
 .quote-time { grid-column: 1 / -1; font-size: 12px; color: var(--muted); }
-.quick-levels { grid-column: 1 / -1; display: grid; grid-template-columns: repeat(4,minmax(0,1fr)); gap: 8px; }
-.quick-level { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+.quick-levels { display: grid; grid-template-columns: minmax(0,1fr); gap: 6px; }
+.quick-level { display: flex; flex-direction: row; justify-content: space-between; align-items: baseline; gap: 8px; min-width: 0; }
 .quick-level > span { color: var(--muted); font-size: 12px; font-weight: 500; }
 .quick-level b { font-size: 16px; font-weight: 500; white-space: nowrap; }
 .quick-level[data-level="entry"] b { color: var(--gold); }
 .quick-level[data-level="stop"] b { color: var(--red); }
 .quick-context { grid-column: 1 / -1; color: var(--muted); font-size: 12px; }
-.preview { padding-top: 8px; }
+.preview { padding-top: 0; margin-bottom: 10px; }
+.preview svg { background: var(--raised); border-radius: 3px; }
 .preview figcaption { gap: 4px 16px; }
-.preview figcaption > span:nth-last-child(-n+2) { flex-basis: 100%; }
-.quick-verdict { margin: 16px 0; font-size: 14px; font-weight: 500; }
+.preview figcaption > span:last-child { flex-basis: 100%; }
+.quick-verdict { margin: 10px 0; font-size: 13px; font-weight: 500; }
 .analysis { border-top: 1px solid var(--rule); }
 .analysis > summary { display: flex; align-items: center; justify-content: space-between; min-height: 48px; cursor: pointer; list-style: none; color: var(--gold); font-size: 14px; }
 .analysis[open] > summary > span { transform: rotate(45deg); }
@@ -207,6 +208,38 @@ svg .axis-support, svg .axis-resistance { fill: var(--gold); }
 
 @media print { svg .axis-support, svg .axis-resistance { fill: var(--text); } }
 
-.chart-basis { margin: 0 0 8px; color: var(--muted); font-size: 13px; line-height: 1.7; }
+.chart-basis { margin: 8px 0; color: var(--muted); font-size: 13px; line-height: 1.7; }
 .chart-basis p { margin: 0; }
+.chart-basis p:nth-child(2) { font-family: 'IBM Plex Mono', monospace; font-size: 11px; }
 .chart-basis strong { color: var(--text-hi); font-weight: 500; }
+
+.poi-zone { stroke-width: 1; fill-opacity: .10; stroke-opacity: .65; }
+.poi-bull { fill: var(--green); stroke: var(--green); }
+.poi-bear { fill: var(--red); stroke: var(--red); }
+.poi-key { padding-left: 8px; border-left: 2px solid; white-space: nowrap; }
+.poi-key.poi-bull { color: var(--muted); border-color: var(--green); }
+.poi-key.poi-bear { color: var(--muted); border-color: var(--red); }
+
+/* Screenshot-led card: chart first, paired ledgers, one optional research fold.
+   At 390px: 16px shell + 1px border + 12px card + 332px content + mirror = 390px. */
+.decision-ledger { display: grid; grid-template-columns: minmax(0,1fr) minmax(0,1.15fr); gap: 14px; padding: 12px 0; border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule); }
+.decision-facts { display: grid; gap: 6px; padding-right: 14px; border-right: 1px solid var(--rule); }
+.decision-facts > div { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; }
+.decision-facts dt, .decision-facts dd { font-size: 12px; margin: 0; }
+.quick-level b { font-size: 13px; }
+.entry-outlook { display: grid; gap: 6px; margin: 14px 0 10px; font-size: 13px; line-height: 1.75; }
+.entry-outlook strong { color: var(--gold); font-weight: 600; }
+.entry-outlook span { color: var(--text); }
+.stock-body > .quick-context { margin: 8px 0; font-size: 11px; }
+@media(max-width:700px) {
+  .stock > summary { padding: 12px 14px; min-height: 72px; }
+  .stock-body { padding: 0 12px 6px; }
+  .identity { gap: 2px 10px; }
+  .identity strong, .price { font-size: 15px; }
+  .type, .quote-time { font-size: 11px; }
+  .decision-ledger { gap: 10px; }
+  .decision-facts { padding-right: 10px; }
+  .quick-level b { font-size: 12px; }
+  .preview figcaption { gap: 3px 10px; font-size: 11px; }
+  .chart-basis { font-size: 11px; }
+}
