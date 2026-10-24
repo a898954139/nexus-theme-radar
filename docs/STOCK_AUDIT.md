@@ -188,7 +188,7 @@ validated offline. These checks establish evidence integrity, not future returns
 `skills/stock-audit-morning-report/SKILL.md` is the maintained workflow; the local
 Codex skill directory links to it. It separates fresh official input preparation,
 source-bound research, shared rendering, structural-format checks and authorized
-publication. Invoke `$stock-audit-morning-report` with a Taiwan session date.
+publication. Invoke `$stock-audit-morning-report` with a morning publication date (and separate prior-session data date).
 
 The dated producer (`scripts/produce_stock_audit_report.py`) requires reviewed
 research and an approved HTML baseline, refuses existing dated output, and uses
@@ -196,7 +196,11 @@ research and an approved HTML baseline, refuses existing dated output, and uses
 format PASS means equal component contracts, not identical chart pixels or a
 validated trading strategy. Native TradingView/Pine v2.1 parity remains unverified.
 
-### 2026-10-22 format reproduction
+### Superseded: 2026-10-22 close-data format reproduction
+
+This prior run passed component-format checks but used the wrong morning-edition
+clock. Its review did not establish compliance with the corrected publication-date
+requirement; the following is historical evidence only, not current acceptance.
 
 - Fresh TWSE closes/PE, 10/22 US close and actual 10/22→23 TX night session.
   Oct23 closure was announced Oct22 20:10 before the forecast cutoff; W1 ends
@@ -208,3 +212,15 @@ validated trading strategy. Native TradingView/Pine v2.1 parity remains unverifi
   rechecked. Claude cross-model verification: SKIPPED (user-approved; subscription expired).
 - Native Pine v2.1 parity and historical point-in-time source immutability remain
   unverified. This is a historical SVG detector preview, not validated execution.
+
+### Morning-date correction / single skill
+
+The edition date is the publication morning, not the observed stock-session date.
+A 10/22 morning report uses 10/21 stock close and 10/21→10/22 overnight data known
+by 10/22 06:00 Taipei. The previous 10/22-close preview was incorrectly labeled as
+a 10/22 morning report. Do not use that evening's closure announcement to forecast
+10/27 from the 10/22 morning cutoff.
+
+Only `stock-audit-morning-report` is maintained. The legacy Domina `stock-audit`
+skill was removed from active discovery (recoverable in local Trash); Codex and
+Domina now link to the same repository canonical skill. Future revisions go here.

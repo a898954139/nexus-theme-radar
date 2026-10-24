@@ -259,12 +259,51 @@ def validate_market(market, cutoff, report_date=None):
 
 
 def validate_report_scope(data):
-    report_date = date.fromisoformat(data['report_date'])
+    """Return publication day, market data day, cutoff, and explicit-mode flag.
+
+    Legacy snapshots have only ``report_date`` and retain their original
+    next-day cutoff semantics.  A morning snapshot explicitly separates the
+    publication date from the prior session's ``data_as_of`` date.
+    """
+    publication_day = date.fromisoformat(data['report_date'])
     cutoff = datetime.fromisoformat(data['forecast_cutoff'])
-    expected = expected_forecast_cutoff(report_date)
+    explicit_morning = 'data_as_of' in data
+    if not explicit_morning:
+        data_day = publication_day
+        expected = expected_forecast_cutoff(data_day)
+    else:
+        data_day = date.fromisoformat(data['data_as_of'])
+        if data_day >= publication_day:
+            raise ValueError('data_as_of must be before report_date')
+        expected = datetime.combine(publication_day, time(6), tzinfo=TZ_TAIPEI)
+        if cutoff.date() != publication_day:
+            raise ValueError('morning forecast_cutoff must fall on report_date')
     if cutoff != expected:
-        raise ValueError('forecast_cutoff must be the next calendar day at 06:00 Asia/Taipei')
-    return report_date, cutoff
+        message = ('forecast_cutoff must be report_date 06:00 Asia/Taipei'
+                   if explicit_morning else
+                   'forecast_cutoff must be the next calendar day at 06:00 Asia/Taipei')
+        raise ValueError(message)
+    return publication_day, data_day, cutoff, explicit_morning
+
+
+def validate_morning_market(market, data_day, cutoff):
+    """Reject post-cutoff calendar/market metadata in an explicit morning card."""
+    expected_day = data_day.isoformat()
+    if market.get('report_date') not in (None, expected_day):
+        raise ValueError('morning market report_date is newer than data_as_of')
+    if market.get('forecast_cutoff') not in (None, cutoff.isoformat()):
+        raise ValueError('morning market forecast_cutoff is newer than data_as_of')
+    for key in ('us_session_date','night_session_date'):
+        if market.get(key) not in (None,expected_day):
+            raise ValueError('Asynchronous market sessions require separate-clock support; do not reuse stale quotes')
+    if any(market.get(key) for key in ('next_session_date','calendar_notice','calendar_source','calendar_evidence_file')):
+        try:
+            known_at = datetime.fromisoformat(market.get('calendar_known_at',''))
+        except (ValueError, TypeError) as exc:
+            raise ValueError('morning calendar requires a valid calendar_known_at') from exc
+        if known_at.tzinfo is None or known_at > cutoff:
+            raise ValueError('morning calendar notice was not known before the cutoff')
+
 
 
 def calendar_context(market, report_date):
@@ -587,17 +626,23 @@ def render(data):
     # A returning reader may still cache the previous font CSS for ten minutes.
     css = Path(__file__).resolve().parents[1] / 'reports/stock-audit.css'
     stylesheet_version = hashlib.sha256(css.read_bytes()).hexdigest()[:12]
-    report_day, cutoff = validate_report_scope(data)
-    day = report_day.isoformat(); day_display = display_date(report_day)
-    validate_market(data['market'], data['forecast_cutoff'], day)
-    next_session, calendar_notice = calendar_context(data['market'], report_day)
-    next_calendar = report_day + timedelta(days=1)
+    publication_day, data_day, cutoff, explicit_morning = validate_report_scope(data)
+    day = publication_day.isoformat(); data_day_iso = data_day.isoformat()
+    data_day_display = display_date(data_day)
+    validate_market(data['market'], data['forecast_cutoff'], data_day_iso)
+    if explicit_morning:
+        validate_morning_market(data['market'], data_day, cutoff)
+    next_session, calendar_notice = calendar_context(data['market'], publication_day)
+    next_calendar = publication_day + timedelta(days=1)
+    forecast_day = publication_day if explicit_morning else next_calendar
     next_label = display_date(date.fromisoformat(next_session)) if next_session else display_date(next_calendar)
-    us_close = expected_us_close(report_day)
-    night_close = expected_night_close(report_day)
+    if explicit_morning:
+        next_label = display_date(forecast_day)
+    us_close = expected_us_close(data_day)
+    night_close = expected_night_close(data_day)
     captured_at = data.get('retrieved_at', data.get('reconstructed_at', '2026-10-23'))
     source_json = data.get('source_json_filename', f'stock-audit-{day}.json')
-    stocks = [s for s in data['stocks'] if complete_stock(s, day, data['forecast_cutoff'])][:5]
+    stocks = [s for s in data['stocks'] if complete_stock(s, data_day_iso, data['forecast_cutoff'])][:5]
     if len(stocks) < 3 or len({s['symbol'] for s in stocks}) != len(stocks):
         raise ValueError('At least 3 complete, distinct stocks required; target not written')
     analysis = [s['research']['metrics'] for s in stocks]
@@ -614,7 +659,7 @@ def render(data):
     if calendar_notice and next_session:
         calendar_text = f' 交易日曆：{escape(calendar_notice)} 下一交易日：{display_date(date.fromisoformat(next_session))}；不將 {display_date(next_calendar)} 視為正常開盤。'
     basis = night['value'] - market['spot_close']
-    cards = ''.join(stock_card(s, m, i == 0, day) for i, (s, m) in enumerate(zip(stocks, analysis)))
+    cards = ''.join(stock_card(s, m, i == 0, data_day_iso) for i, (s, m) in enumerate(zip(stocks, analysis)))
     market_rows = ''.join(f'<div class="market-row"><span><b>{escape(r["label"])}</b><small>{escape(r["session"])}</small></span><span class="num">{fmt(r["value"])}<strong class="{metric_sign_class(r["change_pct"])}">{pct(r["change_pct"])}</strong></span></div>' for r in [night, refs[0], refs[2]])
     other_market_rows = ''.join(f'<div class="market-row"><span><b>{escape(r["label"])}</b><small>{escape(r["session"])}</small></span><span class="num">{fmt(r["value"])}<strong class="{metric_sign_class(r["change_pct"])}">{pct(r["change_pct"])}</strong></span></div>' for r in [refs[1], *refs[3:6]])
     market_sources = ' · '.join(link(r['source'], r['label']) for r in refs)
@@ -625,20 +670,20 @@ def render(data):
     return f'''<!doctype html>
 <html lang="zh-TW"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="description" content="NEXUS Stock Audit 台股中長期投資晨報，{day} 歷史重建決策卡"><title>Stock Audit｜{day} 台股投資決策卡</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&amp;family=IBM+Plex+Sans:wght@400;500;600&amp;family=IBM+Plex+Mono:wght@400;500;600&amp;family=Noto+Sans+TC:wght@400;500;700&amp;display=swap" rel="stylesheet"><link rel="stylesheet" href="stock-audit.css?v={stylesheet_version}"></head>
-<body><a class="skip" href="#today">跳至今日結論</a><div class="shell"><header class="masthead"><a href="../index.html" class="brand" aria-label="NEXUS 題材雷達首頁">NEXUS<span>Stock Audit</span></a><span class="edition num">{report_day:%Y.%m.%d}</span></header>
+<body><a class="skip" href="#today">跳至今日結論</a><div class="shell"><header class="masthead"><a href="../index.html" class="brand" aria-label="NEXUS 題材雷達首頁">NEXUS<span>Stock Audit</span></a><span class="edition num">{publication_day:%Y.%m.%d}</span></header>
 <main><section id="today" class="today"><h2>今日結論</h2><h1>台股中長期投資晨報</h1><p class="lead">{lead}</p><p class="strategy">{strategy}。以上為收復後回踩的條件價。</p>
-<dl class="report-meta">{cell('資料時間',f'{day_display} 台股收盤')}{cell('資料來源','TWSE／MOPS／TAIFEX／Yahoo')}{cell('資料完整度',f'{len(stocks)} 檔完整收錄')}{cell('明日市場方向',direction)}</dl>
+<dl class="report-meta">{cell('資料時間',f'{data_day_display} 台股收盤')}{cell('資料來源','TWSE／MOPS／TAIFEX／Yahoo')}{cell('資料完整度',f'{len(stocks)} 檔完整收錄')}{cell('今日市場方向' if explicit_morning else '明日市場方向',direction)}</dl>
 <a class="primary" href="#focus">查看進場條件 <span aria-hidden="true">↓</span></a><p class="archive">手機版預覽｜分析流程驗證尚未完成。歷史重建｜{escape(str(captured_at))} 擷取公開資料；非即時報價，也非當時封存且未修訂的資料。</p></section>
-<section id="market" class="market"><h2>明日市場預測</h2><div class="section-intro"><strong class="direction">{direction}</strong><span>{next_label} 交易情境</span></div><p>外部市場 {positive}／7 項上漲，{outlook}{calendar_text}</p>
-<div class="market-data">{market_rows}</div><details class="source-disclosure"><summary>S&amp;P 500 與大型科技股</summary><div class="market-data">{other_market_rows}</div></details><dl class="ledger">{cell('現貨基準',fmt(market['spot_close'])+' 點 · '+day_display+' 收盤')}{cell('期現價差',pct(basis/market['spot_close']*100)+'／'+fmt(basis)+' 點')}{cell('夜盤合約',market.get('night_contract','TX 202611 · 11 月合約'))}</dl>
+<section id="market" class="market"><h2>{'今日市場展望' if explicit_morning else '明日市場預測'}</h2><div class="section-intro"><strong class="direction">{direction}</strong><span>{next_label} 交易情境</span></div><p>外部市場 {positive}／7 項上漲，{outlook}{calendar_text}</p>
+<div class="market-data">{market_rows}</div><details class="source-disclosure"><summary>S&amp;P 500 與大型科技股</summary><div class="market-data">{other_market_rows}</div></details><dl class="ledger">{cell('現貨基準',fmt(market['spot_close'])+' 點 · '+data_day_display+' 收盤')}{cell('期現價差',pct(basis/market['spot_close']*100)+'／'+fmt(basis)+' 點')}{cell('夜盤合約',market.get('night_contract','TX 202611 · 11 月合約'))}</dl>
 <p class="note">價差為 11 月期貨夜盤收盤減前一日現貨收盤，非同步價差，包含跨月、持有成本與隔夜變動。</p>
 <div class="conditions"><p><b>多方觸發</b>台指期突破夜盤高點 <span class="num">{fmt(market['night_high'])}</span> 且回踩不破，才延續偏多假設。</p><p><b>空方觸發</b>跌破夜盤低點 <span class="num">{fmt(market['night_low'])}</span> 且反彈站不回，取消偏多假設，不新增多單。</p></div>
 <p class="event">{important_events(market)}</p>
-<p class="note">資料截止 {cutoff.astimezone(TZ_TAIPEI):%Y-%m-%d %H:%M}（台北）；美股為 {report_day:%m/%d} 收盤＝{us_close:%m/%d %H:%M}，台指期為 {report_day:%m/%d} 15:00–{night_close:%m/%d %H:%M} 夜盤。<b>預測不是保證</b>：以漲跌家數形成的條件式情境，非回測機率模型；不推估報酬。</p><details class="source-disclosure"><summary>查看市場資料來源</summary><p class="sources">{market_sources} · {link(market['spot_source'],'台股現貨')}</p></details></section>
+<p class="note">資料截止 {cutoff.astimezone(TZ_TAIPEI):%Y-%m-%d %H:%M}（台北）；美股為 {data_day:%m/%d} 收盤＝{us_close:%m/%d %H:%M}，台指期為 {data_day:%m/%d} 15:00–{night_close:%m/%d %H:%M} 夜盤。<b>預測不是保證</b>：以漲跌家數形成的條件式情境，非回測機率模型；不推估報酬。</p><details class="source-disclosure"><summary>查看市場資料來源</summary><p class="sources">{market_sources} · {link(market['spot_source'],'台股現貨')}</p></details></section>
 <section id="focus" class="focus"><h2>重點標的</h2><p class="section-hint">先看日 K 與決策價位，完整分析按需展開。</p><nav class="stock-nav" aria-label="快速定位標的">{nav}</nav>{cards}</section>
 <section id="others"><h2>其他標的</h2><p>本期聚焦上述 {len(stocks)} 檔，不另列操作清單。</p></section>
 <section id="checklist" class="checklist"><h2>今日執行清單</h2><ol>{checklist}</ol><p class="note">{execution_note}</p></section></main>
-<footer><strong>NEXUS · 先定位，再決策。</strong><p>本報告為歷史研究與條件式計畫，不構成個人化投資建議。條件目標只取既有供給／流動性來源，不保證到達或成交；不指定配置比例。{financial_labels(stocks[0]['financial'],day)['footer']}，TWSE PE 採官方口徑，不以 {financial_labels(stocks[0]['financial'],day)['eps_basis']} 混算。</p><p>資料擷取：{escape(str(captured_at))}。資料可能經後續修訂，未驗證 point-in-time；股價與日 K 採未還原權息價。一年曲線不等於長期複利證據。</p>{link(source_json,'完整來源與研究快照')}</footer></div></body></html>
+<footer><strong>NEXUS · 先定位，再決策。</strong><p>本報告為歷史研究與條件式計畫，不構成個人化投資建議。條件目標只取既有供給／流動性來源，不保證到達或成交；不指定配置比例。{financial_labels(stocks[0]['financial'],data_day_iso)['footer']}，TWSE PE 採官方口徑，不以 {financial_labels(stocks[0]['financial'],data_day_iso)['eps_basis']} 混算。</p><p>資料擷取：{escape(str(captured_at))}。資料可能經後續修訂，未驗證 point-in-time；股價與日 K 採未還原權息價。一年曲線不等於長期複利證據。</p>{link(source_json,'完整來源與研究快照')}</footer></div></body></html>
 '''
 
 

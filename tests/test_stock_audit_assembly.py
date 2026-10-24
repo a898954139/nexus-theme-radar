@@ -78,3 +78,13 @@ def test_financial_review_binds_real_facts_and_rejects_changed_eps():
         validate_financial_review(review,dict(facts,eps=13),'2026-10-22','2317')
     with pytest.raises(ValueError,match='financial review'):
         validate_financial_review({},facts,'2026-10-22','2317')
+
+
+def test_morning_edition_changes_label_not_observed_source_dates():
+    from scripts.assemble_stock_audit_day import morning_edition
+    source={'report_date':'2026-10-21','forecast_cutoff':'2026-10-22T06:00:00+08:00',
+            'stocks':[{'candles':[{'date':'2026-10-21','close':250}]}]}
+    edition=morning_edition(source,'2026-10-22')
+    assert edition['report_date']=='2026-10-22' and edition['data_as_of']=='2026-10-21'
+    assert edition['stocks']==source['stocks'] and source['report_date']=='2026-10-21'
+    with pytest.raises(ValueError):morning_edition(source,'2026-10-21')

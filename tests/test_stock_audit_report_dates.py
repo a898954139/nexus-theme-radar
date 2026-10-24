@@ -3,7 +3,6 @@ from __future__ import annotations
 
 from copy import deepcopy
 from datetime import date
-import hashlib
 import importlib.util
 import json
 from pathlib import Path
@@ -25,10 +24,6 @@ def renderer():
 
 def source():
     return json.loads((ROOT / "reports/stock-audit-2026-10-21.json").read_text())
-
-
-def canonical_hash(value):
-    return hashlib.sha256(json.dumps(value, ensure_ascii=False, sort_keys=True, separators=(",", ":")).encode()).hexdigest()
 
 
 def calendar_candles():
@@ -73,41 +68,22 @@ def calendar_completion():
     }
 
 
-def report_2022():
+def morning_report_2022():
     data = deepcopy(source())
-
-    def shift(value):
-        if isinstance(value, dict):
-            return {key: shift(item) for key, item in value.items()}
-        if isinstance(value, list):
-            return [shift(item) for item in value]
-        if isinstance(value, str):
-            return value.replace("2026-10-21", "2026-10-22").replace("2026-10-22T06:00:00+08:00", "2026-10-23T06:00:00+08:00")
-        return value
-
-    data = shift(data)
     data["report_date"] = "2026-10-22"
-    data["forecast_cutoff"] = "2026-10-23T06:00:00+08:00"
-    data["retrieved_at"] = "2026-10-24T10:55:00+08:00"
-    for reference in data["market"]["references"]:
-        reference["as_of"] = "2026-10-23T05:00:00+08:00" if reference["label"] == "台指期夜盤" else "2026-10-23T04:00:00+08:00"
-    data["market"].update({
-        "next_session_date": "2026-10-27",
-        "calendar_notice": "10/23 颱風休市、10/26 補假；下一預定交易日 10/27。",
-        "calendar_source": ["https://www.twse.com.tw/holidaySchedule/holidaySchedule?response=json&queryYear=115"],
-        "night_contract": "TX202611",
-        "spot_as_of": "2026-10-22T13:30:00+08:00",
-        "economic_events": [{
-            "name": "FOMC meeting",
-            "dates": ["2026-10-27", "2026-10-28"],
-            "source": "https://www.federalreserve.gov/monetarypolicy/fomccalendars.htm",
-        }],
-    })
+    data["data_as_of"] = "2026-10-21"
+    data["forecast_cutoff"] = "2026-10-22T06:00:00+08:00"
+    data["research_status"] = "reviewed"
+    data["market"]["economic_events"] = [{
+        "name": "FOMC meeting",
+        "dates": ["2026-10-27", "2026-10-28"],
+        "source": "https://www.federalreserve.gov/monetarypolicy/fomccalendars.htm",
+    }]
     for stock in data["stocks"]:
-        analysis = stock["technical_analysis"]
-        analysis["candle_sha256"] = canonical_hash(stock["technical_candles"])
-        analysis["canonical_review"]["candle_sha256"] = analysis["candle_sha256"]
-        stock["research"]["morning_brief"]["candle_sha256"] = analysis["candle_sha256"]
+        # Explicit morning mode keeps every technical/financial fact at the
+        # prior TWSE session; only publication metadata advances to 10/22.
+        assert stock["candles"][-1]["date"] == "2026-10-21"
+        assert stock["technical_candles"][-1]["date"] == "2026-10-21"
     return data
 
 
@@ -117,18 +93,18 @@ def test_report_date_21_fallback_is_byte_identical():
     assert module.render(source()) == expected
 
 
-def test_report_date_22_uses_dynamic_clocks_titles_financial_labels_and_calendar_notice():
+def test_morning_report_22_separates_publication_and_market_data_dates():
     module = renderer()
-    html = module.render(report_2022())
+    html = module.render(morning_report_2022())
     assert "Stock Audit｜2026-10-22 台股投資決策卡" in html
-    assert "10/22 台股收盤" in html
-    assert "資料截止 2026-10-23 06:00（台北）" in html
-    assert "美股為 10/22 收盤＝10/23 04:00" in html
-    assert "台指期為 10/22 15:00–10/23 05:00 夜盤" in html
-    assert "10/23 颱風休市、10/26 補假；下一預定交易日 10/27" in html
-    assert "下一交易日：10/27；不將 10/23 視為正常開盤" in html
+    assert "10/21 台股收盤" in html
+    assert "10/22 交易情境" in html
+    assert "資料截止 2026-10-22 06:00（台北）" in html
+    assert "美股為 10/21 收盤＝10/22 04:00" in html
+    assert "台指期為 10/21 15:00–10/22 05:00 夜盤" in html
+    assert "10/23 颱風休市" not in html
+    assert "下一交易日：10/27" not in html
     assert "FOMC meeting（2026-10-27、2026-10-28）" in html
-    assert "holidaySchedule" in html
     assert "完整來源與研究快照" in html
     assert "stock-audit-2026-10-22.json" in html
     assert "9 月營收" in html and "2026 H1 EPS" in html and "H1 毛利率" in html
@@ -140,17 +116,17 @@ def test_us_close_conversion_is_dst_aware_and_night_session_is_next_calendar_day
     summer = module.expected_us_close("2026-03-09")
     assert winter.isoformat() == "2026-01-31T05:00:00+08:00"
     assert summer.isoformat() == "2026-03-10T04:00:00+08:00"
-    assert module.expected_night_close("2026-10-22").isoformat() == "2026-10-23T05:00:00+08:00"
-    assert module.expected_forecast_cutoff("2026-10-22").isoformat() == "2026-10-23T06:00:00+08:00"
+    assert module.expected_night_close("2026-10-21").isoformat() == "2026-10-22T05:00:00+08:00"
+    assert module.expected_forecast_cutoff("2026-10-21").isoformat() == "2026-10-22T06:00:00+08:00"
 
 
 def test_wrong_report_date_or_cutoff_is_rejected():
     module = renderer()
-    wrong = report_2022()
+    wrong = morning_report_2022()
     wrong["report_date"] = "2026-02-31"
     with pytest.raises(ValueError):
         module.render(wrong)
-    wrong = report_2022()
+    wrong = morning_report_2022()
     wrong["forecast_cutoff"] = "2026-10-24T06:00:00+08:00"
     with pytest.raises(ValueError, match="forecast_cutoff"):
         module.render(wrong)
@@ -158,17 +134,57 @@ def test_wrong_report_date_or_cutoff_is_rejected():
 
 def test_future_financial_period_is_rejected_but_dynamic_past_period_is_allowed():
     module = renderer()
-    future = report_2022()
+    future = morning_report_2022()
     for stock in future["stocks"]:
         stock["financial"]["eps_period"] = "2027H1"
         stock["financial"]["gross_margin_period"] = "2027H1"
     with pytest.raises(ValueError, match="At least 3 complete"):
         module.render(future)
-    dynamic = report_2022()
+    dynamic = morning_report_2022()
     for stock in dynamic["stocks"]:
         stock["financial"]["eps_period"] = "2026Q3"
         stock["financial"]["gross_margin_period"] = "2026Q3"
     assert "2026 Q3 EPS" in module.render(dynamic)
+
+
+def test_morning_rejects_future_candles_or_market_clocks():
+    module = renderer()
+    future_candle = morning_report_2022()
+    for stock in future_candle["stocks"]:
+        stock["candles"][-1]["date"] = "2026-10-22"
+    with pytest.raises(ValueError, match="At least 3 complete"):
+        module.render(future_candle)
+
+    future_market = morning_report_2022()
+    for reference in future_market["market"]["references"]:
+        reference["as_of"] = (
+            "2026-10-23T05:00:00+08:00"
+            if reference["label"] == "台指期夜盤"
+            else "2026-10-23T04:00:00+08:00"
+        )
+    with pytest.raises(ValueError, match="market"):
+        module.render(future_market)
+
+
+def test_explicit_morning_scope_requires_prior_data_day():
+    module = renderer()
+    invalid = morning_report_2022()
+    invalid["data_as_of"] = "2026-10-22"
+    with pytest.raises(ValueError, match="data_as_of"):
+        module.render(invalid)
+
+
+def test_morning_scope_allows_prior_trading_session_after_weekend():
+    module = renderer()
+    data = morning_report_2022()
+    data["report_date"] = "2026-10-26"
+    data["data_as_of"] = "2026-10-23"
+    data["forecast_cutoff"] = "2026-10-26T06:00:00+08:00"
+    publication, data_day, cutoff, explicit = module.validate_report_scope(data)
+    assert publication.isoformat() == "2026-10-26"
+    assert data_day.isoformat() == "2026-10-23"
+    assert cutoff.isoformat() == "2026-10-26T06:00:00+08:00"
+    assert explicit is True
 
 
 def test_week_completion_baseline_and_calendar_closed_week():
@@ -210,8 +226,35 @@ def test_week_completion_rejects_future_announcement_and_missing_closed_weekday(
 
 def test_calendar_notice_is_text_not_executable_markup():
     from bs4 import BeautifulSoup
-    module=renderer();data=report_2022()
+    module=renderer();data=source()
     data['market']['calendar_notice']='<img src=x onerror=alert(1)>'
+    data['market']['next_session_date'] = '2026-10-22'
+    data['market']['calendar_source'] = ['https://www.twse.com.tw/holidaySchedule/holidaySchedule?response=json&queryYear=115']
     soup=BeautifulSoup(module.render(data),'html.parser')
     assert not soup.select('#market img')
     assert '<img src=x onerror=alert(1)>' in soup.select_one('#market').get_text()
+
+
+def test_morning_rejects_post_cutoff_calendar_metadata():
+    module=renderer();data=morning_report_2022()
+    data['market']['calendar_notice']='10/23 休市'
+    data['market']['next_session_date'] = '2026-10-27'
+    data['market']['calendar_source'] = ['https://www.twse.com.tw/holidaySchedule/holidaySchedule?response=json&queryYear=115']
+    with pytest.raises(ValueError, match='calendar'):
+        module.render(data)
+
+
+def test_calendar_known_before_cutoff_allowed_but_later_notice_rejected():
+    module=renderer();data=morning_report_2022()
+    data['market'].update(calendar_notice='已知日曆提醒',next_session_date='2026-10-23',
+        calendar_source=['https://www.twse.com.tw/holidaySchedule/holidaySchedule'],
+        calendar_known_at='2026-10-21T20:00:00+08:00')
+    assert '已知日曆提醒' in module.render(data)
+    data['market']['calendar_known_at']='2026-10-22T20:10:00+08:00'
+    with pytest.raises(ValueError,match='calendar'):module.render(data)
+
+
+def test_asynchronous_latest_us_session_is_not_silently_replaced_by_old_quotes():
+    module=renderer();data=morning_report_2022()
+    data['market']['us_session_date']='2026-10-22'
+    with pytest.raises(ValueError,match='Asynchronous'):module.render(data)

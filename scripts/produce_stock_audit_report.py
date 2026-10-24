@@ -10,7 +10,7 @@ import sys
 from bs4 import BeautifulSoup
 
 sys.path.insert(0,str(Path(__file__).resolve().parent))
-from render_stock_audit import complete_stock, render
+from render_stock_audit import complete_stock, render, validate_report_scope
 
 
 def format_signature(html):
@@ -29,7 +29,7 @@ def format_signature(html):
             'analysis_closed':all(not el.has_attr('open') for el in card.select('details.analysis')),
         })
     return {
-        'sections':[(s.get('id'),s.find('h2').get_text(' ',strip=True)) for s in soup.select('main > section')],
+        'sections':[(s.get('id'),'market-outlook' if s.get('id')=='market' and s.find('h2').get_text(' ',strip=True) in {'明日市場預測','今日市場展望'} else s.find('h2').get_text(' ',strip=True)) for s in soup.select('main > section')],
         'styles':[l.get('href') for l in soup.select('link[rel="stylesheet"]')],
         'cards':cards,
     }
@@ -45,9 +45,15 @@ def same_format(baseline,candidate):
 def produce(data,baseline,output_dir):
     if data.get('research_status')!='reviewed':
         raise ValueError('Only fully reviewed research can be produced')
-    day=data['report_date']
-    if not 3<=len(data['stocks'])<=5 or not all(complete_stock(s,day,data.get('forecast_cutoff')) for s in data['stocks']):
+    if 'data_as_of' not in data:
+        raise ValueError('New dated production requires explicit data_as_of')
+    publication_day, data_day, cutoff, _ = validate_report_scope(data)
+    day=publication_day.isoformat()
+    data_day_iso=data_day.isoformat()
+    if not 3<=len(data['stocks'])<=5 or not all(complete_stock(s,data_day_iso,cutoff.isoformat()) for s in data['stocks']):
         raise ValueError('Every selected stock must be complete; no silent exclusion')
+    if any(key not in data['market'] for key in ('us_session_date','night_session_date')):
+        raise ValueError('Explicit per-market session dates required; verify latest completed sessions before production')
     if 'economic_events' not in data['market'] or not isinstance(data['market']['economic_events'],list):
         raise ValueError('Explicit current economic_events review required')
     data=dict(data,source_json_filename=f'stock-audit-{day}.json')

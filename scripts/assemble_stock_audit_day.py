@@ -16,9 +16,9 @@ from pathlib import Path
 import sys
 
 try:
-    from scripts.render_stock_audit import complete_stock, metrics, validate_market
+    from scripts.render_stock_audit import complete_stock, metrics, validate_market, validate_report_scope
 except ModuleNotFoundError:
-    from render_stock_audit import complete_stock, metrics, validate_market
+    from render_stock_audit import complete_stock, metrics, validate_market, validate_report_scope
 
 
 def _load(path: Path):
@@ -252,6 +252,16 @@ def assemble(computed: dict, review: dict, market: dict, baseline: dict | None =
     return result
 
 
+def morning_edition(data, report_date):
+    """Attach an edition without changing any observed/reviewed source dates."""
+    result=deepcopy(data)
+    result['data_as_of']=data.get('data_as_of',data['report_date'])
+    result['report_date']=report_date
+    result['source_json_filename']=f'stock-audit-{report_date}.json'
+    validate_report_scope(result)
+    return result
+
+
 def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--computed', type=Path, required=True)
@@ -259,6 +269,7 @@ def main(argv=None):
     parser.add_argument('--market', type=Path, required=True)
     parser.add_argument('--baseline', type=Path, required=True)
     parser.add_argument('--financial-review', type=Path, required=True)
+    parser.add_argument('--report-date', help='Morning publication date; source review dates stay unchanged')
     parser.add_argument('--output', type=Path, required=True)
     args = parser.parse_args(argv)
     review = _load(args.review)
@@ -266,6 +277,8 @@ def main(argv=None):
         if review.get(field) != hashlib.sha256(path.read_bytes()).hexdigest():
             raise ValueError(f'Review {field} does not match the supplied evidence file')
     result = assemble(_load(args.computed), review, _load(args.market), _load(args.baseline), _load(args.financial_review))
+    if args.report_date:
+        result=morning_edition(result,args.report_date)
     args.output.parent.mkdir(parents=True, exist_ok=True)
     temp = args.output.with_suffix('.tmp')
     temp.write_text(json.dumps(result, ensure_ascii=False, indent=2, allow_nan=False) + '\n', encoding='utf-8')

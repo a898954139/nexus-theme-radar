@@ -45,7 +45,7 @@ def read_month(symbol,endpoint,month,cache,receipts):
 
 
 def prepare(baseline,target,cache):
-    target=date.fromisoformat(target);old=date.fromisoformat(baseline['report_date'])
+    target=date.fromisoformat(target);old=date.fromisoformat(baseline.get('data_as_of',baseline['report_date']))
     if target<old:
         raise ValueError('Baseline must not be later than the requested day')
     result=deepcopy(baseline);receipts=[];exclusions=[]
@@ -99,8 +99,12 @@ def prepare(baseline,target,cache):
         stock['report_date']=target.isoformat()
         stock.pop('technical_analysis',None)
         stock.pop('research',None)
+        stock.pop('financial_review',None)
         stock['research_required']=True
     result['report_date']=target.isoformat()
+    result.pop('data_as_of',None)  # Prepared research uses the observed session, not an inherited edition.
+    result.pop('source_json_filename',None)
+    result.pop('review_provenance',None)
     result['forecast_cutoff']=datetime.combine(target+timedelta(days=1),datetime.min.time(),ZoneInfo('Asia/Taipei')).replace(hour=6).isoformat()
     result['retrieved_at']=datetime.now(ZoneInfo('Asia/Taipei')).isoformat()
     result['research_status']='inputs_only'
