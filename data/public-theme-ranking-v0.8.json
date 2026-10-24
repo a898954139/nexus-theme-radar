@@ -2,14 +2,14 @@
   "schema_version": "nexus_public_theme_ranking.v0.8",
   "ranking_rule_version": "public_theme_heat_v0.8",
   "company_rule_version": "public_company_evidence_v0.8",
-  "generated_at": "2026-10-24T12:42:22.331608Z",
+  "generated_at": "2026-10-24T16:36:38.369114Z",
   "market_id": "TW_EQUITY",
   "market_scope": [
     "TW_EQUITY"
   ],
   "window_hours": 72,
   "max_themes": 5,
-  "qualified_theme_count": 11,
+  "qualified_theme_count": 9,
   "displayed_theme_count": 5,
   "threshold_note": null,
   "generation_status": "complete",
@@ -18,6 +18,218 @@
   "themes": [
     {
       "rank": 1,
+      "theme_id": "robotics",
+      "name_zh": "機器人",
+      "heat_score": 86,
+      "summaries": {
+        "event_count": 11,
+        "source_count": 3,
+        "tracking_candidate_count": 6,
+        "taiwan_mapping_count": 28
+      },
+      "heat_reason": {
+        "rule_version": "public_theme_heat_v0.8",
+        "event_component": {
+          "input": 11,
+          "normalized": 100.0,
+          "weighted": 25.0
+        },
+        "source_component": {
+          "input": 3,
+          "normalized": 75.0,
+          "weighted": 18.75
+        },
+        "candidate_component": {
+          "input": 6,
+          "normalized": 100.0,
+          "weighted": 20.0
+        },
+        "mapping_component": {
+          "mapping_count": 28,
+          "direct_mapping_event_count": 4,
+          "normalized": 100.0,
+          "weighted": 30.0
+        },
+        "single_source_concentration": 0.818,
+        "concentration_penalty": 8.182,
+        "raw_score": 85.568
+      },
+      "direct_mentions": [
+        {
+          "instrument_id": "TWSE:2030",
+          "symbol": "2030",
+          "exchange": "TWSE",
+          "name_zh": "彰源",
+          "direct_event_count": 3,
+          "latest_mentioned_at": "2026-10-24T13:41:28Z"
+        },
+        {
+          "instrument_id": "TWSE:2028",
+          "symbol": "2028",
+          "exchange": "TWSE",
+          "name_zh": "威致",
+          "direct_event_count": 1,
+          "latest_mentioned_at": "2026-10-23T23:50:02Z"
+        },
+        {
+          "instrument_id": "TWSE:2025",
+          "symbol": "2025",
+          "exchange": "TWSE",
+          "name_zh": "千興",
+          "direct_event_count": 1,
+          "latest_mentioned_at": "2026-10-23T13:00:00Z"
+        }
+      ],
+      "supply_chain_candidates": [
+        {
+          "instrument_id": "TPEX:3379",
+          "symbol": "3379",
+          "exchange": "TPEX",
+          "name_zh": "彬台",
+          "direct_event_count": 0,
+          "official_evidence_count": 0,
+          "company_rank_score": 1,
+          "latest_mentioned_at": null,
+          "latest_official_at": null
+        },
+        {
+          "instrument_id": "TPEX:3577",
+          "symbol": "3577",
+          "exchange": "TPEX",
+          "name_zh": "泓格",
+          "direct_event_count": 0,
+          "official_evidence_count": 0,
+          "company_rank_score": 1,
+          "latest_mentioned_at": null,
+          "latest_official_at": null
+        },
+        {
+          "instrument_id": "TPEX:5289",
+          "symbol": "5289",
+          "exchange": "TPEX",
+          "name_zh": "宜鼎",
+          "direct_event_count": 0,
+          "official_evidence_count": 0,
+          "company_rank_score": 1,
+          "latest_mentioned_at": null,
+          "latest_official_at": null
+        }
+      ],
+      "representative_news": {
+        "cluster_id": "cluster-61ba7557e903053c",
+        "id": "digitimes_tw-a8545674f302",
+        "title_zh": "傳李在鎔10月底視察三星RX事業室　緊盯人形機器人CES備戰進度",
+        "summary": "三星電子（Samsung Electronics）會長李在鎔，傳最快將於10月底前往位於首爾牛眠洞的RX（Robotics eXperience）事業推進室，檢視人形機器人研發成果及CES",
+        "source_id": "digitimes_tw",
+        "source": "DIGITIMES",
+        "published_at": "2026-10-22T18:41:46Z",
+        "canonical_url": "https://www.digitimes.com.tw/tech/dt/n/shwnws.asp?id=0000772406_5W75MKPXL47GYP7STLNKY"
+      }
+    },
+    {
+      "rank": 2,
+      "theme_id": "defense_drone",
+      "name_zh": "國防與無人機",
+      "heat_score": 85,
+      "summaries": {
+        "event_count": 6,
+        "source_count": 4,
+        "tracking_candidate_count": 1,
+        "taiwan_mapping_count": 4
+      },
+      "heat_reason": {
+        "rule_version": "public_theme_heat_v0.8",
+        "event_component": {
+          "input": 6,
+          "normalized": 100.0,
+          "weighted": 25.0
+        },
+        "source_component": {
+          "input": 4,
+          "normalized": 100.0,
+          "weighted": 25.0
+        },
+        "candidate_component": {
+          "input": 1,
+          "normalized": 25.0,
+          "weighted": 5.0
+        },
+        "mapping_component": {
+          "mapping_count": 4,
+          "direct_mapping_event_count": 2,
+          "normalized": 100.0,
+          "weighted": 30.0
+        },
+        "single_source_concentration": 0.5,
+        "concentration_penalty": 0.0,
+        "raw_score": 85.0
+      },
+      "direct_mentions": [
+        {
+          "instrument_id": "TWSE:2025",
+          "symbol": "2025",
+          "exchange": "TWSE",
+          "name_zh": "千興",
+          "direct_event_count": 1,
+          "latest_mentioned_at": "2026-10-23T15:00:00Z"
+        },
+        {
+          "instrument_id": "TWSE:8033",
+          "symbol": "8033",
+          "exchange": "TWSE",
+          "name_zh": "雷虎",
+          "direct_event_count": 1,
+          "latest_mentioned_at": "2026-10-23T08:31:20Z"
+        }
+      ],
+      "supply_chain_candidates": [
+        {
+          "instrument_id": "TWSE:8033",
+          "symbol": "8033",
+          "exchange": "TWSE",
+          "name_zh": "雷虎",
+          "direct_event_count": 1,
+          "official_evidence_count": 0,
+          "company_rank_score": 5,
+          "latest_mentioned_at": "2026-10-23T08:31:20Z",
+          "latest_official_at": null
+        },
+        {
+          "instrument_id": "TPEX:5371",
+          "symbol": "5371",
+          "exchange": "TPEX",
+          "name_zh": "中光電",
+          "direct_event_count": 0,
+          "official_evidence_count": 0,
+          "company_rank_score": 1,
+          "latest_mentioned_at": null,
+          "latest_official_at": null
+        },
+        {
+          "instrument_id": "TWSE:2634",
+          "symbol": "2634",
+          "exchange": "TWSE",
+          "name_zh": "漢翔",
+          "direct_event_count": 0,
+          "official_evidence_count": 0,
+          "company_rank_score": 1,
+          "latest_mentioned_at": null,
+          "latest_official_at": null
+        }
+      ],
+      "representative_news": {
+        "cluster_id": "cluster-c1c2e322d8c32fe2",
+        "id": "digitimes_tw-7afa04371e51",
+        "title_zh": "《新聞聚焦》鐵三角無人機首度赴美亮相　雷虎如何拓展國際市場？",
+        "summary": "近期，雷虎赴美參加陸軍協會年度大展（AUSA 2026），今年首度發表的鐵三角PAPADELTA鋁沖壓三角翼無人機，也在展會中首度亮相，成為此次參展的亮點之一。隨著台廠積極搶攻美國國防商機，雷虎此次參展的動",
+        "source_id": "digitimes_tw",
+        "source": "DIGITIMES",
+        "published_at": "2026-10-23T08:31:20Z",
+        "canonical_url": "https://www.digitimes.com.tw/tech/dt/n/shwnws.asp?id=0000772514_PB54XG9X24NN4U3WXDZ2U"
+      }
+    },
+    {
+      "rank": 3,
       "theme_id": "memory_hbm",
       "name_zh": "記憶體與 HBM",
       "heat_score": 85,
@@ -127,157 +339,7 @@
       }
     },
     {
-      "rank": 2,
-      "theme_id": "statementdog_tag_1517",
-      "name_zh": "AI",
-      "heat_score": 80,
-      "summaries": {
-        "event_count": 21,
-        "source_count": 4,
-        "tracking_candidate_count": 0,
-        "taiwan_mapping_count": 92
-      },
-      "heat_reason": {
-        "rule_version": "public_theme_heat_v0.8",
-        "event_component": {
-          "input": 21,
-          "normalized": 100.0,
-          "weighted": 25.0
-        },
-        "source_component": {
-          "input": 4,
-          "normalized": 100.0,
-          "weighted": 25.0
-        },
-        "candidate_component": {
-          "input": 0,
-          "normalized": 0.0,
-          "weighted": 0.0
-        },
-        "mapping_component": {
-          "mapping_count": 92,
-          "direct_mapping_event_count": 8,
-          "normalized": 100.0,
-          "weighted": 30.0
-        },
-        "single_source_concentration": 0.571,
-        "concentration_penalty": 0.0,
-        "raw_score": 80.0
-      },
-      "direct_mentions": [
-        {
-          "instrument_id": "TWSE:2023",
-          "symbol": "2023",
-          "exchange": "TWSE",
-          "name_zh": "燁輝",
-          "direct_event_count": 2,
-          "latest_mentioned_at": "2026-10-24T06:10:02Z"
-        },
-        {
-          "instrument_id": "TWSE:2031",
-          "symbol": "2031",
-          "exchange": "TWSE",
-          "name_zh": "新光鋼",
-          "direct_event_count": 2,
-          "latest_mentioned_at": "2026-10-23T23:36:27Z"
-        },
-        {
-          "instrument_id": "TWSE:2471",
-          "symbol": "2471",
-          "exchange": "TWSE",
-          "name_zh": "資通",
-          "direct_event_count": 1,
-          "latest_mentioned_at": "2026-10-24T10:01:03Z"
-        },
-        {
-          "instrument_id": "TWSE:2032",
-          "symbol": "2032",
-          "exchange": "TWSE",
-          "name_zh": "新鋼",
-          "direct_event_count": 1,
-          "latest_mentioned_at": "2026-10-23T23:36:27Z"
-        },
-        {
-          "instrument_id": "TWSE:2025",
-          "symbol": "2025",
-          "exchange": "TWSE",
-          "name_zh": "千興",
-          "direct_event_count": 1,
-          "latest_mentioned_at": "2026-10-23T07:30:42Z"
-        },
-        {
-          "instrument_id": "TWSE:2027",
-          "symbol": "2027",
-          "exchange": "TWSE",
-          "name_zh": "大成鋼",
-          "direct_event_count": 1,
-          "latest_mentioned_at": "2026-10-23T03:21:44Z"
-        },
-        {
-          "instrument_id": "TWSE:2382",
-          "symbol": "2382",
-          "exchange": "TWSE",
-          "name_zh": "廣達",
-          "direct_event_count": 1,
-          "latest_mentioned_at": "2026-10-22T18:13:21Z"
-        },
-        {
-          "instrument_id": "TWSE:6669",
-          "symbol": "6669",
-          "exchange": "TWSE",
-          "name_zh": "緯穎",
-          "direct_event_count": 1,
-          "latest_mentioned_at": "2026-10-22T18:13:21Z"
-        }
-      ],
-      "supply_chain_candidates": [
-        {
-          "instrument_id": "TWSE:2382",
-          "symbol": "2382",
-          "exchange": "TWSE",
-          "name_zh": "廣達",
-          "direct_event_count": 1,
-          "official_evidence_count": 0,
-          "company_rank_score": 5,
-          "latest_mentioned_at": "2026-10-22T18:13:21Z",
-          "latest_official_at": null
-        },
-        {
-          "instrument_id": "TWSE:6669",
-          "symbol": "6669",
-          "exchange": "TWSE",
-          "name_zh": "緯穎",
-          "direct_event_count": 1,
-          "official_evidence_count": 0,
-          "company_rank_score": 5,
-          "latest_mentioned_at": "2026-10-22T18:13:21Z",
-          "latest_official_at": null
-        },
-        {
-          "instrument_id": "TPEX:3081",
-          "symbol": "3081",
-          "exchange": "TPEX",
-          "name_zh": "聯亞",
-          "direct_event_count": 0,
-          "official_evidence_count": 0,
-          "company_rank_score": 1,
-          "latest_mentioned_at": null,
-          "latest_official_at": null
-        }
-      ],
-      "representative_news": {
-        "cluster_id": "cluster-67d819f69c6cb582",
-        "id": "yahoo_finance_tw-58d73693dfbb",
-        "title_zh": "美國各州AI法律趨嚴 心理學家憂專業工具受限",
-        "summary": "商傳媒｜林昭衡／綜合外電報導在美國聯邦政府尚未推出全面性健康照護人工智慧（AI）法規的背景下，各州正積極推動相關立法，目的在於預防 AI 工具可能帶來的危害，例如聊天機器人鼓勵使用者自殘或自殺。然而，",
-        "source_id": "yahoo_finance_tw",
-        "source": "Yahoo Finance Taiwan",
-        "published_at": "2026-10-24T10:51:44Z",
-        "canonical_url": "https://tw.stock.yahoo.com/news/%E7%BE%8E%E5%9C%8B%E5%90%84%E5%B7%9Eai%E6%B3%95%E5%BE%8B%E8%B6%A8%E5%9A%B4-%E5%BF%83%E7%90%86%E5%AD%B8%E5%AE%B6%E6%86%82%E5%B0%88%E6%A5%AD%E5%B7%A5%E5%85%B7%E5%8F%97%E9%99%90-105144492.html"
-      }
-    },
-    {
-      "rank": 3,
+      "rank": 4,
       "theme_id": "statementdog_tag_4082",
       "name_zh": "iPhone",
       "heat_score": 80,
@@ -349,199 +411,121 @@
       }
     },
     {
-      "rank": 4,
-      "theme_id": "robotics",
-      "name_zh": "機器人",
-      "heat_score": 76,
+      "rank": 5,
+      "theme_id": "statementdog_tag_1517",
+      "name_zh": "AI",
+      "heat_score": 79,
       "summaries": {
-        "event_count": 10,
-        "source_count": 2,
-        "tracking_candidate_count": 5,
-        "taiwan_mapping_count": 28
+        "event_count": 19,
+        "source_count": 4,
+        "tracking_candidate_count": 0,
+        "taiwan_mapping_count": 90
       },
       "heat_reason": {
         "rule_version": "public_theme_heat_v0.8",
         "event_component": {
-          "input": 10,
+          "input": 19,
           "normalized": 100.0,
           "weighted": 25.0
         },
         "source_component": {
-          "input": 2,
-          "normalized": 50.0,
-          "weighted": 12.5
+          "input": 4,
+          "normalized": 100.0,
+          "weighted": 25.0
         },
         "candidate_component": {
-          "input": 5,
-          "normalized": 100.0,
-          "weighted": 20.0
+          "input": 0,
+          "normalized": 0.0,
+          "weighted": 0.0
         },
         "mapping_component": {
-          "mapping_count": 28,
-          "direct_mapping_event_count": 3,
+          "mapping_count": 90,
+          "direct_mapping_event_count": 6,
           "normalized": 100.0,
           "weighted": 30.0
         },
-        "single_source_concentration": 0.9,
-        "concentration_penalty": 11.25,
-        "raw_score": 76.25
+        "single_source_concentration": 0.632,
+        "concentration_penalty": 1.184,
+        "raw_score": 78.816
       },
       "direct_mentions": [
         {
-          "instrument_id": "TWSE:2030",
-          "symbol": "2030",
+          "instrument_id": "TWSE:2023",
+          "symbol": "2023",
           "exchange": "TWSE",
-          "name_zh": "彰源",
+          "name_zh": "燁輝",
           "direct_event_count": 2,
-          "latest_mentioned_at": "2026-10-23T23:50:02Z"
+          "latest_mentioned_at": "2026-10-24T06:10:02Z"
         },
         {
-          "instrument_id": "TWSE:2028",
-          "symbol": "2028",
+          "instrument_id": "TWSE:2031",
+          "symbol": "2031",
           "exchange": "TWSE",
-          "name_zh": "威致",
-          "direct_event_count": 1,
-          "latest_mentioned_at": "2026-10-23T23:50:02Z"
+          "name_zh": "新光鋼",
+          "direct_event_count": 2,
+          "latest_mentioned_at": "2026-10-23T23:36:27Z"
         },
         {
-          "instrument_id": "TWSE:2025",
-          "symbol": "2025",
+          "instrument_id": "TWSE:2032",
+          "symbol": "2032",
           "exchange": "TWSE",
-          "name_zh": "千興",
+          "name_zh": "新鋼",
           "direct_event_count": 1,
-          "latest_mentioned_at": "2026-10-23T13:00:00Z"
+          "latest_mentioned_at": "2026-10-23T23:36:27Z"
+        },
+        {
+          "instrument_id": "TWSE:2027",
+          "symbol": "2027",
+          "exchange": "TWSE",
+          "name_zh": "大成鋼",
+          "direct_event_count": 1,
+          "latest_mentioned_at": "2026-10-23T03:21:44Z"
+        },
+        {
+          "instrument_id": "TWSE:2382",
+          "symbol": "2382",
+          "exchange": "TWSE",
+          "name_zh": "廣達",
+          "direct_event_count": 1,
+          "latest_mentioned_at": "2026-10-22T18:13:21Z"
+        },
+        {
+          "instrument_id": "TWSE:6669",
+          "symbol": "6669",
+          "exchange": "TWSE",
+          "name_zh": "緯穎",
+          "direct_event_count": 1,
+          "latest_mentioned_at": "2026-10-22T18:13:21Z"
         }
       ],
       "supply_chain_candidates": [
         {
-          "instrument_id": "TPEX:3379",
-          "symbol": "3379",
-          "exchange": "TPEX",
-          "name_zh": "彬台",
-          "direct_event_count": 0,
-          "official_evidence_count": 0,
-          "company_rank_score": 1,
-          "latest_mentioned_at": null,
-          "latest_official_at": null
-        },
-        {
-          "instrument_id": "TPEX:3577",
-          "symbol": "3577",
-          "exchange": "TPEX",
-          "name_zh": "泓格",
-          "direct_event_count": 0,
-          "official_evidence_count": 0,
-          "company_rank_score": 1,
-          "latest_mentioned_at": null,
-          "latest_official_at": null
-        },
-        {
-          "instrument_id": "TPEX:5289",
-          "symbol": "5289",
-          "exchange": "TPEX",
-          "name_zh": "宜鼎",
-          "direct_event_count": 0,
-          "official_evidence_count": 0,
-          "company_rank_score": 1,
-          "latest_mentioned_at": null,
-          "latest_official_at": null
-        }
-      ],
-      "representative_news": {
-        "cluster_id": "cluster-61ba7557e903053c",
-        "id": "digitimes_tw-a8545674f302",
-        "title_zh": "傳李在鎔10月底視察三星RX事業室　緊盯人形機器人CES備戰進度",
-        "summary": "三星電子（Samsung Electronics）會長李在鎔，傳最快將於10月底前往位於首爾牛眠洞的RX（Robotics eXperience）事業推進室，檢視人形機器人研發成果及CES",
-        "source_id": "digitimes_tw",
-        "source": "DIGITIMES",
-        "published_at": "2026-10-22T18:41:46Z",
-        "canonical_url": "https://www.digitimes.com.tw/tech/dt/n/shwnws.asp?id=0000772406_5W75MKPXL47GYP7STLNKY"
-      }
-    },
-    {
-      "rank": 5,
-      "theme_id": "defense_drone",
-      "name_zh": "國防與無人機",
-      "heat_score": 75,
-      "summaries": {
-        "event_count": 5,
-        "source_count": 3,
-        "tracking_candidate_count": 1,
-        "taiwan_mapping_count": 4
-      },
-      "heat_reason": {
-        "rule_version": "public_theme_heat_v0.8",
-        "event_component": {
-          "input": 5,
-          "normalized": 83.333,
-          "weighted": 20.833
-        },
-        "source_component": {
-          "input": 3,
-          "normalized": 75.0,
-          "weighted": 18.75
-        },
-        "candidate_component": {
-          "input": 1,
-          "normalized": 25.0,
-          "weighted": 5.0
-        },
-        "mapping_component": {
-          "mapping_count": 4,
-          "direct_mapping_event_count": 2,
-          "normalized": 100.0,
-          "weighted": 30.0
-        },
-        "single_source_concentration": 0.6,
-        "concentration_penalty": 0.0,
-        "raw_score": 74.583
-      },
-      "direct_mentions": [
-        {
-          "instrument_id": "TWSE:2025",
-          "symbol": "2025",
+          "instrument_id": "TWSE:2382",
+          "symbol": "2382",
           "exchange": "TWSE",
-          "name_zh": "千興",
-          "direct_event_count": 1,
-          "latest_mentioned_at": "2026-10-23T15:00:00Z"
-        },
-        {
-          "instrument_id": "TWSE:8033",
-          "symbol": "8033",
-          "exchange": "TWSE",
-          "name_zh": "雷虎",
-          "direct_event_count": 1,
-          "latest_mentioned_at": "2026-10-23T08:31:20Z"
-        }
-      ],
-      "supply_chain_candidates": [
-        {
-          "instrument_id": "TWSE:8033",
-          "symbol": "8033",
-          "exchange": "TWSE",
-          "name_zh": "雷虎",
+          "name_zh": "廣達",
           "direct_event_count": 1,
           "official_evidence_count": 0,
           "company_rank_score": 5,
-          "latest_mentioned_at": "2026-10-23T08:31:20Z",
+          "latest_mentioned_at": "2026-10-22T18:13:21Z",
           "latest_official_at": null
         },
         {
-          "instrument_id": "TPEX:5371",
-          "symbol": "5371",
-          "exchange": "TPEX",
-          "name_zh": "中光電",
-          "direct_event_count": 0,
-          "official_evidence_count": 0,
-          "company_rank_score": 1,
-          "latest_mentioned_at": null,
-          "latest_official_at": null
-        },
-        {
-          "instrument_id": "TWSE:2634",
-          "symbol": "2634",
+          "instrument_id": "TWSE:6669",
+          "symbol": "6669",
           "exchange": "TWSE",
-          "name_zh": "漢翔",
+          "name_zh": "緯穎",
+          "direct_event_count": 1,
+          "official_evidence_count": 0,
+          "company_rank_score": 5,
+          "latest_mentioned_at": "2026-10-22T18:13:21Z",
+          "latest_official_at": null
+        },
+        {
+          "instrument_id": "TPEX:3081",
+          "symbol": "3081",
+          "exchange": "TPEX",
+          "name_zh": "聯亞",
           "direct_event_count": 0,
           "official_evidence_count": 0,
           "company_rank_score": 1,
@@ -550,14 +534,14 @@
         }
       ],
       "representative_news": {
-        "cluster_id": "cluster-c1c2e322d8c32fe2",
-        "id": "digitimes_tw-7afa04371e51",
-        "title_zh": "《新聞聚焦》鐵三角無人機首度赴美亮相　雷虎如何拓展國際市場？",
-        "summary": "近期，雷虎赴美參加陸軍協會年度大展（AUSA 2026），今年首度發表的鐵三角PAPADELTA鋁沖壓三角翼無人機，也在展會中首度亮相，成為此次參展的亮點之一。隨著台廠積極搶攻美國國防商機，雷虎此次參展的動",
-        "source_id": "digitimes_tw",
-        "source": "DIGITIMES",
-        "published_at": "2026-10-23T08:31:20Z",
-        "canonical_url": "https://www.digitimes.com.tw/tech/dt/n/shwnws.asp?id=0000772514_PB54XG9X24NN4U3WXDZ2U"
+        "cluster_id": "cluster-5fae24dc28274b82",
+        "id": "yahoo_finance_tw-d528d307ef41",
+        "title_zh": "AI助理掀戰火，市場走向專業分化，超級App恐難出線",
+        "summary": "圖／示意圖商傳媒｜葉安庭／綜合外電報導人工智慧（AI）助理正從單純的聊天機器人，進化為能夠預約行程、協調旅遊等日常任務的實用工具。目前，Meta Platforms（簡稱 Meta）、OpenAI 以",
+        "source_id": "yahoo_finance_tw",
+        "source": "Yahoo Finance Taiwan",
+        "published_at": "2026-10-24T13:16:23Z",
+        "canonical_url": "https://tw.stock.yahoo.com/news/ai%E5%8A%A9%E7%90%86%E6%8E%80%E6%88%B0%E7%81%AB-%E5%B8%82%E5%A0%B4%E8%B5%B0%E5%90%91%E5%B0%88%E6%A5%AD%E5%88%86%E5%8C%96-%E8%B6%85%E7%B4%9Aapp%E6%81%90%E9%9B%A3%E5%87%BA%E7%B7%9A-131623097.html"
       }
     }
   ]
