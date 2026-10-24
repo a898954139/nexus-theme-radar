@@ -258,3 +258,8 @@ def test_asynchronous_latest_us_session_is_not_silently_replaced_by_old_quotes()
     module=renderer();data=morning_report_2022()
     data['market']['us_session_date']='2026-10-22'
     with pytest.raises(ValueError,match='Asynchronous'):module.render(data)
+
+
+def test_morning_lead_connects_all_prior_session_data_to_opening_analysis_day():
+    html=renderer().render(morning_report_2022())
+    assert '10/21 資料 → 10/22 台股開盤分析' in html

@@ -11,6 +11,10 @@ Use the existing Nexus Theme Radar pipeline, not a new page/template. Work from 
 
 This is the single maintained Stock Audit skill. Codex and Domina discovery links resolve to this repository folder. Revise this canonical skill and its existing pipeline; do not recreate the retired `stock-audit` skill or keep a second competing workflow.
 
+## Opening-analysis identity
+
+For this example, all observations from the10/21 market cycle serve the10/22 Taiwan opening analysis: Taiwan10/21 close, US10/21 close and TX10/21→22 night. Label the report by the intended Taiwan opening morning, never by the input stock date. Display “{data_as_of} 資料 → {report_date} 台股開盤分析” using month/day labels (this example: “10/21 資料 → 10/22 台股開盤分析”); do not imply this is a10/21 opening analysis.
+
 ## Workflow
 
 1. Confirm the requested **morning publication date** and candidate symbols. A 10/22 edition uses the preceding completed Taiwan stock session (10/21) plus its 10/21→10/22 overnight observations available by 10/22 06:00 Taipei. Store `report_date` (edition) separately from `data_as_of` (stock-session date); do not collect the publication day’s future close. Find the latest approved dated JSON/HTML as a baseline. Preserve its files; it is a format reference, not new-day research.

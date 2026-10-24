@@ -646,7 +646,7 @@ def render(data):
     if len(stocks) < 3 or len({s['symbol'] for s in stocks}) != len(stocks):
         raise ValueError('At least 3 complete, distinct stocks required; target not written')
     analysis = [s['research']['metrics'] for s in stocks]
-    lead = '先看價位，再看確認。'
+    lead = f'{display_date(data_day)} 資料 → {display_date(publication_day)} 台股開盤分析' if explicit_morning else '先看價位，再看確認。'
     execution_note = '條件價只供規劃；收盤、回踩與近端風險報酬確認後，才重新評估執行。'
     strategy = '；'.join(escape(s['name'])+' '+brief_price(s['research']['morning_brief']['entry_band']) for s in stocks)
     market = data['market']; refs = market['references']; night = refs[-1]
