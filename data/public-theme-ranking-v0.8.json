@@ -2,7 +2,7 @@
   "schema_version": "nexus_public_theme_ranking.v0.8",
   "ranking_rule_version": "public_theme_heat_v0.8",
   "company_rule_version": "public_company_evidence_v0.8",
-  "generated_at": "2026-10-24T01:37:00.568253Z",
+  "generated_at": "2026-10-24T07:19:46.205276Z",
   "market_id": "TW_EQUITY",
   "market_scope": [
     "TW_EQUITY"
@@ -18,26 +18,382 @@
   "themes": [
     {
       "rank": 1,
+      "theme_id": "memory_hbm",
+      "name_zh": "記憶體與 HBM",
+      "heat_score": 100,
+      "summaries": {
+        "event_count": 7,
+        "source_count": 4,
+        "tracking_candidate_count": 5,
+        "taiwan_mapping_count": 7
+      },
+      "heat_reason": {
+        "rule_version": "public_theme_heat_v0.8",
+        "event_component": {
+          "input": 7,
+          "normalized": 100.0,
+          "weighted": 25.0
+        },
+        "source_component": {
+          "input": 4,
+          "normalized": 100.0,
+          "weighted": 25.0
+        },
+        "candidate_component": {
+          "input": 5,
+          "normalized": 100.0,
+          "weighted": 20.0
+        },
+        "mapping_component": {
+          "mapping_count": 7,
+          "direct_mapping_event_count": 6,
+          "normalized": 100.0,
+          "weighted": 30.0
+        },
+        "single_source_concentration": 0.375,
+        "concentration_penalty": 0.0,
+        "raw_score": 100.0
+      },
+      "direct_mentions": [
+        {
+          "instrument_id": "TWSE:2028",
+          "symbol": "2028",
+          "exchange": "TWSE",
+          "name_zh": "威致",
+          "direct_event_count": 2,
+          "latest_mentioned_at": "2026-10-24T05:40:05Z"
+        },
+        {
+          "instrument_id": "TWSE:2029",
+          "symbol": "2029",
+          "exchange": "TWSE",
+          "name_zh": "盛餘",
+          "direct_event_count": 2,
+          "latest_mentioned_at": "2026-10-23T06:00:08Z"
+        },
+        {
+          "instrument_id": "TWSE:2330",
+          "symbol": "2330",
+          "exchange": "TWSE",
+          "name_zh": "台積電",
+          "direct_event_count": 2,
+          "latest_mentioned_at": "2026-10-23T03:10:49Z"
+        },
+        {
+          "instrument_id": "TWSE:2030",
+          "symbol": "2030",
+          "exchange": "TWSE",
+          "name_zh": "彰源",
+          "direct_event_count": 1,
+          "latest_mentioned_at": "2026-10-24T05:40:05Z"
+        }
+      ],
+      "supply_chain_candidates": [
+        {
+          "instrument_id": "TPEX:8299",
+          "symbol": "8299",
+          "exchange": "TPEX",
+          "name_zh": "群聯",
+          "direct_event_count": 0,
+          "official_evidence_count": 0,
+          "company_rank_score": 1,
+          "latest_mentioned_at": null,
+          "latest_official_at": null
+        },
+        {
+          "instrument_id": "TWSE:2344",
+          "symbol": "2344",
+          "exchange": "TWSE",
+          "name_zh": "華邦電",
+          "direct_event_count": 0,
+          "official_evidence_count": 0,
+          "company_rank_score": 1,
+          "latest_mentioned_at": null,
+          "latest_official_at": null
+        },
+        {
+          "instrument_id": "TWSE:2408",
+          "symbol": "2408",
+          "exchange": "TWSE",
+          "name_zh": "南亞科",
+          "direct_event_count": 0,
+          "official_evidence_count": 0,
+          "company_rank_score": 1,
+          "latest_mentioned_at": null,
+          "latest_official_at": null
+        }
+      ],
+      "representative_news": {
+        "cluster_id": "cluster-b27b9c15bd339538",
+        "id": "cnyes-8e18c87df501",
+        "title_zh": "美光下一代AI記憶體突破面臨散熱難題！vHBM瞄準2028年量產、頻寬升級成關鍵",
+        "summary": "美光開發vHBM，將DRAM垂直堆疊於處理器上方，目標提升AI推論頻寬與容量。&#10;美光規劃vHBM 2028年量產、2030年前推三代；vEIM第一代目標頻寬2TB/s，能耗低於1皮焦耳。&#10;vHBM雖有助AI記憶體效能，但散熱成主要難題，分析師估將與傳統HBM並行。",
+        "source_id": "cnyes",
+        "source": "鉅亨網 Cnyes",
+        "published_at": "2026-10-24T05:40:05Z",
+        "canonical_url": "https://news.cnyes.com/news/id/6637076"
+      }
+    },
+    {
+      "rank": 2,
+      "theme_id": "statementdog_tag_1517",
+      "name_zh": "AI",
+      "heat_score": 80,
+      "summaries": {
+        "event_count": 24,
+        "source_count": 4,
+        "tracking_candidate_count": 0,
+        "taiwan_mapping_count": 91
+      },
+      "heat_reason": {
+        "rule_version": "public_theme_heat_v0.8",
+        "event_component": {
+          "input": 24,
+          "normalized": 100.0,
+          "weighted": 25.0
+        },
+        "source_component": {
+          "input": 4,
+          "normalized": 100.0,
+          "weighted": 25.0
+        },
+        "candidate_component": {
+          "input": 0,
+          "normalized": 0.0,
+          "weighted": 0.0
+        },
+        "mapping_component": {
+          "mapping_count": 91,
+          "direct_mapping_event_count": 10,
+          "normalized": 100.0,
+          "weighted": 30.0
+        },
+        "single_source_concentration": 0.48,
+        "concentration_penalty": 0.0,
+        "raw_score": 80.0
+      },
+      "direct_mentions": [
+        {
+          "instrument_id": "TWSE:2023",
+          "symbol": "2023",
+          "exchange": "TWSE",
+          "name_zh": "燁輝",
+          "direct_event_count": 2,
+          "latest_mentioned_at": "2026-10-24T06:10:02Z"
+        },
+        {
+          "instrument_id": "TWSE:2031",
+          "symbol": "2031",
+          "exchange": "TWSE",
+          "name_zh": "新光鋼",
+          "direct_event_count": 2,
+          "latest_mentioned_at": "2026-10-23T23:36:27Z"
+        },
+        {
+          "instrument_id": "TWSE:2027",
+          "symbol": "2027",
+          "exchange": "TWSE",
+          "name_zh": "大成鋼",
+          "direct_event_count": 2,
+          "latest_mentioned_at": "2026-10-23T06:40:03Z"
+        },
+        {
+          "instrument_id": "TWSE:2330",
+          "symbol": "2330",
+          "exchange": "TWSE",
+          "name_zh": "台積電",
+          "direct_event_count": 1,
+          "latest_mentioned_at": "2026-10-24T06:38:25Z"
+        },
+        {
+          "instrument_id": "TWSE:2032",
+          "symbol": "2032",
+          "exchange": "TWSE",
+          "name_zh": "新鋼",
+          "direct_event_count": 1,
+          "latest_mentioned_at": "2026-10-23T23:36:27Z"
+        },
+        {
+          "instrument_id": "TWSE:2497",
+          "symbol": "2497",
+          "exchange": "TWSE",
+          "name_zh": "怡利電",
+          "direct_event_count": 1,
+          "latest_mentioned_at": "2026-10-23T08:37:55Z"
+        },
+        {
+          "instrument_id": "TWSE:2025",
+          "symbol": "2025",
+          "exchange": "TWSE",
+          "name_zh": "千興",
+          "direct_event_count": 1,
+          "latest_mentioned_at": "2026-10-23T07:30:42Z"
+        },
+        {
+          "instrument_id": "TPEX:2035",
+          "symbol": "2035",
+          "exchange": "TPEX",
+          "name_zh": "唐榮公司",
+          "direct_event_count": 1,
+          "latest_mentioned_at": "2026-10-23T06:40:03Z"
+        },
+        {
+          "instrument_id": "TWSE:2382",
+          "symbol": "2382",
+          "exchange": "TWSE",
+          "name_zh": "廣達",
+          "direct_event_count": 1,
+          "latest_mentioned_at": "2026-10-22T18:13:21Z"
+        },
+        {
+          "instrument_id": "TWSE:6669",
+          "symbol": "6669",
+          "exchange": "TWSE",
+          "name_zh": "緯穎",
+          "direct_event_count": 1,
+          "latest_mentioned_at": "2026-10-22T18:13:21Z"
+        }
+      ],
+      "supply_chain_candidates": [
+        {
+          "instrument_id": "TWSE:2330",
+          "symbol": "2330",
+          "exchange": "TWSE",
+          "name_zh": "台積電",
+          "direct_event_count": 1,
+          "official_evidence_count": 0,
+          "company_rank_score": 5,
+          "latest_mentioned_at": "2026-10-24T06:38:25Z",
+          "latest_official_at": null
+        },
+        {
+          "instrument_id": "TWSE:2382",
+          "symbol": "2382",
+          "exchange": "TWSE",
+          "name_zh": "廣達",
+          "direct_event_count": 1,
+          "official_evidence_count": 0,
+          "company_rank_score": 5,
+          "latest_mentioned_at": "2026-10-22T18:13:21Z",
+          "latest_official_at": null
+        },
+        {
+          "instrument_id": "TWSE:6669",
+          "symbol": "6669",
+          "exchange": "TWSE",
+          "name_zh": "緯穎",
+          "direct_event_count": 1,
+          "official_evidence_count": 0,
+          "company_rank_score": 5,
+          "latest_mentioned_at": "2026-10-22T18:13:21Z",
+          "latest_official_at": null
+        }
+      ],
+      "representative_news": {
+        "cluster_id": "cluster-63073482a517faf4",
+        "id": "cnyes-16f45a0edee3",
+        "title_zh": "晶片抵押融資重塑AI債務市場！黑石、輝達、博通布局  違約風險升溫",
+        "summary": "AI基礎設施掀晶片抵押融資潮，市場規模可望邁向兆美元&#10;黑石2023年先做23億美元CoreWeave案，博通、輝達、Apollo等續推大型融資&#10;若AI回報不如預期，風險將沿供應鏈擴散，CoreWeave債券已跌至面值80%",
+        "source_id": "cnyes",
+        "source": "鉅亨網 Cnyes",
+        "published_at": "2026-10-24T06:10:02Z",
+        "canonical_url": "https://news.cnyes.com/news/id/6637077"
+      }
+    },
+    {
+      "rank": 3,
+      "theme_id": "statementdog_tag_4082",
+      "name_zh": "iPhone",
+      "heat_score": 80,
+      "summaries": {
+        "event_count": 12,
+        "source_count": 4,
+        "tracking_candidate_count": 0,
+        "taiwan_mapping_count": 13
+      },
+      "heat_reason": {
+        "rule_version": "public_theme_heat_v0.8",
+        "event_component": {
+          "input": 12,
+          "normalized": 100.0,
+          "weighted": 25.0
+        },
+        "source_component": {
+          "input": 4,
+          "normalized": 100.0,
+          "weighted": 25.0
+        },
+        "candidate_component": {
+          "input": 0,
+          "normalized": 0.0,
+          "weighted": 0.0
+        },
+        "mapping_component": {
+          "mapping_count": 13,
+          "direct_mapping_event_count": 5,
+          "normalized": 100.0,
+          "weighted": 30.0
+        },
+        "single_source_concentration": 0.462,
+        "concentration_penalty": 0.0,
+        "raw_score": 80.0
+      },
+      "direct_mentions": [
+        {
+          "instrument_id": "TWSE:2027",
+          "symbol": "2027",
+          "exchange": "TWSE",
+          "name_zh": "大成鋼",
+          "direct_event_count": 5,
+          "latest_mentioned_at": "2026-10-24T07:01:39Z"
+        }
+      ],
+      "supply_chain_candidates": [
+        {
+          "instrument_id": "TPEX:3105",
+          "symbol": "3105",
+          "exchange": "TPEX",
+          "name_zh": "穩懋",
+          "direct_event_count": 0,
+          "official_evidence_count": 0,
+          "company_rank_score": 1,
+          "latest_mentioned_at": null,
+          "latest_official_at": null
+        }
+      ],
+      "representative_news": {
+        "cluster_id": "cluster-5b0f183a6226bee1",
+        "id": "cnyes-137074eae4d3",
+        "title_zh": "iPhone Duo熱賣！IDC估蘋果明年登摺疊機王 新品與財報接力考驗股價",
+        "summary": "蘋果首款摺疊手機iPhone Duo 週五全球近百市場開賣，官網交貨已延至明年1月底，門市再現排隊人潮&#10;IDC估蘋果今年摺疊手機出貨量31%、銷售額44%，2027年可望雙雙稱冠，挑戰三星與華為&#10;首波評測與供應仍有變數，部分App未最佳化、售價最高3199美元，後續看產能與需求能否延續",
+        "source_id": "cnyes",
+        "source": "鉅亨網 Cnyes",
+        "published_at": "2026-10-24T05:30:04Z",
+        "canonical_url": "https://news.cnyes.com/news/id/6636944"
+      }
+    },
+    {
+      "rank": 4,
       "theme_id": "robotics",
       "name_zh": "機器人",
-      "heat_score": 86,
+      "heat_score": 79,
       "summaries": {
-        "event_count": 10,
-        "source_count": 3,
+        "event_count": 11,
+        "source_count": 2,
         "tracking_candidate_count": 5,
         "taiwan_mapping_count": 28
       },
       "heat_reason": {
         "rule_version": "public_theme_heat_v0.8",
         "event_component": {
-          "input": 10,
+          "input": 11,
           "normalized": 100.0,
           "weighted": 25.0
         },
         "source_component": {
-          "input": 3,
-          "normalized": 75.0,
-          "weighted": 18.75
+          "input": 2,
+          "normalized": 50.0,
+          "weighted": 12.5
         },
         "candidate_component": {
           "input": 5,
@@ -52,7 +408,7 @@
         },
         "single_source_concentration": 0.818,
         "concentration_penalty": 8.182,
-        "raw_score": 85.568
+        "raw_score": 79.318
       },
       "direct_mentions": [
         {
@@ -127,351 +483,27 @@
       }
     },
     {
-      "rank": 2,
-      "theme_id": "statementdog_tag_1517",
-      "name_zh": "AI",
-      "heat_score": 79,
-      "summaries": {
-        "event_count": 18,
-        "source_count": 4,
-        "tracking_candidate_count": 0,
-        "taiwan_mapping_count": 75
-      },
-      "heat_reason": {
-        "rule_version": "public_theme_heat_v0.8",
-        "event_component": {
-          "input": 18,
-          "normalized": 100.0,
-          "weighted": 25.0
-        },
-        "source_component": {
-          "input": 4,
-          "normalized": 100.0,
-          "weighted": 25.0
-        },
-        "candidate_component": {
-          "input": 0,
-          "normalized": 0.0,
-          "weighted": 0.0
-        },
-        "mapping_component": {
-          "mapping_count": 75,
-          "direct_mapping_event_count": 7,
-          "normalized": 100.0,
-          "weighted": 30.0
-        },
-        "single_source_concentration": 0.632,
-        "concentration_penalty": 1.184,
-        "raw_score": 78.816
-      },
-      "direct_mentions": [
-        {
-          "instrument_id": "TWSE:2031",
-          "symbol": "2031",
-          "exchange": "TWSE",
-          "name_zh": "新光鋼",
-          "direct_event_count": 2,
-          "latest_mentioned_at": "2026-10-23T23:36:27Z"
-        },
-        {
-          "instrument_id": "TWSE:2032",
-          "symbol": "2032",
-          "exchange": "TWSE",
-          "name_zh": "新鋼",
-          "direct_event_count": 1,
-          "latest_mentioned_at": "2026-10-23T23:36:27Z"
-        },
-        {
-          "instrument_id": "TWSE:2455",
-          "symbol": "2455",
-          "exchange": "TWSE",
-          "name_zh": "全新",
-          "direct_event_count": 1,
-          "latest_mentioned_at": "2026-10-23T23:07:49Z"
-        },
-        {
-          "instrument_id": "TWSE:2025",
-          "symbol": "2025",
-          "exchange": "TWSE",
-          "name_zh": "千興",
-          "direct_event_count": 1,
-          "latest_mentioned_at": "2026-10-23T07:30:42Z"
-        },
-        {
-          "instrument_id": "TWSE:2027",
-          "symbol": "2027",
-          "exchange": "TWSE",
-          "name_zh": "大成鋼",
-          "direct_event_count": 1,
-          "latest_mentioned_at": "2026-10-23T03:21:44Z"
-        },
-        {
-          "instrument_id": "TWSE:2382",
-          "symbol": "2382",
-          "exchange": "TWSE",
-          "name_zh": "廣達",
-          "direct_event_count": 1,
-          "latest_mentioned_at": "2026-10-22T18:13:21Z"
-        },
-        {
-          "instrument_id": "TWSE:6669",
-          "symbol": "6669",
-          "exchange": "TWSE",
-          "name_zh": "緯穎",
-          "direct_event_count": 1,
-          "latest_mentioned_at": "2026-10-22T18:13:21Z"
-        },
-        {
-          "instrument_id": "TWSE:2023",
-          "symbol": "2023",
-          "exchange": "TWSE",
-          "name_zh": "燁輝",
-          "direct_event_count": 1,
-          "latest_mentioned_at": "2026-10-22T18:13:04Z"
-        }
-      ],
-      "supply_chain_candidates": [
-        {
-          "instrument_id": "TWSE:2382",
-          "symbol": "2382",
-          "exchange": "TWSE",
-          "name_zh": "廣達",
-          "direct_event_count": 1,
-          "official_evidence_count": 0,
-          "company_rank_score": 5,
-          "latest_mentioned_at": "2026-10-22T18:13:21Z",
-          "latest_official_at": null
-        },
-        {
-          "instrument_id": "TWSE:6669",
-          "symbol": "6669",
-          "exchange": "TWSE",
-          "name_zh": "緯穎",
-          "direct_event_count": 1,
-          "official_evidence_count": 0,
-          "company_rank_score": 5,
-          "latest_mentioned_at": "2026-10-22T18:13:21Z",
-          "latest_official_at": null
-        },
-        {
-          "instrument_id": "TPEX:3081",
-          "symbol": "3081",
-          "exchange": "TPEX",
-          "name_zh": "聯亞",
-          "direct_event_count": 0,
-          "official_evidence_count": 0,
-          "company_rank_score": 1,
-          "latest_mentioned_at": null,
-          "latest_official_at": null
-        }
-      ],
-      "representative_news": {
-        "cluster_id": "cluster-60816b7ea168dbe9",
-        "id": "cnyes-e4a029890ebd",
-        "title_zh": "AI基建風暴升溫！新雲端業者全線重挫、信用風險攀升、Solidigm撤回IPO",
-        "summary": "AI基礎建設投資本週震盪，新雲端業者重挫、CDS利差飆升，市場憂估值與違約風險。&#10;CoreWeave、Nebius 10月來跌逾30%，CoreWeave CDS利差逾11%，2031與2032年債券殖利率破15%。&#10;Meta自由現金流轉負、全年資本支出上修；Solidigm因市場波動撤回IPO。",
-        "source_id": "cnyes",
-        "source": "鉅亨網 Cnyes",
-        "published_at": "2026-10-23T23:36:27Z",
-        "canonical_url": "https://news.cnyes.com/news/id/6636976"
-      }
-    },
-    {
-      "rank": 3,
-      "theme_id": "memory_hbm",
-      "name_zh": "記憶體與 HBM",
-      "heat_score": 64,
-      "summaries": {
-        "event_count": 4,
-        "source_count": 2,
-        "tracking_candidate_count": 2,
-        "taiwan_mapping_count": 5
-      },
-      "heat_reason": {
-        "rule_version": "public_theme_heat_v0.8",
-        "event_component": {
-          "input": 4,
-          "normalized": 66.667,
-          "weighted": 16.667
-        },
-        "source_component": {
-          "input": 2,
-          "normalized": 50.0,
-          "weighted": 12.5
-        },
-        "candidate_component": {
-          "input": 2,
-          "normalized": 50.0,
-          "weighted": 10.0
-        },
-        "mapping_component": {
-          "mapping_count": 5,
-          "direct_mapping_event_count": 3,
-          "normalized": 100.0,
-          "weighted": 30.0
-        },
-        "single_source_concentration": 0.75,
-        "concentration_penalty": 5.625,
-        "raw_score": 63.542
-      },
-      "direct_mentions": [
-        {
-          "instrument_id": "TWSE:2330",
-          "symbol": "2330",
-          "exchange": "TWSE",
-          "name_zh": "台積電",
-          "direct_event_count": 2,
-          "latest_mentioned_at": "2026-10-23T03:10:49Z"
-        },
-        {
-          "instrument_id": "TWSE:2029",
-          "symbol": "2029",
-          "exchange": "TWSE",
-          "name_zh": "盛餘",
-          "direct_event_count": 1,
-          "latest_mentioned_at": "2026-10-23T06:15:50Z"
-        }
-      ],
-      "supply_chain_candidates": [
-        {
-          "instrument_id": "TPEX:8299",
-          "symbol": "8299",
-          "exchange": "TPEX",
-          "name_zh": "群聯",
-          "direct_event_count": 0,
-          "official_evidence_count": 0,
-          "company_rank_score": 1,
-          "latest_mentioned_at": null,
-          "latest_official_at": null
-        },
-        {
-          "instrument_id": "TWSE:2344",
-          "symbol": "2344",
-          "exchange": "TWSE",
-          "name_zh": "華邦電",
-          "direct_event_count": 0,
-          "official_evidence_count": 0,
-          "company_rank_score": 1,
-          "latest_mentioned_at": null,
-          "latest_official_at": null
-        },
-        {
-          "instrument_id": "TWSE:2408",
-          "symbol": "2408",
-          "exchange": "TWSE",
-          "name_zh": "南亞科",
-          "direct_event_count": 0,
-          "official_evidence_count": 0,
-          "company_rank_score": 1,
-          "latest_mentioned_at": null,
-          "latest_official_at": null
-        }
-      ],
-      "representative_news": {
-        "cluster_id": "cluster-3d9a73005d556443",
-        "id": "digitimes_tw-61caafff6b4b",
-        "title_zh": "AI記憶體擴產競賽  稱重精度成良率分水嶺",
-        "summary": "隨著全球AI算力需求迎來爆發式增長，高頻寬記憶體（HBM）的擴產競賽已進入白熱化階段。然而，在產能全面吃緊的表象之下，真正的決勝關鍵已從「產能規模」轉向「良率穩定度」。全球量測與精密儀器領導品牌梅特勒托利多（METTLER",
-        "source_id": "digitimes_tw",
-        "source": "DIGITIMES",
-        "published_at": "2026-10-22T19:40:06Z",
-        "canonical_url": "https://www.digitimes.com.tw/tech/dt/n/shwnws.asp?id=0000771719_3UU63P5L2VGXIT8TIY48F"
-      }
-    },
-    {
-      "rank": 4,
-      "theme_id": "statementdog_tag_4082",
-      "name_zh": "iPhone",
-      "heat_score": 63,
-      "summaries": {
-        "event_count": 7,
-        "source_count": 2,
-        "tracking_candidate_count": 0,
-        "taiwan_mapping_count": 13
-      },
-      "heat_reason": {
-        "rule_version": "public_theme_heat_v0.8",
-        "event_component": {
-          "input": 7,
-          "normalized": 100.0,
-          "weighted": 25.0
-        },
-        "source_component": {
-          "input": 2,
-          "normalized": 50.0,
-          "weighted": 12.5
-        },
-        "candidate_component": {
-          "input": 0,
-          "normalized": 0.0,
-          "weighted": 0.0
-        },
-        "mapping_component": {
-          "mapping_count": 13,
-          "direct_mapping_event_count": 3,
-          "normalized": 100.0,
-          "weighted": 30.0
-        },
-        "single_source_concentration": 0.714,
-        "concentration_penalty": 4.286,
-        "raw_score": 63.214
-      },
-      "direct_mentions": [
-        {
-          "instrument_id": "TWSE:2027",
-          "symbol": "2027",
-          "exchange": "TWSE",
-          "name_zh": "大成鋼",
-          "direct_event_count": 3,
-          "latest_mentioned_at": "2026-10-23T03:27:35Z"
-        }
-      ],
-      "supply_chain_candidates": [
-        {
-          "instrument_id": "TPEX:3105",
-          "symbol": "3105",
-          "exchange": "TPEX",
-          "name_zh": "穩懋",
-          "direct_event_count": 0,
-          "official_evidence_count": 0,
-          "company_rank_score": 1,
-          "latest_mentioned_at": null,
-          "latest_official_at": null
-        }
-      ],
-      "representative_news": {
-        "cluster_id": "cluster-9df45732c7f72803",
-        "id": "technews-84fe42063baf",
-        "title_zh": "iPhone Duo 完美復刻任天堂 DS，摺起手機還能讓遊戲休眠",
-        "summary": "隨著蘋果首款摺疊手機 iPhone Duo 正式上市，第三方開發者也開始探索摺疊螢幕的不同應用方式。知名復古遊 [&#8230;]",
-        "source_id": "technews",
-        "source": "TechNews",
-        "published_at": "2026-10-23T08:29:31Z",
-        "canonical_url": "https://technews.tw/2026/10/23/iphone-duo-nintendo-ds/"
-      }
-    },
-    {
       "rank": 5,
       "theme_id": "defense_drone",
       "name_zh": "國防與無人機",
-      "heat_score": 59,
+      "heat_score": 75,
       "summaries": {
-        "event_count": 4,
-        "source_count": 2,
+        "event_count": 5,
+        "source_count": 3,
         "tracking_candidate_count": 1,
         "taiwan_mapping_count": 4
       },
       "heat_reason": {
         "rule_version": "public_theme_heat_v0.8",
         "event_component": {
-          "input": 4,
-          "normalized": 66.667,
-          "weighted": 16.667
+          "input": 5,
+          "normalized": 83.333,
+          "weighted": 20.833
         },
         "source_component": {
-          "input": 2,
-          "normalized": 50.0,
-          "weighted": 12.5
+          "input": 3,
+          "normalized": 75.0,
+          "weighted": 18.75
         },
         "candidate_component": {
           "input": 1,
@@ -484,9 +516,9 @@
           "normalized": 100.0,
           "weighted": 30.0
         },
-        "single_source_concentration": 0.75,
-        "concentration_penalty": 5.625,
-        "raw_score": 58.542
+        "single_source_concentration": 0.6,
+        "concentration_penalty": 0.0,
+        "raw_score": 74.583
       },
       "direct_mentions": [
         {
