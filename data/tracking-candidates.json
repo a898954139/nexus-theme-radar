@@ -1,18 +1,18 @@
 {
-  "generated_at": "2026-11-01T23:37:45.602572Z",
+  "generated_at": "2026-11-02T06:10:21.162261Z",
   "market_id": "TW_EQUITY",
   "market_scope": [
     "TW_EQUITY"
   ],
   "window_hours": 72,
   "max_items": 200,
-  "total_items": 5,
-  "total_items_available": 5,
+  "total_items": 8,
+  "total_items_available": 8,
   "items": [
     {
-      "id": "technews-765e1c97f55d",
-      "title_zh": "長鑫存儲正面回應美光質疑，指第六代 4F² DRAM 工程樣品年底前送樣",
-      "summary": "針對美光（Micron）先前質疑 4F² 架構缺乏實質密度效益的說法，中國記憶體晶片大廠長鑫存儲（CXMT）於 [&#8230;]",
+      "id": "technews-c9a4f8f2c3e7",
+      "title_zh": "CoWoS 供應瓶頸浮現，Intel EMIB-T 開闢另一條封裝路線",
+      "summary": "隨著 AI 晶片對先進封裝技術的需求持續攀升，台積電 CoWoS 供應瓶頸逐漸浮現。根據市場研究機構 Pris [&#8230;]",
       "source": "TechNews",
       "source_id": "technews",
       "source_class": "financial_media",
@@ -20,35 +20,445 @@
       "market_scope": [
         "TW_EQUITY"
       ],
-      "published_at": "2026-11-01T23:00:59Z",
-      "url": "https://finance.technews.tw/2026/11/02/changxin-memory-responds-directly-to-microns-accusations/",
+      "published_at": "2026-11-02T05:57:13Z",
+      "url": "https://technews.tw/2026/11/02/cowos-supply-bottlenecks-intel-emib-t-alternative-packaging/",
       "extraction_method": "rss",
-      "fetched_at": "2026-11-01T23:37:45.602572Z",
+      "fetched_at": "2026-11-02T06:10:21.162261Z",
       "matched_themes": [
         {
-          "theme_id": "memory_hbm",
-          "name_zh": "記憶體與 HBM",
+          "theme_id": "cowos_supply_chain",
+          "name_zh": "CoWoS 先進封裝",
           "score": 0.5,
           "signals": [
-            "dram",
-            "記憶體"
+            "cowos",
+            "先進封裝"
           ],
-          "reason": "title_zh: dram; summary: 記憶體"
+          "reason": "title_zh: cowos; summary: cowos, 先進封裝"
+        },
+        {
+          "theme_id": "statementdog_tag_1468",
+          "name_zh": "先進封裝",
+          "score": 0.167,
+          "signals": [
+            "先進封裝"
+          ],
+          "reason": "summary: 先進封裝"
+        },
+        {
+          "theme_id": "statementdog_tag_1517",
+          "name_zh": "AI",
+          "score": 0.167,
+          "signals": [
+            "ai"
+          ],
+          "reason": "summary: ai"
+        },
+        {
+          "theme_id": "statementdog_tag_23833",
+          "name_zh": "AI 晶片",
+          "score": 0.167,
+          "signals": [
+            "ai 晶片"
+          ],
+          "reason": "summary: ai 晶片"
         }
       ],
-      "primary_theme_id": "memory_hbm",
+      "primary_theme_id": "cowos_supply_chain",
       "theme_score": 0.5,
-      "direct_symbols": [],
-      "symbol_evidence": {},
-      "related_symbols": [
+      "direct_symbols": [
         {
-          "instrument_id": "TWSE:2344",
+          "instrument_id": "TWSE:2330",
           "market_id": "TW_EQUITY",
           "asset_class": "equity",
-          "symbol": "2344",
+          "symbol": "2330",
           "exchange": "TWSE",
-          "name_zh": "華邦電",
-          "evidence": "taxonomy seed: memory_hbm",
+          "name_zh": "台積電",
+          "evidence": "summary: 台積電",
+          "reason": "direct company alias mention"
+        }
+      ],
+      "symbol_evidence": {
+        "2330": "summary: 台積電"
+      },
+      "related_symbols": [
+        {
+          "instrument_id": "TWSE:2330",
+          "market_id": "TW_EQUITY",
+          "asset_class": "equity",
+          "symbol": "2330",
+          "exchange": "TWSE",
+          "name_zh": "台積電",
+          "evidence": "taxonomy seed: statementdog_tag_23833",
+          "reason": "theme seed symbol"
+        },
+        {
+          "instrument_id": "TWSE:3711",
+          "market_id": "TW_EQUITY",
+          "asset_class": "equity",
+          "symbol": "3711",
+          "exchange": "TWSE",
+          "name_zh": "日月光投控",
+          "evidence": "taxonomy seed: statementdog_tag_23833",
+          "reason": "theme seed symbol"
+        },
+        {
+          "instrument_id": "TWSE:2449",
+          "market_id": "TW_EQUITY",
+          "asset_class": "equity",
+          "symbol": "2449",
+          "exchange": "TWSE",
+          "name_zh": "京元電子",
+          "evidence": "taxonomy seed: statementdog_tag_23833",
+          "reason": "theme seed symbol"
+        },
+        {
+          "instrument_id": "TWSE:6239",
+          "market_id": "TW_EQUITY",
+          "asset_class": "equity",
+          "symbol": "6239",
+          "exchange": "TWSE",
+          "name_zh": "力成",
+          "evidence": "taxonomy seed: statementdog_tag_23833",
+          "reason": "theme seed symbol"
+        },
+        {
+          "instrument_id": "TWSE:3037",
+          "market_id": "TW_EQUITY",
+          "asset_class": "equity",
+          "symbol": "3037",
+          "exchange": "TWSE",
+          "name_zh": "欣興",
+          "evidence": "taxonomy seed: statementdog_tag_23833",
+          "reason": "theme seed symbol"
+        },
+        {
+          "instrument_id": "TWSE:8046",
+          "market_id": "TW_EQUITY",
+          "asset_class": "equity",
+          "symbol": "8046",
+          "exchange": "TWSE",
+          "name_zh": "南電",
+          "evidence": "taxonomy seed: statementdog_tag_23833",
+          "reason": "theme seed symbol"
+        },
+        {
+          "instrument_id": "TWSE:3189",
+          "market_id": "TW_EQUITY",
+          "asset_class": "equity",
+          "symbol": "3189",
+          "exchange": "TWSE",
+          "name_zh": "景碩",
+          "evidence": "taxonomy seed: statementdog_tag_23833",
+          "reason": "theme seed symbol"
+        },
+        {
+          "instrument_id": "TWSE:4958",
+          "market_id": "TW_EQUITY",
+          "asset_class": "equity",
+          "symbol": "4958",
+          "exchange": "TWSE",
+          "name_zh": "臻鼎-KY",
+          "evidence": "taxonomy seed: statementdog_tag_23833",
+          "reason": "theme seed symbol"
+        },
+        {
+          "instrument_id": "TPEX:3131",
+          "market_id": "TW_EQUITY",
+          "asset_class": "equity",
+          "symbol": "3131",
+          "exchange": "TPEX",
+          "name_zh": "弘塑",
+          "evidence": "taxonomy seed: statementdog_tag_1468",
+          "reason": "theme seed symbol"
+        },
+        {
+          "instrument_id": "TWSE:3583",
+          "market_id": "TW_EQUITY",
+          "asset_class": "equity",
+          "symbol": "3583",
+          "exchange": "TWSE",
+          "name_zh": "辛耘",
+          "evidence": "taxonomy seed: statementdog_tag_1468",
+          "reason": "theme seed symbol"
+        },
+        {
+          "instrument_id": "TPEX:6187",
+          "market_id": "TW_EQUITY",
+          "asset_class": "equity",
+          "symbol": "6187",
+          "exchange": "TPEX",
+          "name_zh": "萬潤",
+          "evidence": "taxonomy seed: statementdog_tag_23833",
+          "reason": "theme seed symbol"
+        },
+        {
+          "instrument_id": "TWSE:2467",
+          "market_id": "TW_EQUITY",
+          "asset_class": "equity",
+          "symbol": "2467",
+          "exchange": "TWSE",
+          "name_zh": "志聖",
+          "evidence": "taxonomy seed: statementdog_tag_1468",
+          "reason": "theme seed symbol"
+        },
+        {
+          "instrument_id": "TPEX:6640",
+          "market_id": "TW_EQUITY",
+          "asset_class": "equity",
+          "symbol": "6640",
+          "exchange": "TPEX",
+          "name_zh": "均華",
+          "evidence": "taxonomy seed: statementdog_tag_1468",
+          "reason": "theme seed symbol"
+        },
+        {
+          "instrument_id": "TWSE:3481",
+          "market_id": "TW_EQUITY",
+          "asset_class": "equity",
+          "symbol": "3481",
+          "exchange": "TWSE",
+          "name_zh": "群創",
+          "evidence": "taxonomy seed: statementdog_tag_1468",
+          "reason": "theme seed symbol"
+        },
+        {
+          "instrument_id": "TWSE:2409",
+          "market_id": "TW_EQUITY",
+          "asset_class": "equity",
+          "symbol": "2409",
+          "exchange": "TWSE",
+          "name_zh": "友達",
+          "evidence": "taxonomy seed: statementdog_tag_1468",
+          "reason": "theme seed symbol"
+        },
+        {
+          "instrument_id": "TWSE:6789",
+          "market_id": "TW_EQUITY",
+          "asset_class": "equity",
+          "symbol": "6789",
+          "exchange": "TWSE",
+          "name_zh": "采鈺",
+          "evidence": "taxonomy seed: statementdog_tag_1468",
+          "reason": "theme seed symbol"
+        },
+        {
+          "instrument_id": "TWSE:2454",
+          "market_id": "TW_EQUITY",
+          "asset_class": "equity",
+          "symbol": "2454",
+          "exchange": "TWSE",
+          "name_zh": "聯發科",
+          "evidence": "taxonomy seed: statementdog_tag_23833",
+          "reason": "theme seed symbol"
+        },
+        {
+          "instrument_id": "TWSE:3661",
+          "market_id": "TW_EQUITY",
+          "asset_class": "equity",
+          "symbol": "3661",
+          "exchange": "TWSE",
+          "name_zh": "世芯-KY",
+          "evidence": "taxonomy seed: statementdog_tag_23833",
+          "reason": "theme seed symbol"
+        },
+        {
+          "instrument_id": "TWSE:3443",
+          "market_id": "TW_EQUITY",
+          "asset_class": "equity",
+          "symbol": "3443",
+          "exchange": "TWSE",
+          "name_zh": "創意",
+          "evidence": "taxonomy seed: statementdog_tag_23833",
+          "reason": "theme seed symbol"
+        },
+        {
+          "instrument_id": "TWSE:2383",
+          "market_id": "TW_EQUITY",
+          "asset_class": "equity",
+          "symbol": "2383",
+          "exchange": "TWSE",
+          "name_zh": "台光電",
+          "evidence": "taxonomy seed: statementdog_tag_23833",
+          "reason": "theme seed symbol"
+        },
+        {
+          "instrument_id": "TWSE:2368",
+          "market_id": "TW_EQUITY",
+          "asset_class": "equity",
+          "symbol": "2368",
+          "exchange": "TWSE",
+          "name_zh": "金像電",
+          "evidence": "taxonomy seed: statementdog_tag_23833",
+          "reason": "theme seed symbol"
+        },
+        {
+          "instrument_id": "TPEX:6223",
+          "market_id": "TW_EQUITY",
+          "asset_class": "equity",
+          "symbol": "6223",
+          "exchange": "TPEX",
+          "name_zh": "旺矽",
+          "evidence": "taxonomy seed: statementdog_tag_23833",
+          "reason": "theme seed symbol"
+        },
+        {
+          "instrument_id": "TWSE:6515",
+          "market_id": "TW_EQUITY",
+          "asset_class": "equity",
+          "symbol": "6515",
+          "exchange": "TWSE",
+          "name_zh": "穎崴",
+          "evidence": "taxonomy seed: statementdog_tag_23833",
+          "reason": "theme seed symbol"
+        },
+        {
+          "instrument_id": "TWSE:6669",
+          "market_id": "TW_EQUITY",
+          "asset_class": "equity",
+          "symbol": "6669",
+          "exchange": "TWSE",
+          "name_zh": "緯穎",
+          "evidence": "taxonomy seed: statementdog_tag_23833",
+          "reason": "theme seed symbol"
+        },
+        {
+          "instrument_id": "TWSE:2382",
+          "market_id": "TW_EQUITY",
+          "asset_class": "equity",
+          "symbol": "2382",
+          "exchange": "TWSE",
+          "name_zh": "廣達",
+          "evidence": "taxonomy seed: statementdog_tag_23833",
+          "reason": "theme seed symbol"
+        },
+        {
+          "instrument_id": "TWSE:2317",
+          "market_id": "TW_EQUITY",
+          "asset_class": "equity",
+          "symbol": "2317",
+          "exchange": "TWSE",
+          "name_zh": "鴻海",
+          "evidence": "taxonomy seed: statementdog_tag_23833",
+          "reason": "theme seed symbol"
+        },
+        {
+          "instrument_id": "TWSE:3231",
+          "market_id": "TW_EQUITY",
+          "asset_class": "equity",
+          "symbol": "3231",
+          "exchange": "TWSE",
+          "name_zh": "緯創",
+          "evidence": "taxonomy seed: statementdog_tag_23833",
+          "reason": "theme seed symbol"
+        },
+        {
+          "instrument_id": "TWSE:2356",
+          "market_id": "TW_EQUITY",
+          "asset_class": "equity",
+          "symbol": "2356",
+          "exchange": "TWSE",
+          "name_zh": "英業達",
+          "evidence": "taxonomy seed: statementdog_tag_1517",
+          "reason": "theme seed symbol"
+        },
+        {
+          "instrument_id": "TWSE:2308",
+          "market_id": "TW_EQUITY",
+          "asset_class": "equity",
+          "symbol": "2308",
+          "exchange": "TWSE",
+          "name_zh": "台達電",
+          "evidence": "taxonomy seed: statementdog_tag_23833",
+          "reason": "theme seed symbol"
+        },
+        {
+          "instrument_id": "TWSE:2301",
+          "market_id": "TW_EQUITY",
+          "asset_class": "equity",
+          "symbol": "2301",
+          "exchange": "TWSE",
+          "name_zh": "光寶科",
+          "evidence": "taxonomy seed: statementdog_tag_1517",
+          "reason": "theme seed symbol"
+        },
+        {
+          "instrument_id": "TWSE:3017",
+          "market_id": "TW_EQUITY",
+          "asset_class": "equity",
+          "symbol": "3017",
+          "exchange": "TWSE",
+          "name_zh": "奇鋐",
+          "evidence": "taxonomy seed: statementdog_tag_23833",
+          "reason": "theme seed symbol"
+        },
+        {
+          "instrument_id": "TPEX:3324",
+          "market_id": "TW_EQUITY",
+          "asset_class": "equity",
+          "symbol": "3324",
+          "exchange": "TPEX",
+          "name_zh": "雙鴻",
+          "evidence": "taxonomy seed: statementdog_tag_23833",
+          "reason": "theme seed symbol"
+        },
+        {
+          "instrument_id": "TWSE:3653",
+          "market_id": "TW_EQUITY",
+          "asset_class": "equity",
+          "symbol": "3653",
+          "exchange": "TWSE",
+          "name_zh": "健策",
+          "evidence": "taxonomy seed: statementdog_tag_1517",
+          "reason": "theme seed symbol"
+        },
+        {
+          "instrument_id": "TWSE:6805",
+          "market_id": "TW_EQUITY",
+          "asset_class": "equity",
+          "symbol": "6805",
+          "exchange": "TWSE",
+          "name_zh": "富世達",
+          "evidence": "taxonomy seed: statementdog_tag_1517",
+          "reason": "theme seed symbol"
+        },
+        {
+          "instrument_id": "TWSE:2345",
+          "market_id": "TW_EQUITY",
+          "asset_class": "equity",
+          "symbol": "2345",
+          "exchange": "TWSE",
+          "name_zh": "智邦",
+          "evidence": "taxonomy seed: statementdog_tag_1517",
+          "reason": "theme seed symbol"
+        },
+        {
+          "instrument_id": "TPEX:3363",
+          "market_id": "TW_EQUITY",
+          "asset_class": "equity",
+          "symbol": "3363",
+          "exchange": "TPEX",
+          "name_zh": "上詮",
+          "evidence": "taxonomy seed: statementdog_tag_1517",
+          "reason": "theme seed symbol"
+        },
+        {
+          "instrument_id": "TPEX:3081",
+          "market_id": "TW_EQUITY",
+          "asset_class": "equity",
+          "symbol": "3081",
+          "exchange": "TPEX",
+          "name_zh": "聯亞",
+          "evidence": "taxonomy seed: statementdog_tag_1517",
+          "reason": "theme seed symbol"
+        },
+        {
+          "instrument_id": "TWSE:6442",
+          "market_id": "TW_EQUITY",
+          "asset_class": "equity",
+          "symbol": "6442",
+          "exchange": "TWSE",
+          "name_zh": "光聖",
+          "evidence": "taxonomy seed: statementdog_tag_1517",
           "reason": "theme seed symbol"
         },
         {
@@ -58,67 +468,102 @@
           "symbol": "2408",
           "exchange": "TWSE",
           "name_zh": "南亞科",
-          "evidence": "taxonomy seed: memory_hbm",
+          "evidence": "taxonomy seed: statementdog_tag_23833",
           "reason": "theme seed symbol"
         },
         {
-          "instrument_id": "TPEX:8299",
+          "instrument_id": "TPEX:6274",
           "market_id": "TW_EQUITY",
           "asset_class": "equity",
-          "symbol": "8299",
+          "symbol": "6274",
           "exchange": "TPEX",
-          "name_zh": "群聯",
-          "evidence": "taxonomy seed: memory_hbm",
+          "name_zh": "台燿",
+          "evidence": "taxonomy seed: statementdog_tag_23833",
           "reason": "theme seed symbol"
         }
       ],
       "related_symbol_codes": [
-        "2344",
+        "2330",
+        "3711",
+        "2449",
+        "6239",
+        "3037",
+        "8046",
+        "3189",
+        "4958",
+        "3131",
+        "3583",
+        "6187",
+        "2467",
+        "6640",
+        "3481",
+        "2409",
+        "6789",
+        "2454",
+        "3661",
+        "3443",
+        "2383",
+        "2368",
+        "6223",
+        "6515",
+        "6669",
+        "2382",
+        "2317",
+        "3231",
+        "2356",
+        "2308",
+        "2301",
+        "3017",
+        "3324",
+        "3653",
+        "6805",
+        "2345",
+        "3363",
+        "3081",
+        "6442",
         "2408",
-        "8299"
+        "6274"
       ],
       "decision": "track_watch",
-      "tw_relevance_status": "supply_chain",
-      "tw_relevance_reason": "configured theme memory_hbm; strong signal: dram",
+      "tw_relevance_status": "direct",
+      "tw_relevance_reason": "direct Taiwan symbol: TWSE:2330",
       "tw_related_symbols": [
-        "TPEX:8299",
-        "TWSE:2344",
-        "TWSE:2408"
+        "TWSE:2330"
       ],
-      "cluster_id": "cluster-6e6a30924001391f",
+      "cluster_id": "cluster-a167969612ba6bf1",
       "cluster_size": 1,
       "cluster_event_ids": [
-        "technews-765e1c97f55d"
+        "technews-c9a4f8f2c3e7"
       ],
       "cluster_sources": [
         {
           "source_id": "technews",
           "source": "TechNews",
-          "title": "長鑫存儲正面回應美光質疑，指第六代 4F² DRAM 工程樣品年底前送樣",
-          "url": "https://finance.technews.tw/2026/11/02/changxin-memory-responds-directly-to-microns-accusations/",
-          "published_at": "2026-11-01T23:00:59Z"
+          "title": "CoWoS 供應瓶頸浮現，Intel EMIB-T 開闢另一條封裝路線",
+          "url": "https://technews.tw/2026/11/02/cowos-supply-bottlenecks-intel-emib-t-alternative-packaging/",
+          "published_at": "2026-11-02T05:57:13Z"
         }
       ],
-      "tracking_reason": "title_zh: dram; summary: 記憶體",
+      "tracking_reason": "title_zh: cowos; summary: cowos, 先進封裝",
       "confirmation_status": "unconfirmed",
       "official_evidence_ids": [],
       "official_evidence_count": 0
     },
     {
-      "id": "yahoo_finance_tw-a6019de6dfbb",
-      "title_zh": "諾斯洛普格魯曼財測樂觀 投資人聚焦軍工股長期展望",
-      "summary": "圖／本報資料庫商傳媒｜吳承岳／台北報導美國國防承包商諾斯洛普格魯曼（Northrop Grumman）近日公布 2026 年第三季財報，營收達 111.2 億美元，淨利潤為 11.2 億美元，同時上修",
-      "source": "Yahoo Finance Taiwan",
-      "source_id": "yahoo_finance_tw",
+      "id": "digitimes_tw-f2dd99212780",
+      "title_zh": "川普推金穹計畫牽動軍工版圖　Google傳洽談加入",
+      "summary": "Alphabet旗下Google傳正與美國國防部洽談，評估以資料存儲、網路及資安技術支援總額約1,850億美元的「金穹」（Golden Dome）飛彈防禦計畫。綜合彭博（Bloomberg）、Big Go、NDTV等報導，五角大廈研議成",
+      "source": "DIGITIMES",
+      "source_id": "digitimes_tw",
       "source_class": "financial_media",
       "market_id": "TW_EQUITY",
       "market_scope": [
         "TW_EQUITY"
       ],
-      "published_at": "2026-11-01T22:39:48Z",
-      "url": "https://tw.stock.yahoo.com/news/%E8%AB%BE%E6%96%AF%E6%B4%9B%E6%99%AE%E6%A0%BC%E9%AD%AF%E6%9B%BC%E8%B2%A1%E6%B8%AC%E6%A8%82%E8%A7%80-%E6%8A%95%E8%B3%87%E4%BA%BA%E8%81%9A%E7%84%A6%E8%BB%8D%E5%B7%A5%E8%82%A1%E9%95%B7%E6%9C%9F%E5%B1%95%E6%9C%9B-223948306.html",
+      "published_at": "2026-11-02T04:00:06Z",
+      "url": "https://www.digitimes.com.tw/tech/dt/n/shwnws.asp?id=0000773246_QIP1SAKN50W6ON5UW3SLL",
       "extraction_method": "rss",
-      "fetched_at": "2026-11-01T23:37:45.602572Z",
+      "fetched_at": "2026-11-02T06:10:21.162261Z",
       "matched_themes": [
         {
           "theme_id": "defense_drone",
@@ -180,21 +625,1230 @@
         "TWSE:2634",
         "TWSE:8033"
       ],
-      "cluster_id": "cluster-b8d52ac69174f9e1",
+      "cluster_id": "cluster-831ac6d65470a13b",
       "cluster_size": 1,
       "cluster_event_ids": [
-        "yahoo_finance_tw-a6019de6dfbb"
+        "digitimes_tw-f2dd99212780"
       ],
       "cluster_sources": [
         {
-          "source_id": "yahoo_finance_tw",
-          "source": "Yahoo Finance Taiwan",
-          "title": "諾斯洛普格魯曼財測樂觀 投資人聚焦軍工股長期展望",
-          "url": "https://tw.stock.yahoo.com/news/%E8%AB%BE%E6%96%AF%E6%B4%9B%E6%99%AE%E6%A0%BC%E9%AD%AF%E6%9B%BC%E8%B2%A1%E6%B8%AC%E6%A8%82%E8%A7%80-%E6%8A%95%E8%B3%87%E4%BA%BA%E8%81%9A%E7%84%A6%E8%BB%8D%E5%B7%A5%E8%82%A1%E9%95%B7%E6%9C%9F%E5%B1%95%E6%9C%9B-223948306.html",
-          "published_at": "2026-11-01T22:39:48Z"
+          "source_id": "digitimes_tw",
+          "source": "DIGITIMES",
+          "title": "川普推金穹計畫牽動軍工版圖　Google傳洽談加入",
+          "url": "https://www.digitimes.com.tw/tech/dt/n/shwnws.asp?id=0000773246_QIP1SAKN50W6ON5UW3SLL",
+          "published_at": "2026-11-02T04:00:06Z"
         }
       ],
       "tracking_reason": "title_zh: 軍工; summary: 國防",
+      "confirmation_status": "unconfirmed",
+      "official_evidence_ids": [],
+      "official_evidence_count": 0
+    },
+    {
+      "id": "technews-2a7fc0f9b0a1",
+      "title_zh": "搶資料中心記憶體供應！OpenAI 執行長 Sam Altman 赴韓見三星高層",
+      "summary": "隨著 AI 資料中心競爭升溫，三星與 SK 海力士合計掌握約 83% 的高頻寬記憶體（HBM）營收，使得記憶體 [&#8230;]",
+      "source": "TechNews",
+      "source_id": "technews",
+      "source_class": "financial_media",
+      "market_id": "TW_EQUITY",
+      "market_scope": [
+        "TW_EQUITY"
+      ],
+      "published_at": "2026-11-02T03:47:07Z",
+      "url": "https://technews.tw/2026/11/02/sam-altman-meet-samsung-leadership/",
+      "extraction_method": "rss",
+      "fetched_at": "2026-11-02T06:10:21.162261Z",
+      "matched_themes": [
+        {
+          "theme_id": "memory_hbm",
+          "name_zh": "記憶體與 HBM",
+          "score": 0.667,
+          "signals": [
+            "hbm",
+            "記憶體",
+            "高頻寬記憶體"
+          ],
+          "reason": "title_zh: 記憶體; summary: hbm, 記憶體, 高頻寬記憶體"
+        },
+        {
+          "theme_id": "statementdog_tag_1517",
+          "name_zh": "AI",
+          "score": 0.167,
+          "signals": [
+            "ai"
+          ],
+          "reason": "summary: ai"
+        },
+        {
+          "theme_id": "statementdog_tag_17390",
+          "name_zh": "AI 資料中心",
+          "score": 0.167,
+          "signals": [
+            "ai 資料中心"
+          ],
+          "reason": "summary: ai 資料中心"
+        }
+      ],
+      "primary_theme_id": "memory_hbm",
+      "theme_score": 0.667,
+      "direct_symbols": [],
+      "symbol_evidence": {},
+      "related_symbols": [
+        {
+          "instrument_id": "TWSE:2344",
+          "market_id": "TW_EQUITY",
+          "asset_class": "equity",
+          "symbol": "2344",
+          "exchange": "TWSE",
+          "name_zh": "華邦電",
+          "evidence": "taxonomy seed: memory_hbm",
+          "reason": "theme seed symbol"
+        },
+        {
+          "instrument_id": "TWSE:2408",
+          "market_id": "TW_EQUITY",
+          "asset_class": "equity",
+          "symbol": "2408",
+          "exchange": "TWSE",
+          "name_zh": "南亞科",
+          "evidence": "taxonomy seed: memory_hbm",
+          "reason": "theme seed symbol"
+        },
+        {
+          "instrument_id": "TPEX:8299",
+          "market_id": "TW_EQUITY",
+          "asset_class": "equity",
+          "symbol": "8299",
+          "exchange": "TPEX",
+          "name_zh": "群聯",
+          "evidence": "taxonomy seed: memory_hbm",
+          "reason": "theme seed symbol"
+        },
+        {
+          "instrument_id": "TWSE:2454",
+          "market_id": "TW_EQUITY",
+          "asset_class": "equity",
+          "symbol": "2454",
+          "exchange": "TWSE",
+          "name_zh": "聯發科",
+          "evidence": "taxonomy seed: statementdog_tag_1517",
+          "reason": "theme seed symbol"
+        },
+        {
+          "instrument_id": "TWSE:3661",
+          "market_id": "TW_EQUITY",
+          "asset_class": "equity",
+          "symbol": "3661",
+          "exchange": "TWSE",
+          "name_zh": "世芯-KY",
+          "evidence": "taxonomy seed: statementdog_tag_1517",
+          "reason": "theme seed symbol"
+        },
+        {
+          "instrument_id": "TWSE:3443",
+          "market_id": "TW_EQUITY",
+          "asset_class": "equity",
+          "symbol": "3443",
+          "exchange": "TWSE",
+          "name_zh": "創意",
+          "evidence": "taxonomy seed: statementdog_tag_1517",
+          "reason": "theme seed symbol"
+        },
+        {
+          "instrument_id": "TWSE:2330",
+          "market_id": "TW_EQUITY",
+          "asset_class": "equity",
+          "symbol": "2330",
+          "exchange": "TWSE",
+          "name_zh": "台積電",
+          "evidence": "taxonomy seed: statementdog_tag_17390",
+          "reason": "theme seed symbol"
+        },
+        {
+          "instrument_id": "TWSE:3711",
+          "market_id": "TW_EQUITY",
+          "asset_class": "equity",
+          "symbol": "3711",
+          "exchange": "TWSE",
+          "name_zh": "日月光投控",
+          "evidence": "taxonomy seed: statementdog_tag_17390",
+          "reason": "theme seed symbol"
+        },
+        {
+          "instrument_id": "TWSE:2449",
+          "market_id": "TW_EQUITY",
+          "asset_class": "equity",
+          "symbol": "2449",
+          "exchange": "TWSE",
+          "name_zh": "京元電子",
+          "evidence": "taxonomy seed: statementdog_tag_17390",
+          "reason": "theme seed symbol"
+        },
+        {
+          "instrument_id": "TWSE:3037",
+          "market_id": "TW_EQUITY",
+          "asset_class": "equity",
+          "symbol": "3037",
+          "exchange": "TWSE",
+          "name_zh": "欣興",
+          "evidence": "taxonomy seed: statementdog_tag_17390",
+          "reason": "theme seed symbol"
+        },
+        {
+          "instrument_id": "TWSE:8046",
+          "market_id": "TW_EQUITY",
+          "asset_class": "equity",
+          "symbol": "8046",
+          "exchange": "TWSE",
+          "name_zh": "南電",
+          "evidence": "taxonomy seed: statementdog_tag_17390",
+          "reason": "theme seed symbol"
+        },
+        {
+          "instrument_id": "TWSE:3189",
+          "market_id": "TW_EQUITY",
+          "asset_class": "equity",
+          "symbol": "3189",
+          "exchange": "TWSE",
+          "name_zh": "景碩",
+          "evidence": "taxonomy seed: statementdog_tag_17390",
+          "reason": "theme seed symbol"
+        },
+        {
+          "instrument_id": "TWSE:2383",
+          "market_id": "TW_EQUITY",
+          "asset_class": "equity",
+          "symbol": "2383",
+          "exchange": "TWSE",
+          "name_zh": "台光電",
+          "evidence": "taxonomy seed: statementdog_tag_17390",
+          "reason": "theme seed symbol"
+        },
+        {
+          "instrument_id": "TWSE:2368",
+          "market_id": "TW_EQUITY",
+          "asset_class": "equity",
+          "symbol": "2368",
+          "exchange": "TWSE",
+          "name_zh": "金像電",
+          "evidence": "taxonomy seed: statementdog_tag_17390",
+          "reason": "theme seed symbol"
+        },
+        {
+          "instrument_id": "TPEX:6223",
+          "market_id": "TW_EQUITY",
+          "asset_class": "equity",
+          "symbol": "6223",
+          "exchange": "TPEX",
+          "name_zh": "旺矽",
+          "evidence": "taxonomy seed: statementdog_tag_17390",
+          "reason": "theme seed symbol"
+        },
+        {
+          "instrument_id": "TWSE:6515",
+          "market_id": "TW_EQUITY",
+          "asset_class": "equity",
+          "symbol": "6515",
+          "exchange": "TWSE",
+          "name_zh": "穎崴",
+          "evidence": "taxonomy seed: statementdog_tag_1517",
+          "reason": "theme seed symbol"
+        },
+        {
+          "instrument_id": "TWSE:6669",
+          "market_id": "TW_EQUITY",
+          "asset_class": "equity",
+          "symbol": "6669",
+          "exchange": "TWSE",
+          "name_zh": "緯穎",
+          "evidence": "taxonomy seed: statementdog_tag_17390",
+          "reason": "theme seed symbol"
+        },
+        {
+          "instrument_id": "TWSE:2382",
+          "market_id": "TW_EQUITY",
+          "asset_class": "equity",
+          "symbol": "2382",
+          "exchange": "TWSE",
+          "name_zh": "廣達",
+          "evidence": "taxonomy seed: statementdog_tag_17390",
+          "reason": "theme seed symbol"
+        },
+        {
+          "instrument_id": "TWSE:2317",
+          "market_id": "TW_EQUITY",
+          "asset_class": "equity",
+          "symbol": "2317",
+          "exchange": "TWSE",
+          "name_zh": "鴻海",
+          "evidence": "taxonomy seed: statementdog_tag_17390",
+          "reason": "theme seed symbol"
+        },
+        {
+          "instrument_id": "TWSE:3231",
+          "market_id": "TW_EQUITY",
+          "asset_class": "equity",
+          "symbol": "3231",
+          "exchange": "TWSE",
+          "name_zh": "緯創",
+          "evidence": "taxonomy seed: statementdog_tag_17390",
+          "reason": "theme seed symbol"
+        },
+        {
+          "instrument_id": "TWSE:2356",
+          "market_id": "TW_EQUITY",
+          "asset_class": "equity",
+          "symbol": "2356",
+          "exchange": "TWSE",
+          "name_zh": "英業達",
+          "evidence": "taxonomy seed: statementdog_tag_17390",
+          "reason": "theme seed symbol"
+        },
+        {
+          "instrument_id": "TWSE:2308",
+          "market_id": "TW_EQUITY",
+          "asset_class": "equity",
+          "symbol": "2308",
+          "exchange": "TWSE",
+          "name_zh": "台達電",
+          "evidence": "taxonomy seed: statementdog_tag_17390",
+          "reason": "theme seed symbol"
+        },
+        {
+          "instrument_id": "TWSE:2301",
+          "market_id": "TW_EQUITY",
+          "asset_class": "equity",
+          "symbol": "2301",
+          "exchange": "TWSE",
+          "name_zh": "光寶科",
+          "evidence": "taxonomy seed: statementdog_tag_17390",
+          "reason": "theme seed symbol"
+        },
+        {
+          "instrument_id": "TWSE:3017",
+          "market_id": "TW_EQUITY",
+          "asset_class": "equity",
+          "symbol": "3017",
+          "exchange": "TWSE",
+          "name_zh": "奇鋐",
+          "evidence": "taxonomy seed: statementdog_tag_17390",
+          "reason": "theme seed symbol"
+        },
+        {
+          "instrument_id": "TPEX:3324",
+          "market_id": "TW_EQUITY",
+          "asset_class": "equity",
+          "symbol": "3324",
+          "exchange": "TPEX",
+          "name_zh": "雙鴻",
+          "evidence": "taxonomy seed: statementdog_tag_17390",
+          "reason": "theme seed symbol"
+        },
+        {
+          "instrument_id": "TWSE:3653",
+          "market_id": "TW_EQUITY",
+          "asset_class": "equity",
+          "symbol": "3653",
+          "exchange": "TWSE",
+          "name_zh": "健策",
+          "evidence": "taxonomy seed: statementdog_tag_17390",
+          "reason": "theme seed symbol"
+        },
+        {
+          "instrument_id": "TWSE:6805",
+          "market_id": "TW_EQUITY",
+          "asset_class": "equity",
+          "symbol": "6805",
+          "exchange": "TWSE",
+          "name_zh": "富世達",
+          "evidence": "taxonomy seed: statementdog_tag_1517",
+          "reason": "theme seed symbol"
+        },
+        {
+          "instrument_id": "TWSE:2345",
+          "market_id": "TW_EQUITY",
+          "asset_class": "equity",
+          "symbol": "2345",
+          "exchange": "TWSE",
+          "name_zh": "智邦",
+          "evidence": "taxonomy seed: statementdog_tag_17390",
+          "reason": "theme seed symbol"
+        },
+        {
+          "instrument_id": "TPEX:3363",
+          "market_id": "TW_EQUITY",
+          "asset_class": "equity",
+          "symbol": "3363",
+          "exchange": "TPEX",
+          "name_zh": "上詮",
+          "evidence": "taxonomy seed: statementdog_tag_1517",
+          "reason": "theme seed symbol"
+        },
+        {
+          "instrument_id": "TPEX:3081",
+          "market_id": "TW_EQUITY",
+          "asset_class": "equity",
+          "symbol": "3081",
+          "exchange": "TPEX",
+          "name_zh": "聯亞",
+          "evidence": "taxonomy seed: statementdog_tag_1517",
+          "reason": "theme seed symbol"
+        },
+        {
+          "instrument_id": "TWSE:6442",
+          "market_id": "TW_EQUITY",
+          "asset_class": "equity",
+          "symbol": "6442",
+          "exchange": "TWSE",
+          "name_zh": "光聖",
+          "evidence": "taxonomy seed: statementdog_tag_1517",
+          "reason": "theme seed symbol"
+        },
+        {
+          "instrument_id": "TWSE:2059",
+          "market_id": "TW_EQUITY",
+          "asset_class": "equity",
+          "symbol": "2059",
+          "exchange": "TWSE",
+          "name_zh": "川湖",
+          "evidence": "taxonomy seed: statementdog_tag_17390",
+          "reason": "theme seed symbol"
+        }
+      ],
+      "related_symbol_codes": [
+        "2344",
+        "2408",
+        "8299",
+        "2454",
+        "3661",
+        "3443",
+        "2330",
+        "3711",
+        "2449",
+        "3037",
+        "8046",
+        "3189",
+        "2383",
+        "2368",
+        "6223",
+        "6515",
+        "6669",
+        "2382",
+        "2317",
+        "3231",
+        "2356",
+        "2308",
+        "2301",
+        "3017",
+        "3324",
+        "3653",
+        "6805",
+        "2345",
+        "3363",
+        "3081",
+        "6442",
+        "2059"
+      ],
+      "decision": "track_watch",
+      "tw_relevance_status": "supply_chain",
+      "tw_relevance_reason": "configured theme memory_hbm; strong signal: hbm",
+      "tw_related_symbols": [
+        "TPEX:8299",
+        "TWSE:2344",
+        "TWSE:2408"
+      ],
+      "cluster_id": "cluster-25c1ff06d80a4ce3",
+      "cluster_size": 1,
+      "cluster_event_ids": [
+        "technews-2a7fc0f9b0a1"
+      ],
+      "cluster_sources": [
+        {
+          "source_id": "technews",
+          "source": "TechNews",
+          "title": "搶資料中心記憶體供應！OpenAI 執行長 Sam Altman 赴韓見三星高層",
+          "url": "https://technews.tw/2026/11/02/sam-altman-meet-samsung-leadership/",
+          "published_at": "2026-11-02T03:47:07Z"
+        }
+      ],
+      "tracking_reason": "title_zh: 記憶體; summary: hbm, 記憶體, 高頻寬記憶體",
+      "confirmation_status": "unconfirmed",
+      "official_evidence_ids": [],
+      "official_evidence_count": 0
+    },
+    {
+      "id": "digitimes_tw-f8af5491862b",
+      "title_zh": "Meta攜中國傅利葉打造人形機器人　3個月完成Max原型",
+      "summary": "Meta（Meta Platforms）最新傳出與中國機器人新創傅利葉智能（Fourier Intelligence）合作，僅花約3個月便完成代號「Max」的人形機器人原型，並已啟動第二代「Max 2」開發，加速布局人形機器人領域。長期目",
+      "source": "DIGITIMES",
+      "source_id": "digitimes_tw",
+      "source_class": "financial_media",
+      "market_id": "TW_EQUITY",
+      "market_scope": [
+        "TW_EQUITY"
+      ],
+      "published_at": "2026-11-02T03:05:41Z",
+      "url": "https://www.digitimes.com.tw/tech/dt/n/shwnws.asp?id=0000773231_KLQ3X9GI2T3PVS2CQM6K7",
+      "extraction_method": "rss",
+      "fetched_at": "2026-11-02T06:10:21.162261Z",
+      "matched_themes": [
+        {
+          "theme_id": "robotics",
+          "name_zh": "機器人",
+          "score": 0.667,
+          "signals": [
+            "人形機器人",
+            "機器人"
+          ],
+          "reason": "title_zh: 人形機器人, 機器人; summary: 人形機器人, 機器人"
+        },
+        {
+          "theme_id": "statementdog_tag_12760",
+          "name_zh": "人形機器人",
+          "score": 0.333,
+          "signals": [
+            "人形機器人"
+          ],
+          "reason": "title_zh: 人形機器人; summary: 人形機器人"
+        }
+      ],
+      "primary_theme_id": "robotics",
+      "theme_score": 0.667,
+      "direct_symbols": [],
+      "symbol_evidence": {},
+      "related_symbols": [
+        {
+          "instrument_id": "TWSE:2049",
+          "market_id": "TW_EQUITY",
+          "asset_class": "equity",
+          "symbol": "2049",
+          "exchange": "TWSE",
+          "name_zh": "上銀",
+          "evidence": "taxonomy seed: statementdog_tag_12760",
+          "reason": "theme seed symbol"
+        },
+        {
+          "instrument_id": "TWSE:2395",
+          "market_id": "TW_EQUITY",
+          "asset_class": "equity",
+          "symbol": "2395",
+          "exchange": "TWSE",
+          "name_zh": "研華",
+          "evidence": "taxonomy seed: statementdog_tag_12760",
+          "reason": "theme seed symbol"
+        },
+        {
+          "instrument_id": "TWSE:4576",
+          "market_id": "TW_EQUITY",
+          "asset_class": "equity",
+          "symbol": "4576",
+          "exchange": "TWSE",
+          "name_zh": "大銀微系統",
+          "evidence": "taxonomy seed: statementdog_tag_12760",
+          "reason": "theme seed symbol"
+        },
+        {
+          "instrument_id": "TWSE:2464",
+          "market_id": "TW_EQUITY",
+          "asset_class": "equity",
+          "symbol": "2464",
+          "exchange": "TWSE",
+          "name_zh": "盟立",
+          "evidence": "taxonomy seed: statementdog_tag_12760",
+          "reason": "theme seed symbol"
+        },
+        {
+          "instrument_id": "TWSE:1597",
+          "market_id": "TW_EQUITY",
+          "asset_class": "equity",
+          "symbol": "1597",
+          "exchange": "TWSE",
+          "name_zh": "直得",
+          "evidence": "taxonomy seed: statementdog_tag_12760",
+          "reason": "theme seed symbol"
+        },
+        {
+          "instrument_id": "TWSE:4540",
+          "market_id": "TW_EQUITY",
+          "asset_class": "equity",
+          "symbol": "4540",
+          "exchange": "TWSE",
+          "name_zh": "全球傳動",
+          "evidence": "taxonomy seed: statementdog_tag_12760",
+          "reason": "theme seed symbol"
+        },
+        {
+          "instrument_id": "TWSE:2233",
+          "market_id": "TW_EQUITY",
+          "asset_class": "equity",
+          "symbol": "2233",
+          "exchange": "TWSE",
+          "name_zh": "宇隆",
+          "evidence": "taxonomy seed: statementdog_tag_12760",
+          "reason": "theme seed symbol"
+        },
+        {
+          "instrument_id": "TWSE:4571",
+          "market_id": "TW_EQUITY",
+          "asset_class": "equity",
+          "symbol": "4571",
+          "exchange": "TWSE",
+          "name_zh": "鈞興-KY",
+          "evidence": "taxonomy seed: statementdog_tag_12760",
+          "reason": "theme seed symbol"
+        },
+        {
+          "instrument_id": "TWSE:2308",
+          "market_id": "TW_EQUITY",
+          "asset_class": "equity",
+          "symbol": "2308",
+          "exchange": "TWSE",
+          "name_zh": "台達電",
+          "evidence": "taxonomy seed: statementdog_tag_12760",
+          "reason": "theme seed symbol"
+        },
+        {
+          "instrument_id": "TWSE:1504",
+          "market_id": "TW_EQUITY",
+          "asset_class": "equity",
+          "symbol": "1504",
+          "exchange": "TWSE",
+          "name_zh": "東元",
+          "evidence": "taxonomy seed: statementdog_tag_12760",
+          "reason": "theme seed symbol"
+        },
+        {
+          "instrument_id": "TWSE:7750",
+          "market_id": "TW_EQUITY",
+          "asset_class": "equity",
+          "symbol": "7750",
+          "exchange": "TWSE",
+          "name_zh": "新代",
+          "evidence": "taxonomy seed: statementdog_tag_12760",
+          "reason": "theme seed symbol"
+        },
+        {
+          "instrument_id": "TPEX:3577",
+          "market_id": "TW_EQUITY",
+          "asset_class": "equity",
+          "symbol": "3577",
+          "exchange": "TPEX",
+          "name_zh": "泓格",
+          "evidence": "taxonomy seed: robotics",
+          "reason": "theme seed symbol"
+        },
+        {
+          "instrument_id": "TWSE:8374",
+          "market_id": "TW_EQUITY",
+          "asset_class": "equity",
+          "symbol": "8374",
+          "exchange": "TWSE",
+          "name_zh": "羅昇",
+          "evidence": "taxonomy seed: robotics",
+          "reason": "theme seed symbol"
+        },
+        {
+          "instrument_id": "TPEX:8234",
+          "market_id": "TW_EQUITY",
+          "asset_class": "equity",
+          "symbol": "8234",
+          "exchange": "TPEX",
+          "name_zh": "新漢",
+          "evidence": "taxonomy seed: robotics",
+          "reason": "theme seed symbol"
+        },
+        {
+          "instrument_id": "TWSE:2359",
+          "market_id": "TW_EQUITY",
+          "asset_class": "equity",
+          "symbol": "2359",
+          "exchange": "TWSE",
+          "name_zh": "所羅門",
+          "evidence": "taxonomy seed: statementdog_tag_12760",
+          "reason": "theme seed symbol"
+        },
+        {
+          "instrument_id": "TWSE:3019",
+          "market_id": "TW_EQUITY",
+          "asset_class": "equity",
+          "symbol": "3019",
+          "exchange": "TWSE",
+          "name_zh": "亞光",
+          "evidence": "taxonomy seed: statementdog_tag_12760",
+          "reason": "theme seed symbol"
+        },
+        {
+          "instrument_id": "TWSE:5484",
+          "market_id": "TW_EQUITY",
+          "asset_class": "equity",
+          "symbol": "5484",
+          "exchange": "TWSE",
+          "name_zh": "慧友",
+          "evidence": "taxonomy seed: robotics",
+          "reason": "theme seed symbol"
+        },
+        {
+          "instrument_id": "TPEX:5289",
+          "market_id": "TW_EQUITY",
+          "asset_class": "equity",
+          "symbol": "5289",
+          "exchange": "TPEX",
+          "name_zh": "宜鼎",
+          "evidence": "taxonomy seed: robotics",
+          "reason": "theme seed symbol"
+        },
+        {
+          "instrument_id": "TWSE:2330",
+          "market_id": "TW_EQUITY",
+          "asset_class": "equity",
+          "symbol": "2330",
+          "exchange": "TWSE",
+          "name_zh": "台積電",
+          "evidence": "taxonomy seed: statementdog_tag_12760",
+          "reason": "theme seed symbol"
+        },
+        {
+          "instrument_id": "TWSE:2317",
+          "market_id": "TW_EQUITY",
+          "asset_class": "equity",
+          "symbol": "2317",
+          "exchange": "TWSE",
+          "name_zh": "鴻海",
+          "evidence": "taxonomy seed: statementdog_tag_12760",
+          "reason": "theme seed symbol"
+        },
+        {
+          "instrument_id": "TWSE:4585",
+          "market_id": "TW_EQUITY",
+          "asset_class": "equity",
+          "symbol": "4585",
+          "exchange": "TWSE",
+          "name_zh": "達明",
+          "evidence": "taxonomy seed: statementdog_tag_12760",
+          "reason": "theme seed symbol"
+        },
+        {
+          "instrument_id": "TWSE:6215",
+          "market_id": "TW_EQUITY",
+          "asset_class": "equity",
+          "symbol": "6215",
+          "exchange": "TWSE",
+          "name_zh": "和椿",
+          "evidence": "taxonomy seed: statementdog_tag_12760",
+          "reason": "theme seed symbol"
+        },
+        {
+          "instrument_id": "TWSE:2382",
+          "market_id": "TW_EQUITY",
+          "asset_class": "equity",
+          "symbol": "2382",
+          "exchange": "TWSE",
+          "name_zh": "廣達",
+          "evidence": "taxonomy seed: statementdog_tag_12760",
+          "reason": "theme seed symbol"
+        },
+        {
+          "instrument_id": "TPEX:3379",
+          "market_id": "TW_EQUITY",
+          "asset_class": "equity",
+          "symbol": "3379",
+          "exchange": "TPEX",
+          "name_zh": "彬台",
+          "evidence": "taxonomy seed: robotics",
+          "reason": "theme seed symbol"
+        },
+        {
+          "instrument_id": "TWSE:4562",
+          "market_id": "TW_EQUITY",
+          "asset_class": "equity",
+          "symbol": "4562",
+          "exchange": "TWSE",
+          "name_zh": "穎漢",
+          "evidence": "taxonomy seed: robotics",
+          "reason": "theme seed symbol"
+        },
+        {
+          "instrument_id": "TWSE:4583",
+          "market_id": "TW_EQUITY",
+          "asset_class": "equity",
+          "symbol": "4583",
+          "exchange": "TWSE",
+          "name_zh": "台灣精銳",
+          "evidence": "taxonomy seed: statementdog_tag_12760",
+          "reason": "theme seed symbol"
+        },
+        {
+          "instrument_id": "TPEX:6121",
+          "market_id": "TW_EQUITY",
+          "asset_class": "equity",
+          "symbol": "6121",
+          "exchange": "TPEX",
+          "name_zh": "新普",
+          "evidence": "taxonomy seed: statementdog_tag_12760",
+          "reason": "theme seed symbol"
+        },
+        {
+          "instrument_id": "TPEX:3211",
+          "market_id": "TW_EQUITY",
+          "asset_class": "equity",
+          "symbol": "3211",
+          "exchange": "TPEX",
+          "name_zh": "順達",
+          "evidence": "taxonomy seed: statementdog_tag_12760",
+          "reason": "theme seed symbol"
+        },
+        {
+          "instrument_id": "TWSE:3008",
+          "market_id": "TW_EQUITY",
+          "asset_class": "equity",
+          "symbol": "3008",
+          "exchange": "TWSE",
+          "name_zh": "大立光",
+          "evidence": "taxonomy seed: statementdog_tag_12760",
+          "reason": "theme seed symbol"
+        },
+        {
+          "instrument_id": "TWSE:6166",
+          "market_id": "TW_EQUITY",
+          "asset_class": "equity",
+          "symbol": "6166",
+          "exchange": "TWSE",
+          "name_zh": "凌華",
+          "evidence": "taxonomy seed: statementdog_tag_12760",
+          "reason": "theme seed symbol"
+        },
+        {
+          "instrument_id": "TWSE:6414",
+          "market_id": "TW_EQUITY",
+          "asset_class": "equity",
+          "symbol": "6414",
+          "exchange": "TWSE",
+          "name_zh": "樺漢",
+          "evidence": "taxonomy seed: statementdog_tag_12760",
+          "reason": "theme seed symbol"
+        }
+      ],
+      "related_symbol_codes": [
+        "2049",
+        "2395",
+        "4576",
+        "2464",
+        "1597",
+        "4540",
+        "2233",
+        "4571",
+        "2308",
+        "1504",
+        "7750",
+        "3577",
+        "8374",
+        "8234",
+        "2359",
+        "3019",
+        "5484",
+        "5289",
+        "2330",
+        "2317",
+        "4585",
+        "6215",
+        "2382",
+        "3379",
+        "4562",
+        "4583",
+        "6121",
+        "3211",
+        "3008",
+        "6166",
+        "6414"
+      ],
+      "decision": "track_watch",
+      "tw_relevance_status": "supply_chain",
+      "tw_relevance_reason": "configured theme robotics; strong signal: 人形機器人",
+      "tw_related_symbols": [
+        "TPEX:3379",
+        "TPEX:3577",
+        "TPEX:5289",
+        "TPEX:8234",
+        "TWSE:1504",
+        "TWSE:1597",
+        "TWSE:2049",
+        "TWSE:2233",
+        "TWSE:2308",
+        "TWSE:2317",
+        "TWSE:2330",
+        "TWSE:2359",
+        "TWSE:2382",
+        "TWSE:2395",
+        "TWSE:2464",
+        "TWSE:3019",
+        "TWSE:4540",
+        "TWSE:4562",
+        "TWSE:4571",
+        "TWSE:4576",
+        "TWSE:4585",
+        "TWSE:5484",
+        "TWSE:6215",
+        "TWSE:7750",
+        "TWSE:8374"
+      ],
+      "cluster_id": "cluster-83d7f78298c0ed3f",
+      "cluster_size": 1,
+      "cluster_event_ids": [
+        "digitimes_tw-f8af5491862b"
+      ],
+      "cluster_sources": [
+        {
+          "source_id": "digitimes_tw",
+          "source": "DIGITIMES",
+          "title": "Meta攜中國傅利葉打造人形機器人　3個月完成Max原型",
+          "url": "https://www.digitimes.com.tw/tech/dt/n/shwnws.asp?id=0000773231_KLQ3X9GI2T3PVS2CQM6K7",
+          "published_at": "2026-11-02T03:05:41Z"
+        }
+      ],
+      "tracking_reason": "title_zh: 人形機器人, 機器人; summary: 人形機器人, 機器人",
+      "confirmation_status": "unconfirmed",
+      "official_evidence_ids": [],
+      "official_evidence_count": 0
+    },
+    {
+      "id": "digitimes_tw-958d3e9fa7b5",
+      "title_zh": "PC閒置大量記憶體　OpenAI CEO：DRAM應優先供資料中心",
+      "summary": "OpenAI執行長Sam Altman認為，面對全球DRAM供應短缺，將DRAM放在個人電腦是「相當糟糕」的做法，放在雲端資料中心使用更有效率。Altman日前接受Stripe共同創辦人John Collison主持的Podcast節目訪問",
+      "source": "DIGITIMES",
+      "source_id": "digitimes_tw",
+      "source_class": "financial_media",
+      "market_id": "TW_EQUITY",
+      "market_scope": [
+        "TW_EQUITY"
+      ],
+      "published_at": "2026-11-02T02:54:27Z",
+      "url": "https://www.digitimes.com.tw/tech/dt/n/shwnws.asp?id=0000773227_OVX1DRDJ3KHPB062IJQ0L",
+      "extraction_method": "rss",
+      "fetched_at": "2026-11-02T06:10:21.162261Z",
+      "matched_themes": [
+        {
+          "theme_id": "memory_hbm",
+          "name_zh": "記憶體與 HBM",
+          "score": 0.667,
+          "signals": [
+            "dram",
+            "記憶體"
+          ],
+          "reason": "title_zh: dram, 記憶體; summary: dram"
+        },
+        {
+          "theme_id": "statementdog_tag_7440",
+          "name_zh": "PC",
+          "score": 0.333,
+          "signals": [
+            "pc"
+          ],
+          "reason": "title_zh: pc"
+        }
+      ],
+      "primary_theme_id": "memory_hbm",
+      "theme_score": 0.667,
+      "direct_symbols": [],
+      "symbol_evidence": {},
+      "related_symbols": [
+        {
+          "instrument_id": "TWSE:2344",
+          "market_id": "TW_EQUITY",
+          "asset_class": "equity",
+          "symbol": "2344",
+          "exchange": "TWSE",
+          "name_zh": "華邦電",
+          "evidence": "taxonomy seed: statementdog_tag_7440",
+          "reason": "theme seed symbol"
+        },
+        {
+          "instrument_id": "TWSE:2408",
+          "market_id": "TW_EQUITY",
+          "asset_class": "equity",
+          "symbol": "2408",
+          "exchange": "TWSE",
+          "name_zh": "南亞科",
+          "evidence": "taxonomy seed: statementdog_tag_7440",
+          "reason": "theme seed symbol"
+        },
+        {
+          "instrument_id": "TPEX:8299",
+          "market_id": "TW_EQUITY",
+          "asset_class": "equity",
+          "symbol": "8299",
+          "exchange": "TPEX",
+          "name_zh": "群聯",
+          "evidence": "taxonomy seed: statementdog_tag_7440",
+          "reason": "theme seed symbol"
+        },
+        {
+          "instrument_id": "TWSE:2330",
+          "market_id": "TW_EQUITY",
+          "asset_class": "equity",
+          "symbol": "2330",
+          "exchange": "TWSE",
+          "name_zh": "台積電",
+          "evidence": "taxonomy seed: statementdog_tag_7440",
+          "reason": "theme seed symbol"
+        },
+        {
+          "instrument_id": "TPEX:3324",
+          "market_id": "TW_EQUITY",
+          "asset_class": "equity",
+          "symbol": "3324",
+          "exchange": "TPEX",
+          "name_zh": "雙鴻",
+          "evidence": "taxonomy seed: statementdog_tag_7440",
+          "reason": "theme seed symbol"
+        },
+        {
+          "instrument_id": "TWSE:3653",
+          "market_id": "TW_EQUITY",
+          "asset_class": "equity",
+          "symbol": "3653",
+          "exchange": "TWSE",
+          "name_zh": "健策",
+          "evidence": "taxonomy seed: statementdog_tag_7440",
+          "reason": "theme seed symbol"
+        },
+        {
+          "instrument_id": "TWSE:2308",
+          "market_id": "TW_EQUITY",
+          "asset_class": "equity",
+          "symbol": "2308",
+          "exchange": "TWSE",
+          "name_zh": "台達電",
+          "evidence": "taxonomy seed: statementdog_tag_7440",
+          "reason": "theme seed symbol"
+        },
+        {
+          "instrument_id": "TWSE:3231",
+          "market_id": "TW_EQUITY",
+          "asset_class": "equity",
+          "symbol": "3231",
+          "exchange": "TWSE",
+          "name_zh": "緯創",
+          "evidence": "taxonomy seed: statementdog_tag_7440",
+          "reason": "theme seed symbol"
+        },
+        {
+          "instrument_id": "TWSE:2324",
+          "market_id": "TW_EQUITY",
+          "asset_class": "equity",
+          "symbol": "2324",
+          "exchange": "TWSE",
+          "name_zh": "仁寶",
+          "evidence": "taxonomy seed: statementdog_tag_7440",
+          "reason": "theme seed symbol"
+        },
+        {
+          "instrument_id": "TWSE:2356",
+          "market_id": "TW_EQUITY",
+          "asset_class": "equity",
+          "symbol": "2356",
+          "exchange": "TWSE",
+          "name_zh": "英業達",
+          "evidence": "taxonomy seed: statementdog_tag_7440",
+          "reason": "theme seed symbol"
+        },
+        {
+          "instrument_id": "TWSE:4938",
+          "market_id": "TW_EQUITY",
+          "asset_class": "equity",
+          "symbol": "4938",
+          "exchange": "TWSE",
+          "name_zh": "和碩",
+          "evidence": "taxonomy seed: statementdog_tag_7440",
+          "reason": "theme seed symbol"
+        },
+        {
+          "instrument_id": "TWSE:2376",
+          "market_id": "TW_EQUITY",
+          "asset_class": "equity",
+          "symbol": "2376",
+          "exchange": "TWSE",
+          "name_zh": "技嘉",
+          "evidence": "taxonomy seed: statementdog_tag_7440",
+          "reason": "theme seed symbol"
+        },
+        {
+          "instrument_id": "TWSE:2377",
+          "market_id": "TW_EQUITY",
+          "asset_class": "equity",
+          "symbol": "2377",
+          "exchange": "TWSE",
+          "name_zh": "微星",
+          "evidence": "taxonomy seed: statementdog_tag_7440",
+          "reason": "theme seed symbol"
+        },
+        {
+          "instrument_id": "TWSE:3515",
+          "market_id": "TW_EQUITY",
+          "asset_class": "equity",
+          "symbol": "3515",
+          "exchange": "TWSE",
+          "name_zh": "華擎",
+          "evidence": "taxonomy seed: statementdog_tag_7440",
+          "reason": "theme seed symbol"
+        }
+      ],
+      "related_symbol_codes": [
+        "2344",
+        "2408",
+        "8299",
+        "2330",
+        "3324",
+        "3653",
+        "2308",
+        "3231",
+        "2324",
+        "2356",
+        "4938",
+        "2376",
+        "2377",
+        "3515"
+      ],
+      "decision": "track_watch",
+      "tw_relevance_status": "supply_chain",
+      "tw_relevance_reason": "configured theme memory_hbm; strong signal: dram",
+      "tw_related_symbols": [
+        "TPEX:8299",
+        "TWSE:2344",
+        "TWSE:2408"
+      ],
+      "cluster_id": "cluster-c14449e6ff85bd8c",
+      "cluster_size": 1,
+      "cluster_event_ids": [
+        "digitimes_tw-958d3e9fa7b5"
+      ],
+      "cluster_sources": [
+        {
+          "source_id": "digitimes_tw",
+          "source": "DIGITIMES",
+          "title": "PC閒置大量記憶體　OpenAI CEO：DRAM應優先供資料中心",
+          "url": "https://www.digitimes.com.tw/tech/dt/n/shwnws.asp?id=0000773227_OVX1DRDJ3KHPB062IJQ0L",
+          "published_at": "2026-11-02T02:54:27Z"
+        }
+      ],
+      "tracking_reason": "title_zh: dram, 記憶體; summary: dram",
+      "confirmation_status": "unconfirmed",
+      "official_evidence_ids": [],
+      "official_evidence_count": 0
+    },
+    {
+      "id": "digitimes_tw-2ef403aad171",
+      "title_zh": "Sam Altman週末突襲訪韓　接連會三星、SK擬為確保HBM供應與AIDC合作",
+      "summary": "OpenAI執行長Sam Altman日前炫風訪韓，並接連與三星電子（Samsung Electronics）及SK集團（SK Group）高層會面。由於這兩大集團都是OpenAI星門計畫（Stargate）的關鍵記憶體供應夥伴，業界因此推測，雙",
+      "source": "DIGITIMES",
+      "source_id": "digitimes_tw",
+      "source_class": "financial_media",
+      "market_id": "TW_EQUITY",
+      "market_scope": [
+        "TW_EQUITY"
+      ],
+      "published_at": "2026-11-02T01:45:21Z",
+      "url": "https://www.digitimes.com.tw/tech/dt/n/shwnws.asp?id=0000773221_2WA1UR913C827F0N4GSGE",
+      "extraction_method": "rss",
+      "fetched_at": "2026-11-02T06:10:21.162261Z",
+      "matched_themes": [
+        {
+          "theme_id": "memory_hbm",
+          "name_zh": "記憶體與 HBM",
+          "score": 0.5,
+          "signals": [
+            "hbm",
+            "記憶體"
+          ],
+          "reason": "title_zh: hbm; summary: 記憶體"
+        }
+      ],
+      "primary_theme_id": "memory_hbm",
+      "theme_score": 0.5,
+      "direct_symbols": [
+        {
+          "instrument_id": "TWSE:2634",
+          "market_id": "TW_EQUITY",
+          "asset_class": "equity",
+          "symbol": "2634",
+          "exchange": "TWSE",
+          "name_zh": "漢翔",
+          "evidence": "title_zh: AIDC",
+          "reason": "direct company alias mention"
+        }
+      ],
+      "symbol_evidence": {
+        "2634": "title_zh: AIDC"
+      },
+      "related_symbols": [
+        {
+          "instrument_id": "TWSE:2634",
+          "market_id": "TW_EQUITY",
+          "asset_class": "equity",
+          "symbol": "2634",
+          "exchange": "TWSE",
+          "name_zh": "漢翔",
+          "evidence": "title_zh: AIDC",
+          "reason": "direct company alias mention"
+        },
+        {
+          "instrument_id": "TWSE:2344",
+          "market_id": "TW_EQUITY",
+          "asset_class": "equity",
+          "symbol": "2344",
+          "exchange": "TWSE",
+          "name_zh": "華邦電",
+          "evidence": "taxonomy seed: memory_hbm",
+          "reason": "theme seed symbol"
+        },
+        {
+          "instrument_id": "TWSE:2408",
+          "market_id": "TW_EQUITY",
+          "asset_class": "equity",
+          "symbol": "2408",
+          "exchange": "TWSE",
+          "name_zh": "南亞科",
+          "evidence": "taxonomy seed: memory_hbm",
+          "reason": "theme seed symbol"
+        },
+        {
+          "instrument_id": "TPEX:8299",
+          "market_id": "TW_EQUITY",
+          "asset_class": "equity",
+          "symbol": "8299",
+          "exchange": "TPEX",
+          "name_zh": "群聯",
+          "evidence": "taxonomy seed: memory_hbm",
+          "reason": "theme seed symbol"
+        }
+      ],
+      "related_symbol_codes": [
+        "2634",
+        "2344",
+        "2408",
+        "8299"
+      ],
+      "decision": "track_watch",
+      "tw_relevance_status": "direct",
+      "tw_relevance_reason": "direct Taiwan symbol: TWSE:2634",
+      "tw_related_symbols": [
+        "TWSE:2634"
+      ],
+      "cluster_id": "cluster-9206ea0eadc4f0e9",
+      "cluster_size": 1,
+      "cluster_event_ids": [
+        "digitimes_tw-2ef403aad171"
+      ],
+      "cluster_sources": [
+        {
+          "source_id": "digitimes_tw",
+          "source": "DIGITIMES",
+          "title": "Sam Altman週末突襲訪韓　接連會三星、SK擬為確保HBM供應與AIDC合作",
+          "url": "https://www.digitimes.com.tw/tech/dt/n/shwnws.asp?id=0000773221_2WA1UR913C827F0N4GSGE",
+          "published_at": "2026-11-02T01:45:21Z"
+        }
+      ],
+      "tracking_reason": "title_zh: hbm; summary: 記憶體",
       "confirmation_status": "unconfirmed",
       "official_evidence_ids": [],
       "official_evidence_count": 0
@@ -213,7 +1867,7 @@
       "published_at": "2026-11-01T18:04:34Z",
       "url": "https://www.digitimes.com.tw/tech/dt/n/shwnws.asp?id=0000773106_J0H2PVR8LUGA397MW84ES",
       "extraction_method": "rss",
-      "fetched_at": "2026-11-01T23:37:45.602572Z",
+      "fetched_at": "2026-11-02T06:10:21.162261Z",
       "matched_themes": [
         {
           "theme_id": "robotics",
@@ -572,7 +2226,7 @@
       "published_at": "2026-11-01T12:10:03Z",
       "url": "https://news.cnyes.com/news/id/6643213",
       "extraction_method": "rss",
-      "fetched_at": "2026-11-01T23:37:45.602572Z",
+      "fetched_at": "2026-11-02T06:10:21.162261Z",
       "matched_themes": [
         {
           "theme_id": "optical_cpo",
@@ -1118,493 +2772,68 @@
       "confirmation_status": "unconfirmed",
       "official_evidence_ids": [],
       "official_evidence_count": 0
-    },
-    {
-      "id": "technews-f2e359d6d89b",
-      "title_zh": "思靈機器人在輝達 GTC 柏林大會發表 Agile ONE SN 人型機器人，並與奧迪開展人形機器人試點",
-      "summary": "思靈機器人 10 月 21 日與輝達在輝達 GTC 柏林大會上聯合發布研究型人型機器人 Agile ONE S [&#8230;]",
-      "source": "TechNews",
-      "source_id": "technews",
-      "source_class": "financial_media",
-      "market_id": "TW_EQUITY",
-      "market_scope": [
-        "TW_EQUITY"
-      ],
-      "published_at": "2026-10-31T06:00:30Z",
-      "url": "https://technews.tw/2026/10/31/agile-robots-se_agile-one-sn/",
-      "extraction_method": "rss",
-      "fetched_at": "2026-11-01T23:37:45.602572Z",
-      "matched_themes": [
-        {
-          "theme_id": "robotics",
-          "name_zh": "機器人",
-          "score": 0.667,
-          "signals": [
-            "人形機器人",
-            "機器人"
-          ],
-          "reason": "title_zh: 人形機器人, 機器人; summary: 機器人"
-        },
-        {
-          "theme_id": "statementdog_tag_12760",
-          "name_zh": "人形機器人",
-          "score": 0.333,
-          "signals": [
-            "人形機器人"
-          ],
-          "reason": "title_zh: 人形機器人"
-        }
-      ],
-      "primary_theme_id": "robotics",
-      "theme_score": 0.667,
-      "direct_symbols": [],
-      "symbol_evidence": {},
-      "related_symbols": [
-        {
-          "instrument_id": "TWSE:2049",
-          "market_id": "TW_EQUITY",
-          "asset_class": "equity",
-          "symbol": "2049",
-          "exchange": "TWSE",
-          "name_zh": "上銀",
-          "evidence": "taxonomy seed: statementdog_tag_12760",
-          "reason": "theme seed symbol"
-        },
-        {
-          "instrument_id": "TWSE:2395",
-          "market_id": "TW_EQUITY",
-          "asset_class": "equity",
-          "symbol": "2395",
-          "exchange": "TWSE",
-          "name_zh": "研華",
-          "evidence": "taxonomy seed: statementdog_tag_12760",
-          "reason": "theme seed symbol"
-        },
-        {
-          "instrument_id": "TWSE:4576",
-          "market_id": "TW_EQUITY",
-          "asset_class": "equity",
-          "symbol": "4576",
-          "exchange": "TWSE",
-          "name_zh": "大銀微系統",
-          "evidence": "taxonomy seed: statementdog_tag_12760",
-          "reason": "theme seed symbol"
-        },
-        {
-          "instrument_id": "TWSE:2464",
-          "market_id": "TW_EQUITY",
-          "asset_class": "equity",
-          "symbol": "2464",
-          "exchange": "TWSE",
-          "name_zh": "盟立",
-          "evidence": "taxonomy seed: statementdog_tag_12760",
-          "reason": "theme seed symbol"
-        },
-        {
-          "instrument_id": "TWSE:1597",
-          "market_id": "TW_EQUITY",
-          "asset_class": "equity",
-          "symbol": "1597",
-          "exchange": "TWSE",
-          "name_zh": "直得",
-          "evidence": "taxonomy seed: statementdog_tag_12760",
-          "reason": "theme seed symbol"
-        },
-        {
-          "instrument_id": "TWSE:4540",
-          "market_id": "TW_EQUITY",
-          "asset_class": "equity",
-          "symbol": "4540",
-          "exchange": "TWSE",
-          "name_zh": "全球傳動",
-          "evidence": "taxonomy seed: statementdog_tag_12760",
-          "reason": "theme seed symbol"
-        },
-        {
-          "instrument_id": "TWSE:2233",
-          "market_id": "TW_EQUITY",
-          "asset_class": "equity",
-          "symbol": "2233",
-          "exchange": "TWSE",
-          "name_zh": "宇隆",
-          "evidence": "taxonomy seed: statementdog_tag_12760",
-          "reason": "theme seed symbol"
-        },
-        {
-          "instrument_id": "TWSE:4571",
-          "market_id": "TW_EQUITY",
-          "asset_class": "equity",
-          "symbol": "4571",
-          "exchange": "TWSE",
-          "name_zh": "鈞興-KY",
-          "evidence": "taxonomy seed: statementdog_tag_12760",
-          "reason": "theme seed symbol"
-        },
-        {
-          "instrument_id": "TWSE:2308",
-          "market_id": "TW_EQUITY",
-          "asset_class": "equity",
-          "symbol": "2308",
-          "exchange": "TWSE",
-          "name_zh": "台達電",
-          "evidence": "taxonomy seed: statementdog_tag_12760",
-          "reason": "theme seed symbol"
-        },
-        {
-          "instrument_id": "TWSE:1504",
-          "market_id": "TW_EQUITY",
-          "asset_class": "equity",
-          "symbol": "1504",
-          "exchange": "TWSE",
-          "name_zh": "東元",
-          "evidence": "taxonomy seed: statementdog_tag_12760",
-          "reason": "theme seed symbol"
-        },
-        {
-          "instrument_id": "TWSE:7750",
-          "market_id": "TW_EQUITY",
-          "asset_class": "equity",
-          "symbol": "7750",
-          "exchange": "TWSE",
-          "name_zh": "新代",
-          "evidence": "taxonomy seed: statementdog_tag_12760",
-          "reason": "theme seed symbol"
-        },
-        {
-          "instrument_id": "TPEX:3577",
-          "market_id": "TW_EQUITY",
-          "asset_class": "equity",
-          "symbol": "3577",
-          "exchange": "TPEX",
-          "name_zh": "泓格",
-          "evidence": "taxonomy seed: robotics",
-          "reason": "theme seed symbol"
-        },
-        {
-          "instrument_id": "TWSE:8374",
-          "market_id": "TW_EQUITY",
-          "asset_class": "equity",
-          "symbol": "8374",
-          "exchange": "TWSE",
-          "name_zh": "羅昇",
-          "evidence": "taxonomy seed: robotics",
-          "reason": "theme seed symbol"
-        },
-        {
-          "instrument_id": "TPEX:8234",
-          "market_id": "TW_EQUITY",
-          "asset_class": "equity",
-          "symbol": "8234",
-          "exchange": "TPEX",
-          "name_zh": "新漢",
-          "evidence": "taxonomy seed: robotics",
-          "reason": "theme seed symbol"
-        },
-        {
-          "instrument_id": "TWSE:2359",
-          "market_id": "TW_EQUITY",
-          "asset_class": "equity",
-          "symbol": "2359",
-          "exchange": "TWSE",
-          "name_zh": "所羅門",
-          "evidence": "taxonomy seed: statementdog_tag_12760",
-          "reason": "theme seed symbol"
-        },
-        {
-          "instrument_id": "TWSE:3019",
-          "market_id": "TW_EQUITY",
-          "asset_class": "equity",
-          "symbol": "3019",
-          "exchange": "TWSE",
-          "name_zh": "亞光",
-          "evidence": "taxonomy seed: statementdog_tag_12760",
-          "reason": "theme seed symbol"
-        },
-        {
-          "instrument_id": "TWSE:5484",
-          "market_id": "TW_EQUITY",
-          "asset_class": "equity",
-          "symbol": "5484",
-          "exchange": "TWSE",
-          "name_zh": "慧友",
-          "evidence": "taxonomy seed: robotics",
-          "reason": "theme seed symbol"
-        },
-        {
-          "instrument_id": "TPEX:5289",
-          "market_id": "TW_EQUITY",
-          "asset_class": "equity",
-          "symbol": "5289",
-          "exchange": "TPEX",
-          "name_zh": "宜鼎",
-          "evidence": "taxonomy seed: robotics",
-          "reason": "theme seed symbol"
-        },
-        {
-          "instrument_id": "TWSE:2330",
-          "market_id": "TW_EQUITY",
-          "asset_class": "equity",
-          "symbol": "2330",
-          "exchange": "TWSE",
-          "name_zh": "台積電",
-          "evidence": "taxonomy seed: statementdog_tag_12760",
-          "reason": "theme seed symbol"
-        },
-        {
-          "instrument_id": "TWSE:2317",
-          "market_id": "TW_EQUITY",
-          "asset_class": "equity",
-          "symbol": "2317",
-          "exchange": "TWSE",
-          "name_zh": "鴻海",
-          "evidence": "taxonomy seed: statementdog_tag_12760",
-          "reason": "theme seed symbol"
-        },
-        {
-          "instrument_id": "TWSE:4585",
-          "market_id": "TW_EQUITY",
-          "asset_class": "equity",
-          "symbol": "4585",
-          "exchange": "TWSE",
-          "name_zh": "達明",
-          "evidence": "taxonomy seed: statementdog_tag_12760",
-          "reason": "theme seed symbol"
-        },
-        {
-          "instrument_id": "TWSE:6215",
-          "market_id": "TW_EQUITY",
-          "asset_class": "equity",
-          "symbol": "6215",
-          "exchange": "TWSE",
-          "name_zh": "和椿",
-          "evidence": "taxonomy seed: statementdog_tag_12760",
-          "reason": "theme seed symbol"
-        },
-        {
-          "instrument_id": "TWSE:2382",
-          "market_id": "TW_EQUITY",
-          "asset_class": "equity",
-          "symbol": "2382",
-          "exchange": "TWSE",
-          "name_zh": "廣達",
-          "evidence": "taxonomy seed: statementdog_tag_12760",
-          "reason": "theme seed symbol"
-        },
-        {
-          "instrument_id": "TPEX:3379",
-          "market_id": "TW_EQUITY",
-          "asset_class": "equity",
-          "symbol": "3379",
-          "exchange": "TPEX",
-          "name_zh": "彬台",
-          "evidence": "taxonomy seed: robotics",
-          "reason": "theme seed symbol"
-        },
-        {
-          "instrument_id": "TWSE:4562",
-          "market_id": "TW_EQUITY",
-          "asset_class": "equity",
-          "symbol": "4562",
-          "exchange": "TWSE",
-          "name_zh": "穎漢",
-          "evidence": "taxonomy seed: robotics",
-          "reason": "theme seed symbol"
-        },
-        {
-          "instrument_id": "TWSE:4583",
-          "market_id": "TW_EQUITY",
-          "asset_class": "equity",
-          "symbol": "4583",
-          "exchange": "TWSE",
-          "name_zh": "台灣精銳",
-          "evidence": "taxonomy seed: statementdog_tag_12760",
-          "reason": "theme seed symbol"
-        },
-        {
-          "instrument_id": "TPEX:6121",
-          "market_id": "TW_EQUITY",
-          "asset_class": "equity",
-          "symbol": "6121",
-          "exchange": "TPEX",
-          "name_zh": "新普",
-          "evidence": "taxonomy seed: statementdog_tag_12760",
-          "reason": "theme seed symbol"
-        },
-        {
-          "instrument_id": "TPEX:3211",
-          "market_id": "TW_EQUITY",
-          "asset_class": "equity",
-          "symbol": "3211",
-          "exchange": "TPEX",
-          "name_zh": "順達",
-          "evidence": "taxonomy seed: statementdog_tag_12760",
-          "reason": "theme seed symbol"
-        },
-        {
-          "instrument_id": "TWSE:3008",
-          "market_id": "TW_EQUITY",
-          "asset_class": "equity",
-          "symbol": "3008",
-          "exchange": "TWSE",
-          "name_zh": "大立光",
-          "evidence": "taxonomy seed: statementdog_tag_12760",
-          "reason": "theme seed symbol"
-        },
-        {
-          "instrument_id": "TWSE:6166",
-          "market_id": "TW_EQUITY",
-          "asset_class": "equity",
-          "symbol": "6166",
-          "exchange": "TWSE",
-          "name_zh": "凌華",
-          "evidence": "taxonomy seed: statementdog_tag_12760",
-          "reason": "theme seed symbol"
-        },
-        {
-          "instrument_id": "TWSE:6414",
-          "market_id": "TW_EQUITY",
-          "asset_class": "equity",
-          "symbol": "6414",
-          "exchange": "TWSE",
-          "name_zh": "樺漢",
-          "evidence": "taxonomy seed: statementdog_tag_12760",
-          "reason": "theme seed symbol"
-        }
-      ],
-      "related_symbol_codes": [
-        "2049",
-        "2395",
-        "4576",
-        "2464",
-        "1597",
-        "4540",
-        "2233",
-        "4571",
-        "2308",
-        "1504",
-        "7750",
-        "3577",
-        "8374",
-        "8234",
-        "2359",
-        "3019",
-        "5484",
-        "5289",
-        "2330",
-        "2317",
-        "4585",
-        "6215",
-        "2382",
-        "3379",
-        "4562",
-        "4583",
-        "6121",
-        "3211",
-        "3008",
-        "6166",
-        "6414"
-      ],
-      "decision": "track_watch",
-      "tw_relevance_status": "supply_chain",
-      "tw_relevance_reason": "configured theme robotics; strong signal: 人形機器人",
-      "tw_related_symbols": [
-        "TPEX:3379",
-        "TPEX:3577",
-        "TPEX:5289",
-        "TPEX:8234",
-        "TWSE:1504",
-        "TWSE:1597",
-        "TWSE:2049",
-        "TWSE:2233",
-        "TWSE:2308",
-        "TWSE:2317",
-        "TWSE:2330",
-        "TWSE:2359",
-        "TWSE:2382",
-        "TWSE:2395",
-        "TWSE:2464",
-        "TWSE:3019",
-        "TWSE:4540",
-        "TWSE:4562",
-        "TWSE:4571",
-        "TWSE:4576",
-        "TWSE:4585",
-        "TWSE:5484",
-        "TWSE:6215",
-        "TWSE:7750",
-        "TWSE:8374"
-      ],
-      "cluster_id": "cluster-446f239b7b443a85",
-      "cluster_size": 1,
-      "cluster_event_ids": [
-        "technews-f2e359d6d89b"
-      ],
-      "cluster_sources": [
-        {
-          "source_id": "technews",
-          "source": "TechNews",
-          "title": "思靈機器人在輝達 GTC 柏林大會發表 Agile ONE SN 人型機器人，並與奧迪開展人形機器人試點",
-          "url": "https://technews.tw/2026/10/31/agile-robots-se_agile-one-sn/",
-          "published_at": "2026-10-31T06:00:30Z"
-        }
-      ],
-      "tracking_reason": "title_zh: 人形機器人, 機器人; summary: 機器人",
-      "confirmation_status": "unconfirmed",
-      "official_evidence_ids": [],
-      "official_evidence_count": 0
     }
   ],
-  "pre_cluster_items": 57,
+  "pre_cluster_items": 79,
   "excluded_items": 26,
   "tw_relevance_distribution": {
-    "direct": 21,
-    "supply_chain": 36
+    "direct": 31,
+    "supply_chain": 48
   },
   "tw_relevance_reason_distribution": {
-    "configured theme ai_server; strong signal: ai 伺服器": 1,
     "configured theme ai_server; strong signal: ai伺服器": 1,
+    "configured theme cowos_supply_chain; strong signal: 先進封裝": 2,
     "configured theme defense_drone; strong signal: 國防": 2,
     "configured theme defense_drone; strong signal: 無人機": 1,
     "configured theme energy_grid; strong signal: 電網": 1,
-    "configured theme memory_hbm; strong signal: dram": 1,
+    "configured theme memory_hbm; strong signal: dram": 2,
+    "configured theme memory_hbm; strong signal: hbm": 1,
     "configured theme optical_cpo; strong signal: 光通訊": 1,
     "configured theme robotics; strong signal: robot": 1,
     "configured theme robotics; strong signal: robotics": 1,
     "configured theme robotics; strong signal: 人形機器人": 1,
-    "configured theme robotics; strong signal: 機器人": 4,
+    "configured theme robotics; strong signal: 機器人": 3,
     "configured theme statementdog_tag_11553; strong signal: 車用電子": 1,
-    "configured theme statementdog_tag_1216; strong signal: 筆電": 1,
+    "configured theme statementdog_tag_12138; strong signal: 建設": 2,
+    "configured theme statementdog_tag_1345; strong signal: 航空": 1,
     "configured theme statementdog_tag_1385; strong signal: 半導體材料": 1,
+    "configured theme statementdog_tag_1388; strong signal: 晶片製造": 1,
     "configured theme statementdog_tag_1466; strong signal: asic": 1,
-    "configured theme statementdog_tag_1477; strong signal: 5g": 1,
+    "configured theme statementdog_tag_1470; strong signal: mlcc": 2,
+    "configured theme statementdog_tag_1474; strong signal: 核能": 1,
     "configured theme statementdog_tag_17390; strong signal: ai資料中心": 2,
     "configured theme statementdog_tag_23833; strong signal: ai晶片": 1,
-    "configured theme statementdog_tag_243; strong signal: nand flash": 2,
     "configured theme statementdog_tag_259; strong signal: 汽車": 1,
-    "configured theme statementdog_tag_304; strong signal: 塑膠": 1,
     "configured theme statementdog_tag_369; strong signal: 雲端運算": 1,
-    "configured theme statementdog_tag_4082; strong signal: iphone": 2,
-    "configured theme statementdog_tag_408; strong signal: 銅箔": 1,
-    "configured theme statementdog_tag_52; strong signal: 蘋果": 3,
-    "configured theme statementdog_tag_816; strong signal: 石油": 1,
+    "configured theme statementdog_tag_4082; strong signal: iphone": 3,
+    "configured theme statementdog_tag_408; strong signal: 銅箔": 2,
+    "configured theme statementdog_tag_4495; strong signal: ai運算": 1,
+    "configured theme statementdog_tag_52; strong signal: 蘋果": 6,
+    "configured theme statementdog_tag_653; strong signal: 太陽能": 1,
+    "configured theme statementdog_tag_928; strong signal: 自動化": 2,
     "configured theme statementdog_tag_945; strong signal: 光罩": 1,
-    "direct Taiwan symbol: TPEX:3260, TWSE:2337": 1,
+    "direct Taiwan symbol: TPEX:3081": 1,
     "direct Taiwan symbol: TPEX:8436": 1,
+    "direct Taiwan symbol: TWSE:2024": 1,
     "direct Taiwan symbol: TWSE:2025": 2,
+    "direct Taiwan symbol: TWSE:2027": 1,
     "direct Taiwan symbol: TWSE:2027, TWSE:2028": 1,
     "direct Taiwan symbol: TWSE:2027, TWSE:2455": 1,
     "direct Taiwan symbol: TWSE:2028": 1,
     "direct Taiwan symbol: TWSE:2028, TWSE:2030": 1,
+    "direct Taiwan symbol: TWSE:2030": 2,
     "direct Taiwan symbol: TWSE:2031": 1,
-    "direct Taiwan symbol: TWSE:2308": 1,
-    "direct Taiwan symbol: TWSE:2317": 4,
+    "direct Taiwan symbol: TWSE:2317": 6,
     "direct Taiwan symbol: TWSE:2317, TWSE:2634": 1,
-    "direct Taiwan symbol: TWSE:2330": 1,
+    "direct Taiwan symbol: TWSE:2330": 4,
     "direct Taiwan symbol: TWSE:2357, TWSE:2376": 1,
-    "direct Taiwan symbol: TWSE:2455": 2,
-    "direct Taiwan symbol: TWSE:2634": 1,
-    "direct Taiwan symbol: TWSE:5284": 1,
-    "no direct Taiwan symbol or strong configured supply-chain signal": 26
+    "direct Taiwan symbol: TWSE:2402": 1,
+    "direct Taiwan symbol: TWSE:2430": 1,
+    "direct Taiwan symbol: TWSE:2634": 2,
+    "direct Taiwan symbol: TWSE:2646": 1,
+    "direct Taiwan symbol: TWSE:6550": 1,
+    "no direct Taiwan symbol or strong configured supply-chain signal": 24,
+    "unsupported overseas event phase: listing": 2
   },
   "selected_theme_score_min": 0.3,
   "candidate_theme_score_min": 0.5,
@@ -1613,30 +2842,29 @@
   "legacy_theme_count": 10,
   "structured_theme_count": 197,
   "theme_match_distribution": {
-    "ai_server": 4,
-    "defense_drone": 2,
+    "ai_server": 2,
+    "cowos_supply_chain": 4,
+    "defense_drone": 3,
     "energy_grid": 1,
-    "memory_hbm": 5,
-    "optical_cpo": 2,
-    "robotics": 7,
+    "memory_hbm": 9,
+    "optical_cpo": 5,
+    "robotics": 6,
     "statementdog_tag_11553": 1,
-    "statementdog_tag_1216": 1,
-    "statementdog_tag_1345": 2,
+    "statementdog_tag_12138": 1,
+    "statementdog_tag_1345": 3,
     "statementdog_tag_1466": 2,
-    "statementdog_tag_1477": 1,
-    "statementdog_tag_1517": 13,
+    "statementdog_tag_1470": 2,
+    "statementdog_tag_1474": 1,
+    "statementdog_tag_1517": 21,
     "statementdog_tag_197": 1,
-    "statementdog_tag_2163": 2,
-    "statementdog_tag_243": 2,
+    "statementdog_tag_2163": 4,
     "statementdog_tag_259": 1,
-    "statementdog_tag_304": 1,
     "statementdog_tag_408": 1,
-    "statementdog_tag_4082": 2,
-    "statementdog_tag_52": 2,
-    "statementdog_tag_816": 1,
-    "statementdog_tag_928": 1,
+    "statementdog_tag_4082": 3,
+    "statementdog_tag_52": 4,
+    "statementdog_tag_653": 1,
     "statementdog_tag_999": 1,
-    "thermal_cooling": 1
+    "thermal_cooling": 2
   },
   "theme_veto_distribution": {}
 }
