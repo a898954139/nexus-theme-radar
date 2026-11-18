@@ -143,6 +143,27 @@ falls back to unconditional fetches.
 count, validators, 304 behaviour, snapshot duplicate rate). Its workflow runs
 on PRs that touch the registry.
 
+### Monthly revenue (月營收)
+
+`scripts/monthly_revenue.py` adds the listed and OTC monthly operating revenue
+datasets as a contained side path of the hourly run, configured in
+`config/monthly_revenue_datasets.tw.json`:
+
+- `t187ap05_L` (TWSE OpenAPI): listed companies
+- `mopsfe_t187ap05_O` (TPEx OpenAPI): OTC companies
+
+It fetches only on days 1-10 of each month (Asia/Taipei), at most one
+successful fetch per dataset per day; a failed fetch is retried on the next run.
+Each new (company, period) produces one event in
+`data/monthly-revenue-events.json` with symbol, period, revenue (TWD
+thousands), MoM %, YoY %, `is_record_high`, and `signals`
+(`record_high`, `yoy_surge`, `yoy_turned_positive`). Rows missing a required
+field are excluded and counted in source status, never zero-filled.
+`is_record_high` stays `null` until the per-company history in
+`data/monthly-revenue-history.json` covers 12 earlier months. Each dataset is
+reported as its own site in `data/source-status.json` (not in the public
+ranking's source health). `THEME_RADAR_MONTHLY_REVENUE=0` disables it.
+
 ## Product Model
 
 Use a two-layer model:
