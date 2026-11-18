@@ -16,7 +16,7 @@ any time           /api/analysis-report?symbol= (radar_reader) → stock page ca
 20:10              GitHub Actions  same workflow, --mode warm (bar cache only)
 ```
 
-## Tables (`supabase/migrations/20261118090000_create_analysis_report.sql`)
+## Tables (`supabase/migrations/20261118090200_create_analysis_report.sql`)
 
 | Table | Writer | Key | Notes |
 |---|---|---|---|

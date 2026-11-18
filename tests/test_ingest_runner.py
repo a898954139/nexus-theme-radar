@@ -407,7 +407,7 @@ def test_source_health_503_without_credential_and_502_on_db_error() -> None:
 
 
 def test_no_secret_material_in_scheduler_sql() -> None:
-    migration = (ROOT / "supabase/migrations/20261118090000_radar_ingest_scheduler.sql").read_text("utf-8").lower()
+    migration = (ROOT / "supabase/migrations/20261118090100_radar_ingest_scheduler.sql").read_text("utf-8").lower()
     manual = (ROOT / "supabase/manual/radar_ingest_schedule.sql").read_text("utf-8").lower()
     assert "cron.schedule" not in migration, "schedules are an operational switch, not a migration"
     assert "vault.decrypted_secrets" in migration

@@ -35,7 +35,7 @@ from scripts.prepare_analysis_queue import (
 
 
 ROOT = Path(__file__).resolve().parents[1]
-MIGRATION = ROOT / "supabase" / "migrations" / "20261118090000_create_analysis_report.sql"
+MIGRATION = ROOT / "supabase" / "migrations" / "20261118090200_create_analysis_report.sql"
 REPORT_DATE = date(2026, 11, 19)
 DATA_AS_OF = date(2026, 11, 18)
 
