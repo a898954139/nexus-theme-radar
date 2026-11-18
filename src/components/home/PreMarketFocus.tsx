@@ -1,6 +1,14 @@
 import React, { useMemo, useState } from 'react';
 import { DeviceType, FlowPanel, FocusEvent, PreMarketData, PulseIndex, SectorChange } from '../../types';
 
+const DIRECTION_COLUMN_LIMIT = 6;
+
+const DIRECTION_LABEL: Record<string, string> = { '1': '利多', '-1': '利空', '0': '中性' };
+
+function directionOf(event: FocusEvent): -1 | 0 | 1 {
+  return event.direction === 1 || event.direction === -1 ? event.direction : 0;
+}
+
 interface PreMarketFocusProps {
   data: PreMarketData;
   device: DeviceType;
@@ -76,11 +84,19 @@ const FocusCard: React.FC<{ event: FocusEvent }> = ({ event }) => {
   const [showEn, setShowEn] = useState(false);
   const [showRelated, setShowRelated] = useState(false);
   const steps = channelSteps(event.channel);
+  const direction = directionOf(event);
+  // Only sectors the rule actually called; a 0 next to a +1 would read as a
+  // contradiction rather than "no defensible call".
+  const called = (event.impacts ?? []).filter((impact) => impact.direction !== 0);
 
   return (
-    <article className={`focus-card focus-${event.tier}`}>
+    <article className={`focus-card focus-${event.tier} focus-dir-${direction === 1 ? 'bull' : direction === -1 ? 'bear' : 'neutral'}`}>
       <div className="focus-card-head">
         {event.tier === 'critical' ? <span className="focus-badge">重大</span> : null}
+        {direction !== 0 ? (
+          <span className={`focus-direction-tag is-${direction === 1 ? 'bull' : 'bear'}`}
+                title={event.directionReason ?? ''}>{DIRECTION_LABEL[String(direction)]}</span>
+        ) : null}
         <span className="focus-act">{event.actLabel}</span>
         <span className="focus-path">{event.pathLabel}</span>
         <span className="focus-time mono-num">{formatTime(event.publishedAt)}</span>
@@ -101,9 +117,15 @@ const FocusCard: React.FC<{ event: FocusEvent }> = ({ event }) => {
 
       {event.sectors.length > 0 ? (
         <div className="focus-sectors">
-          {event.sectors.map((sector) => (
-            <span className="focus-sector-chip" key={`${event.id}-${sector}`}>{sector}</span>
-          ))}
+          {event.sectors.map((sector) => {
+            const hit = called.find((impact) => impact.sector === sector);
+            const tone = hit ? (hit.direction === 1 ? ' is-bull' : ' is-bear') : '';
+            return (
+              <span className={`focus-sector-chip${tone}`} key={`${event.id}-${sector}`}>
+                {hit ? (hit.direction === 1 ? '▲ ' : '▼ ') : ''}{sector}
+              </span>
+            );
+          })}
         </div>
       ) : null}
 
@@ -127,6 +149,9 @@ const FocusCard: React.FC<{ event: FocusEvent }> = ({ event }) => {
       </div>
 
       {showEn ? <p className="focus-en">{event.titleEn}</p> : null}
+      {showEn && event.directionReason ? (
+        <p className="focus-reason">方向依據：{event.directionReason}</p>
+      ) : null}
 
       {showRelated ? (
         <ul className="focus-related">
@@ -213,11 +238,37 @@ const FlowBoard: React.FC<{ panels: FlowPanel[]; asOf: string | null }> = ({ pan
   </div>
 );
 
+/** One side of the bull/bear split. An empty side says so explicitly: on an up
+ *  day with nothing bullish on the wire, a blank column would look broken. */
+const DirectionColumn: React.FC<{ side: 'bull' | 'bear'; events: FocusEvent[] }> = ({ side, events }) => (
+  <div className={`focus-direction-col is-${side}`}>
+    <div className="focus-direction-head">
+      <strong>{side === 'bull' ? '利多' : '利空'}</strong>
+      <span className="mono-num">{events.length} 則</span>
+    </div>
+    {events.length > 0 ? (
+      <div className="focus-direction-list">
+        {events.slice(0, DIRECTION_COLUMN_LIMIT).map((event) => <FocusCard event={event} key={event.id} />)}
+      </div>
+    ) : (
+      <div className="focus-direction-empty">近 72 小時無明確{side === 'bull' ? '利多' : '利空'}事件</div>
+    )}
+  </div>
+);
+
 export const PreMarketFocus: React.FC<PreMarketFocusProps> = ({ data, device }) => {
   // On a quiet morning nothing is critical. That is the common case, not an
   // error state, so the section says so instead of rendering an empty shell.
   const critical = data.events.filter((event) => event.tier === 'critical');
   const watch = data.events.filter((event) => event.tier === 'watch');
+  const normal = data.events.filter((event) => event.tier === 'normal');
+  // Direction columns draw from every tier: bullish news is mostly commentary
+  // and data, which score below threats, so a critical/watch-only split would
+  // rebuild the negative skew the columns exist to remove. Events stay sorted by
+  // score, so the strongest call on each side leads.
+  const bull = data.events.filter((event) => directionOf(event) === 1);
+  const bear = data.events.filter((event) => directionOf(event) === -1);
+  const [showNormal, setShowNormal] = useState(false);
   const hasPulse = (data.pulse?.length ?? 0) > 0;
   const hasSectors = data.sectors.length > 0;
   const hasFlows = data.flows.panels.some((panel) => panel.buy.length + panel.sell.length > 0);
@@ -234,6 +285,15 @@ export const PreMarketFocus: React.FC<PreMarketFocusProps> = ({ data, device }) 
         <div className="gold-rule" />
         <p>開盤前的國際消息面：只留下有台股傳導路徑的事件，並標明它會影響哪些族群。</p>
       </header>
+
+      <div className="focus-direction" aria-label="利多與利空">
+        <DirectionColumn side="bull" events={bull} />
+        <DirectionColumn side="bear" events={bear} />
+      </div>
+
+      <div className="section-heading focus-full-heading">
+        <h2>完整清單</h2><span className="mono-num">{data.events.length} 則 · 含中性</span>
+      </div>
 
       {critical.length > 0 ? (
         <div className="focus-grid focus-grid-critical">
@@ -254,6 +314,20 @@ export const PreMarketFocus: React.FC<PreMarketFocusProps> = ({ data, device }) 
           <div className="focus-grid focus-grid-watch">
             {watch.map((event) => <FocusCard event={event} key={event.id} />)}
           </div>
+        </div>
+      ) : null}
+
+      {normal.length > 0 ? (
+        <div className="focus-watch-block">
+          <button type="button" className="focus-normal-toggle" aria-expanded={showNormal}
+                  onClick={() => setShowNormal((open) => !open)}>
+            {showNormal ? '收合一般新聞' : `顯示一般新聞 ${normal.length} 則`}
+          </button>
+          {showNormal ? (
+            <div className="focus-grid focus-grid-watch">
+              {normal.map((event) => <FocusCard event={event} key={event.id} />)}
+            </div>
+          ) : null}
         </div>
       ) : null}
 

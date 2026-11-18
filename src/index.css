@@ -1078,6 +1078,29 @@ a { color: inherit; }
 .focus-calm strong { display: block; color: var(--text-hi); font: 500 15px/1.6 'Noto Sans TC', sans-serif; }
 .focus-calm span { color: var(--muted); font-size: 12px; }
 
+/* ---------- 利多 / 利空 ---------- */
+/* Direction uses the site's existing up/down colours (green up, red down) so a
+   bullish event reads the same as a rising quote everywhere else. */
+.focus-direction { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; padding: 0 20px 18px; }
+.focus-direction-col { display: flex; flex-direction: column; gap: 10px; min-width: 0; }
+.focus-direction-head { display: flex; align-items: baseline; justify-content: space-between; padding-bottom: 8px; border-bottom: 2px solid var(--line); }
+.focus-direction-col.is-bull .focus-direction-head { border-bottom-color: var(--green); }
+.focus-direction-col.is-bear .focus-direction-head { border-bottom-color: var(--red); }
+.focus-direction-col.is-bull .focus-direction-head strong { color: var(--green); }
+.focus-direction-col.is-bear .focus-direction-head strong { color: var(--red); }
+.focus-direction-head strong { font: 600 15px 'Noto Sans TC', sans-serif; }
+.focus-direction-head span { color: var(--faint); font-size: 11px; }
+.focus-direction-list { display: flex; flex-direction: column; gap: 10px; }
+.focus-direction-empty { padding: 18px; border: 1px dashed var(--line); border-radius: 12px; color: var(--muted); font-size: 12px; text-align: center; }
+.focus-direction-tag { padding: 2px 8px; border-radius: 5px; font: 600 10.5px/1.7 'Noto Sans TC', sans-serif; }
+.focus-direction-tag.is-bull { background: color-mix(in srgb, var(--green) 18%, transparent); color: var(--green); }
+.focus-direction-tag.is-bear { background: color-mix(in srgb, var(--red) 18%, transparent); color: var(--red); }
+.focus-sector-chip.is-bull { border-color: var(--green); color: var(--green); }
+.focus-sector-chip.is-bear { border-color: var(--red); color: var(--red); }
+.focus-reason { margin: 0; color: var(--faint); font: 400 10.5px/1.6 'IBM Plex Mono', monospace; word-break: break-word; }
+.focus-full-heading { padding: 4px 20px 10px; }
+.focus-normal-toggle { min-height: 28px; margin-bottom: 10px; padding: 0 12px; border: 1px solid var(--line); border-radius: 6px; background: var(--shell-bg); color: var(--muted); font-size: 12px; }
+
 .focus-watch-block { padding: 0 20px; }
 .focus-watch-block .section-heading { padding-bottom: 10px; }
 .focus-watch-block .focus-grid { padding-left: 0; padding-right: 0; }
@@ -1151,6 +1174,8 @@ a { color: inherit; }
   .focus-grid-watch > .focus-card { width: 240px; }
   .focus-watch-block, .market-boards { padding-left: 16px; padding-right: 16px; }
   .focus-calm { margin-left: 16px; margin-right: 16px; }
+  .focus-direction { grid-template-columns: 1fr; padding: 0 16px 16px; }
+  .focus-full-heading { padding-left: 16px; padding-right: 16px; }
   .board-tabs { gap: 12px; overflow-x: auto; }
   .board-tabs button + button::before { margin-right: 12px; }
   .pulse-grid { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 8px; }

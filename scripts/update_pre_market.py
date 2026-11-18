@@ -27,7 +27,10 @@ from typing import Any, Iterable
 import requests
 
 try:  # pragma: no cover - real runs invoke this file by path
-    from scripts.geo_focus import FEED_URL, SOURCE_NAME, build_focus_events, strip_prefix
+    from scripts.event_direction import RULE_VERSION, annotate
+    from scripts.geo_focus import (
+        FEED_URL, PATH_ID_BY_LABEL, SOURCE_NAME, build_focus_events, strip_prefix,
+    )
     from scripts.market_pulse import build_pulse, build_sector_board, fetch_quotes
     from scripts.sector_flows import (
         aggregate_sectors,
@@ -36,7 +39,10 @@ try:  # pragma: no cover - real runs invoke this file by path
         load_registry,
     )
 except ModuleNotFoundError:  # pragma: no cover
-    from geo_focus import FEED_URL, SOURCE_NAME, build_focus_events, strip_prefix
+    from event_direction import RULE_VERSION, annotate
+    from geo_focus import (
+        FEED_URL, PATH_ID_BY_LABEL, SOURCE_NAME, build_focus_events, strip_prefix,
+    )
     from market_pulse import build_pulse, build_sector_board, fetch_quotes
     from sector_flows import (
         aggregate_sectors,
@@ -219,6 +225,11 @@ def build_payload(output_dir: Path, now: datetime, skip_translate: bool = False)
     fresh = build_focus_events(entries, translations, now=now)
     previous = load_json(output_dir / LATEST_FILE, {})
     kept, expired = merge_events(previous.get("events", []), fresh, now)
+    # Re-derive direction for carried-over events too: they may predate the
+    # direction fields, or an older rule version. The rules are deterministic,
+    # so the whole window always reflects the current RULE_VERSION.
+    for event in kept:
+        annotate(event, event.get("pathId") or PATH_ID_BY_LABEL.get(str(event.get("pathLabel") or "")))
     archive_expired(expired, output_dir / ARCHIVE_DIR)
 
     sectors: list[dict[str, Any]] = []
@@ -246,6 +257,7 @@ def build_payload(output_dir: Path, now: datetime, skip_translate: bool = False)
         "schema_version": SCHEMA_VERSION,
         "generated_at": now.isoformat(),
         "window_hours": WINDOW_HOURS,
+        "direction_rule_version": RULE_VERSION,
         "sources": [SOURCE_NAME],
         "events": kept,
         "pulse": pulse,

@@ -25,6 +25,11 @@ import re
 from datetime import datetime, timezone
 from typing import Any, Iterable, Mapping
 
+try:  # pragma: no cover - real runs invoke the entrypoint by path
+    from scripts.event_direction import annotate
+except ModuleNotFoundError:  # pragma: no cover
+    from event_direction import annotate
+
 LOGGER = logging.getLogger(__name__)
 
 FEED_URL = "https://www.financialjuice.com/feed.ashx?xy=rss"
@@ -175,6 +180,9 @@ EVENT_MARKERS = (r"(attack|strike|seiz|hijack|sunk|killed|explosion|fire)",
 NOISE = (r"fjelite", r"cribsheet", r"^us to sell", r"bills? on", r"auction",
          r"pre-recorded", r"^\w+ (report|data)$")
 
+# Payload rows written before `pathId` existed carry only the label.
+PATH_ID_BY_LABEL: dict[str, str] = {str(p["label"]): str(p["id"]) for p in PATHS}
+
 TIER_CRITICAL = 0.60
 TIER_WATCH = 0.36
 
@@ -314,7 +322,7 @@ def build_focus_events(
             * corroboration * decay(lead["published"], moment),
             3,
         )
-        events.append({
+        events.append(annotate({
             "id": f"{SOURCE_ID}-{abs(hash(lead['title'])) & 0xFFFFFFF:07x}",
             "tier": tier_of(score),
             "score": score,
@@ -331,6 +339,6 @@ def build_focus_events(
                 {"title": translations.get(m["title"], m["title"]), "url": m["url"]}
                 for m in members[1:]
             ],
-        })
+        }, lead["path"]["id"]))
     events.sort(key=lambda e: e["score"], reverse=True)
     return events
