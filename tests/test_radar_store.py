@@ -372,3 +372,26 @@ def test_live_reader_cannot_write() -> None:
                 "insert into radar.source (source_id, name, registry_status, enabled) "
                 "values ('x', 'x', 'active', true)"
             )
+
+
+def test_failed_trial_source_does_not_count_toward_run_health() -> None:
+    connection = FakeConnection()
+    trial_failure = {
+        "source_id": "ctee_stock",
+        "name": "工商時報 證券",
+        "status": "error",
+        "items": 0,
+        "error": "HTTP 503",
+        "trial": True,
+    }
+    summary = write_radar_run(
+        connection,
+        run_id="run-1",
+        started_at=ANCHOR,
+        window_hours=72,
+        registry_sources=REGISTRY,
+        statuses=[*STATUSES, trial_failure],
+        articles=[_article("https://a.tw/1")],
+        events=[_event("cluster-a", "https://a.tw/1", ["m1"])],
+    )
+    assert summary["failed_source_count"] == 1

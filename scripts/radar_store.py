@@ -363,6 +363,7 @@ def write_radar_run(
         raise ValueError("run_id must be non-empty")
     anchor = _timestamp(started_at, "started_at")
     source_runs = map_source_runs(statuses, run_id=run_id, started_at=anchor)
+    trial_source_ids = {str(status["source_id"]) for status in statuses if status.get("trial")}
     article_rows, duplicate_urls = map_articles(
         articles, run_id=run_id, fetched_fallback=anchor
     )
@@ -381,7 +382,13 @@ def write_radar_run(
         "json_event_count": len(events),
         "db_event_count": len(event_rows),
         "duplicate_event_count": duplicate_events,
-        "failed_source_count": sum(1 for row in source_runs if row["status"] != "ok"),
+        # Trial sources (registry status "trial") are recorded per run but,
+        # as in source-status.json, do not count toward run health.
+        "failed_source_count": sum(
+            1
+            for row in source_runs
+            if row["status"] != "ok" and row["source_id"] not in trial_source_ids
+        ),
     }
     with connection.transaction():
         with connection.cursor() as cursor:

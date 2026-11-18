@@ -11,6 +11,7 @@ import re
 import tempfile
 import time
 import uuid
+from functools import partial
 from collections.abc import Mapping
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from datetime import datetime, timedelta, timezone
@@ -60,6 +61,19 @@ try:
     from scripts.materialize_public_theme_history import (
         load_history_rows,
         materialize_public_theme_history,
+    )
+    from scripts.rss_feed_state import (
+        FEED_STATE_FILENAME,
+        INTAKE_STORE_FILENAME,
+        build_intake_store,
+        cached_items,
+        conditional_headers,
+        fresh_entry,
+        load_feed_state,
+        load_intake_items,
+        record_run_history,
+        serialize_feed_state,
+        write_json_atomic,
     )
     from scripts.monthly_revenue import run_monthly_revenue
     from scripts.radar_store import redact_error, write_radar_run
@@ -119,6 +133,19 @@ except ModuleNotFoundError:
     from materialize_public_theme_history import (
         load_history_rows,
         materialize_public_theme_history,
+    )
+    from rss_feed_state import (
+        FEED_STATE_FILENAME,
+        INTAKE_STORE_FILENAME,
+        build_intake_store,
+        cached_items,
+        conditional_headers,
+        fresh_entry,
+        load_feed_state,
+        load_intake_items,
+        record_run_history,
+        serialize_feed_state,
+        write_json_atomic,
     )
     from monthly_revenue import run_monthly_revenue
     from radar_store import redact_error, write_radar_run
@@ -274,12 +301,50 @@ def active_sources(registry: dict[str, Any]) -> list[dict[str, Any]]:
     )
 
 
+def trial_sources(registry: dict[str, Any]) -> list[dict[str, Any]]:
+    """RSS sources under evaluation: fetched and health-tracked every run, but
+    their records stay out of the public projection until promoted to active."""
+    market_id = registry.get("market_id") or "TW_EQUITY"
+    market_scope = registry.get("market_scope") or [market_id]
+    return sorted(
+        [
+            {"market_id": market_id, "market_scope": market_scope, **source}
+            for source in registry.get("sources", [])
+            if source.get("status") == "trial"
+            and source.get("fetch_method") == "rss"
+            and source.get("feed_url")
+        ],
+        key=lambda source: str(source["source_id"]),
+    )
+
+
 def rss_sources(registry: dict[str, Any]) -> list[dict[str, Any]]:
     return [
         source
         for source in active_sources(registry)
         if source.get("fetch_method") == "rss" and source.get("feed_url")
     ]
+
+
+MAX_FUTURE_PUBLISHED_SKEW = timedelta(minutes=15)
+
+
+def feed_published_at(raw: Any, source: Mapping[str, Any], fetched_at: datetime) -> str:
+    """Publish time in UTC, corrected for feeds that mislabel their timezone.
+
+    ``published_at_offset_hours`` fixes a feed that writes local time with a
+    UTC designator (e.g. 工商時報 stamps Taipei time as ``+0000``, so the
+    registry sets ``-8``). Anything still in the future is clamped to the
+    fetch time, so a mislabeled item cannot pin itself to the top of the
+    window.
+    """
+    published = parse_timestamp(raw, fetched_at)
+    offset = source.get("published_at_offset_hours")
+    if raw and isinstance(offset, (int, float)) and not isinstance(offset, bool):
+        published = published + timedelta(hours=offset)
+    if published > fetched_at + MAX_FUTURE_PUBLISHED_SKEW:
+        published = fetched_at
+    return published.astimezone(timezone.utc).isoformat().replace("+00:00", "Z")
 
 
 def normalize_feed_entry(entry: Any, source: dict[str, Any], fetched_at: datetime) -> dict[str, Any] | None:
@@ -303,7 +368,7 @@ def normalize_feed_entry(entry: Any, source: dict[str, Any], fetched_at: datetim
         "source_class": source.get("source_class"),
         "market_id": source.get("market_id") or "TW_EQUITY",
         "market_scope": source.get("market_scope") or ["TW_EQUITY"],
-        "published_at": parse_timestamp(published_raw, fetched_at).isoformat().replace("+00:00", "Z"),
+        "published_at": feed_published_at(published_raw, source, fetched_at),
         "url": link,
         "extraction_method": "rss",
         "fetched_at": fetched_at.isoformat().replace("+00:00", "Z"),
@@ -316,13 +381,22 @@ def fetch_rss_source(
     fetched_at: datetime,
     *,
     full_refresh: bool = False,
-) -> tuple[list[dict[str, Any]], dict[str, Any]]:
-    del full_refresh
+    feed_state: Mapping[str, Mapping[str, Any]] | None = None,
+) -> dict[str, Any]:
+    """Fetch one RSS feed, revalidating with ETag / If-Modified-Since.
+
+    ``feed_state`` is the previous run's per-source cache. When the feed
+    answers 304 the cached items are replayed, because every run publishes a
+    fresh snapshot and an empty result would drop the source from the window.
+    The returned ``feed_state`` entry is persisted by ``run_update``.
+    """
     started = time.monotonic()
     feed_url = str(source["feed_url"])
+    source_id = str(source["source_id"])
+    previous = (feed_state or {}).get(source_id)
     status = {
-        "source_id": source["source_id"],
-        "name": source.get("name") or source["source_id"],
+        "source_id": source_id,
+        "name": source.get("name") or source_id,
         "source_class": source.get("source_class"),
         "fetch_method": "rss",
         "feed_url": feed_url,
@@ -331,17 +405,27 @@ def fetch_rss_source(
         "error": None,
         "elapsed_ms": 0,
     }
+    if source.get("status") == "trial":
+        status["trial"] = True
+    new_state: dict[str, Any] | None = dict(previous) if previous else None
     response = None
     try:
         max_response_bytes = max(
             1,
             int(source.get("max_response_bytes") or MAX_RSS_RESPONSE_BYTES),
         )
+        headers = {} if full_refresh else conditional_headers(previous, feed_url)
         response = session.get(
             feed_url,
-            timeout=REQUEST_TIMEOUT_SECONDS,
+            timeout=int(source.get("timeout_seconds") or REQUEST_TIMEOUT_SECONDS),
             stream=True,
+            headers=headers or None,
         )
+        if getattr(response, "status_code", None) == 304 and headers:
+            items = cached_items(previous)
+            status["not_modified"] = True
+            status["items"] = len(items)
+            return {"records": items, "status": status, "feed_state": new_state}
         response.raise_for_status()
         body = read_bounded_response(response, max_bytes=max_response_bytes)
         parsed = feedparser.parse(body)
@@ -353,11 +437,19 @@ def fetch_rss_source(
             if (item := normalize_feed_entry(entry, source, fetched_at)) is not None
         ]
         status["items"] = len(items)
-        return items, status
+        response_headers = getattr(response, "headers", None) or {}
+        new_state = fresh_entry(
+            previous,
+            feed_url=feed_url,
+            etag=response_headers.get("ETag"),
+            last_modified=response_headers.get("Last-Modified"),
+            items=items,
+        )
+        return {"records": items, "status": status, "feed_state": new_state}
     except Exception as exc:  # noqa: BLE001 - source status must capture any fetch failure
         status["status"] = "error"
         status["error"] = str(exc)
-        return [], status
+        return {"records": [], "status": status, "feed_state": new_state}
     finally:
         close = getattr(response, "close", None)
         if callable(close):
@@ -416,7 +508,10 @@ def _dispatch_one(
             "error": None,
             **envelope["status"],
         }
-        return {"records": records, "status": status}
+        dispatched = {"records": records, "status": status}
+        if "feed_state" in envelope:
+            dispatched["feed_state"] = envelope["feed_state"]
+        return dispatched
     except Exception as exc:  # noqa: BLE001 - source isolation requires an envelope
         return {
             "records": [],
@@ -1259,15 +1354,18 @@ def attach_official_evidence(
 
 
 def source_status_payload(statuses: list[dict[str, Any]], generated_at: datetime, raw_count: int) -> dict[str, Any]:
-    failed = sum(1 for status in statuses if status["status"] != "ok")
-    successful = len(statuses) - failed
+    # Trial sources are listed in ``sites`` so the status page shows their
+    # fetch results, but they do not move the public health counters.
+    counted = [status for status in statuses if not status.get("trial")]
+    failed = sum(1 for status in counted if status["status"] != "ok")
+    successful = len(counted) - failed
     return {
         "generated_at": generated_at.isoformat().replace("+00:00", "Z"),
         "fetched_raw_items": raw_count,
         "items_before_topic_filter": raw_count,
         "successful_sites": successful,
         "failed_count": failed,
-        "failed_sites": [status["source_id"] for status in statuses if status["status"] != "ok"],
+        "failed_sites": [status["source_id"] for status in counted if status["status"] != "ok"],
         "sites": statuses,
     }
 
@@ -1978,22 +2076,43 @@ def run_update(
     taxonomy = load_theme_taxonomy()
     symbol_aliases = augment_symbol_aliases_with_registry(load_symbol_aliases())
     sources = active_sources(registry)
+    trial = trial_sources(registry)
     session = requests.Session()
     session.headers.update({"User-Agent": USER_AGENT})
+    feed_state_path = output_dir / FEED_STATE_FILENAME
+    feed_state = load_feed_state(feed_state_path)
 
     results = dispatch_sources(
         session,
-        sources,
+        [*sources, *trial],
         anchor,
         max_workers=max_workers,
+        fetchers={
+            "rss": partial(fetch_rss_source, feed_state=feed_state),
+            "twse_openapi": fetch_twse_openapi_source,
+        },
         full_refresh=full_refresh,
     )
+    rss_records = [
+        record
+        for result in results
+        if result["status"].get("fetch_method") == "rss"
+        for record in result["records"]
+    ]
+    # Trial-source records feed only the intake store, never the projection.
     discovery_records = [
         record
         for result in results
         if result["status"].get("source_class") != "official_disclosure"
+        and not result["status"].get("trial")
         for record in result["records"]
     ]
+    for result in results:
+        if result.get("feed_state") is not None:
+            feed_state[str(result["status"]["source_id"])] = result["feed_state"]
+    health = record_run_history(feed_state, [result["status"] for result in results], anchor)
+    for result in results:
+        result["status"].update(health.get(str(result["status"]["source_id"]), {}))
     current_official_records = [
         record
         for result in results
@@ -2122,6 +2241,18 @@ def run_update(
         window_hours=window_hours,
     )
     write_payload_set(output_dir, payloads)
+    # Fetch state and the overlap intake store are side files: a failure here
+    # must never fail the published payloads (next run just fetches
+    # unconditionally).
+    try:
+        write_json_atomic(feed_state_path, serialize_feed_state(feed_state, anchor))
+        intake_path = output_dir / INTAKE_STORE_FILENAME
+        write_json_atomic(
+            intake_path,
+            build_intake_store(load_intake_items(intake_path), rss_records, anchor),
+        )
+    except Exception as error:  # noqa: BLE001 - side files are best effort
+        LOGGER.warning("rss feed state was not persisted: %s", error)
     producer_run_id = f"{anchor.strftime('%Y%m%dT%H%M%SZ')}-{uuid.uuid4().hex}"
     connection_factory = (
         history_connection_factory
