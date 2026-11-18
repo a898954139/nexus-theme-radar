@@ -1,0 +1,54 @@
+name: Daily analysis list (cloud half of #8)
+
+# Cloud half of the daily pre-market report. The local Claude task (~07:30
+# Taipei) analyses whatever this job froze; see docs/DAILY_ANALYSIS_REPORT.md.
+#
+# Taipei is UTC+8. Morning slots run Mon-Fri Taipei = Sun-Thu UTC:
+#   22:05 / 22:35 / 22:50 UTC = 06:05 / 06:35 / 06:50 Taipei.
+# Three slots because GitHub drops scheduled runs; the first success freezes
+# the batch and the later slots are no-ops (`already_prepared`).
+# The evening slot (12:10 UTC = 20:10 Taipei, Mon-Fri) only warms the bar
+# cache so the morning run fetches the current month and little else.
+on:
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: prepare (freeze today's list) or warm (fill bar cache)
+        type: choice
+        options: [prepare, warm]
+        default: prepare
+  schedule:
+    - cron: "5,35,50 22 * * 0-4"
+    - cron: "10 12 * * 1-5"
+
+concurrency:
+  group: prepare-analysis-queue
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+jobs:
+  prepare:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Prepare list and snapshots
+        env:
+          # Same scoped radar_writer credential as the hourly dual-write; only
+          # runs from master. Missing -> the script logs a skip and exits 0.
+          THEME_RADAR_DATABASE_URL: ${{ github.ref_name == 'master' && secrets.THEME_RADAR_DATABASE_URL || '' }}
+          MODE: ${{ github.event_name == 'workflow_dispatch' && inputs.mode || (github.event.schedule == '10 12 * * 1-5' && 'warm' || 'prepare') }}
+        run: python scripts/prepare_analysis_queue.py --mode "$MODE"
