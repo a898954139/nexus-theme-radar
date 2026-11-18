@@ -61,6 +61,7 @@ try:
         load_history_rows,
         materialize_public_theme_history,
     )
+    from scripts.radar_store import redact_error, write_radar_run
     from scripts.source_adapters import (
         CONFLICT_TERMS,
         build_official_evidence_payload,
@@ -118,6 +119,7 @@ except ModuleNotFoundError:
         load_history_rows,
         materialize_public_theme_history,
     )
+    from radar_store import redact_error, write_radar_run
     from source_adapters import (
         CONFLICT_TERMS,
         build_official_evidence_payload,
@@ -1722,6 +1724,83 @@ def history_connection_factory_from_environment() -> Any | None:
     return connect
 
 
+RADAR_DUAL_WRITE_DEFAULTS: dict[str, Any] = {
+    "radar_dual_write": "skipped",
+    "radar_articles_upserted": 0,
+    "radar_events_upserted": 0,
+}
+
+
+def run_radar_dual_write(
+    *,
+    connection_factory: Any | None,
+    producer_run_id: str,
+    started_at: datetime,
+    window_hours: int,
+    registry_sources: list[dict[str, Any]],
+    statuses: list[dict[str, Any]],
+    articles: list[dict[str, Any]],
+    events: list[dict[str, Any]],
+) -> dict[str, Any]:
+    """Mirror this run into the private radar schema; never affects JSON output.
+
+    Fails closed: without the scoped credential (same authorization gate as the
+    momentum history path) nothing is written. Errors are logged with DSNs
+    redacted and the run continues.
+    """
+
+    if connection_factory is None:
+        LOGGER.warning(
+            "radar_dual_write_skipped producer_run_id=%s reason=credential_unavailable",
+            producer_run_id,
+        )
+        return dict(RADAR_DUAL_WRITE_DEFAULTS)
+    connection: Any | None = None
+    try:
+        connection = connection_factory()
+        summary = write_radar_run(
+            connection,
+            run_id=producer_run_id,
+            started_at=started_at,
+            window_hours=window_hours,
+            registry_sources=registry_sources,
+            statuses=statuses,
+            articles=articles,
+            events=events,
+        )
+    except Exception as error:  # noqa: BLE001 - DB mirror must never fail the run
+        LOGGER.warning(
+            "radar_dual_write_failed producer_run_id=%s error=%s",
+            producer_run_id,
+            redact_error(error),
+        )
+        return {**RADAR_DUAL_WRITE_DEFAULTS, "radar_dual_write": "failed"}
+    finally:
+        if connection is not None:
+            close = getattr(connection, "close", None)
+            if callable(close):
+                try:
+                    close()
+                except Exception:  # noqa: BLE001 - close failure is not actionable
+                    pass
+    LOGGER.info(
+        "radar_dual_write_reconcile producer_run_id=%s json_articles=%d db_articles=%d "
+        "duplicate_urls=%d json_events=%d db_events=%d duplicate_events=%d",
+        producer_run_id,
+        summary["json_article_count"],
+        summary["db_article_count"],
+        summary["duplicate_url_count"],
+        summary["json_event_count"],
+        summary["db_event_count"],
+        summary["duplicate_event_count"],
+    )
+    return {
+        "radar_dual_write": "written",
+        "radar_articles_upserted": summary["db_article_count"],
+        "radar_events_upserted": summary["db_event_count"],
+    }
+
+
 def run_momentum_side_paths(
     *,
     output_dir: Path,
@@ -2026,6 +2105,22 @@ def run_update(
     )
     write_payload_set(output_dir, payloads)
     producer_run_id = f"{anchor.strftime('%Y%m%dT%H%M%SZ')}-{uuid.uuid4().hex}"
+    connection_factory = (
+        history_connection_factory
+        if history_connection_factory is not None
+        else history_connection_factory_from_environment()
+    )
+    # JSON is already on disk above; the DB mirror runs strictly after it.
+    radar_summary = run_radar_dual_write(
+        connection_factory=connection_factory,
+        producer_run_id=producer_run_id,
+        started_at=anchor,
+        window_hours=window_hours,
+        registry_sources=list(registry.get("sources", [])),
+        statuses=statuses,
+        articles=discovery_records,
+        events=list(events["items"]),
+    )
     try:
         momentum_summary = run_momentum_side_paths(
             output_dir=output_dir,
@@ -2039,11 +2134,7 @@ def run_update(
             ),
             generated_at=anchor,
             producer_run_id=producer_run_id,
-            connection_factory=(
-                history_connection_factory
-                if history_connection_factory is not None
-                else history_connection_factory_from_environment()
-            ),
+            connection_factory=connection_factory,
         )
     except StockWatchlistPublishError:
         raise
@@ -2078,6 +2169,7 @@ def run_update(
         "tracking_candidates": candidates["total_items"],
         "failed_sources": status_payload["failed_count"],
         **momentum_summary,
+        **radar_summary,
         **{
             key: public_diagnostics[key] for key in PUBLIC_OBSERVABILITY_FIELDS
         },
