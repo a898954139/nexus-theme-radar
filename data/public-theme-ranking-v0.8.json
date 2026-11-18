@@ -2,35 +2,255 @@
   "schema_version": "nexus_public_theme_ranking.v0.8",
   "ranking_rule_version": "public_theme_heat_v0.8",
   "company_rule_version": "public_company_evidence_v0.8",
-  "generated_at": "2026-11-18T14:02:53.376573Z",
+  "generated_at": "2026-11-18T21:58:47.081621Z",
   "market_id": "TW_EQUITY",
   "market_scope": [
     "TW_EQUITY"
   ],
   "window_hours": 72,
   "max_themes": 5,
-  "qualified_theme_count": 9,
-  "displayed_theme_count": 5,
-  "threshold_note": null,
+  "qualified_theme_count": 4,
+  "displayed_theme_count": 4,
+  "threshold_note": "目前僅 4 個題材達到上榜門檻",
   "generation_status": "complete",
   "failed_source_count": 0,
   "official_evidence_status": "available",
   "themes": [
     {
       "rank": 1,
-      "theme_id": "statementdog_tag_1517",
-      "name_zh": "AI",
-      "heat_score": 80,
+      "theme_id": "memory_hbm",
+      "name_zh": "記憶體與 HBM",
+      "heat_score": 82,
       "summaries": {
-        "event_count": 29,
-        "source_count": 4,
-        "tracking_candidate_count": 0,
-        "taiwan_mapping_count": 100
+        "event_count": 9,
+        "source_count": 3,
+        "tracking_candidate_count": 3,
+        "taiwan_mapping_count": 31
       },
       "heat_reason": {
         "rule_version": "public_theme_heat_v0.8",
         "event_component": {
-          "input": 29,
+          "input": 9,
+          "normalized": 100.0,
+          "weighted": 25.0
+        },
+        "source_component": {
+          "input": 3,
+          "normalized": 75.0,
+          "weighted": 18.75
+        },
+        "candidate_component": {
+          "input": 3,
+          "normalized": 75.0,
+          "weighted": 15.0
+        },
+        "mapping_component": {
+          "mapping_count": 31,
+          "direct_mapping_event_count": 5,
+          "normalized": 100.0,
+          "weighted": 30.0
+        },
+        "single_source_concentration": 0.778,
+        "concentration_penalty": 6.667,
+        "raw_score": 82.083
+      },
+      "direct_mentions": [
+        {
+          "instrument_id": "TWSE:2027",
+          "symbol": "2027",
+          "exchange": "TWSE",
+          "name_zh": "大成鋼",
+          "direct_event_count": 3,
+          "latest_mentioned_at": "2026-11-18T19:00:00Z"
+        },
+        {
+          "instrument_id": "TWSE:2025",
+          "symbol": "2025",
+          "exchange": "TWSE",
+          "name_zh": "千興",
+          "direct_event_count": 2,
+          "latest_mentioned_at": "2026-11-18T21:05:30Z"
+        },
+        {
+          "instrument_id": "TWSE:2028",
+          "symbol": "2028",
+          "exchange": "TWSE",
+          "name_zh": "威致",
+          "direct_event_count": 1,
+          "latest_mentioned_at": "2026-11-18T08:31:24Z"
+        }
+      ],
+      "supply_chain_candidates": [
+        {
+          "instrument_id": "TPEX:8299",
+          "symbol": "8299",
+          "exchange": "TPEX",
+          "name_zh": "群聯",
+          "direct_event_count": 0,
+          "official_evidence_count": 0,
+          "company_rank_score": 1,
+          "latest_mentioned_at": null,
+          "latest_official_at": null
+        },
+        {
+          "instrument_id": "TWSE:2344",
+          "symbol": "2344",
+          "exchange": "TWSE",
+          "name_zh": "華邦電",
+          "direct_event_count": 0,
+          "official_evidence_count": 0,
+          "company_rank_score": 1,
+          "latest_mentioned_at": null,
+          "latest_official_at": null
+        },
+        {
+          "instrument_id": "TWSE:2408",
+          "symbol": "2408",
+          "exchange": "TWSE",
+          "name_zh": "南亞科",
+          "direct_event_count": 0,
+          "official_evidence_count": 0,
+          "company_rank_score": 1,
+          "latest_mentioned_at": null,
+          "latest_official_at": null
+        }
+      ],
+      "representative_news": {
+        "cluster_id": "cluster-e3f669d00437dd9f",
+        "id": "digitimes_tw-76aeba605011",
+        "title_zh": "黃仁勳辭任恐掀蝴蝶效應　記憶體三雄面臨議價新局",
+        "summary": "黃仁勳辭去NVIDIA執行長後，公司董事會最新表明無意讓其復職，人工智慧（AI）晶片龍頭的領導交接，成為供應鏈觀察焦點。從供應鏈風險角度觀察，這項變動可能讓科技大廠，更重視採購來源過度集中的問題，原已推動中的自研AI晶片、多元採購與高頻寬記憶體（HBM）布局，則持續由降低運算成本的需求所帶動。綜合路透（Reuters）",
+        "source_id": "digitimes_tw",
+        "source": "DIGITIMES",
+        "published_at": "2026-11-18T18:38:25Z",
+        "canonical_url": "https://www.digitimes.com.tw/tech/dt/n/shwnws.asp?id=0000775218_I8Q1Q08P27NBJP77MTHMP"
+      }
+    },
+    {
+      "rank": 2,
+      "theme_id": "robotics",
+      "name_zh": "機器人",
+      "heat_score": 82,
+      "summaries": {
+        "event_count": 8,
+        "source_count": 2,
+        "tracking_candidate_count": 3,
+        "taiwan_mapping_count": 27
+      },
+      "heat_reason": {
+        "rule_version": "public_theme_heat_v0.8",
+        "event_component": {
+          "input": 8,
+          "normalized": 100.0,
+          "weighted": 25.0
+        },
+        "source_component": {
+          "input": 2,
+          "normalized": 50.0,
+          "weighted": 12.5
+        },
+        "candidate_component": {
+          "input": 3,
+          "normalized": 75.0,
+          "weighted": 15.0
+        },
+        "mapping_component": {
+          "mapping_count": 27,
+          "direct_mapping_event_count": 2,
+          "normalized": 100.0,
+          "weighted": 30.0
+        },
+        "single_source_concentration": 0.625,
+        "concentration_penalty": 0.938,
+        "raw_score": 81.563
+      },
+      "direct_mentions": [
+        {
+          "instrument_id": "TWSE:2027",
+          "symbol": "2027",
+          "exchange": "TWSE",
+          "name_zh": "大成鋼",
+          "direct_event_count": 2,
+          "latest_mentioned_at": "2026-11-18T18:44:06Z"
+        },
+        {
+          "instrument_id": "TWSE:2028",
+          "symbol": "2028",
+          "exchange": "TWSE",
+          "name_zh": "威致",
+          "direct_event_count": 1,
+          "latest_mentioned_at": "2026-11-18T18:44:06Z"
+        },
+        {
+          "instrument_id": "TWSE:2049",
+          "symbol": "2049",
+          "exchange": "TWSE",
+          "name_zh": "上銀",
+          "direct_event_count": 1,
+          "latest_mentioned_at": "2026-11-18T18:44:06Z"
+        }
+      ],
+      "supply_chain_candidates": [
+        {
+          "instrument_id": "TWSE:2049",
+          "symbol": "2049",
+          "exchange": "TWSE",
+          "name_zh": "上銀",
+          "direct_event_count": 1,
+          "official_evidence_count": 0,
+          "company_rank_score": 5,
+          "latest_mentioned_at": "2026-11-18T18:44:06Z",
+          "latest_official_at": null
+        },
+        {
+          "instrument_id": "TPEX:3379",
+          "symbol": "3379",
+          "exchange": "TPEX",
+          "name_zh": "彬台",
+          "direct_event_count": 0,
+          "official_evidence_count": 0,
+          "company_rank_score": 1,
+          "latest_mentioned_at": null,
+          "latest_official_at": null
+        },
+        {
+          "instrument_id": "TPEX:3577",
+          "symbol": "3577",
+          "exchange": "TPEX",
+          "name_zh": "泓格",
+          "direct_event_count": 0,
+          "official_evidence_count": 0,
+          "company_rank_score": 1,
+          "latest_mentioned_at": null,
+          "latest_official_at": null
+        }
+      ],
+      "representative_news": {
+        "cluster_id": "cluster-7adb24422f7f41e7",
+        "id": "digitimes_tw-94028871adac",
+        "title_zh": "DIGITIMES Today：AI迭代速度難如以往 | 黃樂風暴翻出10年前樂陞百尺竿頭案 | 人形機器人貢獻營收再等等",
+        "summary": "黃仁勳辭去NVIDIA執行長後，公司董事會日前表明無意讓其復職，人工智慧（AI）晶片龍頭的領導交接，也成為供應鏈觀察焦點。從供應鏈風險角度觀察，這項變動可能讓科技大廠，更重視採購來源過度集中的問題，原已推動中的自研人AI晶片、多元採購與高頻寬記憶體（HBM）直購布局，則持續由降低運算成本的需求所帶動。黃仁勳離任後，獲任",
+        "source_id": "digitimes_tw",
+        "source": "DIGITIMES",
+        "published_at": "2026-11-18T21:00:00Z",
+        "canonical_url": "https://www.digitimes.com.tw/tech/dt/n/shwnws.asp?id=0000775289_AX21YZUP9CBKJW8TUN6CH"
+      }
+    },
+    {
+      "rank": 3,
+      "theme_id": "statementdog_tag_1517",
+      "name_zh": "AI",
+      "heat_score": 80,
+      "summaries": {
+        "event_count": 23,
+        "source_count": 4,
+        "tracking_candidate_count": 0,
+        "taiwan_mapping_count": 68
+      },
+      "heat_reason": {
+        "rule_version": "public_theme_heat_v0.8",
+        "event_component": {
+          "input": 23,
           "normalized": 100.0,
           "weighted": 25.0
         },
@@ -45,12 +265,12 @@
           "weighted": 0.0
         },
         "mapping_component": {
-          "mapping_count": 100,
-          "direct_mapping_event_count": 9,
+          "mapping_count": 68,
+          "direct_mapping_event_count": 13,
           "normalized": 100.0,
           "weighted": 30.0
         },
-        "single_source_concentration": 0.552,
+        "single_source_concentration": 0.417,
         "concentration_penalty": 0.0,
         "raw_score": 80.0
       },
@@ -60,24 +280,40 @@
           "symbol": "2027",
           "exchange": "TWSE",
           "name_zh": "大成鋼",
-          "direct_event_count": 2,
-          "latest_mentioned_at": "2026-11-18T09:45:51Z"
-        },
-        {
-          "instrument_id": "TWSE:2455",
-          "symbol": "2455",
-          "exchange": "TWSE",
-          "name_zh": "全新",
-          "direct_event_count": 1,
-          "latest_mentioned_at": "2026-11-18T13:08:03Z"
+          "direct_event_count": 5,
+          "latest_mentioned_at": "2026-11-18T20:12:56Z"
         },
         {
           "instrument_id": "TPEX:3324",
           "symbol": "3324",
           "exchange": "TPEX",
           "name_zh": "雙鴻",
+          "direct_event_count": 2,
+          "latest_mentioned_at": "2026-11-18T18:28:15Z"
+        },
+        {
+          "instrument_id": "TWSE:2028",
+          "symbol": "2028",
+          "exchange": "TWSE",
+          "name_zh": "威致",
           "direct_event_count": 1,
-          "latest_mentioned_at": "2026-11-18T13:05:01Z"
+          "latest_mentioned_at": "2026-11-18T18:02:20Z"
+        },
+        {
+          "instrument_id": "TWSE:2007",
+          "symbol": "2007",
+          "exchange": "TWSE",
+          "name_zh": "燁興",
+          "direct_event_count": 1,
+          "latest_mentioned_at": "2026-11-18T16:00:06Z"
+        },
+        {
+          "instrument_id": "TWSE:2025",
+          "symbol": "2025",
+          "exchange": "TWSE",
+          "name_zh": "千興",
+          "direct_event_count": 1,
+          "latest_mentioned_at": "2026-11-18T15:26:33Z"
         },
         {
           "instrument_id": "TWSE:2368",
@@ -134,14 +370,6 @@
           "name_zh": "聚亨",
           "direct_event_count": 1,
           "latest_mentioned_at": "2026-11-18T06:00:36Z"
-        },
-        {
-          "instrument_id": "TWSE:7750",
-          "symbol": "7750",
-          "exchange": "TWSE",
-          "name_zh": "新代",
-          "direct_event_count": 1,
-          "latest_mentioned_at": "2026-11-17T19:53:29Z"
         }
       ],
       "supply_chain_candidates": [
@@ -150,10 +378,10 @@
           "symbol": "3324",
           "exchange": "TPEX",
           "name_zh": "雙鴻",
-          "direct_event_count": 1,
+          "direct_event_count": 2,
           "official_evidence_count": 0,
-          "company_rank_score": 5,
-          "latest_mentioned_at": "2026-11-18T13:05:01Z",
+          "company_rank_score": 9,
+          "latest_mentioned_at": "2026-11-18T18:28:15Z",
           "latest_official_at": null
         },
         {
@@ -180,33 +408,33 @@
         }
       ],
       "representative_news": {
-        "cluster_id": "cluster-cbc774c73fe3020b",
-        "id": "yahoo_finance_tw-d68e81aa9a4f",
-        "title_zh": "AI 智慧代理人握實體權限 資安專家示警兩大失控風險",
-        "summary": "圖／示意圖商傳媒｜林昭衡／綜合外電報導企業導入能自主行動的 AI Agent（智慧代理人）正快速普及，但傳統資安防線正面臨全新考驗。《Quartz》報導指出，具備自主決策能力的 AI 系統與一般聊天機",
-        "source_id": "yahoo_finance_tw",
-        "source": "Yahoo Finance Taiwan",
-        "published_at": "2026-11-18T13:08:03Z",
-        "canonical_url": "https://tw.stock.yahoo.com/news/ai-%E6%99%BA%E6%85%A7%E4%BB%A3%E7%90%86%E4%BA%BA%E6%8F%A1%E5%AF%A6%E9%AB%94%E6%AC%8A%E9%99%90-%E8%B3%87%E5%AE%89%E5%B0%88%E5%AE%B6%E7%A4%BA%E8%AD%A6%E5%85%A9%E5%A4%A7%E5%A4%B1%E6%8E%A7%E9%A2%A8%E9%9A%AA-130803104.html"
+        "cluster_id": "cluster-be7f8bc251e140f3",
+        "id": "cnyes-efc724ff3a50",
+        "title_zh": "AI避風港愈來愈貴！蘋果今年漲30% 估值衝2007年來最高",
+        "summary": "蘋果今年來漲約30%，市值達5.1兆美元，登全球最大企業，成科技股資金避風港。&#10;未重金投入AI基建、現金流穩定支撐買盤，但未來12個月本益比37倍、PEG5.3創高。&#10;市場憂成長放緩，2027會計年度營收估增10%低於前一年15%，股價已高於平均目標價。",
+        "source_id": "cnyes",
+        "source": "鉅亨網 Cnyes",
+        "published_at": "2026-11-18T16:00:06Z",
+        "canonical_url": "https://news.cnyes.com/news/id/6666532"
       }
     },
     {
-      "rank": 2,
-      "theme_id": "robotics",
-      "name_zh": "機器人",
-      "heat_score": 73,
+      "rank": 4,
+      "theme_id": "statementdog_tag_1451",
+      "name_zh": "HPC",
+      "heat_score": 45,
       "summaries": {
-        "event_count": 5,
+        "event_count": 2,
         "source_count": 2,
-        "tracking_candidate_count": 2,
-        "taiwan_mapping_count": 26
+        "tracking_candidate_count": 0,
+        "taiwan_mapping_count": 28
       },
       "heat_reason": {
         "rule_version": "public_theme_heat_v0.8",
         "event_component": {
-          "input": 5,
-          "normalized": 83.333,
-          "weighted": 20.833
+          "input": 2,
+          "normalized": 33.333,
+          "weighted": 8.333
         },
         "source_component": {
           "input": 2,
@@ -214,410 +442,82 @@
           "weighted": 12.5
         },
         "candidate_component": {
-          "input": 2,
-          "normalized": 50.0,
-          "weighted": 10.0
+          "input": 0,
+          "normalized": 0.0,
+          "weighted": 0.0
         },
         "mapping_component": {
-          "mapping_count": 26,
-          "direct_mapping_event_count": 3,
-          "normalized": 100.0,
-          "weighted": 30.0
+          "mapping_count": 28,
+          "direct_mapping_event_count": 1,
+          "normalized": 80.0,
+          "weighted": 24.0
         },
-        "single_source_concentration": 0.6,
+        "single_source_concentration": 0.5,
         "concentration_penalty": 0.0,
-        "raw_score": 73.333
+        "raw_score": 44.833
       },
       "direct_mentions": [
-        {
-          "instrument_id": "TWSE:2027",
-          "symbol": "2027",
-          "exchange": "TWSE",
-          "name_zh": "大成鋼",
-          "direct_event_count": 2,
-          "latest_mentioned_at": "2026-11-18T09:20:13Z"
-        },
-        {
-          "instrument_id": "TWSE:2317",
-          "symbol": "2317",
-          "exchange": "TWSE",
-          "name_zh": "鴻海",
-          "direct_event_count": 1,
-          "latest_mentioned_at": "2026-11-17T19:40:37Z"
-        }
-      ],
-      "supply_chain_candidates": [
-        {
-          "instrument_id": "TWSE:2317",
-          "symbol": "2317",
-          "exchange": "TWSE",
-          "name_zh": "鴻海",
-          "direct_event_count": 1,
-          "official_evidence_count": 0,
-          "company_rank_score": 5,
-          "latest_mentioned_at": "2026-11-17T19:40:37Z",
-          "latest_official_at": null
-        },
-        {
-          "instrument_id": "TPEX:3379",
-          "symbol": "3379",
-          "exchange": "TPEX",
-          "name_zh": "彬台",
-          "direct_event_count": 0,
-          "official_evidence_count": 0,
-          "company_rank_score": 1,
-          "latest_mentioned_at": null,
-          "latest_official_at": null
-        },
-        {
-          "instrument_id": "TPEX:3577",
-          "symbol": "3577",
-          "exchange": "TPEX",
-          "name_zh": "泓格",
-          "direct_event_count": 0,
-          "official_evidence_count": 0,
-          "company_rank_score": 1,
-          "latest_mentioned_at": null,
-          "latest_official_at": null
-        }
-      ],
-      "representative_news": {
-        "cluster_id": "cluster-b133634a321bbfb8",
-        "id": "digitimes_tw-90ea277ad458",
-        "title_zh": "TDK整合感測與被動元件  打造人形機器人方案",
-        "summary": "人形機器人技術持續發展，但要實現實際場域應用，仍須克服姿態感知、關節控制及系統可靠度等挑戰，並在有限的機構空間內兼顧功耗、散熱與抗干擾能力。為協作型機器人廠商克服上述技術難題，TDK結合既有感測器、主動與被動元件及軟體演算法，推出一系列人形機器人解決方案。近日於2026鴻海科技日展示的PositionSense九軸感測方案",
-        "source_id": "digitimes_tw",
-        "source": "DIGITIMES",
-        "published_at": "2026-11-17T19:40:37Z",
-        "canonical_url": "https://www.digitimes.com.tw/tech/dt/n/shwnws.asp?id=0000774663_V6359RAQ7WGEXT2J7UCBW"
-      }
-    },
-    {
-      "rank": 3,
-      "theme_id": "memory_hbm",
-      "name_zh": "記憶體與 HBM",
-      "heat_score": 71,
-      "summaries": {
-        "event_count": 9,
-        "source_count": 2,
-        "tracking_candidate_count": 2,
-        "taiwan_mapping_count": 17
-      },
-      "heat_reason": {
-        "rule_version": "public_theme_heat_v0.8",
-        "event_component": {
-          "input": 9,
-          "normalized": 100.0,
-          "weighted": 25.0
-        },
-        "source_component": {
-          "input": 2,
-          "normalized": 50.0,
-          "weighted": 12.5
-        },
-        "candidate_component": {
-          "input": 2,
-          "normalized": 50.0,
-          "weighted": 10.0
-        },
-        "mapping_component": {
-          "mapping_count": 17,
-          "direct_mapping_event_count": 5,
-          "normalized": 100.0,
-          "weighted": 30.0
-        },
-        "single_source_concentration": 0.778,
-        "concentration_penalty": 6.667,
-        "raw_score": 70.833
-      },
-      "direct_mentions": [
-        {
-          "instrument_id": "TWSE:2025",
-          "symbol": "2025",
-          "exchange": "TWSE",
-          "name_zh": "千興",
-          "direct_event_count": 2,
-          "latest_mentioned_at": "2026-11-17T18:25:32Z"
-        },
-        {
-          "instrument_id": "TWSE:2027",
-          "symbol": "2027",
-          "exchange": "TWSE",
-          "name_zh": "大成鋼",
-          "direct_event_count": 1,
-          "latest_mentioned_at": "2026-11-18T08:31:24Z"
-        },
-        {
-          "instrument_id": "TWSE:2028",
-          "symbol": "2028",
-          "exchange": "TWSE",
-          "name_zh": "威致",
-          "direct_event_count": 1,
-          "latest_mentioned_at": "2026-11-18T08:31:24Z"
-        },
-        {
-          "instrument_id": "TWSE:2030",
-          "symbol": "2030",
-          "exchange": "TWSE",
-          "name_zh": "彰源",
-          "direct_event_count": 1,
-          "latest_mentioned_at": "2026-11-18T03:27:29Z"
-        },
-        {
-          "instrument_id": "TWSE:2408",
-          "symbol": "2408",
-          "exchange": "TWSE",
-          "name_zh": "南亞科",
-          "direct_event_count": 1,
-          "latest_mentioned_at": "2026-11-17T18:08:38Z"
-        }
-      ],
-      "supply_chain_candidates": [
-        {
-          "instrument_id": "TWSE:2408",
-          "symbol": "2408",
-          "exchange": "TWSE",
-          "name_zh": "南亞科",
-          "direct_event_count": 1,
-          "official_evidence_count": 0,
-          "company_rank_score": 5,
-          "latest_mentioned_at": "2026-11-17T18:08:38Z",
-          "latest_official_at": null
-        },
         {
           "instrument_id": "TPEX:8299",
           "symbol": "8299",
           "exchange": "TPEX",
           "name_zh": "群聯",
-          "direct_event_count": 0,
-          "official_evidence_count": 0,
-          "company_rank_score": 1,
-          "latest_mentioned_at": null,
-          "latest_official_at": null
-        },
-        {
-          "instrument_id": "TWSE:2344",
-          "symbol": "2344",
-          "exchange": "TWSE",
-          "name_zh": "華邦電",
-          "direct_event_count": 0,
-          "official_evidence_count": 0,
-          "company_rank_score": 1,
-          "latest_mentioned_at": null,
-          "latest_official_at": null
-        }
-      ],
-      "representative_news": {
-        "cluster_id": "cluster-8309108dfedebb00",
-        "id": "cnyes-30e44de03d14",
-        "title_zh": "破天荒！傳蘋果與三星將達成長期DRAM供應協議　專家：記憶體供應鏈話語權逆轉",
-        "summary": "蘋果與三星電子傳將簽4至5年DRAM長期供應協議，明年上半年起交付，屬蘋果少見破例。&#10;合約鎖定最低供應量、價格隨市場調整；蘋果也已與SK海力士簽類似長約。&#10;AI資料中心HBM需求推升三大廠產能轉向伺服器，手機與PC DRAM供給受壓，記憶體漲價恐延續。",
-        "source_id": "cnyes",
-        "source": "鉅亨網 Cnyes",
-        "published_at": "2026-11-18T06:40:04Z",
-        "canonical_url": "https://news.cnyes.com/news/id/6666152"
-      }
-    },
-    {
-      "rank": 4,
-      "theme_id": "thermal_cooling",
-      "name_zh": "散熱與液冷",
-      "heat_score": 63,
-      "summaries": {
-        "event_count": 3,
-        "source_count": 2,
-        "tracking_candidate_count": 2,
-        "taiwan_mapping_count": 4
-      },
-      "heat_reason": {
-        "rule_version": "public_theme_heat_v0.8",
-        "event_component": {
-          "input": 3,
-          "normalized": 50.0,
-          "weighted": 12.5
-        },
-        "source_component": {
-          "input": 2,
-          "normalized": 50.0,
-          "weighted": 12.5
-        },
-        "candidate_component": {
-          "input": 2,
-          "normalized": 50.0,
-          "weighted": 10.0
-        },
-        "mapping_component": {
-          "mapping_count": 4,
-          "direct_mapping_event_count": 2,
-          "normalized": 100.0,
-          "weighted": 30.0
-        },
-        "single_source_concentration": 0.667,
-        "concentration_penalty": 2.5,
-        "raw_score": 62.5
-      },
-      "direct_mentions": [
-        {
-          "instrument_id": "TPEX:3324",
-          "symbol": "3324",
-          "exchange": "TPEX",
-          "name_zh": "雙鴻",
-          "direct_event_count": 2,
-          "latest_mentioned_at": "2026-11-18T08:37:09Z"
-        },
-        {
-          "instrument_id": "TWSE:2027",
-          "symbol": "2027",
-          "exchange": "TWSE",
-          "name_zh": "大成鋼",
           "direct_event_count": 1,
-          "latest_mentioned_at": "2026-11-18T04:46:08Z"
+          "latest_mentioned_at": "2026-11-18T07:30:17Z"
         },
         {
-          "instrument_id": "TWSE:3017",
-          "symbol": "3017",
+          "instrument_id": "TWSE:2303",
+          "symbol": "2303",
           "exchange": "TWSE",
-          "name_zh": "奇鋐",
+          "name_zh": "聯電",
           "direct_event_count": 1,
-          "latest_mentioned_at": "2026-11-18T04:46:08Z"
-        },
-        {
-          "instrument_id": "TWSE:3653",
-          "symbol": "3653",
-          "exchange": "TWSE",
-          "name_zh": "健策",
-          "direct_event_count": 1,
-          "latest_mentioned_at": "2026-11-18T04:46:08Z"
+          "latest_mentioned_at": "2026-11-18T07:30:17Z"
         }
       ],
       "supply_chain_candidates": [
         {
-          "instrument_id": "TPEX:3324",
-          "symbol": "3324",
+          "instrument_id": "TPEX:6274",
+          "symbol": "6274",
           "exchange": "TPEX",
-          "name_zh": "雙鴻",
-          "direct_event_count": 2,
+          "name_zh": "台燿",
+          "direct_event_count": 0,
           "official_evidence_count": 0,
-          "company_rank_score": 9,
-          "latest_mentioned_at": "2026-11-18T08:37:09Z",
+          "company_rank_score": 1,
+          "latest_mentioned_at": null,
           "latest_official_at": null
         },
         {
-          "instrument_id": "TWSE:3017",
-          "symbol": "3017",
+          "instrument_id": "TWSE:3665",
+          "symbol": "3665",
           "exchange": "TWSE",
-          "name_zh": "奇鋐",
-          "direct_event_count": 1,
+          "name_zh": "貿聯-KY",
+          "direct_event_count": 0,
           "official_evidence_count": 0,
-          "company_rank_score": 5,
-          "latest_mentioned_at": "2026-11-18T04:46:08Z",
+          "company_rank_score": 1,
+          "latest_mentioned_at": null,
           "latest_official_at": null
         },
         {
-          "instrument_id": "TWSE:3653",
-          "symbol": "3653",
+          "instrument_id": "TWSE:4958",
+          "symbol": "4958",
           "exchange": "TWSE",
-          "name_zh": "健策",
-          "direct_event_count": 1,
+          "name_zh": "臻鼎-KY",
+          "direct_event_count": 0,
           "official_evidence_count": 0,
-          "company_rank_score": 5,
-          "latest_mentioned_at": "2026-11-18T04:46:08Z",
+          "company_rank_score": 1,
+          "latest_mentioned_at": null,
           "latest_official_at": null
         }
       ],
       "representative_news": {
-        "cluster_id": "cluster-378e634bc75bcecc",
-        "id": "digitimes_tw-b1242a8a1224",
-        "title_zh": "整櫃散熱最高200kW　佳世達旗下其曜攻雙相直接液冷",
-        "summary": "佳世達集團旗下其陽科技子公司其曜科技，將於SuperComputing 2026（SC26）展出雙相直接液冷（Two-Phase Direct Liquid Cooling；2P DLC）機架級解決方案，瞄準高效能運算（HPC）與AI資料中心散熱需",
+        "cluster_id": "cluster-e0ff9868d7706b33",
+        "id": "digitimes_tw-ab4f58cc279c",
+        "title_zh": "Supermicro發表搭載第六代AMD EPYC 9006伺服器 支援HPC與代理式AI",
+        "summary": "Supermicro作為AI、企業、儲存和5G/邊緣領域的全方位IT解決方案，以及Data Center Building Block Solutions（DCBBS）資料中心模組化解決方案的供應商，宣布其H15伺服器產品組合已正式出貨。H15產品搭載了第六代AMD EPYC",
         "source_id": "digitimes_tw",
         "source": "DIGITIMES",
-        "published_at": "2026-11-18T07:34:22Z",
-        "canonical_url": "https://www.digitimes.com.tw/tech/dt/n/shwnws.asp?id=0000775260_9H73880F5A0WC319F5TX3"
-      }
-    },
-    {
-      "rank": 5,
-      "theme_id": "cowos_supply_chain",
-      "name_zh": "CoWoS 先進封裝",
-      "heat_score": 59,
-      "summaries": {
-        "event_count": 3,
-        "source_count": 2,
-        "tracking_candidate_count": 2,
-        "taiwan_mapping_count": 6
-      },
-      "heat_reason": {
-        "rule_version": "public_theme_heat_v0.8",
-        "event_component": {
-          "input": 3,
-          "normalized": 50.0,
-          "weighted": 12.5
-        },
-        "source_component": {
-          "input": 2,
-          "normalized": 50.0,
-          "weighted": 12.5
-        },
-        "candidate_component": {
-          "input": 2,
-          "normalized": 50.0,
-          "weighted": 10.0
-        },
-        "mapping_component": {
-          "mapping_count": 6,
-          "direct_mapping_event_count": 3,
-          "normalized": 100.0,
-          "weighted": 30.0
-        },
-        "single_source_concentration": 0.75,
-        "concentration_penalty": 5.625,
-        "raw_score": 59.375
-      },
-      "direct_mentions": [
-        {
-          "instrument_id": "TWSE:2027",
-          "symbol": "2027",
-          "exchange": "TWSE",
-          "name_zh": "大成鋼",
-          "direct_event_count": 2,
-          "latest_mentioned_at": "2026-11-18T09:15:46Z"
-        },
-        {
-          "instrument_id": "TWSE:2029",
-          "symbol": "2029",
-          "exchange": "TWSE",
-          "name_zh": "盛餘",
-          "direct_event_count": 1,
-          "latest_mentioned_at": "2026-11-18T03:40:24Z"
-        },
-        {
-          "instrument_id": "TWSE:3711",
-          "symbol": "3711",
-          "exchange": "TWSE",
-          "name_zh": "日月光投控",
-          "direct_event_count": 1,
-          "latest_mentioned_at": "2026-11-18T03:40:24Z"
-        },
-        {
-          "instrument_id": "TWSE:2025",
-          "symbol": "2025",
-          "exchange": "TWSE",
-          "name_zh": "千興",
-          "direct_event_count": 1,
-          "latest_mentioned_at": "2026-11-17T18:20:18Z"
-        }
-      ],
-      "supply_chain_candidates": [],
-      "representative_news": {
-        "cluster_id": "cluster-75839c19d3da1397",
-        "id": "digitimes_tw-9e96e23ae96b",
-        "title_zh": "NVIDIA、矽品簽數十億美元協議　2029先進封裝產能增至3倍",
-        "summary": "半導體封測廠日月光投控旗下矽品宣布，與NVIDIA達成數十億美元的多年合作協議，將在台灣大幅擴增CoWoS先進封裝產能，以滿足全球對AI基礎設施日益增長的需求。隨著全球市場對加速運算的需求激增，NVIDIA與",
-        "source_id": "digitimes_tw",
-        "source": "DIGITIMES",
-        "published_at": "2026-11-18T03:40:24Z",
-        "canonical_url": "https://www.digitimes.com.tw/tech/dt/n/shwnws.asp?id=0000775168_03N01B5U7QQOBD70LEQ82"
+        "published_at": "2026-11-18T19:45:22Z",
+        "canonical_url": "https://www.digitimes.com.tw/tech/dt/n/shwnws.asp?id=0000774657_HG65VDLJ6UMM8K6B46K24"
       }
     }
   ]
