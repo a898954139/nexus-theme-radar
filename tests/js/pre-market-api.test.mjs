@@ -34,6 +34,14 @@ test('API body is byte-for-byte the stored payload and carries the cache header'
   assert.deepEqual(Object.keys(JSON.parse(res.body)), Object.keys(fixture));
 });
 
+test('accepts the optional direction_rule_version key from #9', async () => {
+  const withDirection = { ...fixture, direction_rule_version: 'direction-v1' };
+  assert.equal(isPreMarketPayload(withDirection), true);
+  assert.equal(isPreMarketPayload({ ...fixture, direction_rule_version: 1 }), false);
+  const res = await handlePreMarket({ queryLatest: async () => withDirection, now: fresh, log: silent });
+  assert.equal(res.status, 200);
+});
+
 test('reads only the newest snapshot, read-only SQL', () => {
   assert.match(LATEST_SNAPSHOT_SQL, /^select payload from radar\.pre_market_snapshot /);
   assert.match(LATEST_SNAPSHOT_SQL, /order by generated_at desc limit 1$/);

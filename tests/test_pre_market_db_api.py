@@ -91,6 +91,11 @@ def test_snapshot_rejects_contract_drift(mutate) -> None:
         map_pre_market_snapshot(payload)
 
 
+def test_snapshot_accepts_direction_rule_version_from_issue_9() -> None:
+    payload = {**_payload(), "direction_rule_version": "direction-v1"}
+    assert json.loads(map_pre_market_snapshot(payload)["payload"]) == payload
+
+
 def test_snapshot_upsert_is_idempotent_on_generated_at() -> None:
     connection = FakeConnection()
     write_pre_market_snapshot(connection, _payload())

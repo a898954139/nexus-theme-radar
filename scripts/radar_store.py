@@ -121,6 +121,9 @@ PRE_MARKET_TOP_LEVEL_KEYS = frozenset(
      "pulse", "sectors", "flows"}
 )
 
+# Added by #9 (PR #20); optional so either merge order keeps the mirror working.
+PRE_MARKET_OPTIONAL_KEYS = frozenset({"direction_rule_version"})
+
 PRE_MARKET_UPSERT_SQL = """
 INSERT INTO radar.pre_market_snapshot (
   generated_at, schema_version, window_hours, event_count, payload
@@ -433,9 +436,9 @@ def map_pre_market_snapshot(payload: Mapping[str, Any]) -> dict[str, Any]:
     """
 
     keys = set(payload.keys())
-    if keys != PRE_MARKET_TOP_LEVEL_KEYS:
-        missing = sorted(PRE_MARKET_TOP_LEVEL_KEYS - keys)
-        extra = sorted(keys - PRE_MARKET_TOP_LEVEL_KEYS)
+    missing = sorted(PRE_MARKET_TOP_LEVEL_KEYS - keys)
+    extra = sorted(keys - PRE_MARKET_TOP_LEVEL_KEYS - PRE_MARKET_OPTIONAL_KEYS)
+    if missing or extra:
         raise ValueError(f"pre-market payload keys mismatch missing={missing} extra={extra}")
     events = payload["events"]
     if not isinstance(events, list):

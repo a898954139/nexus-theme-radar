@@ -17,6 +17,10 @@ export const PRE_MARKET_TOP_LEVEL_KEYS = Object.freeze([
   'flows',
 ]);
 
+// Optional top-level keys added by later tickets. #9 (PR #20) adds
+// direction_rule_version; listed here so either merge order keeps the board up.
+export const PRE_MARKET_OPTIONAL_KEYS = Object.freeze(['direction_rule_version']);
+
 export const PRE_MARKET_SCHEMA_VERSION = 1;
 
 function isRecord(value) {
@@ -29,9 +33,10 @@ function isRecord(value) {
  */
 export function isPreMarketPayload(value) {
   if (!isRecord(value)) return false;
-  const keys = Object.keys(value).sort();
-  const expected = [...PRE_MARKET_TOP_LEVEL_KEYS].sort();
-  if (keys.length !== expected.length || !keys.every((key, i) => key === expected[i])) return false;
+  const keys = Object.keys(value);
+  if (!PRE_MARKET_TOP_LEVEL_KEYS.every((key) => keys.includes(key))) return false;
+  if (!keys.every((key) => PRE_MARKET_TOP_LEVEL_KEYS.includes(key) || PRE_MARKET_OPTIONAL_KEYS.includes(key))) return false;
+  if ('direction_rule_version' in value && typeof value.direction_rule_version !== 'string') return false;
   if (value.schema_version !== PRE_MARKET_SCHEMA_VERSION) return false;
   if (typeof value.generated_at !== 'string' || Number.isNaN(Date.parse(value.generated_at))) return false;
   if (typeof value.window_hours !== 'number') return false;
