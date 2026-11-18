@@ -6,7 +6,9 @@ data/merge-log.json
 data/paid-source-state.json
 
 # Non-site directories
-scripts/
+# scripts/ and requirements.txt are NOT ignored: the Python functions under api/
+# import scripts/ingest_runner.py and Vercel installs requirements.txt for them.
+# vercel.json redirects /scripts/* so the source is not browsable as static files.
 tests/
 docs/
 reports/
@@ -20,7 +22,6 @@ examples/
 .pytest_cache/
 
 # Repo metadata / dev files
-requirements.txt
 requirements-dev.txt
 AGENTS.md
 CLAUDE.md

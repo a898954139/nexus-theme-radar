@@ -9,6 +9,7 @@ import {
   MomentumLatestData,
   PreMarketData,
   RadarData,
+  SourceHealthData,
   SourceStatusData,
   StockWatchlistData,
   StockFundamentals,
@@ -250,6 +251,27 @@ export async function loadRadarData(cacheBust = false): Promise<RadarData> {
     sourceStatus,
     waytoagi
   };
+}
+
+/**
+ * Live per-source fetch health from the DB (Vercel /api/source-health).
+ * Resolves to null on any failure: on GitHub Pages the endpoint does not
+ * exist, and the JSON-based source table must keep rendering on its own.
+ */
+export async function fetchSourceHealth(): Promise<SourceHealthData | null> {
+  try {
+    const controller = new AbortController();
+    const timer = window.setTimeout(() => controller.abort(), 8000);
+    const response = await fetch('/api/source-health', { signal: controller.signal });
+    window.clearTimeout(timer);
+    if (!response.ok || !(response.headers.get('content-type') || '').includes('application/json')) {
+      return null;
+    }
+    const body = (await response.json()) as SourceHealthData;
+    return Array.isArray(body?.sources) ? body : null;
+  } catch {
+    return null;
+  }
 }
 
 /**

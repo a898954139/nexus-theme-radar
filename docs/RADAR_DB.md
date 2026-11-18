@@ -28,6 +28,14 @@ fragment, `utm_*`/`fbclid`/`gclid` removed). A re-fetch updates `title`,
 cluster gains a member it gets a new `event_id`, matching what the JSON
 published at that moment. `event.payload` holds the exact JSON item.
 
+## High-frequency ingest
+
+Raw articles are also written every 5 minutes by `/api/cron/ingest` (Vercel,
+triggered by Supabase pg_cron). Those rows carry `pipeline_run.run_kind =
+'ingest'` and `ingest_group`; the hourly run's rows are `run_kind = 'hourly'`.
+Filter on `run_kind = 'hourly'` in the reconciliation queries below. Setup,
+KPIs and rollback: [INGEST_SCHEDULER.md](INGEST_SCHEDULER.md).
+
 ## Fail-closed behaviour
 
 - Uses the same `THEME_RADAR_DATABASE_URL` secret and workflow gate as the
@@ -74,6 +82,7 @@ select (started_at at time zone 'Asia/Taipei')::date as day,
        sum(db_event_count)              as db_events
 from radar.pipeline_run
 where started_at >= now() - interval '7 days'
+  and run_kind = 'hourly'  -- column added by the ingest migration
 group by 1 order by 1;
 
 -- Runs whose commit landed in git but have no DB row (compare to Actions run times)
