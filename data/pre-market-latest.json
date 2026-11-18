@@ -1,6 +1,6 @@
 {
  "schema_version": 1,
- "generated_at": "2026-11-18T14:29:13.041526+00:00",
+ "generated_at": "2026-11-18T22:16:16.007563+00:00",
  "window_hours": 72,
  "direction_rule_version": "direction-v1",
  "sources": [
@@ -414,6 +414,64 @@
    ]
   },
   {
+   "id": "financialjuice-eccc5e6",
+   "tier": "watch",
+   "score": 0.445,
+   "actLabel": "決議行動",
+   "speaker": "Fed Minutes",
+   "publishedAt": "2026-11-18T19:00:34+00:00",
+   "titleZh": "聯準會會議紀錄：一些與會者贊成在 10 月會議上升息 25 個基點，強調通膨過高，幾乎沒有看到通膨減弱的跡象",
+   "titleEn": "Fed Minutes: Some participants favored a 25 basis point rate hike at the October meeting, emphasizing inflation was too high and they saw few signs of it abating",
+   "channel": "資金成本 → 科技股評價重估",
+   "pathLabel": "Fed/利率",
+   "sectors": [
+    "科技股全體",
+    "金融",
+    "壽險"
+   ],
+   "url": "https://www.financialjuice.com/News/9858407/Fed-Minutes-Some-participants-favored-a-25-basis-point-rate-hike-at-the-October-meeting-emphasizing-inflation-was-too-high-and-they-saw-few-signs-of-it-abating.aspx?xy=rss",
+   "related": [
+    {
+     "title": "聯準會會議紀錄：與會者就人工智慧建設相關問題進行了廣泛討論，包括對金融穩定和潛在生產力提升的影響。",
+     "url": "https://www.financialjuice.com/News/9858415/Fed-Minutes-Participants-had-extensive-discussion-of-issues-around-the-AI-buildout-including-implications-for-financial-stability-and-potential-productivity-gains.aspx?xy=rss"
+    },
+    {
+     "title": "聯準會會議紀錄：一些支持不改變利率的參與者表示，這項決定是千鈞一髮的決定",
+     "url": "https://www.financialjuice.com/News/9858413/Fed-Minutes-A-few-participants-who-supported-no-change-in-rates-indicated-the-decision-was-a-close-call.aspx?xy=rss"
+    },
+    {
+     "title": "聯準會會議紀錄：許多與會者強調了溝通的重要性，即不升息的決定並不削弱他們及時將通膨率恢復到2%目標的承諾",
+     "url": "https://www.financialjuice.com/News/9858411/Fed-Minutes-Many-participants-stressed-the-importance-of-communicating-that-the-decision-not-to-hike-was-not-a-weakening-of-their-commitment-to-returning-inflation-to-the-2-target-in-a-timely-manner.aspx?xy=rss"
+    },
+    {
+     "title": "Fed Minutes: A few participants who favored a rate hike said they could have backed no change if it was clearly understood by market participants that more tightening was likely",
+     "url": "https://www.financialjuice.com/News/9858408/Fed-Minutes-A-few-participants-who-favored-a-rate-hike-said-they-could-have-backed-no-change-if-it-was-clearly-understood-by-market-participants-that-more-tightening-was-likely.aspx?xy=rss"
+    },
+    {
+     "title": "聯準會會議紀錄：一些與會者觀察到，通膨可能比預期更持久，因此有必要轉向更嚴格的政策立場",
+     "url": "https://www.financialjuice.com/News/9858404/Fed-Minutes-A-few-participants-observed-inflation-could-prove-more-persistent-than-expected-necessitating-a-shift-to-a-more-restrictive-policy-stance.aspx?xy=rss"
+    }
+   ],
+   "pathId": "fed_rates",
+   "direction": -1,
+   "directionReason": "fed_rates.hike:'rate hike' | fed_rates.hawkish:'inflation was too high'",
+   "horizon": "short",
+   "impacts": [
+    {
+     "sector": "科技股全體",
+     "direction": -1
+    },
+    {
+     "sector": "金融",
+     "direction": 0
+    },
+    {
+     "sector": "壽險",
+     "direction": 0
+    }
+   ]
+  },
+  {
    "id": "financialjuice-a59be6c",
    "tier": "watch",
    "score": 0.395,
@@ -446,43 +504,6 @@
     },
     {
      "sector": "電子出口股",
-     "direction": 0
-    }
-   ]
-  },
-  {
-   "id": "financialjuice-42bed10",
-   "tier": "watch",
-   "score": 0.395,
-   "actLabel": "決議行動",
-   "speaker": "事件報導",
-   "publishedAt": "2026-11-15T15:14:28+00:00",
-   "titleZh": "俄羅斯軍隊在黑海襲擊了為烏克蘭軍隊運輸物資的烏克蘭貨船：Ifax",
-   "titleEn": "Russian forces strike Ukrainian cargo ship transporting supplies for Ukrainian army in the Black Sea: Ifax",
-   "channel": "繞道好望角 → 運價飆升 → 交期拉長",
-   "pathLabel": "航道安全",
-   "sectors": [
-    "貨櫃航運",
-    "散裝航運",
-    "航空貨運"
-   ],
-   "url": "https://www.financialjuice.com/News/9852760/Russian-forces-strike-Ukrainian-cargo-ship-transporting-supplies-for-Ukrainian-army-in-the-Black-Sea-Ifax.aspx?xy=rss",
-   "related": [],
-   "pathId": "shipping_lane",
-   "direction": 0,
-   "directionReason": "path_not_modelled",
-   "horizon": "short",
-   "impacts": [
-    {
-     "sector": "貨櫃航運",
-     "direction": 0
-    },
-    {
-     "sector": "散裝航運",
-     "direction": 0
-    },
-    {
-     "sector": "航空貨運",
      "direction": 0
     }
    ]
@@ -703,6 +724,43 @@
     },
     {
      "sector": "壽險",
+     "direction": 0
+    }
+   ]
+  },
+  {
+   "id": "financialjuice-e8802fa",
+   "tier": "watch",
+   "score": 0.371,
+   "actLabel": "決議行動",
+   "speaker": "Saudi-led coalition",
+   "publishedAt": "2026-11-18T22:07:54+00:00",
+   "titleZh": "Saudi-led coalition: intercepted and neutralized missile launched by Yemen's Houthis towards southern Saudi Arabia",
+   "titleEn": "Saudi-led coalition: intercepted and neutralized missile launched by Yemen's Houthis towards southern Saudi Arabia",
+   "channel": "繞道好望角 → 運價飆升 → 交期拉長",
+   "pathLabel": "航道安全",
+   "sectors": [
+    "貨櫃航運",
+    "散裝航運",
+    "航空貨運"
+   ],
+   "url": "https://www.financialjuice.com/News/9858651/Saudi-led-coalition-intercepted-and-neutralized-missile-launched-by-Yemens-Houthis-towards-southern-Saudi-Arabia.aspx?xy=rss",
+   "related": [],
+   "pathId": "shipping_lane",
+   "direction": 0,
+   "directionReason": "path_not_modelled",
+   "horizon": "short",
+   "impacts": [
+    {
+     "sector": "貨櫃航運",
+     "direction": 0
+    },
+    {
+     "sector": "散裝航運",
+     "direction": 0
+    },
+    {
+     "sector": "航空貨運",
      "direction": 0
     }
    ]
@@ -1458,6 +1516,56 @@
    ]
   },
   {
+   "id": "financialjuice-ad4b550",
+   "tier": "normal",
+   "score": 0.272,
+   "actLabel": "數據發布",
+   "speaker": "BoC’s Dep. Gov. Gravelle",
+   "publishedAt": "2026-11-18T17:31:25+00:00",
+   "titleZh": "加拿大銀行 (BoC) 部門Gravelle 行長：如果企業預期加拿大央行會將通膨率回落至 2%，那麼他們就不太可能將更高的通膨納入其價格之中。",
+   "titleEn": "BoC’s Dep. Gov. Gravelle: If businesses expect the BoC will get inflation back down to 2%, they are less likely to build higher inflation into their prices.",
+   "channel": "資金成本 → 科技股評價重估",
+   "pathLabel": "Fed/利率",
+   "sectors": [
+    "科技股全體",
+    "金融",
+    "壽險"
+   ],
+   "url": "https://www.financialjuice.com/News/9858291/BoCs-Dep-Gov-Gravelle-If-businesses-expect-the-BoC-will-get-inflation-back-down-to-2-they-are-less-likely-to-build-higher-inflation-into-their-prices.aspx?xy=rss",
+   "related": [
+    {
+     "title": "加拿大銀行 (BoC) 部門格拉維爾州長：這項決定有助於控制通貨膨脹，並減少使其回到目標的障礙。",
+     "url": "https://www.financialjuice.com/News/9858292/BoCs-Dep-Gov-Gravelle-That-decision-helps-keep-inflation-in-check-and-reduces-barriers-to-getting-it-back-to-target.aspx?xy=rss"
+    },
+    {
+     "title": "加拿大銀行 (BoC) 部門格拉維爾行長：如果通膨預期得到錨定，貨幣政策就會更有效。",
+     "url": "https://www.financialjuice.com/News/9858290/BoCs-Dep-Gov-Gravelle-If-inflation-expectations-are-anchored-that-makes-monetary-policy-more-effective.aspx?xy=rss"
+    },
+    {
+     "title": "BoC’s Dep. Gov. Gravelle: When the public trusts the BoC to keep inflation around 2%, their inflation expectations stay anchored.",
+     "url": "https://www.financialjuice.com/News/9858288/BoCs-Dep-Gov-Gravelle-When-the-public-trusts-the-BoC-to-keep-inflation-around-2-their-inflation-expectations-stay-anchored.aspx?xy=rss"
+    }
+   ],
+   "pathId": "fed_rates",
+   "direction": 0,
+   "directionReason": "fed_rates.gate:non_us_central_bank",
+   "horizon": "short",
+   "impacts": [
+    {
+     "sector": "科技股全體",
+     "direction": 0
+    },
+    {
+     "sector": "金融",
+     "direction": 0
+    },
+    {
+     "sector": "壽險",
+     "direction": 0
+    }
+   ]
+  },
+  {
    "id": "financialjuice-fc839e1",
    "tier": "normal",
    "score": 0.264,
@@ -1601,6 +1709,43 @@
     },
     {
      "sector": "電子出口股",
+     "direction": 0
+    }
+   ]
+  },
+  {
+   "id": "financialjuice-57e8e8d",
+   "tier": "normal",
+   "score": 0.245,
+   "actLabel": "評論看法",
+   "speaker": "RBNZ Governor Breman",
+   "publishedAt": "2026-11-18T19:52:00+00:00",
+   "titleZh": "紐西蘭聯儲行長布雷曼：潛在通膨指標仍處於高位",
+   "titleEn": "RBNZ Governor Breman: Measures of underlying inflation remain elevated",
+   "channel": "資金成本 → 科技股評價重估",
+   "pathLabel": "Fed/利率",
+   "sectors": [
+    "科技股全體",
+    "金融",
+    "壽險"
+   ],
+   "url": "https://www.financialjuice.com/News/9858485/RBNZ-Governor-Breman-Measures-of-underlying-inflation-remain-elevated.aspx?xy=rss",
+   "related": [],
+   "pathId": "fed_rates",
+   "direction": 0,
+   "directionReason": "fed_rates.gate:non_us_central_bank",
+   "horizon": "short",
+   "impacts": [
+    {
+     "sector": "科技股全體",
+     "direction": 0
+    },
+    {
+     "sector": "金融",
+     "direction": 0
+    },
+    {
+     "sector": "壽險",
      "direction": 0
     }
    ]
@@ -1757,6 +1902,76 @@
     },
     {
      "sector": "權值股",
+     "direction": 0
+    }
+   ]
+  },
+  {
+   "id": "financialjuice-96c3af6",
+   "tier": "normal",
+   "score": 0.202,
+   "actLabel": "評論看法",
+   "speaker": "Fed's Kashkari",
+   "publishedAt": "2026-11-18T21:28:08+00:00",
+   "titleZh": "聯準會卡什卡里：人工智慧對美國生產力的影響仍不清楚",
+   "titleEn": "Fed's Kashkari: AI's imprint on US productivity is still unclear",
+   "channel": "資金成本 → 科技股評價重估",
+   "pathLabel": "Fed/利率",
+   "sectors": [
+    "科技股全體",
+    "金融",
+    "壽險"
+   ],
+   "url": "https://www.financialjuice.com/News/9858601/Feds-Kashkari-AIs-imprint-on-US-productivity-is-still-unclear.aspx?xy=rss",
+   "related": [
+    {
+     "title": "聯準會卡什卡里：人工智慧建設帶來的通膨印記在美國是真實存在的",
+     "url": "https://www.financialjuice.com/News/9858600/Feds-Kashkari-Inflation-imprint-from-AI-buildout-is-real-in-the-US.aspx?xy=rss"
+    },
+    {
+     "title": "聯準會卡什卡利：聯準會顯然在通膨方面缺乏了職責",
+     "url": "https://www.financialjuice.com/News/9858599/Feds-Kashkari-The-Fed-is-clearly-missing-on-the-inflation-side-of-the-mandate.aspx?xy=rss"
+    },
+    {
+     "title": "聯準會卡什卡里：人工智慧大規模投資造成集中風險",
+     "url": "https://www.financialjuice.com/News/9858598/Feds-Kashkari-AI-massive-investment-creates-concentration-risk.aspx?xy=rss"
+    },
+    {
+     "title": "聯準會卡什卡里：市場認為聯準會升息幅度將不得不高於聯準會官員目前的預期",
+     "url": "https://www.financialjuice.com/News/9858597/Feds-Kashkari-Markets-believe-the-Fed-will-have-to-hike-more-than-Fed-officials-now-expect.aspx?xy=rss"
+    },
+    {
+     "title": "Fed's Kashkari: Strong level of demand has been a bit surprising, job market resilient",
+     "url": "https://www.financialjuice.com/News/9858596/Feds-Kashkari-Strong-level-of-demand-has-been-a-bit-surprising-job-market-resilient.aspx?xy=rss"
+    },
+    {
+     "title": "聯準會卡什卡利：聯準會必須確保通膨預期保持穩定",
+     "url": "https://www.financialjuice.com/News/9858595/Feds-Kashkari-Fed-must-make-sure-inflation-expectations-remain-anchored.aspx?xy=rss"
+    },
+    {
+     "title": "Fed's Kashkari: Elevated inflation has flowed from a series of supply shocks:",
+     "url": "https://www.financialjuice.com/News/9858594/Feds-Kashkari-Elevated-inflation-has-flowed-from-a-series-of-supply-shocks.aspx?xy=rss"
+    },
+    {
+     "title": "聯準會卡什卡利：利率絕對會影響投資水平",
+     "url": "https://www.financialjuice.com/News/9858591/Feds-Kashkari-Interest-rates-absolutely-can-impact-investment-levels.aspx?xy=rss"
+    }
+   ],
+   "pathId": "fed_rates",
+   "direction": 0,
+   "directionReason": "no_rule",
+   "horizon": "short",
+   "impacts": [
+    {
+     "sector": "科技股全體",
+     "direction": 0
+    },
+    {
+     "sector": "金融",
+     "direction": 0
+    },
+    {
+     "sector": "壽險",
      "direction": 0
     }
    ]
@@ -2030,38 +2245,43 @@
    ]
   },
   {
-   "id": "financialjuice-392e19b",
+   "id": "financialjuice-3a69f9d",
    "tier": "normal",
-   "score": 0.198,
+   "score": 0.196,
    "actLabel": "評論看法",
-   "speaker": "Yemen's Houthis",
-   "publishedAt": "2026-11-15T17:54:59+00:00",
-   "titleZh": "也門胡塞武裝：用兩枚彈道飛彈瞄準利雅德國王哈立德機場和金融中心",
-   "titleEn": "Yemen's Houthis: Target king Khalid airport in Riyadh and financial center with two ballistic missiles",
-   "channel": "繞道好望角 → 運價飆升 → 交期拉長",
-   "pathLabel": "航道安全",
+   "speaker": "事件報導",
+   "publishedAt": "2026-11-18T20:06:33+00:00",
+   "titleZh": "3艘違規油輪在霍爾木茲海峽東部起火 - IRIB News",
+   "titleEn": "3 offending oil tankers caught fire in the east of the Strait of Hormuz - IRIB News",
+   "channel": "油價↑ → 原料成本 → 輸入性通膨",
+   "pathLabel": "能源/荷姆茲",
    "sectors": [
-    "貨櫃航運",
-    "散裝航運",
-    "航空貨運"
+    "塑化",
+    "航運",
+    "油電燃氣",
+    "紡織"
    ],
-   "url": "https://www.financialjuice.com/News/9852821/Yemens-Houthis-Target-king-Khalid-airport-in-Riyadh-and-financial-center-with-two-ballistic-missiles.aspx?xy=rss",
+   "url": "https://www.financialjuice.com/News/9858489/3-offending-oil-tankers-caught-fire-in-the-east-of-the-Strait-of-Hormuz---IRIB-News.aspx?xy=rss",
    "related": [],
-   "pathId": "shipping_lane",
+   "pathId": "hormuz_energy",
    "direction": 0,
    "directionReason": "path_not_modelled",
    "horizon": "short",
    "impacts": [
     {
-     "sector": "貨櫃航運",
+     "sector": "塑化",
      "direction": 0
     },
     {
-     "sector": "散裝航運",
+     "sector": "航運",
      "direction": 0
     },
     {
-     "sector": "航空貨運",
+     "sector": "油電燃氣",
+     "direction": 0
+    },
+    {
+     "sector": "紡織",
      "direction": 0
     }
    ]
@@ -2134,43 +2354,6 @@
     {
      "sector": "科技股全體",
      "direction": 0
-    },
-    {
-     "sector": "金融",
-     "direction": 0
-    },
-    {
-     "sector": "壽險",
-     "direction": 0
-    }
-   ]
-  },
-  {
-   "id": "financialjuice-64fe458",
-   "tier": "normal",
-   "score": 0.184,
-   "actLabel": "威脅/預告",
-   "speaker": "事件報導",
-   "publishedAt": "2026-11-15T15:19:01+00:00",
-   "titleZh": "貝森特對福斯警告聯準會不要進一步收緊貨幣政策",
-   "titleEn": "Bessent on Fox warns Federal Reserve against additional monetary tightening",
-   "channel": "資金成本 → 科技股評價重估",
-   "pathLabel": "Fed/利率",
-   "sectors": [
-    "科技股全體",
-    "金融",
-    "壽險"
-   ],
-   "url": "https://www.financialjuice.com/News/9852767/Bessent-on-Fox-warns-Federal-Reserve-against-additional-monetary-tightening.aspx?xy=rss",
-   "related": [],
-   "pathId": "fed_rates",
-   "direction": 1,
-   "directionReason": "fed_rates.hawkish:'tightening' negated_by:'warns Federal Reserve against'",
-   "horizon": "short",
-   "impacts": [
-    {
-     "sector": "科技股全體",
-     "direction": 1
     },
     {
      "sector": "金融",
@@ -2332,6 +2515,152 @@
    ]
   },
   {
+   "id": "financialjuice-279c00f",
+   "tier": "normal",
+   "score": 0.178,
+   "actLabel": "評論看法",
+   "speaker": "Fed",
+   "publishedAt": "2026-11-18T19:01:04+00:00",
+   "titleZh": "聯準會：幾乎所有官員都認為採取進一步行動可能是適當的。",
+   "titleEn": "Fed: Almost all officials saw further action likely appropriate.",
+   "channel": "資金成本 → 科技股評價重估",
+   "pathLabel": "Fed/利率",
+   "sectors": [
+    "科技股全體",
+    "金融",
+    "壽險"
+   ],
+   "url": "https://www.financialjuice.com/News/9858410/Fed-Almost-all-officials-saw-further-action-likely-appropriate.aspx?xy=rss",
+   "related": [
+    {
+     "title": "聯準會：夫婦表示 12 月升息超過 25 個基點可能是合理的",
+     "url": "https://www.financialjuice.com/News/9858409/Fed-Couple-said-December-hike-more-than-25-BPS-may-be-warranted.aspx?xy=rss"
+    }
+   ],
+   "pathId": "fed_rates",
+   "direction": 0,
+   "directionReason": "no_rule",
+   "horizon": "short",
+   "impacts": [
+    {
+     "sector": "科技股全體",
+     "direction": 0
+    },
+    {
+     "sector": "金融",
+     "direction": 0
+    },
+    {
+     "sector": "壽險",
+     "direction": 0
+    }
+   ]
+  },
+  {
+   "id": "financialjuice-29c0eb6",
+   "tier": "normal",
+   "score": 0.178,
+   "actLabel": "評論看法",
+   "speaker": "Fed's Barr",
+   "publishedAt": "2026-11-18T18:35:56+00:00",
+   "titleZh": "Fed's Barr: Economy strong with low unemployment",
+   "titleEn": "Fed's Barr: Economy strong with low unemployment",
+   "channel": "資金成本 → 科技股評價重估",
+   "pathLabel": "Fed/利率",
+   "sectors": [
+    "科技股全體",
+    "金融",
+    "壽險"
+   ],
+   "url": "https://www.financialjuice.com/News/9858381/Feds-Barr-Economy-strong-with-low-unemployment.aspx?xy=rss",
+   "related": [
+    {
+     "title": "聯準會巴爾：將觀察數據以確定聯準會下一步行動",
+     "url": "https://www.financialjuice.com/News/9858380/Feds-Barr-Will-watch-data-to-determine-the-Feds-next-move.aspx?xy=rss"
+    },
+    {
+     "title": "聯準會：聯準會「及時」將通膨率降至2%至關重要",
+     "url": "https://www.financialjuice.com/News/9858379/Feds-Barr-Critical-for-the-Fed-to-lower-inflation-to-2-in-a-timely-way.aspx?xy=rss"
+    },
+    {
+     "title": "聯準會：通膨「過高」對許多家庭造成壓力",
+     "url": "https://www.financialjuice.com/News/9858378/Feds-Barr-Inflation-is-too-high-and-pressuring-many-families.aspx?xy=rss"
+    },
+    {
+     "title": "Fed's Barr: Support raising rates further if the economy performs as expected",
+     "url": "https://www.financialjuice.com/News/9858377/Feds-Barr-Support-raising-rates-further-if-the-economy-performs-as-expected.aspx?xy=rss"
+    }
+   ],
+   "pathId": "fed_rates",
+   "direction": 0,
+   "directionReason": "no_rule",
+   "horizon": "short",
+   "impacts": [
+    {
+     "sector": "科技股全體",
+     "direction": 0
+    },
+    {
+     "sector": "金融",
+     "direction": 0
+    },
+    {
+     "sector": "壽險",
+     "direction": 0
+    }
+   ]
+  },
+  {
+   "id": "financialjuice-6e24484",
+   "tier": "normal",
+   "score": 0.178,
+   "actLabel": "評論看法",
+   "speaker": "Fed's Daly",
+   "publishedAt": "2026-11-18T17:48:48+00:00",
+   "titleZh": "聯準會戴利：通膨很高，但我不確定它將如何演變。",
+   "titleEn": "Fed's Daly: Inflation is high, but i am uncertain how it will evolve.",
+   "channel": "資金成本 → 科技股評價重估",
+   "pathLabel": "Fed/利率",
+   "sectors": [
+    "科技股全體",
+    "金融",
+    "壽險"
+   ],
+   "url": "https://www.financialjuice.com/News/9858327/Feds-Daly-Inflation-is-high-but-i-am-uncertain-how-it-will-evolve.aspx?xy=rss",
+   "related": [
+    {
+     "title": "聯準會戴利：我支持繼續採取謹慎的政策方針。",
+     "url": "https://www.financialjuice.com/News/9858282/Feds-Daly-I-support-continuing-with-a-measured-approach-to-policy.aspx?xy=rss"
+    },
+    {
+     "title": "聯準會戴利：人工智慧可能會對其他商品和服務造成壓力。",
+     "url": "https://www.financialjuice.com/News/9858281/Feds-Daly-AI-could-put-pressure-on-other-goods-and-services.aspx?xy=rss"
+    },
+    {
+     "title": "聯準會戴利：通膨過高已經持續太久了。",
+     "url": "https://www.financialjuice.com/News/9858280/Feds-Daly-Inflation-has-been-too-high-for-too-long.aspx?xy=rss"
+    }
+   ],
+   "pathId": "fed_rates",
+   "direction": 0,
+   "directionReason": "no_rule",
+   "horizon": "short",
+   "impacts": [
+    {
+     "sector": "科技股全體",
+     "direction": 0
+    },
+    {
+     "sector": "金融",
+     "direction": 0
+    },
+    {
+     "sector": "壽險",
+     "direction": 0
+    }
+   ]
+  },
+  {
    "id": "financialjuice-55d6a72",
    "tier": "normal",
    "score": 0.175,
@@ -2401,6 +2730,43 @@
     },
     {
      "sector": "汽車零組件",
+     "direction": 0
+    }
+   ]
+  },
+  {
+   "id": "financialjuice-c1ef571",
+   "tier": "normal",
+   "score": 0.173,
+   "actLabel": "評論看法",
+   "speaker": "Moody's",
+   "publishedAt": "2026-11-18T21:55:16+00:00",
+   "titleZh": "穆迪：利率上升、能源價格上漲以及人工智慧投資週期正常化將導緻美國經濟成長放緩",
+   "titleEn": "Moody's: Higher interest rates, elevated energy prices, and normalization of AI investment cycle will contribute to slower growth in the US",
+   "channel": "資金成本 → 科技股評價重估",
+   "pathLabel": "Fed/利率",
+   "sectors": [
+    "科技股全體",
+    "金融",
+    "壽險"
+   ],
+   "url": "https://www.financialjuice.com/News/9858637/Moodys-Higher-interest-rates-elevated-energy-prices-and-normalization-of-AI-investment-cycle-will-contribute-to-slower-growth-in-the-US.aspx?xy=rss",
+   "related": [],
+   "pathId": "fed_rates",
+   "direction": 0,
+   "directionReason": "no_rule",
+   "horizon": "short",
+   "impacts": [
+    {
+     "sector": "科技股全體",
+     "direction": 0
+    },
+    {
+     "sector": "金融",
+     "direction": 0
+    },
+    {
+     "sector": "壽險",
      "direction": 0
     }
    ]
@@ -3087,6 +3453,85 @@
    ]
   },
   {
+   "id": "financialjuice-306fac7",
+   "tier": "normal",
+   "score": 0.159,
+   "actLabel": "評論看法",
+   "speaker": "Poll",
+   "publishedAt": "2026-11-18T22:00:33+00:00",
+   "titleZh": "民調：86%的經濟學家表示日本央行將在12月將基準利率上調至1.50%",
+   "titleEn": "Poll: Bank of Japan to hike benchmark interest rate to 1.50% in December, 86% of economists say",
+   "channel": "資金成本 → 科技股評價重估",
+   "pathLabel": "Fed/利率",
+   "sectors": [
+    "科技股全體",
+    "金融",
+    "壽險"
+   ],
+   "url": "https://www.financialjuice.com/News/9858645/Poll-Bank-of-Japan-to-hike-benchmark-interest-rate-to-150-in-December-86-of-economists-say.aspx?xy=rss",
+   "related": [],
+   "pathId": "fed_rates",
+   "direction": 0,
+   "directionReason": "fed_rates.gate:non_us_central_bank",
+   "horizon": "short",
+   "impacts": [
+    {
+     "sector": "科技股全體",
+     "direction": 0
+    },
+    {
+     "sector": "金融",
+     "direction": 0
+    },
+    {
+     "sector": "壽險",
+     "direction": 0
+    }
+   ]
+  },
+  {
+   "id": "financialjuice-712c57e",
+   "tier": "normal",
+   "score": 0.159,
+   "actLabel": "評論看法",
+   "speaker": "RBNZ's Breman",
+   "publishedAt": "2026-11-18T19:36:23+00:00",
+   "titleZh": "紐西蘭聯邦儲備銀行布雷曼：認為通膨和經濟面臨雙向風險。",
+   "titleEn": "RBNZ's Breman: Sees risks to inflation, economy in both directions.",
+   "channel": "資金成本 → 科技股評價重估",
+   "pathLabel": "Fed/利率",
+   "sectors": [
+    "科技股全體",
+    "金融",
+    "壽險"
+   ],
+   "url": "https://www.financialjuice.com/News/9858466/RBNZs-Breman-Sees-risks-to-inflation-economy-in-both-directions.aspx?xy=rss",
+   "related": [
+    {
+     "title": "紐西蘭聯儲布雷曼：通膨預期維持穩定",
+     "url": "https://www.financialjuice.com/News/9858465/RBNZs-Breman-Inflation-expectations-remain-stable.aspx?xy=rss"
+    }
+   ],
+   "pathId": "fed_rates",
+   "direction": 0,
+   "directionReason": "fed_rates.gate:non_us_central_bank",
+   "horizon": "short",
+   "impacts": [
+    {
+     "sector": "科技股全體",
+     "direction": 0
+    },
+    {
+     "sector": "金融",
+     "direction": 0
+    },
+    {
+     "sector": "壽險",
+     "direction": 0
+    }
+   ]
+  },
+  {
    "id": "financialjuice-4f66fe6",
    "tier": "normal",
    "score": 0.159,
@@ -3112,64 +3557,6 @@
    "pathId": "fed_rates",
    "direction": 0,
    "directionReason": "fed_rates.gate:non_us_central_bank",
-   "horizon": "short",
-   "impacts": [
-    {
-     "sector": "科技股全體",
-     "direction": 0
-    },
-    {
-     "sector": "金融",
-     "direction": 0
-    },
-    {
-     "sector": "壽險",
-     "direction": 0
-    }
-   ]
-  },
-  {
-   "id": "financialjuice-4736149",
-   "tier": "normal",
-   "score": 0.152,
-   "actLabel": "評論看法",
-   "speaker": "Fed’s Schmid",
-   "publishedAt": "2026-11-15T18:40:04+00:00",
-   "titleZh": "聯準會施密德：排除能源物價通膨將維持在3%",
-   "titleEn": "Fed’s Schmid: Inflation would remain at 3% excluding energy prices",
-   "channel": "資金成本 → 科技股評價重估",
-   "pathLabel": "Fed/利率",
-   "sectors": [
-    "科技股全體",
-    "金融",
-    "壽險"
-   ],
-   "url": "https://www.financialjuice.com/News/9852847/Feds-Schmid-Inflation-would-remain-at-3-excluding-energy-prices.aspx?xy=rss",
-   "related": [
-    {
-     "title": "聯準會施密德：勞動市場基本平衡：幾乎沒有證據顯示就業市場或薪資會加劇通膨",
-     "url": "https://www.financialjuice.com/News/9852845/Feds-Schmid-Labor-market-largely-balanced-little-proof-job-market-or-wages-fuel-inflation.aspx?xy=rss"
-    },
-    {
-     "title": "聯準會施密德：透過對需求的影響，掌握應對通膨的工具和責任",
-     "url": "https://www.financialjuice.com/News/9852844/Feds-Schmid-through-its-influence-on-demand-holds-tools-and-responsibility-to-tackle-inflation.aspx?xy=rss"
-    },
-    {
-     "title": "聯準會施密德：通膨過高，央行在通膨方面還有一些工作要做",
-     "url": "https://www.financialjuice.com/News/9852843/Feds-Schmid-inflation-running-too-high-central-bank-has-some-work-to-do-on-inflation.aspx?xy=rss"
-    },
-    {
-     "title": "聯準會施密德：通膨正朝著錯誤的方向發展，“令人不安地高於 2% 的目標”",
-     "url": "https://www.financialjuice.com/News/9852841/Feds-Schmid-Inflation-moving-in-wrong-direction-is-uncomfortably-above-2-target.aspx?xy=rss"
-    },
-    {
-     "title": "聯準會施密德：將反駁聯準會通膨目標需要人工智慧相關科技產品等特定價格做出反應的觀點",
-     "url": "https://www.financialjuice.com/News/9852840/Feds-Schmid-would-push-back-on-idea-that-Fed-inflation-target-demands-response-from-specific-prices-such-as-ai-related-tech-goods.aspx?xy=rss"
-    }
-   ],
-   "pathId": "fed_rates",
-   "direction": 0,
-   "directionReason": "no_rule",
    "horizon": "short",
    "impacts": [
     {
@@ -3266,6 +3653,43 @@
     },
     {
      "sector": "紡織",
+     "direction": 0
+    }
+   ]
+  },
+  {
+   "id": "financialjuice-12148ed",
+   "tier": "normal",
+   "score": 0.149,
+   "actLabel": "評論看法",
+   "speaker": "Yemen's Houthis",
+   "publishedAt": "2026-11-18T20:09:03+00:00",
+   "titleZh": "也門胡塞武裝：目標是利雅德哈立德國王機場和金融中心。",
+   "titleEn": "Yemen's Houthis: Targeted King Khalid Airport and financial center in Riyadh.",
+   "channel": "繞道好望角 → 運價飆升 → 交期拉長",
+   "pathLabel": "航道安全",
+   "sectors": [
+    "貨櫃航運",
+    "散裝航運",
+    "航空貨運"
+   ],
+   "url": "https://www.financialjuice.com/News/9858492/Yemens-Houthis-Targeted-King-Khalid-Airport-and-financial-center-in-Riyadh.aspx?xy=rss",
+   "related": [],
+   "pathId": "shipping_lane",
+   "direction": 0,
+   "directionReason": "path_not_modelled",
+   "horizon": "short",
+   "impacts": [
+    {
+     "sector": "貨櫃航運",
+     "direction": 0
+    },
+    {
+     "sector": "散裝航運",
+     "direction": 0
+    },
+    {
+     "sector": "航空貨運",
      "direction": 0
     }
    ]
@@ -3387,6 +3811,43 @@
     },
     {
      "sector": "電子出口股",
+     "direction": 0
+    }
+   ]
+  },
+  {
+   "id": "financialjuice-2e6431d",
+   "tier": "normal",
+   "score": 0.144,
+   "actLabel": "評論看法",
+   "speaker": "事件報導",
+   "publishedAt": "2026-11-18T21:54:58+00:00",
+   "titleZh": "穆迪預計，美國將繼續由獨立聯準會領導的長期非常有效的貨幣政策。",
+   "titleEn": "Moody's expects US will continue its long history of very effective monetary policy led by an independent Fed.",
+   "channel": "資金成本 → 科技股評價重估",
+   "pathLabel": "Fed/利率",
+   "sectors": [
+    "科技股全體",
+    "金融",
+    "壽險"
+   ],
+   "url": "https://www.financialjuice.com/News/9858636/Moodys-expects-US-will-continue-its-long-history-of-very-effective-monetary-policy-led-by-an-independent-Fed.aspx?xy=rss",
+   "related": [],
+   "pathId": "fed_rates",
+   "direction": 0,
+   "directionReason": "no_rule",
+   "horizon": "short",
+   "impacts": [
+    {
+     "sector": "科技股全體",
+     "direction": 0
+    },
+    {
+     "sector": "金融",
+     "direction": 0
+    },
+    {
+     "sector": "壽險",
      "direction": 0
     }
    ]
@@ -3540,6 +4001,43 @@
    ]
   },
   {
+   "id": "financialjuice-bfb0df2",
+   "tier": "normal",
+   "score": 0.14,
+   "actLabel": "評論看法",
+   "speaker": "Bank of Canada's Gravelle",
+   "publishedAt": "2026-11-18T18:38:28+00:00",
+   "titleZh": "加拿大央行Gravelle：能源價格通膨正在蔓延",
+   "titleEn": "Bank of Canada's Gravelle: Energy price inflation spreading",
+   "channel": "資金成本 → 科技股評價重估",
+   "pathLabel": "Fed/利率",
+   "sectors": [
+    "科技股全體",
+    "金融",
+    "壽險"
+   ],
+   "url": "https://www.financialjuice.com/News/9858382/Bank-of-Canadas-Gravelle-Energy-price-inflation-spreading.aspx?xy=rss",
+   "related": [],
+   "pathId": "fed_rates",
+   "direction": 0,
+   "directionReason": "fed_rates.gate:non_us_central_bank",
+   "horizon": "short",
+   "impacts": [
+    {
+     "sector": "科技股全體",
+     "direction": 0
+    },
+    {
+     "sector": "金融",
+     "direction": 0
+    },
+    {
+     "sector": "壽險",
+     "direction": 0
+    }
+   ]
+  },
+  {
    "id": "financialjuice-c982fb6",
    "tier": "normal",
    "score": 0.136,
@@ -3614,48 +4112,6 @@
     },
     {
      "sector": "電子出口股",
-     "direction": 0
-    }
-   ]
-  },
-  {
-   "id": "financialjuice-0068aef",
-   "tier": "normal",
-   "score": 0.131,
-   "actLabel": "評論看法",
-   "speaker": "Yemen's Houthis",
-   "publishedAt": "2026-11-15T18:37:31+00:00",
-   "titleZh": "也門胡塞武裝：兩架無人機襲擊利雅德附近的沙烏地阿拉伯東西管道",
-   "titleEn": "Yemen's Houthis: two drones targeted Saudi east-west pipeline near Riyadh",
-   "channel": "繞道好望角 → 運價飆升 → 交期拉長",
-   "pathLabel": "航道安全",
-   "sectors": [
-    "貨櫃航運",
-    "散裝航運",
-    "航空貨運"
-   ],
-   "url": "https://www.financialjuice.com/News/9852838/Yemens-Houthis-two-drones-targeted-Saudi-east-west-pipeline-near-Riyadh.aspx?xy=rss",
-   "related": [
-    {
-     "title": "也門胡塞武裝：用兩枚彈道飛彈瞄準利雅德國王哈立德機場和金融中心",
-     "url": "https://www.financialjuice.com/News/9852821/Yemens-Houthis-Target-king-Khalid-airport-in-Riyadh-and-financial-center-with-two-ballistic-missiles.aspx?xy=rss"
-    }
-   ],
-   "pathId": "shipping_lane",
-   "direction": 0,
-   "directionReason": "path_not_modelled",
-   "horizon": "short",
-   "impacts": [
-    {
-     "sector": "貨櫃航運",
-     "direction": 0
-    },
-    {
-     "sector": "散裝航運",
-     "direction": 0
-    },
-    {
-     "sector": "航空貨運",
      "direction": 0
     }
    ]
@@ -3740,6 +4196,48 @@
     },
     {
      "sector": "大盤全體",
+     "direction": 0
+    }
+   ]
+  },
+  {
+   "id": "financialjuice-c05dcb7",
+   "tier": "normal",
+   "score": 0.127,
+   "actLabel": "評論看法",
+   "speaker": "事件報導",
+   "publishedAt": "2026-11-18T19:01:46+00:00",
+   "titleZh": "聯準會工作人員通膨預測與9月會議準備的類似，經濟成長前景略強",
+   "titleEn": "Fed Staff inflation forecast was similar to one prepared for the September meeting, economic growth outlook a little stronger",
+   "channel": "資金成本 → 科技股評價重估",
+   "pathLabel": "Fed/利率",
+   "sectors": [
+    "科技股全體",
+    "金融",
+    "壽險"
+   ],
+   "url": "https://www.financialjuice.com/News/9858419/Fed-Staff-inflation-forecast-was-similar-to-one-prepared-for-the-September-meeting-economic-growth-outlook-a-little-stronger.aspx?xy=rss",
+   "related": [
+    {
+     "title": "聯準會工作人員通膨預測與9月會議準備的類似，經濟成長前景略強。",
+     "url": "https://www.financialjuice.com/News/9858412/Fed-staff-inflation-forecast-was-similar-to-one-prepared-for-September-meeting-economic-growth-outlook-a-little-stronger.aspx?xy=rss"
+    }
+   ],
+   "pathId": "fed_rates",
+   "direction": 0,
+   "directionReason": "no_rule",
+   "horizon": "short",
+   "impacts": [
+    {
+     "sector": "科技股全體",
+     "direction": 0
+    },
+    {
+     "sector": "金融",
+     "direction": 0
+    },
+    {
+     "sector": "壽險",
      "direction": 0
     }
    ]
@@ -3893,6 +4391,90 @@
     },
     {
      "sector": "壽險",
+     "direction": 0
+    }
+   ]
+  },
+  {
+   "id": "financialjuice-4ef926c",
+   "tier": "normal",
+   "score": 0.12,
+   "actLabel": "評論看法",
+   "speaker": "UKMTO",
+   "publishedAt": "2026-11-18T22:12:29+00:00",
+   "titleZh": "UKMTO：油輪在通過霍爾木茲海峽出境時在機艙內被不明彈丸擊中",
+   "titleEn": "UKMTO: tanker hit by unidentified projectile in engine room while passing outbound through Strait of Hormuz",
+   "channel": "油價↑ → 原料成本 → 輸入性通膨",
+   "pathLabel": "能源/荷姆茲",
+   "sectors": [
+    "塑化",
+    "航運",
+    "油電燃氣",
+    "紡織"
+   ],
+   "url": "https://www.financialjuice.com/News/9858653/UKMTO-tanker-hit-by-unidentified-projectile-in-engine-room-while-passing-outbound-through-Strait-of-Hormuz.aspx?xy=rss",
+   "related": [],
+   "pathId": "hormuz_energy",
+   "direction": 0,
+   "directionReason": "path_not_modelled",
+   "horizon": "short",
+   "impacts": [
+    {
+     "sector": "塑化",
+     "direction": 0
+    },
+    {
+     "sector": "航運",
+     "direction": 0
+    },
+    {
+     "sector": "油電燃氣",
+     "direction": 0
+    },
+    {
+     "sector": "紡織",
+     "direction": 0
+    }
+   ]
+  },
+  {
+   "id": "financialjuice-05b420e",
+   "tier": "normal",
+   "score": 0.12,
+   "actLabel": "評論看法",
+   "speaker": "IRIB News",
+   "publishedAt": "2026-11-18T20:07:27+00:00",
+   "titleZh": "IRIB新聞：三艘油輪無視海軍警告，在霍爾木茲海峽以東觸雷後起火併停止——伊朗陸軍",
+   "titleEn": "IRIB News: Three oil tankers caught fire, stopped after hitting sea mines east of Strait of Hormuz, having ignored Navy warnings - Iran Army",
+   "channel": "油價↑ → 原料成本 → 輸入性通膨",
+   "pathLabel": "能源/荷姆茲",
+   "sectors": [
+    "塑化",
+    "航運",
+    "油電燃氣",
+    "紡織"
+   ],
+   "url": "https://www.financialjuice.com/News/9858490/IRIB-News-Three-oil-tankers-caught-fire-stopped-after-hitting-sea-mines-east-of-Strait-of-Hormuz-having-ignored-Navy-warnings---Iran-Army.aspx?xy=rss",
+   "related": [],
+   "pathId": "hormuz_energy",
+   "direction": 0,
+   "directionReason": "path_not_modelled",
+   "horizon": "short",
+   "impacts": [
+    {
+     "sector": "塑化",
+     "direction": 0
+    },
+    {
+     "sector": "航運",
+     "direction": 0
+    },
+    {
+     "sector": "油電燃氣",
+     "direction": 0
+    },
+    {
+     "sector": "紡織",
      "direction": 0
     }
    ]
@@ -4423,6 +5005,90 @@
    ]
   },
   {
+   "id": "financialjuice-f2e6a09",
+   "tier": "normal",
+   "score": 0.109,
+   "actLabel": "評論看法",
+   "speaker": "事件報導",
+   "publishedAt": "2026-11-18T19:43:07+00:00",
+   "titleZh": "Brent Crude futures settle at $91.95/bbl, down $1.19, 1.28%",
+   "titleEn": "Brent Crude futures settle at $91.95/bbl, down $1.19, 1.28%",
+   "channel": "油價↑ → 原料成本 → 輸入性通膨",
+   "pathLabel": "能源/荷姆茲",
+   "sectors": [
+    "塑化",
+    "航運",
+    "油電燃氣",
+    "紡織"
+   ],
+   "url": "https://www.financialjuice.com/News/9858467/Brent-Crude-futures-settle-at-9195bbl-down-119-128.aspx?xy=rss",
+   "related": [],
+   "pathId": "hormuz_energy",
+   "direction": 0,
+   "directionReason": "path_not_modelled",
+   "horizon": "short",
+   "impacts": [
+    {
+     "sector": "塑化",
+     "direction": 0
+    },
+    {
+     "sector": "航運",
+     "direction": 0
+    },
+    {
+     "sector": "油電燃氣",
+     "direction": 0
+    },
+    {
+     "sector": "紡織",
+     "direction": 0
+    }
+   ]
+  },
+  {
+   "id": "financialjuice-3204c9f",
+   "tier": "normal",
+   "score": 0.109,
+   "actLabel": "評論看法",
+   "speaker": "事件報導",
+   "publishedAt": "2026-11-18T19:30:57+00:00",
+   "titleZh": "NYMEX WTI 12 月原油期貨結算價每桶 83.26 美元，下跌 2.75 美元，下跌 3.20%",
+   "titleEn": "NYMEX WTI crude Dec. futures settle at $83.26 a barrel, down $2.75, 3.20%",
+   "channel": "油價↑ → 原料成本 → 輸入性通膨",
+   "pathLabel": "能源/荷姆茲",
+   "sectors": [
+    "塑化",
+    "航運",
+    "油電燃氣",
+    "紡織"
+   ],
+   "url": "https://www.financialjuice.com/News/9858444/NYMEX-WTI-crude-Dec-futures-settle-at-8326-a-barrel-down-275-320.aspx?xy=rss",
+   "related": [],
+   "pathId": "hormuz_energy",
+   "direction": 0,
+   "directionReason": "path_not_modelled",
+   "horizon": "short",
+   "impacts": [
+    {
+     "sector": "塑化",
+     "direction": 0
+    },
+    {
+     "sector": "航運",
+     "direction": 0
+    },
+    {
+     "sector": "油電燃氣",
+     "direction": 0
+    },
+    {
+     "sector": "紡織",
+     "direction": 0
+    }
+   ]
+  },
+  {
    "id": "financialjuice-42735ca",
    "tier": "normal",
    "score": 0.109,
@@ -4692,6 +5358,48 @@
     },
     {
      "sector": "壽險",
+     "direction": 0
+    }
+   ]
+  },
+  {
+   "id": "financialjuice-b531bb7",
+   "tier": "normal",
+   "score": 0.106,
+   "actLabel": "評論看法",
+   "speaker": "US Sec. of Defense Hegseth",
+   "publishedAt": "2026-11-18T18:21:35+00:00",
+   "titleZh": "美國證券交易委員會國防部赫格斯：石油協議使霍爾木茲海峽成為“非因素”",
+   "titleEn": "US Sec. of Defense Hegseth: The oil deal makes the Strait of Hormuz a 'non-factor'",
+   "channel": "油價↑ → 原料成本 → 輸入性通膨",
+   "pathLabel": "能源/荷姆茲",
+   "sectors": [
+    "塑化",
+    "航運",
+    "油電燃氣",
+    "紡織"
+   ],
+   "url": "https://www.financialjuice.com/News/9858360/US-Sec-of-Defense-Hegseth-The-oil-deal-makes-the-Strait-of-Hormuz-a-non-factor.aspx?xy=rss",
+   "related": [],
+   "pathId": "hormuz_energy",
+   "direction": 0,
+   "directionReason": "path_not_modelled",
+   "horizon": "short",
+   "impacts": [
+    {
+     "sector": "塑化",
+     "direction": 0
+    },
+    {
+     "sector": "航運",
+     "direction": 0
+    },
+    {
+     "sector": "油電燃氣",
+     "direction": 0
+    },
+    {
+     "sector": "紡織",
      "direction": 0
     }
    ]
@@ -5390,6 +6098,43 @@
    ]
   },
   {
+   "id": "financialjuice-277019b",
+   "tier": "normal",
+   "score": 0.093,
+   "actLabel": "評論看法",
+   "speaker": "事件報導",
+   "publishedAt": "2026-11-18T21:02:14+00:00",
+   "titleZh": "US Overall Net Capital Flows Actual 261.0B (Forecast -, Previous 199.8B ,Revision 203.0B)",
+   "titleEn": "US Overall Net Capital Flows Actual 261.0B (Forecast -, Previous 199.8B ,Revision 203.0B)",
+   "channel": "台幣走勢 → 外資進出 + 匯兌損益",
+   "pathLabel": "匯率/資金",
+   "sectors": [
+    "金融",
+    "壽險",
+    "電子出口股"
+   ],
+   "url": "https://www.financialjuice.com/News/9858555/US-Overall-Net-Capital-Flows-Actual-2610B-Forecast---Previous-1998B-Revision-2030B.aspx?xy=rss",
+   "related": [],
+   "pathId": "fx_capital",
+   "direction": 0,
+   "directionReason": "path_not_modelled",
+   "horizon": "short",
+   "impacts": [
+    {
+     "sector": "金融",
+     "direction": 0
+    },
+    {
+     "sector": "壽險",
+     "direction": 0
+    },
+    {
+     "sector": "電子出口股",
+     "direction": 0
+    }
+   ]
+  },
+  {
    "id": "financialjuice-2653618",
    "tier": "normal",
    "score": 0.093,
@@ -5659,43 +6404,6 @@
    ]
   },
   {
-   "id": "financialjuice-3f33443",
-   "tier": "normal",
-   "score": 0.088,
-   "actLabel": "評論看法",
-   "speaker": "事件報導",
-   "publishedAt": "2026-11-15T17:55:12+00:00",
-   "titleZh": "沙烏地阿拉伯未證實胡塞武裝的說法",
-   "titleEn": "No Saudi confirmation of Houthi claim",
-   "channel": "繞道好望角 → 運價飆升 → 交期拉長",
-   "pathLabel": "航道安全",
-   "sectors": [
-    "貨櫃航運",
-    "散裝航運",
-    "航空貨運"
-   ],
-   "url": "https://www.financialjuice.com/News/9852822/No-Saudi-confirmation-of-Houthi-claim.aspx?xy=rss",
-   "related": [],
-   "pathId": "shipping_lane",
-   "direction": 0,
-   "directionReason": "path_not_modelled",
-   "horizon": "short",
-   "impacts": [
-    {
-     "sector": "貨櫃航運",
-     "direction": 0
-    },
-    {
-     "sector": "散裝航運",
-     "direction": 0
-    },
-    {
-     "sector": "航空貨運",
-     "direction": 0
-    }
-   ]
-  },
-  {
    "id": "financialjuice-52c6891",
    "tier": "normal",
    "score": 0.087,
@@ -5950,48 +6658,6 @@
     },
     {
      "sector": "電子出口股",
-     "direction": 0
-    }
-   ]
-  },
-  {
-   "id": "financialjuice-aa02c93",
-   "tier": "normal",
-   "score": 0.078,
-   "actLabel": "評論看法",
-   "speaker": "Iran navy",
-   "publishedAt": "2026-11-15T20:21:27+00:00",
-   "titleZh": "伊朗海軍：油輪在霍爾木茲海峽以東觸雷後起火 - 官方媒體",
-   "titleEn": "Iran navy: oil tanker ignites after hitting naval mine east of Strait of Hormuz - state media",
-   "channel": "油價↑ → 原料成本 → 輸入性通膨",
-   "pathLabel": "能源/荷姆茲",
-   "sectors": [
-    "塑化",
-    "航運",
-    "油電燃氣",
-    "紡織"
-   ],
-   "url": "https://www.financialjuice.com/News/9852882/Iran-navy-oil-tanker-ignites-after-hitting-naval-mine-east-of-Strait-of-Hormuz---state-media.aspx?xy=rss",
-   "related": [],
-   "pathId": "hormuz_energy",
-   "direction": 0,
-   "directionReason": "path_not_modelled",
-   "horizon": "short",
-   "impacts": [
-    {
-     "sector": "塑化",
-     "direction": 0
-    },
-    {
-     "sector": "航運",
-     "direction": 0
-    },
-    {
-     "sector": "油電燃氣",
-     "direction": 0
-    },
-    {
-     "sector": "紡織",
      "direction": 0
     }
    ]
