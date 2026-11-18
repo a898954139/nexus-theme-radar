@@ -61,6 +61,7 @@ try:
         load_history_rows,
         materialize_public_theme_history,
     )
+    from scripts.monthly_revenue import run_monthly_revenue
     from scripts.source_adapters import (
         CONFLICT_TERMS,
         build_official_evidence_payload,
@@ -118,6 +119,7 @@ except ModuleNotFoundError:
         load_history_rows,
         materialize_public_theme_history,
     )
+    from monthly_revenue import run_monthly_revenue
     from source_adapters import (
         CONFLICT_TERMS,
         build_official_evidence_payload,
@@ -1984,7 +1986,23 @@ def run_update(
         **candidates,
         "items": attached_candidates[:max_candidates],
     }
-    status_payload = source_status_payload(statuses, anchor, len(discovery_records))
+    # Monthly revenue is a contained side path: its sites are reported in
+    # source-status.json only, never in the public-ranking source health.
+    try:
+        revenue_statuses = run_monthly_revenue(
+            session,
+            output_dir,
+            anchor,
+            full_refresh=full_refresh,
+        )
+    except Exception as error:  # noqa: BLE001 - must never break the main snapshots
+        LOGGER.warning("monthly_revenue_side_path_failed error=%s", error)
+        revenue_statuses = []
+    status_payload = source_status_payload(
+        [*statuses, *revenue_statuses],
+        anchor,
+        len(discovery_records),
+    )
     discovery_statuses = [
         status
         for status in statuses
