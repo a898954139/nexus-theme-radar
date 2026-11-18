@@ -16,6 +16,7 @@ from __future__ import annotations
 import argparse
 import json
 import logging
+import os
 import sys
 import time
 import xml.etree.ElementTree as ET
@@ -35,6 +36,7 @@ try:  # pragma: no cover - real runs invoke this file by path
         iter_shards,
         load_registry,
     )
+    from scripts.radar_store import redact_error, write_pre_market_snapshot
 except ModuleNotFoundError:  # pragma: no cover
     from geo_focus import FEED_URL, SOURCE_NAME, build_focus_events, strip_prefix
     from market_pulse import build_pulse, build_sector_board, fetch_quotes
@@ -44,6 +46,7 @@ except ModuleNotFoundError:  # pragma: no cover
         iter_shards,
         load_registry,
     )
+    from radar_store import redact_error, write_pre_market_snapshot
 
 LOGGER = logging.getLogger("update_pre_market")
 
@@ -254,6 +257,56 @@ def build_payload(output_dir: Path, now: datetime, skip_translate: bool = False)
     }
 
 
+def connection_factory_from_environment() -> Any | None:
+    """Lazy direct-Postgres factory, only when the gated credential is present.
+
+    Same secret and workflow gate as the theme-radar dual-write
+    (THEME_RADAR_DATABASE_URL); see docs/RADAR_DB.md.
+    """
+
+    database_url = os.environ.get("THEME_RADAR_DATABASE_URL", "").strip()
+    if not database_url:
+        return None
+
+    def connect() -> Any:
+        import psycopg
+
+        return psycopg.connect(database_url)
+
+    return connect
+
+
+def run_pre_market_dual_write(connection_factory: Any | None, payload: dict[str, Any]) -> str:
+    """Mirror the payload into radar.pre_market_snapshot; never fails the run.
+
+    Returns "written", "skipped" (no credential) or "failed". The JSON file is
+    already on disk when this runs, so a DB outage only leaves the API serving
+    an older snapshot, which its staleness guard turns into a JSON fallback.
+    """
+
+    if connection_factory is None:
+        LOGGER.warning("pre_market_dual_write_skipped reason=credential_unavailable")
+        return "skipped"
+    connection: Any | None = None
+    try:
+        connection = connection_factory()
+        summary = write_pre_market_snapshot(connection, payload)
+    except Exception as error:  # noqa: BLE001 - DB mirror must never fail the run
+        LOGGER.warning("pre_market_dual_write_failed error=%s", redact_error(error))
+        return "failed"
+    finally:
+        if connection is not None:
+            try:
+                connection.close()
+            except Exception:  # noqa: BLE001 - close failure is not actionable
+                pass
+    LOGGER.info(
+        "pre_market_dual_write_written generated_at=%s events=%d",
+        summary["generated_at"], summary["event_count"],
+    )
+    return "written"
+
+
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--output-dir", default="data", type=Path)
@@ -276,6 +329,7 @@ def main(argv: list[str] | None = None) -> int:
         target.name, len(payload["events"]), critical, watch,
         len(payload["sectors"]), len(payload["flows"]["panels"]),
     )
+    run_pre_market_dual_write(connection_factory_from_environment(), payload)
     return 0
 
 

@@ -40,8 +40,10 @@ def test_pages_deploy_copies_the_versioned_watchlist_payload() -> None:
     workflow = (ROOT / ".github" / "workflows" / "deploy-pages.yml").read_text(
         encoding="utf-8"
     )
+    script = (ROOT / "scripts" / "copy_runtime_data.sh").read_text(encoding="utf-8")
 
-    assert "cp data/public-stock-watchlist-v1.json dist/data/" in workflow
+    assert "sh scripts/copy_runtime_data.sh dist" in workflow
+    assert 'cp data/public-stock-watchlist-v1.json "$DEST/data/"' in script
 
 
 def test_repository_real_watchlist_payload_is_valid_and_not_mock_data() -> None:
