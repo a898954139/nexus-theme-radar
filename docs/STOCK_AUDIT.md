@@ -46,15 +46,33 @@ not established. All original 235-bar overlaps were checked exactly.
   execution, never launches a signal producer, broker or order tool, and returns
   nonzero for unavailable research. Foreign repositories are not modified.
 
-Recompute machine research locally (the pinned external source checkouts are
-required; no new packages are installed):
+Recompute machine research locally. The Nexus structure detector is the pinned,
+private npm package `nexus-structure-detector`
+(`a898954139/nexus-structure-detector`, tag `v1.0.0`, Node >= 18, no
+NexusDashboard checkout). It is deliberately **not** in the root `package.json`,
+so the public Pages/Vercel builds never need a token. Install it only where
+Stock Audit runs, with a token that can read that private repo:
 
 ```sh
+npm install --no-save --no-audit --no-fund \
+  "git+https://${GH_TOKEN}@github.com/a898954139/nexus-structure-detector.git#v1.0.0"
 .venv/bin/python scripts/analyze_stock_audit_technical.py \
   --input reports/stock-audit-2026-10-21.json --output /tmp/stock-audit-computed.json \
-  --pva-path "$HOME/Dev/algoTrade/nexus_bridge/pva_reclaim_runtime.py" \
-  --detector-path "$HOME/Dev/iCloud-dev/NexusDashboard/src/lib/indicators/nexusStructureDetector.js"
+  --pva-path "$HOME/Dev/algoTrade/nexus_bridge/pva_reclaim_runtime.py"
 ```
+
+The PVA runtime is still an external checkout.
+
+Detector resolution order: `--detector-path`, then `NEXUS_STRUCTURE_DETECTOR_PATH`,
+then `node_modules/nexus-structure-detector`, then the legacy
+`~/Dev/iCloud-dev/NexusDashboard` path. Every candidate must match
+`PINNED_SOURCE_SHA256["nexus-structure"]` or the stock is marked unavailable.
+
+To change detector versions, follow the package README (tag a new version there,
+then update the pin here). `tests/test_nexus_structure_detector_package.py`
+replays both committed reports against the installed package and must stay green,
+or the reports must be deliberately regenerated and reviewed. It skips when the
+package is not installed.
 
 Machine output is reviewed per stock and merged into the research snapshot before
 rendering. The report has no frontend financial computations. CI can validate the
