@@ -8,15 +8,46 @@
   "functions": {
     "api/pre-market.js": {
       "maxDuration": 10
+    },
+    "api/cron/ingest.py": {
+      "maxDuration": 60,
+      "memory": 1024,
+      "excludeFiles": "{data,reports,assets,legacy,classic,docs,tests,src,samples,examples,feeds,personas,skills,supabase,node_modules,dist}/**"
+    },
+    "api/source-health.py": {
+      "maxDuration": 10,
+      "excludeFiles": "{data,reports,assets,legacy,classic,docs,tests,src,samples,examples,feeds,personas,skills,supabase,node_modules,dist}/**"
     }
   },
   "headers": [
     {
       "source": "/data/(.*)",
       "headers": [
-        { "key": "Access-Control-Allow-Origin", "value": "*" },
-        { "key": "Cache-Control", "value": "public, max-age=300, stale-while-revalidate=600" }
+        {
+          "key": "Access-Control-Allow-Origin",
+          "value": "*"
+        },
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=300, stale-while-revalidate=600"
+        }
       ]
+    },
+    {
+      "source": "/api/(.*)",
+      "headers": [
+        {
+          "key": "X-Robots-Tag",
+          "value": "noindex"
+        }
+      ]
+    }
+  ],
+  "redirects": [
+    {
+      "source": "/scripts/:path*",
+      "destination": "/",
+      "permanent": false
     }
   ]
 }

@@ -57,6 +57,24 @@ INSERT INTO radar.pipeline_run (
 )
 """.strip()
 
+# High-frequency ingest runs (scripts/ingest_runner.py) also record which group
+# they ran and how long the whole invocation took. Kept as a separate statement
+# so the hourly writer never depends on the columns added by the ingest
+# migration: applying that migration late must not break the hourly mirror.
+INGEST_PIPELINE_RUN_INSERT_SQL = """
+INSERT INTO radar.pipeline_run (
+  run_id, started_at, window_hours, json_article_count, db_article_count,
+  duplicate_url_count, json_event_count, db_event_count,
+  duplicate_event_count, failed_source_count, run_kind, ingest_group,
+  elapsed_ms
+) VALUES (
+  %(run_id)s, %(started_at)s, %(window_hours)s, %(json_article_count)s,
+  %(db_article_count)s, %(duplicate_url_count)s, %(json_event_count)s,
+  %(db_event_count)s, %(duplicate_event_count)s, %(failed_source_count)s,
+  %(run_kind)s, %(ingest_group)s, %(elapsed_ms)s
+)
+""".strip()
+
 SOURCE_RUN_INSERT_SQL = """
 INSERT INTO radar.source_run (
   run_id, source_id, started_at, status, item_count, elapsed_ms, error, detail
@@ -376,11 +394,17 @@ def write_radar_run(
     statuses: Sequence[Mapping[str, Any]],
     articles: Sequence[Mapping[str, Any]],
     events: Sequence[Mapping[str, Any]],
+    ingest_group: str | None = None,
+    elapsed_ms: int | None = None,
 ) -> dict[str, int]:
     """Write one pipeline run to the radar schema in a single transaction.
 
     Mapping and validation happen before the transaction opens, so malformed
     input never leaves a partial run behind.
+
+    ``ingest_group`` marks a high-frequency ingest run; the row then records
+    ``run_kind='ingest'``, the group and the invocation's ``elapsed_ms``.
+    Without it the statement is byte-identical to the hourly writer's.
     """
 
     if not run_id.strip():
@@ -417,15 +441,26 @@ def write_radar_run(
     with connection.transaction():
         with connection.cursor() as cursor:
             cursor.executemany(SOURCE_UPSERT_SQL, source_rows)
-            cursor.execute(
-                PIPELINE_RUN_INSERT_SQL,
-                {
-                    "run_id": run_id,
-                    "started_at": anchor,
-                    "window_hours": int(window_hours),
-                    **summary,
-                },
-            )
+            run_row: dict[str, Any] = {
+                "run_id": run_id,
+                "started_at": anchor,
+                "window_hours": int(window_hours),
+                **summary,
+            }
+            if ingest_group is None:
+                cursor.execute(PIPELINE_RUN_INSERT_SQL, run_row)
+            else:
+                cursor.execute(
+                    INGEST_PIPELINE_RUN_INSERT_SQL,
+                    {
+                        **run_row,
+                        "run_kind": "ingest",
+                        "ingest_group": ingest_group,
+                        "elapsed_ms": (
+                            None if elapsed_ms is None else max(int(elapsed_ms), 0)
+                        ),
+                    },
+                )
             if source_runs:
                 cursor.executemany(SOURCE_RUN_INSERT_SQL, source_runs)
             if article_rows:

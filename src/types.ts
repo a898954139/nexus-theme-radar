@@ -268,6 +268,25 @@ export interface SourceStatusData {
   sites: SourceSite[];
 }
 
+/** One row of /api/source-health (radar.source_run, high-frequency ingest). */
+export interface SourceHealthItem {
+  source_id: string;
+  name: string;
+  last_status: string | null;
+  last_started_at: string | null;
+  last_item_count: number | null;
+  last_elapsed_ms: number | null;
+  last_error: string | null;
+  last_ok_at: string | null;
+  runs_24h: number;
+  ok_24h: number;
+}
+
+export interface SourceHealthData {
+  generated_at: string;
+  sources: SourceHealthItem[];
+}
+
 export interface WaytoAgiUpdate {
   date: string;
   title: string;
