@@ -1,0 +1,31 @@
+name: Probe RSS sources
+
+# Maintainer check for source changes: reachability, ETag/Last-Modified
+# support, and a snapshot duplicate rate for trial sources. Read-only; it
+# never commits and shares nothing with the hourly radar's concurrency group.
+on:
+  pull_request:
+    paths:
+      - config/source_registry.tw.json
+      - scripts/probe_rss_sources.py
+      - scripts/evaluate_source_overlap.py
+      - .github/workflows/probe-rss-sources.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.11"
+          cache: "pip"
+          cache-dependency-path: "requirements.txt"
+      - run: pip install -r requirements.txt
+      - name: Probe registry RSS sources
+        run: python scripts/probe_rss_sources.py

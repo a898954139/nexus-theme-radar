@@ -2181,7 +2181,7 @@ def test_rss_adapter_rejects_oversized_response() -> None:
         def get(self, *_args, **_kwargs):
             return Response()
 
-    records, status = fetch_rss_source(
+    result = fetch_rss_source(
         Session(),
         {
             "source_id": "bounded-rss",
@@ -2194,6 +2194,7 @@ def test_rss_adapter_rejects_oversized_response() -> None:
         },
         datetime(2026, 7, 27, 9, 0, tzinfo=timezone.utc),
     )
+    records, status = result["records"], result["status"]
 
     assert records == []
     assert status["status"] == "error"

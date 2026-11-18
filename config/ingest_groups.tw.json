@@ -1,0 +1,50 @@
+{
+  "version": 1,
+  "description": "High-frequency ingest groups. Supabase pg_cron calls /api/cron/ingest?group=<group_id> on the schedule in supabase/manual/radar_ingest_schedule.sql; each call fetches only the sources in that group that are past their min interval and writes raw articles to radar.article. Event clustering, MOPS and JSON publishing stay in the hourly GitHub Actions run until the cut-over (docs/INGEST_SCHEDULER.md).",
+  "defaults": {
+    "min_interval_minutes": 5
+  },
+  "time_budget_seconds": 40,
+  "groups": [
+    {
+      "group_id": "tw-news-a",
+      "description": "TW financial media, high volume",
+      "source_ids": [
+        "cnyes",
+        "moneydj",
+        "yahoo_finance_tw"
+      ]
+    },
+    {
+      "group_id": "tw-news-b",
+      "description": "TW tech / supply-chain media",
+      "source_ids": [
+        "technews",
+        "digitimes_tw"
+      ]
+    },
+    {
+      "group_id": "global-wire",
+      "description": "Global macro wire feeding the pre-market board; the feed only retains ~10h, so it is captured continuously here",
+      "source_ids": [
+        "financialjuice"
+      ]
+    }
+  ],
+  "extra_sources": [
+    {
+      "source_id": "financialjuice",
+      "name": "FinancialJuice",
+      "source_class": "global_wire",
+      "market_scope": [
+        "TW_EQUITY"
+      ],
+      "fetch_method": "rss",
+      "status": "ingest_only",
+      "feed_url": "https://www.financialjuice.com/feed.ashx?xy=rss",
+      "homepage": "https://www.financialjuice.com/",
+      "user_agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0 Safari/537.36",
+      "min_interval_minutes": 5
+    }
+  ]
+}

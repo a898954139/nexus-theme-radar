@@ -16,6 +16,13 @@ JSON stays the source of truth until the API cut-over (WS1 step 2).
 | `radar.event` | upsert per published event | `event_id` (= `cluster_id`) | `theme-events.json` `items[]` |
 | `radar.tracking_candidates_snapshot` | 1 (upsert) | `generated_at`, FK `run_id` | `tracking-candidates.json` verbatim; served by `/api/v1/tracking-candidates` (see `docs/TRACKING_CANDIDATES_API.md`) |
 
+`scripts/update_pre_market.py` (separate workflow, `update-pre-market.yml`)
+also writes one row per build to `radar.pre_market_snapshot`
+(PK `generated_at`, `payload` = the exact `pre-market-latest.json`). This is
+what `/api/pre-market` serves; see [VERCEL_DEPLOY.md](VERCEL_DEPLOY.md).
+Log lines: `pre_market_dual_write_written|skipped|failed`. Migration:
+`20261118090000_create_radar_pre_market_snapshot.sql`.
+
 Created but not yet written: `event_impact` (WS2), `market_snapshot`,
 `institutional_flow_daily`. Momentum history stays in
 `theme_radar.hourly_theme_heat`.
@@ -28,6 +35,14 @@ fragment, `utm_*`/`fbclid`/`gclid` removed). A re-fetch updates `title`,
 `event_id` is the pipeline's `cluster_id`, a hash of the member set. When a
 cluster gains a member it gets a new `event_id`, matching what the JSON
 published at that moment. `event.payload` holds the exact JSON item.
+
+## High-frequency ingest
+
+Raw articles are also written every 5 minutes by `/api/cron/ingest` (Vercel,
+triggered by Supabase pg_cron). Those rows carry `pipeline_run.run_kind =
+'ingest'` and `ingest_group`; the hourly run's rows are `run_kind = 'hourly'`.
+Filter on `run_kind = 'hourly'` in the reconciliation queries below. Setup,
+KPIs and rollback: [INGEST_SCHEDULER.md](INGEST_SCHEDULER.md).
 
 ## Fail-closed behaviour
 
@@ -75,6 +90,7 @@ select (started_at at time zone 'Asia/Taipei')::date as day,
        sum(db_event_count)              as db_events
 from radar.pipeline_run
 where started_at >= now() - interval '7 days'
+  and run_kind = 'hourly'  -- column added by the ingest migration
 group by 1 order by 1;
 
 -- Runs whose commit landed in git but have no DB row (compare to Actions run times)
@@ -98,3 +114,10 @@ RADAR_TEST_READER_URL="host=... dbname=... user=<granted radar_reader>" \
 ```
 
 The live tests are skipped when those variables are unset (CI).
+
+## Daily analysis report tables (#8)
+
+`analysis_batch`, `analysis_queue`, `daily_bar`, `technical_snapshot`,
+`fundamental_snapshot` and `analysis_report` plus the local-only
+`radar_analyst` role are documented in
+[DAILY_ANALYSIS_REPORT.md](DAILY_ANALYSIS_REPORT.md).

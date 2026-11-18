@@ -273,7 +273,8 @@ function renderSourceStatusPill(errorMessage = "") {
     if (errorMessage) sourceStatusPillEl.classList.add("bad");
     return;
   }
-  const totalSites = Array.isArray(status.sites) ? status.sites.length : 0;
+  // Trial sources are listed for maintainers but do not count toward health.
+  const totalSites = Array.isArray(status.sites) ? status.sites.filter((site) => !site?.trial).length : 0;
   const okSites = Number(status.successful_sites || 0);
   const failed = failedSourceCount(status);
   sourceStatusPillEl.textContent = failed
@@ -1834,7 +1835,7 @@ function renderSourceHealthSummaryNode(status, errorMessage = "") {
     node.innerHTML = `<strong>${errorMessage ? "源状态异常" : "源状态未生成"}</strong><span>${errorMessage || "等待 source-status.json"}</span>`;
     return node;
   }
-  const sites = Array.isArray(status.sites) ? status.sites : [];
+  const sites = Array.isArray(status.sites) ? status.sites.filter((site) => !site?.trial) : [];
   const okSites = Number(status.successful_sites || 0);
   const failed = failedSourceCount(status);
   // 与 renderSourceStatusTable 同口径：pooled = 全网抓取入池（去话题过滤前），

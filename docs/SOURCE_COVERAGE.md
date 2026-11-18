@@ -88,6 +88,61 @@ Test fixtures under `tests/fixtures/mops/` are minimized from archived HTTP
 endpoint, response capture date, source row count, canonical response-body
 SHA-256, Swagger SHA-256, and exact minimization performed.
 
+### Trial sources and RSS intake (issue #3)
+
+A registry entry with `"status": "trial"` is fetched every hourly run and
+appears in `data/source-status.json` (`"trial": true`, plus `runs_7d` and
+`success_rate_7d`), but its records never enter the public projection, and
+trial failures do not move `successful_sites` / `failed_count`. Every RSS
+record (active and trial) is appended to `data/source-intake-7d.json`, a
+rolling 7-day store of title/url/timestamps used for overlap evaluation.
+
+Promotion rule (change `status` to `active` in a follow-up PR) after at least
+7 days of trial:
+
+```bash
+python scripts/evaluate_source_overlap.py --candidate-from-baseline \
+  --baseline data/source-intake-7d.json \
+  --site-id udn_money_stock --source-name "經濟日報 證券" \
+  --exclude-site-ids ctee_stock,cna_finance
+```
+
+- duplicate rate < 35%: promote to active
+- 35–65%: stay trial / advanced OPML only
+- ≥ 65%: remove
+- and `success_rate_7d` ≥ 0.95 in `data/source-status.json`
+
+Trial since 2026-11-18, verified from GitHub Actions on that date
+(`.github/workflows/probe-rss-sources.yml`):
+
+| source_id | feed | entries | notes |
+|---|---|---|---|
+| `udn_money_stock` | `https://money.udn.com/rssfeed/news/1001/5590?ch=money` | 20 | 經濟日報 證券; no ETag/Last-Modified |
+| `ctee_stock` | `https://www.ctee.com.tw/rss_web/livenews/stock` | 15 | 工商時報 證券; stamps Taipei time as `+0000`, corrected by `published_at_offset_hours: -8` |
+| `cna_finance` | `https://feeds.feedburner.com/rsscna/finance` | 20 | 中央社 財經; sends Last-Modified but answers 200 to revalidation |
+
+Rejected: `ctee.com.tw/feed` (403), `cna.com.tw/rss/aie.xml` (404). The
+經濟日報 要聞/國際 channels (5588/5591) largely republish CNA wire copy, so only
+the 證券 channel is on trial. CNBC/MarketWatch also work but stay out of Phase 1
+(Taiwan only; global wire already comes from FinancialJuice in `geo_focus`).
+
+All three are public RSS endpoints with no login or cookie. The radar keeps
+only headline, link, publish time, and the feed's own summary
+(`content_mode: rss_metadata`) and links back to the publisher.
+
+### Conditional GET
+
+`fetch_rss_source` sends `If-None-Match` / `If-Modified-Since` from
+`data/rss-fetch-state.json`. On `304` it replays the cached items for that
+feed (each run publishes a fresh snapshot, so an empty result would drop the
+source from the window). Validators are only sent when a cache exists for the
+same `feed_url`; `--full-refresh` skips them. A missing or corrupt state file
+falls back to unconditional fetches.
+
+`scripts/probe_rss_sources.py` re-checks every active/trial feed (HTTP, entry
+count, validators, 304 behaviour, snapshot duplicate rate). Its workflow runs
+on PRs that touch the registry.
+
 ### Monthly revenue (月營收)
 
 `scripts/monthly_revenue.py` adds the listed and OTC monthly operating revenue

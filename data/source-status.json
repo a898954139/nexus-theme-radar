@@ -1,11 +1,26 @@
 {
-  "generated_at": "2026-11-18T04:25:11.478698Z",
-  "fetched_raw_items": 313,
-  "items_before_topic_filter": 313,
-  "successful_sites": 6,
+  "generated_at": "2026-11-18T14:02:53.376573Z",
+  "fetched_raw_items": 337,
+  "items_before_topic_filter": 337,
+  "successful_sites": 8,
   "failed_count": 0,
   "failed_sites": [],
   "sites": [
+    {
+      "source_id": "cna_finance",
+      "name": "中央社 財經",
+      "source_class": "financial_media",
+      "adapter": "rss",
+      "fetch_method": "rss",
+      "status": "ok",
+      "items": 20,
+      "error": null,
+      "feed_url": "https://feeds.feedburner.com/rsscna/finance",
+      "elapsed_ms": 136,
+      "trial": true,
+      "runs_7d": 1,
+      "success_rate_7d": 1.0
+    },
     {
       "source_id": "cnyes",
       "name": "鉅亨網 Cnyes",
@@ -13,10 +28,27 @@
       "adapter": "rss",
       "fetch_method": "rss",
       "status": "ok",
-      "items": 99,
+      "items": 96,
       "error": null,
       "feed_url": "https://news.cnyes.com/rss/v1/news/category/all",
-      "elapsed_ms": 784
+      "elapsed_ms": 1210,
+      "runs_7d": 1,
+      "success_rate_7d": 1.0
+    },
+    {
+      "source_id": "ctee_stock",
+      "name": "工商時報 證券",
+      "source_class": "financial_media",
+      "adapter": "rss",
+      "fetch_method": "rss",
+      "status": "ok",
+      "items": 15,
+      "error": null,
+      "feed_url": "https://www.ctee.com.tw/rss_web/livenews/stock",
+      "elapsed_ms": 412,
+      "trial": true,
+      "runs_7d": 1,
+      "success_rate_7d": 1.0
     },
     {
       "source_id": "digitimes_tw",
@@ -25,10 +57,12 @@
       "adapter": "rss",
       "fetch_method": "rss",
       "status": "ok",
-      "items": 104,
+      "items": 131,
       "error": null,
       "feed_url": "https://www.digitimes.com.tw/rss/news.xml",
-      "elapsed_ms": 627
+      "elapsed_ms": 869,
+      "runs_7d": 1,
+      "success_rate_7d": 1.0
     },
     {
       "source_id": "moneydj",
@@ -40,7 +74,9 @@
       "items": 20,
       "error": null,
       "feed_url": "https://www.moneydj.com/KMDJ/RssCenter.aspx?svc=NW&a=MB010000",
-      "elapsed_ms": 869
+      "elapsed_ms": 976,
+      "runs_7d": 1,
+      "success_rate_7d": 1.0
     },
     {
       "source_id": "mops",
@@ -67,7 +103,7 @@
           "status": "ok",
           "items": 94,
           "error": null,
-          "elapsed_ms": 1131
+          "elapsed_ms": 1711
         },
         {
           "dataset_id": "t187ap26_L",
@@ -77,7 +113,7 @@
           "status": "ok",
           "items": 1,
           "error": null,
-          "elapsed_ms": 143
+          "elapsed_ms": 191
         },
         {
           "dataset_id": "t187ap27_L",
@@ -87,10 +123,10 @@
           "status": "ok",
           "items": 1,
           "error": null,
-          "elapsed_ms": 143
+          "elapsed_ms": 190
         }
       ],
-      "elapsed_ms": 1418
+      "elapsed_ms": 2094
     },
     {
       "source_id": "technews",
@@ -102,7 +138,24 @@
       "items": 40,
       "error": null,
       "feed_url": "https://technews.tw/feed/",
-      "elapsed_ms": 445
+      "elapsed_ms": 780,
+      "runs_7d": 1,
+      "success_rate_7d": 1.0
+    },
+    {
+      "source_id": "udn_money_stock",
+      "name": "經濟日報 證券",
+      "source_class": "financial_media",
+      "adapter": "rss",
+      "fetch_method": "rss",
+      "status": "ok",
+      "items": 20,
+      "error": null,
+      "feed_url": "https://money.udn.com/rssfeed/news/1001/5590?ch=money",
+      "elapsed_ms": 333,
+      "trial": true,
+      "runs_7d": 1,
+      "success_rate_7d": 1.0
     },
     {
       "source_id": "yahoo_finance_tw",
@@ -114,7 +167,45 @@
       "items": 50,
       "error": null,
       "feed_url": "https://tw.stock.yahoo.com/rss",
-      "elapsed_ms": 138
+      "elapsed_ms": 406,
+      "runs_7d": 1,
+      "success_rate_7d": 1.0
+    },
+    {
+      "source_id": "monthly_revenue_twse",
+      "name": "上市公司每月營業收入彙總表 (TWSE OpenAPI)",
+      "source_class": "official_dataset",
+      "adapter": "monthly_revenue",
+      "fetch_method": "monthly_revenue",
+      "dataset_id": "t187ap05_L",
+      "endpoint": "https://openapi.twse.com.tw/v1/opendata/t187ap05_L",
+      "status": "ok",
+      "fetch_state": "skipped_outside_window",
+      "items": 0,
+      "rows": 0,
+      "excluded_rows": 0,
+      "excluded_reasons": {},
+      "error": null,
+      "last_success_on": null,
+      "elapsed_ms": 0
+    },
+    {
+      "source_id": "monthly_revenue_tpex",
+      "name": "上櫃公司每月營業收入彙總表 (TPEx OpenAPI)",
+      "source_class": "official_dataset",
+      "adapter": "monthly_revenue",
+      "fetch_method": "monthly_revenue",
+      "dataset_id": "mopsfe_t187ap05_O",
+      "endpoint": "https://www.tpex.org.tw/openapi/v1/mopsfe_t187ap05_O",
+      "status": "ok",
+      "fetch_state": "skipped_outside_window",
+      "items": 0,
+      "rows": 0,
+      "excluded_rows": 0,
+      "excluded_reasons": {},
+      "error": null,
+      "last_success_on": null,
+      "elapsed_ms": 0
     }
   ]
 }
