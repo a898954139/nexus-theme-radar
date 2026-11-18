@@ -228,7 +228,13 @@ def test_workflows_publish_and_commit_split_fundamentals():
     from pathlib import Path
 
     root = Path(__file__).resolve().parents[1]
-    deploy = (root / ".github/workflows/deploy-pages.yml").read_text(encoding="utf-8")
+    # The publish allow-list lives in the shared copy script the Pages workflow
+    # (and the Vercel build) calls.
+    workflow_text = (root / ".github/workflows/deploy-pages.yml").read_text(encoding="utf-8")
+    assert "sh scripts/copy_runtime_data.sh dist" in workflow_text
+    deploy = (root / "scripts/copy_runtime_data.sh").read_text(encoding="utf-8").replace(
+        '"$DEST/data/"', "dist/data/"
+    )
     backfill = (root / ".github/workflows/backfill-fundamentals.yml").read_text(
         encoding="utf-8"
     )

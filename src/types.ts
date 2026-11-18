@@ -255,6 +255,10 @@ export interface SourceSite {
   status: 'ok' | 'delayed' | 'failed' | string;
   items?: number;
   error?: string | null;
+  trial?: boolean;
+  not_modified?: boolean;
+  runs_7d?: number;
+  success_rate_7d?: number;
 }
 
 export interface SourceStatusData {
