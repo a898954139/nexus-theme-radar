@@ -28,15 +28,4 @@ jobs:
           cache-dependency-path: "requirements.txt"
       - run: pip install -r requirements.txt
       - name: Probe registry RSS sources
-        run: |
-          python scripts/probe_rss_sources.py \
-            --url 'udn_money_stock=https://money.udn.com/rssfeed/news/1001/5590?ch=money' \
-            --url 'udn_money_headline=https://money.udn.com/rssfeed/news/1001/5588?ch=money' \
-            --url 'udn_money_industry=https://money.udn.com/rssfeed/news/1001/5591?ch=money' \
-            --url 'ctee_feed=https://www.ctee.com.tw/feed' \
-            --url 'ctee_rss_stock=https://www.ctee.com.tw/rss_web/livenews/stock' \
-            --url 'ctee_rss_all=https://www.ctee.com.tw/rss_web/livenews/ctee' \
-            --url 'cna_fb_finance=https://feeds.feedburner.com/rsscna/finance' \
-            --url 'cna_aie=https://www.cna.com.tw/rss/aie.xml' \
-            --url 'cnbc_markets=https://www.cnbc.com/id/100003114/device/rss/rss.html' \
-            --url 'marketwatch_top=https://feeds.content.dowjones.io/public/rss/mw_topstories'
+        run: python scripts/probe_rss_sources.py

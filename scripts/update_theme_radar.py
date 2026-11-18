@@ -322,6 +322,27 @@ def rss_sources(registry: dict[str, Any]) -> list[dict[str, Any]]:
     ]
 
 
+MAX_FUTURE_PUBLISHED_SKEW = timedelta(minutes=15)
+
+
+def feed_published_at(raw: Any, source: Mapping[str, Any], fetched_at: datetime) -> str:
+    """Publish time in UTC, corrected for feeds that mislabel their timezone.
+
+    ``published_at_offset_hours`` fixes a feed that writes local time with a
+    UTC designator (e.g. 工商時報 stamps Taipei time as ``+0000``, so the
+    registry sets ``-8``). Anything still in the future is clamped to the
+    fetch time, so a mislabeled item cannot pin itself to the top of the
+    window.
+    """
+    published = parse_timestamp(raw, fetched_at)
+    offset = source.get("published_at_offset_hours")
+    if raw and isinstance(offset, (int, float)) and not isinstance(offset, bool):
+        published = published + timedelta(hours=offset)
+    if published > fetched_at + MAX_FUTURE_PUBLISHED_SKEW:
+        published = fetched_at
+    return published.astimezone(timezone.utc).isoformat().replace("+00:00", "Z")
+
+
 def normalize_feed_entry(entry: Any, source: dict[str, Any], fetched_at: datetime) -> dict[str, Any] | None:
     title = str(getattr(entry, "title", "") or "").strip()
     link = str(getattr(entry, "link", "") or "").strip()
@@ -343,7 +364,7 @@ def normalize_feed_entry(entry: Any, source: dict[str, Any], fetched_at: datetim
         "source_class": source.get("source_class"),
         "market_id": source.get("market_id") or "TW_EQUITY",
         "market_scope": source.get("market_scope") or ["TW_EQUITY"],
-        "published_at": parse_timestamp(published_raw, fetched_at).isoformat().replace("+00:00", "Z"),
+        "published_at": feed_published_at(published_raw, source, fetched_at),
         "url": link,
         "extraction_method": "rss",
         "fetched_at": fetched_at.isoformat().replace("+00:00", "Z"),
