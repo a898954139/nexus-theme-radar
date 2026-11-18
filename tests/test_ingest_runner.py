@@ -383,7 +383,7 @@ def test_source_health_shapes_rows_and_caches() -> None:
            "timeout talking to postgres://u:pw@h/db", NOW - timedelta(minutes=10), 12, 11)
     connection = HealthConnection([row])
     status, body, cache = HEALTH_API.handle_source_health(
-        "GET", env={"RADAR_READER_DATABASE_URL": "host=x"},
+        "GET", env={"RADAR_API_DATABASE_URL": "host=x"},
         connect=lambda _url: connection, clock=lambda: NOW)
     assert status == 200 and "s-maxage=60" in cache
     item = body["sources"][0]
@@ -400,7 +400,7 @@ def test_source_health_503_without_credential_and_502_on_db_error() -> None:
         raise RuntimeError("down")
 
     assert HEALTH_API.handle_source_health(
-        "GET", env={"RADAR_READER_DATABASE_URL": "x"}, connect=broken)[0] == 502
+        "GET", env={"RADAR_API_DATABASE_URL": "x"}, connect=broken)[0] == 502
 
 
 # --- repo hygiene ---------------------------------------------------------------------
@@ -463,7 +463,7 @@ def test_live_ingest_group_respects_min_interval_and_health_reads_it() -> None:
 
     if READER_URL:
         status, body, _ = HEALTH_API.handle_source_health(
-            "GET", env={"RADAR_READER_DATABASE_URL": READER_URL})
+            "GET", env={"RADAR_API_DATABASE_URL": READER_URL})
         assert status == 200
         mine = [s for s in body["sources"] if s["source_id"] == source["source_id"]]
         assert mine and mine[0]["last_status"] == "ok" and mine[0]["runs_24h"] == 1

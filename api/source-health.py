@@ -6,7 +6,7 @@ radar_reader. Returns 503 when the credential is not configured, and the page
 then simply hides the section (the JSON-based table keeps working).
 
 Environment:
-  RADAR_READER_DATABASE_URL  Postgres URL of a login role granted radar_reader
+  RADAR_API_DATABASE_URL  Postgres URL of a login role granted radar_reader
 """
 
 from __future__ import annotations
@@ -28,7 +28,7 @@ if str(ROOT) not in sys.path:
 from scripts.radar_store import redact_error  # noqa: E402
 
 LOGGER = logging.getLogger("api.source_health")
-DATABASE_URL_ENV = "RADAR_READER_DATABASE_URL"
+DATABASE_URL_ENV = "RADAR_API_DATABASE_URL"
 CACHE_CONTROL = "public, s-maxage=60, stale-while-revalidate=300"
 MAX_ERROR_CHARS = 200
 

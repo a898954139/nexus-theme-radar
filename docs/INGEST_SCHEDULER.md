@@ -48,8 +48,8 @@ Nothing below is automated; no secret is in the repo.
 create role radar_ingest_login login password '<generate>';
 grant radar_writer to radar_ingest_login;
 
-create role radar_api_login login password '<generate>';
-grant radar_reader to radar_api_login;
+create role radar_api login password '<generate>';
+grant radar_reader to radar_api;
 ```
 
 ### 2. Migration
@@ -64,7 +64,7 @@ two indexes and the `radar.invoke_ingest(text)` function. It schedules nothing.
 |---|---|
 | `RADAR_INGEST_CRON_SECRET` | `openssl rand -hex 32` (≥ 32 chars, else the endpoint answers 503) |
 | `RADAR_INGEST_DATABASE_URL` | Supavisor **transaction** pooler URL (port 6543) for `radar_ingest_login.<project-ref>` |
-| `RADAR_READER_DATABASE_URL` | same, for `radar_api_login.<project-ref>` |
+| `RADAR_API_DATABASE_URL` | same, for `radar_api.<project-ref>` |
 
 The pooler URL is needed because Vercel Functions are IPv4-only and the direct
 DB host is IPv6. Prepared statements are disabled in code, so transaction mode
