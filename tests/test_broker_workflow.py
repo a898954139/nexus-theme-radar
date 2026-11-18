@@ -21,5 +21,7 @@ def test_reusable_deploy_checks_out_the_caller_commit() -> None:
     assert "workflow_call:" in workflow
     assert "inputs:\n      ref:" in workflow
     assert "ref: ${{ inputs.ref || github.sha }}" in workflow
-    assert "broker-stats.json" in workflow
-    assert "broker-map" in workflow
+    assert "sh scripts/copy_runtime_data.sh dist" in workflow
+    script = (ROOT / "scripts" / "copy_runtime_data.sh").read_text()
+    assert "broker-stats.json" in script
+    assert "broker-map" in script

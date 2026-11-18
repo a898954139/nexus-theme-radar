@@ -255,6 +255,10 @@ export interface SourceSite {
   status: 'ok' | 'delayed' | 'failed' | string;
   items?: number;
   error?: string | null;
+  trial?: boolean;
+  not_modified?: boolean;
+  runs_7d?: number;
+  success_rate_7d?: number;
 }
 
 export interface SourceStatusData {
@@ -262,6 +266,25 @@ export interface SourceStatusData {
   successful_sites: number;
   failed_count: number;
   sites: SourceSite[];
+}
+
+/** One row of /api/source-health (radar.source_run, high-frequency ingest). */
+export interface SourceHealthItem {
+  source_id: string;
+  name: string;
+  last_status: string | null;
+  last_started_at: string | null;
+  last_item_count: number | null;
+  last_elapsed_ms: number | null;
+  last_error: string | null;
+  last_ok_at: string | null;
+  runs_24h: number;
+  ok_24h: number;
+}
+
+export interface SourceHealthData {
+  generated_at: string;
+  sources: SourceHealthItem[];
 }
 
 export interface WaytoAgiUpdate {
@@ -428,6 +451,14 @@ export interface StockRoute {
 
 export type FocusTier = 'critical' | 'watch' | 'normal';
 
+/** +1 bullish, -1 bearish, 0 no defensible call, for the path's primary sector. */
+export type FocusDirection = -1 | 0 | 1;
+
+export interface FocusImpact {
+  sector: string;
+  direction: FocusDirection;
+}
+
 export interface FocusEvent {
   id: string;
   tier: FocusTier;
@@ -443,6 +474,13 @@ export interface FocusEvent {
   sectors: string[];
   url: string;
   related: Array<{ title: string; url: string }>;
+  /** Optional: rows written before the direction model read as neutral. */
+  pathId?: string | null;
+  direction?: FocusDirection;
+  /** The rule id and matched text behind `direction`, for traceability. */
+  directionReason?: string;
+  horizon?: 'short' | 'long';
+  impacts?: FocusImpact[];
 }
 
 export interface SectorChange {

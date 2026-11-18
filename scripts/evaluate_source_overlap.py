@@ -99,6 +99,23 @@ def normalize_title_for_overlap(title: str) -> str:
     return " ".join(tokens)
 
 
+CJK_RUN = re.compile(r"[\u4e00-\u9fff]{2,}")
+
+
+def cjk_bigrams(text: str) -> set[str]:
+    """Character bigrams of CJK runs.
+
+    Chinese headlines carry no word spaces, so whitespace tokens collapse a
+    whole title into one token. Without bigrams the candidate index only ever
+    finds byte-identical titles and the duplicate rate of a Chinese source is
+    systematically under-reported.
+    """
+    grams: set[str] = set()
+    for run in CJK_RUN.findall(text or ""):
+        grams.update(run[i : i + 2] for i in range(len(run) - 1))
+    return grams
+
+
 def title_similarity(a: str, b: str) -> float:
     """Return a stable 0-1 title similarity score with light token reordering."""
     na = normalize_title_for_overlap(a)
@@ -115,7 +132,10 @@ def title_similarity(a: str, b: str) -> float:
         return round(seq_score, 3)
     token_score = len(ta & tb) / len(ta | tb)
     sorted_score = SequenceMatcher(None, " ".join(sorted(ta)), " ".join(sorted(tb))).ratio()
-    return round(max(seq_score, token_score, sorted_score), 3)
+    ga = cjk_bigrams(na)
+    gb = cjk_bigrams(nb)
+    bigram_score = len(ga & gb) / len(ga | gb) if ga and gb else 0.0
+    return round(max(seq_score, token_score, sorted_score, bigram_score), 3)
 
 
 def extract_entities(title: str) -> set[str]:
@@ -125,7 +145,9 @@ def extract_entities(title: str) -> set[str]:
 
 
 def tokens_for_overlap(title: str) -> set[str]:
-    return {token for token in normalize_title_for_overlap(title).split() if len(token) > 1}
+    normalized = normalize_title_for_overlap(title)
+    tokens = {token for token in normalized.split() if len(token) > 1}
+    return tokens | cjk_bigrams(normalized)
 
 
 def _days_apart(a: dict[str, Any], b: dict[str, Any]) -> float | None:
@@ -377,22 +399,43 @@ def print_summary(report: dict[str, Any]) -> None:
 
 def main() -> int:
     parser = argparse.ArgumentParser(description="Evaluate candidate source overlap against AI News Radar baseline")
-    parser.add_argument("--source-url", required=True, help="Candidate RSS/Atom URL")
+    parser.add_argument("--source-url", default="", help="Candidate RSS/Atom URL (live snapshot mode)")
     parser.add_argument("--source-name", required=True, help="Human-readable candidate source name")
     parser.add_argument("--site-id", default="candidate", help="Candidate site_id used in the report")
     parser.add_argument("--baseline", default="data/archive.json", help="Baseline archive/latest JSON path")
     parser.add_argument("--lookback-days", type=int, default=7, help="Recent window to compare")
     parser.add_argument("--output", default="", help="Optional JSON report output path")
+    parser.add_argument(
+        "--candidate-from-baseline",
+        action="store_true",
+        help=(
+            "Read the candidate's items from the baseline file (rows whose site_id matches "
+            "--site-id) instead of fetching --source-url. Use with "
+            "--baseline data/source-intake-7d.json for a real 7-day window."
+        ),
+    )
+    parser.add_argument(
+        "--exclude-site-ids",
+        default="",
+        help="Comma-separated site_ids to drop from the baseline, e.g. other trial sources",
+    )
     args = parser.parse_args()
 
     now = utc_now()
     baseline_path = Path(args.baseline).expanduser()
-    baseline_items = filter_recent_records(load_archive_records(baseline_path), now, max(1, args.lookback_days))
-    candidate_items = filter_recent_records(
-        fetch_rss_candidate(args.source_url, args.source_name, args.site_id, now),
-        now,
-        max(1, args.lookback_days),
-    )
+    all_baseline = filter_recent_records(load_archive_records(baseline_path), now, max(1, args.lookback_days))
+    excluded = {value.strip() for value in args.exclude_site_ids.split(",") if value.strip()}
+    baseline_items = [item for item in all_baseline if str(item.get("site_id") or "") not in excluded]
+    if args.candidate_from_baseline:
+        candidate_items = [item for item in all_baseline if str(item.get("site_id") or "") == args.site_id]
+    else:
+        if not args.source_url:
+            parser.error("--source-url is required unless --candidate-from-baseline is set")
+        candidate_items = filter_recent_records(
+            fetch_rss_candidate(args.source_url, args.source_name, args.site_id, now),
+            now,
+            max(1, args.lookback_days),
+        )
     report = evaluate_source_overlap(
         candidate_items,
         baseline_items,

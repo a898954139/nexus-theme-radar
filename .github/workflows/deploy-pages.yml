@@ -48,32 +48,10 @@ jobs:
       - name: Build frontend
         run: npm run build
 
-      - name: Copy static reports
-        run: |
-          mkdir -p dist/reports
-          cp -R reports/. dist/reports/
-
       - name: Copy runtime data
-        run: |
-          mkdir -p dist/data
-          cp data/public-theme-ranking-v0.8.json dist/data/
-          cp data/public-theme-momentum-latest-v0.9.json dist/data/
-          cp data/public-theme-momentum-history-v0.9.json dist/data/
-          cp data/public-stock-watchlist-v1.json dist/data/
-          cp data/stock-audit-latest.json dist/data/
-          cp data/theme-events.json dist/data/
-          cp data/source-status.json dist/data/
-          cp data/waytoagi-7d.json dist/data/
-          cp data/institutional-rankings.json dist/data/
-          cp data/institutional-flows.json dist/data/
-          cp data/fundamentals-index.json dist/data/
-          # Pre-market board. Guarded because the first deploy after this change
-          # may land before the pre-market job has ever produced the file.
-          if [ -f data/pre-market-latest.json ]; then cp data/pre-market-latest.json dist/data/; fi
-          cp -R data/fundamentals dist/data/
-          if [ -f data/broker-stats.json ]; then cp data/broker-stats.json dist/data/; fi
-          if [ -f data/broker-coverage.json ]; then cp data/broker-coverage.json dist/data/; fi
-          if [ -d data/broker-map ]; then cp -R data/broker-map dist/data/; fi
+        # Shared with the Vercel build (vercel.json) so both hosts publish the
+        # same data set.
+        run: sh scripts/copy_runtime_data.sh dist
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
