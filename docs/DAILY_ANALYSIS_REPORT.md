@@ -54,8 +54,8 @@ login is refused on every other table).
    grant radar_analyst to radar_analyst_login;
    ```
    Use the Supabase session pooler or direct host; keep `sslmode=require`.
-3. API login for Vercel: `grant radar_reader to <api_login>;` and set
-   `RADAR_READER_DATABASE_URL` in Vercel project env (server only).
+3. API login for Vercel: `grant radar_reader to radar_api;` (same login as #5 /api/pre-market) and set
+   `RADAR_API_DATABASE_URL` in Vercel project env (server only).
 4. GitHub: the workflow reuses secret `THEME_RADAR_DATABASE_URL` (already
    granted `radar_writer` by #1). It only receives it on `master`.
 5. First run: dispatch the workflow with `mode=warm` 2-3 times (each run

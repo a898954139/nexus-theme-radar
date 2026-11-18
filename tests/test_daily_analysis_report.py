@@ -330,7 +330,7 @@ def test_front_end_never_shows_an_old_edition_as_today() -> None:
     assert "今日報告未產出" in card
     assert "資料 →" in card and "台股開盤分析" in card
     assert "<DailyReportCard code={code} />" in detail
-    assert "process.env.RADAR_READER_DATABASE_URL" in api
+    assert "process.env.RADAR_API_DATABASE_URL" in api
     assert "s-maxage=60, stale-while-revalidate=300" in api
     assert "if (body.report_date !== today) return { ...base, status: 'not_produced' };" in api
     for text in (service, card):

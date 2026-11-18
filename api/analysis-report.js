@@ -2,7 +2,7 @@
 //
 // Server-side read of today's pre-market report (issue #8). Uses a login that
 // holds only radar_reader; the credential lives in the Vercel server env
-// (RADAR_READER_DATABASE_URL) and never reaches the browser bundle.
+// (RADAR_API_DATABASE_URL) and never reaches the browser bundle.
 //
 // "Today" is the Taipei calendar date. A report from an earlier edition is
 // never returned as today's: if the local task did not run, the status is
@@ -79,7 +79,7 @@ export default async function handler(req, res) {
     res.status(400).json({ status: 'bad_request', report_date: today });
     return;
   }
-  const url = process.env.RADAR_READER_DATABASE_URL;
+  const url = process.env.RADAR_API_DATABASE_URL;
   if (!url) {
     res.status(503).json({ status: 'unavailable', report_date: today });
     return;
