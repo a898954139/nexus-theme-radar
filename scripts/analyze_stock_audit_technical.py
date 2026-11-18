@@ -15,6 +15,7 @@ import hashlib
 import importlib.util
 import json
 import math
+import os
 from pathlib import Path
 import subprocess
 import sys
@@ -31,7 +32,28 @@ ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_INPUT = ROOT / "reports/stock-audit-2026-10-21.json"
 DEFAULT_OUTPUT = ROOT / ".omx/reviews/stock-audit-technical-v2/computed.json"
 DEFAULT_PVA_PATH = Path.home() / "Dev/algoTrade/nexus_bridge/pva_reclaim_runtime.py"
-DEFAULT_DETECTOR_PATH = (Path.home() / "Dev/iCloud-dev/NexusDashboard/src/lib/indicators/nexusStructureDetector.js")
+DETECTOR_PACKAGE_DIR = ROOT / "node_modules/nexus-structure-detector"
+LEGACY_DETECTOR_PATH = Path.home() / "Dev/iCloud-dev/NexusDashboard/src/lib/indicators/nexusStructureDetector.js"
+
+
+def _default_detector_path() -> Path:
+    """Resolve the pinned detector without requiring a NexusDashboard checkout.
+
+    Order: explicit env override, the npm-installed private package
+    ``nexus-structure-detector`` (see docs/STOCK_AUDIT.md), then the legacy
+    local Dashboard checkout.  Whatever is chosen must still match
+    ``PINNED_SOURCE_SHA256["nexus-structure"]`` before it is executed.
+    """
+    override = os.environ.get("NEXUS_STRUCTURE_DETECTOR_PATH")
+    if override:
+        return Path(override).expanduser()
+    candidate = DETECTOR_PACKAGE_DIR / "src/nexusStructureDetector.js"
+    if candidate.exists():
+        return candidate
+    return LEGACY_DETECTOR_PATH
+
+
+DEFAULT_DETECTOR_PATH = _default_detector_path()
 # Release/source pins.  A changed upstream implementation is unavailable until
 # its hash is explicitly re-pinned; never silently run drifted code.
 PINNED_SOURCE_SHA256 = {
@@ -90,7 +112,25 @@ def _assert_source_pin(path: Path, method_id: str, expected_sha256: str | None =
     return actual_sha256
 
 
-def _git_revision(path: Path) -> str:
+def _package_upstream(path: Path, actual_sha256: str) -> Mapping[str, Any] | None:
+    """Return package.json#nexusUpstream when ``path`` is a packaged pinned copy."""
+    manifest = path.parent.parent / "package.json"
+    try:
+        upstream = json.loads(manifest.read_text(encoding="utf-8")).get("nexusUpstream")
+    except (OSError, json.JSONDecodeError, AttributeError):
+        return None
+    if isinstance(upstream, Mapping) and upstream.get("sha256") == actual_sha256:
+        return upstream
+    return None
+
+
+def _git_revision(path: Path, actual_sha256: str | None = None) -> str:
+    # A packaged copy reports the upstream commit that produced its bytes, not
+    # the host repo's HEAD, so receipts stay stable across unrelated commits.
+    if actual_sha256 is not None:
+        upstream = _package_upstream(path, actual_sha256)
+        if upstream and upstream.get("commit"):
+            return str(upstream["commit"])
     try:
         result = subprocess.run(
             ["git", "-C", str(path.parent), "rev-parse", "HEAD"],
@@ -119,7 +159,7 @@ def _source_receipt(
         # stay in the local evidence environment, not in the report contract.
         "source_path": path.name,
         "source_sha256": actual_sha256,
-        "revision": _git_revision(path),
+        "revision": _git_revision(path, actual_sha256),
         "params": dict(params),
         **extra,
     }
