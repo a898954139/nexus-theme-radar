@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import json
 import logging
 import os
 import uuid
@@ -15,9 +16,12 @@ from scripts.radar_store import (
     PIPELINE_RUN_INSERT_SQL,
     SOURCE_RUN_INSERT_SQL,
     SOURCE_UPSERT_SQL,
+    TRACKING_CANDIDATES_REQUIRED_KEYS,
+    TRACKING_CANDIDATES_UPSERT_SQL,
     map_articles,
     map_events,
     map_sources,
+    map_tracking_candidates_snapshot,
     normalize_url,
     redact_error,
     url_hash,
@@ -274,6 +278,7 @@ def test_dual_write_success_closes_connection() -> None:
         "radar_dual_write": "written",
         "radar_articles_upserted": 1,
         "radar_events_upserted": 1,
+        "radar_tracking_candidates_snapshot": False,
     }
     assert connection.closed is True
 
@@ -314,6 +319,109 @@ def test_migration_is_rerunnable_and_least_privilege() -> None:
     assert "delete" not in sql.split("grant usage on schema radar to radar_writer", 1)[1]
     assert "to anon" not in sql and "to authenticated" not in sql
     assert "postgres://" not in sql and "postgresql://" not in sql
+
+
+# --- tracking-candidates snapshot (#6) ---------------------------------------
+
+TRACKING_CANDIDATES_JSON = ROOT / "data" / "tracking-candidates.json"
+TRACKING_MIGRATION_GLOB = "*_create_radar_tracking_candidates_snapshot.sql"
+
+
+def _tracking_payload() -> dict[str, object]:
+    return json.loads(TRACKING_CANDIDATES_JSON.read_text(encoding="utf-8"))
+
+
+def test_tracking_snapshot_stores_committed_json_verbatim() -> None:
+    payload = _tracking_payload()
+    row = map_tracking_candidates_snapshot(payload, run_id="run-1")
+    assert json.loads(row["payload"]) == payload
+    assert row["item_count"] == len(payload["items"]) == payload["total_items"]
+    assert row["run_id"] == "run-1"
+    assert row["generated_at"].tzinfo is not None
+
+
+def test_tracking_snapshot_rejects_contract_breaks_and_allows_additions() -> None:
+    payload = _tracking_payload()
+    map_tracking_candidates_snapshot({**payload, "new_field": 1}, run_id="r")
+    for key in ("items", "matcher_contract", "generated_at"):
+        broken = {k: v for k, v in payload.items() if k != key}
+        with pytest.raises(ValueError):
+            map_tracking_candidates_snapshot(broken, run_id="r")
+    with pytest.raises(ValueError):
+        map_tracking_candidates_snapshot({**payload, "items": {}}, run_id="r")
+
+
+def test_tracking_required_keys_match_the_js_contract() -> None:
+    js = (ROOT / "api" / "_lib" / "trackingCandidatesContract.js").read_text(encoding="utf-8")
+    block = js.split("TRACKING_CANDIDATES_REQUIRED_KEYS = Object.freeze([", 1)[1].split("]);", 1)[0]
+    js_keys = tuple(part.strip().strip("',") for part in block.split("\n") if part.strip())
+    assert js_keys == TRACKING_CANDIDATES_REQUIRED_KEYS
+    assert set(TRACKING_CANDIDATES_REQUIRED_KEYS) <= set(_tracking_payload())
+
+
+def test_write_radar_run_writes_snapshot_after_pipeline_run_in_same_transaction() -> None:
+    connection = FakeConnection()
+    write_radar_run(
+        connection,
+        run_id="run-1",
+        started_at=ANCHOR,
+        window_hours=72,
+        registry_sources=REGISTRY,
+        statuses=STATUSES,
+        articles=[_article("https://a.tw/1")],
+        events=[_event("cluster-a", "https://a.tw/1", ["m1"])],
+        tracking_candidates=_tracking_payload(),
+    )
+    assert connection.transactions == 1
+    sqls = [sql for sql, _ in connection.cursor_object.calls]
+    assert sqls[-1] == TRACKING_CANDIDATES_UPSERT_SQL
+    assert sqls.index(PIPELINE_RUN_INSERT_SQL) < sqls.index(TRACKING_CANDIDATES_UPSERT_SQL)
+
+
+def test_write_radar_run_rejects_bad_snapshot_before_transaction() -> None:
+    connection = FakeConnection()
+    with pytest.raises(ValueError):
+        write_radar_run(
+            connection,
+            run_id="run-1",
+            started_at=ANCHOR,
+            window_hours=72,
+            registry_sources=REGISTRY,
+            statuses=STATUSES,
+            articles=[],
+            events=[],
+            tracking_candidates={"items": []},
+        )
+    assert connection.transactions == 0
+
+
+def test_dual_write_passes_tracking_candidates_through() -> None:
+    connection = FakeConnection()
+    summary = run_radar_dual_write(
+        connection_factory=lambda: connection,
+        producer_run_id="run-1",
+        started_at=ANCHOR,
+        window_hours=72,
+        registry_sources=REGISTRY,
+        statuses=STATUSES,
+        articles=[],
+        events=[],
+        tracking_candidates=_tracking_payload(),
+    )
+    assert summary["radar_tracking_candidates_snapshot"] is True
+    assert TRACKING_CANDIDATES_UPSERT_SQL in [sql for sql, _ in connection.cursor_object.calls]
+
+
+def test_tracking_migration_is_rerunnable_and_least_privilege() -> None:
+    paths = sorted((ROOT / "supabase" / "migrations").glob(TRACKING_MIGRATION_GLOB))
+    assert len(paths) == 1
+    sql = paths[0].read_text(encoding="utf-8")
+    assert "create table if not exists radar.tracking_candidates_snapshot (" in sql
+    assert "references radar.pipeline_run (run_id)" in sql
+    assert "grant select, insert, update on radar.tracking_candidates_snapshot to radar_writer" in sql
+    assert "grant select on radar.tracking_candidates_snapshot to radar_reader" in sql
+    assert "delete" not in sql.lower()
+    assert "to anon" not in sql and "to authenticated" not in sql
 
 
 # --- live Postgres (opt-in) ------------------------------------------------

@@ -14,6 +14,7 @@ JSON stays the source of truth until the API cut-over (WS1 step 2).
 | `radar.source_run` | 1 per fetched source | `(run_id, source_id)` | `source-status.json` `sites[]` |
 | `radar.article` | upsert per raw discovery record | `url_hash` | raw RSS records (`fetched_raw_items`) |
 | `radar.event` | upsert per published event | `event_id` (= `cluster_id`) | `theme-events.json` `items[]` |
+| `radar.tracking_candidates_snapshot` | 1 (upsert) | `generated_at`, FK `run_id` | `tracking-candidates.json` verbatim; served by `/api/v1/tracking-candidates` (see `docs/TRACKING_CANDIDATES_API.md`) |
 
 Created but not yet written: `event_impact` (WS2), `market_snapshot`,
 `institutional_flow_daily`. Momentum history stays in

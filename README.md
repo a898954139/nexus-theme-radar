@@ -83,6 +83,8 @@ python scripts/generate_theme_demo.py --output-dir data --window-hours 48 --max-
 ```
 
 `tracking-candidates.json` 可直接作為 NexusDashboard 的 upstream query endpoint。
+有驗證的替代端點 `/api/v1/tracking-candidates`（Vercel，`Authorization: Bearer`）見
+[docs/TRACKING_CANDIDATES_API.md](docs/TRACKING_CANDIDATES_API.md)；舊 JSON 保留到 NexusDashboard 切換完成。
 
 > 本專案 fork 自 [LearnPrompt/ai-news-radar](https://github.com/LearnPrompt/ai-news-radar)，
 > 保留它的靜態站、GitHub Actions 與 JSON pipeline 架構，把 AI relevance layer

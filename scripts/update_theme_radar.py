@@ -1730,6 +1730,7 @@ RADAR_DUAL_WRITE_DEFAULTS: dict[str, Any] = {
     "radar_dual_write": "skipped",
     "radar_articles_upserted": 0,
     "radar_events_upserted": 0,
+    "radar_tracking_candidates_snapshot": False,
 }
 
 
@@ -1743,6 +1744,7 @@ def run_radar_dual_write(
     statuses: list[dict[str, Any]],
     articles: list[dict[str, Any]],
     events: list[dict[str, Any]],
+    tracking_candidates: Mapping[str, Any] | None = None,
 ) -> dict[str, Any]:
     """Mirror this run into the private radar schema; never affects JSON output.
 
@@ -1769,6 +1771,7 @@ def run_radar_dual_write(
             statuses=statuses,
             articles=articles,
             events=events,
+            tracking_candidates=tracking_candidates,
         )
     except Exception as error:  # noqa: BLE001 - DB mirror must never fail the run
         LOGGER.warning(
@@ -1800,6 +1803,7 @@ def run_radar_dual_write(
         "radar_dual_write": "written",
         "radar_articles_upserted": summary["db_article_count"],
         "radar_events_upserted": summary["db_event_count"],
+        "radar_tracking_candidates_snapshot": tracking_candidates is not None,
     }
 
 
@@ -2138,6 +2142,7 @@ def run_update(
         statuses=statuses,
         articles=discovery_records,
         events=list(events["items"]),
+        tracking_candidates=candidates,
     )
     try:
         momentum_summary = run_momentum_side_paths(

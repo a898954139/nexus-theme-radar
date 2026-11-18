@@ -342,6 +342,60 @@ def map_events(
     return list(rows.values()), duplicates
 
 
+# Top-level keys NexusDashboard reads from tracking-candidates.json. Mirrored in
+# src/lib/trackingCandidatesContract.js; the API refuses a snapshot missing any.
+# Extra keys are allowed: additive fields do not break the consumer.
+TRACKING_CANDIDATES_REQUIRED_KEYS = (
+    "generated_at", "market_id", "market_scope", "window_hours", "max_items",
+    "total_items", "total_items_available", "items", "pre_cluster_items",
+    "excluded_items", "tw_relevance_distribution",
+    "tw_relevance_reason_distribution", "selected_theme_score_min",
+    "candidate_theme_score_min", "matcher_contract", "taxonomy_version",
+    "legacy_theme_count", "structured_theme_count", "theme_match_distribution",
+    "theme_veto_distribution",
+)
+
+TRACKING_CANDIDATES_UPSERT_SQL = """
+INSERT INTO radar.tracking_candidates_snapshot (
+  generated_at, run_id, item_count, payload
+) VALUES (
+  %(generated_at)s, %(run_id)s, %(item_count)s, %(payload)s::jsonb
+)
+ON CONFLICT (generated_at) DO UPDATE SET
+  run_id = EXCLUDED.run_id,
+  item_count = EXCLUDED.item_count,
+  payload = EXCLUDED.payload,
+  updated_at = now()
+""".strip()
+
+
+def map_tracking_candidates_snapshot(
+    payload: Mapping[str, Any],
+    *,
+    run_id: str,
+) -> dict[str, Any]:
+    """Validate tracking-candidates.json and map it to one snapshot row.
+
+    The row stores the payload verbatim; the API serves it unchanged, so a
+    payload that would break NexusDashboard is rejected here, not stored.
+    """
+
+    if not isinstance(payload, Mapping):
+        raise ValueError("tracking-candidates payload must be an object")
+    missing = [key for key in TRACKING_CANDIDATES_REQUIRED_KEYS if key not in payload]
+    if missing:
+        raise ValueError(f"tracking-candidates payload is missing keys {missing}")
+    items = payload["items"]
+    if not isinstance(items, list):
+        raise ValueError("tracking-candidates payload items must be a list")
+    return {
+        "generated_at": _timestamp(payload["generated_at"], "tracking_candidates.generated_at"),
+        "run_id": run_id,
+        "item_count": len(items),
+        "payload": _json(dict(payload)),
+    }
+
+
 def write_radar_run(
     connection: Any,
     *,
@@ -352,6 +406,7 @@ def write_radar_run(
     statuses: Sequence[Mapping[str, Any]],
     articles: Sequence[Mapping[str, Any]],
     events: Sequence[Mapping[str, Any]],
+    tracking_candidates: Mapping[str, Any] | None = None,
 ) -> dict[str, int]:
     """Write one pipeline run to the radar schema in a single transaction.
 
@@ -367,6 +422,11 @@ def write_radar_run(
         articles, run_id=run_id, fetched_fallback=anchor
     )
     event_rows, duplicate_events = map_events(events, run_id=run_id, seen_at=anchor)
+    snapshot_row = (
+        map_tracking_candidates_snapshot(tracking_candidates, run_id=run_id)
+        if tracking_candidates is not None
+        else None
+    )
     source_rows = map_sources(
         registry_sources,
         extra_source_ids=[
@@ -401,4 +461,7 @@ def write_radar_run(
                 cursor.executemany(ARTICLE_UPSERT_SQL, article_rows)
             if event_rows:
                 cursor.executemany(EVENT_UPSERT_SQL, event_rows)
+            if snapshot_row is not None:
+                # After pipeline_run: the snapshot's run_id references it.
+                cursor.execute(TRACKING_CANDIDATES_UPSERT_SQL, snapshot_row)
     return summary
