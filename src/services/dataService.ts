@@ -16,6 +16,7 @@ import {
   ThemeRankingData,
   WaytoAgiData
 } from '../types';
+import { isPreMarketPayload } from '../lib/preMarketContract.js';
 
 const WATCHLIST_TOP_LEVEL_KEYS = [
   'schema_version',
@@ -252,19 +253,62 @@ export async function loadRadarData(cacheBust = false): Promise<RadarData> {
   };
 }
 
+const PRE_MARKET_JSON_PATH = './data/pre-market-latest.json';
+const PRE_MARKET_API_PATH = '/api/pre-market';
+const PRE_MARKET_API_TIMEOUT_MS = 5000;
+
 /**
- * Pre-market board. Resolves to null instead of throwing: the wire feed and the
- * quote source are both third-party, and the homepage must still render its
- * theme and news sections when either is unavailable.
+ * Feature flag (issue #5). Build-time `VITE_PRE_MARKET_SOURCE=api` makes the
+ * page read the DB-backed API first; anything else keeps the static JSON. The
+ * GitHub Pages build never sets it, because Pages has no /api.
  */
-export async function fetchPreMarket(cacheBust = false): Promise<PreMarketData | null> {
+export function preMarketSourceFlag(): 'api' | 'json' {
+  return import.meta.env.VITE_PRE_MARKET_SOURCE === 'api' ? 'api' : 'json';
+}
+
+async function fetchPreMarketFromApi(cacheBust: boolean): Promise<PreMarketData | null> {
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), PRE_MARKET_API_TIMEOUT_MS);
   try {
-    const payload = await readJson<PreMarketData>('./data/pre-market-latest.json', cacheBust);
+    const response = await fetch(PRE_MARKET_API_PATH, {
+      cache: cacheBust ? 'no-store' : 'default',
+      signal: controller.signal,
+    });
+    if (!response.ok) return null;
+    const payload: unknown = await response.json();
+    return isPreMarketPayload(payload) ? (payload as PreMarketData) : null;
+  } catch {
+    return null;
+  } finally {
+    clearTimeout(timer);
+  }
+}
+
+async function fetchPreMarketFromJson(cacheBust: boolean): Promise<PreMarketData | null> {
+  try {
+    const payload = await readJson<PreMarketData>(PRE_MARKET_JSON_PATH, cacheBust);
     if (!payload || !Array.isArray(payload.events)) return null;
     return payload;
   } catch {
     return null;
   }
+}
+
+/**
+ * Pre-market board. Resolves to null instead of throwing: the wire feed and the
+ * quote source are both third-party, and the homepage must still render its
+ * theme and news sections when either is unavailable.
+ *
+ * With the flag on, any API failure (non-2xx, timeout, contract mismatch)
+ * falls back to the static JSON so the board never blanks because of the DB.
+ */
+export async function fetchPreMarket(cacheBust = false): Promise<PreMarketData | null> {
+  if (preMarketSourceFlag() === 'api') {
+    const fromApi = await fetchPreMarketFromApi(cacheBust);
+    if (fromApi) return fromApi;
+    console.warn('pre-market API unavailable, falling back to static JSON');
+  }
+  return fetchPreMarketFromJson(cacheBust);
 }
 
 export async function fetchStockWatchlist(cacheBust = false): Promise<StockWatchlistData> {

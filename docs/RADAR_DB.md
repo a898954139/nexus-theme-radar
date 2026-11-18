@@ -15,6 +15,13 @@ JSON stays the source of truth until the API cut-over (WS1 step 2).
 | `radar.article` | upsert per raw discovery record | `url_hash` | raw RSS records (`fetched_raw_items`) |
 | `radar.event` | upsert per published event | `event_id` (= `cluster_id`) | `theme-events.json` `items[]` |
 
+`scripts/update_pre_market.py` (separate workflow, `update-pre-market.yml`)
+also writes one row per build to `radar.pre_market_snapshot`
+(PK `generated_at`, `payload` = the exact `pre-market-latest.json`). This is
+what `/api/pre-market` serves; see [VERCEL_DEPLOY.md](VERCEL_DEPLOY.md).
+Log lines: `pre_market_dual_write_written|skipped|failed`. Migration:
+`20261118090000_create_radar_pre_market_snapshot.sql`.
+
 Created but not yet written: `event_impact` (WS2), `market_snapshot`,
 `institutional_flow_daily`. Momentum history stays in
 `theme_radar.hourly_theme_heat`.
