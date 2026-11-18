@@ -1,0 +1,39 @@
+{
+  "version": "v1",
+  "description": "Monthly operating revenue (每月營業收入彙總表) for listed and OTC companies. Feeds company-level fundamental events for the WS2 positive-polarity path.",
+  "timezone": "Asia/Taipei",
+  "fetch_window_days": [1, 10],
+  "record_high_min_history_months": 12,
+  "history_retention_months": 72,
+  "event_retention_periods": 3,
+  "yoy_surge_threshold_pct": 20,
+  "field_aliases": {
+    "symbol": ["公司代號", "SecuritiesCompanyCode"],
+    "company_name": ["公司名稱", "CompanyName"],
+    "industry": ["產業別", "Industry"],
+    "period": ["資料年月", "YearMonth"],
+    "revenue": ["營業收入-當月營收", "Revenue"],
+    "previous_month_revenue": ["營業收入-上月營收", "LastMonthRevenue"],
+    "last_year_revenue": ["營業收入-去年當月營收", "LastYearMonthRevenue"],
+    "mom_pct": ["營業收入-上月比較增減(%)", "MoMChange"],
+    "yoy_pct": ["營業收入-去年同月增減(%)", "YoYChange"]
+  },
+  "datasets": [
+    {
+      "dataset_id": "t187ap05_L",
+      "source_id": "monthly_revenue_twse",
+      "name": "上市公司每月營業收入彙總表 (TWSE OpenAPI)",
+      "url": "https://openapi.twse.com.tw/v1/opendata/t187ap05_L",
+      "exchange": "TWSE",
+      "status": "active"
+    },
+    {
+      "dataset_id": "mopsfe_t187ap05_O",
+      "source_id": "monthly_revenue_tpex",
+      "name": "上櫃公司每月營業收入彙總表 (TPEx OpenAPI)",
+      "url": "https://www.tpex.org.tw/openapi/v1/mopsfe_t187ap05_O",
+      "exchange": "TPEX",
+      "status": "active"
+    }
+  ]
+}
