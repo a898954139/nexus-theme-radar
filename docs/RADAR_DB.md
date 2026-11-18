@@ -97,3 +97,10 @@ RADAR_TEST_READER_URL="host=... dbname=... user=<granted radar_reader>" \
 ```
 
 The live tests are skipped when those variables are unset (CI).
+
+## Daily analysis report tables (#8)
+
+`analysis_batch`, `analysis_queue`, `daily_bar`, `technical_snapshot`,
+`fundamental_snapshot` and `analysis_report` plus the local-only
+`radar_analyst` role are documented in
+[DAILY_ANALYSIS_REPORT.md](DAILY_ANALYSIS_REPORT.md).
