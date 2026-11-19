@@ -185,7 +185,10 @@ def connect_from_environment() -> Any | None:
         return None
     import psycopg
 
-    return psycopg.connect(database_url, connect_timeout=15)
+    # prepare_threshold=None: executemany would otherwise create named prepared
+    # statements, which the Supabase transaction pooler (port 6543) may route
+    # to a different backend.
+    return psycopg.connect(database_url, connect_timeout=15, prepare_threshold=None)
 
 
 def run(data_dir: Path, datasets: list[str], *, require: bool, connect=connect_from_environment) -> int:
