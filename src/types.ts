@@ -511,6 +511,31 @@ export interface PreMarketData {
   pulse: PulseIndex[];
   sectors: SectorChange[];
   flows: { as_of: string | null; panels: FlowPanel[] };
+  /** #10 market temperature; absent in payloads written before it. */
+  market?: MarketTemperature;
+}
+
+export interface MarketIndicator {
+  id: 'taiex' | 'tx_night' | 'sox' | 'tsm_adr' | 'foreign_net' | string;
+  label: string;
+  missing: boolean;
+  reason?: string;
+  value?: number;
+  change?: number | null;
+  change_pct?: number | null;
+  unit?: string;
+  as_of?: string;
+  session?: string;
+  source?: string;
+}
+
+export interface MarketTemperature {
+  generated_at: string;
+  indicators: MarketIndicator[];
+  news: { net: number; bull: number; bear: number; lean: string; window_hours: number } | null;
+  market: { lean: string | null; avg_pct: number | null; basis: string | null };
+  divergence: { message: string; news_lean: string; market_lean: string } | null;
+  sectors_as_of?: string | null;
 }
 
 export interface PulseIndex {
