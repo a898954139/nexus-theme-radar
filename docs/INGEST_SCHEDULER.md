@@ -54,7 +54,7 @@ grant radar_reader to radar_api;
 
 ### 2. Migration
 
-Apply `supabase/migrations/20261118090000_radar_ingest_scheduler.sql`
+Apply `supabase/migrations/20261118090100_radar_ingest_scheduler.sql`
 (re-runnable). It only adds `pipeline_run.run_kind / ingest_group / elapsed_ms`,
 two indexes and the `radar.invoke_ingest(text)` function. It schedules nothing.
 

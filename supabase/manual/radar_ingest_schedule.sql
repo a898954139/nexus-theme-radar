@@ -1,7 +1,7 @@
 -- Operational switch for high-frequency ingest (issue #7). NOT a migration.
 --
 -- Run by hand in the Supabase SQL editor, one section at a time, after:
---   1. supabase/migrations/20261118090000_radar_ingest_scheduler.sql is applied
+--   1. supabase/migrations/20261118090100_radar_ingest_scheduler.sql is applied
 --   2. the Vercel deployment serving /api/cron/ingest is live with
 --      RADAR_INGEST_CRON_SECRET and RADAR_INGEST_DATABASE_URL set
 -- Full runbook: docs/INGEST_SCHEDULER.md
