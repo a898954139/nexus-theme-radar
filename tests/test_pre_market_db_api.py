@@ -62,6 +62,10 @@ class FakeConnection:
             raise RuntimeError("boom postgresql://u:secret@db.example/x password=secret")
         self.executed.append((sql, params))
 
+    def executemany(self, sql, rows):
+        for row in rows:
+            self.execute(sql, row)
+
     def close(self):
         self.closed = True
 
@@ -112,6 +116,48 @@ def test_dual_write_fails_closed_and_redacts(caplog) -> None:
     ok = FakeConnection()
     assert run_pre_market_dual_write(lambda: ok, _payload()) == "written"
     assert ok.closed is True
+
+
+def test_focus_events_and_impacts_are_written_with_the_snapshot() -> None:
+    """Issue #9 follow-up: every directed focus event lands in radar.event and
+    each (event x sector) call in radar.event_impact, in the same transaction."""
+    from event_direction import RULE_VERSION, annotate, impact_rows
+    from radar_store import EVENT_IMPACT_UPSERT_SQL, EVENT_UPSERT_SQL, focus_event_id
+
+    payload = _payload()
+    payload["direction_rule_version"] = RULE_VERSION
+    for event in payload["events"]:
+        annotate(event, event.get("pathId"))
+    connection = FakeConnection()
+    summary = write_pre_market_snapshot(connection, payload, impact_rows=impact_rows)
+
+    sqls = [sql for sql, _ in connection.executed]
+    assert sqls[0] == PRE_MARKET_UPSERT_SQL
+    events = [params for sql, params in connection.executed if sql == EVENT_UPSERT_SQL]
+    impacts = [params for sql, params in connection.executed if sql == EVENT_IMPACT_UPSERT_SQL]
+    assert len(events) == summary["focus_events_written"] > 0
+    assert len(impacts) == summary["impacts_written"] > 0
+    # Events before impacts (FK), ids stable across runs, cluster constraint holds.
+    assert sqls.index(EVENT_UPSERT_SQL) < sqls.index(EVENT_IMPACT_UPSERT_SQL)
+    first = events[0]
+    assert first["event_id"] == focus_event_id(first["title"])
+    assert first["cluster_size"] == len(first["member_article_ids"])
+    event_ids = {row["event_id"] for row in events}
+    for row in impacts:
+        assert row["event_id"] in event_ids
+        assert row["rule_version"] == RULE_VERSION
+        assert row["direction"] in (-1, 0, 1)
+
+
+def test_snapshot_without_rule_version_writes_no_impacts() -> None:
+    from event_direction import impact_rows
+
+    payload = _payload()
+    payload.pop("direction_rule_version", None)
+    connection = FakeConnection()
+    summary = write_pre_market_snapshot(connection, payload, impact_rows=impact_rows)
+    assert summary["impacts_written"] == 0
+    assert len(connection.executed) == 1
 
 
 # --- migration ---------------------------------------------------------------

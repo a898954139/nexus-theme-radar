@@ -23,8 +23,25 @@ what `/api/pre-market` serves; see [VERCEL_DEPLOY.md](VERCEL_DEPLOY.md).
 Log lines: `pre_market_dual_write_written|skipped|failed`. Migration:
 `20261118090000_create_radar_pre_market_snapshot.sql`.
 
-Created but not yet written: `event_impact` (WS2), `market_snapshot`,
-`institutional_flow_daily`. Momentum history stays in
+In the same transaction the pre-market build upserts its FinancialJuice focus
+events into `radar.event` (`event_id` = `financialjuice-<sha1(title)[:16]>`,
+stable across runs; `primary_theme_id` = path id, `decision` = tier) and every
+(event x sector) direction into `radar.event_impact` (`target_type='sector'`,
+PK `(event_id, target_id, rule_version)`, so a rule upgrade adds rows instead
+of overwriting history). Log line adds `focus_events=` / `impacts=` counts.
+
+Example: which sectors had bullish calls in the last 24h?
+
+```sql
+select i.target_id, count(*) filter (where i.direction = 1) as bull,
+       count(*) filter (where i.direction = -1) as bear
+from radar.event_impact i join radar.event e using (event_id)
+where e.published_at > now() - interval '24 hours'
+  and i.rule_version = (select max(rule_version) from radar.event_impact)
+group by 1 order by bull desc;
+```
+
+Created but not yet written: `market_snapshot`, `institutional_flow_daily`. Momentum history stays in
 `theme_radar.hourly_theme_heat`.
 
 `url_hash` is sha256 of the normalized URL (lower-case scheme/host, no
