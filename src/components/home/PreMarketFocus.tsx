@@ -1,17 +1,11 @@
 import React, { useMemo, useState } from 'react';
-import { DeviceType, FlowPanel, FocusEvent, MarketIndicator, MarketTemperature, PreMarketData, PulseIndex, SectorChange } from '../../types';
-
-const DIRECTION_COLUMN_LIMIT = 6;
+import { DeviceType, FlowPanel, FocusEvent, MarketIndicator, MarketTemperature, PreMarketData, PulseIndex, RadarData, SectorChange, StockWatchlistData } from '../../types';
+import { TodayFocus } from './TodayFocus';
 
 const DIRECTION_LABEL: Record<string, string> = { '1': '利多', '-1': '利空', '0': '中性' };
 
 function directionOf(event: FocusEvent): -1 | 0 | 1 {
   return event.direction === 1 || event.direction === -1 ? event.direction : 0;
-}
-
-interface PreMarketFocusProps {
-  data: PreMarketData;
-  device: DeviceType;
 }
 
 /** Split "A → B → C" into pills. The chain is the product's core claim -- it
@@ -68,50 +62,6 @@ function indicatorTone(item: MarketIndicator): string {
   // Taiwan convention site-wide: red (var(--up)) up, green (var(--down)) down.
   return basis > 0 ? ' is-up' : ' is-down';
 }
-
-/** #10: five market facts above the news, each with its own as-of. A missing
- *  source shows as missing with the reason -- never a carried-over number. */
-const MarketTemperatureBar: React.FC<{ market: MarketTemperature }> = ({ market }) => (
-  <section className="market-temp" aria-label="市場溫度">
-    <div className="market-temp-head">
-      <strong>市場溫度</strong>
-      {market.news ? (
-        <span className="market-temp-news">
-          新聞淨方向 {market.news.lean}（利多 {market.news.bull} / 利空 {market.news.bear}，近 {market.news.window_hours} 小時）
-        </span>
-      ) : null}
-    </div>
-    {market.divergence ? (
-      <div className="market-temp-divergence" role="note">
-        ⚠ {market.divergence.message}：新聞情緒與市場走勢相反，留意別被消息面誤導
-        {market.market.basis ? `（市場依${market.market.basis}）` : ''}
-      </div>
-    ) : null}
-    <div className="market-temp-grid" role="list">
-      {market.indicators.map((item) => (
-        <div className={`market-temp-card${item.missing ? ' is-missing' : indicatorTone(item)}`} role="listitem" key={item.id}>
-          <span className="market-temp-label">{item.label}</span>
-          {item.missing ? (
-            <>
-              <strong className="market-temp-value">缺資料</strong>
-              <span className="market-temp-meta">{item.reason}</span>
-            </>
-          ) : (
-            <>
-              <strong className="market-temp-value mono-num">{formatIndicatorValue(item)}</strong>
-              {item.change_pct !== null && item.change_pct !== undefined ? (
-                <span className="market-temp-delta mono-num">
-                  {item.change_pct > 0 ? '+' : ''}{item.change_pct.toFixed(2)}%
-                </span>
-              ) : null}
-              <span className="market-temp-meta">{item.session} · {item.as_of}</span>
-            </>
-          )}
-        </div>
-      ))}
-    </div>
-  </section>
-);
 
 const PulseCards: React.FC<{ pulse: PulseIndex[] }> = ({ pulse }) => (
   <div className="pulse-grid" role="list" aria-label="國際指數">
@@ -344,15 +294,15 @@ const FlowBoard: React.FC<{ panels: FlowPanel[]; asOf: string | null }> = ({ pan
 
 /** One side of the bull/bear split. An empty side says so explicitly: on an up
  *  day with nothing bullish on the wire, a blank column would look broken. */
-const DirectionColumn: React.FC<{ side: 'bull' | 'bear'; events: FocusEvent[] }> = ({ side, events }) => (
+const DirectionColumn: React.FC<{ side: 'bull' | 'bear'; events: FocusEvent[]; total: number }> = ({ side, events, total }) => (
   <div className={`focus-direction-col is-${side}`}>
     <div className="focus-direction-head">
       <strong>{side === 'bull' ? '利多' : '利空'}</strong>
-      <span className="mono-num">{events.length} 則</span>
+      <span className="mono-num">{total} 則</span>
     </div>
     {events.length > 0 ? (
       <div className="focus-direction-list">
-        {events.slice(0, DIRECTION_COLUMN_LIMIT).map((event) => <FocusCard event={event} key={event.id} />)}
+        {events.map((event) => <FocusCard event={event} key={event.id} />)}
       </div>
     ) : (
       <div className="focus-direction-empty">近 72 小時無明確{side === 'bull' ? '利多' : '利空'}事件</div>
@@ -360,104 +310,156 @@ const DirectionColumn: React.FC<{ side: 'bull' | 'bear'; events: FocusEvent[] }>
   </div>
 );
 
-export const PreMarketFocus: React.FC<PreMarketFocusProps> = ({ data, device }) => {
-  // On a quiet morning nothing is critical. That is the common case, not an
-  // error state, so the section says so instead of rendering an empty shell.
-  const critical = data.events.filter((event) => event.tier === 'critical');
-  const watch = data.events.filter((event) => event.tier === 'watch');
-  const normal = data.events.filter((event) => event.tier === 'normal');
+const BULL_BEAR_PREVIEW = 3;
+
+/** One compact line of market facts. Missing sources collapse to a short chip
+ *  (reason on hover) so they do not take a full card each. */
+const MarketStrip: React.FC<{ market: MarketTemperature }> = ({ market }) => (
+  <section className="tf-strip" aria-label="市場溫度">
+    <div className="tf-strip-items" role="list">
+      {market.indicators.map((item) => (
+        item.missing ? (
+          <span className="tf-strip-item is-missing" role="listitem" key={item.id} title={item.reason}>
+            {item.label}<em>缺</em>
+          </span>
+        ) : (
+          <span className={`tf-strip-item${indicatorTone(item)}`} role="listitem" key={item.id}
+                title={`${item.session ?? ''} · ${item.as_of ?? ''}`}>
+            <span className="tf-strip-label">{item.label}</span>
+            <strong className="mono-num">{formatIndicatorValue(item)}</strong>
+            {item.change_pct !== null && item.change_pct !== undefined ? (
+              <span className="mono-num">{item.change_pct > 0 ? '+' : ''}{item.change_pct.toFixed(2)}%</span>
+            ) : null}
+          </span>
+        )
+      ))}
+      {market.news ? (
+        <span className="tf-strip-item is-news" role="listitem"
+              title={`近 ${market.news.window_hours} 小時 利多 ${market.news.bull} / 利空 ${market.news.bear}`}>
+          <span className="tf-strip-label">新聞面</span>
+          <strong>{market.news.lean}</strong>
+          <span className="mono-num">{market.news.bull}多/{market.news.bear}空</span>
+        </span>
+      ) : null}
+    </div>
+    {market.divergence ? (
+      <div className="tf-strip-warn" role="note">
+        ⚠ {market.divergence.message}：新聞情緒與盤勢相反，別被消息面帶著走
+      </div>
+    ) : null}
+  </section>
+);
+
+type BoardTab = 'events' | 'pulse' | 'flows' | 'sectors';
+
+interface PreMarketFocusProps {
+  data: PreMarketData | null;
+  radar: RadarData;
+  watchlist: StockWatchlistData | null;
+  device: DeviceType;
+  onGoStock: (code: string, exchange?: string) => void;
+  onGoMomentum: () => void;
+}
+
+export const PreMarketFocus: React.FC<PreMarketFocusProps> = ({ data, radar, watchlist, device, onGoStock, onGoMomentum }) => {
+  const events = data?.events ?? [];
   // Direction columns draw from every tier: bullish news is mostly commentary
   // and data, which score below threats, so a critical/watch-only split would
-  // rebuild the negative skew the columns exist to remove. Events stay sorted by
-  // score, so the strongest call on each side leads.
-  const bull = data.events.filter((event) => directionOf(event) === 1);
-  const bear = data.events.filter((event) => directionOf(event) === -1);
+  // rebuild the negative skew the columns exist to remove.
+  const bull = events.filter((event) => directionOf(event) === 1);
+  const bear = events.filter((event) => directionOf(event) === -1);
+  const critical = events.filter((event) => event.tier === 'critical');
+  const watch = events.filter((event) => event.tier === 'watch');
+  const normal = events.filter((event) => event.tier === 'normal');
+  const [showAllDirection, setShowAllDirection] = useState(false);
+  const [showFull, setShowFull] = useState(false);
   const [showNormal, setShowNormal] = useState(false);
-  const hasPulse = (data.pulse?.length ?? 0) > 0;
-  const hasSectors = data.sectors.length > 0;
-  const hasFlows = data.flows.panels.some((panel) => panel.buy.length + panel.sell.length > 0);
-
-  // Mobile collapses the three data boards into one switcher so a single
-  // screen does not scroll past several full-width charts.
-  const [board, setBoard] = useState<'pulse' | 'flows' | 'sectors'>(
-    hasPulse ? 'pulse' : hasFlows ? 'flows' : 'sectors',
-  );
+  const hasPulse = (data?.pulse?.length ?? 0) > 0;
+  const hasSectors = (data?.sectors.length ?? 0) > 0;
+  const hasFlows = data?.flows.panels.some((panel) => panel.buy.length + panel.sell.length > 0) ?? false;
+  const [board, setBoard] = useState<BoardTab>('events');
+  const tabs: Array<[BoardTab, string, boolean]> = [
+    ['events', `利多 / 利空事件`, events.length > 0],
+    ['pulse', '國際指數', hasPulse],
+    ['flows', '法人買賣超', hasFlows],
+    ['sectors', '類股表現', hasSectors],
+  ];
+  const generated = data ? formatTime(data.generated_at) : null;
 
   return (
     <section className="pre-market-section">
-      <header className="page-intro">
-        <span className="page-kicker">PRE-MARKET FOCUS</span>
-        <h1>盤前焦點</h1>
-        <div className="gold-rule" />
-        <p>開盤前的國際消息面：只留下有台股傳導路徑的事件，並標明它會影響哪些族群。</p>
+      <header className="tf-intro">
+        <div>
+          <span className="page-kicker">PRE-MARKET FOCUS</span>
+          <h1>盤前焦點</h1>
+        </div>
+        <p>今天先看這幾個題材；每列一句理由，點開看依據。{generated ? <span className="mono-num"> 更新 {generated}</span> : null}</p>
       </header>
 
-      {data.market ? <MarketTemperatureBar market={data.market} /> : null}
+      {data?.market ? <MarketStrip market={data.market} /> : null}
 
-      <div className="focus-direction" aria-label="利多與利空">
-        <DirectionColumn side="bull" events={bull} />
-        <DirectionColumn side="bear" events={bear} />
-      </div>
+      <TodayFocus preMarket={data} radar={radar} watchlist={watchlist} device={device}
+                  onGoStock={onGoStock} onGoMomentum={onGoMomentum} />
 
-      <div className="section-heading focus-full-heading">
-        <h2>完整清單</h2><span className="mono-num">{data.events.length} 則 · 含中性</span>
-      </div>
-
-      {critical.length > 0 ? (
-        <div className="focus-grid focus-grid-critical">
-          {critical.map((event) => <FocusCard event={event} key={event.id} />)}
-        </div>
-      ) : (
-        <div className="focus-calm">
-          <strong>目前無重大事件</strong>
-          <span>近 72 小時國際消息面平靜，以下為次要留意事項與一般新聞。</span>
-        </div>
-      )}
-
-      {watch.length > 0 ? (
-        <div className="focus-watch-block">
-          <div className="section-heading">
-            <h2>留意</h2><span className="mono-num">{watch.length} 則</span>
+      {data && tabs.some(([, , ok]) => ok) ? (
+        <div className="market-boards tf-boards">
+          <div className="board-tabs" role="tablist" aria-label="盤前依據">
+            {tabs.filter(([, , ok]) => ok).map(([id, label]) => (
+              <button key={id} type="button" role="tab" aria-selected={board === id}
+                className={board === id ? 'is-selected' : ''} onClick={() => setBoard(id)}>{label}</button>
+            ))}
           </div>
-          <div className="focus-grid focus-grid-watch">
-            {watch.map((event) => <FocusCard event={event} key={event.id} />)}
-          </div>
-        </div>
-      ) : null}
 
-      {normal.length > 0 ? (
-        <div className="focus-watch-block">
-          <button type="button" className="focus-normal-toggle" aria-expanded={showNormal}
-                  onClick={() => setShowNormal((open) => !open)}>
-            {showNormal ? '收合一般新聞' : `顯示一般新聞 ${normal.length} 則`}
-          </button>
-          {showNormal ? (
-            <div className="focus-grid focus-grid-watch">
-              {normal.map((event) => <FocusCard event={event} key={event.id} />)}
+          {board === 'events' ? (
+            <div className="board-section">
+              <div className="focus-direction" aria-label="利多與利空">
+                <DirectionColumn side="bull" events={showAllDirection ? bull : bull.slice(0, BULL_BEAR_PREVIEW)} total={bull.length} />
+                <DirectionColumn side="bear" events={showAllDirection ? bear : bear.slice(0, BULL_BEAR_PREVIEW)} total={bear.length} />
+              </div>
+              <div className="tf-board-actions">
+                {Math.max(bull.length, bear.length) > BULL_BEAR_PREVIEW ? (
+                  <button type="button" className="focus-normal-toggle" onClick={() => setShowAllDirection((v) => !v)}>
+                    {showAllDirection ? '收合利多 / 利空' : `展開全部利多 ${bull.length} / 利空 ${bear.length}`}
+                  </button>
+                ) : null}
+                <button type="button" className="focus-normal-toggle" aria-expanded={showFull} onClick={() => setShowFull((v) => !v)}>
+                  {showFull ? '收合完整清單' : `完整清單 ${events.length} 則（含中性）`}
+                </button>
+              </div>
+              {showFull ? (
+                <div className="tf-full">
+                  {critical.length > 0 ? (
+                    <div className="focus-watch-block">
+                      <div className="section-heading"><h2>重大</h2><span className="mono-num">{critical.length} 則</span></div>
+                      <div className="focus-grid focus-grid-watch">{critical.map((event) => <FocusCard event={event} key={event.id} />)}</div>
+                    </div>
+                  ) : (
+                    <div className="focus-calm">
+                      <strong>目前無重大事件</strong>
+                      <span>近 72 小時國際消息面平靜，以下為次要留意事項與一般新聞。</span>
+                    </div>
+                  )}
+                  {watch.length > 0 ? (
+                    <div className="focus-watch-block">
+                      <div className="section-heading"><h2>留意</h2><span className="mono-num">{watch.length} 則</span></div>
+                      <div className="focus-grid focus-grid-watch">{watch.map((event) => <FocusCard event={event} key={event.id} />)}</div>
+                    </div>
+                  ) : null}
+                  {normal.length > 0 ? (
+                    <div className="focus-watch-block">
+                      <button type="button" className="focus-normal-toggle" aria-expanded={showNormal}
+                              onClick={() => setShowNormal((open) => !open)}>
+                        {showNormal ? '收合一般新聞' : `顯示一般新聞 ${normal.length} 則`}
+                      </button>
+                      {showNormal ? (
+                        <div className="focus-grid focus-grid-watch">{normal.map((event) => <FocusCard event={event} key={event.id} />)}</div>
+                      ) : null}
+                    </div>
+                  ) : null}
+                </div>
+              ) : null}
             </div>
           ) : null}
-        </div>
-      ) : null}
-
-      {(hasPulse || hasSectors || hasFlows) ? (
-        <div className="market-boards">
-          <div className="board-tabs" role="tablist" aria-label="市場數據">
-            {hasPulse ? (
-              <button type="button" role="tab" aria-selected={board === 'pulse'}
-                className={board === 'pulse' ? 'is-selected' : ''}
-                onClick={() => setBoard('pulse')}>國際指數</button>
-            ) : null}
-            {hasFlows ? (
-              <button type="button" role="tab" aria-selected={board === 'flows'}
-                className={board === 'flows' ? 'is-selected' : ''}
-                onClick={() => setBoard('flows')}>三大法人買賣超</button>
-            ) : null}
-            {hasSectors ? (
-              <button type="button" role="tab" aria-selected={board === 'sectors'}
-                className={board === 'sectors' ? 'is-selected' : ''}
-                onClick={() => setBoard('sectors')}>類股表現</button>
-            ) : null}
-          </div>
 
           {hasPulse && board === 'pulse' ? <PulseCards pulse={data.pulse} /> : null}
 
