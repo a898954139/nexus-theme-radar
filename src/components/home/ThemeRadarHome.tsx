@@ -1,10 +1,11 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
-import { DeviceType, NewsItem, PreMarketData, RadarData } from '../../types';
+import { DeviceType, NewsItem, PreMarketData, RadarData, StockWatchlistData } from '../../types';
 import { PreMarketFocus } from './PreMarketFocus';
 
 interface ThemeRadarHomeProps {
   data: RadarData;
   preMarket: PreMarketData | null;
+  watchlist: StockWatchlistData | null;
   device: DeviceType;
   onGoMomentum: () => void;
   onGoStock: (code: string, exchange?: string, tab?: 'fundamentals' | 'flows') => void;
@@ -41,7 +42,7 @@ function toNewsItems(data: RadarData): NewsItem[] {
 
 
 
-export const ThemeRadarHome: React.FC<ThemeRadarHomeProps> = ({ data, preMarket, device, onGoMomentum, onGoStock }) => {
+export const ThemeRadarHome: React.FC<ThemeRadarHomeProps> = ({ data, preMarket, watchlist, device, onGoMomentum, onGoStock }) => {
   const news = useMemo(() => toNewsItems(data), [data]);
   const [communityMode, setCommunityMode] = useState<'today' | '7d'>('today');
   const [visibleNewsCount, setVisibleNewsCount] = useState(NEWS_PAGE_SIZE);
@@ -70,13 +71,14 @@ export const ThemeRadarHome: React.FC<ThemeRadarHomeProps> = ({ data, preMarket,
 
   return (
     <div className="page-content home-page">
-      {preMarket ? <PreMarketFocus data={preMarket} device={device} /> : null}
+      <PreMarketFocus data={preMarket} radar={data} watchlist={watchlist} device={device}
+                      onGoStock={onGoStock} onGoMomentum={onGoMomentum} />
 
 
 
       <section className="news-section">
         <div className="section-heading"><h2>最新新聞</h2><span className="mono-num">{news.length} 條</span></div>
-        <div className="news-feed" ref={newsFeedRef}>
+        <div className="news-feed tf-news-feed" ref={newsFeedRef}>
           {visibleNews.map((item, index) => {
             const published = formatDateTime(item.published_at);
             const symbols = item.symbols.filter((symbol, symbolIndex, allSymbols) => allSymbols.findIndex((candidate) => candidate.instrument_id === symbol.instrument_id) === symbolIndex);
