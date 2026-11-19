@@ -10,8 +10,8 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "scripts"))
 
-from event_direction import RULE_VERSION, annotate, assess, impact_rows  # noqa: E402
-from geo_focus import PATH_ID_BY_LABEL, build_focus_events  # noqa: E402
+from event_direction import PATH_RULES, RULE_VERSION, annotate, assess, impact_rows  # noqa: E402
+from geo_focus import PATH_ID_BY_LABEL, PATHS, build_focus_events  # noqa: E402
 
 LABELS = json.loads((ROOT / "tests" / "fixtures" / "direction_labels.json").read_text(encoding="utf-8"))
 NOW = datetime(2026, 11, 18, 0, 0, tzinfo=timezone.utc)
@@ -19,10 +19,20 @@ NOW = datetime(2026, 11, 18, 0, 0, tzinfo=timezone.utc)
 
 def test_labelled_set_accuracy_meets_the_issue_bar() -> None:
     rows = LABELS["labels"]
-    assert len(rows) >= 60
-    assert {row["path"] for row in rows} == {"fed_rates", "tariff", "export_control"}
+    assert len(rows) >= 200  # issue #11
+    assert {row["path"] for row in rows} == set(PATH_RULES)
+    assert set(PATH_RULES) == {path["id"] for path in PATHS}
     hits = sum(assess(row["title"], row["path"]).direction == row["expected"] for row in rows)
     assert hits / len(rows) >= 0.80
+
+
+def test_each_path_meets_the_bar_on_its_own() -> None:
+    """A strong path must not hide a weak one inside the overall rate."""
+    for path in PATH_RULES:
+        rows = [row for row in LABELS["labels"] if row["path"] == path]
+        assert len(rows) >= 10, path
+        hits = sum(assess(row["title"], path).direction == row["expected"] for row in rows)
+        assert hits / len(rows) >= 0.80, path
 
 
 def test_labelled_set_never_calls_the_opposite_sign() -> None:
@@ -78,9 +88,51 @@ def test_direction_is_per_sector_not_per_event() -> None:
     assert result.sectors == {"科技股全體": -1, "金融": 0, "壽險": 0}
 
 
-def test_unmodelled_paths_are_neutral_until_issue_11() -> None:
-    result = assess("Iran threatens to close the Strait of Hormuz", "hormuz_energy")
+def test_unknown_path_is_neutral() -> None:
+    result = assess("Anything", "not_a_path")
     assert (result.direction, result.reason) == (0, "path_not_modelled")
+
+
+def test_a_threat_is_not_a_closure() -> None:
+    assert assess("Iran threatens to close the Strait of Hormuz", "hormuz_energy").direction == 0
+
+
+def test_one_headline_can_split_sectors_the_issue_example() -> None:
+    """Issue #11: lane blocked -> shipping +1, electronics contract makers -1."""
+    result = assess("Iran's revolutionary guards: A container ship sunk in the south of the Strait of "
+                    "Hormuz after hitting a naval mine - State media", "shipping_lane")
+    assert result.direction == -1
+    assert result.sectors["貨櫃航運"] == 1
+    assert result.sectors["電子代工"] == -1
+
+
+def test_positive_paths_fill_the_bull_column() -> None:
+    assert assess("Chip Rally Drives Nasdaq 100 to Record as Oil Falls – US Market Wrap",
+                  "us_tech_rally").direction == 1
+    assert assess("Nvidia's Huang: Neocloud demand is ‘off the charts' - CNBC $NVDA", "ai_capex").direction == 1
+    assert assess("Moody's ratings affirms TSMC's AA3 ratings; changes outlook to positive.",
+                  "tw_fundamental").direction == 1
+    assert assess("China general manufacturing PMI at 52.0 in October vs forecast 51.6",
+                  "china_macro").direction == 1
+    assert assess("Brent and US crude futures down over 1% after Kyodo reports that Iran offered to "
+                  "reopen the strait within 7 days", "hormuz_energy").direction == 1
+
+
+def test_v2_noise_stays_neutral() -> None:
+    assert assess("Russian air strikes kill two in Ukraine's Kyiv: authorities",
+                  "military_conflict").reason == "military_conflict.gate:regional"
+    assert assess("Russian forces strike Ukrainian cargo ship and tanker in Black Sea and Ukraine port: IFX",
+                  "shipping_lane").reason == "shipping_lane.gate:not_tw_route"
+    assert assess("Brent Crude futures settle at $95.84/bbl, up 2 cents, 0.02%.",
+                  "hormuz_energy").reason.startswith("hormuz_energy.small_move")
+    assert assess("Qatar: Want an agreement to reopen the Strait of Hormuz and establish a ceasefire "
+                  "simultaneously. - IRNA", "hormuz_energy").direction == 0
+    assert assess("New Zealand dollar rises 0.60% to $0.5656", "fx_capital").reason == "fx_capital.gate:not_twd"
+
+
+def test_negated_attack_plan_is_bullish() -> None:
+    result = assess("US has no immediate plan to attack Iran, Trump tells FT", "military_conflict")
+    assert result.direction == 1 and "negated_by" in result.reason
 
 
 def test_focus_events_carry_direction_fields() -> None:

@@ -67,8 +67,8 @@ PATHS: tuple[dict[str, Any], ...] = (
     },
     {
         "id": "shipping_lane", "label": "航道安全", "weight": 0.9,
-        "channel": "繞道好望角 → 運價飆升 → 交期拉長",
-        "sectors": ("貨櫃航運", "散裝航運", "航空貨運"),
+        "channel": "繞道好望角 → 運價飆升（航運受惠）→ 交期拉長（電子承壓）",
+        "sectors": ("電子代工", "貨櫃航運", "散裝航運", "航空貨運"),
         "kw": (r"red sea", r"bab al-?mandab", r"suez", r"houthi", r"panama canal",
                r"malacca", r"(attack|strike|seiz|hijack).{0,30}(ship|vessel|tanker|cargo)",
                r"(ship|vessel|tanker|cargo).{0,30}(attack|struck|seiz|hijack|sunk)",
@@ -77,7 +77,7 @@ PATHS: tuple[dict[str, Any], ...] = (
     {
         "id": "hormuz_energy", "label": "能源/荷姆茲", "weight": 0.88,
         "channel": "油價↑ → 原料成本 → 輸入性通膨",
-        "sectors": ("塑化", "航運", "油電燃氣", "紡織"),
+        "sectors": ("大盤全體", "塑化", "航運", "油電燃氣", "紡織"),
         "kw": (r"strait of hormuz", r"\bopec\b", r"oil (price|output|supply|export|flow)",
                r"crude", r"energy (pipeline|infrastructure|facilit)", r"\blng\b",
                r"natural gas", r"refiner", r"barrel"),
@@ -120,10 +120,38 @@ PATHS: tuple[dict[str, Any], ...] = (
     {
         "id": "fx_capital", "label": "匯率/資金", "weight": 0.75,
         "channel": "台幣走勢 → 外資進出 + 匯兌損益",
-        "sectors": ("金融", "壽險", "電子出口股"),
+        "sectors": ("大盤全體", "金融", "壽險", "電子出口股"),
         "kw": (r"\bdollar\b|\bdxy\b", r"\byuan\b|renminbi", r"\byen\b",
-               r"currency|forex|exchange rate", r"capital (flow|outflow|control)",
-               r"\btwd\b|taiwan dollar"),
+               r"currency|forex|exchange rate", r"capital (flow|outflow|control|inflow)",
+               r"\btwd\b|taiwan dollar", r"foreign (investors?|funds?).{0,30}(net )?(buy|bought|sell|sold)",
+               r"fund (inflows?|outflows?)"),
+    },
+    # --- Positive transmission paths (issue #11) ---------------------------
+    # The paths above were all written from the risk side. These name the ways
+    # good news reaches Taiwan equities, so an up day has somewhere to land.
+    {
+        "id": "us_tech_rally", "label": "美股科技", "weight": 0.78,
+        "channel": "費半/那指/TSM ADR → 台股電子權值開盤",
+        "sectors": ("電子權值股", "半導體", "AI伺服器"),
+        "kw": (r"nasdaq|\bsox\b|philadelphia semiconductor|semiconductor index",
+               r"\btsm\b|tsmc adr|taiwan semi.{0,20}(adr|shares)",
+               r"(chip|tech|semiconductor|nvidia|ai) (stocks?|shares)",
+               r"magnificent (7|seven)"),
+    },
+    {
+        "id": "tw_fundamental", "label": "台廠基本面", "weight": 0.76,
+        "channel": "營收/財測/訂單 → 個股及供應鏈評價",
+        "sectors": ("個股及供應鏈", "半導體", "電子代工"),
+        "kw": (r"\btsmc\b|taiwan semiconductor|foxconn|hon hai|mediatek|quanta|wistron|"
+               r"asustek|delta electronics|largan|\bumc\b|compal|pegatron|ase technology|wiwynn",),
+    },
+    {
+        "id": "policy_support", "label": "政策支持", "weight": 0.7,
+        "channel": "補助/投資抵減/關稅豁免 → 產業獲利上修",
+        "sectors": ("半導體", "電子零組件", "綠能"),
+        "kw": (r"chips act|chips and science", r"subsid(y|ies|ise|ize)",
+               r"tax (credit|break|incentive)|investment (credit|incentive)",
+               r"tariff (exemption|exclusion)|exempt\w*.{0,30}tariff"),
     },
     {
         "id": "china_macro", "label": "中國經濟", "weight": 0.72,
