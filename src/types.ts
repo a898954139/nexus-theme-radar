@@ -297,29 +297,12 @@ export interface SourceHealthData {
   sources: SourceHealthItem[];
 }
 
-export interface WaytoAgiUpdate {
-  date: string;
-  title: string;
-  summary: string;
-  url: string;
-}
-
-export interface WaytoAgiData {
-  generated_at: string;
-  latest_date: string;
-  count_today: number;
-  count_7d: number;
-  updates_today: WaytoAgiUpdate[];
-  updates_7d?: WaytoAgiUpdate[];
-}
-
 export interface RadarData {
   themeRanking: ThemeRankingData;
   momentumLatest: MomentumLatestData;
   momentumHistory: MomentumHistoryData;
   events: ThemeEvent[];
   sourceStatus: SourceStatusData;
-  waytoagi: WaytoAgiData;
 }
 
 export type WatchlistExchange = 'TWSE' | 'TPEX';
@@ -573,7 +556,7 @@ export interface PulseIndex {
   series: number[];
 }
 
-/** data/theme-focus.json (scripts/build_theme_focus.py). Optional: pages hide
+/** /api/v1/theme-focus (scripts/build_theme_focus.py → radar.theme_focus_*). Optional: pages hide
  * the focus board when it is missing. Flow values are in lots. */
 export interface ThemeFocusFlowSummary {
   as_of: string;

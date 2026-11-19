@@ -1,4 +1,4 @@
-export const STOCK_AUDIT_DATA_PATH = './data/stock-audit-latest.json';
+export const STOCK_AUDIT_DATA_PATH = '/api/v1/stock-audit';
 export const STOCK_AUDIT_SCHEMA_VERSION = 1;
 
 const ISO_TIMESTAMP = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d+)?(?:Z|[+-]\d{2}:\d{2})$/;

@@ -1834,37 +1834,29 @@ def test_workflow_allows_scheduled_runs_to_record_history() -> None:
     assert "service_role" not in workflow.casefold()
 
 
-def test_data_workflows_publish_their_output_to_pages() -> None:
-    """A bot push cannot trigger the deploy workflow, so each job must call it.
+def test_data_workflows_publish_their_output_to_the_radar_tables() -> None:
+    """The site reads only /api/v1, so each data job publishes to the DB.
 
-    GITHUB_TOKEN pushes deliberately do not fire `on: push`, to stop workflows
-    from triggering each other. Both data jobs commit as github-actions[bot], so
-    every hourly snapshot landed on master and stopped there: the site kept
-    serving whatever the last human push had built. The momentum history sat two
-    hours behind, which is past the page's own 2-hour freshness limit, so the
-    chart hid itself even though the data existed.
+    Earlier each job called the reusable Pages deploy, because a GITHUB_TOKEN
+    push does not fire `on: push` and the site otherwise kept serving stale
+    files. The site now reads the normalized radar tables, so the publish step
+    is the freshness path and must fail the run (`--require`).
     """
 
     import yaml
 
     workflows = ROOT / ".github" / "workflows"
-    deploy = yaml.safe_load((workflows / "deploy-pages.yml").read_text(encoding="utf-8"))
-    # `on` parses as the boolean True in YAML 1.1 unless quoted.
-    triggers = deploy.get("on", deploy.get(True))
-    assert "workflow_call" in triggers, "deploy must be reusable, not copy-pasted"
-
-    for name in ("update-theme-radar.yml", "update-institutional-flows.yml"):
-        spec = yaml.safe_load((workflows / name).read_text(encoding="utf-8"))
-        jobs = spec["jobs"]
-        publishing = [job for job in jobs.values() if "uses" in job]
-        assert publishing, f"{name} commits data but never publishes it"
-        job = publishing[0]
-        assert job["uses"].endswith("deploy-pages.yml"), name
-        # Without `needs`, the deploy races the commit and ships stale bytes.
-        assert job.get("needs"), f"{name} deploy must wait for the data job"
-        # Reusable workflows do not inherit secrets or elevated permissions.
-        assert job.get("permissions", {}).get("pages") == "write", name
-        assert job.get("permissions", {}).get("id-token") == "write", name
+    for name in ("update-theme-radar.yml", "update-institutional-flows.yml",
+                 "update-broker-data.yml", "update-pre-market.yml"):
+        text = (workflows / name).read_text(encoding="utf-8")
+        spec = yaml.safe_load(text)
+        assert not [job for job in spec["jobs"].values() if "uses" in job], name
+        steps = [step for job in spec["jobs"].values() for step in job.get("steps", [])]
+        publish = [step for step in steps if step.get("name") == "Publish to radar tables"]
+        assert len(publish) == 1, name
+        assert "--require" in publish[0]["run"], name
+        assert "continue-on-error" not in publish[0], name
+        assert "secrets.THEME_RADAR_DATABASE_URL" in publish[0]["env"]["THEME_RADAR_DATABASE_URL"], name
 
 
 def test_run_update_isolates_failed_source(monkeypatch: pytest.MonkeyPatch, tmp_path: Path) -> None:

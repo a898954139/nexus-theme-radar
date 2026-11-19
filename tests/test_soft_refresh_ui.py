@@ -19,4 +19,4 @@ def test_runtime_data_service_can_bypass_static_payload_cache() -> None:
 
     assert "cacheBust = false" in source
     assert "cache: cacheBust ? 'no-store' : 'default'" in source
-    assert "refresh=${Date.now()}" in source
+    assert "search.set('refresh', String(Date.now()))" in source

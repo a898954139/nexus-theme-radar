@@ -1,22 +1,15 @@
-name: Deploy Nexus Theme Radar
+name: Deploy Nexus Theme Radar (GitHub Pages redirect)
 
-# A push made with GITHUB_TOKEN deliberately does not fire `on: push` -- that is
-# how GitHub stops workflows from triggering each other. Both data jobs commit as
-# github-actions[bot], so their hourly snapshots reached master and stopped
-# there, and the site kept serving whatever the last human push had built.
-#
-# workflow_call lets those jobs invoke this one directly after they commit, so
-# the build stays defined once here instead of being copy-pasted into each.
+# The site moved to Vercel and reads only /api/v1 (docs/RADAR_RELATIONAL.md).
+# GitHub Pages now serves a single redirect page so old links keep working;
+# it publishes no data files.
+
 on:
   push:
     branches: [master]
+    paths:
+      - .github/workflows/deploy-pages.yml
   workflow_dispatch:
-  workflow_call:
-    inputs:
-      ref:
-        description: "Exact commit to build after a data workflow pushes a snapshot"
-        required: false
-        type: string
 
 concurrency:
   group: pages
@@ -27,31 +20,33 @@ permissions:
   pages: write
   id-token: write
 
+env:
+  SITE_URL: https://nexus-theme-radar.vercel.app/
+
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
-        uses: actions/checkout@v6
-        with:
-          ref: ${{ inputs.ref || github.sha }}
-
-      - name: Setup Node
-        uses: actions/setup-node@v4
-        with:
-          node-version: 20
-          cache: npm
-
-      - name: Install dependencies
-        run: npm ci
-
-      - name: Build frontend
-        run: npm run build
-
-      - name: Copy runtime data
-        # Shared with the Vercel build (vercel.json) so both hosts publish the
-        # same data set.
-        run: sh scripts/copy_runtime_data.sh dist
+      - name: Build redirect page
+        run: |
+          mkdir -p dist
+          cat > dist/index.html <<HTML
+          <!doctype html>
+          <html lang="zh-Hant">
+          <head>
+            <meta charset="utf-8">
+            <meta name="robots" content="noindex">
+            <meta http-equiv="refresh" content="0; url=${SITE_URL}">
+            <link rel="canonical" href="${SITE_URL}">
+            <title>Nexus Theme Radar 已搬家</title>
+          </head>
+          <body>
+            <p>網站已搬到 <a href="${SITE_URL}">${SITE_URL}</a>。</p>
+            <script>location.replace('${SITE_URL}' + location.hash);</script>
+          </body>
+          </html>
+          HTML
+          cp dist/index.html dist/404.html
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3

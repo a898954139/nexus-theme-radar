@@ -48,7 +48,6 @@ code (e.g. `Error(ECONNREFUSED)`).
    |---|---|---|
    | `RADAR_API_DATABASE_URL` | `postgresql://radar_api.<project-ref>:<pw>@<region>.pooler.supabase.com:6543/postgres` | No (not `VITE_`) |
    | `RADAR_API_DATABASE_CA` | Supabase root CA PEM (Project Settings → Database → SSL) | No |
-   | `VITE_PRE_MARKET_SOURCE` | `api` to enable; unset = JSON | Yes, public flag |
    | `RADAR_API_MAX_AGE_MINUTES` | optional, default `360` | No |
 
    Without `RADAR_API_DATABASE_CA` the function still uses TLS but does not
@@ -57,13 +56,18 @@ code (e.g. `Error(ECONNREFUSED)`).
    Vercel Authentication on for **All Deployments** (Production included;
    personal use).
 
-## Turning it on / rolling back
+## Current state (2026-11-19, relational cut-over)
 
-- On: set `VITE_PRE_MARKET_SOURCE=api` and redeploy (Vite inlines the flag at
-  build time).
-- Instant rollback without redeploy: `revoke radar_reader from radar_api;`
-  → API returns 503 `db_error` → page reads JSON.
-- Code-level rollback: unset `VITE_PRE_MARKET_SOURCE` and redeploy.
+The `VITE_PRE_MARKET_SOURCE` flag and the JSON fallback are gone: every page,
+including the pre-market board, reads `/api/v1/<dataset>` served from the
+normalized radar tables (docs/RADAR_RELATIONAL.md). `/data/*` redirects to `/`.
+`/api/pre-market` (jsonb `radar.pre_market_snapshot`) is kept for existing
+callers but the site no longer uses it.
+
+- Rollback: revert the front-end cut-over PR and redeploy (the static files in
+  `data/` are still committed by the pipelines).
+- Emergency read-off: `revoke radar_reader from radar_api;` makes every
+  `/api/v1` call return 503 `db_error`; the pages show their error state.
 
 ## Verification
 

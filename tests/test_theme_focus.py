@@ -139,12 +139,13 @@ def test_entrypoint_runs_by_path_like_ci(tmp_path: Path) -> None:
 
 def test_runtime_copy_and_workflows_publish_theme_focus() -> None:
     copy = (ROOT / "scripts" / "copy_runtime_data.sh").read_text(encoding="utf-8")
-    assert "data/theme-focus.json" in copy
+    assert "theme-focus.json" not in copy
     radar = (ROOT / ".github" / "workflows" / "update-theme-radar.yml").read_text(encoding="utf-8")
     flows = (ROOT / ".github" / "workflows" / "update-institutional-flows.yml").read_text(encoding="utf-8")
     assert "python scripts/build_theme_focus.py --data-dir data" in radar
     assert "python scripts/build_theme_focus.py --data-dir data" in flows
     assert "git add data/theme-focus.json" in flows
+    assert "--dataset theme-focus" in radar and "--dataset theme-focus" in flows
 
 
 def test_theme_without_news_symbols_falls_back_to_taxonomy_seeds(tmp_path: Path) -> None:
