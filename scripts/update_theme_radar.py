@@ -1527,11 +1527,64 @@ def _attach_quarterly_fundamentals(
         return dict(payload)
 
 
+# Another theme's seed stocks count toward this theme only when the two seed
+# sets mostly coincide (Jaccard). 0.3 keeps 記憶體 <-> SSD / 記憶卡 and
+# 機器人 <-> 人形機器人 / 自動化, and drops 機器人 <-> 稀土 / 蘋果 (~0.1).
+THEME_FAMILY_MIN_JACCARD = 0.3
+_SEED_EVIDENCE_PREFIX = "taxonomy seed: "
+
+
+def _theme_family(taxonomy: Mapping[str, Any] | None) -> dict[str, set[str]]:
+    """theme_id -> theme ids whose seed symbols may be attributed to it."""
+    if not taxonomy:
+        return {}
+    seeds = {
+        str(theme.get("theme_id")): set(theme.get("seed_symbols") or [])
+        for theme in taxonomy.get("themes", [])
+        if isinstance(theme, Mapping)
+    }
+    family: dict[str, set[str]] = {}
+    for theme_id, own in seeds.items():
+        members = {theme_id}
+        for other_id, other in seeds.items():
+            union = own | other
+            if other_id != theme_id and union and len(own & other) / len(union) >= THEME_FAMILY_MIN_JACCARD:
+                members.add(other_id)
+        family[theme_id] = members
+    return family
+
+
+def _theme_related_symbols(
+    symbols: list[dict[str, Any]],
+    theme_id: str,
+    family: Mapping[str, set[str]],
+) -> list[dict[str, Any]]:
+    """Drop seed stocks a multi-topic article pulled in from unrelated themes.
+
+    An event's related_symbols carry the seeds of every theme it matched, so a
+    digest that mentions memory and humanoid robots used to list robot-part
+    makers under 記憶體與 HBM. Direct mentions in the article are kept.
+    """
+    allowed = family.get(theme_id)
+    if not allowed:
+        return symbols
+    kept = []
+    for symbol in symbols:
+        evidence = str(symbol.get("evidence") or "")
+        if evidence.startswith(_SEED_EVIDENCE_PREFIX) and evidence[len(_SEED_EVIDENCE_PREFIX):] not in allowed:
+            continue
+        kept.append(symbol)
+    return kept
+
+
 def enrich_momentum_latest(
     momentum_payload: Mapping[str, Any],
     tracking_candidates: list[Mapping[str, Any]],
+    taxonomy: Mapping[str, Any] | None = None,
 ) -> dict[str, Any]:
     """Add deterministic tracking-candidate context without changing momentum rank."""
+
+    family = _theme_family(taxonomy)
 
     candidates_by_theme: dict[str, list[Mapping[str, Any]]] = {}
     for candidate in tracking_candidates:
@@ -1553,9 +1606,10 @@ def enrich_momentum_latest(
                     theme_candidates,
                     "direct_symbols",
                 ),
-                "related_symbols": _deduplicated_candidate_symbols(
-                    theme_candidates,
-                    "related_symbols",
+                "related_symbols": _theme_related_symbols(
+                    _deduplicated_candidate_symbols(theme_candidates, "related_symbols"),
+                    str(theme.get("theme_id") or ""),
+                    family,
                 ),
             }
         )
@@ -1960,6 +2014,7 @@ def run_momentum_side_paths(
             latest_payload = enrich_momentum_latest(
                 latest_payload,
                 projection.get("candidate_clusters", []),
+                taxonomy,
             )
             latest_payload = _attach_quarterly_fundamentals(latest_payload, output_dir, generated_at)
         except Exception as error:  # noqa: BLE001 - query/validation is fail closed
