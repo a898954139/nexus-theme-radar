@@ -146,7 +146,7 @@ export const ThemeFocusBoard: React.FC<ThemeFocusBoardProps> = ({
   data,
   onGoStock,
   limit = 5,
-  title = '今日可關注題材',
+  title = '可關注題材 · 法人是否跟上',
   selectedThemeId,
   onSelectTheme,
   showHeadline = false

@@ -142,7 +142,8 @@ const FlowBarsView: React.FC<{ entries: InstitutionalRankingEntry[]; metric: Flo
       <div className="flow-bars-head"><span>#</span><span>代號／名稱</span><span>賣超</span><span>買超</span><span>合計</span></div>
       {entries.map((entry, index) => {
         const value = metricValue(entry, metric);
-        const width = `${Math.max(3, Math.abs(value) / maxValue * 100)}%`;
+        // Each side of the zero axis is half the track, so the largest bar is 50%.
+        const width = `${Math.max(1.5, Math.abs(value) / maxValue * 50)}%`;
         const expanded = expandedCode === entry.code;
         return (
           <article className={`flow-bar-row ${expanded ? 'is-expanded' : ''}`} key={entry.instrument_id}>

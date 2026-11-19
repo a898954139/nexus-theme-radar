@@ -78,6 +78,15 @@ def trim_entries(entries: list[dict[str, Any]], *, top_n: int) -> list[dict[str,
     return kept
 
 
+def _previous_boards(path: Path) -> dict[str, Any]:
+    try:
+        payload = json.loads(path.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError):
+        return {}
+    rankings = payload.get("rankings") if isinstance(payload, Mapping) else None
+    return dict(rankings) if isinstance(rankings, Mapping) else {}
+
+
 def load_official_flows(flows_dir: Path) -> dict[str, Any]:
     """Per-symbol official flow files keyed by instrument id. Missing or
     unreadable files are skipped: the upstream boards still publish."""
@@ -158,6 +167,14 @@ def main(argv: list[str] | None = None) -> int:
         LOGGER.info("official_netbuy_boards=%d end=%s", len(official),
                     next(iter(official.values()))["date_range"]["end"])
 
+    path = args.data_dir / RANKINGS_FILE
+    # A board that failed this run keeps its previous copy (still marked in
+    # `failures`), so one upstream outage does not blank the holding-ratio tab.
+    previous = _previous_boards(path)
+    for key in failures:
+        if key not in boards and key in previous:
+            boards[key] = previous[key]
+
     if not boards:
         LOGGER.error("every ranking failed; leaving the existing file untouched")
         return 1
@@ -166,7 +183,6 @@ def main(argv: list[str] | None = None) -> int:
         LOGGER.info("dry run: %d board(s) fetched, nothing written", len(boards))
         return 0
 
-    path = args.data_dir / RANKINGS_FILE
     path.parent.mkdir(parents=True, exist_ok=True)
     body = {
         "schema_version": SCHEMA_VERSION,
