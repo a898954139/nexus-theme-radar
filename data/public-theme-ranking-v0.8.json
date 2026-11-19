@@ -2,16 +2,16 @@
   "schema_version": "nexus_public_theme_ranking.v0.8",
   "ranking_rule_version": "public_theme_heat_v0.8",
   "company_rule_version": "public_company_evidence_v0.8",
-  "generated_at": "2026-11-19T10:25:21.249093Z",
+  "generated_at": "2026-11-19T10:34:08.873332Z",
   "market_id": "TW_EQUITY",
   "market_scope": [
     "TW_EQUITY"
   ],
   "window_hours": 72,
   "max_themes": 5,
-  "qualified_theme_count": 3,
-  "displayed_theme_count": 3,
-  "threshold_note": "目前僅 3 個題材達到上榜門檻",
+  "qualified_theme_count": 4,
+  "displayed_theme_count": 4,
+  "threshold_note": "目前僅 4 個題材達到上榜門檻",
   "generation_status": "complete",
   "failed_source_count": 0,
   "official_evidence_status": "available",
@@ -22,15 +22,15 @@
       "name_zh": "AI",
       "heat_score": 80,
       "summaries": {
-        "event_count": 23,
+        "event_count": 24,
         "source_count": 4,
         "tracking_candidate_count": 0,
-        "taiwan_mapping_count": 71
+        "taiwan_mapping_count": 78
       },
       "heat_reason": {
         "rule_version": "public_theme_heat_v0.8",
         "event_component": {
-          "input": 23,
+          "input": 24,
           "normalized": 100.0,
           "weighted": 25.0
         },
@@ -45,24 +45,16 @@
           "weighted": 0.0
         },
         "mapping_component": {
-          "mapping_count": 71,
-          "direct_mapping_event_count": 10,
+          "mapping_count": 78,
+          "direct_mapping_event_count": 6,
           "normalized": 100.0,
           "weighted": 30.0
         },
-        "single_source_concentration": 0.609,
-        "concentration_penalty": 0.326,
-        "raw_score": 79.674
+        "single_source_concentration": 0.542,
+        "concentration_penalty": 0.0,
+        "raw_score": 80.0
       },
       "direct_mentions": [
-        {
-          "instrument_id": "TWSE:2027",
-          "symbol": "2027",
-          "exchange": "TWSE",
-          "name_zh": "大成鋼",
-          "direct_event_count": 3,
-          "latest_mentioned_at": "2026-11-19T09:10:03Z"
-        },
         {
           "instrument_id": "TPEX:8299",
           "symbol": "8299",
@@ -78,14 +70,6 @@
           "name_zh": "聯電",
           "direct_event_count": 2,
           "latest_mentioned_at": "2026-11-19T09:30:00Z"
-        },
-        {
-          "instrument_id": "TWSE:2028",
-          "symbol": "2028",
-          "exchange": "TWSE",
-          "name_zh": "威致",
-          "direct_event_count": 2,
-          "latest_mentioned_at": "2026-11-19T04:30:23Z"
         },
         {
           "instrument_id": "TWSE:2330",
@@ -118,22 +102,6 @@
           "name_zh": "全新",
           "direct_event_count": 1,
           "latest_mentioned_at": "2026-11-19T08:53:38Z"
-        },
-        {
-          "instrument_id": "TWSE:2007",
-          "symbol": "2007",
-          "exchange": "TWSE",
-          "name_zh": "燁興",
-          "direct_event_count": 1,
-          "latest_mentioned_at": "2026-11-19T07:40:04Z"
-        },
-        {
-          "instrument_id": "TWSE:2029",
-          "symbol": "2029",
-          "exchange": "TWSE",
-          "name_zh": "盛餘",
-          "direct_event_count": 1,
-          "latest_mentioned_at": "2026-11-19T04:30:23Z"
         },
         {
           "instrument_id": "TWSE:3711",
@@ -200,108 +168,6 @@
     },
     {
       "rank": 2,
-      "theme_id": "memory_hbm",
-      "name_zh": "記憶體與 HBM",
-      "heat_score": 77,
-      "summaries": {
-        "event_count": 8,
-        "source_count": 2,
-        "tracking_candidate_count": 4,
-        "taiwan_mapping_count": 30
-      },
-      "heat_reason": {
-        "rule_version": "public_theme_heat_v0.8",
-        "event_component": {
-          "input": 8,
-          "normalized": 100.0,
-          "weighted": 25.0
-        },
-        "source_component": {
-          "input": 2,
-          "normalized": 50.0,
-          "weighted": 12.5
-        },
-        "candidate_component": {
-          "input": 4,
-          "normalized": 100.0,
-          "weighted": 20.0
-        },
-        "mapping_component": {
-          "mapping_count": 30,
-          "direct_mapping_event_count": 4,
-          "normalized": 100.0,
-          "weighted": 30.0
-        },
-        "single_source_concentration": 0.889,
-        "concentration_penalty": 10.833,
-        "raw_score": 76.667
-      },
-      "direct_mentions": [
-        {
-          "instrument_id": "TWSE:2027",
-          "symbol": "2027",
-          "exchange": "TWSE",
-          "name_zh": "大成鋼",
-          "direct_event_count": 3,
-          "latest_mentioned_at": "2026-11-19T10:00:35Z"
-        },
-        {
-          "instrument_id": "TWSE:2025",
-          "symbol": "2025",
-          "exchange": "TWSE",
-          "name_zh": "千興",
-          "direct_event_count": 1,
-          "latest_mentioned_at": "2026-11-18T18:46:47Z"
-        }
-      ],
-      "supply_chain_candidates": [
-        {
-          "instrument_id": "TPEX:8299",
-          "symbol": "8299",
-          "exchange": "TPEX",
-          "name_zh": "群聯",
-          "direct_event_count": 0,
-          "official_evidence_count": 0,
-          "company_rank_score": 1,
-          "latest_mentioned_at": null,
-          "latest_official_at": null
-        },
-        {
-          "instrument_id": "TWSE:2344",
-          "symbol": "2344",
-          "exchange": "TWSE",
-          "name_zh": "華邦電",
-          "direct_event_count": 0,
-          "official_evidence_count": 0,
-          "company_rank_score": 1,
-          "latest_mentioned_at": null,
-          "latest_official_at": null
-        },
-        {
-          "instrument_id": "TWSE:2408",
-          "symbol": "2408",
-          "exchange": "TWSE",
-          "name_zh": "南亞科",
-          "direct_event_count": 0,
-          "official_evidence_count": 0,
-          "company_rank_score": 1,
-          "latest_mentioned_at": null,
-          "latest_official_at": null
-        }
-      ],
-      "representative_news": {
-        "cluster_id": "cluster-bc082ddf2ebb818c",
-        "id": "digitimes_tw-7a94dec1dad5",
-        "title_zh": "美光新加坡HBM先進封裝廠首部機台移入　2027年初首批產出",
-        "summary": "美光（Micron）宣布，位於新加坡的高頻寬記憶體（HBM）先進封裝廠首部機台正式移入，第一台製程設備將移入廠內無塵室。新廠先前已完成機台安裝所需的關鍵基礎設施，此次首部機台進駐象徵朝首批產出邁出重要一",
-        "source_id": "digitimes_tw",
-        "source": "DIGITIMES",
-        "published_at": "2026-11-19T09:44:33Z",
-        "canonical_url": "https://www.digitimes.com.tw/tech/dt/n/shwnws.asp?id=0000775442_G693MF8G583YBQ1QTMHXF"
-      }
-    },
-    {
-      "rank": 3,
       "theme_id": "robotics",
       "name_zh": "機器人",
       "heat_score": 73,
@@ -309,7 +175,7 @@
         "event_count": 7,
         "source_count": 2,
         "tracking_candidate_count": 3,
-        "taiwan_mapping_count": 27
+        "taiwan_mapping_count": 25
       },
       "heat_reason": {
         "rule_version": "public_theme_heat_v0.8",
@@ -329,7 +195,7 @@
           "weighted": 15.0
         },
         "mapping_component": {
-          "mapping_count": 27,
+          "mapping_count": 25,
           "direct_mapping_event_count": 2,
           "normalized": 100.0,
           "weighted": 30.0
@@ -346,22 +212,6 @@
           "name_zh": "新漢",
           "direct_event_count": 1,
           "latest_mentioned_at": "2026-11-19T08:56:07Z"
-        },
-        {
-          "instrument_id": "TWSE:2027",
-          "symbol": "2027",
-          "exchange": "TWSE",
-          "name_zh": "大成鋼",
-          "direct_event_count": 1,
-          "latest_mentioned_at": "2026-11-18T18:44:06Z"
-        },
-        {
-          "instrument_id": "TWSE:2028",
-          "symbol": "2028",
-          "exchange": "TWSE",
-          "name_zh": "威致",
-          "direct_event_count": 1,
-          "latest_mentioned_at": "2026-11-18T18:44:06Z"
         },
         {
           "instrument_id": "TWSE:2049",
@@ -416,6 +266,176 @@
         "source": "DIGITIMES",
         "published_at": "2026-11-18T21:00:00Z",
         "canonical_url": "https://www.digitimes.com.tw/tech/dt/n/shwnws.asp?id=0000775289_AX21YZUP9CBKJW8TUN6CH"
+      }
+    },
+    {
+      "rank": 3,
+      "theme_id": "memory_hbm",
+      "name_zh": "記憶體與 HBM",
+      "heat_score": 65,
+      "summaries": {
+        "event_count": 7,
+        "source_count": 2,
+        "tracking_candidate_count": 4,
+        "taiwan_mapping_count": 56
+      },
+      "heat_reason": {
+        "rule_version": "public_theme_heat_v0.8",
+        "event_component": {
+          "input": 7,
+          "normalized": 100.0,
+          "weighted": 25.0
+        },
+        "source_component": {
+          "input": 2,
+          "normalized": 50.0,
+          "weighted": 12.5
+        },
+        "candidate_component": {
+          "input": 4,
+          "normalized": 100.0,
+          "weighted": 20.0
+        },
+        "mapping_component": {
+          "mapping_count": 56,
+          "direct_mapping_event_count": 0,
+          "normalized": 60.0,
+          "weighted": 18.0
+        },
+        "single_source_concentration": 0.875,
+        "concentration_penalty": 10.313,
+        "raw_score": 65.188
+      },
+      "direct_mentions": [],
+      "supply_chain_candidates": [
+        {
+          "instrument_id": "TPEX:3260",
+          "symbol": "3260",
+          "exchange": "TPEX",
+          "name_zh": "威剛",
+          "direct_event_count": 0,
+          "official_evidence_count": 0,
+          "company_rank_score": 1,
+          "latest_mentioned_at": null,
+          "latest_official_at": null
+        },
+        {
+          "instrument_id": "TPEX:4973",
+          "symbol": "4973",
+          "exchange": "TPEX",
+          "name_zh": "廣穎電通",
+          "direct_event_count": 0,
+          "official_evidence_count": 0,
+          "company_rank_score": 1,
+          "latest_mentioned_at": null,
+          "latest_official_at": null
+        },
+        {
+          "instrument_id": "TPEX:5289",
+          "symbol": "5289",
+          "exchange": "TPEX",
+          "name_zh": "宜鼎",
+          "direct_event_count": 0,
+          "official_evidence_count": 0,
+          "company_rank_score": 1,
+          "latest_mentioned_at": null,
+          "latest_official_at": null
+        }
+      ],
+      "representative_news": {
+        "cluster_id": "cluster-bc082ddf2ebb818c",
+        "id": "digitimes_tw-7a94dec1dad5",
+        "title_zh": "美光新加坡HBM先進封裝廠首部機台移入　2027年初首批產出",
+        "summary": "美光（Micron）宣布，位於新加坡的高頻寬記憶體（HBM）先進封裝廠首部機台正式移入，第一台製程設備將移入廠內無塵室。新廠先前已完成機台安裝所需的關鍵基礎設施，此次首部機台進駐象徵朝首批產出邁出重要一",
+        "source_id": "digitimes_tw",
+        "source": "DIGITIMES",
+        "published_at": "2026-11-19T09:44:33Z",
+        "canonical_url": "https://www.digitimes.com.tw/tech/dt/n/shwnws.asp?id=0000775442_G693MF8G583YBQ1QTMHXF"
+      }
+    },
+    {
+      "rank": 4,
+      "theme_id": "statementdog_tag_320",
+      "name_zh": "光電",
+      "heat_score": 39,
+      "summaries": {
+        "event_count": 2,
+        "source_count": 2,
+        "tracking_candidate_count": 0,
+        "taiwan_mapping_count": 19
+      },
+      "heat_reason": {
+        "rule_version": "public_theme_heat_v0.8",
+        "event_component": {
+          "input": 2,
+          "normalized": 33.333,
+          "weighted": 8.333
+        },
+        "source_component": {
+          "input": 2,
+          "normalized": 50.0,
+          "weighted": 12.5
+        },
+        "candidate_component": {
+          "input": 0,
+          "normalized": 0.0,
+          "weighted": 0.0
+        },
+        "mapping_component": {
+          "mapping_count": 19,
+          "direct_mapping_event_count": 0,
+          "normalized": 60.0,
+          "weighted": 18.0
+        },
+        "single_source_concentration": 0.5,
+        "concentration_penalty": 0.0,
+        "raw_score": 38.833
+      },
+      "direct_mentions": [],
+      "supply_chain_candidates": [
+        {
+          "instrument_id": "TPEX:3081",
+          "symbol": "3081",
+          "exchange": "TPEX",
+          "name_zh": "聯亞",
+          "direct_event_count": 0,
+          "official_evidence_count": 0,
+          "company_rank_score": 1,
+          "latest_mentioned_at": null,
+          "latest_official_at": null
+        },
+        {
+          "instrument_id": "TPEX:3163",
+          "symbol": "3163",
+          "exchange": "TPEX",
+          "name_zh": "波若威",
+          "direct_event_count": 0,
+          "official_evidence_count": 0,
+          "company_rank_score": 1,
+          "latest_mentioned_at": null,
+          "latest_official_at": null
+        },
+        {
+          "instrument_id": "TPEX:3227",
+          "symbol": "3227",
+          "exchange": "TPEX",
+          "name_zh": "原相",
+          "direct_event_count": 0,
+          "official_evidence_count": 0,
+          "company_rank_score": 1,
+          "latest_mentioned_at": null,
+          "latest_official_at": null
+        }
+      ],
+      "representative_news": {
+        "cluster_id": "cluster-82ab47a848751262",
+        "id": "yahoo_finance_tw-430633a5b914",
+        "title_zh": "台中市長選戰／遭追問超巨蛋、光電水 何欣純批藍營見縫插針、惡意扭曲",
+        "summary": "選舉進入倒數，國民黨立法院黨團今天(19日)再度針對民進黨台中市長候選人何欣純召開記者會，翻出她過往在立院的修法態度以及政見會上的發言，呼籲台中市民如果不想喝光電水、不希望超巨蛋停工，就一定要支持國民",
+        "source_id": "yahoo_finance_tw",
+        "source": "Yahoo Finance Taiwan",
+        "published_at": "2026-11-19T10:05:17Z",
+        "canonical_url": "https://tw.news.yahoo.com/%E5%8F%B0%E4%B8%AD%E5%B8%82%E9%95%B7%E9%81%B8%E6%88%B0-%E9%81%AD%E8%BF%BD%E5%95%8F%E8%B6%85%E5%B7%A8%E8%9B%8B-%E5%85%89%E9%9B%BB%E6%B0%B4-%E4%BD%95%E6%AC%A3%E7%B4%94%E6%89%B9%E8%97%8D%E7%87%9F%E8%A6%8B%E7%B8%AB%E6%8F%92%E9%87%9D-%E6%83%A1%E6%84%8F%E6%89%AD%E6%9B%B2-100517919.html"
       }
     }
   ]
