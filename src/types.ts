@@ -481,6 +481,21 @@ export interface FocusEvent {
   directionReason?: string;
   horizon?: 'short' | 'long';
   impacts?: FocusImpact[];
+  /** #12: this path's backtest on its primary sector (absent before the first run). */
+  pathBacktest?: PathBacktestBadge;
+  /** #12: what foreign investors did in that sector on T+1, once measured. */
+  flowAfter?: { target: string; baseDate: string; foreignT1: number; excessT1: number | null };
+}
+
+export interface PathBacktestBadge {
+  target: string;
+  /** T+1 excess-return hit rate; null below the minimum sample. */
+  hitRate: number | null;
+  n: number;
+  avgSignedExcessT1: number;
+  foreignHitRateT1: number | null;
+  avgForeignT1: number | null;
+  window: [string, string];
 }
 
 export interface SectorChange {

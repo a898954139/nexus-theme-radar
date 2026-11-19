@@ -138,6 +138,42 @@ const PulseCards: React.FC<{ pulse: PulseIndex[] }> = ({ pulse }) => (
   </div>
 );
 
+function formatLots(value: number): string {
+  const sign = value > 0 ? '+' : value < 0 ? '−' : '';
+  const abs = Math.abs(value);
+  return abs >= 10000 ? `${sign}${(abs / 10000).toFixed(1)} 萬張` : `${sign}${Math.round(abs).toLocaleString('zh-TW')} 張`;
+}
+
+function toneOf(value: number | null | undefined): string {
+  return value ? (value > 0 ? ' is-up' : ' is-down') : '';
+}
+
+/** #12: the foreign-investor reaction after this event, or -- until T+1 has
+ *  closed -- what the path has historically been followed by. */
+const FlowAfterLine: React.FC<{ event: FocusEvent }> = ({ event }) => {
+  const flow = event.flowAfter;
+  if (flow) {
+    return (
+      <p className="focus-flow-after">
+        事件後 T+1 外資 {flow.target}
+        <span className={`mono-num${toneOf(flow.foreignT1)}`}> {formatLots(flow.foreignT1)}</span>
+        {flow.excessT1 !== null ? (
+          <span className={`mono-num${toneOf(flow.excessT1)}`}>（超額 {flow.excessT1 > 0 ? '+' : ''}{flow.excessT1.toFixed(2)}%）</span>
+        ) : null}
+      </p>
+    );
+  }
+  const badge = event.pathBacktest;
+  if (!badge || badge.avgForeignT1 === null || directionOf(event) === 0) return null;
+  return (
+    <p className="focus-flow-after is-history">
+      歷史：此路徑事件後 T+1 外資 {badge.target} 平均
+      <span className={`mono-num${toneOf(badge.avgForeignT1)}`}> {formatLots(badge.avgForeignT1)}</span>
+      {badge.foreignHitRateT1 !== null ? `，方向一致 ${Math.round(badge.foreignHitRateT1 * 100)}%` : ''}
+    </p>
+  );
+};
+
 const FocusCard: React.FC<{ event: FocusEvent }> = ({ event }) => {
   const [showEn, setShowEn] = useState(false);
   const [showRelated, setShowRelated] = useState(false);
@@ -156,7 +192,15 @@ const FocusCard: React.FC<{ event: FocusEvent }> = ({ event }) => {
                 title={event.directionReason ?? ''}>{DIRECTION_LABEL[String(direction)]}</span>
         ) : null}
         <span className="focus-act">{event.actLabel}</span>
-        <span className="focus-path">{event.pathLabel}</span>
+        <span className="focus-path">
+          {event.pathLabel}
+          {event.pathBacktest ? (
+            <span className="focus-path-hit mono-num"
+                  title={`回測 ${event.pathBacktest.window[0]}~${event.pathBacktest.window[1]}：${event.pathBacktest.target} T+1 超額報酬與方向同號的比例`}>
+              {event.pathBacktest.hitRate === null ? ` · 樣本 ${event.pathBacktest.n}` : ` · 命中 ${Math.round(event.pathBacktest.hitRate * 100)}%（${event.pathBacktest.n}）`}
+            </span>
+          ) : null}
+        </span>
         <span className="focus-time mono-num">{formatTime(event.publishedAt)}</span>
       </div>
 
@@ -186,6 +230,8 @@ const FocusCard: React.FC<{ event: FocusEvent }> = ({ event }) => {
           })}
         </div>
       ) : null}
+
+      <FlowAfterLine event={event} />
 
       <div className="focus-card-foot">
         <span className="focus-speaker">{event.speaker}</span>
