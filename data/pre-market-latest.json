@@ -1,130 +1,12 @@
 {
  "schema_version": 1,
- "generated_at": "2026-11-19T09:39:41.625832+00:00",
+ "generated_at": "2026-11-19T13:47:43.544546+00:00",
  "window_hours": 72,
  "direction_rule_version": "direction-v2",
  "sources": [
   "FinancialJuice"
  ],
  "events": [
-  {
-   "id": "financialjuice-997ac73",
-   "tier": "critical",
-   "score": 0.697,
-   "actLabel": "決議行動",
-   "speaker": "事件報導",
-   "publishedAt": "2026-11-16T11:45:45+00:00",
-   "titleZh": "In a joint statement, regulators urge Russia to cease attacks on Ukraine's energy infrastructure",
-   "titleEn": "In a joint statement, regulators urge Russia to cease attacks on Ukraine's energy infrastructure",
-   "channel": "油價↑ → 原料成本 → 輸入性通膨",
-   "pathLabel": "能源/荷姆茲",
-   "sectors": [
-    "大盤全體",
-    "航運",
-    "油電燃氣",
-    "紡織",
-    "塑化"
-   ],
-   "url": "https://www.financialjuice.com/News/9853721/In-a-joint-statement-regulators-urge-Russia-to-cease-attacks-on-Ukraines-energy-infrastructure.aspx?xy=rss",
-   "related": [],
-   "pathId": "hormuz_energy",
-   "direction": 0,
-   "directionReason": "no_rule",
-   "horizon": "short",
-   "impacts": [
-    {
-     "sector": "大盤全體",
-     "direction": 0
-    },
-    {
-     "sector": "航運",
-     "direction": 0
-    },
-    {
-     "sector": "油電燃氣",
-     "direction": 0
-    },
-    {
-     "sector": "紡織",
-     "direction": 0
-    },
-    {
-     "sector": "塑化",
-     "direction": 0
-    }
-   ],
-   "pathBacktest": {
-    "target": "大盤全體",
-    "hitRate": 0.6013,
-    "n": 153,
-    "avgSignedExcessT1": 0.449,
-    "foreignHitRateT1": 0.5124,
-    "avgForeignT1": -2515.624,
-    "window": [
-     "2026-08-12",
-     "2026-11-18"
-    ]
-   }
-  },
-  {
-   "id": "financialjuice-8e0de4f",
-   "tier": "critical",
-   "score": 0.697,
-   "actLabel": "決議行動",
-   "speaker": "事件報導",
-   "publishedAt": "2026-11-16T09:52:10+00:00",
-   "titleZh": "俄羅斯能源部副部長連夜襲擊烏克蘭能源基礎設施，造成六個地區停電",
-   "titleEn": "Russian overnight strikes on Ukrainian energy infrastructure caused power outages in six regions - Deputy energy minister",
-   "channel": "油價↑ → 原料成本 → 輸入性通膨",
-   "pathLabel": "能源/荷姆茲",
-   "sectors": [
-    "大盤全體",
-    "航運",
-    "油電燃氣",
-    "紡織",
-    "塑化"
-   ],
-   "url": "https://www.financialjuice.com/News/9853591/Russian-overnight-strikes-on-Ukrainian-energy-infrastructure-caused-power-outages-in-six-regions---Deputy-energy-minister.aspx?xy=rss",
-   "related": [],
-   "pathId": "hormuz_energy",
-   "direction": 0,
-   "directionReason": "no_rule",
-   "horizon": "short",
-   "impacts": [
-    {
-     "sector": "大盤全體",
-     "direction": 0
-    },
-    {
-     "sector": "航運",
-     "direction": 0
-    },
-    {
-     "sector": "油電燃氣",
-     "direction": 0
-    },
-    {
-     "sector": "紡織",
-     "direction": 0
-    },
-    {
-     "sector": "塑化",
-     "direction": 0
-    }
-   ],
-   "pathBacktest": {
-    "target": "大盤全體",
-    "hitRate": 0.6013,
-    "n": 153,
-    "avgSignedExcessT1": 0.449,
-    "foreignHitRateT1": 0.5124,
-    "avgForeignT1": -2515.624,
-    "window": [
-     "2026-08-12",
-     "2026-11-18"
-    ]
-   }
-  },
   {
    "id": "financialjuice-17cc120",
    "tier": "critical",
@@ -230,6 +112,60 @@
     "window": [
      "2026-08-13",
      "2026-11-13"
+    ]
+   }
+  },
+  {
+   "id": "financialjuice-071086c44498b5ac",
+   "tier": "critical",
+   "score": 0.664,
+   "actLabel": "威脅/預告",
+   "speaker": "ECB's Nagel",
+   "publishedAt": "2026-11-19T10:22:32+00:00",
+   "titleZh": "歐洲央行內格爾：我對歐洲央行將達到2%的通膨目標充滿信心。",
+   "titleEn": "ECB's Nagel: I am confident ECB will reach 2% inflation target.",
+   "channel": "資金成本 → 科技股評價重估",
+   "pathLabel": "Fed/利率",
+   "sectors": [
+    "科技股全體",
+    "金融",
+    "壽險"
+   ],
+   "url": "https://www.financialjuice.com/News/9859686/ECBs-Nagel-I-am-confident-ECB-will-reach-2-inflation-target.aspx?xy=rss",
+   "related": [
+    {
+     "title": "歐洲央行內格爾：歐洲央行升息將發出明確訊號。",
+     "url": "https://www.financialjuice.com/News/9859690/ECBs-Nagel-An-ECB-rate-hike-would-send-clear-signal.aspx?xy=rss"
+    }
+   ],
+   "pathId": "fed_rates",
+   "direction": 0,
+   "directionReason": "fed_rates.gate:non_us_central_bank",
+   "horizon": "short",
+   "impacts": [
+    {
+     "sector": "科技股全體",
+     "direction": 0
+    },
+    {
+     "sector": "金融",
+     "direction": 0
+    },
+    {
+     "sector": "壽險",
+     "direction": 0
+    }
+   ],
+   "pathBacktest": {
+    "target": "科技股全體",
+    "hitRate": 0.68,
+    "n": 100,
+    "avgSignedExcessT1": 0.107,
+    "foreignHitRateT1": 0.5429,
+    "avgForeignT1": -69788.249,
+    "window": [
+     "2026-08-12",
+     "2026-11-18"
     ]
    }
   },
@@ -1255,6 +1191,104 @@
    }
   },
   {
+   "id": "financialjuice-3883eac06f98a0b7",
+   "tier": "normal",
+   "score": 0.32,
+   "actLabel": "數據發布",
+   "speaker": "事件報導",
+   "publishedAt": "2026-11-19T13:30:04+00:00",
+   "titleZh": "加拿大 PPI 年比實際 12.6%（預測 -，前值 14.5%）",
+   "titleEn": "Canadian PPI YoY Actual 12.6% (Forecast -, Previous 14.5%)",
+   "channel": "資金成本 → 科技股評價重估",
+   "pathLabel": "Fed/利率",
+   "sectors": [
+    "科技股全體",
+    "金融",
+    "壽險"
+   ],
+   "url": "https://www.financialjuice.com/News/9859942/Canadian-PPI-YoY-Actual-126-Forecast---Previous-145.aspx?xy=rss",
+   "related": [],
+   "pathId": "fed_rates",
+   "direction": 0,
+   "directionReason": "fed_rates.gate:non_us",
+   "horizon": "short",
+   "impacts": [
+    {
+     "sector": "科技股全體",
+     "direction": 0
+    },
+    {
+     "sector": "金融",
+     "direction": 0
+    },
+    {
+     "sector": "壽險",
+     "direction": 0
+    }
+   ],
+   "pathBacktest": {
+    "target": "科技股全體",
+    "hitRate": 0.68,
+    "n": 100,
+    "avgSignedExcessT1": 0.107,
+    "foreignHitRateT1": 0.5429,
+    "avgForeignT1": -69788.249,
+    "window": [
+     "2026-08-12",
+     "2026-11-18"
+    ]
+   }
+  },
+  {
+   "id": "financialjuice-5a99e6b0e3a92697",
+   "tier": "normal",
+   "score": 0.32,
+   "actLabel": "數據發布",
+   "speaker": "事件報導",
+   "publishedAt": "2026-11-19T13:30:04+00:00",
+   "titleZh": "加拿大 PPI 環比實際 0.3%（預測 0.5%，前值 2.0%）",
+   "titleEn": "Canadian PPI MoM Actual 0.3% (Forecast 0.5%, Previous 2.0%)",
+   "channel": "資金成本 → 科技股評價重估",
+   "pathLabel": "Fed/利率",
+   "sectors": [
+    "科技股全體",
+    "金融",
+    "壽險"
+   ],
+   "url": "https://www.financialjuice.com/News/9859941/Canadian-PPI-MoM-Actual-03-Forecast-05-Previous-20.aspx?xy=rss",
+   "related": [],
+   "pathId": "fed_rates",
+   "direction": 0,
+   "directionReason": "fed_rates.gate:non_us",
+   "horizon": "short",
+   "impacts": [
+    {
+     "sector": "科技股全體",
+     "direction": 0
+    },
+    {
+     "sector": "金融",
+     "direction": 0
+    },
+    {
+     "sector": "壽險",
+     "direction": 0
+    }
+   ],
+   "pathBacktest": {
+    "target": "科技股全體",
+    "hitRate": 0.68,
+    "n": 100,
+    "avgSignedExcessT1": 0.107,
+    "foreignHitRateT1": 0.5429,
+    "avgForeignT1": -69788.249,
+    "window": [
+     "2026-08-12",
+     "2026-11-18"
+    ]
+   }
+  },
+  {
    "id": "financialjuice-8c7efc8",
    "tier": "normal",
    "score": 0.32,
@@ -1755,6 +1789,60 @@
    }
   },
   {
+   "id": "financialjuice-4124f968e6c1b644",
+   "tier": "normal",
+   "score": 0.289,
+   "actLabel": "評論看法",
+   "speaker": "ECB's Moulin",
+   "publishedAt": "2026-11-19T07:33:19+00:00",
+   "titleZh": "歐洲央行穆蘭：石油仍在助長通膨。",
+   "titleEn": "ECB's Moulin: Oil is still fueling inflation.",
+   "channel": "資金成本 → 科技股評價重估",
+   "pathLabel": "Fed/利率",
+   "sectors": [
+    "科技股全體",
+    "金融",
+    "壽險"
+   ],
+   "url": "https://www.financialjuice.com/News/9859473/ECBs-Moulin-Oil-is-still-fueling-inflation.aspx?xy=rss",
+   "related": [
+    {
+     "title": "歐洲央行穆蘭：通膨仍然過高。",
+     "url": "https://www.financialjuice.com/News/9859472/ECBs-Moulin-Inflation-is-still-too-high.aspx?xy=rss"
+    }
+   ],
+   "pathId": "fed_rates",
+   "direction": 0,
+   "directionReason": "fed_rates.gate:non_us_central_bank",
+   "horizon": "short",
+   "impacts": [
+    {
+     "sector": "科技股全體",
+     "direction": 0
+    },
+    {
+     "sector": "金融",
+     "direction": 0
+    },
+    {
+     "sector": "壽險",
+     "direction": 0
+    }
+   ],
+   "pathBacktest": {
+    "target": "科技股全體",
+    "hitRate": 0.68,
+    "n": 100,
+    "avgSignedExcessT1": 0.107,
+    "foreignHitRateT1": 0.5429,
+    "avgForeignT1": -69788.249,
+    "window": [
+     "2026-08-12",
+     "2026-11-18"
+    ]
+   }
+  },
+  {
    "id": "financialjuice-a5e58c6",
    "tier": "normal",
    "score": 0.289,
@@ -2126,173 +2214,6 @@
     {
      "title": "BoC’s Dep. Gov. Gravelle: When the public trusts the BoC to keep inflation around 2%, their inflation expectations stay anchored.",
      "url": "https://www.financialjuice.com/News/9858288/BoCs-Dep-Gov-Gravelle-When-the-public-trusts-the-BoC-to-keep-inflation-around-2-their-inflation-expectations-stay-anchored.aspx?xy=rss"
-    }
-   ],
-   "pathId": "fed_rates",
-   "direction": 0,
-   "directionReason": "fed_rates.gate:non_us_central_bank",
-   "horizon": "short",
-   "impacts": [
-    {
-     "sector": "科技股全體",
-     "direction": 0
-    },
-    {
-     "sector": "金融",
-     "direction": 0
-    },
-    {
-     "sector": "壽險",
-     "direction": 0
-    }
-   ],
-   "pathBacktest": {
-    "target": "科技股全體",
-    "hitRate": 0.68,
-    "n": 100,
-    "avgSignedExcessT1": 0.107,
-    "foreignHitRateT1": 0.5429,
-    "avgForeignT1": -69788.249,
-    "window": [
-     "2026-08-12",
-     "2026-11-18"
-    ]
-   }
-  },
-  {
-   "id": "financialjuice-a7c43bd38c88e7a7",
-   "tier": "normal",
-   "score": 0.255,
-   "actLabel": "評論看法",
-   "speaker": "Xi, to Putin, Trump",
-   "publishedAt": "2026-11-19T09:03:38+00:00",
-   "titleZh": "習近平致普丁、川普：全面禁止和徹底銷毀核武器，建造無核世界-新華社",
-   "titleEn": "Xi, to Putin, Trump: nuclear weapons should be comprehensively banned and thoroughly destroyed, building nuclear-free world - Xinhua.",
-   "channel": "避險情緒 → 資金撤離風險資產",
-   "pathLabel": "軍事衝突",
-   "sectors": [
-    "大盤全體",
-    "航太國防",
-    "黃金相關",
-    "航運"
-   ],
-   "url": "https://www.financialjuice.com/News/9859593/Xi-to-Putin-Trump-nuclear-weapons-should-be-comprehensively-banned-and-thoroughly-destroyed-building-nuclear-free-world---Xinhua.aspx?xy=rss",
-   "related": [],
-   "pathId": "military_conflict",
-   "direction": 0,
-   "directionReason": "no_rule",
-   "horizon": "short",
-   "impacts": [
-    {
-     "sector": "大盤全體",
-     "direction": 0
-    },
-    {
-     "sector": "航太國防",
-     "direction": 0
-    },
-    {
-     "sector": "黃金相關",
-     "direction": 0
-    },
-    {
-     "sector": "航運",
-     "direction": 0
-    }
-   ],
-   "pathBacktest": {
-    "target": "大盤全體",
-    "hitRate": 0.52,
-    "n": 25,
-    "avgSignedExcessT1": 0.542,
-    "foreignHitRateT1": 0.5,
-    "avgForeignT1": -65288.03,
-    "window": [
-     "2026-08-13",
-     "2026-11-13"
-    ]
-   }
-  },
-  {
-   "id": "financialjuice-1cee7fcdc29f6a3d",
-   "tier": "normal",
-   "score": 0.255,
-   "actLabel": "評論看法",
-   "speaker": "Trump",
-   "publishedAt": "2026-11-19T08:38:31+00:00",
-   "titleZh": "Trump: It's very hard to give nuclear weapons up.",
-   "titleEn": "Trump: It's very hard to give nuclear weapons up.",
-   "channel": "避險情緒 → 資金撤離風險資產",
-   "pathLabel": "軍事衝突",
-   "sectors": [
-    "大盤全體",
-    "航太國防",
-    "黃金相關",
-    "航運"
-   ],
-   "url": "https://www.financialjuice.com/News/9859555/Trump-Its-very-hard-to-give-nuclear-weapons-up.aspx?xy=rss",
-   "related": [
-    {
-     "title": "川普：我們準備討論削減核武。",
-     "url": "https://www.financialjuice.com/News/9859554/Trump-Were-positioned-to-discuss-reducing-nuclear-weapons.aspx?xy=rss"
-    }
-   ],
-   "pathId": "military_conflict",
-   "direction": 0,
-   "directionReason": "no_rule",
-   "horizon": "short",
-   "impacts": [
-    {
-     "sector": "大盤全體",
-     "direction": 0
-    },
-    {
-     "sector": "航太國防",
-     "direction": 0
-    },
-    {
-     "sector": "黃金相關",
-     "direction": 0
-    },
-    {
-     "sector": "航運",
-     "direction": 0
-    }
-   ],
-   "pathBacktest": {
-    "target": "大盤全體",
-    "hitRate": 0.52,
-    "n": 25,
-    "avgSignedExcessT1": 0.542,
-    "foreignHitRateT1": 0.5,
-    "avgForeignT1": -65288.03,
-    "window": [
-     "2026-08-13",
-     "2026-11-13"
-    ]
-   }
-  },
-  {
-   "id": "financialjuice-4124f968e6c1b644",
-   "tier": "normal",
-   "score": 0.246,
-   "actLabel": "評論看法",
-   "speaker": "ECB's Moulin",
-   "publishedAt": "2026-11-19T07:33:19+00:00",
-   "titleZh": "歐洲央行穆蘭：石油仍在助長通膨。",
-   "titleEn": "ECB's Moulin: Oil is still fueling inflation.",
-   "channel": "資金成本 → 科技股評價重估",
-   "pathLabel": "Fed/利率",
-   "sectors": [
-    "科技股全體",
-    "金融",
-    "壽險"
-   ],
-   "url": "https://www.financialjuice.com/News/9859473/ECBs-Moulin-Oil-is-still-fueling-inflation.aspx?xy=rss",
-   "related": [
-    {
-     "title": "歐洲央行穆蘭：通膨仍然過高。",
-     "url": "https://www.financialjuice.com/News/9859472/ECBs-Moulin-Inflation-is-still-too-high.aspx?xy=rss"
     }
    ],
    "pathId": "fed_rates",
@@ -3330,6 +3251,178 @@
    }
   },
   {
+   "id": "financialjuice-afdf58fcf21e4a21",
+   "tier": "normal",
+   "score": 0.186,
+   "actLabel": "評論看法",
+   "speaker": "US Energy Secretary Wright",
+   "publishedAt": "2026-11-19T11:31:33+00:00",
+   "titleZh": "美國能源部長賴特：美國正在考慮增加對歐洲的柴油和石油出口。",
+   "titleEn": "US Energy Secretary Wright: US mulls ramping up diesel, oil exports to Europe.",
+   "channel": "油價↑ → 原料成本 → 輸入性通膨",
+   "pathLabel": "能源/荷姆茲",
+   "sectors": [
+    "大盤全體",
+    "航運",
+    "油電燃氣",
+    "紡織",
+    "塑化"
+   ],
+   "url": "https://www.financialjuice.com/News/9859759/US-Energy-Secretary-Wright-US-mulls-ramping-up-diesel-oil-exports-to-Europe.aspx?xy=rss",
+   "related": [],
+   "pathId": "hormuz_energy",
+   "direction": 0,
+   "directionReason": "no_rule",
+   "horizon": "short",
+   "impacts": [
+    {
+     "sector": "大盤全體",
+     "direction": 0
+    },
+    {
+     "sector": "航運",
+     "direction": 0
+    },
+    {
+     "sector": "油電燃氣",
+     "direction": 0
+    },
+    {
+     "sector": "紡織",
+     "direction": 0
+    },
+    {
+     "sector": "塑化",
+     "direction": 0
+    }
+   ],
+   "pathBacktest": {
+    "target": "大盤全體",
+    "hitRate": 0.6013,
+    "n": 153,
+    "avgSignedExcessT1": 0.449,
+    "foreignHitRateT1": 0.5124,
+    "avgForeignT1": -2515.624,
+    "window": [
+     "2026-08-12",
+     "2026-11-18"
+    ]
+   }
+  },
+  {
+   "id": "financialjuice-a7c43bd38c88e7a7",
+   "tier": "normal",
+   "score": 0.186,
+   "actLabel": "評論看法",
+   "speaker": "Xi, to Putin, Trump",
+   "publishedAt": "2026-11-19T09:03:38+00:00",
+   "titleZh": "習近平致普丁、川普：全面禁止和徹底銷毀核武器，建造無核世界-新華社",
+   "titleEn": "Xi, to Putin, Trump: nuclear weapons should be comprehensively banned and thoroughly destroyed, building nuclear-free world - Xinhua.",
+   "channel": "避險情緒 → 資金撤離風險資產",
+   "pathLabel": "軍事衝突",
+   "sectors": [
+    "大盤全體",
+    "航太國防",
+    "黃金相關",
+    "航運"
+   ],
+   "url": "https://www.financialjuice.com/News/9859593/Xi-to-Putin-Trump-nuclear-weapons-should-be-comprehensively-banned-and-thoroughly-destroyed-building-nuclear-free-world---Xinhua.aspx?xy=rss",
+   "related": [],
+   "pathId": "military_conflict",
+   "direction": 0,
+   "directionReason": "no_rule",
+   "horizon": "short",
+   "impacts": [
+    {
+     "sector": "大盤全體",
+     "direction": 0
+    },
+    {
+     "sector": "航太國防",
+     "direction": 0
+    },
+    {
+     "sector": "黃金相關",
+     "direction": 0
+    },
+    {
+     "sector": "航運",
+     "direction": 0
+    }
+   ],
+   "pathBacktest": {
+    "target": "大盤全體",
+    "hitRate": 0.52,
+    "n": 25,
+    "avgSignedExcessT1": 0.542,
+    "foreignHitRateT1": 0.5,
+    "avgForeignT1": -65288.03,
+    "window": [
+     "2026-08-13",
+     "2026-11-13"
+    ]
+   }
+  },
+  {
+   "id": "financialjuice-1cee7fcdc29f6a3d",
+   "tier": "normal",
+   "score": 0.186,
+   "actLabel": "評論看法",
+   "speaker": "Trump",
+   "publishedAt": "2026-11-19T08:38:31+00:00",
+   "titleZh": "Trump: It's very hard to give nuclear weapons up.",
+   "titleEn": "Trump: It's very hard to give nuclear weapons up.",
+   "channel": "避險情緒 → 資金撤離風險資產",
+   "pathLabel": "軍事衝突",
+   "sectors": [
+    "大盤全體",
+    "航太國防",
+    "黃金相關",
+    "航運"
+   ],
+   "url": "https://www.financialjuice.com/News/9859555/Trump-Its-very-hard-to-give-nuclear-weapons-up.aspx?xy=rss",
+   "related": [
+    {
+     "title": "川普：我們準備討論削減核武。",
+     "url": "https://www.financialjuice.com/News/9859554/Trump-Were-positioned-to-discuss-reducing-nuclear-weapons.aspx?xy=rss"
+    }
+   ],
+   "pathId": "military_conflict",
+   "direction": 0,
+   "directionReason": "no_rule",
+   "horizon": "short",
+   "impacts": [
+    {
+     "sector": "大盤全體",
+     "direction": 0
+    },
+    {
+     "sector": "航太國防",
+     "direction": 0
+    },
+    {
+     "sector": "黃金相關",
+     "direction": 0
+    },
+    {
+     "sector": "航運",
+     "direction": 0
+    }
+   ],
+   "pathBacktest": {
+    "target": "大盤全體",
+    "hitRate": 0.52,
+    "n": 25,
+    "avgSignedExcessT1": 0.542,
+    "foreignHitRateT1": 0.5,
+    "avgForeignT1": -65288.03,
+    "window": [
+     "2026-08-13",
+     "2026-11-13"
+    ]
+   }
+  },
+  {
    "id": "financialjuice-3d72634",
    "tier": "normal",
    "score": 0.186,
@@ -3528,6 +3621,55 @@
    "pathId": "fed_rates",
    "direction": 0,
    "directionReason": "fed_rates.gate:non_us_central_bank",
+   "horizon": "short",
+   "impacts": [
+    {
+     "sector": "科技股全體",
+     "direction": 0
+    },
+    {
+     "sector": "金融",
+     "direction": 0
+    },
+    {
+     "sector": "壽險",
+     "direction": 0
+    }
+   ],
+   "pathBacktest": {
+    "target": "科技股全體",
+    "hitRate": 0.68,
+    "n": 100,
+    "avgSignedExcessT1": 0.107,
+    "foreignHitRateT1": 0.5429,
+    "avgForeignT1": -69788.249,
+    "window": [
+     "2026-08-12",
+     "2026-11-18"
+    ]
+   }
+  },
+  {
+   "id": "financialjuice-cec9bbcdb406b7ad",
+   "tier": "normal",
+   "score": 0.18,
+   "actLabel": "評論看法",
+   "speaker": "Walmart CEO",
+   "publishedAt": "2026-11-19T13:38:47+00:00",
+   "titleZh": "沃爾瑪執行長：食品通膨在 1-2% 範圍內 $WMT",
+   "titleEn": "Walmart CEO: Food inflation is in 1-2% range $WMT",
+   "channel": "資金成本 → 科技股評價重估",
+   "pathLabel": "Fed/利率",
+   "sectors": [
+    "科技股全體",
+    "金融",
+    "壽險"
+   ],
+   "url": "https://www.financialjuice.com/News/9859971/Walmart-CEO-Food-inflation-is-in-1-2-range-WMT.aspx?xy=rss",
+   "related": [],
+   "pathId": "fed_rates",
+   "direction": 0,
+   "directionReason": "fed_rates.gate:non_us",
    "horizon": "short",
    "impacts": [
     {
@@ -4044,6 +4186,153 @@
     "window": [
      "2026-10-22",
      "2026-11-04"
+    ]
+   }
+  },
+  {
+   "id": "financialjuice-069f57482935f997",
+   "tier": "normal",
+   "score": 0.164,
+   "actLabel": "評論看法",
+   "speaker": "事件報導",
+   "publishedAt": "2026-11-19T13:30:05+00:00",
+   "titleZh": "美國費城聯邦儲備銀行商業指數實際 6.3（預測 20.1，前值 20.9）",
+   "titleEn": "US Philly Fed Business Index Actual 6.3 (Forecast 20.1, Previous 20.9)",
+   "channel": "資金成本 → 科技股評價重估",
+   "pathLabel": "Fed/利率",
+   "sectors": [
+    "科技股全體",
+    "金融",
+    "壽險"
+   ],
+   "url": "https://www.financialjuice.com/News/9859944/US-Philly-Fed-Business-Index-Actual-63-Forecast-201-Previous-209.aspx?xy=rss",
+   "related": [],
+   "pathId": "fed_rates",
+   "direction": 0,
+   "directionReason": "no_rule",
+   "horizon": "short",
+   "impacts": [
+    {
+     "sector": "科技股全體",
+     "direction": 0
+    },
+    {
+     "sector": "金融",
+     "direction": 0
+    },
+    {
+     "sector": "壽險",
+     "direction": 0
+    }
+   ],
+   "pathBacktest": {
+    "target": "科技股全體",
+    "hitRate": 0.68,
+    "n": 100,
+    "avgSignedExcessT1": 0.107,
+    "foreignHitRateT1": 0.5429,
+    "avgForeignT1": -69788.249,
+    "window": [
+     "2026-08-12",
+     "2026-11-18"
+    ]
+   }
+  },
+  {
+   "id": "financialjuice-a7fb2a9651a21ea0",
+   "tier": "normal",
+   "score": 0.164,
+   "actLabel": "評論看法",
+   "speaker": "事件報導",
+   "publishedAt": "2026-11-19T13:30:00+00:00",
+   "titleZh": "美國初請失業金人數實際 20.3 萬（預測 19.75 萬，前額 20 萬）",
+   "titleEn": "US Initial Jobless Claims Actual 203k (Forecast 197.5k, Previous 200k)",
+   "channel": "資金成本 → 科技股評價重估",
+   "pathLabel": "Fed/利率",
+   "sectors": [
+    "科技股全體",
+    "金融",
+    "壽險"
+   ],
+   "url": "https://www.financialjuice.com/News/9859940/US-Initial-Jobless-Claims-Actual-203k-Forecast-1975k-Previous-200k.aspx?xy=rss",
+   "related": [],
+   "pathId": "fed_rates",
+   "direction": 0,
+   "directionReason": "no_rule",
+   "horizon": "short",
+   "impacts": [
+    {
+     "sector": "科技股全體",
+     "direction": 0
+    },
+    {
+     "sector": "金融",
+     "direction": 0
+    },
+    {
+     "sector": "壽險",
+     "direction": 0
+    }
+   ],
+   "pathBacktest": {
+    "target": "科技股全體",
+    "hitRate": 0.68,
+    "n": 100,
+    "avgSignedExcessT1": 0.107,
+    "foreignHitRateT1": 0.5429,
+    "avgForeignT1": -69788.249,
+    "window": [
+     "2026-08-12",
+     "2026-11-18"
+    ]
+   }
+  },
+  {
+   "id": "financialjuice-31b42f38fb937275",
+   "tier": "normal",
+   "score": 0.164,
+   "actLabel": "評論看法",
+   "speaker": "事件報導",
+   "publishedAt": "2026-11-19T13:30:00+00:00",
+   "titleZh": "美國持續申請失業救濟人數實際 1.763M（預測 1.7025M，前值 1.697M）",
+   "titleEn": "US Continued Jobless Claims Actual 1.763M (Forecast 1.7025M, Previous 1.697M)",
+   "channel": "資金成本 → 科技股評價重估",
+   "pathLabel": "Fed/利率",
+   "sectors": [
+    "科技股全體",
+    "金融",
+    "壽險"
+   ],
+   "url": "https://www.financialjuice.com/News/9859939/US-Continued-Jobless-Claims-Actual-1763M-Forecast-17025M-Previous-1697M.aspx?xy=rss",
+   "related": [],
+   "pathId": "fed_rates",
+   "direction": 0,
+   "directionReason": "no_rule",
+   "horizon": "short",
+   "impacts": [
+    {
+     "sector": "科技股全體",
+     "direction": 0
+    },
+    {
+     "sector": "金融",
+     "direction": 0
+    },
+    {
+     "sector": "壽險",
+     "direction": 0
+    }
+   ],
+   "pathBacktest": {
+    "target": "科技股全體",
+    "hitRate": 0.68,
+    "n": 100,
+    "avgSignedExcessT1": 0.107,
+    "foreignHitRateT1": 0.5429,
+    "avgForeignT1": -69788.249,
+    "window": [
+     "2026-08-12",
+     "2026-11-18"
     ]
    }
   },
@@ -4681,6 +4970,80 @@
    }
   },
   {
+   "id": "financialjuice-aaf19cc60ccd5e69",
+   "tier": "normal",
+   "score": 0.149,
+   "actLabel": "評論看法",
+   "speaker": "事件報導",
+   "publishedAt": "2026-11-19T10:23:48+00:00",
+   "titleZh": "台積電、三星暫停申請美國商務部許可證 - FT",
+   "titleEn": "TSMC, Samsung halt as applying for US commerce dept licences - FT",
+   "channel": "營收/財測/訂單 → 個股及供應鏈評價",
+   "pathLabel": "台廠基本面",
+   "sectors": [
+    "個股及供應鏈",
+    "半導體",
+    "電子代工"
+   ],
+   "url": "https://www.financialjuice.com/News/9859689/TSMC-Samsung-halt-as-applying-for-US-commerce-dept-licences---FT.aspx?xy=rss",
+   "related": [],
+   "pathId": "tw_fundamental",
+   "direction": 0,
+   "directionReason": "no_rule",
+   "horizon": "long",
+   "impacts": [
+    {
+     "sector": "個股及供應鏈",
+     "direction": 0
+    },
+    {
+     "sector": "半導體",
+     "direction": 0
+    },
+    {
+     "sector": "電子代工",
+     "direction": 0
+    }
+   ]
+  },
+  {
+   "id": "financialjuice-2570e22d90b45525",
+   "tier": "normal",
+   "score": 0.149,
+   "actLabel": "評論看法",
+   "speaker": "事件報導",
+   "publishedAt": "2026-11-19T10:23:04+00:00",
+   "titleZh": "台積電、三星暫停向中國客戶發貨部分晶片 - FT。",
+   "titleEn": "TSMC, Samsung suspend some chip shipment to Chinese customers - FT.",
+   "channel": "營收/財測/訂單 → 個股及供應鏈評價",
+   "pathLabel": "台廠基本面",
+   "sectors": [
+    "個股及供應鏈",
+    "半導體",
+    "電子代工"
+   ],
+   "url": "https://www.financialjuice.com/News/9859687/TSMC-Samsung-suspend-some-chip-shipment-to-Chinese-customers---FT.aspx?xy=rss",
+   "related": [],
+   "pathId": "tw_fundamental",
+   "direction": 0,
+   "directionReason": "no_rule",
+   "horizon": "long",
+   "impacts": [
+    {
+     "sector": "個股及供應鏈",
+     "direction": 0
+    },
+    {
+     "sector": "半導體",
+     "direction": 0
+    },
+    {
+     "sector": "電子代工",
+     "direction": 0
+    }
+   ]
+  },
+  {
    "id": "financialjuice-12148ed",
    "tier": "normal",
    "score": 0.149,
@@ -4844,6 +5207,398 @@
     "window": [
      "2026-08-13",
      "2026-11-12"
+    ]
+   }
+  },
+  {
+   "id": "financialjuice-9b82a7eff3302624",
+   "tier": "normal",
+   "score": 0.144,
+   "actLabel": "評論看法",
+   "speaker": "事件報導",
+   "publishedAt": "2026-11-19T06:35:55+00:00",
+   "titleZh": "瑞士央行利率機率",
+   "titleEn": "SNB Interest Rate Probabilities",
+   "channel": "資金成本 → 科技股評價重估",
+   "pathLabel": "Fed/利率",
+   "sectors": [
+    "科技股全體",
+    "金融",
+    "壽險"
+   ],
+   "url": "https://www.financialjuice.com/News/9859413/SNB-Interest-Rate-Probabilities.aspx?xy=rss",
+   "related": [],
+   "pathId": "fed_rates",
+   "direction": 0,
+   "directionReason": "fed_rates.gate:non_us_central_bank",
+   "horizon": "short",
+   "impacts": [
+    {
+     "sector": "科技股全體",
+     "direction": 0
+    },
+    {
+     "sector": "金融",
+     "direction": 0
+    },
+    {
+     "sector": "壽險",
+     "direction": 0
+    }
+   ],
+   "pathBacktest": {
+    "target": "科技股全體",
+    "hitRate": 0.68,
+    "n": 100,
+    "avgSignedExcessT1": 0.107,
+    "foreignHitRateT1": 0.5429,
+    "avgForeignT1": -69788.249,
+    "window": [
+     "2026-08-12",
+     "2026-11-18"
+    ]
+   }
+  },
+  {
+   "id": "financialjuice-7e5be857fe2aef17",
+   "tier": "normal",
+   "score": 0.144,
+   "actLabel": "評論看法",
+   "speaker": "事件報導",
+   "publishedAt": "2026-11-19T06:35:34+00:00",
+   "titleZh": "紐西蘭聯邦儲備銀行利率機率",
+   "titleEn": "RBNZ Interest Rate Probabilities",
+   "channel": "資金成本 → 科技股評價重估",
+   "pathLabel": "Fed/利率",
+   "sectors": [
+    "科技股全體",
+    "金融",
+    "壽險"
+   ],
+   "url": "https://www.financialjuice.com/News/9859412/RBNZ-Interest-Rate-Probabilities.aspx?xy=rss",
+   "related": [],
+   "pathId": "fed_rates",
+   "direction": 0,
+   "directionReason": "fed_rates.gate:non_us_central_bank",
+   "horizon": "short",
+   "impacts": [
+    {
+     "sector": "科技股全體",
+     "direction": 0
+    },
+    {
+     "sector": "金融",
+     "direction": 0
+    },
+    {
+     "sector": "壽險",
+     "direction": 0
+    }
+   ],
+   "pathBacktest": {
+    "target": "科技股全體",
+    "hitRate": 0.68,
+    "n": 100,
+    "avgSignedExcessT1": 0.107,
+    "foreignHitRateT1": 0.5429,
+    "avgForeignT1": -69788.249,
+    "window": [
+     "2026-08-12",
+     "2026-11-18"
+    ]
+   }
+  },
+  {
+   "id": "financialjuice-73c53506218ae09a",
+   "tier": "normal",
+   "score": 0.144,
+   "actLabel": "評論看法",
+   "speaker": "事件報導",
+   "publishedAt": "2026-11-19T06:35:14+00:00",
+   "titleZh": "澳洲央行利率機率",
+   "titleEn": "RBA Interest Rate Probabilities",
+   "channel": "資金成本 → 科技股評價重估",
+   "pathLabel": "Fed/利率",
+   "sectors": [
+    "科技股全體",
+    "金融",
+    "壽險"
+   ],
+   "url": "https://www.financialjuice.com/News/9859411/RBA-Interest-Rate-Probabilities.aspx?xy=rss",
+   "related": [],
+   "pathId": "fed_rates",
+   "direction": 0,
+   "directionReason": "fed_rates.gate:non_us_central_bank",
+   "horizon": "short",
+   "impacts": [
+    {
+     "sector": "科技股全體",
+     "direction": 0
+    },
+    {
+     "sector": "金融",
+     "direction": 0
+    },
+    {
+     "sector": "壽險",
+     "direction": 0
+    }
+   ],
+   "pathBacktest": {
+    "target": "科技股全體",
+    "hitRate": 0.68,
+    "n": 100,
+    "avgSignedExcessT1": 0.107,
+    "foreignHitRateT1": 0.5429,
+    "avgForeignT1": -69788.249,
+    "window": [
+     "2026-08-12",
+     "2026-11-18"
+    ]
+   }
+  },
+  {
+   "id": "financialjuice-0fbc6958ac0b1cc3",
+   "tier": "normal",
+   "score": 0.144,
+   "actLabel": "評論看法",
+   "speaker": "事件報導",
+   "publishedAt": "2026-11-19T06:34:56+00:00",
+   "titleZh": "日本央行利率機率",
+   "titleEn": "BoJ Interest Rate Probabilities",
+   "channel": "資金成本 → 科技股評價重估",
+   "pathLabel": "Fed/利率",
+   "sectors": [
+    "科技股全體",
+    "金融",
+    "壽險"
+   ],
+   "url": "https://www.financialjuice.com/News/9859410/BoJ-Interest-Rate-Probabilities.aspx?xy=rss",
+   "related": [],
+   "pathId": "fed_rates",
+   "direction": 0,
+   "directionReason": "fed_rates.gate:non_us_central_bank",
+   "horizon": "short",
+   "impacts": [
+    {
+     "sector": "科技股全體",
+     "direction": 0
+    },
+    {
+     "sector": "金融",
+     "direction": 0
+    },
+    {
+     "sector": "壽險",
+     "direction": 0
+    }
+   ],
+   "pathBacktest": {
+    "target": "科技股全體",
+    "hitRate": 0.68,
+    "n": 100,
+    "avgSignedExcessT1": 0.107,
+    "foreignHitRateT1": 0.5429,
+    "avgForeignT1": -69788.249,
+    "window": [
+     "2026-08-12",
+     "2026-11-18"
+    ]
+   }
+  },
+  {
+   "id": "financialjuice-f70455b4bdee90aa",
+   "tier": "normal",
+   "score": 0.144,
+   "actLabel": "評論看法",
+   "speaker": "事件報導",
+   "publishedAt": "2026-11-19T06:34:33+00:00",
+   "titleZh": "加拿大央行利率機率",
+   "titleEn": "BoC Interest Rate Probabilities",
+   "channel": "資金成本 → 科技股評價重估",
+   "pathLabel": "Fed/利率",
+   "sectors": [
+    "科技股全體",
+    "金融",
+    "壽險"
+   ],
+   "url": "https://www.financialjuice.com/News/9859409/BoC-Interest-Rate-Probabilities.aspx?xy=rss",
+   "related": [],
+   "pathId": "fed_rates",
+   "direction": 0,
+   "directionReason": "fed_rates.gate:non_us_central_bank",
+   "horizon": "short",
+   "impacts": [
+    {
+     "sector": "科技股全體",
+     "direction": 0
+    },
+    {
+     "sector": "金融",
+     "direction": 0
+    },
+    {
+     "sector": "壽險",
+     "direction": 0
+    }
+   ],
+   "pathBacktest": {
+    "target": "科技股全體",
+    "hitRate": 0.68,
+    "n": 100,
+    "avgSignedExcessT1": 0.107,
+    "foreignHitRateT1": 0.5429,
+    "avgForeignT1": -69788.249,
+    "window": [
+     "2026-08-12",
+     "2026-11-18"
+    ]
+   }
+  },
+  {
+   "id": "financialjuice-1fce8636b1c8466d",
+   "tier": "normal",
+   "score": 0.144,
+   "actLabel": "評論看法",
+   "speaker": "事件報導",
+   "publishedAt": "2026-11-19T06:34:05+00:00",
+   "titleZh": "英國央行利率機率",
+   "titleEn": "BoE Interest Rate Probabilities",
+   "channel": "資金成本 → 科技股評價重估",
+   "pathLabel": "Fed/利率",
+   "sectors": [
+    "科技股全體",
+    "金融",
+    "壽險"
+   ],
+   "url": "https://www.financialjuice.com/News/9859408/BoE-Interest-Rate-Probabilities.aspx?xy=rss",
+   "related": [],
+   "pathId": "fed_rates",
+   "direction": 0,
+   "directionReason": "fed_rates.gate:non_us_central_bank",
+   "horizon": "short",
+   "impacts": [
+    {
+     "sector": "科技股全體",
+     "direction": 0
+    },
+    {
+     "sector": "金融",
+     "direction": 0
+    },
+    {
+     "sector": "壽險",
+     "direction": 0
+    }
+   ],
+   "pathBacktest": {
+    "target": "科技股全體",
+    "hitRate": 0.68,
+    "n": 100,
+    "avgSignedExcessT1": 0.107,
+    "foreignHitRateT1": 0.5429,
+    "avgForeignT1": -69788.249,
+    "window": [
+     "2026-08-12",
+     "2026-11-18"
+    ]
+   }
+  },
+  {
+   "id": "financialjuice-8a2f8b4a426d010e",
+   "tier": "normal",
+   "score": 0.144,
+   "actLabel": "評論看法",
+   "speaker": "事件報導",
+   "publishedAt": "2026-11-19T06:33:46+00:00",
+   "titleZh": "歐洲央行利率機率",
+   "titleEn": "ECB Interest Rate Probabilities",
+   "channel": "資金成本 → 科技股評價重估",
+   "pathLabel": "Fed/利率",
+   "sectors": [
+    "科技股全體",
+    "金融",
+    "壽險"
+   ],
+   "url": "https://www.financialjuice.com/News/9859407/ECB-Interest-Rate-Probabilities.aspx?xy=rss",
+   "related": [],
+   "pathId": "fed_rates",
+   "direction": 0,
+   "directionReason": "fed_rates.gate:non_us_central_bank",
+   "horizon": "short",
+   "impacts": [
+    {
+     "sector": "科技股全體",
+     "direction": 0
+    },
+    {
+     "sector": "金融",
+     "direction": 0
+    },
+    {
+     "sector": "壽險",
+     "direction": 0
+    }
+   ],
+   "pathBacktest": {
+    "target": "科技股全體",
+    "hitRate": 0.68,
+    "n": 100,
+    "avgSignedExcessT1": 0.107,
+    "foreignHitRateT1": 0.5429,
+    "avgForeignT1": -69788.249,
+    "window": [
+     "2026-08-12",
+     "2026-11-18"
+    ]
+   }
+  },
+  {
+   "id": "financialjuice-bff711a61b134b2f",
+   "tier": "normal",
+   "score": 0.144,
+   "actLabel": "評論看法",
+   "speaker": "事件報導",
+   "publishedAt": "2026-11-19T06:33:20+00:00",
+   "titleZh": "聯準會利率機率",
+   "titleEn": "Fed Interest Rate Probabilities",
+   "channel": "資金成本 → 科技股評價重估",
+   "pathLabel": "Fed/利率",
+   "sectors": [
+    "科技股全體",
+    "金融",
+    "壽險"
+   ],
+   "url": "https://www.financialjuice.com/News/9859406/Fed-Interest-Rate-Probabilities.aspx?xy=rss",
+   "related": [],
+   "pathId": "fed_rates",
+   "direction": 0,
+   "directionReason": "no_rule",
+   "horizon": "short",
+   "impacts": [
+    {
+     "sector": "科技股全體",
+     "direction": 0
+    },
+    {
+     "sector": "金融",
+     "direction": 0
+    },
+    {
+     "sector": "壽險",
+     "direction": 0
+    }
+   ],
+   "pathBacktest": {
+    "target": "科技股全體",
+    "hitRate": 0.68,
+    "n": 100,
+    "avgSignedExcessT1": 0.107,
+    "foreignHitRateT1": 0.5429,
+    "avgForeignT1": -69788.249,
+    "window": [
+     "2026-08-12",
+     "2026-11-18"
     ]
    }
   },
@@ -6788,398 +7543,6 @@
    }
   },
   {
-   "id": "financialjuice-9b82a7eff3302624",
-   "tier": "normal",
-   "score": 0.108,
-   "actLabel": "評論看法",
-   "speaker": "事件報導",
-   "publishedAt": "2026-11-19T06:35:55+00:00",
-   "titleZh": "瑞士央行利率機率",
-   "titleEn": "SNB Interest Rate Probabilities",
-   "channel": "資金成本 → 科技股評價重估",
-   "pathLabel": "Fed/利率",
-   "sectors": [
-    "科技股全體",
-    "金融",
-    "壽險"
-   ],
-   "url": "https://www.financialjuice.com/News/9859413/SNB-Interest-Rate-Probabilities.aspx?xy=rss",
-   "related": [],
-   "pathId": "fed_rates",
-   "direction": 0,
-   "directionReason": "fed_rates.gate:non_us_central_bank",
-   "horizon": "short",
-   "impacts": [
-    {
-     "sector": "科技股全體",
-     "direction": 0
-    },
-    {
-     "sector": "金融",
-     "direction": 0
-    },
-    {
-     "sector": "壽險",
-     "direction": 0
-    }
-   ],
-   "pathBacktest": {
-    "target": "科技股全體",
-    "hitRate": 0.68,
-    "n": 100,
-    "avgSignedExcessT1": 0.107,
-    "foreignHitRateT1": 0.5429,
-    "avgForeignT1": -69788.249,
-    "window": [
-     "2026-08-12",
-     "2026-11-18"
-    ]
-   }
-  },
-  {
-   "id": "financialjuice-7e5be857fe2aef17",
-   "tier": "normal",
-   "score": 0.108,
-   "actLabel": "評論看法",
-   "speaker": "事件報導",
-   "publishedAt": "2026-11-19T06:35:34+00:00",
-   "titleZh": "紐西蘭聯邦儲備銀行利率機率",
-   "titleEn": "RBNZ Interest Rate Probabilities",
-   "channel": "資金成本 → 科技股評價重估",
-   "pathLabel": "Fed/利率",
-   "sectors": [
-    "科技股全體",
-    "金融",
-    "壽險"
-   ],
-   "url": "https://www.financialjuice.com/News/9859412/RBNZ-Interest-Rate-Probabilities.aspx?xy=rss",
-   "related": [],
-   "pathId": "fed_rates",
-   "direction": 0,
-   "directionReason": "fed_rates.gate:non_us_central_bank",
-   "horizon": "short",
-   "impacts": [
-    {
-     "sector": "科技股全體",
-     "direction": 0
-    },
-    {
-     "sector": "金融",
-     "direction": 0
-    },
-    {
-     "sector": "壽險",
-     "direction": 0
-    }
-   ],
-   "pathBacktest": {
-    "target": "科技股全體",
-    "hitRate": 0.68,
-    "n": 100,
-    "avgSignedExcessT1": 0.107,
-    "foreignHitRateT1": 0.5429,
-    "avgForeignT1": -69788.249,
-    "window": [
-     "2026-08-12",
-     "2026-11-18"
-    ]
-   }
-  },
-  {
-   "id": "financialjuice-73c53506218ae09a",
-   "tier": "normal",
-   "score": 0.108,
-   "actLabel": "評論看法",
-   "speaker": "事件報導",
-   "publishedAt": "2026-11-19T06:35:14+00:00",
-   "titleZh": "澳洲央行利率機率",
-   "titleEn": "RBA Interest Rate Probabilities",
-   "channel": "資金成本 → 科技股評價重估",
-   "pathLabel": "Fed/利率",
-   "sectors": [
-    "科技股全體",
-    "金融",
-    "壽險"
-   ],
-   "url": "https://www.financialjuice.com/News/9859411/RBA-Interest-Rate-Probabilities.aspx?xy=rss",
-   "related": [],
-   "pathId": "fed_rates",
-   "direction": 0,
-   "directionReason": "fed_rates.gate:non_us_central_bank",
-   "horizon": "short",
-   "impacts": [
-    {
-     "sector": "科技股全體",
-     "direction": 0
-    },
-    {
-     "sector": "金融",
-     "direction": 0
-    },
-    {
-     "sector": "壽險",
-     "direction": 0
-    }
-   ],
-   "pathBacktest": {
-    "target": "科技股全體",
-    "hitRate": 0.68,
-    "n": 100,
-    "avgSignedExcessT1": 0.107,
-    "foreignHitRateT1": 0.5429,
-    "avgForeignT1": -69788.249,
-    "window": [
-     "2026-08-12",
-     "2026-11-18"
-    ]
-   }
-  },
-  {
-   "id": "financialjuice-0fbc6958ac0b1cc3",
-   "tier": "normal",
-   "score": 0.108,
-   "actLabel": "評論看法",
-   "speaker": "事件報導",
-   "publishedAt": "2026-11-19T06:34:56+00:00",
-   "titleZh": "日本央行利率機率",
-   "titleEn": "BoJ Interest Rate Probabilities",
-   "channel": "資金成本 → 科技股評價重估",
-   "pathLabel": "Fed/利率",
-   "sectors": [
-    "科技股全體",
-    "金融",
-    "壽險"
-   ],
-   "url": "https://www.financialjuice.com/News/9859410/BoJ-Interest-Rate-Probabilities.aspx?xy=rss",
-   "related": [],
-   "pathId": "fed_rates",
-   "direction": 0,
-   "directionReason": "fed_rates.gate:non_us_central_bank",
-   "horizon": "short",
-   "impacts": [
-    {
-     "sector": "科技股全體",
-     "direction": 0
-    },
-    {
-     "sector": "金融",
-     "direction": 0
-    },
-    {
-     "sector": "壽險",
-     "direction": 0
-    }
-   ],
-   "pathBacktest": {
-    "target": "科技股全體",
-    "hitRate": 0.68,
-    "n": 100,
-    "avgSignedExcessT1": 0.107,
-    "foreignHitRateT1": 0.5429,
-    "avgForeignT1": -69788.249,
-    "window": [
-     "2026-08-12",
-     "2026-11-18"
-    ]
-   }
-  },
-  {
-   "id": "financialjuice-f70455b4bdee90aa",
-   "tier": "normal",
-   "score": 0.108,
-   "actLabel": "評論看法",
-   "speaker": "事件報導",
-   "publishedAt": "2026-11-19T06:34:33+00:00",
-   "titleZh": "加拿大央行利率機率",
-   "titleEn": "BoC Interest Rate Probabilities",
-   "channel": "資金成本 → 科技股評價重估",
-   "pathLabel": "Fed/利率",
-   "sectors": [
-    "科技股全體",
-    "金融",
-    "壽險"
-   ],
-   "url": "https://www.financialjuice.com/News/9859409/BoC-Interest-Rate-Probabilities.aspx?xy=rss",
-   "related": [],
-   "pathId": "fed_rates",
-   "direction": 0,
-   "directionReason": "fed_rates.gate:non_us_central_bank",
-   "horizon": "short",
-   "impacts": [
-    {
-     "sector": "科技股全體",
-     "direction": 0
-    },
-    {
-     "sector": "金融",
-     "direction": 0
-    },
-    {
-     "sector": "壽險",
-     "direction": 0
-    }
-   ],
-   "pathBacktest": {
-    "target": "科技股全體",
-    "hitRate": 0.68,
-    "n": 100,
-    "avgSignedExcessT1": 0.107,
-    "foreignHitRateT1": 0.5429,
-    "avgForeignT1": -69788.249,
-    "window": [
-     "2026-08-12",
-     "2026-11-18"
-    ]
-   }
-  },
-  {
-   "id": "financialjuice-1fce8636b1c8466d",
-   "tier": "normal",
-   "score": 0.108,
-   "actLabel": "評論看法",
-   "speaker": "事件報導",
-   "publishedAt": "2026-11-19T06:34:05+00:00",
-   "titleZh": "英國央行利率機率",
-   "titleEn": "BoE Interest Rate Probabilities",
-   "channel": "資金成本 → 科技股評價重估",
-   "pathLabel": "Fed/利率",
-   "sectors": [
-    "科技股全體",
-    "金融",
-    "壽險"
-   ],
-   "url": "https://www.financialjuice.com/News/9859408/BoE-Interest-Rate-Probabilities.aspx?xy=rss",
-   "related": [],
-   "pathId": "fed_rates",
-   "direction": 0,
-   "directionReason": "fed_rates.gate:non_us_central_bank",
-   "horizon": "short",
-   "impacts": [
-    {
-     "sector": "科技股全體",
-     "direction": 0
-    },
-    {
-     "sector": "金融",
-     "direction": 0
-    },
-    {
-     "sector": "壽險",
-     "direction": 0
-    }
-   ],
-   "pathBacktest": {
-    "target": "科技股全體",
-    "hitRate": 0.68,
-    "n": 100,
-    "avgSignedExcessT1": 0.107,
-    "foreignHitRateT1": 0.5429,
-    "avgForeignT1": -69788.249,
-    "window": [
-     "2026-08-12",
-     "2026-11-18"
-    ]
-   }
-  },
-  {
-   "id": "financialjuice-8a2f8b4a426d010e",
-   "tier": "normal",
-   "score": 0.108,
-   "actLabel": "評論看法",
-   "speaker": "事件報導",
-   "publishedAt": "2026-11-19T06:33:46+00:00",
-   "titleZh": "歐洲央行利率機率",
-   "titleEn": "ECB Interest Rate Probabilities",
-   "channel": "資金成本 → 科技股評價重估",
-   "pathLabel": "Fed/利率",
-   "sectors": [
-    "科技股全體",
-    "金融",
-    "壽險"
-   ],
-   "url": "https://www.financialjuice.com/News/9859407/ECB-Interest-Rate-Probabilities.aspx?xy=rss",
-   "related": [],
-   "pathId": "fed_rates",
-   "direction": 0,
-   "directionReason": "fed_rates.gate:non_us_central_bank",
-   "horizon": "short",
-   "impacts": [
-    {
-     "sector": "科技股全體",
-     "direction": 0
-    },
-    {
-     "sector": "金融",
-     "direction": 0
-    },
-    {
-     "sector": "壽險",
-     "direction": 0
-    }
-   ],
-   "pathBacktest": {
-    "target": "科技股全體",
-    "hitRate": 0.68,
-    "n": 100,
-    "avgSignedExcessT1": 0.107,
-    "foreignHitRateT1": 0.5429,
-    "avgForeignT1": -69788.249,
-    "window": [
-     "2026-08-12",
-     "2026-11-18"
-    ]
-   }
-  },
-  {
-   "id": "financialjuice-bff711a61b134b2f",
-   "tier": "normal",
-   "score": 0.108,
-   "actLabel": "評論看法",
-   "speaker": "事件報導",
-   "publishedAt": "2026-11-19T06:33:20+00:00",
-   "titleZh": "聯準會利率機率",
-   "titleEn": "Fed Interest Rate Probabilities",
-   "channel": "資金成本 → 科技股評價重估",
-   "pathLabel": "Fed/利率",
-   "sectors": [
-    "科技股全體",
-    "金融",
-    "壽險"
-   ],
-   "url": "https://www.financialjuice.com/News/9859406/Fed-Interest-Rate-Probabilities.aspx?xy=rss",
-   "related": [],
-   "pathId": "fed_rates",
-   "direction": 0,
-   "directionReason": "no_rule",
-   "horizon": "short",
-   "impacts": [
-    {
-     "sector": "科技股全體",
-     "direction": 0
-    },
-    {
-     "sector": "金融",
-     "direction": 0
-    },
-    {
-     "sector": "壽險",
-     "direction": 0
-    }
-   ],
-   "pathBacktest": {
-    "target": "科技股全體",
-    "hitRate": 0.68,
-    "n": 100,
-    "avgSignedExcessT1": 0.107,
-    "foreignHitRateT1": 0.5429,
-    "avgForeignT1": -69788.249,
-    "window": [
-     "2026-08-12",
-     "2026-11-18"
-    ]
-   }
-  },
-  {
    "id": "financialjuice-343266d9b5380833",
    "tier": "normal",
    "score": 0.108,
@@ -7722,60 +8085,6 @@
    }
   },
   {
-   "id": "financialjuice-e06fc471aad7e9cf",
-   "tier": "normal",
-   "score": 0.102,
-   "actLabel": "評論看法",
-   "speaker": "Currency Strength Chart",
-   "publishedAt": "2026-11-19T08:01:18+00:00",
-   "titleZh": "貨幣強弱圖表：最強：紐西蘭元、歐元、英鎊、瑞士法郎、加幣、美元、澳幣、日圓 - 最弱",
-   "titleEn": "Currency Strength Chart: Strongest: NZD, EUR, GBP, CHF, CAD, USD, AUD, JPY - Weakest",
-   "channel": "台幣走勢 → 外資進出 + 匯兌損益",
-   "pathLabel": "匯率/資金",
-   "sectors": [
-    "大盤全體",
-    "金融",
-    "壽險",
-    "電子出口股"
-   ],
-   "url": "https://www.financialjuice.com/News/9859494/Currency-Strength-Chart-Strongest-NZD-EUR-GBP-CHF-CAD-USD-AUD-JPY---Weakest.aspx?xy=rss",
-   "related": [],
-   "pathId": "fx_capital",
-   "direction": 0,
-   "directionReason": "fx_capital.gate:not_twd",
-   "horizon": "short",
-   "impacts": [
-    {
-     "sector": "大盤全體",
-     "direction": 0
-    },
-    {
-     "sector": "金融",
-     "direction": 0
-    },
-    {
-     "sector": "壽險",
-     "direction": 0
-    },
-    {
-     "sector": "電子出口股",
-     "direction": 0
-    }
-   ],
-   "pathBacktest": {
-    "target": "大盤全體",
-    "hitRate": null,
-    "n": 2,
-    "avgSignedExcessT1": -1.66,
-    "foreignHitRateT1": null,
-    "avgForeignT1": -80324.25,
-    "window": [
-     "2026-10-22",
-     "2026-11-04"
-    ]
-   }
-  },
-  {
    "id": "financialjuice-ab97eee",
    "tier": "normal",
    "score": 0.102,
@@ -7943,51 +8252,51 @@
    }
   },
   {
-   "id": "financialjuice-c7e893b",
+   "id": "financialjuice-39cd6ee7cbe896ab",
    "tier": "normal",
-   "score": 0.102,
+   "score": 0.099,
    "actLabel": "評論看法",
    "speaker": "事件報導",
-   "publishedAt": "2026-11-16T11:43:51+00:00",
-   "titleZh": "澳洲聯邦儲備銀行和紐西蘭聯邦儲備銀行利率機率",
-   "titleEn": "RBA & RBNZ Interest Rate Probabilities",
-   "channel": "資金成本 → 科技股評價重估",
-   "pathLabel": "Fed/利率",
+   "publishedAt": "2026-11-19T13:15:32+00:00",
+   "titleZh": "亞太經合組織領導人誓言確保供應鏈彈性 - 新華社",
+   "titleEn": "APEC leaders vow to ensure supply chain resilience - Xinhua",
+   "channel": "關鍵料件短缺 → 產線停擺",
+   "pathLabel": "供應鏈斷料",
    "sectors": [
-    "科技股全體",
-    "金融",
-    "壽險"
+    "電子零組件",
+    "半導體",
+    "汽車零組件"
    ],
-   "url": "https://www.financialjuice.com/News/9853715/RBA--RBNZ-Interest-Rate-Probabilities.aspx?xy=rss",
+   "url": "https://www.financialjuice.com/News/9859908/APEC-leaders-vow-to-ensure-supply-chain-resilience---Xinhua.aspx?xy=rss",
    "related": [],
-   "pathId": "fed_rates",
+   "pathId": "supply_chain",
    "direction": 0,
-   "directionReason": "fed_rates.gate:non_us_central_bank",
+   "directionReason": "no_rule",
    "horizon": "short",
    "impacts": [
     {
-     "sector": "科技股全體",
+     "sector": "電子零組件",
      "direction": 0
     },
     {
-     "sector": "金融",
+     "sector": "半導體",
      "direction": 0
     },
     {
-     "sector": "壽險",
+     "sector": "汽車零組件",
      "direction": 0
     }
    ],
    "pathBacktest": {
-    "target": "科技股全體",
-    "hitRate": 0.68,
-    "n": 100,
-    "avgSignedExcessT1": 0.107,
-    "foreignHitRateT1": 0.5429,
-    "avgForeignT1": -69788.249,
+    "target": "電子零組件",
+    "hitRate": null,
+    "n": 2,
+    "avgSignedExcessT1": 0.43,
+    "foreignHitRateT1": null,
+    "avgForeignT1": -1089.7,
     "window": [
-     "2026-08-12",
-     "2026-11-18"
+     "2026-10-07",
+     "2026-11-17"
     ]
    }
   },
@@ -8728,6 +9037,60 @@
     "baseDate": "2026-11-17",
     "foreignT1": -16894.4,
     "excessT1": 2.52
+   }
+  },
+  {
+   "id": "financialjuice-e06fc471aad7e9cf",
+   "tier": "normal",
+   "score": 0.09,
+   "actLabel": "評論看法",
+   "speaker": "Currency Strength Chart",
+   "publishedAt": "2026-11-19T08:01:18+00:00",
+   "titleZh": "貨幣強弱圖表：最強：紐西蘭元、歐元、英鎊、瑞士法郎、加幣、美元、澳幣、日圓 - 最弱",
+   "titleEn": "Currency Strength Chart: Strongest: NZD, EUR, GBP, CHF, CAD, USD, AUD, JPY - Weakest",
+   "channel": "台幣走勢 → 外資進出 + 匯兌損益",
+   "pathLabel": "匯率/資金",
+   "sectors": [
+    "大盤全體",
+    "金融",
+    "壽險",
+    "電子出口股"
+   ],
+   "url": "https://www.financialjuice.com/News/9859494/Currency-Strength-Chart-Strongest-NZD-EUR-GBP-CHF-CAD-USD-AUD-JPY---Weakest.aspx?xy=rss",
+   "related": [],
+   "pathId": "fx_capital",
+   "direction": 0,
+   "directionReason": "fx_capital.gate:not_twd",
+   "horizon": "short",
+   "impacts": [
+    {
+     "sector": "大盤全體",
+     "direction": 0
+    },
+    {
+     "sector": "金融",
+     "direction": 0
+    },
+    {
+     "sector": "壽險",
+     "direction": 0
+    },
+    {
+     "sector": "電子出口股",
+     "direction": 0
+    }
+   ],
+   "pathBacktest": {
+    "target": "大盤全體",
+    "hitRate": null,
+    "n": 2,
+    "avgSignedExcessT1": -1.66,
+    "foreignHitRateT1": null,
+    "avgForeignT1": -80324.25,
+    "window": [
+     "2026-10-22",
+     "2026-11-04"
+    ]
    }
   },
   {
@@ -9694,7 +10057,7 @@
   ]
  },
  "market": {
-  "generated_at": "2026-11-19T09:39:41.625832+00:00",
+  "generated_at": "2026-11-19T13:47:43.544546+00:00",
   "indicators": [
    {
     "id": "taiex",
@@ -9746,9 +10109,9 @@
    }
   ],
   "news": {
-   "net": -0.14,
+   "net": -0.05,
    "bull": 5,
-   "bear": 5,
+   "bear": 4,
    "lean": "中性",
    "window_hours": 24
   },
