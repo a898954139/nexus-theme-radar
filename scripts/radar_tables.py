@@ -69,6 +69,27 @@ class Series:
         return len(self.rows)
 
 
+@dataclass
+class Versioned:
+    """One current row per key (header) plus children stamped with its version.
+
+    The header is upserted; children are inserted with the header's version
+    column and never updated, and rows of superseded versions are removed by
+    radar.purge_snapshots() (radar.versioned_child).
+    """
+
+    dataset: str
+    header_table: str
+    key_column: str
+    version_column: str
+    headers: list[dict[str, Any]]
+    children: list[ChildTable]
+    instruments: dict[str, dict[str, Any]] = field(default_factory=dict)
+
+    def row_count(self) -> int:
+        return len(self.headers) + sum(len(child.rows) for child in self.children)
+
+
 # ------------------------------------------------------------------ helpers
 
 
@@ -842,6 +863,486 @@ def map_theme_momentum_history(payload: Mapping[str, Any]) -> Series:
     )
 
 
+# --------------------------------------------------------- stock watchlist
+
+WATCHLIST_SHORT_COMPONENTS = ("theme_attention", "institutional_short_activity", "daytrade_activity", "fundamental_defense")
+WATCHLIST_LONG_COMPONENTS = ("fundamental_quality", "institutional_support", "theme_persistence", "trading_stability")
+WATCHLIST_FUNDAMENTAL_KEYS = (
+    "score", "fiscal_quarter", "comparison_basis", "revenue_growth", "revenue_direction", "eps_growth",
+    "eps_direction", "gross_margin", "operating_margin", "operating_cash_flow", "operating_cash_flow_margin",
+    "debt_ratio",
+)
+
+
+def map_stock_watchlist(payload: Mapping[str, Any]) -> Snapshot:
+    label = "stock-watchlist"
+    instruments: dict[str, dict[str, Any]] = {}
+    sources = _dict(_require(payload, "sources", label), f"{label}.sources")
+    methodology = _dict(_require(payload, "methodology", label), f"{label}.methodology")
+    coverage = _dict(_require(payload, "coverage", label), f"{label}.coverage")
+    momentum = _dict(_require(sources, "momentum", label), "sources.momentum")
+
+    values = ChildTable("watchlist_header_value", ("kind", "position", "value"))
+    for kind, seq in (
+        ("institutional_as_of", _dict(sources["institutional"], "sources.institutional").get("as_of") or []),
+        ("fundamentals_fiscal_quarter", _dict(sources["fundamentals"], "sources.fundamentals").get("fiscal_quarters") or []),
+        ("coverage_metric", coverage.get("metrics") or []),
+        ("coverage_missing_reason", coverage.get("missing_reasons") or []),
+    ):
+        for position, value in enumerate(_list(seq, f"{label}.{kind}")):
+            values.rows.append((kind, position, str(value)))
+
+    day = ChildTable("watchlist_day_trading_source",
+                     ("market", "as_of", "finality", "numerator_url", "denominator_url", "status", "error"))
+    for market, src in _dict(_require(sources, "day_trading_activity", label), "day_trading_activity").items():
+        src = _dict(src, f"day_trading_activity.{market}")
+        day.rows.append((market, _opt_str(src.get("as_of")), _opt_str(src.get("finality")),
+                         _opt_str(src.get("numerator_url")), _opt_str(src.get("denominator_url")),
+                         _str(_require(src, "status", market), "status"), _opt_str(src.get("error"))))
+
+    weights = ChildTable("watchlist_weight", ("weight_set", "component", "position", "weight"))
+    for weight_set, key in (("short", "short_weights"), ("long", "long_weights"),
+                            ("fundamental_quality", "fundamental_quality_weights")):
+        for position, (component, weight) in enumerate(_dict(_require(methodology, key, label), key).items()):
+            weights.rows.append((weight_set, component, position, _num(weight, f"{key}.{component}")))
+
+    members = ChildTable("watchlist_member", ("instrument_id", "position", "selected_top50", "short_rank", "long_rank"))
+    member_themes = ChildTable("watchlist_member_theme",
+                               ("instrument_id", "position", "theme_id", "name_zh", "relation", "heat_score",
+                                "heat_change_24h", "momentum_score"))
+    member_flags = ChildTable("watchlist_member_flag", ("instrument_id", "position", "flag_key", "flag_type"))
+    for position, entry in enumerate(_list(_require(payload, "searchable", label), f"{label}.searchable")):
+        elabel = f"{label}.searchable[{position}]"
+        entry = _dict(entry, elabel)
+        inst = _dict(_require(entry, "instrument", elabel), f"{elabel}.instrument")
+        iid = add_instrument(instruments, inst.get("instrument_id"), inst.get("name_zh"), label=elabel)
+        members.rows.append((iid, position, _bool(_require(entry, "selected_top50", elabel), "selected_top50"),
+                             _opt_int(entry.get("short_rank"), "short_rank"), _opt_int(entry.get("long_rank"), "long_rank")))
+        for tpos, theme in enumerate(_list(entry.get("themes") or [], f"{elabel}.themes")):
+            theme = _dict(theme, f"{elabel}.themes[{tpos}]")
+            member_themes.rows.append((iid, tpos, _str(theme.get("theme_id"), "theme_id"), str(theme.get("name_zh") or ""),
+                                       _str(theme.get("relation"), "relation"), _opt_num(theme.get("heat_score"), "heat_score"),
+                                       _opt_num(theme.get("heat_change_24h"), "heat_change_24h"),
+                                       _opt_num(theme.get("momentum_score"), "momentum_score")))
+        for fpos, flag in enumerate(_list(entry.get("flags") or [], f"{elabel}.flags")):
+            flag = _dict(flag, f"{elabel}.flags[{fpos}]")
+            member_flags.rows.append((iid, fpos, _str(flag.get("key"), "flag.key"), _str(flag.get("type"), "flag.type")))
+    member_ids = {row[0] for row in members.rows}
+
+    items = ChildTable(
+        "watchlist_item",
+        ("instrument_id", "short_rank", "short_score", "long_rank", "long_score", "overnight_value",
+         "overnight_applied", "overnight_missing_reason", "institutional_direction", "institutional_as_of",
+         "institutional_observation_count", "institutional_five_day_net", "trading_as_of", "day_trading_volume",
+         "total_volume", "day_trading_volume_ratio", "overnight_risk", "overnight_missing_reason_trading",
+         "fundamental_score", *WATCHLIST_FUNDAMENTAL_KEYS[1:], "coverage_short_ratio", "coverage_long_ratio"),
+    )
+    components = ChildTable("watchlist_item_component",
+                            ("instrument_id", "horizon", "component", "raw", "normalized", "base_weight",
+                             "effective_weight", "available"))
+    missing = ChildTable("watchlist_item_missing", ("instrument_id", "position", "metric"))
+    short_items = _list(_dict(_require(payload, "short", label), "short").get("items"), "short.items")
+    long_items = _list(_dict(_require(payload, "long", label), "long").get("items"), "long.items")
+    long_by_id = {item["instrument"]["instrument_id"]: item for item in long_items}
+    if set(long_by_id) != {item["instrument"]["instrument_id"] for item in short_items}:
+        raise ValueError(f"{label}: short and long lists hold different instruments")
+    for position, item in enumerate(short_items):
+        ilabel = f"{label}.short.items[{position}]"
+        item = _dict(item, ilabel)
+        iid = item["instrument"]["instrument_id"]
+        if iid not in member_ids:
+            raise ValueError(f"{ilabel}: {iid} missing from searchable")
+        if long_by_id[iid] != item:
+            raise ValueError(f"{ilabel}: short and long copies of {iid} differ")
+        short = _dict(item["short"], f"{ilabel}.short")
+        long = _dict(item["long"], f"{ilabel}.long")
+        risk = _dict(_dict(short["risk_adjustment"], "risk_adjustment")["overnight_risk_adjustment"], "overnight")
+        inst = _dict(item["institutional"], "institutional")
+        trade = _dict(item["trading_activity"], "trading_activity")
+        fund = _dict(item["fundamentals"], "fundamentals")
+        cov = _dict(item["coverage"], "coverage")
+        items.rows.append((
+            iid, _int(short["rank"], "short.rank"), _num(short["score"], "short.score"),
+            _int(long["rank"], "long.rank"), _num(long["score"], "long.score"),
+            _opt_num(risk.get("value"), "overnight.value"), _num(risk["applied"], "overnight.applied"),
+            _opt_str(risk.get("missing_reason")),
+            _str(inst["direction"], "institutional.direction"), _opt_str(inst.get("as_of")),
+            _opt_int(inst.get("observation_count"), "observation_count"), _opt_num(inst.get("five_day_net"), "five_day_net"),
+            _opt_str(trade.get("as_of")), _opt_num(trade.get("day_trading_volume"), "day_trading_volume"),
+            _opt_num(trade.get("total_volume"), "total_volume"),
+            _opt_num(trade.get("day_trading_volume_ratio"), "day_trading_volume_ratio"),
+            _opt_num(trade.get("overnight_risk"), "overnight_risk"), _opt_str(trade.get("overnight_missing_reason")),
+            _opt_num(fund.get("score"), "fundamentals.score"),
+            *(_opt_str(fund.get(k)) if k in ("fiscal_quarter", "comparison_basis", "revenue_direction", "eps_direction")
+              else _opt_num(fund.get(k), f"fundamentals.{k}") for k in WATCHLIST_FUNDAMENTAL_KEYS[1:]),
+            _num(cov["short_ratio"], "short_ratio"), _num(cov["long_ratio"], "long_ratio"),
+        ))
+        for horizon, summary, names in (("short", short, WATCHLIST_SHORT_COMPONENTS), ("long", long, WATCHLIST_LONG_COMPONENTS)):
+            comps = _dict(summary["components"], f"{ilabel}.{horizon}.components")
+            if set(comps) != set(names):
+                raise ValueError(f"{ilabel}.{horizon}: unexpected components {sorted(comps)}")
+            for name in names:
+                comp = _dict(comps[name], f"{ilabel}.{horizon}.{name}")
+                components.rows.append((iid, horizon, name, _opt_num(comp.get("raw"), "raw"),
+                                        _opt_num(comp.get("normalized"), "normalized"), _num(comp["base_weight"], "base_weight"),
+                                        _num(comp["effective_weight"], "effective_weight"), _bool(comp["available"], "available")))
+        for mpos, metric in enumerate(_list(cov.get("missing") or [], f"{ilabel}.coverage.missing")):
+            missing.rows.append((iid, mpos, str(metric)))
+
+    header = {
+        "generated_at": _str(_require(payload, "generated_at", label), "generated_at"),
+        "schema_version": _str(_require(payload, "schema_version", label), "schema_version"),
+        "methodology_version": _str(_require(payload, "methodology_version", label), "methodology_version"),
+        "candidate_as_of": _opt_str(payload.get("candidate_as_of")),
+        "momentum_generated_at": _opt_str(momentum.get("generated_at")),
+        "momentum_observed_hour": _opt_str(momentum.get("observed_hour")),
+        "methodology_missing_values": str(methodology.get("missing_values") or ""),
+        "methodology_top50": str(methodology.get("top50") or ""),
+        "eligible_count": _int(_require(coverage, "eligible_count", label), "eligible_count"),
+        "selected_count": _int(_require(coverage, "selected_count", label), "selected_count"),
+    }
+    return Snapshot(
+        dataset="stock-watchlist",
+        header_table="watchlist_snapshot",
+        header=header,
+        children=[values, day, weights, members, member_themes, member_flags, items, components, missing],
+        instruments=instruments,
+    )
+
+
+# ---------------------------------------------------------- fundamentals
+
+INCOME_COLUMNS = ("revenue", "cost_of_sales", "gross_profit", "selling_expense", "admin_expense", "rd_expense",
+                  "expected_credit_loss", "operating_expense", "operating_income", "pretax_income", "net_income", "eps")
+BALANCE_COLUMNS = ("cash", "receivables", "inventory", "current_assets", "total_assets", "current_liabilities",
+                   "total_liabilities", "total_equity")
+CASH_FLOW_COLUMNS = ("operating", "investing", "financing", "depreciation", "capex", "dividends_paid", "ending_cash")
+QUARTER_COLUMNS = ("revenue", "gross_margin", "operating_margin", "net_margin", "eps")
+STATEMENTS = (("income", "fundamental_income", INCOME_COLUMNS), ("balance", "fundamental_balance", BALANCE_COLUMNS),
+              ("cash_flow", "fundamental_cash_flow", CASH_FLOW_COLUMNS))
+_HEALTH_PERIOD = re.compile(r"^(net_income|operating_cash_flow)_(\d{4}Q[1-4])$")
+_HEALTH_FIXED = ("cash", "current_ratio", "debt_ratio")
+
+
+def map_fundamentals(documents: Mapping[str, Mapping[str, Any]]) -> Versioned:
+    """data/fundamentals/<EXCHANGE>-<code>.json keyed by instrument_id."""
+
+    instruments: dict[str, dict[str, Any]] = {}
+    headers: list[dict[str, Any]] = []
+    quarters = ChildTable("fundamental_quarter", ("instrument_id", "fetched_at", "period", "position", *QUARTER_COLUMNS))
+    health = ChildTable("fundamental_health_period", ("instrument_id", "fetched_at", "period", "net_income", "operating_cash_flow"))
+    statements = {name: ChildTable(table, ("instrument_id", "fetched_at", "period", *cols)) for name, table, cols in STATEMENTS}
+    missing = ChildTable("fundamental_missing", ("instrument_id", "fetched_at", "position", "note"))
+    for instrument_id, doc in sorted(documents.items()):
+        label = f"fundamentals.{instrument_id}"
+        doc = _dict(doc, label)
+        iid = add_instrument(instruments, instrument_id, label=label)
+        fetched_at = _str(_require(doc, "fetched_at", label), f"{label}.fetched_at")
+        health_doc = _dict(doc.get("health") or {}, f"{label}.health")
+        valuation = _dict(doc.get("valuation") or {}, f"{label}.valuation")
+        per_period: dict[str, dict[str, Any]] = {}
+        for key, value in health_doc.items():
+            if key in _HEALTH_FIXED:
+                continue
+            match = _HEALTH_PERIOD.match(key)
+            if not match:
+                raise ValueError(f"{label}.health: unexpected key {key!r}")
+            per_period.setdefault(match.group(2), {})[match.group(1)] = _num(value, f"{label}.health.{key}")
+        unknown = set(valuation) - {"ttm_eps"}
+        if unknown:
+            raise ValueError(f"{label}.valuation: unexpected keys {sorted(unknown)}")
+        headers.append({
+            "instrument_id": iid, "fetched_at": fetched_at,
+            "basis": _str(_require(doc, "basis", label), "basis"),
+            "currency": _str(_require(doc, "currency", label), "currency"),
+            "source": _str(_require(doc, "source", label), "source"),
+            "fiscal_quarter": _str(_require(doc, "fiscal_quarter", label), "fiscal_quarter"),
+            **{k: _opt_num(health_doc.get(k), f"{label}.health.{k}") for k in _HEALTH_FIXED},
+            "ttm_eps": _opt_num(valuation.get("ttm_eps"), f"{label}.ttm_eps"),
+        })
+        for period, metrics in sorted(per_period.items()):
+            health.rows.append((iid, fetched_at, period, metrics.get("net_income"), metrics.get("operating_cash_flow")))
+        for position, quarter in enumerate(_list(doc.get("quarters") or [], f"{label}.quarters")):
+            quarter = _dict(quarter, f"{label}.quarters[{position}]")
+            unknown = set(quarter) - {"period", *QUARTER_COLUMNS}
+            if unknown:
+                raise ValueError(f"{label}.quarters: unexpected keys {sorted(unknown)}")
+            quarters.rows.append((iid, fetched_at, _str(quarter.get("period"), "period"), position,
+                                  *(_opt_num(quarter.get(c), f"{label}.quarters.{c}") for c in QUARTER_COLUMNS)))
+        statement_doc = _dict(doc.get("statements") or {}, f"{label}.statements")
+        for name, _table, cols in STATEMENTS:
+            for period, row in _dict(statement_doc.get(name) or {}, f"{label}.{name}").items():
+                row = _dict(row, f"{label}.{name}.{period}")
+                unknown = set(row) - set(cols)
+                if unknown:
+                    raise ValueError(f"{label}.{name}.{period}: unexpected keys {sorted(unknown)}")
+                statements[name].rows.append((iid, fetched_at, period, *(_opt_num(row.get(c), f"{label}.{name}.{c}") for c in cols)))
+        for position, note in enumerate(_list(doc.get("missing") or [], f"{label}.missing")):
+            missing.rows.append((iid, fetched_at, position, str(note)))
+    return Versioned(
+        dataset="fundamentals",
+        header_table="fundamental_set",
+        key_column="instrument_id",
+        version_column="fetched_at",
+        headers=headers,
+        children=[quarters, health, *statements.values(), missing],
+        instruments=instruments,
+    )
+
+
+def read_fundamentals(data_dir: Path) -> dict[str, Any]:
+    directory = data_dir / "fundamentals"
+    out: dict[str, Any] = {}
+    if not directory.is_dir():
+        return out
+    for path in sorted(directory.glob("*.json")):
+        exchange, sep, code = path.stem.partition("-")
+        if sep:
+            out[f"{exchange}:{code}"] = load_json(path)
+    return out
+
+
+def _load_fundamentals(data_dir: Path):
+    docs = read_fundamentals(data_dir)
+    return map_fundamentals(docs) if docs else None
+
+
+# ------------------------------------------------------------ pre-market
+
+
+def map_pre_market(payload: Mapping[str, Any]) -> Snapshot:
+    label = "pre-market"
+    sources = ChildTable("pm_source", ("position", "name"))
+    for position, name in enumerate(_list(_require(payload, "sources", label), "sources")):
+        sources.rows.append((position, _str(name, "sources[]")))
+    events = ChildTable(
+        "pm_event",
+        ("position", "event_id", "tier", "score", "act_label", "speaker", "published_at", "title_zh", "title_en",
+         "channel", "path_label", "path_id", "url", "direction", "direction_reason", "horizon", "has_backtest",
+         "bt_target", "bt_hit_rate", "bt_n", "bt_avg_signed_excess_t1", "bt_foreign_hit_rate_t1",
+         "bt_avg_foreign_t1", "bt_window_start", "bt_window_end", "has_flow_after", "fa_target", "fa_base_date",
+         "fa_foreign_t1", "fa_excess_t1"),
+    )
+    sectors_of = ChildTable("pm_event_sector", ("event_position", "position", "sector"))
+    related = ChildTable("pm_event_related", ("event_position", "position", "title", "url"))
+    impacts = ChildTable("pm_event_impact", ("event_position", "position", "sector", "direction"))
+    known = {"id", "tier", "score", "actLabel", "speaker", "publishedAt", "titleZh", "titleEn", "channel",
+             "pathLabel", "sectors", "url", "related", "pathId", "direction", "directionReason", "horizon",
+             "impacts", "pathBacktest", "flowAfter"}
+    for position, event in enumerate(_list(_require(payload, "events", label), "events")):
+        elabel = f"{label}.events[{position}]"
+        event = _dict(event, elabel)
+        unknown = set(event) - known
+        if unknown:
+            raise ValueError(f"{elabel}: unexpected keys {sorted(unknown)}")
+        bt = event.get("pathBacktest")
+        bt = _dict(bt, f"{elabel}.pathBacktest") if bt is not None else None
+        window = _list(bt.get("window") or [None, None], "window") if bt else [None, None]
+        if bt is not None and len(window) != 2:
+            raise ValueError(f"{elabel}.pathBacktest.window: expected [start, end]")
+        fa = event.get("flowAfter")
+        fa = _dict(fa, f"{elabel}.flowAfter") if fa is not None else None
+        events.rows.append((
+            position,
+            _str(_require(event, "id", elabel), f"{elabel}.id"),
+            _str(_require(event, "tier", elabel), "tier"),
+            _num(_require(event, "score", elabel), "score"),
+            _opt_str(event.get("actLabel")),
+            _opt_str(event.get("speaker")),
+            _str(_require(event, "publishedAt", elabel), "publishedAt"),
+            str(_require(event, "titleZh", elabel)),
+            _opt_str(event.get("titleEn")),
+            _opt_str(event.get("channel")),
+            _opt_str(event.get("pathLabel")),
+            _opt_str(event.get("pathId")),
+            _opt_str(event.get("url")),
+            _opt_int(event.get("direction"), "direction"),
+            _opt_str(event.get("directionReason")),
+            _opt_str(event.get("horizon")),
+            bt is not None,
+            None if bt is None else _opt_str(bt.get("target")),
+            None if bt is None else _opt_num(bt.get("hitRate"), "hitRate"),
+            None if bt is None else _opt_int(bt.get("n"), "n"),
+            None if bt is None else _opt_num(bt.get("avgSignedExcessT1"), "avgSignedExcessT1"),
+            None if bt is None else _opt_num(bt.get("foreignHitRateT1"), "foreignHitRateT1"),
+            None if bt is None else _opt_num(bt.get("avgForeignT1"), "avgForeignT1"),
+            _opt_str(window[0]), _opt_str(window[1]),
+            fa is not None,
+            None if fa is None else _opt_str(fa.get("target")),
+            None if fa is None else _opt_str(fa.get("baseDate")),
+            None if fa is None else _opt_num(fa.get("foreignT1"), "foreignT1"),
+            None if fa is None else _opt_num(fa.get("excessT1"), "excessT1"),
+        ))
+        if bt is not None and set(bt) - {"target", "hitRate", "n", "avgSignedExcessT1", "foreignHitRateT1", "avgForeignT1", "window"}:
+            raise ValueError(f"{elabel}.pathBacktest: unexpected keys")
+        if fa is not None and set(fa) - {"target", "baseDate", "foreignT1", "excessT1"}:
+            raise ValueError(f"{elabel}.flowAfter: unexpected keys")
+        for spos, sector in enumerate(_list(event.get("sectors") or [], f"{elabel}.sectors")):
+            sectors_of.rows.append((position, spos, _str(sector, "sector")))
+        for rpos, rel in enumerate(_list(event.get("related") or [], f"{elabel}.related")):
+            rel = _dict(rel, f"{elabel}.related[{rpos}]")
+            if set(rel) - {"title", "url"}:
+                raise ValueError(f"{elabel}.related: unexpected keys")
+            related.rows.append((position, rpos, str(rel.get("title") or ""), _opt_str(rel.get("url"))))
+        for ipos, imp in enumerate(_list(event.get("impacts") or [], f"{elabel}.impacts")):
+            imp = _dict(imp, f"{elabel}.impacts[{ipos}]")
+            impacts.rows.append((position, ipos, _str(imp.get("sector"), "impact.sector"), _int(imp.get("direction"), "impact.direction")))
+
+    pulse = ChildTable("pm_pulse", ("position", "pulse_id", "label", "value_text", "delta_text", "up"))
+    points = ChildTable("pm_pulse_point", ("pulse_position", "position", "value"))
+    for position, row in enumerate(_list(_require(payload, "pulse", label), "pulse")):
+        row = _dict(row, f"{label}.pulse[{position}]")
+        pulse.rows.append((position, _str(row.get("id"), "pulse.id"), str(row.get("label") or ""),
+                           str(row.get("value") or ""), str(row.get("delta") or ""), _bool(row.get("up"), "pulse.up")))
+        for ppos, value in enumerate(_list(row.get("series") or [], "pulse.series")):
+            points.rows.append((position, ppos, _num(value, "pulse.series[]")))
+
+    sectors = ChildTable("pm_sector", ("position", "name", "chg"))
+    for position, row in enumerate(_list(_require(payload, "sectors", label), "sectors")):
+        row = _dict(row, f"{label}.sectors[{position}]")
+        sectors.rows.append((position, _str(row.get("name"), "sector.name"), _num(row.get("chg"), "sector.chg")))
+
+    flows = _dict(_require(payload, "flows", label), "flows")
+    panels = ChildTable("pm_flow_panel", ("position", "panel_id", "title", "unit"))
+    entries = ChildTable("pm_flow_entry", ("panel_position", "side", "position", "rank", "name", "value"))
+    for position, panel in enumerate(_list(flows.get("panels") or [], "flows.panels")):
+        panel = _dict(panel, f"flows.panels[{position}]")
+        panels.rows.append((position, _str(panel.get("id"), "panel.id"), str(panel.get("title") or ""), _opt_str(panel.get("unit"))))
+        for side in ("buy", "sell"):
+            for epos, entry in enumerate(_list(panel.get(side) or [], f"panel.{side}")):
+                entry = _dict(entry, f"panel.{side}[{epos}]")
+                entries.rows.append((position, side, epos, _int(entry.get("rank"), "rank"), str(entry.get("name") or ""),
+                                     _num(entry.get("value"), "value")))
+
+    market = payload.get("market")
+    market = _dict(market, "market") if market is not None else None
+    indicators = ChildTable("pm_indicator", ("position", "indicator_id", "label", "missing", "reason", "value", "change",
+                                             "change_pct", "unit", "as_of", "session", "source"))
+    news = lean = div = None
+    if market is not None:
+        for position, ind in enumerate(_list(market.get("indicators") or [], "market.indicators")):
+            ind = _dict(ind, f"market.indicators[{position}]")
+            indicators.rows.append((position, _str(ind.get("id"), "indicator.id"), str(ind.get("label") or ""),
+                                    _bool(ind.get("missing"), "indicator.missing"), _opt_str(ind.get("reason")),
+                                    _opt_num(ind.get("value"), "value"), _opt_num(ind.get("change"), "change"),
+                                    _opt_num(ind.get("change_pct"), "change_pct"), _opt_str(ind.get("unit")),
+                                    _opt_str(ind.get("as_of")), _opt_str(ind.get("session")), _opt_str(ind.get("source"))))
+        news = market.get("news")
+        news = _dict(news, "market.news") if news is not None else None
+        lean = _dict(market.get("market") or {}, "market.market")
+        div = market.get("divergence")
+        div = _dict(div, "market.divergence") if div is not None else None
+    header = {
+        "generated_at": _str(_require(payload, "generated_at", label), "generated_at"),
+        "schema_version": _int(_require(payload, "schema_version", label), "schema_version"),
+        "window_hours": _int(_require(payload, "window_hours", label), "window_hours"),
+        "direction_rule_version": _opt_str(payload.get("direction_rule_version")),
+        "flows_as_of": _opt_str(flows.get("as_of")),
+        "has_market": market is not None,
+        "market_generated_at": None if market is None else _opt_str(market.get("generated_at")),
+        "has_news": news is not None,
+        "news_net": None if news is None else _opt_num(news.get("net"), "news.net"),
+        "news_bull": None if news is None else _opt_int(news.get("bull"), "news.bull"),
+        "news_bear": None if news is None else _opt_int(news.get("bear"), "news.bear"),
+        "news_lean": None if news is None else _opt_str(news.get("lean")),
+        "news_window_hours": None if news is None else _opt_int(news.get("window_hours"), "news.window_hours"),
+        "market_lean": None if lean is None else _opt_str(lean.get("lean")),
+        "market_avg_pct": None if lean is None else _opt_num(lean.get("avg_pct"), "avg_pct"),
+        "market_basis": None if lean is None else _opt_str(lean.get("basis")),
+        "has_divergence": div is not None,
+        "divergence_message": None if div is None else _opt_str(div.get("message")),
+        "divergence_news_lean": None if div is None else _opt_str(div.get("news_lean")),
+        "divergence_market_lean": None if div is None else _opt_str(div.get("market_lean")),
+        "has_sectors_as_of": market is not None and "sectors_as_of" in market,
+        "sectors_as_of": None if market is None else _opt_str(market.get("sectors_as_of")),
+    }
+    return Snapshot(
+        dataset="pre-market",
+        header_table="pm_snapshot",
+        header=header,
+        children=[sources, events, sectors_of, related, impacts, pulse, points, sectors, panels, entries, indicators],
+    )
+
+
+# ------------------------------------------------------------ stock audit
+
+
+def map_stock_audit(payload: Mapping[str, Any]) -> Snapshot:
+    label = "stock-audit"
+    forecast = _dict(_require(payload, "forecast", label), "forecast")
+    references = ChildTable("stock_audit_reference", ("position", "label", "value", "change_pct", "as_of", "source"))
+    for position, ref in enumerate(_list(forecast.get("references") or [], "forecast.references")):
+        ref = _dict(ref, f"references[{position}]")
+        references.rows.append((position, _str(ref.get("label"), "label"), _num(ref.get("value"), "value"),
+                                _num(ref.get("change_pct"), "change_pct"), _str(ref.get("as_of"), "as_of"),
+                                _str(ref.get("source"), "source")))
+    stocks = ChildTable(
+        "stock_audit_stock",
+        ("position", "symbol", "name", "price", "price_as_of", "source", "summary", "f_revenue", "f_revenue_unit",
+         "f_period", "f_eps", "f_ttm_eps", "f_pe", "f_as_of", "f_source", "f_analysis", "v_source",
+         "v_baseline_label", "v_baseline_pe", "v_premium_pct", "v_percentile", "v_sample_count", "v_analysis",
+         "t_ma20", "t_ma60", "t_support", "t_resistance", "t_analysis", "q_sharpe", "q_sortino", "q_ttr_days",
+         "q_index_shape", "q_period", "q_method", "q_source"),
+    )
+    candles = ChildTable("stock_audit_candle", ("stock_position", "trade_date", "open", "high", "low", "close", "volume"))
+    operations = ChildTable("stock_audit_operation", ("stock_position", "position", "term", "horizon", "entry", "add_price",
+                                                      "stop", "take_profit", "timing", "add_condition"))
+    for position, stock in enumerate(_list(_require(payload, "stocks", label), "stocks")):
+        sl = f"{label}.stocks[{position}]"
+        stock = _dict(stock, sl)
+        f = _dict(stock["fundamentals"], f"{sl}.fundamentals")
+        v = _dict(stock["valuation"], f"{sl}.valuation")
+        t = _dict(stock["technical"], f"{sl}.technical")
+        q = _dict(stock["quality"], f"{sl}.quality")
+        stocks.rows.append((
+            position, _str(stock.get("symbol"), "symbol"), _str(stock.get("name"), "name"), _num(stock.get("price"), "price"),
+            _str(stock.get("price_as_of"), "price_as_of"), _str(stock.get("source"), "source"), str(stock.get("summary") or ""),
+            _num(f["revenue"], "f.revenue"), _str(f["revenue_unit"], "f.revenue_unit"), _str(f["period"], "f.period"),
+            _num(f["eps"], "f.eps"), _num(f["ttm_eps"], "f.ttm_eps"), _num(f["pe"], "f.pe"), _str(f["as_of"], "f.as_of"),
+            _str(f["source"], "f.source"), str(f.get("analysis") or ""),
+            _str(v["source"], "v.source"), _str(v["baseline_label"], "v.baseline_label"), _num(v["baseline_pe"], "v.baseline_pe"),
+            _num(v["premium_pct"], "v.premium_pct"), _num(v["percentile"], "v.percentile"), _int(v["sample_count"], "v.sample_count"),
+            str(v.get("analysis") or ""),
+            _num(t["ma20"], "t.ma20"), _num(t["ma60"], "t.ma60"), _num(t["support"], "t.support"),
+            _num(t["resistance"], "t.resistance"), str(t.get("analysis") or ""),
+            _num(q["sharpe"], "q.sharpe"), _num(q["sortino"], "q.sortino"), _int(q["ttr_days"], "q.ttr_days"),
+            _str(q["index_shape"], "q.index_shape"), _str(q["period"], "q.period"), _str(q["method"], "q.method"),
+            _str(q["source"], "q.source"),
+        ))
+        for candle in _list(t.get("candles") or [], f"{sl}.candles"):
+            candle = _dict(candle, f"{sl}.candle")
+            candles.rows.append((position, _str(candle.get("date"), "date"), _num(candle["open"], "open"),
+                                 _num(candle["high"], "high"), _num(candle["low"], "low"), _num(candle["close"], "close"),
+                                 _int(candle["volume"], "volume")))
+        for opos, op in enumerate(_list(stock.get("operations") or [], f"{sl}.operations")):
+            op = _dict(op, f"{sl}.operations[{opos}]")
+            operations.rows.append((position, opos, _str(op["term"], "term"), _str(op["horizon"], "horizon"),
+                                    _num(op["entry"], "entry"), _num(op["add"], "add"), _num(op["stop"], "stop"),
+                                    _num(op["take_profit"], "take_profit"), str(op.get("timing") or ""),
+                                    str(op.get("add_condition") or "")))
+    receipts = ChildTable("stock_audit_receipt", ("position", "url", "fetched_at", "status"))
+    for position, rec in enumerate(_list(payload.get("source_receipts") or [], "source_receipts")):
+        rec = _dict(rec, f"source_receipts[{position}]")
+        receipts.rows.append((position, _str(rec.get("url"), "url"), _str(rec.get("fetched_at"), "fetched_at"),
+                              _int(rec.get("status"), "status")))
+    generated = _str(_require(payload, "generated_at", label), "generated_at")
+    header = {
+        "generated_at": generated,
+        "generated_at_text": generated,
+        "schema_version": _int(_require(payload, "schema_version", label), "schema_version"),
+        "report_date": _str(_require(payload, "report_date", label), "report_date"),
+        "conclusion": str(payload.get("conclusion") or ""),
+        "forecast_summary": str(forecast.get("summary") or ""),
+        "forecast_as_of": _str(forecast.get("as_of"), "forecast.as_of"),
+    }
+    return Snapshot(
+        dataset="stock-audit",
+        header_table="stock_audit_report",
+        header=header,
+        children=[references, stocks, candles, operations, receipts],
+    )
+
+
 # ---------------------------------------------------------------- registry
 
 
@@ -873,4 +1374,8 @@ DATASETS = {
     "theme-ranking": _json_file("public-theme-ranking-v0.8.json", map_theme_ranking),
     "theme-momentum": _json_file("public-theme-momentum-latest-v0.9.json", map_theme_momentum),
     "theme-momentum-history": _json_file("public-theme-momentum-history-v0.9.json", map_theme_momentum_history),
+    "stock-watchlist": _json_file("public-stock-watchlist-v1.json", map_stock_watchlist),
+    "fundamentals": _load_fundamentals,
+    "pre-market": _json_file("pre-market-latest.json", map_pre_market),
+    "stock-audit": _json_file("stock-audit-latest.json", map_stock_audit),
 }

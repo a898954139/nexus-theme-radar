@@ -21,7 +21,7 @@ const DSN = (process.env.RADAR_TEST_DATABASE_URL || '').trim();
 const skip = DSN ? false : 'RADAR_TEST_DATABASE_URL not set';
 const data = (name) => JSON.parse(readFileSync(new URL(`../../data/${name}`, import.meta.url), 'utf8'));
 
-const ISO_FRACTION = /^(\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2})\.(\d*?)0*Z$/;
+const ISO_FRACTION = /^(\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2})(?:\.(\d*?)0*)?(?:Z|\+00:00)$/;
 
 /** Drop null/undefined keys, normalize ISO fractions, recurse. */
 export function normalize(value) {
@@ -36,6 +36,9 @@ export function normalize(value) {
   if (typeof value === 'string') {
     const m = ISO_FRACTION.exec(value);
     if (m) return m[2] ? `${m[1]}.${m[2]}Z` : `${m[1]}Z`;
+    // Naive timestamps (no offset) are stored as UTC.
+    const naive = /^(\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2})(?:\.(\d*?)0*)?$/.exec(value);
+    if (naive) return naive[2] ? `${naive[1]}.${naive[2]}Z` : `${naive[1]}Z`;
   }
   return value;
 }
@@ -229,6 +232,47 @@ test('theme-momentum-history serves the hourly series', { skip }, async () => {
   assert.equal(body.newest_observed_hour, file.newest_observed_hour);
   assert.equal(body.observation_count, expected.length);
   assert.equal((await call('theme-momentum-history', 'hours=0')).status, 400);
+});
+
+test('stock-watchlist rebuilds the exact-key v1 payload', { skip }, async () => {
+  const { status, body } = await call('stock-watchlist');
+  assert.equal(status, 200);
+  // Exact deepEqual (no null-dropping): the page's isStockWatchlistData
+  // compares key sets, so every key, null or not, must come back.
+  const expected = data('public-stock-watchlist-v1.json');
+  const names = await instrumentNames();
+  const fix = (o) => { if (o?.instrument) o.instrument.name_zh = names.get(o.instrument.instrument_id) ?? o.instrument.name_zh; };
+  [...expected.short.items, ...expected.long.items, ...expected.searchable].forEach(fix);
+  assert.deepEqual(body, JSON.parse(JSON.stringify(expected)));
+});
+
+test('fundamentals rebuild each per-stock file', { skip }, async () => {
+  const files = readdirSync(new URL('../../data/fundamentals/', import.meta.url));
+  const sample = files.filter((_, i) => i % 53 === 0).concat(['TWSE-2330.json']);
+  for (const file of sample) {
+    const [exchange, code] = file.replace('.json', '').split('-');
+    const { status, body } = await call('fundamentals', `instrument_id=${exchange}:${code}`);
+    assert.equal(status, 200, file);
+    const { instrument_id, ...rest } = body;
+    assert.equal(instrument_id, `${exchange}:${code}`);
+    assert.deepEqual(normalize(rest), normalize(data(`fundamentals/${file}`)), file);
+  }
+  assert.equal((await call('fundamentals', 'symbol=2330')).status, 200);
+  assert.equal((await call('fundamentals', 'symbol=ZZZZ')).status, 404);
+});
+
+test('pre-market rebuilds the board and passes the shared contract', { skip }, async () => {
+  const { status, body } = await call('pre-market');
+  assert.equal(status, 200);
+  const { isPreMarketPayload } = await import('../../src/lib/preMarketContract.js');
+  assert.equal(isPreMarketPayload(body), true);
+  assert.deepEqual(normalize(body), normalize(data('pre-market-latest.json')));
+});
+
+test('stock-audit rebuilds the report and passes the page validator shape', { skip }, async () => {
+  const { status, body } = await call('stock-audit');
+  assert.equal(status, 200);
+  assert.deepEqual(body, data('stock-audit-latest.json'));
 });
 
 test('close pool', { skip }, async () => {

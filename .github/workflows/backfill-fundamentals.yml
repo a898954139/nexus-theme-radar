@@ -77,6 +77,23 @@ jobs:
           fi
           python scripts/backfill_all_fundamentals.py "${args[@]}"
 
+      - name: Publish to radar tables
+        if: ${{ inputs.dry_run != true }}
+        # Cut-over period: a DB failure is logged and must not block the
+        # commit below. Switches to --require once the site reads only /api/v1.
+        continue-on-error: true
+        env:
+          # Normalized radar tables behind /api/v1 (docs/RADAR_RELATIONAL.md).
+          # Same secret + authorization variables as the other DB writers,
+          # narrowed to master + production. Empty = skipped, files unaffected.
+          THEME_RADAR_DATABASE_URL: >-
+            ${{ github.ref_type == 'branch'
+                && github.ref_name == 'master'
+                && vars.THEME_RADAR_DB_HISTORY_AUTHORIZED_BRANCH == github.ref_name
+                && vars.THEME_RADAR_DB_HISTORY_AUTHORIZED_ENVIRONMENT == 'production'
+                && secrets.THEME_RADAR_DATABASE_URL || '' }}
+        run: python scripts/radar_publish.py --data-dir data --dataset fundamentals
+
       - name: Commit and push changes
         if: ${{ inputs.dry_run != true }}
         run: |
