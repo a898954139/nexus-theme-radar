@@ -1,0 +1,63 @@
+name: Backfill radar tables
+
+# One-off / on-demand: load the committed data/ files into the normalized
+# radar tables (docs/RADAR_RELATIONAL.md). Idempotent: a snapshot whose
+# generated_at is already stored is skipped, time series are upserted.
+# Run after applying the relational migrations, before the site switches to
+# /api/v1. Fails loudly (--require) because nothing else depends on it.
+
+on:
+  workflow_dispatch:
+    inputs:
+      datasets:
+        description: "Space-separated dataset names, or 'all'"
+        required: false
+        default: all
+        type: string
+
+permissions:
+  contents: read
+
+concurrency:
+  group: radar-tables-backfill
+  cancel-in-progress: false
+
+jobs:
+  backfill:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Setup Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.11"
+          cache: pip
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Publish data/ into radar tables
+        env:
+          THEME_RADAR_DATABASE_URL: >-
+            ${{ github.ref_type == 'branch'
+                && github.ref_name == 'master'
+                && vars.THEME_RADAR_DB_HISTORY_AUTHORIZED_BRANCH == github.ref_name
+                && vars.THEME_RADAR_DB_HISTORY_AUTHORIZED_ENVIRONMENT == 'production'
+                && secrets.THEME_RADAR_DATABASE_URL || '' }}
+          DATASETS: ${{ inputs.datasets }}
+        run: |
+          args=(--data-dir data --require)
+          if [ -z "$DATASETS" ] || [ "$DATASETS" = "all" ]; then
+            args+=(--all)
+          else
+            for name in $DATASETS; do
+              case "$name" in
+                *[!a-z0-9-]*) echo "invalid dataset name: $name" >&2; exit 2 ;;
+              esac
+              args+=(--dataset "$name")
+            done
+          fi
+          python scripts/radar_publish.py "${args[@]}"
