@@ -19,6 +19,9 @@
   --gold-line: #2C2413;
   --green: #23B47E;
   --red: #E15B49;
+  /* Market direction, Taiwan convention: red = up / bullish, green = down / bearish. */
+  --up: var(--red);
+  --down: var(--green);
   --neutral: #6B7280;
   --cyan: #3FD0E8;
   --purple: #B79BE0;
@@ -1081,24 +1084,24 @@ a { color: inherit; }
 .focus-calm span { color: var(--muted); font-size: 12px; }
 
 /* ---------- 利多 / 利空 ---------- */
-/* Direction uses the site's existing up/down colours (green up, red down) so a
-   bullish event reads the same as a rising quote everywhere else. */
+/* Direction uses the market tokens --up / --down (Taiwan convention: red up,
+   green down), shared with the quote pulse, sector bars and daily report card. */
 .focus-direction { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; padding: 0 20px 18px; }
 .focus-direction-col { display: flex; flex-direction: column; gap: 10px; min-width: 0; }
 .focus-direction-head { display: flex; align-items: baseline; justify-content: space-between; padding-bottom: 8px; border-bottom: 2px solid var(--line); }
-.focus-direction-col.is-bull .focus-direction-head { border-bottom-color: var(--green); }
-.focus-direction-col.is-bear .focus-direction-head { border-bottom-color: var(--red); }
-.focus-direction-col.is-bull .focus-direction-head strong { color: var(--green); }
-.focus-direction-col.is-bear .focus-direction-head strong { color: var(--red); }
+.focus-direction-col.is-bull .focus-direction-head { border-bottom-color: var(--up); }
+.focus-direction-col.is-bear .focus-direction-head { border-bottom-color: var(--down); }
+.focus-direction-col.is-bull .focus-direction-head strong { color: var(--up); }
+.focus-direction-col.is-bear .focus-direction-head strong { color: var(--down); }
 .focus-direction-head strong { font: 600 15px 'Noto Sans TC', sans-serif; }
 .focus-direction-head span { color: var(--faint); font-size: 11px; }
 .focus-direction-list { display: flex; flex-direction: column; gap: 10px; }
 .focus-direction-empty { padding: 18px; border: 1px dashed var(--line); border-radius: 12px; color: var(--muted); font-size: 12px; text-align: center; }
 .focus-direction-tag { padding: 2px 8px; border-radius: 5px; font: 600 10.5px/1.7 'Noto Sans TC', sans-serif; }
-.focus-direction-tag.is-bull { background: color-mix(in srgb, var(--green) 18%, transparent); color: var(--green); }
-.focus-direction-tag.is-bear { background: color-mix(in srgb, var(--red) 18%, transparent); color: var(--red); }
-.focus-sector-chip.is-bull { border-color: var(--green); color: var(--green); }
-.focus-sector-chip.is-bear { border-color: var(--red); color: var(--red); }
+.focus-direction-tag.is-bull { background: color-mix(in srgb, var(--up) 18%, transparent); color: var(--up); }
+.focus-direction-tag.is-bear { background: color-mix(in srgb, var(--down) 18%, transparent); color: var(--down); }
+.focus-sector-chip.is-bull { border-color: var(--up); color: var(--up); }
+.focus-sector-chip.is-bear { border-color: var(--down); color: var(--down); }
 .focus-reason { margin: 0; color: var(--faint); font: 400 10.5px/1.6 'IBM Plex Mono', monospace; word-break: break-word; }
 .focus-full-heading { padding: 4px 20px 10px; }
 .focus-normal-toggle { min-height: 28px; margin-bottom: 10px; padding: 0 12px; border: 1px solid var(--line); border-radius: 6px; background: var(--shell-bg); color: var(--muted); font-size: 12px; }
@@ -1126,13 +1129,13 @@ a { color: inherit; }
 .pulse-card-head { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; margin-bottom: 8px; }
 .pulse-label { color: var(--muted); font-size: 12.5px; white-space: nowrap; }
 .pulse-delta { font-size: 12px; }
-.pulse-card.is-up .pulse-delta { color: var(--green); }
-.pulse-card.is-down .pulse-delta { color: var(--red); }
+.pulse-card.is-up .pulse-delta { color: var(--up); }
+.pulse-card.is-down .pulse-delta { color: var(--down); }
 .pulse-card-body { display: flex; align-items: flex-end; justify-content: space-between; gap: 10px; }
 .pulse-value { color: var(--text-hi); font-size: 21px; font-weight: 500; letter-spacing: -.01em; }
 .pulse-spark { flex: 1 1 auto; width: auto; min-width: 34px; max-width: 88px; height: 32px; overflow: hidden; }
-.pulse-card.is-up .pulse-spark polyline { stroke: var(--green); }
-.pulse-card.is-down .pulse-spark polyline { stroke: var(--red); }
+.pulse-card.is-up .pulse-spark polyline { stroke: var(--up); }
+.pulse-card.is-down .pulse-spark polyline { stroke: var(--down); }
 
 /* ---------- 類股漲跌（垂直長條） ---------- */
 /* Columns above and below a shared zero line: direction is read from which side
@@ -1143,11 +1146,11 @@ a { color: inherit; }
 .sector-col { display: flex; flex: 1 0 46px; flex-direction: column; align-items: center; min-width: 46px; }
 .sector-plot { position: relative; flex: 1; width: 100%; }
 .sector-bar { position: absolute; left: 50%; width: 26px; transform: translateX(-50%); border-radius: 2px; }
-.sector-bar.is-up { background: var(--green); }
-.sector-bar.is-down { background: var(--red); }
+.sector-bar.is-up { background: var(--up); }
+.sector-bar.is-down { background: var(--down); }
 .sector-chg { position: absolute; top: 0; font-size: 10.5px; white-space: nowrap; }
-.sector-chg.is-up { color: var(--green); }
-.sector-chg.is-down { color: var(--red); }
+.sector-chg.is-up { color: var(--up); }
+.sector-chg.is-down { color: var(--down); }
 .sector-name { max-width: 46px; margin-top: 9px; color: var(--muted); font-size: 11px; line-height: 1.25; text-align: center; word-break: break-all; }
 
 /* ---------- 類股買賣超 ---------- */
@@ -1195,8 +1198,8 @@ a { color: inherit; }
 .daily-report-head { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 6px; color: var(--muted); font-size: 11px; }
 .daily-report-tags { display: flex; flex-wrap: wrap; gap: 6px; margin: 10px 0; }
 .daily-report-tags .tag { padding: 3px 8px; border: 1px solid var(--line); border-radius: 999px; color: var(--text); font-size: 11px; }
-.daily-report-tags .bias-bullish { border-color: var(--red); color: var(--red); }
-.daily-report-tags .bias-bearish { border-color: var(--green); color: var(--green); }
+.daily-report-tags .bias-bullish { border-color: var(--up); color: var(--up); }
+.daily-report-tags .bias-bearish { border-color: var(--down); color: var(--down); }
 .daily-report-tags .action-no_trade { border-color: var(--neutral); color: var(--muted); }
 .daily-report-conclusion { margin: 0 0 8px; color: var(--text-hi); font-size: 13px; line-height: 1.7; }
 .daily-report-warning { margin: 0 0 8px; color: var(--gold-hover); font-size: 12px; }
