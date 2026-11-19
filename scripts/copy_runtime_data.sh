@@ -26,6 +26,9 @@ cp data/fundamentals-index.json "$DEST/data/"
 # has ever produced the file. Also the API's fallback when the DB path fails.
 if [ -f data/pre-market-latest.json ]; then cp data/pre-market-latest.json "$DEST/data/"; fi
 cp -R data/fundamentals "$DEST/data/"
+# Theme x institutional-flow focus board. Optional: the pages hide the board
+# when it is absent, so a deploy before the first build_theme_focus run is fine.
+if [ -f data/theme-focus.json ]; then cp data/theme-focus.json "$DEST/data/"; fi
 if [ -f data/broker-stats.json ]; then cp data/broker-stats.json "$DEST/data/"; fi
 if [ -f data/broker-coverage.json ]; then cp data/broker-coverage.json "$DEST/data/"; fi
 if [ -d data/broker-map ]; then cp -R data/broker-map "$DEST/data/"; fi

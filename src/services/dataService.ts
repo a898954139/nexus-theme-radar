@@ -4,6 +4,7 @@ import {
   BrokerMapData,
   BrokerStatsData,
   FlowMetric,
+  InstitutionalRankingBoard,
   InstitutionalRankingsData,
   MomentumHistoryData,
   MomentumLatestData,
@@ -13,6 +14,7 @@ import {
   SourceStatusData,
   StockWatchlistData,
   StockFundamentals,
+  ThemeFocusData,
   ThemeEvent,
   ThemeRankingData,
   WaytoAgiData
@@ -357,6 +359,20 @@ export async function fetchInstitutionalRankings(
   return data.rankings[key]?.entries ?? [];
 }
 
+/** Same board as fetchInstitutionalRankings, with its date range and source. */
+export async function fetchInstitutionalBoard(
+  days: number,
+  direction: 'up' | 'down',
+  metric: FlowMetric = 'net',
+  cacheBust = false
+): Promise<InstitutionalRankingBoard | null> {
+  const data = await readInstitutionalData(cacheBust);
+  const prefix = metric === 'net' ? 'top_three_inst_netbuy' : 'top_three_inst_change';
+  const board = data.rankings[`${prefix}_${days}_${direction}`];
+  if (!board) return null;
+  return { ...board, source: board.source ?? data.source };
+}
+
 function resolveInstrumentKey(symbol: string, exchange?: string): string[] {
   if (symbol.includes(':')) return [symbol];
   if (exchange) return [`${exchange}:${symbol}`];
@@ -417,4 +433,19 @@ export async function fetchStockFundamentals(symbol: string, exchange?: string, 
     }
   }
   return null;
+}
+
+/**
+ * Theme x institutional-flow focus board. Resolves to null instead of throwing:
+ * the file is optional, and every page that shows the board must still render
+ * without it.
+ */
+export async function fetchThemeFocus(cacheBust = false): Promise<ThemeFocusData | null> {
+  try {
+    const payload = await readJson<ThemeFocusData>('./data/theme-focus.json', cacheBust);
+    if (payload?.schema_version !== 'nexus_theme_focus.v1' || !Array.isArray(payload.themes)) return null;
+    return payload;
+  } catch {
+    return null;
+  }
 }

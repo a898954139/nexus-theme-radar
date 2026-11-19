@@ -1,13 +1,53 @@
 import React, { useEffect, useMemo, useState } from 'react';
-import { fetchInstitutionalFlows, fetchInstitutionalRankings } from '../../services/dataService';
+import { fetchInstitutionalBoard, fetchInstitutionalFlows } from '../../services/dataService';
+import { shortDate } from '../common/ThemeFocusBoard';
+import { ThemeFlowPanel } from './ThemeFlowPanel';
 import { BrokerFlows } from './BrokerFlows';
-import { DeviceType, FlowDirection, FlowMetric, FlowView, InstitutionalFlowItem, InstitutionalRankingEntry, RadarData, StockTab } from '../../types';
+import { DeviceType, FlowDirection, FlowMetric, FlowView, InstitutionalFlowItem, InstitutionalRankingBoard, InstitutionalRankingEntry, RadarData, StockTab, ThemeFocusData } from '../../types';
 
 interface InstitutionalFlowsProps {
   data: RadarData;
+  focus?: ThemeFocusData | null;
   device: DeviceType;
   onGoStock: (code: string, exchange?: string, tab?: StockTab) => void;
   refreshKey: number;
+}
+
+const DEFAULT_VISIBLE_ROWS = 10;
+
+/** instrument_id -> radar theme names, from the full momentum membership. */
+function themeMembership(data: RadarData): Map<string, string[]> {
+  const map = new Map<string, string[]>();
+  const add = (instrumentId: string, name: string) => {
+    const names = map.get(instrumentId) ?? [];
+    if (!names.includes(name)) names.push(name);
+    map.set(instrumentId, names);
+  };
+  data.momentumLatest.themes.forEach((theme) => {
+    [...theme.direct_symbols, ...theme.related_symbols].forEach((item) => add(item.instrument_id, theme.name_zh));
+  });
+  data.themeRanking.themes.forEach((theme) => {
+    [...theme.direct_mentions, ...theme.supply_chain_candidates].forEach((item) => add(item.instrument_id, theme.name_zh));
+  });
+  return map;
+}
+
+function themeMemberIds(data: RadarData, themeId: string): Set<string> {
+  const ids = new Set<string>();
+  data.momentumLatest.themes.filter((theme) => theme.theme_id === themeId).forEach((theme) => {
+    [...theme.direct_symbols, ...theme.related_symbols].forEach((item) => ids.add(item.instrument_id));
+  });
+  data.themeRanking.themes.filter((theme) => theme.theme_id === themeId).forEach((theme) => {
+    [...theme.direct_mentions, ...theme.supply_chain_candidates].forEach((item) => ids.add(item.instrument_id));
+  });
+  return ids;
+}
+
+function boardNote(board: InstitutionalRankingBoard | null): string {
+  if (!board) return '';
+  const range = board.date_range ? `${shortDate(board.date_range.start)}–${shortDate(board.date_range.end)}` : '區間未提供';
+  const official = (board.source ?? '').includes('官方');
+  return `${official ? '官方' : '第三方'} · ${range}`;
 }
 
 function formatValue(value: number, unit = '') {
@@ -80,7 +120,7 @@ const FlowBreakdown: React.FC<{ entry: InstitutionalRankingEntry; metric: FlowMe
   return <><span className="flow-breakdown-period">{hasRankedBreakdown ? `${days}日彙總` : aggregate.date}</span><span>外資 <b className={aggregate.foreign_net >= 0 ? 'positive mono-num' : 'negative mono-num'}>{formatValue(aggregate.foreign_net)}</b></span><span>投信 <b className={aggregate.trust_net >= 0 ? 'positive mono-num' : 'negative mono-num'}>{formatValue(aggregate.trust_net)}</b></span><span>自營商 <b className={aggregate.dealer_net >= 0 ? 'positive mono-num' : 'negative mono-num'}>{formatValue(aggregate.dealer_net)}</b></span></>;
 };
 
-const FlowBarsView: React.FC<{ entries: InstitutionalRankingEntry[]; metric: FlowMetric; days: number; view: FlowView; setView: (value: FlowView) => void; expandedCode: string | null; setExpandedCode: (code: string | null) => void; loadBreakdown: (code: string, exchange?: string) => Promise<InstitutionalFlowItem[]>; }> = ({ entries, metric, days, view, setView, expandedCode, setExpandedCode, loadBreakdown }) => {
+const FlowBarsView: React.FC<{ entries: InstitutionalRankingEntry[]; metric: FlowMetric; days: number; view: FlowView; setView: (value: FlowView) => void; expandedCode: string | null; setExpandedCode: (code: string | null) => void; loadBreakdown: (code: string, exchange?: string) => Promise<InstitutionalFlowItem[]>; themesOf: Map<string, string[]>; note: string; onGoStock: InstitutionalFlowsProps['onGoStock']; }> = ({ entries, metric, days, view, setView, expandedCode, setExpandedCode, loadBreakdown, themesOf, note, onGoStock }) => {
   const [breakdowns, setBreakdowns] = useState<Record<string, InstitutionalFlowItem[]>>({});
   const [loadingCode, setLoadingCode] = useState<string | null>(null);
   const maxValue = Math.max(...entries.map((entry) => Math.abs(metricValue(entry, metric))), 1);
@@ -98,7 +138,7 @@ const FlowBarsView: React.FC<{ entries: InstitutionalRankingEntry[]; metric: Flo
   };
   return (
     <div className="flow-board">
-      <FlowBoardTitle kicker={`RANKINGS BOARD · ${days}日 · ${entries.length} 筆`} note="買超向右 · 賣超向左" view={view} setView={setView} />
+      <FlowBoardTitle kicker={`RANKINGS BOARD · ${days}日 · ${entries.length} 筆`} note={note || '買超向右 · 賣超向左'} view={view} setView={setView} />
       <div className="flow-bars-head"><span>#</span><span>代號／名稱</span><span>賣超</span><span>買超</span><span>合計</span></div>
       {entries.map((entry, index) => {
         const value = metricValue(entry, metric);
@@ -108,11 +148,11 @@ const FlowBarsView: React.FC<{ entries: InstitutionalRankingEntry[]; metric: Flo
           <article className={`flow-bar-row ${expanded ? 'is-expanded' : ''}`} key={entry.instrument_id}>
             <button className="flow-bar-main" type="button" onClick={() => void toggleEntry(entry)}>
               <span className="rank-num mono-num">{String(index + 1).padStart(2, '0')}</span>
-              <span className="flow-stock-label"><b className="mono-num">{entry.code}</b><span>{entry.name}</span></span>
+              <span className="flow-stock-label"><b className="mono-num">{entry.code}</b><span>{entry.name}</span>{themesOf.get(entry.instrument_id)?.[0] ? <i className="flow-theme-tag">{themesOf.get(entry.instrument_id)?.[0]}</i> : null}</span>
               <span className="zero-axis"><span className={`bar-fill ${value >= 0 ? 'positive-fill' : 'negative-fill'}`} style={{ width }} /></span>
               <strong className={`flow-total mono-num ${value >= 0 ? 'positive' : 'negative'}`}>{formatValue(value, metric === 'ratio' ? ' pp' : '')}</strong>
             </button>
-            {expanded ? <div className="flow-breakdown">{loadingCode === entry.code ? <span>讀取逐日拆解…</span> : <FlowBreakdown entry={entry} metric={metric} days={days} flows={breakdowns[entry.code] ?? []} />}</div> : null}
+            {expanded ? <div className="flow-breakdown">{loadingCode === entry.code ? <span>讀取逐日拆解…</span> : <FlowBreakdown entry={entry} metric={metric} days={days} flows={breakdowns[entry.code] ?? []} />}<button type="button" className="flow-breakdown-link" onClick={() => onGoStock(entry.code, entry.exchange, 'flows')}>個股籌碼 →</button></div> : null}
           </article>
         );
       })}
@@ -139,7 +179,7 @@ const FlowTableView: React.FC<{ entries: InstitutionalRankingEntry[]; metric: Fl
   return <div className="flow-table-panel"><FlowBoardTitle kicker="DETAIL TABLE" note={metric === 'net' ? '三大法人為統計區間彙總' : '持股比重變化以 pp 顯示'} view={view} setView={setView} /><div className="table-scroll"><table className="flow-detail-table"><thead><tr><th>代號</th><th>名稱</th><th>外資</th><th>投信</th><th>自營商</th><th>合計</th></tr></thead><tbody>{entries.map((entry) => <tr key={entry.instrument_id}><th><button type="button" onClick={() => onGoStock(entry.code, entry.exchange)} className="stock-code-link mono-num">{entry.code}</button></th><td>{entry.name}</td>{metric === 'net' ? <>{valueCell(entry.foreign)}{valueCell(entry.trust)}{valueCell(entry.dealer)}{valueCell(entry.total)}</> : <>{valueCell(undefined)}{valueCell(undefined)}{valueCell(undefined)}{valueCell(entry.change, ' pp')}</>}</tr>)}</tbody></table></div></div>;
 };
 
-export const InstitutionalFlows: React.FC<InstitutionalFlowsProps> = ({ data, device, onGoStock, refreshKey }) => {
+export const InstitutionalFlows: React.FC<InstitutionalFlowsProps> = ({ data, focus = null, device, onGoStock, refreshKey }) => {
   const defaultLookup = useMemo(() => data.themeRanking.themes.flatMap((theme) => theme.direct_mentions).find((instrument) => instrument.symbol)?.symbol ?? '', [data.themeRanking.themes]);
   const [metric, setMetric] = useState<FlowMetric>('net');
   const [days, setDays] = useState(5);
@@ -148,13 +188,17 @@ export const InstitutionalFlows: React.FC<InstitutionalFlowsProps> = ({ data, de
   const [view, setView] = useState<FlowView>('bars');
   const [mode, setMode] = useState<'institutional' | 'broker'>('institutional');
   const [expandedCode, setExpandedCode] = useState<string | null>(null);
-  const [entries, setEntries] = useState<InstitutionalRankingEntry[]>([]);
+  const [board, setBoard] = useState<InstitutionalRankingBoard | null>(null);
+  const [showAll, setShowAll] = useState(false);
+  const [themeFilter, setThemeFilter] = useState('');
+  const themesOf = useMemo(() => themeMembership(data), [data]);
+  const entries = board?.entries ?? [];
   const [stockFlows, setStockFlows] = useState<InstitutionalFlowItem[]>([]);
   const [lookup, setLookup] = useState(defaultLookup);
 
   useEffect(() => {
     let active = true;
-    fetchInstitutionalRankings(days, direction, metric, refreshKey > 0).then((result) => { if (active) setEntries(result); });
+    fetchInstitutionalBoard(days, direction, metric, refreshKey > 0).then((result) => { if (active) setBoard(result); });
     return () => { active = false; };
   }, [days, direction, metric, refreshKey]);
 
@@ -165,17 +209,26 @@ export const InstitutionalFlows: React.FC<InstitutionalFlowsProps> = ({ data, de
     return () => { active = false; };
   }, [lookup, refreshKey]);
 
-  const visibleEntries = useMemo(() => entries.filter((entry) => !hideEtf || !entry.is_etf), [entries, hideEtf]);
+  const filteredEntries = useMemo(() => {
+    const members = themeFilter ? themeMemberIds(data, themeFilter) : null;
+    return entries.filter((entry) => (!hideEtf || !entry.is_etf) && (!members || members.has(entry.instrument_id)));
+  }, [data, entries, hideEtf, themeFilter]);
+  const visibleEntries = showAll || themeFilter ? filteredEntries : filteredEntries.slice(0, DEFAULT_VISIBLE_ROWS);
+  const themeName = focus?.themes.find((theme) => theme.theme_id === themeFilter)?.name_zh ?? '';
+  const note = boardNote(board);
 
   return (
     <div className="page-content flows-page">
-      <header className="page-intro"><span className="page-kicker">INSTITUTIONAL MONEY-FLOW RANKINGS</span><h1>籌碼流向</h1><div className="gold-rule" /><p>兩個面向追蹤台股籌碼：三大法人的買賣超與持股比重變化，以及券商分點的進出行為。數據源自公開交易資訊彙總整理。</p></header>
+      <header className="page-intro is-compact"><div><span className="page-kicker">MONEY FLOW · 資金流向</span><h1>籌碼流向</h1></div><p>先看法人資金流向哪些題材，再看個股排行與分點。法人買賣超來自 TWSE / TPEX 官方每日資料。</p></header>
+      <ThemeFlowPanel focus={focus} selectedThemeId={themeFilter} onSelectTheme={(themeId) => { setThemeFilter(themeId); setMode('institutional'); setMetric('net'); }} />
       <div className="flow-mode-tabs" role="tablist" aria-label="籌碼流向資料面向"><button type="button" className={mode === 'institutional' ? 'is-selected' : ''} onClick={() => setMode('institutional')}>三大法人排行</button><button type="button" className={mode === 'broker' ? 'is-selected' : ''} onClick={() => setMode('broker')}>券商分點</button></div>
       {mode === 'broker' ? <BrokerFlows onGoStock={onGoStock} refreshKey={refreshKey} /> : <>
         <FlowControls metric={metric} setMetric={setMetric} days={days} setDays={setDays} direction={direction} setDirection={setDirection} hideEtf={hideEtf} setHideEtf={setHideEtf} view={view} setView={setView} />
-        {view === 'bars' ? <FlowBarsView entries={visibleEntries} metric={metric} days={days} view={view} setView={setView} expandedCode={expandedCode} setExpandedCode={setExpandedCode} loadBreakdown={(code, exchange) => fetchInstitutionalFlows(code, exchange, refreshKey > 0)} /> : null}
+        {themeFilter ? <div className="flow-filter-note"><span>只顯示「{themeName || themeFilter}」成分股（{filteredEntries.length} 筆在排行內）</span><button type="button" onClick={() => setThemeFilter('')}>清除篩選 ×</button></div> : null}
+        {view === 'bars' ? <FlowBarsView entries={visibleEntries} metric={metric} days={days} view={view} setView={setView} expandedCode={expandedCode} setExpandedCode={setExpandedCode} loadBreakdown={(code, exchange) => fetchInstitutionalFlows(code, exchange, refreshKey > 0)} themesOf={themesOf} note={note} onGoStock={onGoStock} /> : null}
         {view === 'matrix' ? <FlowMatrixView symbol={lookup} flows={stockFlows} metric={metric} view={view} setView={setView} /> : null}
         {view === 'table' ? <FlowTableView entries={visibleEntries} metric={metric} view={view} setView={setView} onGoStock={onGoStock} /> : null}
+        {view !== 'matrix' && !themeFilter && filteredEntries.length > DEFAULT_VISIBLE_ROWS ? <div className="list-more"><button type="button" onClick={() => setShowAll((shown) => !shown)}>{showAll ? `收合至前 ${DEFAULT_VISIBLE_ROWS} 名` : `顯示全部 ${filteredEntries.length} 筆`}</button></div> : null}
         <section className="flow-lookup"><div><span className="page-kicker">STOCK FLOW LOOKUP</span><strong>查詢個股法人資金流向</strong></div><form onSubmit={(event) => { event.preventDefault(); onGoStock(lookup, undefined, 'flows'); }}><input aria-label="輸入個股代號查詢籌碼" value={lookup} onChange={(event) => setLookup(event.target.value)} /><button type="submit">查詢籌碼 →</button></form></section>
       </>}
       <p className="disclaimer">本頁資訊整理自公開交易資料，僅供技術與數據呈現展示，不構成任何買賣投資建議。</p>

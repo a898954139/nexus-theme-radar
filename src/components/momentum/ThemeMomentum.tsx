@@ -1,11 +1,13 @@
 import React, { useMemo, useState } from 'react';
 import { ThemeStocksCanvas } from '../common/ThemeStocksCanvas';
 import { ThemeCarousel } from '../common/ThemeCarousel';
+import { ThemeFocusBoard } from '../common/ThemeFocusBoard';
 import { buildThemeStockEntries, mergeInstrumentRefs } from '../../lib/themeStocks';
-import { DeviceType, MomentumTheme, RadarData } from '../../types';
+import { DeviceType, MomentumTheme, RadarData, ThemeFocusData } from '../../types';
 
 interface ThemeMomentumProps {
   data: RadarData;
+  focus?: ThemeFocusData | null;
   device: DeviceType;
   onGoStock: (code: string, exchange?: string, tab?: 'fundamentals' | 'flows') => void;
 }
@@ -96,7 +98,7 @@ const ThemeStockChips: React.FC<{
   );
 };
 
-export const ThemeMomentum: React.FC<ThemeMomentumProps> = ({ data, device, onGoStock }) => {
+export const ThemeMomentum: React.FC<ThemeMomentumProps> = ({ data, focus = null, device, onGoStock }) => {
   const themes = useMemo(() => {
     const rankingById = new Map(data.themeRanking.themes.map((theme) => [theme.theme_id, theme]));
     return data.momentumLatest.themes.slice(0, 5).map((theme) => {
@@ -121,14 +123,15 @@ export const ThemeMomentum: React.FC<ThemeMomentumProps> = ({ data, device, onGo
 
   return (
     <div className="page-content momentum-page">
-      <header className="page-intro">
-        <span className="page-kicker">PUBLIC THEME MOMENTUM · v0.9</span>
-        <h1>哪些台股題材正在升溫？</h1>
-        <div className="gold-rule" />
-        <p>依目前熱度與 24 小時熱度加速度排序，並列出每個題材的相關個股：點代號進基本面分析，點「法人」直接看三大法人資金流向。資料只呈現公開彙總結果，不代表投資建議。</p>
+      <header className="page-intro is-compact">
+        <div>
+          <span className="page-kicker">THEME MOMENTUM · 題材動能</span>
+          <h1>哪些題材值得關注？</h1>
+        </div>
+        <p>先看「新聞熱度 × 法人買盤」是否同向，再看動能與熱度走勢。點代號看基本面、點「法人」看資金流向；不構成投資建議。</p>
       </header>
 
-      <ThemeCarousel data={data} device={device} onGoStock={onGoStock} />
+      <ThemeFocusBoard data={focus} onGoStock={onGoStock} showHeadline />
 
       <div className="range-tabs" role="tablist" aria-label="動能區間">
         {(['24h', '72h', '7d'] as const).map((value) => <button className={range === value ? 'is-selected' : ''} key={value} type="button" onClick={() => setRange(value)}>{value}</button>)}
@@ -186,6 +189,11 @@ export const ThemeMomentum: React.FC<ThemeMomentumProps> = ({ data, device, onGo
         </div>
         {device === 'mobile' ? <p className="chart-mobile-note">左右滑動可查看完整圖表與圖例。</p> : null}
       </section>
+
+      <details className="momentum-news-details">
+        <summary>題材新聞與完整成分股<span className="section-note">逐題材查看代表新聞、直接提及與供應鏈個股</span></summary>
+        <ThemeCarousel data={data} device={device} onGoStock={onGoStock} />
+      </details>
     </div>
   );
 };

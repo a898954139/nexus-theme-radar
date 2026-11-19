@@ -29,6 +29,7 @@ try:  # pragma: no cover - exercised by the real CI entrypoint
         RANKINGS_FILE,
         SCHEMA_VERSION,
         fetch_ranking,
+        official_netbuy_boards,
         ranking_key,
     )
 except ModuleNotFoundError:  # pragma: no cover - running as scripts/<file>.py
@@ -40,6 +41,7 @@ except ModuleNotFoundError:  # pragma: no cover - running as scripts/<file>.py
         RANKINGS_FILE,
         SCHEMA_VERSION,
         fetch_ranking,
+        official_netbuy_boards,
         ranking_key,
     )
 
@@ -74,6 +76,25 @@ def trim_entries(entries: list[dict[str, Any]], *, top_n: int) -> list[dict[str,
     kept.extend(entry for entry in entries[top_n:]
                 if entry.get("in_universe") and id(entry) not in seen)
     return kept
+
+
+def load_official_flows(flows_dir: Path) -> dict[str, Any]:
+    """Per-symbol official flow files keyed by instrument id. Missing or
+    unreadable files are skipped: the upstream boards still publish."""
+    payloads: dict[str, Any] = {}
+    if not flows_dir.is_dir():
+        return payloads
+    for path in sorted(flows_dir.glob("*.json")):
+        if path.name == "index.json":
+            continue
+        try:
+            payload = json.loads(path.read_text(encoding="utf-8"))
+        except (OSError, json.JSONDecodeError):
+            continue
+        instrument_id = payload.get("instrument_id") if isinstance(payload, Mapping) else None
+        if isinstance(instrument_id, str) and ":" in instrument_id:
+            payloads[instrument_id] = payload
+    return payloads
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -122,6 +143,21 @@ def main(argv: list[str] | None = None) -> int:
                     key, len(entries), len(board["entries"]), marked,
                 )
 
+    generated_at = datetime.now(timezone.utc).isoformat().replace("+00:00", "Z")
+    official = official_netbuy_boards(
+        load_official_flows(args.data_dir / "flows"),
+        universe=universe, top_n=args.top_n, generated_at=generated_at,
+    )
+    if official:
+        # Official boards replace the upstream net buy/sell boards: same keys
+        # and entry shape, but on today's exchange data instead of the
+        # upstream job's last run.
+        for key in official:
+            failures.pop(key, None)
+        boards.update(official)
+        LOGGER.info("official_netbuy_boards=%d end=%s", len(official),
+                    next(iter(official.values()))["date_range"]["end"])
+
     if not boards:
         LOGGER.error("every ranking failed; leaving the existing file untouched")
         return 1
@@ -134,7 +170,7 @@ def main(argv: list[str] | None = None) -> int:
     path.parent.mkdir(parents=True, exist_ok=True)
     body = {
         "schema_version": SCHEMA_VERSION,
-        "generated_at": datetime.now(timezone.utc).isoformat().replace("+00:00", "Z"),
+        "generated_at": generated_at,
         "source": args.base_url,
         "rankings": {key: boards[key] for key in sorted(boards)},
     }

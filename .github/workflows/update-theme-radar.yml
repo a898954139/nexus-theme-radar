@@ -89,6 +89,12 @@ jobs:
           fi
           python scripts/update_theme_radar.py --output-dir data --window-hours 72 --max-events 500 --max-candidates 200 "${args[@]}"
 
+      - name: Build theme focus board
+        # Joins the fresh momentum payload with the official per-symbol flows.
+        # Optional output: a failure here must not block the radar snapshot.
+        continue-on-error: true
+        run: python scripts/build_theme_focus.py --data-dir data
+
       - name: Commit and push changes
         id: commit
         env:

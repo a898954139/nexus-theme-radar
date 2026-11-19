@@ -138,9 +138,19 @@ export interface InstitutionalRankingEntry {
   total?: number;
 }
 
+export interface InstitutionalRankingBoard {
+  entries: InstitutionalRankingEntry[];
+  unit?: string | null;
+  updated?: string | null;
+  date_range?: { start: string; end: string } | null;
+  /** Set on boards built from official exchange data; absent on upstream boards. */
+  source?: string;
+}
+
 export interface InstitutionalRankingsData {
   generated_at: string;
-  rankings: Record<string, { entries: InstitutionalRankingEntry[] }>;
+  source?: string;
+  rankings: Record<string, InstitutionalRankingBoard>;
 }
 
 export interface InstitutionalFlowItem {
@@ -561,4 +571,70 @@ export interface PulseIndex {
   up: boolean;
   /** Recent closes, accumulated across runs. Directional hint, not a chart. */
   series: number[];
+}
+
+/** data/theme-focus.json (scripts/build_theme_focus.py). Optional: pages hide
+ * the focus board when it is missing. Flow values are in lots. */
+export interface ThemeFocusFlowSummary {
+  as_of: string;
+  days: number;
+  total_5d: number;
+  foreign_5d: number;
+  trust_5d: number;
+  total_1d: number;
+  streak: number;
+}
+
+export interface ThemeFocusStock {
+  instrument_id: string;
+  symbol: string;
+  exchange: string;
+  name_zh: string;
+  relation: 'direct' | 'related';
+  flow: ThemeFocusFlowSummary | null;
+  short_rank?: number;
+  short_score?: number;
+  long_rank?: number;
+  long_score?: number;
+}
+
+export type ThemeFocusStance = 'focus' | 'money_first' | 'news_only' | 'outflow' | 'watch';
+
+export interface ThemeFocusTheme {
+  theme_id: string;
+  name_zh: string;
+  rank: number | null;
+  focus_rank: number;
+  heat_score: number;
+  momentum_score: number | null;
+  lifecycle_stage: string | null;
+  event_count: number | null;
+  stance: ThemeFocusStance;
+  stance_label: string;
+  focus_score: number;
+  flow: {
+    member_count: number;
+    covered_count: number;
+    positive_count: number;
+    breadth: number | null;
+    total_5d: number;
+    foreign_5d: number;
+    trust_5d: number;
+    total_1d: number;
+  };
+  leaders: ThemeFocusStock[];
+  outflows: ThemeFocusStock[];
+  headline: { title: string | null; source: string | null; published_at: string | null; url: string | null } | null;
+}
+
+export interface ThemeFocusData {
+  schema_version: 'nexus_theme_focus.v1';
+  generated_at: string;
+  theme_generated_at: string | null;
+  flow_as_of: string | null;
+  flow_window_days: number;
+  unit: 'lots';
+  flow_source: string;
+  method: { focus_score: string; hot_heat: number; broad_breadth: number; weak_breadth: number };
+  themes: ThemeFocusTheme[];
 }

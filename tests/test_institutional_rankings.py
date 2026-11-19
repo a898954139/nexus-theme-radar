@@ -224,3 +224,41 @@ def test_trimming_a_short_board_changes_nothing() -> None:
     entries = [_entry(str(i)) for i in range(3)]
 
     assert trim_entries(entries, top_n=50) == entries
+
+
+# --- official net buy/sell boards --------------------------------------------
+
+from scripts.institutional_rankings import official_netbuy_boards  # noqa: E402
+
+
+def _official(code: str, name: str, rows: list[list[object]], exchange: str = "TWSE") -> tuple[str, dict]:
+    return f"{exchange}:{code}", {"instrument_id": f"{exchange}:{code}", "name": name, "series": rows}
+
+
+def test_official_boards_rank_in_lots_over_market_trading_days() -> None:
+    payloads = dict([
+        _official("2330", "台積電", [["2026-11-19", 1000, 0, 0, -9000_000], ["2026-11-18", 0, 0, 0, 1000_000]]),
+        _official("2344", "華邦電", [["2026-11-19", 3000_000, 1000_000, 0, 4000_000], ["2026-11-18", 0, 0, 0, 1000_000]]),
+        # Missed 11-18; a 2-day window must not reach back to 11-17 for it.
+        _official("2408", "南亞科", [["2026-11-19", 0, 0, 0, 2000_000], ["2026-11-17", 0, 0, 0, 50_000_000]]),
+        # Not traded on the latest day: off today's board.
+        _official("1101", "台泥", [["2026-11-18", 0, 0, 0, 9_000_000]]),
+        _official("00632R", "元大台灣50反1", [["2026-11-19", 0, 0, 0, 7000_000]]),
+    ])
+    boards = official_netbuy_boards(
+        payloads, universe={"TWSE:2408"}, top_n=1, generated_at="2026-11-19T09:30:00Z", windows=(2,),
+    )
+    up = boards["top_three_inst_netbuy_2_up"]
+    assert up["date_range"] == {"start": "2026-11-18", "end": "2026-11-19"}
+    assert up["unit"] == "張" and up["source"].startswith("TWSE T86")
+    # top_n=1 keeps one stock and one ETF, plus the tracked 2408 wherever it ranks.
+    assert [(entry["code"], entry["total"], entry["rank"]) for entry in up["entries"]] == [
+        ("00632R", 7000, 1), ("2344", 5000, 2), ("2408", 2000, 3),
+    ]
+    assert up["entries"][1]["foreign"] == 3000 and up["entries"][1]["trust"] == 1000
+    down = boards["top_three_inst_netbuy_2_down"]
+    assert [(entry["code"], entry["total"]) for entry in down["entries"]] == [("2330", -8000)]
+
+
+def test_official_boards_are_empty_without_flow_files() -> None:
+    assert official_netbuy_boards({}, universe=set(), top_n=50, generated_at="x") == {}

@@ -141,3 +141,113 @@ def fetch_ranking(
     parsed["window"] = parsed["window"] or window
     parsed["side"] = parsed["side"] or side
     return parsed
+
+
+# ---------------------------------------------------------------------------
+# Official net buy/sell boards
+#
+# The upstream ``netbuy`` boards lag the exchanges by days (their date_range is
+# whatever the upstream job last ran on), while scripts/update_institutional_flows.py
+# already stores the official TWSE T86 / TPEX per-symbol series for the whole
+# market under data/flows/. Ranking from those keeps the board on the same
+# trading day as every other flows view. ``change`` (holding-ratio change)
+# still comes from upstream: the exchanges' daily files carry no shares
+# outstanding to compute it from.
+# ---------------------------------------------------------------------------
+
+OFFICIAL_SOURCE = "TWSE T86 / TPEX 三大法人買賣超（官方）"
+
+
+def _official_rows(payload: Any) -> list[tuple[str, float, float, float, float]]:
+    series = payload.get("series") if isinstance(payload, Mapping) else None
+    rows: list[tuple[str, float, float, float, float]] = []
+    for row in series if isinstance(series, list) else []:
+        if not isinstance(row, (list, tuple)) or len(row) < 5 or not isinstance(row[0], str):
+            continue
+        values = [_to_float(value) for value in row[1:5]]
+        if any(value is None for value in values):
+            continue
+        rows.append((row[0], *values))  # type: ignore[arg-type]
+    return rows
+
+
+def official_netbuy_boards(
+    symbol_payloads: Mapping[str, Any],
+    *,
+    universe: set[str],
+    top_n: int,
+    generated_at: str,
+    windows: Sequence[int] = RANKING_WINDOWS,
+) -> dict[str, dict[str, Any]]:
+    """Build every ``top_three_inst_netbuy_{window}_{side}`` board from the
+    official per-symbol series, in lots (張) like the upstream boards.
+
+    Windows are counted in market trading days (the dates any symbol traded),
+    not per-symbol rows, so a symbol that missed a day is summed over the same
+    calendar span as everyone else rather than reaching further back.
+    """
+    per_symbol: dict[str, tuple[str, list[tuple[str, float, float, float, float]]]] = {}
+    market_dates: set[str] = set()
+    for instrument_id, payload in symbol_payloads.items():
+        rows = _official_rows(payload)
+        if not rows:
+            continue
+        name = str(payload.get("name", "")).strip() if isinstance(payload, Mapping) else ""
+        per_symbol[instrument_id] = (name, rows)
+        market_dates.update(row[0] for row in rows)
+    dates = sorted(market_dates, reverse=True)
+    boards: dict[str, dict[str, Any]] = {}
+    if not dates:
+        return boards
+
+    for window in windows:
+        span = set(dates[:window])
+        start, end = min(span), max(span)
+        totals: list[dict[str, Any]] = []
+        for instrument_id, (name, rows) in per_symbol.items():
+            in_span = [row for row in rows if row[0] in span]
+            if not in_span or not any(row[0] == end for row in in_span):
+                # Not traded on the latest day: a suspended or delisted symbol
+                # should not sit on today's board on old numbers.
+                continue
+            exchange, _, code = instrument_id.partition(":")
+            totals.append({
+                "code": code,
+                "name": name,
+                "exchange": exchange,
+                "instrument_id": instrument_id,
+                "in_universe": instrument_id in universe,
+                "is_etf": is_probable_etf(code),
+                "ratio_out_of_range": False,
+                "foreign": round(sum(row[1] for row in in_span) / 1000),
+                "trust": round(sum(row[2] for row in in_span) / 1000),
+                "dealer": round(sum(row[3] for row in in_span) / 1000),
+                "total": round(sum(row[4] for row in in_span) / 1000),
+                "days": len(in_span),
+            })
+        for side in RANKING_SIDES:
+            ordered = sorted(
+                (entry for entry in totals if (entry["total"] > 0 if side == "up" else entry["total"] < 0)),
+                key=lambda entry: entry["total"],
+                reverse=side == "up",
+            )
+            ranked = [{**entry, "rank": index} for index, entry in enumerate(ordered, start=1)]
+            # top_n stocks and top_n ETFs kept separately: leveraged and
+            # inverse ETFs fill the head of the board, and the page hides ETFs
+            # by default, so one shared cut would leave it a handful of stocks.
+            stocks = [entry for entry in ranked if not entry["is_etf"]]
+            etfs = [entry for entry in ranked if entry["is_etf"]]
+            keep_ids = {entry["instrument_id"] for entry in stocks[:top_n] + etfs[:top_n]}
+            kept = [entry for entry in ranked if entry["instrument_id"] in keep_ids or entry["in_universe"]]
+            boards[ranking_key("netbuy", window, side)] = {
+                "metric": "net_buy_sell",
+                "window": window,
+                "side": side,
+                "unit": "張",
+                "updated": generated_at,
+                "date_range": {"start": start, "end": end},
+                "source": OFFICIAL_SOURCE,
+                "entries": kept,
+                "source_rows": len(ranked),
+            }
+    return boards
