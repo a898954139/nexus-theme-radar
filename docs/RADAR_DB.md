@@ -138,3 +138,27 @@ The live tests are skipped when those variables are unset (CI).
 `fundamental_snapshot` and `analysis_report` plus the local-only
 `radar_analyst` role are documented in
 [DAILY_ANALYSIS_REPORT.md](DAILY_ANALYSIS_REPORT.md).
+
+## Path backtest tables (#12)
+
+Migration `20261119090000_create_radar_path_backtest.sql`. Written daily by
+`.github/workflows/backtest-paths.yml` (`scripts/backtest_path.py`, same
+`THEME_RADAR_DATABASE_URL` guard and fail-closed behaviour as the other writes).
+
+| Table | Grain | What |
+|---|---|---|
+| `radar.path_backtest` | path x sector x metric x horizon x rule_version | `hit_rate`, `avg_value`, `avg_signed_value` (positive = moved the way the rule called it), `sample_size`, `trading_days`, window |
+| `radar.event_outcome` | event x sector x rule_version | `base_date`, `direction`, `excess_t1` / `excess_t5` (sector index minus TAIEX, %), `foreign_t1` / `foreign_t3` (張) |
+
+Inputs are committed JSON: `data/market/sector-daily.json` (TWSE MI_INDEX
+sector % change + sector foreign net summed from `data/flows`) and
+`data/backtest/event-history.json` (every pre-market event, seeded from the
+git history of `data/pre-market-latest.json`). Directions are recomputed with
+the current rules on each run, so a rule change re-scores history.
+
+```sql
+select path_id, target_id, metric, horizon_days, sample_size, hit_rate, avg_signed_value
+from radar.path_backtest
+where rule_version = 'direction-v2'
+order by path_id, target_id, metric, horizon_days;
+```

@@ -28,6 +28,7 @@ from typing import Any, Iterable
 import requests
 
 try:  # pragma: no cover - real runs invoke this file by path
+    from scripts.backtest_path import RESULT_FILE as BACKTEST_FILE, attach_backtest
     from scripts.event_direction import RULE_VERSION, annotate, impact_rows
     from scripts.geo_focus import (
         FEED_URL, PATH_ID_BY_LABEL, SOURCE_NAME, build_focus_events, strip_prefix,
@@ -45,6 +46,7 @@ try:  # pragma: no cover - real runs invoke this file by path
     )
     from scripts.radar_store import redact_error, write_pre_market_snapshot
 except ModuleNotFoundError:  # pragma: no cover
+    from backtest_path import RESULT_FILE as BACKTEST_FILE, attach_backtest
     from event_direction import RULE_VERSION, annotate, impact_rows
     from geo_focus import (
         FEED_URL, PATH_ID_BY_LABEL, SOURCE_NAME, build_focus_events, strip_prefix,
@@ -243,6 +245,9 @@ def build_payload(output_dir: Path, now: datetime, skip_translate: bool = False)
     # so the whole window always reflects the current RULE_VERSION.
     for event in kept:
         annotate(event, event.get("pathId") or PATH_ID_BY_LABEL.get(str(event.get("pathLabel") or "")))
+    # #12: historical hit rate per path, and the event's own T+1 foreign flow
+    # once the daily backtest has measured it.
+    attach_backtest(kept, load_json(output_dir / "backtest" / BACKTEST_FILE, {}))
     archive_expired(expired, output_dir / ARCHIVE_DIR)
 
     # Market data. A failed source yields an empty board, never the previous
