@@ -20,6 +20,7 @@ talked most. Opinions are damped to 0.4 so commentary cannot crowd out events.
 
 from __future__ import annotations
 
+import hashlib
 import logging
 import re
 from datetime import datetime, timezone
@@ -351,7 +352,9 @@ def build_focus_events(
             3,
         )
         events.append(annotate({
-            "id": f"{SOURCE_ID}-{abs(hash(lead['title'])) & 0xFFFFFFF:07x}",
+            # sha1, not hash(): Python salts str hashes per process, so the old
+            # id changed every run and could not key radar.event.
+            "id": f"{SOURCE_ID}-{hashlib.sha1(' '.join(lead['title'].split()).encode('utf-8')).hexdigest()[:16]}",
             "tier": tier_of(score),
             "score": score,
             "actLabel": lead["act_label"],

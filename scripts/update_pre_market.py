@@ -28,7 +28,7 @@ from typing import Any, Iterable
 import requests
 
 try:  # pragma: no cover - real runs invoke this file by path
-    from scripts.event_direction import RULE_VERSION, annotate
+    from scripts.event_direction import RULE_VERSION, annotate, impact_rows
     from scripts.geo_focus import (
         FEED_URL, PATH_ID_BY_LABEL, SOURCE_NAME, build_focus_events, strip_prefix,
     )
@@ -41,7 +41,7 @@ try:  # pragma: no cover - real runs invoke this file by path
     )
     from scripts.radar_store import redact_error, write_pre_market_snapshot
 except ModuleNotFoundError:  # pragma: no cover
-    from event_direction import RULE_VERSION, annotate
+    from event_direction import RULE_VERSION, annotate, impact_rows
     from geo_focus import (
         FEED_URL, PATH_ID_BY_LABEL, SOURCE_NAME, build_focus_events, strip_prefix,
     )
@@ -302,7 +302,7 @@ def run_pre_market_dual_write(connection_factory: Any | None, payload: dict[str,
     connection: Any | None = None
     try:
         connection = connection_factory()
-        summary = write_pre_market_snapshot(connection, payload)
+        summary = write_pre_market_snapshot(connection, payload, impact_rows=impact_rows)
     except Exception as error:  # noqa: BLE001 - DB mirror must never fail the run
         LOGGER.warning("pre_market_dual_write_failed error=%s", redact_error(error))
         return "failed"
@@ -313,8 +313,9 @@ def run_pre_market_dual_write(connection_factory: Any | None, payload: dict[str,
             except Exception:  # noqa: BLE001 - close failure is not actionable
                 pass
     LOGGER.info(
-        "pre_market_dual_write_written generated_at=%s events=%d",
+        "pre_market_dual_write_written generated_at=%s events=%d focus_events=%d impacts=%d",
         summary["generated_at"], summary["event_count"],
+        summary.get("focus_events_written", 0), summary.get("impacts_written", 0),
     )
     return "written"
 

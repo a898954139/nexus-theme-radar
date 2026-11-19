@@ -557,11 +557,121 @@ def map_pre_market_snapshot(payload: Mapping[str, Any]) -> dict[str, Any]:
     }
 
 
-def write_pre_market_snapshot(connection: Any, payload: Mapping[str, Any]) -> dict[str, Any]:
-    """Upsert one pre-market snapshot in its own transaction."""
+EVENT_IMPACT_UPSERT_SQL = """
+INSERT INTO radar.event_impact (
+  event_id, target_type, target_id, rule_version, path_id, direction,
+  magnitude, horizon, reason
+) VALUES (
+  %(event_id)s, %(target_type)s, %(target_id)s, %(rule_version)s, %(path_id)s,
+  %(direction)s, %(magnitude)s, %(horizon)s, %(reason)s
+)
+ON CONFLICT (event_id, target_id, rule_version) DO UPDATE SET
+  target_type = EXCLUDED.target_type,
+  path_id = EXCLUDED.path_id,
+  direction = EXCLUDED.direction,
+  magnitude = EXCLUDED.magnitude,
+  horizon = EXCLUDED.horizon,
+  reason = EXCLUDED.reason,
+  updated_at = now()
+""".strip()
+
+FOCUS_SOURCE_ID = "financialjuice"
+
+
+def focus_event_id(title: str) -> str:
+    """Stable id for a wire headline: the same story keeps one radar.event row."""
+
+    digest = hashlib.sha1(" ".join(str(title or "").split()).encode("utf-8")).hexdigest()
+    return f"{FOCUS_SOURCE_ID}-{digest[:16]}"
+
+
+def map_focus_events(
+    payload: Mapping[str, Any],
+    impact_rows: Any,
+    rule_version: str,
+) -> tuple[list[dict[str, Any]], list[dict[str, Any]]]:
+    """Map pre-market focus events to radar.event + radar.event_impact rows.
+
+    ``impact_rows`` is event_direction.impact_rows, injected so this module does
+    not import the rule engine. Events without a direction (written before #9)
+    are skipped: an impact row without a rule decision would be invented.
+    """
+
+    generated_at = _timestamp(payload["generated_at"], "generated_at")
+    run_id = f"pre-market-{generated_at.isoformat()}"
+    events: list[dict[str, Any]] = []
+    impacts: list[dict[str, Any]] = []
+    for item in payload.get("events") or []:
+        title = str(item.get("titleEn") or "").strip()
+        if not title or "direction" not in item:
+            continue
+        try:
+            published_at = _timestamp(item.get("publishedAt"), "publishedAt")
+        except ValueError:
+            continue  # one malformed row must not cost the snapshot
+        event_id = focus_event_id(title)
+        url = str(item.get("url") or "")
+        try:
+            rep_hash = url_hash(url)
+        except ValueError:
+            rep_hash = hashlib.sha256(title.encode("utf-8")).hexdigest()
+        members = [event_id] + [
+            focus_event_id(str(rel.get("title") or rel.get("url") or index))
+            for index, rel in enumerate(item.get("related") or [])
+            if isinstance(rel, Mapping)
+        ]
+        members = list(dict.fromkeys(members))
+        events.append({
+            "event_id": event_id,
+            "representative_article_id": event_id,
+            "representative_url_hash": rep_hash,
+            "source_id": FOCUS_SOURCE_ID,
+            "title": title,
+            "published_at": published_at,
+            "primary_theme_id": item.get("pathId"),
+            "theme_score": item.get("score"),
+            "decision": item.get("tier"),
+            "tw_relevance_status": None,
+            "confirmation_status": None,
+            "cluster_size": len(members),
+            "member_article_ids": members,
+            "official_evidence_count": 0,
+            "payload": _json(item),
+            "seen_at": generated_at,
+            "run_id": run_id,
+        })
+        for row in impact_rows({**item, "id": event_id}, rule_version=rule_version):
+            impacts.append(row)
+    return events, impacts
+
+
+def write_pre_market_snapshot(
+    connection: Any,
+    payload: Mapping[str, Any],
+    *,
+    impact_rows: Any = None,
+) -> dict[str, Any]:
+    """Upsert one pre-market snapshot -- and, with ``impact_rows``, its focus
+    events and their (event x sector) directions -- in one transaction."""
 
     row = map_pre_market_snapshot(payload)
+    events: list[dict[str, Any]] = []
+    impacts: list[dict[str, Any]] = []
+    if impact_rows is not None:
+        rule_version = str(payload.get("direction_rule_version") or "")
+        if rule_version:
+            events, impacts = map_focus_events(payload, impact_rows, rule_version)
     with connection.transaction():
         with connection.cursor() as cursor:
             cursor.execute(PRE_MARKET_UPSERT_SQL, row)
-    return {"generated_at": row["generated_at"].isoformat(), "event_count": row["event_count"]}
+            if events:
+                # Events first: event_impact references radar.event.
+                cursor.executemany(EVENT_UPSERT_SQL, events)
+            if impacts:
+                cursor.executemany(EVENT_IMPACT_UPSERT_SQL, impacts)
+    return {
+        "generated_at": row["generated_at"].isoformat(),
+        "event_count": row["event_count"],
+        "focus_events_written": len(events),
+        "impacts_written": len(impacts),
+    }
