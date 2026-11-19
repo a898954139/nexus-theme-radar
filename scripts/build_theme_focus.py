@@ -18,8 +18,10 @@ are validated with exact key counts by two front-ends, and a new field there
 would blank the page. A missing or stale theme-focus.json only hides the focus
 board; nothing else depends on it.
 
-The script has no sibling imports, so it runs the same from pytest and from
-`python scripts/build_theme_focus.py` in CI.
+A theme the news named without naming any stock (no event or ranking
+symbols) falls back to its taxonomy seed stocks, so the board can still say
+whether money is moving into that industry. The taxonomy is passed in by
+main(); build_theme_focus itself has no sibling imports.
 """
 
 from __future__ import annotations
@@ -138,6 +140,28 @@ def summarize_flow(rows: list[tuple[str, float, float, float, float]], as_of: st
     }
 
 
+def _seed_items(symbols: Iterable[str], flows_dir: Path) -> list[dict[str, str]]:
+    """Taxonomy seed codes as instruments, exchange resolved from the flows files."""
+    items = []
+    for symbol in symbols:
+        code = str(symbol)
+        if not _SAFE_PART.match(code):
+            continue
+        for exchange in ("TWSE", "TPEX"):
+            path = flows_dir / f"{exchange}-{code}.json"
+            if path.exists():
+                payload = _read_json(path)
+                name = payload.get("name") if isinstance(payload, Mapping) else None
+                items.append({
+                    "instrument_id": f"{exchange}:{code}",
+                    "symbol": code,
+                    "exchange": exchange,
+                    "name_zh": str(name or ""),
+                })
+                break
+    return items
+
+
 def _members(theme: Mapping[str, Any], ranking: Mapping[str, Any] | None) -> list[dict[str, Any]]:
     seen: dict[str, dict[str, Any]] = {}
 
@@ -235,7 +259,12 @@ def _market_as_of(flow_rows: Iterable[list[tuple[str, float, float, float, float
     return max(counts)
 
 
-def build_theme_focus(data_dir: Path, *, generated_at: datetime | None = None) -> dict[str, Any]:
+def build_theme_focus(
+    data_dir: Path,
+    *,
+    generated_at: datetime | None = None,
+    taxonomy_seeds: Mapping[str, Iterable[str]] | None = None,
+) -> dict[str, Any]:
     momentum = _read_json(data_dir / "public-theme-momentum-latest-v0.9.json") or {}
     ranking = _read_json(data_dir / "public-theme-ranking-v0.8.json") or {}
     watchlist = _read_json(data_dir / "public-stock-watchlist-v1.json")
@@ -251,6 +280,11 @@ def build_theme_focus(data_dir: Path, *, generated_at: datetime | None = None) -
         str(theme.get("theme_id")): _members(theme, ranking_by_id.get(theme.get("theme_id")))
         for theme in themes_in
     }
+    for theme_id, members in members_by_theme.items():
+        if not members and taxonomy_seeds and taxonomy_seeds.get(theme_id):
+            members_by_theme[theme_id] = _members(
+                {"related_symbols": _seed_items(taxonomy_seeds[theme_id], flows_dir)}, None
+            )
 
     raw_rows: dict[str, list[tuple[str, float, float, float, float]]] = {}
     for members in members_by_theme.values():
@@ -356,12 +390,30 @@ def write_theme_focus(data_dir: Path, payload: Mapping[str, Any]) -> Path:
     return path
 
 
+def _load_taxonomy_seeds() -> dict[str, list[str]]:
+    """Runtime-expanded taxonomy seeds; empty (no fallback) if it cannot load."""
+    try:
+        try:
+            from scripts.theme_relevance import load_theme_taxonomy
+        except ModuleNotFoundError:
+            from theme_relevance import load_theme_taxonomy
+        taxonomy = load_theme_taxonomy()
+    except Exception as error:  # noqa: BLE001 - the fallback is optional
+        LOGGER.warning("theme_focus_seed_fallback_unavailable error=%s", error)
+        return {}
+    return {
+        str(theme.get("theme_id")): [str(code) for code in theme.get("seed_symbols") or []]
+        for theme in taxonomy.get("themes", [])
+        if isinstance(theme, Mapping)
+    }
+
+
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     parser.add_argument("--data-dir", default="data", type=Path)
     args = parser.parse_args(argv)
     logging.basicConfig(level=logging.INFO, format="%(levelname)s %(name)s %(message)s")
-    payload = build_theme_focus(args.data_dir)
+    payload = build_theme_focus(args.data_dir, taxonomy_seeds=_load_taxonomy_seeds())
     if not payload["themes"]:
         LOGGER.warning("theme_focus_skipped reason=no_themes")
         return 0
