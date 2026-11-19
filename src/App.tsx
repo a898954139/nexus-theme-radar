@@ -328,6 +328,7 @@ export const App: React.FC = () => {
               <ThemeRadarHome
                 data={radarData}
                 preMarket={preMarket}
+                watchlist={watchlistData}
                 device={device}
                 onGoMomentum={() => updateHash('momentum')}
                 onGoStock={goStock}
