@@ -163,6 +163,74 @@ test('source-status serves the fields the sources page reads', { skip }, async (
   }));
 });
 
+const omit = (object, keys) => Object.fromEntries(Object.entries(object).filter(([k]) => !keys.includes(k)));
+
+test('theme-events round-trips the fields the pages read', { skip }, async () => {
+  const { status, body } = await call('theme-events');
+  assert.equal(status, 200);
+  const file = data('theme-events.json');
+  const names = await instrumentNames();
+  const fixName = (s) => ({ ...s, name_zh: names.get(s.instrument_id) ?? s.name_zh });
+  const expected = {
+    ...Object.fromEntries(['generated_at', 'market_id', 'market_scope', 'window_hours', 'max_items', 'total_items',
+      'total_items_available', 'taxonomy_version'].map((k) => [k, file[k]])),
+    items: file.items.map((item) => ({
+      ...omit(item, ['symbol_evidence', 'tw_related_symbols', 'official_evidence_ids', 'cluster_event_ids']),
+      matched_themes: item.matched_themes.map((t) => omit(t, ['signals'])),
+      direct_symbols: item.direct_symbols.map(fixName),
+      related_symbols: item.related_symbols.map(fixName),
+    })),
+  };
+  assert.deepEqual(normalize(body), normalize(expected));
+});
+
+test('theme-ranking round-trips (heat_reason diagnostics dropped)', { skip }, async () => {
+  const { status, body } = await call('theme-ranking');
+  assert.equal(status, 200);
+  const file = data('public-theme-ranking-v0.8.json');
+  const names = await instrumentNames();
+  const fix = (s) => ({ ...s, name_zh: names.get(s.instrument_id) ?? s.name_zh });
+  const expected = {
+    ...file,
+    themes: file.themes.map((t) => ({
+      ...omit(t, ['heat_reason']),
+      direct_mentions: t.direct_mentions.map(fix),
+      supply_chain_candidates: t.supply_chain_candidates.map(fix),
+    })),
+  };
+  assert.deepEqual(normalize(body), normalize(expected));
+});
+
+test('theme-momentum round-trips (per-symbol fundamentals copy dropped)', { skip }, async () => {
+  const { status, body } = await call('theme-momentum');
+  assert.equal(status, 200);
+  const file = data('public-theme-momentum-latest-v0.9.json');
+  const names = await instrumentNames();
+  const fix = (s) => ({ ...omit(s, ['fundamentals']), name_zh: names.get(s.instrument_id) ?? s.name_zh });
+  const expected = {
+    ...file,
+    themes: file.themes.map((t) => ({
+      ...t, direct_symbols: t.direct_symbols.map(fix), related_symbols: t.related_symbols.map(fix),
+    })),
+  };
+  assert.deepEqual(normalize(body), normalize(expected));
+});
+
+test('theme-momentum-history serves the hourly series', { skip }, async () => {
+  const { status, body } = await call('theme-momentum-history');
+  assert.equal(status, 200);
+  const file = data('public-theme-momentum-history-v0.9.json');
+  const newest = Date.parse(file.newest_observed_hour);
+  const expected = file.observations
+    .filter((o) => Date.parse(o.observed_hour) > newest - 720 * 3600000)
+    .sort((a, b) => Date.parse(a.observed_hour) - Date.parse(b.observed_hour))
+    .map((o) => ({ ...o, themes: o.themes.slice().sort((a, b) => a.rank - b.rank || (a.theme_id < b.theme_id ? -1 : 1)) }));
+  assert.deepEqual(normalize(body.observations), normalize(expected));
+  assert.equal(body.newest_observed_hour, file.newest_observed_hour);
+  assert.equal(body.observation_count, expected.length);
+  assert.equal((await call('theme-momentum-history', 'hours=0')).status, 400);
+});
+
 test('close pool', { skip }, async () => {
   await pool?.end();
 });

@@ -8,6 +8,7 @@ import * as institutionalFlows from './institutionalFlows.js';
 import * as institutionalRankings from './institutionalRankings.js';
 import * as sourceStatus from './sourceStatus.js';
 import * as themeFocus from './themeFocus.js';
+import * as themes from './themes.js';
 
 export const DATASETS = {
   'institutional-rankings': institutionalRankings,
@@ -17,4 +18,8 @@ export const DATASETS = {
   'broker-map': broker.map,
   'theme-focus': themeFocus,
   'source-status': sourceStatus,
+  'theme-events': themes.events,
+  'theme-ranking': themes.ranking,
+  'theme-momentum': themes.momentum,
+  'theme-momentum-history': themes.momentumHistory,
 };

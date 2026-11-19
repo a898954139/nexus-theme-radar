@@ -13,7 +13,8 @@ const run = (dataset, query, qs = '') =>
 test('registry exposes the PR-A datasets', () => {
   assert.deepEqual(Object.keys(DATASETS).sort(), [
     'broker-coverage', 'broker-map', 'broker-stats', 'institutional-flows',
-    'institutional-rankings', 'source-status', 'theme-focus',
+    'institutional-rankings', 'source-status', 'theme-events', 'theme-focus',
+    'theme-momentum', 'theme-momentum-history', 'theme-ranking',
   ]);
 });
 

@@ -18,6 +18,9 @@ from scripts import radar_publish, radar_tables
 ROOT = Path(__file__).resolve().parents[1]
 DATA = ROOT / "data"
 MIGRATION = ROOT / "supabase" / "migrations" / "20261119150000_create_radar_relational_core.sql"
+RELATIONAL_MIGRATIONS = sorted((ROOT / "supabase" / "migrations").glob("2026111915*_create_radar_relational_*.sql")) + sorted(
+    (ROOT / "supabase" / "migrations").glob("2026111916*_create_radar_relational_*.sql")
+)
 
 
 def load(name: str):
@@ -37,7 +40,7 @@ def test_every_registered_dataset_maps_committed_data(mapped):
 
 
 def test_child_tables_and_columns_exist_in_the_migration(mapped):
-    sql = MIGRATION.read_text(encoding="utf-8")
+    sql = "\n".join(p.read_text(encoding="utf-8") for p in RELATIONAL_MIGRATIONS)
     for name, item in mapped.items():
         tables = (
             [(item.header_table, tuple(item.header))] + [(c.table, c.columns) for c in item.children]
@@ -146,6 +149,7 @@ def test_workflows_publish_with_the_gated_secret():
     for workflow, dataset in (
         ("update-institutional-flows.yml", "institutional-flows"),
         ("update-theme-radar.yml", "source-status"),
+        ("update-theme-radar.yml", "theme-momentum-history"),
         ("update-broker-data.yml", "broker"),
     ):
         text = (ROOT / ".github" / "workflows" / workflow).read_text(encoding="utf-8")
@@ -154,7 +158,23 @@ def test_workflows_publish_with_the_gated_secret():
 
 
 def test_purge_function_cannot_be_steered_by_the_caller():
-    sql = MIGRATION.read_text(encoding="utf-8")
+    for path in RELATIONAL_MIGRATIONS:
+        _assert_purge_locked(path.read_text(encoding="utf-8"))
+
+
+def _assert_purge_locked(sql: str) -> None:
     assert "security definer" in sql and "set search_path = pg_catalog, radar" in sql
     assert "revoke all on function radar.purge_snapshots(integer) from public" in sql
     assert "grant delete" not in sql.lower()
+
+
+def test_momentum_history_series_is_keyed_by_hour_and_theme(mapped):
+    series = mapped["theme-momentum-history"]
+    keys = [(row[0], row[1]) for row in series.rows]
+    assert len(keys) == len(set(keys)) == 1321
+
+
+def test_theme_events_symbols_reference_registered_instruments(mapped):
+    snapshot = mapped["theme-events"]
+    symbols = [c for c in snapshot.children if c.table == "theme_event_symbol"][0]
+    assert symbols.rows and all(row[3] in snapshot.instruments for row in symbols.rows)
