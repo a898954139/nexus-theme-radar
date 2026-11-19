@@ -145,3 +145,20 @@ def test_runtime_copy_and_workflows_publish_theme_focus() -> None:
     assert "python scripts/build_theme_focus.py --data-dir data" in radar
     assert "python scripts/build_theme_focus.py --data-dir data" in flows
     assert "git add data/theme-focus.json" in flows
+
+
+def test_theme_without_news_symbols_falls_back_to_taxonomy_seeds(tmp_path: Path) -> None:
+    (tmp_path / "flows").mkdir()
+    (tmp_path / "public-theme-momentum-latest-v0.9.json").write_text(json.dumps({
+        "themes": [{"theme_id": "pcb", "name_zh": "PCB", "rank": 1, "heat_score": 30,
+                    "direct_symbols": [], "related_symbols": []}],
+    }), encoding="utf-8")
+    (tmp_path / "flows" / "TWSE-3037.json").write_text(json.dumps({
+        "name": "欣興", "series": [["2026-11-19", 1000000, 0, 0, 1000000]],
+    }), encoding="utf-8")
+    payload = build_theme_focus(tmp_path, taxonomy_seeds={"pcb": ["3037", "9999"]})
+    theme = payload["themes"][0]
+    assert theme["flow"]["member_count"] == 1
+    assert theme["leaders"][0]["instrument_id"] == "TWSE:3037"
+    assert theme["leaders"][0]["name_zh"] == "欣興"
+    assert build_theme_focus(tmp_path)["themes"][0]["flow"]["member_count"] == 0
