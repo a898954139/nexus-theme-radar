@@ -297,3 +297,37 @@ def test_an_untouched_symbol_keeps_its_history() -> None:
 
     assert "TPEX:8299" in merged
     assert len(merged["TPEX:8299"]) == 1
+
+
+# --- catch-up (the schedule starting after Taipei midnight lost 2026-10-31..) --
+
+def test_pending_days_catches_up_every_missing_weekday_oldest_first() -> None:
+    from scripts.update_institutional_flows import pending_days
+
+    known = {"2026-10-29", "2026-10-30"}
+    days = pending_days(known, date(2026, 11, 5), lookback=31)
+    # 2026-10-31 is a Saturday.
+    assert [d.isoformat() for d in days] == ["2026-11-02", "2026-11-03", "2026-11-04", "2026-11-05"]
+
+
+def test_pending_days_after_midnight_still_includes_yesterday() -> None:
+    from scripts.update_institutional_flows import pending_days
+
+    # Run at 02:08 Taipei on Thursday 11-19: Wednesday 11-18 must be fetched.
+    days = pending_days({"2026-11-17"}, date(2026, 11, 19), lookback=31)
+    assert [d.isoformat() for d in days] == ["2026-11-18", "2026-11-19"]
+
+
+def test_pending_days_is_empty_when_up_to_date_and_bounded_by_lookback() -> None:
+    from scripts.update_institutional_flows import pending_days
+
+    assert pending_days({"2026-11-19"}, date(2026, 11, 19), lookback=31) == []
+    days = pending_days({"2026-01-02"}, date(2026, 11, 19), lookback=7)
+    assert len(days) <= 5 and min(days) > date(2026, 11, 12)
+
+
+def test_stored_dates_reads_every_series() -> None:
+    from scripts.update_institutional_flows import stored_dates
+
+    store = {"TWSE:2330": [{"date": "2026-10-30"}], "TPEX:6488": [{"date": "2026-10-29"}]}
+    assert stored_dates(store) == {"2026-10-29", "2026-10-30"}

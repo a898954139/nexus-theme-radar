@@ -21,6 +21,7 @@ import argparse
 import json
 import logging
 import sys
+import time
 from datetime import date, datetime, timedelta, timezone
 from pathlib import Path
 from typing import Any, Mapping
@@ -127,12 +128,15 @@ def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--data-dir", type=Path, default=ROOT / "data")
     parser.add_argument("--aliases", type=Path, default=DEFAULT_ALIASES)
-    parser.add_argument("--date", help="Trading day as YYYY-MM-DD (default: today, Taipei).")
+    parser.add_argument("--date", help="Trading day as YYYY-MM-DD (default: every missing weekday up to today, Taipei).")
     parser.add_argument("--history-days", type=int, default=DEFAULT_HISTORY_DAYS)
     parser.add_argument(
         "--skip-market", action="store_true",
         help="Only update the radar universe file; skip the ~2,220 per-symbol market files.",
     )
+    parser.add_argument("--catch-up-days", type=int, default=31,
+                        help="Without --date, fetch every missing weekday in this many calendar days.")
+    parser.add_argument("--pause-seconds", type=float, default=3.0)
     parser.add_argument("--dry-run", action="store_true")
     parser.add_argument("--verbose", action="store_true")
     args = parser.parse_args(argv)
@@ -143,15 +147,57 @@ def main(argv: list[str] | None = None) -> int:
     )
 
     if args.date:
-        day = date.fromisoformat(args.date)
+        days = [date.fromisoformat(args.date)]
     else:
         # The exchanges publish on Taipei time; using UTC would ask for
         # "tomorrow" during the Taipei evening and get an empty response.
-        day = (datetime.now(timezone.utc) + timedelta(hours=8)).date()
+        today = (datetime.now(timezone.utc) + timedelta(hours=8)).date()
+        # GitHub routinely starts the 17:20 schedule hours late. Once the delay
+        # crosses Taipei midnight, "today" is the next, still-empty day, and a
+        # today-only fetch silently skips the day that did trade -- which is how
+        # the flows stopped at 2026-10-30. Catch up every missing weekday instead.
+        days = pending_days(stored_dates(load_store(args.data_dir / FLOWS_FILE)), today, args.catch_up_days)
+        if not days:
+            LOGGER.info("flows up to date through %s", today)
+            return 0
+        LOGGER.info("catching up %d day(s): %s", len(days), ", ".join(d.isoformat() for d in days))
 
     import requests
 
     session = requests.Session()
+    universe = load_universe(args.aliases)
+    store_path = args.data_dir / FLOWS_FILE
+    for index, day in enumerate(days):
+        if index:
+            time.sleep(args.pause_seconds)  # stay polite to the exchanges
+        update_day(session, day, args, universe, store_path)
+
+    return 0
+
+
+def stored_dates(store: Mapping[str, list[dict[str, Any]]]) -> set[str]:
+    return {str(entry.get("date")) for series in store.values() for entry in series if entry.get("date")}
+
+
+def pending_days(known: set[str], today: date, lookback: int) -> list[date]:
+    """Weekdays in (today - lookback, today] with no stored rows, oldest first.
+
+    Holidays come back empty and are simply skipped by the fetch, so no
+    holiday calendar is needed here.
+    """
+    if not known:
+        return [today]
+    latest = max(known)
+    days = []
+    for offset in range(lookback - 1, -1, -1):
+        day = today - timedelta(days=offset)
+        if day.weekday() >= 5 or day.isoformat() in known or day.isoformat() < latest:
+            continue
+        days.append(day)
+    return days
+
+
+def update_day(session: Any, day: date, args: argparse.Namespace, universe: set[str], store_path: Path) -> int:
     flows: list[dict[str, Any]] = []
     for label, fetch in (("TWSE", fetch_twse_flows), ("TPEX", fetch_tpex_flows)):
         try:
@@ -168,8 +214,6 @@ def main(argv: list[str] | None = None) -> int:
         )
         return 0
 
-    universe = load_universe(args.aliases)
-    store_path = args.data_dir / FLOWS_FILE
     merged = merge_flows(
         load_store(store_path), flows, universe=universe, history_days=args.history_days,
     )
