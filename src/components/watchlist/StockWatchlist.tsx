@@ -4,15 +4,20 @@ import {
   StockFlag,
   StockFlagKey,
   StockWatchlistData,
+  ThemeFocusData,
   WatchlistDirection,
   WatchlistInstrument,
   WatchlistStock
 } from '../../types';
+import { rankedFocusThemes, shortDate, stanceTone } from '../common/ThemeFocusBoard';
+import '../common/focus.css';
+import { daysBetween, watchlistSourceDates } from '../../lib/freshness';
 
 export type WatchlistView = 'short' | 'long' | 'search';
 
 export interface StockWatchlistProps {
   payload: StockWatchlistData | null;
+  focus?: ThemeFocusData | null;
   view: WatchlistView;
   query: string;
   onViewChange: (view: WatchlistView) => void;
@@ -31,7 +36,13 @@ const views: Array<{ id: WatchlistView; label: string }> = [
   { id: 'search', label: '搜尋個股' }
 ];
 
-const auditFocus = ['2317', '2308', '2454', '3017', '2368', '3008'];
+// Rows shown before "show more". The full top 50 stays one click away; the
+// first screen should be the handful worth reading today.
+const DEFAULT_VISIBLE_ROWS = 15;
+
+function isStale(asOf: string | null | undefined, reference: string | null | undefined): boolean {
+  return (daysBetween(asOf, reference) ?? 0) > 4;
+}
 
 const flagLabels: Record<StockFlagKey, string> = {
   heat_rising: '熱度升溫',
@@ -107,7 +118,7 @@ function directionArrow(direction: WatchlistDirection): string {
 
 const FlagChips: React.FC<{ flags: StockFlag[] }> = ({ flags }) => (
   <div className="watchlist-flags">
-    {flags.slice(0, 3).map((flag) => (
+    {flags.slice(0, 2).map((flag) => (
       <span className={`watchlist-flag is-${flag.type}`} key={flag.key}>{flagLabels[flag.key]}</span>
     ))}
   </div>
@@ -146,6 +157,7 @@ const WatchlistMetrics: React.FC<{ item: WatchlistStock; view: Exclude<Watchlist
 
 export const StockWatchlist: React.FC<StockWatchlistProps> = ({
   payload,
+  focus = null,
   view,
   query,
   onViewChange,
@@ -157,6 +169,8 @@ export const StockWatchlist: React.FC<StockWatchlistProps> = ({
   onGoHome
 }) => {
   const [showMethodology, setShowMethodology] = useState(false);
+  const [themeFilter, setThemeFilter] = useState('');
+  const [showAll, setShowAll] = useState(false);
   const searchResults = useMemo(() => {
     if (!payload || !query.trim()) return [];
     return payload.searchable
@@ -248,20 +262,32 @@ export const StockWatchlist: React.FC<StockWatchlistProps> = ({
     </React.Fragment>
   );
 
-  const listItems = payload
-    ? (view === 'long' ? payload.long.items : payload.short.items)
-      .filter((item) => auditFocus.includes(item.instrument.symbol))
-      .sort((left, right) => auditFocus.indexOf(left.instrument.symbol) - auditFocus.indexOf(right.instrument.symbol))
-    : [];
-  const resultCount = view === 'search' ? searchResults.length : listItems.length;
+  const rankedItems = payload ? (view === 'long' ? payload.long.items : payload.short.items) : [];
+  const filteredItems = themeFilter
+    ? rankedItems.filter((item) => item.themes.some((theme) => theme.theme_id === themeFilter))
+    : rankedItems;
+  const listItems = showAll || themeFilter ? filteredItems : filteredItems.slice(0, DEFAULT_VISIBLE_ROWS);
+  const resultCount = view === 'search' ? searchResults.length : filteredItems.length;
+  // Theme chips follow the focus board's order, so the theme worth reading
+  // first is also the first filter.
+  const focusOrder = new Map(rankedFocusThemes(focus).map((theme) => [theme.theme_id, theme]));
+  const themeChips = Array.from(
+    rankedItems.reduce((map, item) => {
+      item.themes.forEach((theme) => map.set(theme.theme_id, { id: theme.theme_id, name: theme.name_zh, count: (map.get(theme.theme_id)?.count ?? 0) + 1 }));
+      return map;
+    }, new Map<string, { id: string; name: string; count: number }>()).values()
+  ).sort((left, right) => (focusOrder.get(left.id)?.focus_rank ?? 99) - (focusOrder.get(right.id)?.focus_rank ?? 99) || right.count - left.count);
+  const { institutional: institutionalAsOf, dayTrading: dayTradingAsOf } = watchlistSourceDates(payload);
+  const referenceDate = focus?.flow_as_of ?? null;
 
   return (
     <div className="page-content watchlist-page watchlist-no-horizontal-scroll">
-      <section className="page-intro">
-        <span className="page-kicker">STOCK AUDIT · MOBILE DECISION BRIEF</span>
-        <h1>個股稽核報告</h1>
-        <div className="gold-rule" />
-        <p>先看重點標的，再看基本面、技術面與操作條件。完整候選集中在手機可掃描的決策清單。</p>
+      <section className="page-intro is-compact">
+        <div>
+          <span className="page-kicker">STOCK RADAR · 個股雷達</span>
+          <h1>個股雷達</h1>
+        </div>
+        <p>依題材、法人、當沖與基本面排序的 Top 50。先挑題材，再看前幾名；點列進入個股分析。</p>
       </section>
 
       <div className="watchlist-tabs" role="tablist" aria-label="個股雷達檢視">
@@ -289,8 +315,27 @@ export const StockWatchlist: React.FC<StockWatchlistProps> = ({
         </div>
       ) : null}
 
+      {view !== 'search' && themeChips.length ? (
+        <div className="theme-filter" role="group" aria-label="依題材篩選">
+          <span>題材</span>
+          <button type="button" className={themeFilter === '' ? 'is-selected' : ''} onClick={() => setThemeFilter('')}>全部<em>{rankedItems.length}</em></button>
+          {themeChips.map((chip) => (
+            <button type="button" key={chip.id} className={`${themeFilter === chip.id ? 'is-selected' : ''} ${focusOrder.get(chip.id) ? stanceTone[focusOrder.get(chip.id)!.stance] : ''}`} onClick={() => setThemeFilter(themeFilter === chip.id ? '' : chip.id)} title={focusOrder.get(chip.id) ? `${focusOrder.get(chip.id)!.stance_label} · 關注分 ${focusOrder.get(chip.id)!.focus_score}` : undefined}>
+              {chip.name}<em>{chip.count}</em>
+            </button>
+          ))}
+        </div>
+      ) : null}
+
       <section className="watchlist-list-heading">
-        <div><strong>重點標的</strong><span>{payload?.candidate_as_of ?? '資料日期缺值'} · {resultCount} 檔</span></div>
+        <div>
+          <strong>{view === 'search' ? '搜尋結果' : view === 'long' ? '長線排行' : '短線排行'}</strong>
+          <span className="watchlist-sources-line">
+            <span>{resultCount} 檔</span>
+            <span className={`asof-tag ${isStale(institutionalAsOf, referenceDate) ? 'is-stale' : ''}`}>法人 {shortDate(institutionalAsOf)}</span>
+            <span className={`asof-tag ${isStale(dayTradingAsOf, referenceDate) ? 'is-stale' : ''}`}>當沖 {shortDate(dayTradingAsOf)}</span>
+          </span>
+        </div>
         {view !== 'search' ? <button type="button" aria-expanded={showMethodology} onClick={() => setShowMethodology((shown) => !shown)}>評分說明 ▾</button> : null}
       </section>
 
@@ -302,7 +347,7 @@ export const StockWatchlist: React.FC<StockWatchlistProps> = ({
         </section>
       ) : null}
 
-      <div className="watchlist-result-count" aria-live="polite">顯示 {resultCount} 筆結果</div>
+      <div className="watchlist-result-count" aria-live="polite">顯示 {view === 'search' ? resultCount : listItems.length} 筆結果</div>
 
       {loading ? <div className="watchlist-skeleton" aria-label="個股雷達載入中">{Array.from({ length: 8 }, (_, index) => <div className="watchlist-skeleton-row" key={index} />)}</div> : null}
       {error && !loading ? <section className="watchlist-state"><h2>個股雷達暫時無法載入</h2><p>請稍後重試；既有題材雷達資料不受影響。</p><div>{onRetry ? <button type="button" onClick={onRetry}>重新載入</button> : null}{onGoHome ? <button type="button" onClick={onGoHome}>回題材雷達</button> : null}</div></section> : null}
@@ -314,6 +359,7 @@ export const StockWatchlist: React.FC<StockWatchlistProps> = ({
         </div>
       ) : null}
 
+      {!loading && !error && view !== 'search' && !themeFilter && filteredItems.length > DEFAULT_VISIBLE_ROWS ? <div className="list-more"><button type="button" onClick={() => setShowAll((shown) => !shown)}>{showAll ? `收合至前 ${DEFAULT_VISIBLE_ROWS} 名` : `顯示全部 ${filteredItems.length} 檔`}</button></div> : null}
       {!loading && !error && view !== 'search' && (!payload || listItems.length === 0) ? <section className="watchlist-state"><h2>目前沒有可顯示的個股雷達資料</h2></section> : null}
       {!loading && !error && view === 'search' && !query.trim() ? <section className="watchlist-state"><h2>請輸入代號或公司名稱</h2><p>搜尋涵蓋完整題材候選池，包含未進入 Top 50 的股票。</p></section> : null}
       {!loading && !error && view === 'search' && query.trim() && searchResults.length === 0 ? <section className="watchlist-state"><h2>找不到「{query.trim()}」</h2><p>請改用股票代號或完整公司名稱。</p></section> : null}

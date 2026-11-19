@@ -10,8 +10,8 @@ import { SourceStatus } from './components/sources/SourceStatus';
 import { StockDetail } from './components/stock/StockDetail';
 import { StockWatchlist, WatchlistView } from './components/watchlist/StockWatchlist';
 import { useSiteMetrics } from './hooks/useSiteMetrics';
-import { fetchStockWatchlist, loadRadarData, fetchBrokerMap, fetchInstitutionalFlows, fetchStockFundamentals, fetchPreMarket } from './services/dataService';
-import { DeviceType, PageType, PreMarketData, RadarData, StockTab, StockWatchlistData } from './types';
+import { fetchStockWatchlist, loadRadarData, fetchBrokerMap, fetchInstitutionalFlows, fetchStockFundamentals, fetchPreMarket, fetchThemeFocus } from './services/dataService';
+import { DeviceType, PageType, PreMarketData, RadarData, StockTab, StockWatchlistData, ThemeFocusData } from './types';
 
 interface RouteState {
   page: PageType;
@@ -59,6 +59,7 @@ export const App: React.FC = () => {
   const [device, setDevice] = useState<DeviceType>(() => window.innerWidth < 720 ? 'mobile' : 'desktop');
   const [radarData, setRadarData] = useState<RadarData | null>(null);
   const [preMarket, setPreMarket] = useState<PreMarketData | null>(null);
+  const [themeFocus, setThemeFocus] = useState<ThemeFocusData | null>(null);
   const [loadError, setLoadError] = useState(false);
   const [watchlistData, setWatchlistData] = useState<StockWatchlistData | null>(null);
   const [watchlistLoading, setWatchlistLoading] = useState(true);
@@ -87,6 +88,27 @@ export const App: React.FC = () => {
     [defaultInstrument, radarData, route.code, route.exchange, stockCode]
   );
   const stockExchange = route.exchange ?? stockInstrument?.exchange;
+  const stockThemes = useMemo(() => {
+    if (!radarData || !stockCode) return [];
+    const refs = new Map<string, { theme_id: string; name_zh: string; relation: 'direct' | 'related' }>();
+    const add = (themeId: string, name: string, relation: 'direct' | 'related') => {
+      const current = refs.get(themeId);
+      if (!current) refs.set(themeId, { theme_id: themeId, name_zh: name, relation });
+      else if (relation === 'direct') current.relation = 'direct';
+    };
+    const matches = (item: { symbol: string; exchange: string }) => item.symbol === stockCode && (!stockExchange || item.exchange === stockExchange);
+    radarData.themeRanking.themes.forEach((theme) => {
+      if (theme.direct_mentions.some(matches)) add(theme.theme_id, theme.name_zh, 'direct');
+      if (theme.supply_chain_candidates.some(matches)) add(theme.theme_id, theme.name_zh, 'related');
+    });
+    radarData.momentumLatest.themes.forEach((theme) => {
+      if (theme.direct_symbols.some(matches)) add(theme.theme_id, theme.name_zh, 'direct');
+      if (theme.related_symbols.some(matches)) add(theme.theme_id, theme.name_zh, 'related');
+    });
+    const order = new Map((themeFocus?.themes ?? []).map((theme) => [theme.theme_id, theme.focus_rank]));
+    return Array.from(refs.values()).sort((left, right) =>
+      Number(right.relation === 'direct') - Number(left.relation === 'direct') || (order.get(left.theme_id) ?? 99) - (order.get(right.theme_id) ?? 99));
+  }, [radarData, stockCode, stockExchange, themeFocus]);
 
   useEffect(() => {
     const updateDevice = () => setDevice(window.innerWidth < 720 ? 'mobile' : 'desktop');
@@ -149,6 +171,18 @@ export const App: React.FC = () => {
       active = false;
     };
   }, []);
+
+  // Optional join of themes x official institutional flows. Every page that
+  // shows it must render the same without it.
+  useEffect(() => {
+    let active = true;
+    fetchThemeFocus(refreshKey > 0).then((data) => {
+      if (active) setThemeFocus(data);
+    });
+    return () => {
+      active = false;
+    };
+  }, [refreshKey]);
 
   useEffect(() => {
     let active = true;
@@ -275,6 +309,7 @@ export const App: React.FC = () => {
         {route.page === 'watchlist' ? (
           <StockWatchlist
             payload={watchlistData}
+            focus={themeFocus}
             view={route.view}
             query={route.q}
             onViewChange={(view) => updateWatchlistHash(view, view === 'search' ? route.q : '')}
@@ -300,10 +335,10 @@ export const App: React.FC = () => {
               />
             ) : null}
             {route.page === 'momentum' ? (
-              <ThemeMomentum data={radarData} device={device} onGoStock={goStock} />
+              <ThemeMomentum data={radarData} focus={themeFocus} device={device} onGoStock={goStock} />
             ) : null}
             {route.page === 'flows' ? (
-              <InstitutionalFlows data={radarData} device={device} onGoStock={goStock} refreshKey={refreshKey} />
+              <InstitutionalFlows data={radarData} focus={themeFocus} device={device} onGoStock={goStock} refreshKey={refreshKey} />
             ) : null}
             {route.page === 'stock' ? (
               <StockDetail
@@ -314,6 +349,10 @@ export const App: React.FC = () => {
                 flows={stockData.flows}
                 brokerMap={stockData.brokerMap}
                 brokerLoading={brokerLoading}
+                focus={themeFocus}
+                watchlist={watchlistData}
+                themes={stockThemes}
+                onGoTheme={() => updateHash('momentum')}
                 device={device}
                 initialTab={route.tab}
                 onBack={() => updateHash('index')}
@@ -321,7 +360,7 @@ export const App: React.FC = () => {
                 onGoStock={goStock}
               />
             ) : null}
-            {route.page === 'sources' ? <SourceStatus data={radarData.sourceStatus} device={device} /> : null}
+            {route.page === 'sources' ? <SourceStatus data={radarData.sourceStatus} device={device} freshness={{ radar: radarData, watchlist: watchlistData, focus: themeFocus, preMarket }} /> : null}
           </>
         ) : null}
       </main>

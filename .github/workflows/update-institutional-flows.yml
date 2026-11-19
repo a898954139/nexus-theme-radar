@@ -77,12 +77,19 @@ jobs:
         continue-on-error: true
         run: python scripts/update_institutional_rankings.py --data-dir data
 
+      - name: Rebuild theme focus board
+        # Today's flows change which themes the money is following; rebuild so
+        # the board does not wait for the next radar run. Optional output.
+        continue-on-error: true
+        run: python scripts/build_theme_focus.py --data-dir data
+
       - name: Commit and push
         id: commit
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add data/flows data/institutional-flows.json data/institutional-rankings.json
+          if [ -f data/theme-focus.json ]; then git add data/theme-focus.json; fi
 
           if git diff --cached --quiet; then
             echo "No changes -- a non-trading day, or this day was already fetched."

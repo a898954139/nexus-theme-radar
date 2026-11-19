@@ -1,0 +1,157 @@
+/* Theme focus board + shared "focused page" helpers.
+ * Kept in its own file so page work does not collide with the pre-market
+ * board's edits in index.css. Direction colours use --up / --down only. */
+
+.page-content .page-intro.is-compact { display: flex; align-items: flex-end; justify-content: space-between; gap: 16px; padding: 16px 20px 12px; }
+.page-content .page-intro.is-compact h1 { margin-top: 6px; font-size: 20px; }
+.page-content .page-intro.is-compact p { max-width: 60ch; font-size: 11px; line-height: 1.7; text-align: right; }
+.page-intro.is-compact .gold-rule { display: none; }
+
+.focus-board { padding: 16px 20px 14px; border-bottom: 1px solid var(--line); background: linear-gradient(180deg, rgba(201,162,74,.05), transparent 70%); }
+.focus-board-head { display: flex; align-items: flex-end; justify-content: space-between; gap: 12px; margin-bottom: 12px; }
+.focus-board-head h2 { margin: 6px 0 0; color: var(--text-hi); font: 500 17px/1.3 'Noto Sans TC', sans-serif; }
+.focus-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(204px, 1fr)); gap: 10px; }
+.focus-method { margin: 10px 0 0; color: var(--faint); font-size: 10px; }
+
+.focus-card { --tone: var(--faint); position: relative; display: flex; flex-direction: column; gap: 8px; min-width: 0; padding: 12px; border: 1px solid var(--line); border-top: 2px solid var(--tone); border-radius: 10px; background: var(--card-bg); }
+.focus-card.is-focus { --tone: var(--up); }
+.focus-card.is-money { --tone: var(--gold); }
+.focus-card.is-news { --tone: var(--cyan); }
+.focus-card.is-out { --tone: var(--down); }
+.focus-card.is-selected { border-color: var(--gold); box-shadow: 0 0 0 1px var(--gold) inset; }
+.focus-card header { display: flex; align-items: baseline; gap: 8px; }
+.focus-rank { color: var(--faint); font-size: 10px; }
+.focus-name { flex: 1; min-width: 0; overflow: hidden; padding: 0; border: 0; background: none; color: var(--text-hi); font: 500 14px/1.3 'Noto Sans TC', sans-serif; text-align: left; text-overflow: ellipsis; white-space: nowrap; }
+button.focus-name:hover { color: var(--gold-hover); }
+.focus-score { color: var(--tone); font-size: 20px; font-weight: 600; line-height: 1; }
+.focus-stance { display: flex; flex-direction: column; gap: 3px; }
+.focus-pill { align-self: flex-start; padding: 2px 7px; border: 1px solid var(--tone); border-radius: 999px; color: var(--tone); font-size: 10px; line-height: 1.5; }
+.focus-stance small { color: var(--muted); font-size: 10px; line-height: 1.5; }
+.focus-metrics { display: grid; grid-template-columns: 1fr 1fr; gap: 6px 10px; margin: 0; }
+.focus-metrics div { min-width: 0; }
+.focus-metrics dt { color: var(--faint); font-size: 10px; }
+.focus-metrics dd { margin: 1px 0 0; color: var(--text); font-size: 13px; }
+.focus-metrics dd small { color: var(--faint); font-size: 10px; }
+.focus-breadth { height: 3px; overflow: hidden; border-radius: 2px; background: color-mix(in srgb, var(--down) 45%, transparent); }
+.focus-breadth span { display: block; height: 100%; background: var(--up); }
+.focus-stocks { display: flex; flex-direction: column; gap: 4px; }
+.focus-stocks-label { color: var(--faint); font-size: 10px; }
+.focus-empty { color: var(--faint); font-size: 11px; }
+.focus-stock-chip { display: flex; align-items: center; gap: 6px; min-width: 0; min-height: 26px; padding: 0 8px; border: 1px solid var(--line); border-left: 2px solid var(--up); border-radius: 6px; background: var(--surface-bg); color: var(--text); font-size: 11px; text-align: left; }
+.focus-stock-chip.is-down { border-left-color: var(--down); }
+.focus-stock-chip:hover { border-color: var(--gold-deep); }
+.focus-stock-chip b { color: var(--gold); font-weight: 500; }
+.focus-stock-chip span { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.focus-stock-chip i { padding: 0 4px; border-radius: 3px; background: var(--gold-bg); color: var(--gold); font-size: 9px; font-style: normal; white-space: nowrap; }
+.focus-stock-chip em { font-style: normal; font-size: 11px; }
+
+.focus-headline { display: -webkit-box; overflow: hidden; color: var(--muted); font-size: 11px; line-height: 1.55; text-decoration: none; -webkit-box-orient: vertical; -webkit-line-clamp: 2; }
+a.focus-headline:hover { color: var(--text); }
+
+.momentum-news-details { border-top: 1px solid var(--line); }
+.momentum-news-details > summary { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 14px 20px; color: var(--gold); cursor: pointer; font-size: 13px; list-style: none; }
+.momentum-news-details > summary::-webkit-details-marker { display: none; }
+.momentum-news-details > summary::after { content: '▾'; color: var(--faint); }
+.momentum-news-details[open] > summary::after { content: '▴'; }
+
+/* Compact "show more" control used by long lists on every page. */
+.list-more { display: flex; justify-content: center; padding: 10px 20px 14px; border-top: 1px solid var(--sub-line); }
+.list-more button { min-height: 32px; padding: 0 16px; border: 1px solid var(--line); border-radius: 8px; background: transparent; color: var(--gold); font-size: 12px; }
+.list-more button:hover { border-color: var(--gold-deep); }
+
+/* Theme filter chips (watchlist, flows). */
+.theme-filter { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; padding: 10px 20px; border-bottom: 1px solid var(--line); }
+.theme-filter > span { margin-right: 4px; color: var(--faint); font-size: 11px; }
+.theme-filter button { min-height: 28px; padding: 0 10px; border: 1px solid var(--line); border-radius: 999px; background: transparent; color: var(--muted); font-size: 11px; }
+.theme-filter button.is-selected { border-color: var(--gold); background: var(--gold); color: #17120A; font-weight: 600; }
+.theme-filter button em { margin-left: 4px; font-style: normal; opacity: .75; }
+
+/* Small "data as of" freshness tag. */
+.asof-tag { display: inline-flex; align-items: center; gap: 4px; color: var(--faint); font: 400 10px/1 'IBM Plex Mono', monospace; }
+.asof-tag.is-stale { color: var(--gold); }
+
+@media (max-width: 719px) {
+  .page-content .page-intro.is-compact { display: block; }
+  .page-content .page-intro.is-compact p { margin-top: 6px; text-align: left; }
+  .focus-board { padding: 14px 16px; }
+  .focus-board-head { display: block; }
+  .focus-board-head .section-note { display: block; margin-top: 4px; }
+  /* Swipe instead of a five-card stack: the board must not push the page down. */
+  .focus-grid { grid-auto-flow: column; grid-template-columns: none; grid-auto-columns: 78%; overflow-x: auto; scroll-snap-type: x mandatory; padding-bottom: 4px; }
+  .focus-card { scroll-snap-align: start; }
+  .theme-filter { flex-wrap: nowrap; overflow-x: auto; padding: 10px 16px; }
+  .theme-filter button { flex: 0 0 auto; }
+  .theme-filter > span { flex: 0 0 auto; white-space: nowrap; }
+  /* Watchlist cards: four metrics on one row, the card itself is the link. */
+  .page-content.watchlist-page .watchlist-metric-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  .page-content.watchlist-page .watchlist-metric-grid > span { min-height: 0; padding: 8px 8px; border-right: 1px solid var(--sub-line); }
+  .page-content.watchlist-page .watchlist-metric-grid > span:last-child { border-right: 0; }
+  .page-content.watchlist-page .watchlist-mobile-card > header { padding: 10px 12px; }
+  .page-content.watchlist-page .watchlist-mobile-card > button { display: none; }
+  .page-content.watchlist-page .watchlist-mobile-card > .watchlist-flags { padding-bottom: 10px; }
+}
+
+/* Flows page: theme money table. */
+.theme-flow-panel { padding: 16px 20px 12px; border-bottom: 1px solid var(--line); }
+.theme-flow-table { display: flex; flex-direction: column; border: 1px solid var(--line); border-radius: 10px; overflow: hidden; }
+.theme-flow-row { --tone: var(--faint); display: grid; grid-template-columns: minmax(120px, 1.4fr) minmax(120px, 1.3fr) 1fr repeat(4, minmax(72px, .8fr)); align-items: center; gap: 10px; width: 100%; min-height: 40px; padding: 0 12px; border: 0; border-bottom: 1px solid var(--sub-line); border-left: 2px solid var(--tone); background: var(--card-bg); color: var(--text); font-size: 12px; text-align: right; }
+.theme-flow-row:last-child { border-bottom: 0; }
+.theme-flow-row > :first-child, .theme-flow-row > :nth-child(2) { text-align: left; }
+.theme-flow-row.is-head { min-height: 30px; border-left-color: transparent; background: var(--surface-bg); color: var(--faint); font-size: 10px; }
+button.theme-flow-row:hover { background: var(--surface-bg); }
+.theme-flow-row.is-selected { background: var(--gold-bg); box-shadow: inset 0 0 0 1px var(--gold-deep); }
+.theme-flow-row.is-focus { --tone: var(--up); }
+.theme-flow-row.is-money { --tone: var(--gold); }
+.theme-flow-row.is-news { --tone: var(--cyan); }
+.theme-flow-row.is-out { --tone: var(--down); }
+.theme-flow-row strong { color: var(--text-hi); font-weight: 500; }
+.theme-flow-stance { color: var(--tone); font-size: 11px; }
+.theme-flow-breadth { display: flex; align-items: center; justify-content: flex-end; gap: 6px; }
+.theme-flow-breadth i { width: 44px; height: 4px; overflow: hidden; border-radius: 2px; background: color-mix(in srgb, var(--down) 45%, transparent); }
+.theme-flow-breadth b { display: block; height: 100%; background: var(--up); }
+.flow-theme-tag { margin-left: 6px; padding: 0 5px; border-radius: 3px; background: var(--gold-bg); color: var(--gold); font-size: 9px; font-style: normal; white-space: nowrap; }
+.flow-board-source { display: inline-flex; gap: 6px; align-items: center; }
+.flow-filter-note { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 8px 20px; border-bottom: 1px solid var(--sub-line); background: var(--gold-bg); color: var(--gold); font-size: 11px; }
+.flow-filter-note button { border: 0; background: none; color: var(--muted); font-size: 11px; }
+
+@media (max-width: 719px) {
+  .theme-flow-panel { padding: 14px 16px; }
+  .theme-flow-row { grid-template-columns: minmax(96px, 1.3fr) 1fr repeat(2, minmax(60px, .8fr)); }
+  .theme-flow-row > :nth-child(2), .theme-flow-row > :nth-child(5), .theme-flow-row > :nth-child(7) { display: none; }
+}
+.flow-breakdown-link { margin-left: auto; border: 0; background: none; color: var(--gold); font-size: 11px; white-space: nowrap; }
+.watchlist-sources-line { display: flex; flex-wrap: wrap; gap: 4px 12px; margin-top: 4px; }
+
+/* Stock detail: why this stock is on the radar. */
+.stock-focus-strip { display: flex; flex-wrap: wrap; gap: 12px 28px; padding: 12px 20px; border-bottom: 1px solid var(--line); background: var(--card-bg); }
+.stock-focus-block { display: flex; flex-direction: column; gap: 6px; min-width: 0; }
+.stock-focus-themes, .stock-focus-kpis { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 14px; }
+.stock-focus-themes { gap: 6px; }
+.stock-focus-theme { --tone: var(--faint); display: inline-flex; align-items: center; gap: 6px; min-height: 28px; padding: 0 10px; border: 1px solid var(--line); border-left: 2px solid var(--tone); border-radius: 6px; background: var(--surface-bg); color: var(--text); font-size: 12px; }
+.stock-focus-theme.is-focus { --tone: var(--up); }
+.stock-focus-theme.is-money { --tone: var(--gold); }
+.stock-focus-theme.is-news { --tone: var(--cyan); }
+.stock-focus-theme.is-out { --tone: var(--down); }
+.stock-focus-theme b { font-weight: 500; }
+.stock-focus-theme i { padding: 0 4px; border-radius: 3px; background: var(--gold-bg); color: var(--gold); font-size: 9px; font-style: normal; }
+.stock-focus-theme em { color: var(--tone); font-size: 10px; font-style: normal; }
+.stock-focus-kpis span { color: var(--muted); font-size: 12px; }
+.stock-focus-kpis b { margin-left: 4px; color: var(--text-hi); font-size: 14px; font-weight: 500; }
+.stock-focus-kpis small { margin-left: 4px; color: var(--faint); font-size: 10px; }
+.daily-report.is-slim { display: flex; align-items: center; gap: 12px; margin: 10px 20px 0; padding: 8px 12px; min-height: 0; }
+.daily-report.is-slim strong { color: var(--muted); font-size: 12px; font-weight: 400; }
+@media (max-width: 719px) {
+  .stock-focus-strip { padding: 12px 16px; gap: 10px 18px; }
+  .daily-report.is-slim { margin: 10px 16px 0; }
+}
+
+/* Watchlist density: 15 rows should fit in about one and a half screens. */
+.page-content.watchlist-page .watchlist-row { min-height: 56px; padding-top: 6px; padding-bottom: 6px; }
+.page-content.watchlist-page .watchlist-list-heading { min-height: 48px; }
+.watchlist-page .watchlist-list-heading .watchlist-sources-line { display: flex; }
+.watchlist-page .watchlist-list-heading .watchlist-sources-line > span { display: inline-flex; margin-top: 0; }
+.watchlist-page .watchlist-list-heading .asof-tag.is-stale { color: var(--gold); }
+.theme-filter button.is-focus:not(.is-selected) { border-color: color-mix(in srgb, var(--up) 55%, var(--line)); }
+.theme-filter button.is-money:not(.is-selected) { border-color: color-mix(in srgb, var(--gold) 55%, var(--line)); }
+.theme-filter button.is-news:not(.is-selected) { border-color: color-mix(in srgb, var(--cyan) 45%, var(--line)); }
+.theme-filter button.is-out:not(.is-selected) { border-color: color-mix(in srgb, var(--down) 55%, var(--line)); }
