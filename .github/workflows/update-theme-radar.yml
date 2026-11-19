@@ -109,7 +109,7 @@ jobs:
                 && vars.THEME_RADAR_DB_HISTORY_AUTHORIZED_BRANCH == github.ref_name
                 && vars.THEME_RADAR_DB_HISTORY_AUTHORIZED_ENVIRONMENT == 'production'
                 && secrets.THEME_RADAR_DATABASE_URL || '' }}
-        run: python scripts/radar_publish.py --data-dir data --dataset theme-focus --dataset source-status --dataset theme-events --dataset theme-ranking --dataset theme-momentum --dataset theme-momentum-history
+        run: python scripts/radar_publish.py --data-dir data --dataset theme-focus --dataset source-status --dataset theme-events --dataset theme-ranking --dataset theme-momentum --dataset theme-momentum-history --dataset stock-watchlist --dataset fundamentals --dataset stock-audit
 
       - name: Commit and push changes
         id: commit

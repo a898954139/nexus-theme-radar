@@ -49,7 +49,19 @@ Rules that keep this safe on the shared Supabase project (`nexus-dashboard-previ
 | `theme-momentum` | `theme_momentum_snapshot/_theme/_symbol` | update-theme-radar | `public-theme-momentum-latest-v0.9.json` (per-symbol fundamentals copy not stored; the stock page reads fundamentals from its own dataset) |
 | `theme-momentum-history[?hours=720]` | `theme_momentum_hourly` (series, 60-day retention) | update-theme-radar | `public-theme-momentum-history-v0.9.json` |
 
-Later parts (separate PRs): stock watchlist, fundamentals, stock audit, and normalizing the two existing jsonb
+| `stock-watchlist` | `watchlist_snapshot`, `_header_value`, `_day_trading_source`, `_weight`, `_member`, `_member_theme`, `_member_flag`, `_item`, `_item_component`, `_item_missing` | update-theme-radar | `public-stock-watchlist-v1.json` (rebuilt key-for-key: the page validator checks exact key sets) |
+| `fundamentals?instrument_id=` / `?symbol=` | `fundamental_set` (one current set per instrument) + `fundamental_quarter`, `_health_period`, `_income`, `_balance`, `_cash_flow`, `_missing` (versioned by `fetched_at`) | update-theme-radar, backfill-fundamentals | `fundamentals-index.json` + `fundamentals/*.json` (~2,000 files) |
+| `pre-market` | `pm_snapshot`, `pm_source`, `pm_event`, `pm_event_sector`, `_related`, `_impact`, `pm_pulse`, `pm_pulse_point`, `pm_sector`, `pm_flow_panel`, `pm_flow_entry`, `pm_indicator` | update-pre-market | `pre-market-latest.json` and the jsonb `radar.pre_market_snapshot` |
+| `stock-audit` | `stock_audit_report`, `_reference`, `_stock`, `_candle`, `_operation`, `_receipt` | update-theme-radar (publishes the committed report when it changes) | `stock-audit-latest.json` |
+
+Versioned children (fundamentals): the header is upserted; child rows carry
+the header's `fetched_at` and rows of a superseded version are deleted by
+`radar.purge_snapshots()` via `radar.versioned_child`.
+
+Remaining jsonb (out of scope here, listed for follow-up): the analysis
+subsystem's `analysis_*` / `fundamental_snapshot` tables (#8, written by the
+Mac task) and `tracking_candidates_snapshot` (#6, read by NexusDashboard's
+authed API). Earlier parts (separate PRs): stock watchlist, fundamentals, stock audit, and normalizing the two existing jsonb
 snapshot tables (`pre_market_snapshot`, `tracking_candidates_snapshot`).
 `waytoagi-7d.json` (stale since 2026-07-26, inherited from the AI-news fork) is
 removed rather than migrated.

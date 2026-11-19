@@ -18,9 +18,7 @@ from scripts import radar_publish, radar_tables
 ROOT = Path(__file__).resolve().parents[1]
 DATA = ROOT / "data"
 MIGRATION = ROOT / "supabase" / "migrations" / "20261119150000_create_radar_relational_core.sql"
-RELATIONAL_MIGRATIONS = sorted((ROOT / "supabase" / "migrations").glob("2026111915*_create_radar_relational_*.sql")) + sorted(
-    (ROOT / "supabase" / "migrations").glob("2026111916*_create_radar_relational_*.sql")
-)
+RELATIONAL_MIGRATIONS = sorted((ROOT / "supabase" / "migrations").glob("20261119*_create_radar_relational_*.sql"))
 
 
 def load(name: str):
@@ -42,11 +40,12 @@ def test_every_registered_dataset_maps_committed_data(mapped):
 def test_child_tables_and_columns_exist_in_the_migration(mapped):
     sql = "\n".join(p.read_text(encoding="utf-8") for p in RELATIONAL_MIGRATIONS)
     for name, item in mapped.items():
-        tables = (
-            [(item.header_table, tuple(item.header))] + [(c.table, c.columns) for c in item.children]
-            if isinstance(item, radar_tables.Snapshot)
-            else [(item.table, item.columns)]
-        )
+        if isinstance(item, radar_tables.Snapshot):
+            tables = [(item.header_table, tuple(item.header))] + [(c.table, c.columns) for c in item.children]
+        elif isinstance(item, radar_tables.Versioned):
+            tables = [(item.header_table, tuple(item.headers[0]))] + [(c.table, c.columns) for c in item.children]
+        else:
+            tables = [(item.table, item.columns)]
         for table, columns in tables:
             start = sql.index(f"create table if not exists radar.{table} (")
             body = sql[start: sql.index("\n);", start)]
@@ -150,6 +149,9 @@ def test_workflows_publish_with_the_gated_secret():
         ("update-institutional-flows.yml", "institutional-flows"),
         ("update-theme-radar.yml", "source-status"),
         ("update-theme-radar.yml", "theme-momentum-history"),
+        ("update-theme-radar.yml", "stock-watchlist"),
+        ("update-pre-market.yml", "pre-market"),
+        ("backfill-fundamentals.yml", "fundamentals"),
         ("update-broker-data.yml", "broker"),
     ):
         text = (ROOT / ".github" / "workflows" / workflow).read_text(encoding="utf-8")
@@ -158,8 +160,12 @@ def test_workflows_publish_with_the_gated_secret():
 
 
 def test_purge_function_cannot_be_steered_by_the_caller():
-    for path in RELATIONAL_MIGRATIONS:
+    defining = [p for p in RELATIONAL_MIGRATIONS if "function radar.purge_snapshots" in p.read_text(encoding="utf-8")]
+    assert len(defining) >= 3
+    for path in defining:
         _assert_purge_locked(path.read_text(encoding="utf-8"))
+    for path in RELATIONAL_MIGRATIONS:
+        assert "grant delete" not in path.read_text(encoding="utf-8").lower()
 
 
 def _assert_purge_locked(sql: str) -> None:
@@ -178,3 +184,25 @@ def test_theme_events_symbols_reference_registered_instruments(mapped):
     snapshot = mapped["theme-events"]
     symbols = [c for c in snapshot.children if c.table == "theme_event_symbol"][0]
     assert symbols.rows and all(row[3] in snapshot.instruments for row in symbols.rows)
+
+
+def test_watchlist_rejects_short_and_long_lists_that_disagree():
+    payload = load("public-stock-watchlist-v1.json")
+    payload["long"]["items"] = payload["long"]["items"][1:]
+    with pytest.raises(ValueError, match="different instruments"):
+        radar_tables.map_stock_watchlist(payload)
+
+
+def test_fundamentals_reject_unknown_statement_lines():
+    doc = load("fundamentals/TWSE-2330.json")
+    period = next(iter(doc["statements"]["income"]))
+    doc["statements"]["income"][period]["surprise_line"] = 1.0
+    with pytest.raises(ValueError, match="unexpected keys"):
+        radar_tables.map_fundamentals({"TWSE:2330": doc})
+
+
+def test_pre_market_rejects_unknown_event_keys():
+    payload = load("pre-market-latest.json")
+    payload["events"][0]["newField"] = 1
+    with pytest.raises(ValueError, match="unexpected keys"):
+        radar_tables.map_pre_market(payload)

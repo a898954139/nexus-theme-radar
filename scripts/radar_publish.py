@@ -29,10 +29,10 @@ from pathlib import Path
 from typing import Any
 
 try:
-    from scripts.radar_tables import DATASETS, Series, Snapshot
+    from scripts.radar_tables import DATASETS, Series, Snapshot, Versioned
     from scripts.radar_store import redact_error
 except ModuleNotFoundError:
-    from radar_tables import DATASETS, Series, Snapshot
+    from radar_tables import DATASETS, Series, Snapshot, Versioned
     from radar_store import redact_error
 
 LOGGER = logging.getLogger("radar_publish")
@@ -130,9 +130,52 @@ def write_series(connection: Any, series: Series) -> dict[str, Any]:
     return {"status": "written", "rows": series.row_count(), "changed": changed}
 
 
-def publish(connection: Any, item: Snapshot | Series) -> dict[str, Any]:
+def write_versioned(connection: Any, item: Versioned) -> dict[str, Any]:
+    """Upsert current headers; insert children of new versions only."""
+
+    header_table = _ident(item.header_table)
+    key = _ident(item.key_column)
+    version = _ident(item.version_column)
+    columns = [_ident(c) for c in item.headers[0]] if item.headers else []
+    updates = [c for c in columns if c != key]
+    upsert_sql = (
+        f"INSERT INTO radar.{header_table} ({', '.join(columns)}) "
+        f"VALUES ({', '.join('%(' + c + ')s' for c in columns)}) "
+        f"ON CONFLICT ({key}) DO UPDATE SET "
+        + ", ".join(f"{c} = EXCLUDED.{c}" for c in updates)
+        + f", updated_at = now() WHERE radar.{header_table}.{version} IS DISTINCT FROM EXCLUDED.{version}"
+    )
+    with connection.transaction():
+        with connection.cursor() as cursor:
+            _upsert_dimensions(cursor, item.instruments)
+            if item.headers:
+                cursor.executemany(upsert_sql, item.headers)
+            for child in item.children:
+                if not child.rows:
+                    continue
+                table = _ident(child.table)
+                cols = [_ident(c) for c in child.columns]
+                staging = f"_stage_{table}"
+                cursor.execute(f"CREATE TEMP TABLE {staging} (LIKE radar.{table} INCLUDING DEFAULTS) ON COMMIT DROP")
+                with cursor.copy(f"COPY {staging} ({', '.join(cols)}) FROM STDIN") as copy:
+                    for row in child.rows:
+                        copy.write_row(row)
+                # Only rows of the header's current version; an older file
+                # cannot resurrect a superseded version.
+                cursor.execute(
+                    f"INSERT INTO radar.{table} ({', '.join(cols)}) SELECT {', '.join('s.' + c for c in cols)} "
+                    f"FROM {staging} s JOIN radar.{header_table} h ON h.{key} = s.{key} AND h.{version} = s.{version} "
+                    "ON CONFLICT DO NOTHING"
+                )
+            cursor.execute("SELECT radar.purge_snapshots()")
+    return {"status": "written", "rows": item.row_count()}
+
+
+def publish(connection: Any, item: Snapshot | Series | Versioned) -> dict[str, Any]:
     if isinstance(item, Snapshot):
         return write_snapshot(connection, item)
+    if isinstance(item, Versioned):
+        return write_versioned(connection, item)
     return write_series(connection, item)
 
 
@@ -153,7 +196,7 @@ def run(data_dir: Path, datasets: list[str], *, require: bool, connect=connect_f
 
     # Map every dataset before touching the DB: a malformed payload must not
     # leave some datasets written and others not because of ordering.
-    items: list[Snapshot | Series] = []
+    items: list[Snapshot | Series | Versioned] = []
     failures = 0
     for name in datasets:
         try:
