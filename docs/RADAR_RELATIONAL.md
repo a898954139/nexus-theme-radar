@@ -20,7 +20,7 @@ browser ── /api/v1/<dataset> (api/v1/[dataset].js → api/_lib/datasets) ◄
 | Pattern | Used for | Key | Lifecycle |
 |---|---|---|---|
 | Snapshot header + children | rankings, broker, theme focus, source status, … | header `snapshot_id`, unique `generated_at` | one transaction per snapshot; API serves the newest header; `radar.purge_snapshots()` keeps `snapshot_retention.keep_count` |
-| Time series | `institutional_flow` | `(instrument_id, trade_date)` | upsert (only changed rows are rewritten); purge keeps 120 days |
+| Time series | `institutional_flow`, `theme_momentum_hourly` | natural key | upsert (only changed rows are rewritten); purge keeps `series_retention.keep_days` |
 | Dimension | `instrument`, `broker` | natural id | upsert; children reference it by FK |
 
 Rules that keep this safe on the shared Supabase project (`nexus-dashboard-preview`):
@@ -44,9 +44,12 @@ Rules that keep this safe on the shared Supabase project (`nexus-dashboard-previ
 | `broker-map?symbol=2330` | `broker_symbol`, `broker_symbol_branch`, `broker_branch_stock`, `broker` | update-broker-data | `broker-map/` (~600MB, each branch's book repeated per symbol) → ~135k rows per snapshot |
 | `theme-focus` | `theme_focus_snapshot/_theme/_stock` | update-theme-radar, update-institutional-flows | `theme-focus.json` |
 | `source-status` | `source_status_snapshot/_site` | update-theme-radar | `source-status.json` |
+| `theme-events` | `theme_event_snapshot/_item/_theme/_symbol/_source` | update-theme-radar | `theme-events.json` (match/relevance distributions, signals and duplicate code lists not stored: no page reads them) |
+| `theme-ranking` | `theme_ranking_snapshot/_theme/_symbol` | update-theme-radar | `public-theme-ranking-v0.8.json` (`heat_reason` breakdown not stored) |
+| `theme-momentum` | `theme_momentum_snapshot/_theme/_symbol` | update-theme-radar | `public-theme-momentum-latest-v0.9.json` (per-symbol fundamentals copy not stored; the stock page reads fundamentals from its own dataset) |
+| `theme-momentum-history[?hours=720]` | `theme_momentum_hourly` (series, 60-day retention) | update-theme-radar | `public-theme-momentum-history-v0.9.json` |
 
-Later parts (separate PRs): theme events / ranking / momentum, stock
-watchlist, fundamentals, stock audit, and normalizing the two existing jsonb
+Later parts (separate PRs): stock watchlist, fundamentals, stock audit, and normalizing the two existing jsonb
 snapshot tables (`pre_market_snapshot`, `tracking_candidates_snapshot`).
 `waytoagi-7d.json` (stale since 2026-07-26, inherited from the AI-news fork) is
 removed rather than migrated.

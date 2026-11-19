@@ -565,6 +565,283 @@ def map_source_status(payload: Mapping[str, Any]) -> Snapshot:
     )
 
 
+# ------------------------------------------------------------ theme events
+
+
+def _news_columns(news: Any, label: str, *, with_cluster: bool) -> tuple[Any, ...]:
+    if news is None:
+        return (None,) * (8 if with_cluster else 7)
+    news = _dict(news, label)
+    cols = (
+        _str(_require(news, "id", label), f"{label}.id"),
+        *((_opt_str(news.get("cluster_id")),) if with_cluster else ()),
+        _opt_str(news.get("title_zh")),
+        _opt_str(news.get("summary")),
+        _opt_str(news.get("source_id")),
+        _opt_str(news.get("source")),
+        _opt_str(news.get("published_at")),
+        _opt_str(news.get("canonical_url")),
+    )
+    return cols
+
+
+def map_theme_events(payload: Mapping[str, Any]) -> Snapshot:
+    label = "theme-events"
+    instruments: dict[str, dict[str, Any]] = {}
+    items = ChildTable(
+        "theme_event_item",
+        ("position", "article_id", "cluster_id", "title_zh", "summary", "source", "source_id", "source_class",
+         "published_at", "url", "extraction_method", "fetched_at", "primary_theme_id", "theme_score", "decision",
+         "tw_relevance_status", "tw_relevance_reason", "confirmation_status", "cluster_size",
+         "official_evidence_count"),
+    )
+    themes = ChildTable("theme_event_theme", ("event_position", "position", "theme_id", "name_zh", "score", "reason"))
+    symbols = ChildTable("theme_event_symbol", ("event_position", "role", "position", "instrument_id", "evidence", "reason"))
+    sources = ChildTable("theme_event_source", ("event_position", "position", "source_id", "source", "title", "url", "published_at"))
+    for position, item in enumerate(_list(_require(payload, "items", label), label)):
+        ilabel = f"{label}.items[{position}]"
+        item = _dict(item, ilabel)
+        items.rows.append((
+            position,
+            _str(_require(item, "id", ilabel), f"{ilabel}.id"),
+            _opt_str(item.get("cluster_id")),
+            str(_require(item, "title_zh", ilabel)),
+            str(item.get("summary") or ""),
+            str(_require(item, "source", ilabel)),
+            _str(_require(item, "source_id", ilabel), f"{ilabel}.source_id"),
+            _opt_str(item.get("source_class")),
+            _str(_require(item, "published_at", ilabel), f"{ilabel}.published_at"),
+            _opt_str(item.get("url")),
+            _opt_str(item.get("extraction_method")),
+            _opt_str(item.get("fetched_at")),
+            _opt_str(item.get("primary_theme_id")),
+            _opt_num(item.get("theme_score"), f"{ilabel}.theme_score"),
+            _opt_str(item.get("decision")),
+            _opt_str(item.get("tw_relevance_status")),
+            _opt_str(item.get("tw_relevance_reason")),
+            _opt_str(item.get("confirmation_status")),
+            _opt_int(item.get("cluster_size"), f"{ilabel}.cluster_size"),
+            _opt_int(item.get("official_evidence_count"), f"{ilabel}.official_evidence_count"),
+        ))
+        for tpos, theme in enumerate(_list(item.get("matched_themes") or [], f"{ilabel}.matched_themes")):
+            theme = _dict(theme, f"{ilabel}.matched_themes[{tpos}]")
+            themes.rows.append((
+                position, tpos,
+                _str(_require(theme, "theme_id", ilabel), f"{ilabel}.theme_id"),
+                str(theme.get("name_zh") or ""),
+                _opt_num(theme.get("score"), f"{ilabel}.score"),
+                _opt_str(theme.get("reason")),
+            ))
+        for role, key in (("direct", "direct_symbols"), ("related", "related_symbols")):
+            for spos, sym in enumerate(_list(item.get(key) or [], f"{ilabel}.{key}")):
+                slabel = f"{ilabel}.{key}[{spos}]"
+                sym = _dict(sym, slabel)
+                iid = add_instrument(instruments, _require(sym, "instrument_id", slabel), sym.get("name_zh"), label=slabel)
+                symbols.rows.append((position, role, spos, iid, _opt_str(sym.get("evidence")), _opt_str(sym.get("reason"))))
+        for cpos, src in enumerate(_list(item.get("cluster_sources") or [], f"{ilabel}.cluster_sources")):
+            src = _dict(src, f"{ilabel}.cluster_sources[{cpos}]")
+            sources.rows.append((
+                position, cpos,
+                _str(_require(src, "source_id", ilabel), f"{ilabel}.cluster_source_id"),
+                str(src.get("source") or ""),
+                str(src.get("title") or ""),
+                _opt_str(src.get("url")),
+                _opt_str(src.get("published_at")),
+            ))
+    header = {
+        "generated_at": _str(_require(payload, "generated_at", label), f"{label}.generated_at"),
+        "market_id": _str(_require(payload, "market_id", label), "market_id"),
+        "window_hours": _int(_require(payload, "window_hours", label), "window_hours"),
+        "max_items": _opt_int(payload.get("max_items"), "max_items"),
+        "total_items": _int(_require(payload, "total_items", label), "total_items"),
+        "total_items_available": _opt_int(payload.get("total_items_available"), "total_items_available"),
+        "taxonomy_version": _opt_str(payload.get("taxonomy_version")),
+    }
+    return Snapshot(
+        dataset="theme-events",
+        header_table="theme_event_snapshot",
+        header=header,
+        children=[items, themes, symbols, sources],
+        instruments=instruments,
+    )
+
+
+# ----------------------------------------------------------- theme ranking
+
+
+def map_theme_ranking(payload: Mapping[str, Any]) -> Snapshot:
+    label = "theme-ranking"
+    instruments: dict[str, dict[str, Any]] = {}
+    themes = ChildTable(
+        "theme_ranking_theme",
+        ("theme_id", "rank", "name_zh", "heat_score", "event_count", "source_count", "tracking_candidate_count",
+         "taiwan_mapping_count", "news_id", "news_cluster_id", "news_title_zh", "news_summary", "news_source_id",
+         "news_source", "news_published_at", "news_url"),
+    )
+    symbols = ChildTable(
+        "theme_ranking_symbol",
+        ("theme_id", "role", "position", "instrument_id", "direct_event_count", "official_evidence_count",
+         "company_rank_score", "latest_mentioned_at", "latest_official_at"),
+    )
+    for tpos, theme in enumerate(_list(_require(payload, "themes", label), label)):
+        tlabel = f"{label}.themes[{tpos}]"
+        theme = _dict(theme, tlabel)
+        theme_id = _str(_require(theme, "theme_id", tlabel), f"{tlabel}.theme_id")
+        summaries = theme.get("summaries") or {}
+        summaries = _dict(summaries, f"{tlabel}.summaries")
+        themes.rows.append((
+            theme_id,
+            _int(_require(theme, "rank", tlabel), f"{tlabel}.rank"),
+            _str(_require(theme, "name_zh", tlabel), f"{tlabel}.name_zh"),
+            _num(_require(theme, "heat_score", tlabel), f"{tlabel}.heat_score"),
+            _opt_int(summaries.get("event_count"), "event_count"),
+            _opt_int(summaries.get("source_count"), "source_count"),
+            _opt_int(summaries.get("tracking_candidate_count"), "tracking_candidate_count"),
+            _opt_int(summaries.get("taiwan_mapping_count"), "taiwan_mapping_count"),
+            *_news_columns(theme.get("representative_news"), f"{tlabel}.representative_news", with_cluster=True),
+        ))
+        for role, key in (("direct", "direct_mentions"), ("supply_chain", "supply_chain_candidates")):
+            for spos, sym in enumerate(_list(theme.get(key) or [], f"{tlabel}.{key}")):
+                slabel = f"{tlabel}.{key}[{spos}]"
+                sym = _dict(sym, slabel)
+                iid = add_instrument(instruments, _require(sym, "instrument_id", slabel), sym.get("name_zh"), label=slabel)
+                symbols.rows.append((
+                    theme_id, role, spos, iid,
+                    _opt_int(sym.get("direct_event_count"), f"{slabel}.direct_event_count"),
+                    _opt_int(sym.get("official_evidence_count"), f"{slabel}.official_evidence_count"),
+                    _opt_num(sym.get("company_rank_score"), f"{slabel}.company_rank_score"),
+                    _opt_str(sym.get("latest_mentioned_at")),
+                    _opt_str(sym.get("latest_official_at")),
+                ))
+    header = {
+        "generated_at": _str(_require(payload, "generated_at", label), f"{label}.generated_at"),
+        "schema_version": _str(_require(payload, "schema_version", label), "schema_version"),
+        "ranking_rule_version": _str(_require(payload, "ranking_rule_version", label), "ranking_rule_version"),
+        "company_rule_version": _opt_str(payload.get("company_rule_version")),
+        "market_id": _str(_require(payload, "market_id", label), "market_id"),
+        "window_hours": _int(_require(payload, "window_hours", label), "window_hours"),
+        "max_themes": _opt_int(payload.get("max_themes"), "max_themes"),
+        "qualified_theme_count": _opt_int(payload.get("qualified_theme_count"), "qualified_theme_count"),
+        "displayed_theme_count": _opt_int(payload.get("displayed_theme_count"), "displayed_theme_count"),
+        "threshold_note": _opt_str(payload.get("threshold_note")),
+        "generation_status": _opt_str(payload.get("generation_status")),
+        "failed_source_count": _opt_int(payload.get("failed_source_count"), "failed_source_count"),
+        "official_evidence_status": _opt_str(payload.get("official_evidence_status")),
+    }
+    return Snapshot(
+        dataset="theme-ranking",
+        header_table="theme_ranking_snapshot",
+        header=header,
+        children=[themes, symbols],
+        instruments=instruments,
+    )
+
+
+# ----------------------------------------------------------- theme momentum
+
+MOMENTUM_METRIC_KEYS = (
+    "event_count", "source_count", "tracking_candidate_count", "taiwan_mapping_count",
+    "direct_mapping_event_count",
+)
+
+
+def map_theme_momentum(payload: Mapping[str, Any]) -> Snapshot:
+    label = "theme-momentum"
+    instruments: dict[str, dict[str, Any]] = {}
+    themes = ChildTable(
+        "theme_momentum_theme",
+        ("theme_id", "rank", "name_zh", "qualification_status", "near_threshold_reason", "momentum_score",
+         "lifecycle_stage", "heat_score", "heat_change_24h", "source_change_24h", *MOMENTUM_METRIC_KEYS,
+         "single_source_concentration", "latest_qualifying_event_at", "news_id", "news_title_zh", "news_summary",
+         "news_source_id", "news_source", "news_published_at", "news_url"),
+    )
+    symbols = ChildTable("theme_momentum_symbol", ("theme_id", "role", "position", "instrument_id", "evidence", "reason"))
+    for tpos, theme in enumerate(_list(_require(payload, "themes", label), label)):
+        tlabel = f"{label}.themes[{tpos}]"
+        theme = _dict(theme, tlabel)
+        theme_id = _str(_require(theme, "theme_id", tlabel), f"{tlabel}.theme_id")
+        themes.rows.append((
+            theme_id,
+            _int(_require(theme, "rank", tlabel), f"{tlabel}.rank"),
+            _str(_require(theme, "name_zh", tlabel), f"{tlabel}.name_zh"),
+            _str(_require(theme, "qualification_status", tlabel), "qualification_status"),
+            _opt_str(theme.get("near_threshold_reason")),
+            _num(_require(theme, "momentum_score", tlabel), "momentum_score"),
+            _str(_require(theme, "lifecycle_stage", tlabel), "lifecycle_stage"),
+            _num(_require(theme, "heat_score", tlabel), "heat_score"),
+            _opt_num(theme.get("heat_change_24h"), "heat_change_24h"),
+            _opt_num(theme.get("source_change_24h"), "source_change_24h"),
+            *(_opt_int(theme.get(k), f"{tlabel}.{k}") for k in MOMENTUM_METRIC_KEYS),
+            _opt_num(theme.get("single_source_concentration"), "single_source_concentration"),
+            _opt_str(theme.get("latest_qualifying_event_at")),
+            *_news_columns(theme.get("representative_news"), f"{tlabel}.representative_news", with_cluster=False),
+        ))
+        for role, key in (("direct", "direct_symbols"), ("related", "related_symbols")):
+            for spos, sym in enumerate(_list(theme.get(key) or [], f"{tlabel}.{key}")):
+                slabel = f"{tlabel}.{key}[{spos}]"
+                sym = _dict(sym, slabel)
+                iid = add_instrument(instruments, _require(sym, "instrument_id", slabel), sym.get("name_zh"), label=slabel)
+                symbols.rows.append((theme_id, role, spos, iid, _opt_str(sym.get("evidence")), _opt_str(sym.get("reason"))))
+    header = {
+        "generated_at": _str(_require(payload, "generated_at", label), f"{label}.generated_at"),
+        "observed_hour": _str(_require(payload, "observed_hour", label), "observed_hour"),
+        "schema_version": _str(_require(payload, "schema_version", label), "schema_version"),
+        "ranking_rule_version": _str(_require(payload, "ranking_rule_version", label), "ranking_rule_version"),
+        "inclusion_rule_version": _opt_str(payload.get("inclusion_rule_version")),
+        "heat_rule_version": _opt_str(payload.get("heat_rule_version")),
+        "market_id": _str(_require(payload, "market_id", label), "market_id"),
+        "window_hours": _int(_require(payload, "window_hours", label), "window_hours"),
+        "freshness_status": _opt_str(payload.get("freshness_status")),
+        "theme_count": _int(payload.get("theme_count", len(themes.rows)), "theme_count"),
+    }
+    return Snapshot(
+        dataset="theme-momentum",
+        header_table="theme_momentum_snapshot",
+        header=header,
+        children=[themes, symbols],
+        instruments=instruments,
+    )
+
+
+HOURLY_COLUMNS = (
+    "observed_hour", "theme_id", "rank", "qualification_status", "near_threshold_reason", "momentum_score",
+    "lifecycle_stage", "heat_score", *MOMENTUM_METRIC_KEYS, "single_source_concentration",
+    "latest_qualifying_event_at",
+)
+
+
+def map_theme_momentum_history(payload: Mapping[str, Any]) -> Series:
+    label = "theme-momentum-history"
+    rows: dict[tuple[str, str], tuple[Any, ...]] = {}
+    for opos, observation in enumerate(_list(_require(payload, "observations", label), label)):
+        olabel = f"{label}.observations[{opos}]"
+        observation = _dict(observation, olabel)
+        hour = _str(_require(observation, "observed_hour", olabel), f"{olabel}.observed_hour")
+        for tpos, theme in enumerate(_list(_require(observation, "themes", olabel), olabel)):
+            tlabel = f"{olabel}.themes[{tpos}]"
+            theme = _dict(theme, tlabel)
+            theme_id = _str(_require(theme, "theme_id", tlabel), f"{tlabel}.theme_id")
+            rows[(hour, theme_id)] = (
+                hour, theme_id,
+                _int(_require(theme, "rank", tlabel), "rank"),
+                _str(_require(theme, "qualification_status", tlabel), "qualification_status"),
+                _opt_str(theme.get("near_threshold_reason")),
+                _num(_require(theme, "momentum_score", tlabel), "momentum_score"),
+                _str(_require(theme, "lifecycle_stage", tlabel), "lifecycle_stage"),
+                _num(_require(theme, "heat_score", tlabel), "heat_score"),
+                *(_opt_int(theme.get(k), f"{tlabel}.{k}") for k in MOMENTUM_METRIC_KEYS),
+                _opt_num(theme.get("single_source_concentration"), "single_source_concentration"),
+                _opt_str(theme.get("latest_qualifying_event_at")),
+            )
+    return Series(
+        dataset="theme-momentum-history",
+        table="theme_momentum_hourly",
+        key_columns=("observed_hour", "theme_id"),
+        columns=HOURLY_COLUMNS,
+        rows=list(rows.values()),
+    )
+
+
 # ---------------------------------------------------------------- registry
 
 
@@ -592,4 +869,8 @@ DATASETS = {
     "broker": _load_broker,
     "theme-focus": _json_file("theme-focus.json", map_theme_focus),
     "source-status": _json_file("source-status.json", map_source_status),
+    "theme-events": _json_file("theme-events.json", map_theme_events),
+    "theme-ranking": _json_file("public-theme-ranking-v0.8.json", map_theme_ranking),
+    "theme-momentum": _json_file("public-theme-momentum-latest-v0.9.json", map_theme_momentum),
+    "theme-momentum-history": _json_file("public-theme-momentum-history-v0.9.json", map_theme_momentum_history),
 }
