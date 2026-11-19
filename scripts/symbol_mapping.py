@@ -166,6 +166,25 @@ def instrument_for_symbol(
     }
 
 
+# Steel and plastics codes (2002 中鋼 ... 2030) collide with calendar years.
+# "2027 年 NAND 漲價" and "2028 成放量關鍵年" are years; "大成鋼(2027)" is a stock.
+_YEAR_RANGE = range(1990, 2041)
+_BRACKETED_CODE = re.compile(r"[(（\[［【]\s*$")
+
+
+def _looks_like_year(text: str, match: re.Match[str], symbol: str, symbols: dict[str, Any]) -> bool:
+    """A bare 4-digit token in the year range counts as a stock code only when
+    it is bracketed like a code, or the company's own name is also in the text."""
+    if int(symbol) not in _YEAR_RANGE:
+        return False
+    if _BRACKETED_CODE.search(text[max(0, match.start() - 2):match.start()]):
+        return False
+    metadata = symbols.get(symbol) or {}
+    names = [str(alias) for alias in metadata.get("aliases") or []] + [str(metadata.get("name_zh") or "")]
+    folded = text.casefold()
+    return not any(name and not name.isdigit() and name.casefold() in folded for name in names)
+
+
 def extract_direct_symbols(
     item: dict[str, Any],
     aliases: dict[str, Any] | None = None,
@@ -184,6 +203,8 @@ def extract_direct_symbols(
         for match in STOCK_CODE_PATTERN.finditer(text):
             symbol = match.group("symbol")
             has_tw_suffix = match.group(0).upper().endswith(".TW")
+            if not has_tw_suffix and _looks_like_year(text, match, symbol, symbols):
+                continue
             if (symbol in symbols or has_tw_suffix) and symbol not in found:
                 found[symbol] = instrument_for_symbol(
                     symbol,

@@ -273,13 +273,24 @@ def _expand_runtime_taxonomy(
         if _topic_key(theme.get("name_zh"))
     }
     existing_ids = {str(theme.get("theme_id")) for theme in base_themes}
+    # A curated theme can name the source tags that are the same industry under
+    # another name (記憶體與 HBM <- 記憶體模組, NAND Flash). Exact-name matching
+    # alone left those curated themes with three seed stocks each, so the
+    # momentum page filled them with whatever other themes the same news hit.
+    existing_by_tag = {
+        str(tag_id): theme
+        for theme in base_themes
+        for tag_id in theme.get("merge_source_tag_ids") or []
+    }
     generated_count = 0
     merged_count = 0
     for generated in _runtime_supply_chain_themes(supply_chain_path):
         theme_id = str(generated["theme_id"])
         if theme_id in existing_ids:
             continue
-        existing = existing_by_name.get(_topic_key(generated["name_zh"]))
+        existing = existing_by_tag.get(str(generated.get("source_tag_id") or "")) or existing_by_name.get(
+            _topic_key(generated["name_zh"])
+        )
         if existing is not None:
             _merge_supply_chain_theme(existing, generated)
             merged_count += 1
