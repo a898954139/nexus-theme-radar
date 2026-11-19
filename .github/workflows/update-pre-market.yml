@@ -55,6 +55,9 @@ jobs:
                 && vars.THEME_RADAR_DB_HISTORY_AUTHORIZED_BRANCH == github.ref_name
                 && vars.THEME_RADAR_DB_HISTORY_AUTHORIZED_ENVIRONMENT == 'production'
                 && secrets.THEME_RADAR_DATABASE_URL || '' }}
+          # Optional (#10): free Finnhub key for 費半 (SOXX proxy) and TSM ADR.
+          # Unset = those two indicators show as missing; nothing else changes.
+          FINNHUB_API_KEY: ${{ secrets.FINNHUB_API_KEY }}
         run: python scripts/update_pre_market.py --output-dir data
 
       - name: Commit and push changes
@@ -63,7 +66,7 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           # Only the hot window is tracked; data/pre-market-archive/ is gitignored.
-          git add data/pre-market-latest.json data/pre-market-title-zh.json
+          git add data/pre-market-latest.json data/pre-market-title-zh.json data/market/taiex-daily.json
           if git diff --cached --quiet; then
             echo "No changes to commit"
             echo "commit_sha=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"

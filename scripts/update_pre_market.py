@@ -33,6 +33,10 @@ try:  # pragma: no cover - real runs invoke this file by path
         FEED_URL, PATH_ID_BY_LABEL, SOURCE_NAME, build_focus_events, strip_prefix,
     )
     from scripts.market_pulse import build_pulse, build_sector_board, fetch_quotes
+    from scripts.market_temperature import (
+        build_market, fetch_sector_board as fetch_twse_sector_board, fetch_taiex_history,
+        merge_taiex_history, requests_getter,
+    )
     from scripts.sector_flows import (
         aggregate_sectors,
         build_flow_panels,
@@ -46,6 +50,10 @@ except ModuleNotFoundError:  # pragma: no cover
         FEED_URL, PATH_ID_BY_LABEL, SOURCE_NAME, build_focus_events, strip_prefix,
     )
     from market_pulse import build_pulse, build_sector_board, fetch_quotes
+    from market_temperature import (
+        build_market, fetch_sector_board as fetch_twse_sector_board, fetch_taiex_history,
+        merge_taiex_history, requests_getter,
+    )
     from sector_flows import (
         aggregate_sectors,
         build_flow_panels,
@@ -61,6 +69,8 @@ WINDOW_HOURS = 72
 LATEST_FILE = "pre-market-latest.json"
 ARCHIVE_DIR = "pre-market-archive"
 TRANSLATION_CACHE = "pre-market-title-zh.json"
+TAIEX_HISTORY = "taiex-daily.json"
+TAIPEI = timezone(timedelta(hours=8))
 USER_AGENT = (
     "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 "
     "(KHTML, like Gecko) Chrome/120.0 Safari/537.36"
@@ -235,17 +245,41 @@ def build_payload(output_dir: Path, now: datetime, skip_translate: bool = False)
         annotate(event, event.get("pathId") or PATH_ID_BY_LABEL.get(str(event.get("pathLabel") or "")))
     archive_expired(expired, output_dir / ARCHIVE_DIR)
 
+    # Market data. A failed source yields an empty board, never the previous
+    # run's numbers: carrying them forward is how the board showed August
+    # quotes as current for three months.
     sectors: list[dict[str, Any]] = []
     pulse: list[dict[str, Any]] = []
+    getter = requests_getter(session)
+    sectors_as_of = None
+    try:
+        twse_board = fetch_twse_sector_board(getter, now.astimezone(TAIPEI).date())
+        if twse_board:
+            sectors_as_of, sectors = twse_board
+            LOGGER.info("built %d sector rows from TWSE MI_INDEX as of %s", len(sectors), sectors_as_of)
+    except (requests.RequestException, ValueError) as exc:
+        LOGGER.error("TWSE sector indices unavailable: %s", exc)
     try:
         quotes = fetch_quotes(session)
-        sectors = build_sector_board(quotes)
         pulse = build_pulse(quotes, previous.get("pulse", []))
-        LOGGER.info("built %d sector rows, %d pulse rows", len(sectors), len(pulse))
+        if not sectors:
+            sectors = build_sector_board(quotes)
+        LOGGER.info("built %d pulse rows", len(pulse))
     except (requests.RequestException, ValueError) as exc:
         LOGGER.error("quote feed unavailable: %s", exc)
-        sectors = previous.get("sectors", [])
-        pulse = previous.get("pulse", [])
+
+    market = build_market(getter, now, kept, finnhub_key=os.environ.get("FINNHUB_API_KEY", "").strip())
+    market["sectors_as_of"] = sectors_as_of
+    try:
+        history_path = output_dir / "market" / TAIEX_HISTORY
+        history = load_json(history_path, {"schema_version": 1, "source": "TWSE FMTQIK (official)",
+                                           "unit": "index points", "rows": []})
+        merged = merge_taiex_history(history, fetch_taiex_history(getter, now.astimezone(TAIPEI).date()))
+        if merged is not history:
+            history_path.parent.mkdir(parents=True, exist_ok=True)
+            history_path.write_text(json.dumps(merged, ensure_ascii=False, indent=1), encoding="utf-8")
+    except (requests.RequestException, ValueError, OSError) as exc:
+        LOGGER.error("TAIEX history not updated: %s", exc)
 
     root = output_dir.parent
     flow_as_of, flow_panels = None, []
@@ -266,6 +300,7 @@ def build_payload(output_dir: Path, now: datetime, skip_translate: bool = False)
         "pulse": pulse,
         "sectors": sectors,
         "flows": {"as_of": flow_as_of, "panels": flow_panels},
+        "market": market,
     }
 
 

@@ -1128,6 +1128,20 @@ a { color: inherit; }
 .board-section .section-note { color: var(--faint); font-size: 11px; }
 
 /* ---------- 國際指數卡 ---------- */
+.market-temp { margin: 0 20px 18px; padding: 14px 16px; border: 1px solid var(--line); border-radius: 12px; }
+.market-temp-head { display: flex; flex-wrap: wrap; gap: 6px 14px; align-items: baseline; margin-bottom: 10px; }
+.market-temp-head strong { color: var(--text-hi); font: 500 15px/1.4 'Noto Sans TC', sans-serif; }
+.market-temp-news { color: var(--muted); font-size: 12px; }
+.market-temp-divergence { margin-bottom: 10px; padding: 8px 12px; border-radius: 8px; border: 1px solid var(--gold); color: var(--gold); font-size: 13px; }
+.market-temp-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 8px; }
+.market-temp-card { display: flex; flex-direction: column; gap: 2px; padding: 10px 12px; border: 1px solid var(--line); border-radius: 10px; min-width: 0; }
+.market-temp-label { color: var(--muted); font-size: 12px; }
+.market-temp-value { color: var(--text-hi); font-size: 18px; }
+.market-temp-delta { font-size: 13px; }
+.market-temp-meta { color: var(--muted); font-size: 11px; overflow-wrap: anywhere; }
+.market-temp-card.is-up .market-temp-delta, .market-temp-card.is-up .market-temp-value { color: var(--up); }
+.market-temp-card.is-down .market-temp-delta, .market-temp-card.is-down .market-temp-value { color: var(--down); }
+.market-temp-card.is-missing .market-temp-value { color: var(--muted); font-size: 14px; }
 .pulse-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(196px, 1fr)); gap: 10px; }
 .pulse-card { padding: 13px 15px 12px; border: 1px solid var(--line); border-radius: 12px; background: var(--card-bg); }
 .pulse-card-head { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; margin-bottom: 8px; }
@@ -1183,6 +1197,7 @@ a { color: inherit; }
   .focus-grid-watch > .focus-card { width: 240px; }
   .focus-watch-block, .market-boards { padding-left: 16px; padding-right: 16px; }
   .focus-calm { margin-left: 16px; margin-right: 16px; }
+  .market-temp { margin-left: 16px; margin-right: 16px; }
   .focus-direction { grid-template-columns: 1fr; padding: 0 16px 16px; }
   .focus-full-heading { padding-left: 16px; padding-right: 16px; }
   .board-tabs { gap: 12px; overflow-x: auto; }

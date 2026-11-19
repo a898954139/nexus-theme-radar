@@ -140,7 +140,7 @@ PRE_MARKET_TOP_LEVEL_KEYS = frozenset(
 )
 
 # Added by #9 (PR #20); optional so either merge order keeps the mirror working.
-PRE_MARKET_OPTIONAL_KEYS = frozenset({"direction_rule_version"})
+PRE_MARKET_OPTIONAL_KEYS = frozenset({"direction_rule_version", "market"})  # market: #10
 
 PRE_MARKET_UPSERT_SQL = """
 INSERT INTO radar.pre_market_snapshot (
@@ -575,6 +575,48 @@ ON CONFLICT (event_id, target_id, rule_version) DO UPDATE SET
   updated_at = now()
 """.strip()
 
+MARKET_SNAPSHOT_UPSERT_SQL = """
+INSERT INTO radar.market_snapshot (
+  observed_at, instrument_id, session_date, price, change, change_pct, source, payload
+) VALUES (
+  %(observed_at)s, %(instrument_id)s, %(session_date)s, %(price)s, %(change)s,
+  %(change_pct)s, %(source)s, %(payload)s::jsonb
+)
+ON CONFLICT (observed_at, instrument_id) DO UPDATE SET
+  session_date = EXCLUDED.session_date,
+  price = EXCLUDED.price,
+  change = EXCLUDED.change,
+  change_pct = EXCLUDED.change_pct,
+  source = EXCLUDED.source,
+  payload = EXCLUDED.payload,
+  updated_at = now()
+""".strip()
+
+
+def map_market_snapshot(payload: Mapping[str, Any]) -> list[dict[str, Any]]:
+    """radar.market_snapshot rows from payload['market'] (issue #10); missing indicators skipped."""
+    market = payload.get("market")
+    if not isinstance(market, Mapping):
+        return []
+    observed = _timestamp(market.get("generated_at") or payload["generated_at"], "market.generated_at")
+    rows = []
+    for item in market.get("indicators") or []:
+        if not isinstance(item, Mapping) or item.get("missing") or item.get("value") is None:
+            continue
+        as_of = str(item.get("as_of") or "")
+        rows.append({
+            "observed_at": observed,
+            "instrument_id": str(item.get("id")),
+            "session_date": as_of[:10] if re.match(r"^\d{4}-\d{2}-\d{2}", as_of) else None,
+            "price": item.get("value"),
+            "change": item.get("change"),
+            "change_pct": item.get("change_pct"),
+            "source": str(item.get("source") or "unknown"),
+            "payload": _json(item),
+        })
+    return rows
+
+
 FOCUS_SOURCE_ID = "financialjuice"
 
 
@@ -661,9 +703,12 @@ def write_pre_market_snapshot(
         rule_version = str(payload.get("direction_rule_version") or "")
         if rule_version:
             events, impacts = map_focus_events(payload, impact_rows, rule_version)
+    market_rows = map_market_snapshot(payload)
     with connection.transaction():
         with connection.cursor() as cursor:
             cursor.execute(PRE_MARKET_UPSERT_SQL, row)
+            if market_rows:
+                cursor.executemany(MARKET_SNAPSHOT_UPSERT_SQL, market_rows)
             if events:
                 # Events first: event_impact references radar.event.
                 cursor.executemany(EVENT_UPSERT_SQL, events)
@@ -674,4 +719,5 @@ def write_pre_market_snapshot(
         "event_count": row["event_count"],
         "focus_events_written": len(events),
         "impacts_written": len(impacts),
+        "market_rows_written": len(market_rows),
     }

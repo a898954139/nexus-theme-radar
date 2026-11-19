@@ -1,5 +1,5 @@
 import React, { useMemo, useState } from 'react';
-import { DeviceType, FlowPanel, FocusEvent, PreMarketData, PulseIndex, SectorChange } from '../../types';
+import { DeviceType, FlowPanel, FocusEvent, MarketIndicator, MarketTemperature, PreMarketData, PulseIndex, SectorChange } from '../../types';
 
 const DIRECTION_COLUMN_LIMIT = 6;
 
@@ -54,6 +54,64 @@ function sparkPoints(series: number[], width = 52, height = 16): string {
     })
     .join(' ');
 }
+
+
+function formatIndicatorValue(item: MarketIndicator): string {
+  if (item.value === undefined) return '—';
+  if (item.id === 'foreign_net') return `${item.value > 0 ? '+' : ''}${item.value.toLocaleString('zh-TW')} 億`;
+  return item.value.toLocaleString('zh-TW', { maximumFractionDigits: 2 });
+}
+
+function indicatorTone(item: MarketIndicator): string {
+  const basis = item.id === 'foreign_net' ? item.value : item.change_pct ?? item.change;
+  if (basis === undefined || basis === null || basis === 0) return '';
+  // Taiwan convention site-wide: red (var(--up)) up, green (var(--down)) down.
+  return basis > 0 ? ' is-up' : ' is-down';
+}
+
+/** #10: five market facts above the news, each with its own as-of. A missing
+ *  source shows as missing with the reason -- never a carried-over number. */
+const MarketTemperatureBar: React.FC<{ market: MarketTemperature }> = ({ market }) => (
+  <section className="market-temp" aria-label="市場溫度">
+    <div className="market-temp-head">
+      <strong>市場溫度</strong>
+      {market.news ? (
+        <span className="market-temp-news">
+          新聞淨方向 {market.news.lean}（利多 {market.news.bull} / 利空 {market.news.bear}，近 {market.news.window_hours} 小時）
+        </span>
+      ) : null}
+    </div>
+    {market.divergence ? (
+      <div className="market-temp-divergence" role="note">
+        ⚠ {market.divergence.message}：新聞情緒與市場走勢相反，留意別被消息面誤導
+        {market.market.basis ? `（市場依${market.market.basis}）` : ''}
+      </div>
+    ) : null}
+    <div className="market-temp-grid" role="list">
+      {market.indicators.map((item) => (
+        <div className={`market-temp-card${item.missing ? ' is-missing' : indicatorTone(item)}`} role="listitem" key={item.id}>
+          <span className="market-temp-label">{item.label}</span>
+          {item.missing ? (
+            <>
+              <strong className="market-temp-value">缺資料</strong>
+              <span className="market-temp-meta">{item.reason}</span>
+            </>
+          ) : (
+            <>
+              <strong className="market-temp-value mono-num">{formatIndicatorValue(item)}</strong>
+              {item.change_pct !== null && item.change_pct !== undefined ? (
+                <span className="market-temp-delta mono-num">
+                  {item.change_pct > 0 ? '+' : ''}{item.change_pct.toFixed(2)}%
+                </span>
+              ) : null}
+              <span className="market-temp-meta">{item.session} · {item.as_of}</span>
+            </>
+          )}
+        </div>
+      ))}
+    </div>
+  </section>
+);
 
 const PulseCards: React.FC<{ pulse: PulseIndex[] }> = ({ pulse }) => (
   <div className="pulse-grid" role="list" aria-label="國際指數">
@@ -275,7 +333,9 @@ export const PreMarketFocus: React.FC<PreMarketFocusProps> = ({ data, device }) 
 
   // Mobile collapses the three data boards into one switcher so a single
   // screen does not scroll past several full-width charts.
-  const [board, setBoard] = useState<'pulse' | 'flows' | 'sectors'>('pulse');
+  const [board, setBoard] = useState<'pulse' | 'flows' | 'sectors'>(
+    hasPulse ? 'pulse' : hasFlows ? 'flows' : 'sectors',
+  );
 
   return (
     <section className="pre-market-section">
@@ -285,6 +345,8 @@ export const PreMarketFocus: React.FC<PreMarketFocusProps> = ({ data, device }) 
         <div className="gold-rule" />
         <p>開盤前的國際消息面：只留下有台股傳導路徑的事件，並標明它會影響哪些族群。</p>
       </header>
+
+      {data.market ? <MarketTemperatureBar market={data.market} /> : null}
 
       <div className="focus-direction" aria-label="利多與利空">
         <DirectionColumn side="bull" events={bull} />
@@ -366,7 +428,7 @@ export const PreMarketFocus: React.FC<PreMarketFocusProps> = ({ data, device }) 
           {hasSectors && board === 'sectors' ? (
             <section className="board-section">
               <div className="section-heading">
-                <h2>類股漲跌表現</h2><span className="section-note">依當日漲跌幅排序</span>
+                <h2>類股漲跌表現</h2><span className="section-note">依漲跌幅排序{data.market?.sectors_as_of ? ` · ${data.market.sectors_as_of} 收盤（TWSE）` : ''}</span>
               </div>
               <SectorBoard sectors={data.sectors} />
             </section>
