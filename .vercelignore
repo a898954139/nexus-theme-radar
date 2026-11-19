@@ -4,6 +4,16 @@ data/title-zh-cache.json
 data/persona-cache.json
 data/merge-log.json
 data/paid-source-state.json
+# Pipeline inputs never served by the site or read by api/ (2.4k+ small files;
+# the free-plan CLI upload limit is 5,000 files/day, so every file counts).
+data/flows/
+data/backtest/
+data/market/
+data/pre-market-archive/
+data/pre-market-title-zh.json
+data/latest-24h-all-raw.json
+data/theme-symbol-fundamentals.json
+data/fundamental-commentary.json
 
 # Non-site directories
 # scripts/ and requirements.txt are NOT ignored: the Python functions under api/
