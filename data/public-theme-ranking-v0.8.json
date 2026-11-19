@@ -2,16 +2,16 @@
   "schema_version": "nexus_public_theme_ranking.v0.8",
   "ranking_rule_version": "public_theme_heat_v0.8",
   "company_rule_version": "public_company_evidence_v0.8",
-  "generated_at": "2026-11-19T10:34:08.873332Z",
+  "generated_at": "2026-11-19T13:13:48.561225Z",
   "market_id": "TW_EQUITY",
   "market_scope": [
     "TW_EQUITY"
   ],
   "window_hours": 72,
   "max_themes": 5,
-  "qualified_theme_count": 4,
-  "displayed_theme_count": 4,
-  "threshold_note": "目前僅 4 個題材達到上榜門檻",
+  "qualified_theme_count": 5,
+  "displayed_theme_count": 5,
+  "threshold_note": null,
   "generation_status": "complete",
   "failed_source_count": 0,
   "official_evidence_status": "available",
@@ -22,15 +22,15 @@
       "name_zh": "AI",
       "heat_score": 80,
       "summaries": {
-        "event_count": 24,
+        "event_count": 26,
         "source_count": 4,
         "tracking_candidate_count": 0,
-        "taiwan_mapping_count": 78
+        "taiwan_mapping_count": 79
       },
       "heat_reason": {
         "rule_version": "public_theme_heat_v0.8",
         "event_component": {
-          "input": 24,
+          "input": 26,
           "normalized": 100.0,
           "weighted": 25.0
         },
@@ -45,12 +45,12 @@
           "weighted": 0.0
         },
         "mapping_component": {
-          "mapping_count": 78,
-          "direct_mapping_event_count": 6,
+          "mapping_count": 79,
+          "direct_mapping_event_count": 7,
           "normalized": 100.0,
           "weighted": 30.0
         },
-        "single_source_concentration": 0.542,
+        "single_source_concentration": 0.5,
         "concentration_penalty": 0.0,
         "raw_score": 80.0
       },
@@ -72,12 +72,20 @@
           "latest_mentioned_at": "2026-11-19T09:30:00Z"
         },
         {
-          "instrument_id": "TWSE:2330",
-          "symbol": "2330",
+          "instrument_id": "TWSE:2353",
+          "symbol": "2353",
           "exchange": "TWSE",
-          "name_zh": "台積電",
+          "name_zh": "宏碁",
           "direct_event_count": 1,
-          "latest_mentioned_at": "2026-11-19T09:47:08Z"
+          "latest_mentioned_at": "2026-11-19T11:26:12Z"
+        },
+        {
+          "instrument_id": "TWSE:1605",
+          "symbol": "1605",
+          "exchange": "TWSE",
+          "name_zh": "華新",
+          "direct_event_count": 1,
+          "latest_mentioned_at": "2026-11-19T10:47:04Z"
         },
         {
           "instrument_id": "TWSE:2357",
@@ -122,17 +130,6 @@
       ],
       "supply_chain_candidates": [
         {
-          "instrument_id": "TWSE:2330",
-          "symbol": "2330",
-          "exchange": "TWSE",
-          "name_zh": "台積電",
-          "direct_event_count": 1,
-          "official_evidence_count": 0,
-          "company_rank_score": 5,
-          "latest_mentioned_at": "2026-11-19T09:47:08Z",
-          "latest_official_at": null
-        },
-        {
           "instrument_id": "TWSE:3711",
           "symbol": "3711",
           "exchange": "TWSE",
@@ -153,21 +150,117 @@
           "company_rank_score": 5,
           "latest_mentioned_at": "2026-11-18T18:28:15Z",
           "latest_official_at": null
+        },
+        {
+          "instrument_id": "TPEX:3081",
+          "symbol": "3081",
+          "exchange": "TPEX",
+          "name_zh": "聯亞",
+          "direct_event_count": 0,
+          "official_evidence_count": 0,
+          "company_rank_score": 1,
+          "latest_mentioned_at": null,
+          "latest_official_at": null
         }
       ],
       "representative_news": {
-        "cluster_id": "cluster-1987aeaccc8d4d94",
-        "id": "yahoo_finance_tw-ab42412f3ffb",
-        "title_zh": "台積電出手了！砸5億美元買進美國AI公司602萬股",
-        "summary": "即時中心／徐子為報導台積電今（19）日公告，旗下子公司TSMC Partners以每股83美元，買下美國AI公司Anthropic普通股602萬4096股，總金額約5億美元。",
+        "cluster_id": "cluster-7a0790cc47471da1",
+        "id": "yahoo_finance_tw-e6792c5fbe13",
+        "title_zh": "企業AI滲透率衝四成 紅隊測試成智慧代理防駭新防線",
+        "summary": "商傳媒｜林昭衡／綜合外電報導隨著具備自主執行能力的 AI Agent 快速進入企業工作流程，資安防護的核心正面臨重大變革。根據國際研調機構高德納諮詢公司（Gartner）最新預測，2026 年底前將有",
         "source_id": "yahoo_finance_tw",
         "source": "Yahoo Finance Taiwan",
-        "published_at": "2026-11-19T09:47:08Z",
-        "canonical_url": "https://tw.stock.yahoo.com/news/%E5%8F%B0%E7%A9%8D%E9%9B%BB%E5%87%BA%E6%89%8B%E4%BA%86-%E7%A0%B85%E5%84%84%E7%BE%8E%E5%85%83%E8%B2%B7%E9%80%B2%E7%BE%8E%E5%9C%8Bai%E5%85%AC%E5%8F%B8602%E8%90%AC%E8%82%A1-094708923.html"
+        "published_at": "2026-11-19T12:43:42Z",
+        "canonical_url": "https://tw.stock.yahoo.com/news/%E4%BC%81%E6%A5%ADai%E6%BB%B2%E9%80%8F%E7%8E%87%E8%A1%9D%E5%9B%9B%E6%88%90-%E7%B4%85%E9%9A%8A%E6%B8%AC%E8%A9%A6%E6%88%90%E6%99%BA%E6%85%A7%E4%BB%A3%E7%90%86%E9%98%B2%E9%A7%AD%E6%96%B0%E9%98%B2%E7%B7%9A-124342107.html"
       }
     },
     {
       "rank": 2,
+      "theme_id": "memory_hbm",
+      "name_zh": "記憶體與 HBM",
+      "heat_score": 79,
+      "summaries": {
+        "event_count": 8,
+        "source_count": 4,
+        "tracking_candidate_count": 3,
+        "taiwan_mapping_count": 73
+      },
+      "heat_reason": {
+        "rule_version": "public_theme_heat_v0.8",
+        "event_component": {
+          "input": 8,
+          "normalized": 100.0,
+          "weighted": 25.0
+        },
+        "source_component": {
+          "input": 4,
+          "normalized": 100.0,
+          "weighted": 25.0
+        },
+        "candidate_component": {
+          "input": 3,
+          "normalized": 75.0,
+          "weighted": 15.0
+        },
+        "mapping_component": {
+          "mapping_count": 73,
+          "direct_mapping_event_count": 0,
+          "normalized": 60.0,
+          "weighted": 18.0
+        },
+        "single_source_concentration": 0.7,
+        "concentration_penalty": 3.75,
+        "raw_score": 79.25
+      },
+      "direct_mentions": [],
+      "supply_chain_candidates": [
+        {
+          "instrument_id": "TPEX:3260",
+          "symbol": "3260",
+          "exchange": "TPEX",
+          "name_zh": "威剛",
+          "direct_event_count": 0,
+          "official_evidence_count": 0,
+          "company_rank_score": 1,
+          "latest_mentioned_at": null,
+          "latest_official_at": null
+        },
+        {
+          "instrument_id": "TPEX:4973",
+          "symbol": "4973",
+          "exchange": "TPEX",
+          "name_zh": "廣穎電通",
+          "direct_event_count": 0,
+          "official_evidence_count": 0,
+          "company_rank_score": 1,
+          "latest_mentioned_at": null,
+          "latest_official_at": null
+        },
+        {
+          "instrument_id": "TPEX:5289",
+          "symbol": "5289",
+          "exchange": "TPEX",
+          "name_zh": "宜鼎",
+          "direct_event_count": 0,
+          "official_evidence_count": 0,
+          "company_rank_score": 1,
+          "latest_mentioned_at": null,
+          "latest_official_at": null
+        }
+      ],
+      "representative_news": {
+        "cluster_id": "cluster-e3f669d00437dd9f",
+        "id": "digitimes_tw-76aeba605011",
+        "title_zh": "黃仁勳辭任恐掀蝴蝶效應　記憶體三雄面臨議價新局",
+        "summary": "黃仁勳辭去NVIDIA執行長後，公司董事會最新表明無意讓其復職，人工智慧（AI）晶片龍頭的領導交接，成為供應鏈觀察焦點。從供應鏈風險角度觀察，這項變動可能讓科技大廠，更重視採購來源過度集中的問題，原已推動中的自研AI晶片、多元採購與高頻寬記憶體（HBM）布局，則持續由降低運算成本的需求所帶動。綜合路透（Reuters）",
+        "source_id": "digitimes_tw",
+        "source": "DIGITIMES",
+        "published_at": "2026-11-18T18:38:25Z",
+        "canonical_url": "https://www.digitimes.com.tw/tech/dt/n/shwnws.asp?id=0000775218_I8Q1Q08P27NBJP77MTHMP"
+      }
+    },
+    {
+      "rank": 3,
       "theme_id": "robotics",
       "name_zh": "機器人",
       "heat_score": 73,
@@ -269,50 +362,50 @@
       }
     },
     {
-      "rank": 3,
-      "theme_id": "memory_hbm",
-      "name_zh": "記憶體與 HBM",
-      "heat_score": 65,
+      "rank": 4,
+      "theme_id": "ai_server",
+      "name_zh": "AI 伺服器",
+      "heat_score": 45,
       "summaries": {
-        "event_count": 7,
-        "source_count": 2,
-        "tracking_candidate_count": 4,
-        "taiwan_mapping_count": 56
+        "event_count": 2,
+        "source_count": 3,
+        "tracking_candidate_count": 0,
+        "taiwan_mapping_count": 24
       },
       "heat_reason": {
         "rule_version": "public_theme_heat_v0.8",
         "event_component": {
-          "input": 7,
-          "normalized": 100.0,
-          "weighted": 25.0
+          "input": 2,
+          "normalized": 33.333,
+          "weighted": 8.333
         },
         "source_component": {
-          "input": 2,
-          "normalized": 50.0,
-          "weighted": 12.5
+          "input": 3,
+          "normalized": 75.0,
+          "weighted": 18.75
         },
         "candidate_component": {
-          "input": 4,
-          "normalized": 100.0,
-          "weighted": 20.0
+          "input": 0,
+          "normalized": 0.0,
+          "weighted": 0.0
         },
         "mapping_component": {
-          "mapping_count": 56,
+          "mapping_count": 24,
           "direct_mapping_event_count": 0,
           "normalized": 60.0,
           "weighted": 18.0
         },
-        "single_source_concentration": 0.875,
-        "concentration_penalty": 10.313,
-        "raw_score": 65.188
+        "single_source_concentration": 0.333,
+        "concentration_penalty": 0.0,
+        "raw_score": 45.083
       },
       "direct_mentions": [],
       "supply_chain_candidates": [
         {
-          "instrument_id": "TPEX:3260",
-          "symbol": "3260",
+          "instrument_id": "TPEX:5274",
+          "symbol": "5274",
           "exchange": "TPEX",
-          "name_zh": "威剛",
+          "name_zh": "信驊",
           "direct_event_count": 0,
           "official_evidence_count": 0,
           "company_rank_score": 1,
@@ -320,10 +413,10 @@
           "latest_official_at": null
         },
         {
-          "instrument_id": "TPEX:4973",
-          "symbol": "4973",
-          "exchange": "TPEX",
-          "name_zh": "廣穎電通",
+          "instrument_id": "TWSE:3533",
+          "symbol": "3533",
+          "exchange": "TWSE",
+          "name_zh": "嘉澤",
           "direct_event_count": 0,
           "official_evidence_count": 0,
           "company_rank_score": 1,
@@ -331,10 +424,10 @@
           "latest_official_at": null
         },
         {
-          "instrument_id": "TPEX:5289",
-          "symbol": "5289",
-          "exchange": "TPEX",
-          "name_zh": "宜鼎",
+          "instrument_id": "TWSE:3665",
+          "symbol": "3665",
+          "exchange": "TWSE",
+          "name_zh": "貿聯-KY",
           "direct_event_count": 0,
           "official_evidence_count": 0,
           "company_rank_score": 1,
@@ -343,26 +436,26 @@
         }
       ],
       "representative_news": {
-        "cluster_id": "cluster-bc082ddf2ebb818c",
-        "id": "digitimes_tw-7a94dec1dad5",
-        "title_zh": "美光新加坡HBM先進封裝廠首部機台移入　2027年初首批產出",
-        "summary": "美光（Micron）宣布，位於新加坡的高頻寬記憶體（HBM）先進封裝廠首部機台正式移入，第一台製程設備將移入廠內無塵室。新廠先前已完成機台安裝所需的關鍵基礎設施，此次首部機台進駐象徵朝首批產出邁出重要一",
-        "source_id": "digitimes_tw",
-        "source": "DIGITIMES",
-        "published_at": "2026-11-19T09:44:33Z",
-        "canonical_url": "https://www.digitimes.com.tw/tech/dt/n/shwnws.asp?id=0000775442_G693MF8G583YBQ1QTMHXF"
+        "cluster_id": "cluster-7caa01a61425bf66",
+        "id": "cnyes-2ef0879ab7dc",
+        "title_zh": "廣宇明年營運向上光通產品Q1出貨 AI伺服器代工業務貢獻估破百億元",
+        "summary": "廣宇法說稱，明年AI伺服器與交換機組裝代工可望放量，保守估貢獻營收百億元。&#10;光通訊產品明年Q1出貨，全年估貢獻約30億元，毛利率20%至30%，有助獲利。&#10;公司整併蕪湖、安慶產線並擴建新廠，估每年省逾5,000萬元，今明年資本支出皆逾10億元。",
+        "source_id": "cnyes",
+        "source": "鉅亨網 Cnyes",
+        "published_at": "2026-11-19T11:51:49Z",
+        "canonical_url": "https://news.cnyes.com/news/id/6667836"
       }
     },
     {
-      "rank": 4,
-      "theme_id": "statementdog_tag_320",
-      "name_zh": "光電",
+      "rank": 5,
+      "theme_id": "statementdog_tag_1169",
+      "name_zh": "電商",
       "heat_score": 39,
       "summaries": {
         "event_count": 2,
         "source_count": 2,
         "tracking_candidate_count": 0,
-        "taiwan_mapping_count": 19
+        "taiwan_mapping_count": 10
       },
       "heat_reason": {
         "rule_version": "public_theme_heat_v0.8",
@@ -382,7 +475,7 @@
           "weighted": 0.0
         },
         "mapping_component": {
-          "mapping_count": 19,
+          "mapping_count": 10,
           "direct_mapping_event_count": 0,
           "normalized": 60.0,
           "weighted": 18.0
@@ -394,10 +487,10 @@
       "direct_mentions": [],
       "supply_chain_candidates": [
         {
-          "instrument_id": "TPEX:3081",
-          "symbol": "3081",
+          "instrument_id": "TPEX:2949",
+          "symbol": "2949",
           "exchange": "TPEX",
-          "name_zh": "聯亞",
+          "name_zh": "欣新網",
           "direct_event_count": 0,
           "official_evidence_count": 0,
           "company_rank_score": 1,
@@ -405,10 +498,10 @@
           "latest_official_at": null
         },
         {
-          "instrument_id": "TPEX:3163",
-          "symbol": "3163",
+          "instrument_id": "TPEX:5903",
+          "symbol": "5903",
           "exchange": "TPEX",
-          "name_zh": "波若威",
+          "name_zh": "全家",
           "direct_event_count": 0,
           "official_evidence_count": 0,
           "company_rank_score": 1,
@@ -416,10 +509,10 @@
           "latest_official_at": null
         },
         {
-          "instrument_id": "TPEX:3227",
-          "symbol": "3227",
+          "instrument_id": "TPEX:6741",
+          "symbol": "6741",
           "exchange": "TPEX",
-          "name_zh": "原相",
+          "name_zh": "91APP*-KY",
           "direct_event_count": 0,
           "official_evidence_count": 0,
           "company_rank_score": 1,
@@ -428,14 +521,14 @@
         }
       ],
       "representative_news": {
-        "cluster_id": "cluster-82ab47a848751262",
-        "id": "yahoo_finance_tw-430633a5b914",
-        "title_zh": "台中市長選戰／遭追問超巨蛋、光電水 何欣純批藍營見縫插針、惡意扭曲",
-        "summary": "選舉進入倒數，國民黨立法院黨團今天(19日)再度針對民進黨台中市長候選人何欣純召開記者會，翻出她過往在立院的修法態度以及政見會上的發言，呼籲台中市民如果不想喝光電水、不希望超巨蛋停工，就一定要支持國民",
-        "source_id": "yahoo_finance_tw",
-        "source": "Yahoo Finance Taiwan",
-        "published_at": "2026-11-19T10:05:17Z",
-        "canonical_url": "https://tw.news.yahoo.com/%E5%8F%B0%E4%B8%AD%E5%B8%82%E9%95%B7%E9%81%B8%E6%88%B0-%E9%81%AD%E8%BF%BD%E5%95%8F%E8%B6%85%E5%B7%A8%E8%9B%8B-%E5%85%89%E9%9B%BB%E6%B0%B4-%E4%BD%95%E6%AC%A3%E7%B4%94%E6%89%B9%E8%97%8D%E7%87%9F%E8%A6%8B%E7%B8%AB%E6%8F%92%E9%87%9D-%E6%83%A1%E6%84%8F%E6%89%AD%E6%9B%B2-100517919.html"
+        "cluster_id": "cluster-20deaf62e1148455",
+        "id": "cnyes-9d4a5829cdfb",
+        "title_zh": "〈財報〉上季電商銷售大增近兩成！沃爾瑪上修全年財測 看好年底買氣",
+        "summary": "1.沃爾瑪第三季營收年增5.2%至1,888.4億美元，調整後每股盈餘0.65美元，均優於預期。&#10;2.全球電商銷售成長17%，美國電商成長23%，廣告與會員業務同步擴張。&#10;3.上修全年營收與獲利展望，第四季開局良好，看好年底購物旺季買氣。",
+        "source_id": "cnyes",
+        "source": "鉅亨網 Cnyes",
+        "published_at": "2026-11-19T12:34:47Z",
+        "canonical_url": "https://news.cnyes.com/news/id/6667853"
       }
     }
   ]
