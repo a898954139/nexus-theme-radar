@@ -6,7 +6,9 @@ Before changing this project, read:
 - `docs/SOURCE_COVERAGE.md`
 - `README.md`
 - `skills/pipeline-changes/SKILL.md` — before touching anything the hourly
-  GitHub Actions run executes
+  pipeline run executes
+- `ops/mac/README.md` — every scheduled job runs from launchd on the Mac;
+  change schedules only in `ops/mac/jobs.conf` (no GitHub `schedule:`, no pg_cron)
 
 Do not commit private OPML files, API keys, cookies, browser exports, or `.env`
 values. Keep the public repo usable without secrets.

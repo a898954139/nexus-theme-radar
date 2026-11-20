@@ -5,6 +5,11 @@ description: "Use when changing anything the hourly GitHub Actions run executes 
 
 # Changing the hourly pipeline
 
+> Since 2026-11-20 the hourly run is scheduled by launchd on the owner's Mac
+> (`ops/mac/jobs.conf`, job `theme-radar`), which invokes the script by path
+> exactly like the workflow below. The workflow remains as a manual fallback,
+> so everything here still applies.
+
 Local green does not mean CI green here. The two failure modes below have each
 already shipped a break to `master` that passed every local test.
 

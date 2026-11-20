@@ -5,8 +5,7 @@ name: Broker Data (daily)
 # handoff; it never relies on a GITHUB_TOKEN push to trigger Pages.
 on:
   workflow_dispatch:
-  schedule:
-    - cron: "30 13 * * 1-5" # 21:30 Taipei
+  # Scheduled runs moved to the Mac (ops/mac/jobs.conf). Manual fallback only.
 
 concurrency:
   group: update-broker-data-${{ github.ref }}
