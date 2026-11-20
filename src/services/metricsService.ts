@@ -3,7 +3,7 @@
 // Every function here resolves rather than throws: the counter is decoration on
 // a stock radar, and an analytics outage must never surface as a broken page.
 
-const ENDPOINT = 'https://abtdxucfppnjdqkwqiqh.supabase.co/functions/v1/pageview';
+const ENDPOINT = 'https://xdixmdglgzaiugvfxmuw.supabase.co/functions/v1/pageview';
 const VISITOR_ID_KEY = 'nexus-visitor-id';
 // The database sits in ap-southeast-2, so a POST costs ~2.5-3s of round trips
 // before any client latency. 5s left almost no margin: a slow mobile leg pushed
