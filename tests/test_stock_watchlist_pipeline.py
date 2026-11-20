@@ -36,14 +36,14 @@ def test_hourly_workflow_stages_versioned_watchlist_and_daytrade_cache() -> None
     assert "python scripts/update_theme_radar.py" in workflow
 
 
-def test_pages_deploy_copies_the_versioned_watchlist_payload() -> None:
-    workflow = (ROOT / ".github" / "workflows" / "deploy-pages.yml").read_text(
+def test_watchlist_is_published_to_the_radar_tables_not_copied() -> None:
+    workflow = (ROOT / ".github" / "workflows" / "update-theme-radar.yml").read_text(
         encoding="utf-8"
     )
     script = (ROOT / "scripts" / "copy_runtime_data.sh").read_text(encoding="utf-8")
 
-    assert "sh scripts/copy_runtime_data.sh dist" in workflow
-    assert 'cp data/public-stock-watchlist-v1.json "$DEST/data/"' in script
+    assert "--dataset stock-watchlist" in workflow
+    assert "public-stock-watchlist-v1.json" not in script
 
 
 def test_repository_real_watchlist_payload_is_valid_and_not_mock_data() -> None:

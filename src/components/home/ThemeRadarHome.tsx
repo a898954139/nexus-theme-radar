@@ -44,7 +44,6 @@ function toNewsItems(data: RadarData): NewsItem[] {
 
 export const ThemeRadarHome: React.FC<ThemeRadarHomeProps> = ({ data, preMarket, watchlist, device, onGoMomentum, onGoStock }) => {
   const news = useMemo(() => toNewsItems(data), [data]);
-  const [communityMode, setCommunityMode] = useState<'today' | '7d'>('today');
   const [visibleNewsCount, setVisibleNewsCount] = useState(NEWS_PAGE_SIZE);
   const newsFeedRef = useRef<HTMLDivElement>(null);
   const newsLoadMoreRef = useRef<HTMLButtonElement>(null);
@@ -120,10 +119,6 @@ export const ThemeRadarHome: React.FC<ThemeRadarHomeProps> = ({ data, preMarket,
           <strong>查看五題材同框動能走勢 →</strong>
           <span>比較不同期間的熱度變化與階段推移</span>
         </button>
-        <div className="guide-panel guide-community">
-          <div className="section-heading"><span className="page-kicker">COMMUNITY · WAYTOAGI</span><div className="filter-tabs"><button type="button" className={communityMode === 'today' ? 'is-selected' : ''} onClick={() => setCommunityMode('today')}>最近更新日</button><button type="button" className={communityMode === '7d' ? 'is-selected' : ''} onClick={() => setCommunityMode('7d')}>近 7 日</button></div></div>
-          <span>{data.waytoagi.latest_date} · {communityMode === 'today' ? data.waytoagi.count_today : data.waytoagi.count_7d} 則更新</span>
-        </div>
       </section>
     </div>
   );

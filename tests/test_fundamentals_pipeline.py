@@ -213,35 +213,26 @@ def test_frontends_lazy_load_per_symbol_fundamentals():
     from pathlib import Path
 
     root = Path(__file__).resolve().parents[1]
-    sources = [
-        (root / "src/services/dataService.ts").read_text(encoding="utf-8"),
-        (root / "assets/stock.js").read_text(encoding="utf-8"),
-    ]
-
-    for source in sources:
-        assert "theme-symbol-fundamentals.json" not in source
-        assert "fundamentals-index.json" in source
-        assert "./data/fundamentals/" in source
+    # The SPA asks the API for one instrument; no static fundamentals files.
+    source = (root / "src/services/dataService.ts").read_text(encoding="utf-8")
+    assert "readApi<StockFundamentals>('fundamentals'" in source
+    assert "theme-symbol-fundamentals.json" not in source
+    assert "fundamentals-index.json" not in source
+    assert "./data/fundamentals/" not in source
 
 
 def test_workflows_publish_and_commit_split_fundamentals():
     from pathlib import Path
 
     root = Path(__file__).resolve().parents[1]
-    # The publish allow-list lives in the shared copy script the Pages workflow
-    # (and the Vercel build) calls.
-    workflow_text = (root / ".github/workflows/deploy-pages.yml").read_text(encoding="utf-8")
-    assert "sh scripts/copy_runtime_data.sh dist" in workflow_text
-    deploy = (root / "scripts/copy_runtime_data.sh").read_text(encoding="utf-8").replace(
-        '"$DEST/data/"', "dist/data/"
-    )
+    # Fundamentals reach the site through the radar tables, not copied files.
+    deploy = (root / "scripts/copy_runtime_data.sh").read_text(encoding="utf-8")
     backfill = (root / ".github/workflows/backfill-fundamentals.yml").read_text(
         encoding="utf-8"
     )
 
-    assert "cp data/fundamentals-index.json dist/data/" in deploy
-    assert "cp -R data/fundamentals dist/data/" in deploy
-    assert "cp data/theme-symbol-fundamentals.json dist/data/" not in deploy
+    assert "fundamentals" not in deploy
+    assert "--dataset fundamentals --require" in backfill
     assert (
         "git add data/theme-symbol-fundamentals.json "
         "data/fundamentals-index.json data/fundamentals/"

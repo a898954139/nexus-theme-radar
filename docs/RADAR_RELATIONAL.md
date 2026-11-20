@@ -94,6 +94,11 @@ never contain driver messages, hosts or DSNs.
 Rollback before step 3: nothing to do (site still reads files). After step 3:
 revert the front-end PR. Tables can stay; they are not read by anything else.
 
+After step 3 the data workflows run `radar_publish.py --require` without
+`continue-on-error`: a failed publish fails the run (the data commit has
+already happened, so pipeline state in `data/` is kept). GitHub Pages serves
+only a redirect page to the Vercel site (`deploy-pages.yml`).
+
 ## Local verification
 
 ```bash

@@ -43,7 +43,8 @@ def test_route_nav_and_loader_are_isolated_from_existing_radar_data() -> None:
 
     assert "watchlist" in re.search(r"export type PageType = ([^;]+);", types).group(1)
     assert "fetchStockWatchlist" in service
-    assert "./data/public-stock-watchlist-v1.json" in service
+    assert "readApi<unknown>('stock-watchlist'" in service
+    assert "./data/" not in service
     assert "fetchStockWatchlist()" in app
     assert "setWatchlistError(true)" in app
     assert "loadRadarData()" in app
@@ -125,7 +126,7 @@ def test_stock_audit_fetch_and_contract_fail_closed_at_browser_boundary() -> Non
     service = _read(ROOT / "src" / "services" / "stockAudit.ts")
 
     for marker in (
-        "STOCK_AUDIT_DATA_PATH = './data/stock-audit-latest.json'",
+        "STOCK_AUDIT_DATA_PATH = '/api/v1/stock-audit'",
         'STOCK_AUDIT_SCHEMA_VERSION',
         'validateStockAuditReport',
         'isStockAuditStock',

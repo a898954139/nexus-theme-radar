@@ -179,13 +179,15 @@ def test_migration_is_rerunnable_and_least_privilege() -> None:
 def test_pre_market_workflow_gates_the_credential_to_master_production() -> None:
     spec = yaml.safe_load((ROOT / ".github/workflows/update-pre-market.yml").read_text(encoding="utf-8"))
     steps = spec["jobs"]["update"]["steps"]
-    build = next(step for step in steps if step.get("name") == "Build pre-market board")
-    expr = build["env"]["THEME_RADAR_DATABASE_URL"]
-    assert "github.ref_name == 'master'" in expr
-    assert "vars.THEME_RADAR_DB_HISTORY_AUTHORIZED_ENVIRONMENT == 'production'" in expr
-    assert expr.strip().endswith("&& secrets.THEME_RADAR_DATABASE_URL || '' }}")
-    # Only the build step sees the secret; the commit step must not.
-    others = [step for step in steps if step is not build]
+    gated = [step for step in steps if step.get("name") in ("Build pre-market board", "Publish to radar tables")]
+    assert len(gated) == 2
+    for step in gated:
+        expr = step["env"]["THEME_RADAR_DATABASE_URL"]
+        assert "github.ref_name == 'master'" in expr
+        assert "vars.THEME_RADAR_DB_HISTORY_AUTHORIZED_ENVIRONMENT == 'production'" in expr
+        assert expr.strip().endswith("&& secrets.THEME_RADAR_DATABASE_URL || '' }}")
+    # Only the build and publish steps see the secret; the commit step must not.
+    others = [step for step in steps if step not in gated]
     assert all("THEME_RADAR_DATABASE_URL" not in json.dumps(step) for step in others)
 
 
@@ -208,11 +210,12 @@ def test_client_sources_never_reference_db_credentials_or_driver() -> None:
         assert "process.env" not in text, path
 
 
-def test_only_the_public_flag_is_vite_prefixed() -> None:
+def test_client_bundle_has_no_vite_env_flags() -> None:
     vite_vars = set()
     for path in [*_client_sources(), ROOT / "vercel.json", ROOT / "vite.config.ts"]:
         vite_vars |= set(re.findall(r"VITE_[A-Z0-9_]+", path.read_text(encoding="utf-8")))
-    assert vite_vars == {"VITE_PRE_MARKET_SOURCE"}
+    # The source switch is gone: the page always reads /api/v1.
+    assert vite_vars == set()
 
 
 def test_api_reads_credentials_from_server_env_only() -> None:
@@ -235,10 +238,9 @@ def test_built_assets_contain_no_credentials() -> None:
 # --- Vercel config -----------------------------------------------------------
 
 
-def test_vercel_builds_the_app_and_publishes_the_same_data_as_pages() -> None:
+def test_vercel_builds_the_app_and_serves_no_data_files() -> None:
     config = json.loads((ROOT / "vercel.json").read_text(encoding="utf-8"))
     assert config["outputDirectory"] == "dist"
     assert "sh scripts/copy_runtime_data.sh dist" in config["buildCommand"]
-    assert "api/pre-market.js" in config["functions"]
-    pages = (ROOT / ".github/workflows/deploy-pages.yml").read_text(encoding="utf-8")
-    assert "sh scripts/copy_runtime_data.sh dist" in pages
+    assert "api/v1/[dataset].js" in config["functions"]
+    assert {"source": "/data/:path*", "destination": "/", "permanent": False} in config["redirects"]

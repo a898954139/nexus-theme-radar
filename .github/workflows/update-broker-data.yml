@@ -45,22 +45,6 @@ jobs:
             --min-universe-size 2280 \
             --delay 1.5
 
-      - name: Publish to radar tables
-        # Cut-over period: a DB failure is logged and must not block the
-        # commit below. Switches to --require once the site reads only /api/v1.
-        continue-on-error: true
-        env:
-          # Normalized radar tables behind /api/v1 (docs/RADAR_RELATIONAL.md).
-          # Same secret + authorization variables as the other DB writers,
-          # narrowed to master + production. Empty = skipped, files unaffected.
-          THEME_RADAR_DATABASE_URL: >-
-            ${{ github.ref_type == 'branch'
-                && github.ref_name == 'master'
-                && vars.THEME_RADAR_DB_HISTORY_AUTHORIZED_BRANCH == github.ref_name
-                && vars.THEME_RADAR_DB_HISTORY_AUTHORIZED_ENVIRONMENT == 'production'
-                && secrets.THEME_RADAR_DATABASE_URL || '' }}
-        run: python scripts/radar_publish.py --data-dir data --dataset broker
-
       - name: Commit and push
         id: commit
         run: |
@@ -86,12 +70,19 @@ jobs:
           git push
           echo "commit_sha=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
 
-  publish:
-    needs: update
-    permissions:
-      contents: read
-      pages: write
-      id-token: write
-    uses: ./.github/workflows/deploy-pages.yml
-    with:
-      ref: ${{ needs.update.outputs.commit_sha }}
+      - name: Publish to radar tables
+        # The site reads only /api/v1 (docs/RADAR_RELATIONAL.md), so a failed
+        # publish must fail the run. It runs after the commit so pipeline state
+        # in data/ is kept even when the DB is unreachable.
+        env:
+          # Normalized radar tables behind /api/v1 (docs/RADAR_RELATIONAL.md).
+          # Same secret + authorization variables as the other DB writers,
+          # narrowed to master + production. Empty (fork, other branch) fails
+          # this step only; the data commit above has already happened.
+          THEME_RADAR_DATABASE_URL: >-
+            ${{ github.ref_type == 'branch'
+                && github.ref_name == 'master'
+                && vars.THEME_RADAR_DB_HISTORY_AUTHORIZED_BRANCH == github.ref_name
+                && vars.THEME_RADAR_DB_HISTORY_AUTHORIZED_ENVIRONMENT == 'production'
+                && secrets.THEME_RADAR_DATABASE_URL || '' }}
+        run: python scripts/radar_publish.py --data-dir data --dataset broker --require

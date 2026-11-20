@@ -16,8 +16,7 @@ import {
   StockFundamentals,
   ThemeFocusData,
   ThemeEvent,
-  ThemeRankingData,
-  WaytoAgiData
+  ThemeRankingData
 } from '../types';
 import { isPreMarketPayload } from '../lib/preMarketContract.js';
 
@@ -227,23 +226,40 @@ export function isStockWatchlistData(value: unknown): value is StockWatchlistDat
     && value.long.count === value.long.items.length;
 }
 
-async function readJson<T>(path: string, cacheBust = false): Promise<T> {
-  const requestPath = cacheBust ? `${path}${path.includes('?') ? '&' : '?'}refresh=${Date.now()}` : path;
-  const response = await fetch(requestPath, { cache: cacheBust ? 'no-store' : 'default' });
-  if (!response.ok) {
-    throw new Error(`Unable to load ${path}: ${response.status}`);
+/**
+ * Every dataset comes from the Vercel API backed by the normalized radar
+ * tables (docs/RADAR_RELATIONAL.md); the site serves no data files.
+ */
+export const API_BASE = '/api/v1';
+const API_TIMEOUT_MS = 10000;
+
+export class ApiNotFound extends Error {}
+
+async function readApi<T>(dataset: string, params: Record<string, string | undefined> = {}, cacheBust = false): Promise<T> {
+  const search = new URLSearchParams();
+  for (const [key, value] of Object.entries(params)) if (value) search.set(key, value);
+  if (cacheBust) search.set('refresh', String(Date.now()));
+  const query = search.toString();
+  const path = `${API_BASE}/${dataset}${query ? `?${query}` : ''}`;
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), API_TIMEOUT_MS);
+  try {
+    const response = await fetch(path, { cache: cacheBust ? 'no-store' : 'default', signal: controller.signal });
+    if (response.status === 404) throw new ApiNotFound(`${dataset}: not found`);
+    if (!response.ok) throw new Error(`Unable to load ${dataset}: ${response.status}`);
+    return (await response.json()) as T;
+  } finally {
+    clearTimeout(timer);
   }
-  return response.json() as Promise<T>;
 }
 
 export async function loadRadarData(cacheBust = false): Promise<RadarData> {
-  const [themeRanking, momentumLatest, momentumHistory, events, sourceStatus, waytoagi] = await Promise.all([
-    readJson<ThemeRankingData>('./data/public-theme-ranking-v0.8.json', cacheBust),
-    readJson<MomentumLatestData>('./data/public-theme-momentum-latest-v0.9.json', cacheBust),
-    readJson<MomentumHistoryData>('./data/public-theme-momentum-history-v0.9.json', cacheBust),
-    readJson<{ items: ThemeEvent[] }>('./data/theme-events.json', cacheBust),
-    readJson<SourceStatusData>('./data/source-status.json', cacheBust),
-    readJson<WaytoAgiData>('./data/waytoagi-7d.json', cacheBust)
+  const [themeRanking, momentumLatest, momentumHistory, events, sourceStatus] = await Promise.all([
+    readApi<ThemeRankingData>('theme-ranking', {}, cacheBust),
+    readApi<MomentumLatestData>('theme-momentum', {}, cacheBust),
+    readApi<MomentumHistoryData>('theme-momentum-history', {}, cacheBust),
+    readApi<{ items: ThemeEvent[] }>('theme-events', {}, cacheBust),
+    readApi<SourceStatusData>('source-status', {}, cacheBust),
   ]);
 
   return {
@@ -252,18 +268,13 @@ export async function loadRadarData(cacheBust = false): Promise<RadarData> {
     momentumHistory,
     events: events.items,
     sourceStatus,
-    waytoagi
   };
 }
 
-const PRE_MARKET_JSON_PATH = './data/pre-market-latest.json';
-const PRE_MARKET_API_PATH = '/api/pre-market';
-const PRE_MARKET_API_TIMEOUT_MS = 5000;
-
 /**
  * Live per-source fetch health from the DB (Vercel /api/source-health).
- * Resolves to null on any failure: on GitHub Pages the endpoint does not
- * exist, and the JSON-based source table must keep rendering on its own.
+ * Resolves to null on any failure so the snapshot-based source table keeps
+ * rendering on its own.
  */
 export async function fetchSourceHealth(): Promise<SourceHealthData | null> {
   try {
@@ -282,61 +293,21 @@ export async function fetchSourceHealth(): Promise<SourceHealthData | null> {
 }
 
 /**
- * Feature flag (issue #5). Build-time `VITE_PRE_MARKET_SOURCE=api` makes the
- * page read the DB-backed API first; anything else keeps the static JSON. The
- * GitHub Pages build never sets it, because Pages has no /api.
+ * Pre-market board. Resolves to null instead of throwing: the wire feed and the
+ * quote source are both third-party, and the homepage must still render its
+ * theme and news sections when the board is unavailable.
  */
-export function preMarketSourceFlag(): 'api' | 'json' {
-  return import.meta.env.VITE_PRE_MARKET_SOURCE === 'api' ? 'api' : 'json';
-}
-
-async function fetchPreMarketFromApi(cacheBust: boolean): Promise<PreMarketData | null> {
-  const controller = new AbortController();
-  const timer = setTimeout(() => controller.abort(), PRE_MARKET_API_TIMEOUT_MS);
+export async function fetchPreMarket(cacheBust = false): Promise<PreMarketData | null> {
   try {
-    const response = await fetch(PRE_MARKET_API_PATH, {
-      cache: cacheBust ? 'no-store' : 'default',
-      signal: controller.signal,
-    });
-    if (!response.ok) return null;
-    const payload: unknown = await response.json();
+    const payload = await readApi<unknown>('pre-market', {}, cacheBust);
     return isPreMarketPayload(payload) ? (payload as PreMarketData) : null;
   } catch {
     return null;
-  } finally {
-    clearTimeout(timer);
   }
-}
-
-async function fetchPreMarketFromJson(cacheBust: boolean): Promise<PreMarketData | null> {
-  try {
-    const payload = await readJson<PreMarketData>(PRE_MARKET_JSON_PATH, cacheBust);
-    if (!payload || !Array.isArray(payload.events)) return null;
-    return payload;
-  } catch {
-    return null;
-  }
-}
-
-/**
- * Pre-market board. Resolves to null instead of throwing: the wire feed and the
- * quote source are both third-party, and the homepage must still render its
- * theme and news sections when either is unavailable.
- *
- * With the flag on, any API failure (non-2xx, timeout, contract mismatch)
- * falls back to the static JSON so the board never blanks because of the DB.
- */
-export async function fetchPreMarket(cacheBust = false): Promise<PreMarketData | null> {
-  if (preMarketSourceFlag() === 'api') {
-    const fromApi = await fetchPreMarketFromApi(cacheBust);
-    if (fromApi) return fromApi;
-    console.warn('pre-market API unavailable, falling back to static JSON');
-  }
-  return fetchPreMarketFromJson(cacheBust);
 }
 
 export async function fetchStockWatchlist(cacheBust = false): Promise<StockWatchlistData> {
-  const payload = await readJson<unknown>('./data/public-stock-watchlist-v1.json', cacheBust);
+  const payload = await readApi<unknown>('stock-watchlist', {}, cacheBust);
   if (!isStockWatchlistData(payload)) {
     throw new Error('Invalid public stock watchlist v1 payload');
   }
@@ -344,7 +315,7 @@ export async function fetchStockWatchlist(cacheBust = false): Promise<StockWatch
 }
 
 async function readInstitutionalData(cacheBust = false): Promise<InstitutionalRankingsData> {
-  return readJson<InstitutionalRankingsData>('./data/institutional-rankings.json', cacheBust);
+  return readApi<InstitutionalRankingsData>('institutional-rankings', {}, cacheBust);
 }
 
 export async function fetchInstitutionalRankings(
@@ -373,76 +344,52 @@ export async function fetchInstitutionalBoard(
   return { ...board, source: board.source ?? data.source };
 }
 
-function resolveInstrumentKey(symbol: string, exchange?: string): string[] {
-  if (symbol.includes(':')) return [symbol];
-  if (exchange) return [`${exchange}:${symbol}`];
-  return [`TWSE:${symbol}`, `TPEX:${symbol}`];
+function instrumentQuery(symbol: string, exchange?: string): Record<string, string | undefined> {
+  if (symbol.includes(':')) return { instrument_id: symbol };
+  return { symbol, exchange };
 }
 
+/** Daily three-institution net (shares), newest first; whole market. */
 export async function fetchInstitutionalFlows(symbol: string, exchange?: string, cacheBust = false): Promise<InstitutionalFlowItem[]> {
-  const data = await readJson<{ symbols: Record<string, InstitutionalFlowItem[]> }>('./data/institutional-flows.json', cacheBust);
-  for (const key of resolveInstrumentKey(symbol, exchange)) {
-    if (data.symbols[key]) return data.symbols[key];
-  }
-  return [];
+  const body = await readApi<{ items: InstitutionalFlowItem[] }>(
+    'institutional-flows', instrumentQuery(symbol, exchange), cacheBust,
+  );
+  return body.items ?? [];
 }
 
 export async function fetchBrokerStats(cacheBust = false): Promise<BrokerStatsData> {
-  return readJson<BrokerStatsData>('./data/broker-stats.json', cacheBust);
+  return readApi<BrokerStatsData>('broker-stats', {}, cacheBust);
 }
 
 export async function fetchBrokerCoverage(cacheBust = false): Promise<BrokerCoverageData> {
-  return readJson<BrokerCoverageData>('./data/broker-coverage.json', cacheBust);
+  return readApi<BrokerCoverageData>('broker-coverage', {}, cacheBust);
 }
 
 export async function fetchBrokerMap(symbol: string, cacheBust = false): Promise<BrokerMapData | null> {
-  const index = await readJson<{
-    symbols: Record<string, {
-      file: string;
-      name?: string;
-      broker_count?: number;
-      summary?: { buy: number; sell: number; net: number };
-    }>;
-  }>('./data/broker-map/index.json', cacheBust);
-  const metadata = index.symbols?.[symbol];
-  if (!metadata?.file) return null;
-  const brokers = await readJson<BrokerMapData['brokers']>(`./data/broker-map/${metadata.file}`, cacheBust);
-  const summary = metadata.summary ?? {
-    buy: brokers.reduce((total, branch) => total + Math.max(branch.net, 0), 0),
-    sell: brokers.reduce((total, branch) => total + Math.max(-branch.net, 0), 0),
-    net: brokers.reduce((total, branch) => total + branch.net, 0),
-  };
-  return {
-    schema_version: 1,
-    generated_at: '',
-    source: '',
-    unit: 'lots',
-    stock_code: symbol,
-    stock_name: metadata.name ?? '',
-    summary: { ...summary, broker_count: metadata.broker_count ?? brokers.length },
-    brokers,
-  };
+  try {
+    return await readApi<BrokerMapData>('broker-map', { symbol }, cacheBust);
+  } catch (error) {
+    if (error instanceof ApiNotFound) return null;
+    throw error;
+  }
 }
 
 export async function fetchStockFundamentals(symbol: string, exchange?: string, cacheBust = false): Promise<StockFundamentals | null> {
-  const index = await readJson<{ symbols: Record<string, { file: string }> }>('./data/fundamentals-index.json', cacheBust);
-  for (const key of resolveInstrumentKey(symbol, exchange)) {
-    const filename = index.symbols[key]?.file;
-    if (filename) {
-      return readJson<StockFundamentals>(`./data/fundamentals/${encodeURIComponent(filename)}`, cacheBust);
-    }
+  try {
+    return await readApi<StockFundamentals>('fundamentals', instrumentQuery(symbol, exchange), cacheBust);
+  } catch (error) {
+    if (error instanceof ApiNotFound) return null;
+    throw error;
   }
-  return null;
 }
 
 /**
  * Theme x institutional-flow focus board. Resolves to null instead of throwing:
- * the file is optional, and every page that shows the board must still render
- * without it.
+ * every page that shows the board must still render without it.
  */
 export async function fetchThemeFocus(cacheBust = false): Promise<ThemeFocusData | null> {
   try {
-    const payload = await readJson<ThemeFocusData>('./data/theme-focus.json', cacheBust);
+    const payload = await readApi<ThemeFocusData>('theme-focus', {}, cacheBust);
     if (payload?.schema_version !== 'nexus_theme_focus.v1' || !Array.isArray(payload.themes)) return null;
     return payload;
   } catch {
