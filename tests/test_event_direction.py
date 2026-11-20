@@ -170,8 +170,11 @@ def test_impact_rows_match_the_event_impact_table() -> None:
 
 
 def test_page_renders_bull_and_bear_columns_and_keeps_neutral_in_full_list() -> None:
-    component = (ROOT / "src" / "components" / "home" / "PreMarketFocus.tsx").read_text(encoding="utf-8")
-    assert '<DirectionColumn side="bull"' in component
-    assert '<DirectionColumn side="bear"' in component
-    assert "完整清單" in component
-    assert "顯示一般新聞" in component
+    """The feed must surface bullish news as readily as bearish (sentiment skew
+    fix) and keep neutral events reachable in the full list."""
+    feed = (ROOT / "src" / "lib" / "feed.ts").read_text(encoding="utf-8")
+    home = (ROOT / "src" / "components" / "home" / "ThemeRadarHome.tsx").read_text(encoding="utf-8")
+    assert "{ id: 'bull', label: '利多' }" in feed
+    assert "{ id: 'bear', label: '利空' }" in feed
+    assert "完整清單" in home
+    assert "（含中性）" in home

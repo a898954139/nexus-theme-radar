@@ -319,27 +319,24 @@ class TestPulseSeedsFromSession:
 
 def test_pre_market_flow_styles_do_not_collide_with_the_flows_page() -> None:
     """`.flow-board` belongs to the standalone 資金流向 page. Redefining it for
-    the homepage board silently rewrote that page's layout."""
-    css = (ROOT / "src" / "index.css").read_text(encoding="utf-8")
-    component = (ROOT / "src" / "components" / "home" / "PreMarketFocus.tsx").read_text(encoding="utf-8")
-    board = css[css.index("/* ---------- 類股買賣超 ---------- */"):]
-    for shared in (".flow-board {", ".flow-row {", ".flow-rank {", ".flow-value {"):
-        assert shared not in board, f"{shared} would override the flows page"
-    assert 'className="pm-flow-board"' in component
+    the homepage silently rewrote that page's layout."""
+    feed_css = (ROOT / "src" / "components" / "home" / "feed.css").read_text(encoding="utf-8")
+    for shared in (".flow-board", ".flow-row", ".flow-rank", ".flow-value"):
+        assert shared not in feed_css, f"{shared} would override the flows page"
 
 
 def test_calm_state_copy_does_not_claim_a_daily_reset() -> None:
     """The board refreshes hourly over a rolling 72h window, so wording that
     implies a per-day digest would misdescribe when it changes."""
-    component = (ROOT / "src" / "components" / "home" / "PreMarketFocus.tsx").read_text(encoding="utf-8")
+    component = (ROOT / "src" / "components" / "home" / "ThemeRadarHome.tsx").read_text(encoding="utf-8")
     assert "今日盤前無重大事件" not in component
-    assert "目前無重大事件" in component
+    assert "小時這個分類沒有消息" in component
 
 
 def test_sparkline_can_shrink_so_it_cannot_overflow_its_card() -> None:
     """A fixed-width spark beside a fixed-width price overflowed the card on
     long values, painting the line past the card edge."""
-    css = (ROOT / "src" / "index.css").read_text(encoding="utf-8")
-    rule = css[css.index(".pulse-spark {"):css.index("}", css.index(".pulse-spark {"))]
+    css = (ROOT / "src" / "components" / "home" / "feed.css").read_text(encoding="utf-8")
+    rule = css[css.index(".fd-mini-spark {"):css.index("}", css.index(".fd-mini-spark {"))]
     assert "flex: 1 1 auto" in rule
     assert "overflow: hidden" in rule
