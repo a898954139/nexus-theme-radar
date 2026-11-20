@@ -303,4 +303,32 @@ export const InstitutionalFlows: React.FC<InstitutionalFlowsProps> = ({ data, fo
       {mobile ? <>{main}{rail}</> : <div className="fd-cols">{main}{rail}</div>}
     </div>
   );
+
+  const rail = (
+    <aside className="fd-rail" aria-label="資金概覽">
+      {focusThemes.length > 0 ? (
+        <section className="fd-rail-block">
+          <SectionHead level={3} title="外資流向" note={`${focus!.flow_window_days} 日，張`} />
+          <DivergingBars title="依題材，點題材篩選排行" note={shortDate(focus!.flow_as_of)} bars={bars('foreign_5d')} onPick={(name) => { const id = nameToId.get(name); if (id) pickTheme(id); }} />
+        </section>
+      ) : null}
+      {focusThemes.length > 0 ? (
+        <section className="fd-rail-block">
+          <SectionHead level={3} title="投信流向" note={`${focus!.flow_window_days} 日，張`} />
+          <DivergingBars title="依題材" note={shortDate(focus!.flow_as_of)} bars={bars('trust_5d')} onPick={(name) => { const id = nameToId.get(name); if (id) pickTheme(id); }} />
+        </section>
+      ) : null}
+      <section className="fd-rail-block">
+        <SectionHead level={3} title="查詢個股籌碼" />
+        {lookupForm}
+      </section>
+    </aside>
+  );
+
+  return (
+    <div className={`page-content flows-page fd fd-page${mobile ? ' is-mobile' : ''}`}>
+      {tabs}
+      {mobile ? <>{main}{rail}</> : <div className="fd-cols">{main}{rail}</div>}
+    </div>
+  );
 };
