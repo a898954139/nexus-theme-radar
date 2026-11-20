@@ -7,7 +7,7 @@ import {
   AllEvents, AnalysisSection, CalendarList, LeadEvent, leadQuotes, MiniCards, overviewQuotes, PathList, PickTable,
   RiskBlock, SectionHead, SectorHeat, ThemeTable,
 } from './FeedBlocks';
-import './feed.css';
+import '../common/feed.css';
 
 interface ThemeRadarHomeProps {
   data: RadarData;

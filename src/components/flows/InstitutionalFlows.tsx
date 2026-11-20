@@ -1,6 +1,8 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useRef, useEffect, useMemo, useState } from 'react';
 import { fetchInstitutionalBoard, fetchInstitutionalFlows } from '../../services/dataService';
-import { shortDate } from '../common/ThemeFocusBoard';
+import { formatLots, rankedFocusThemes, shortDate } from '../common/ThemeFocusBoard';
+import { DivergingBars, PageHero, PageTabs, scrollToRef } from '../common/FeedKit';
+import { SectionHead } from '../home/FeedBlocks';
 import { ThemeFlowPanel } from './ThemeFlowPanel';
 import { BrokerFlows } from './BrokerFlows';
 import { DeviceType, FlowDirection, FlowMetric, FlowView, InstitutionalFlowItem, InstitutionalRankingBoard, InstitutionalRankingEntry, RadarData, StockTab, ThemeFocusData } from '../../types';
@@ -218,21 +220,87 @@ export const InstitutionalFlows: React.FC<InstitutionalFlowsProps> = ({ data, fo
   const themeName = focus?.themes.find((theme) => theme.theme_id === themeFilter)?.name_zh ?? '';
   const note = boardNote(board);
 
-  return (
-    <div className="page-content flows-page">
-      <header className="page-intro is-compact"><div><span className="page-kicker">MONEY FLOW · 資金流向</span><h1>籌碼流向</h1></div><p>先看法人資金流向哪些題材，再看個股排行與分點。法人買賣超來自 TWSE / TPEX 官方每日資料。</p></header>
-      <ThemeFlowPanel focus={focus} selectedThemeId={themeFilter} onSelectTheme={(themeId) => { setThemeFilter(themeId); setMode('institutional'); setMetric('net'); }} />
-      <div className="flow-mode-tabs" role="tablist" aria-label="籌碼流向資料面向"><button type="button" className={mode === 'institutional' ? 'is-selected' : ''} onClick={() => setMode('institutional')}>三大法人排行</button><button type="button" className={mode === 'broker' ? 'is-selected' : ''} onClick={() => setMode('broker')}>券商分點</button></div>
-      {mode === 'broker' ? <BrokerFlows onGoStock={onGoStock} refreshKey={refreshKey} /> : <>
-        <FlowControls metric={metric} setMetric={setMetric} days={days} setDays={setDays} direction={direction} setDirection={setDirection} hideEtf={hideEtf} setHideEtf={setHideEtf} view={view} setView={setView} />
-        {themeFilter ? <div className="flow-filter-note"><span>只顯示「{themeName || themeFilter}」成分股（{filteredEntries.length} 筆在排行內）</span><button type="button" onClick={() => setThemeFilter('')}>清除篩選 ×</button></div> : null}
-        {view === 'bars' ? <FlowBarsView entries={visibleEntries} metric={metric} days={days} view={view} setView={setView} expandedCode={expandedCode} setExpandedCode={setExpandedCode} loadBreakdown={(code, exchange) => fetchInstitutionalFlows(code, exchange, refreshKey > 0)} themesOf={themesOf} note={note} onGoStock={onGoStock} /> : null}
-        {view === 'matrix' ? <FlowMatrixView symbol={lookup} flows={stockFlows} metric={metric} view={view} setView={setView} /> : null}
-        {view === 'table' ? <FlowTableView entries={visibleEntries} metric={metric} view={view} setView={setView} onGoStock={onGoStock} /> : null}
-        {view !== 'matrix' && !themeFilter && filteredEntries.length > DEFAULT_VISIBLE_ROWS ? <div className="list-more"><button type="button" onClick={() => setShowAll((shown) => !shown)}>{showAll ? `收合至前 ${DEFAULT_VISIBLE_ROWS} 名` : `顯示全部 ${filteredEntries.length} 筆`}</button></div> : null}
-        <section className="flow-lookup"><div><span className="page-kicker">STOCK FLOW LOOKUP</span><strong>查詢個股法人資金流向</strong></div><form onSubmit={(event) => { event.preventDefault(); onGoStock(lookup, undefined, 'flows'); }}><input aria-label="輸入個股代號查詢籌碼" value={lookup} onChange={(event) => setLookup(event.target.value)} /><button type="submit">查詢籌碼 →</button></form></section>
-      </>}
+  const mobile = device === 'mobile';
+  const themeRef = useRef<HTMLElement>(null);
+  const rankRef = useRef<HTMLElement>(null);
+  const focusThemes = rankedFocusThemes(focus);
+  const byForeign = focusThemes.slice().sort((x, y) => y.flow.foreign_5d - x.flow.foreign_5d);
+  const topBuy = byForeign.find((theme) => theme.flow.foreign_5d > 0);
+  const topSell = byForeign.slice().reverse().find((theme) => theme.flow.foreign_5d < 0);
+  const broad = focusThemes.filter((theme) => (theme.flow.breadth ?? 0) >= 0.5).length;
+  const heroSentence = focus
+    ? [
+      topBuy ? `外資 ${focus.flow_window_days} 日買超最多是${topBuy.name_zh}（${formatLots(topBuy.flow.foreign_5d)} 張）` : `外資 ${focus.flow_window_days} 日沒有題材淨買超`,
+      topSell ? `賣超最多是${topSell.name_zh}（${formatLots(topSell.flow.foreign_5d)} 張）` : '',
+      `${broad} 個題材法人買超家數過半`,
+    ].filter(Boolean).join('；') + '。'
+    : '先看法人資金流向哪些題材，再看個股排行與分點。';
+  const pickTheme = (themeId: string) => { setThemeFilter(themeId); setMode('institutional'); setMetric('net'); scrollToRef(rankRef); };
+  const nameToId = new Map(focusThemes.map((theme) => [theme.name_zh, theme.theme_id]));
+  const bars = (key: 'foreign_5d' | 'trust_5d') => focusThemes.slice().sort((x, y) => y.flow[key] - x.flow[key])
+    .map((theme) => ({ name: theme.name_zh, value: theme.flow[key], label: formatLots(theme.flow[key]) }));
+
+  const tabs = (
+    <PageTabs label="籌碼流向資料面向" tabs={[
+      { id: 'theme', label: '題材資金', onClick: () => scrollToRef(themeRef) },
+      { id: 'institutional', label: '三大法人排行', active: mode === 'institutional', onClick: () => { setMode('institutional'); scrollToRef(rankRef); } },
+      { id: 'broker', label: '券商分點', active: mode === 'broker', onClick: () => { setMode('broker'); scrollToRef(rankRef); } },
+    ]} />
+  );
+
+  const lookupForm = (
+    <section className="flow-lookup" aria-label="查詢個股法人資金流向">
+      <form onSubmit={(event) => { event.preventDefault(); onGoStock(lookup, undefined, 'flows'); }}><input aria-label="輸入個股代號查詢籌碼" value={lookup} onChange={(event) => setLookup(event.target.value)} /><button type="submit">查詢籌碼 →</button></form>
+    </section>
+  );
+
+  const main = (
+    <div className="fd-main">
+      <PageHero title="資金流向" sentence={heroSentence} meta={focus ? `法人資料 ${shortDate(focus.flow_as_of)}，TWSE / TPEX 官方每日資料` : 'TWSE / TPEX 官方每日資料'} />
+      <section className="fd-section is-first" ref={themeRef} aria-label="題材資金">
+        <SectionHead title="法人資金流向哪些題材" note={focus ? `法人 ${focus.flow_window_days} 日合計，單位：張，點題材篩選下方排行` : undefined} />
+        <ThemeFlowPanel focus={focus} selectedThemeId={themeFilter} onSelectTheme={pickTheme} />
+      </section>
+      <section className="fd-section" ref={rankRef} aria-label={mode === 'broker' ? '券商分點' : '三大法人排行'}>
+        <SectionHead title={mode === 'broker' ? '券商分點' : '三大法人個股排行'} note={mode === 'broker' ? '分點買賣與隔日衝傾向' : note || undefined} />
+        {mode === 'broker' ? <BrokerFlows onGoStock={onGoStock} refreshKey={refreshKey} /> : <>
+          <FlowControls metric={metric} setMetric={setMetric} days={days} setDays={setDays} direction={direction} setDirection={setDirection} hideEtf={hideEtf} setHideEtf={setHideEtf} view={view} setView={setView} />
+          {themeFilter ? <div className="flow-filter-note"><span>只顯示「{themeName || themeFilter}」成分股（{filteredEntries.length} 筆在排行內）</span><button type="button" onClick={() => setThemeFilter('')}>清除篩選 ×</button></div> : null}
+          {view === 'bars' ? <FlowBarsView entries={visibleEntries} metric={metric} days={days} view={view} setView={setView} expandedCode={expandedCode} setExpandedCode={setExpandedCode} loadBreakdown={(code, exchange) => fetchInstitutionalFlows(code, exchange, refreshKey > 0)} themesOf={themesOf} note={note} onGoStock={onGoStock} /> : null}
+          {view === 'matrix' ? <FlowMatrixView symbol={lookup} flows={stockFlows} metric={metric} view={view} setView={setView} /> : null}
+          {view === 'table' ? <FlowTableView entries={visibleEntries} metric={metric} view={view} setView={setView} onGoStock={onGoStock} /> : null}
+          {view !== 'matrix' && !themeFilter && filteredEntries.length > DEFAULT_VISIBLE_ROWS ? <div className="list-more"><button type="button" onClick={() => setShowAll((shown) => !shown)}>{showAll ? `收合至前 ${DEFAULT_VISIBLE_ROWS} 名` : `顯示全部 ${filteredEntries.length} 筆`}</button></div> : null}
+        </>}
+      </section>
       <p className="disclaimer">本頁資訊整理自公開交易資料，僅供技術與數據呈現展示，不構成任何買賣投資建議。</p>
+    </div>
+  );
+
+  const rail = (
+    <aside className="fd-rail" aria-label="資金概覽">
+      {focusThemes.length > 0 ? (
+        <section className="fd-rail-block">
+          <SectionHead level={3} title="外資流向" note={`${focus!.flow_window_days} 日，張`} />
+          <DivergingBars title="依題材，點題材篩選排行" note={shortDate(focus!.flow_as_of)} bars={bars('foreign_5d')} onPick={(name) => { const id = nameToId.get(name); if (id) pickTheme(id); }} />
+        </section>
+      ) : null}
+      {focusThemes.length > 0 ? (
+        <section className="fd-rail-block">
+          <SectionHead level={3} title="投信流向" note={`${focus!.flow_window_days} 日，張`} />
+          <DivergingBars title="依題材" note={shortDate(focus!.flow_as_of)} bars={bars('trust_5d')} onPick={(name) => { const id = nameToId.get(name); if (id) pickTheme(id); }} />
+        </section>
+      ) : null}
+      <section className="fd-rail-block">
+        <SectionHead level={3} title="查詢個股籌碼" />
+        {lookupForm}
+      </section>
+    </aside>
+  );
+
+  return (
+    <div className={`page-content flows-page fd fd-page${mobile ? ' is-mobile' : ''}`}>
+      {tabs}
+      {mobile ? <>{main}{rail}</> : <div className="fd-cols">{main}{rail}</div>}
     </div>
   );
 };

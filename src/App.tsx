@@ -351,6 +351,7 @@ export const App: React.FC = () => {
             error={watchlistError}
             onRetry={() => setWatchlistRequest((request) => request + 1)}
             onGoHome={() => updateHash('index')}
+            device={device}
           />
         ) : null}
 

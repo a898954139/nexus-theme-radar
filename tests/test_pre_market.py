@@ -320,7 +320,7 @@ class TestPulseSeedsFromSession:
 def test_pre_market_flow_styles_do_not_collide_with_the_flows_page() -> None:
     """`.flow-board` belongs to the standalone 資金流向 page. Redefining it for
     the homepage silently rewrote that page's layout."""
-    feed_css = (ROOT / "src" / "components" / "home" / "feed.css").read_text(encoding="utf-8")
+    feed_css = (ROOT / "src" / "components" / "common" / "feed.css").read_text(encoding="utf-8")
     for shared in (".flow-board", ".flow-row", ".flow-rank", ".flow-value"):
         assert shared not in feed_css, f"{shared} would override the flows page"
 
@@ -336,7 +336,7 @@ def test_calm_state_copy_does_not_claim_a_daily_reset() -> None:
 def test_sparkline_can_shrink_so_it_cannot_overflow_its_card() -> None:
     """A fixed-width spark beside a fixed-width price overflowed the card on
     long values, painting the line past the card edge."""
-    css = (ROOT / "src" / "components" / "home" / "feed.css").read_text(encoding="utf-8")
+    css = (ROOT / "src" / "components" / "common" / "feed.css").read_text(encoding="utf-8")
     rule = css[css.index(".fd-mini-spark {"):css.index("}", css.index(".fd-mini-spark {"))]
     assert "flex: 1 1 auto" in rule
     assert "overflow: hidden" in rule
