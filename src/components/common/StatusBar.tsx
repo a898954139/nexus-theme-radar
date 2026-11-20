@@ -38,7 +38,7 @@ export const StatusBar: React.FC<StatusBarProps> = ({
     <div className={`status-bar ${device === 'mobile' ? 'status-bar-mobile' : ''}`}>
       <span>更新時間 <strong>{formatted.date} {formatted.time}</strong></span>
       <button type="button" onClick={onGoSources}>
-        源狀態 <strong className={sourceStatusOk ? 'status-up' : 'status-down'}>{sourceStatusOk ? '正常' : '異常'}</strong>
+        來源狀態 <strong className={sourceStatusOk ? 'status-up' : 'status-down'}>{sourceStatusOk ? '正常' : '異常'}</strong>
         <span className="status-detail">詳情 →</span>
       </button>
       {/* Sits before the last child so the existing margin-left:auto rule keeps

@@ -272,7 +272,7 @@ export const InstitutionalFlows: React.FC<InstitutionalFlowsProps> = ({ data, fo
           {view !== 'matrix' && !themeFilter && filteredEntries.length > DEFAULT_VISIBLE_ROWS ? <div className="list-more"><button type="button" onClick={() => setShowAll((shown) => !shown)}>{showAll ? `收合至前 ${DEFAULT_VISIBLE_ROWS} 名` : `顯示全部 ${filteredEntries.length} 筆`}</button></div> : null}
         </>}
       </section>
-      <p className="disclaimer">本頁資訊整理自公開交易資料，僅供技術與數據呈現展示，不構成任何買賣投資建議。</p>
+      <p className="disclaimer">本頁資訊整理自公開交易資料，僅供技術與資料呈現，不構成任何買賣投資建議。</p>
     </div>
   );
 

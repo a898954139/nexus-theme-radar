@@ -142,7 +142,7 @@ export const SourceStatus: React.FC<{ data: SourceStatusData; device: DeviceType
   }, []);
   return (
     <div className="page-content sources-page">
-      <header className="page-intro is-compact"><div><span className="page-kicker">SOURCE STATUS · 源狀態</span><h1>源狀態詳情</h1></div><p>先看每頁資料是否最新，再看各新聞源採集狀態。「試行」來源只做抓取與重複率評估，尚未進入題材排行。</p></header>
+      <header className="page-intro is-compact"><div><span className="page-kicker">SOURCE STATUS · 來源狀態</span><h1>來源狀態詳情</h1></div><p>先看每頁資料是否最新，再看各新聞源採集狀態。「試行」來源只做抓取與重複率評估，尚未進入題材排行。</p></header>
       {freshness ? <FreshnessSection inputs={freshness} /> : null}
       <section className="source-table-panel"><div className="source-table-head"><span>新聞來源</span><span>狀態</span></div>{data.sites.map((site) => { const ok = site.status === 'ok' || site.status === '正常'; const failed = site.status === 'failed' || site.status === '失敗' || site.status === 'error'; const detail = siteDetail(site); return <div className="source-row" key={site.source_id}><strong>{site.name}{site.trial ? <span className="source-trial-tag"> 試行</span> : null}{detail ? <small className="source-row-detail">{detail}</small> : null}</strong><span className={ok ? 'status-up' : failed ? 'status-down' : 'status-delayed'}>{ok ? '正常' : failed ? '失敗' : '延遲'}</span></div>; })}</section>
       {health && health.sources.length > 0 ? <HealthSection data={health} /> : null}

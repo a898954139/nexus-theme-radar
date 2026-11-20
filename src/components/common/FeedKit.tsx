@@ -1,4 +1,4 @@
-// Page scaffolding shared by every page that follows the 信息流 (feed) layout:
+// Page scaffolding shared by every page that follows the 訊息流 (feed) layout:
 // sticky top tabs, a one-line hero, two columns (main + rail) and the
 // diverging-bar data box. Styles live in ./feed.css.
 import React from 'react';

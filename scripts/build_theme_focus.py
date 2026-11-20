@@ -59,8 +59,8 @@ STANCES = {
     "focus": "新聞與法人同向",
     "money_first": "法人先行、新聞未熱",
     "news_only": "新聞熱、法人未跟",
-    "outflow": "法人調節中",
-    "watch": "觀望",
+    "outflow": "法人賣超",
+    "watch": "訊號不足",
 }
 
 

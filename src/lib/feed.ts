@@ -1,4 +1,4 @@
-// Derivations for the feed (信息流) homepage. Everything here is computed from
+// Derivations for the feed (訊息流) homepage. Everything here is computed from
 // payloads the site already loads; nothing is written by hand. When an input
 // is missing the derived block is null and the page leaves it out.
 
@@ -73,7 +73,7 @@ export function riskAppetite(data: PreMarketData | null): RiskAppetite | null {
   }
   const directional = bull + bear;
   const score = directional === 0 ? 5 : Math.round((10 * bull) / directional);
-  const label = score <= 2 ? '全面去風險' : score <= 4 ? '偏防守' : score === 5 ? '多空拉鋸' : score <= 7 ? '偏積極' : '追價情緒';
+  const label = score <= 2 ? '強烈偏空' : score <= 4 ? '偏空' : score === 5 ? '多空拉鋸' : score <= 7 ? '偏多' : '強烈偏多';
   return { score, label, bull, bear, neutral, windowHours: data.window_hours };
 }
 
@@ -92,7 +92,7 @@ function signedPct(value: number): string {
 
 export function feedHeadline(data: PreMarketData | null, paths: MacroFocus[]): FeedHeadline {
   const lean = data?.market?.market.lean ?? null;
-  const stance = lean === '偏空' ? '今天偏防守' : lean === '偏多' ? '今天偏進攻' : '今天先觀望';
+  const stance = lean === '偏空' ? '今天偏空' : lean === '偏多' ? '今天偏多' : '今天方向不明';
   const parts: string[] = [];
   const top = paths.slice(0, 2).map((path) => path.label);
   if (top.length > 0) parts.push(`${top.join('、')}是近 ${data?.window_hours ?? 72} 小時最重的消息線`);

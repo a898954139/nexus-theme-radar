@@ -26,7 +26,7 @@ LOGGER = logging.getLogger(__name__)
 PANELS: tuple[tuple[str, str, str], ...] = (
     ("foreign_net", "foreign", "外資買賣超"),
     ("trust_net", "trust", "投信買賣超"),
-    ("dealer_net", "dealer", "主力買賣超"),
+    ("dealer_net", "dealer", "自營商買賣超"),
 )
 
 TOP_N = 5

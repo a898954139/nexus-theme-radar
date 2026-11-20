@@ -13,12 +13,12 @@ interface NavTabBarProps {
 }
 
 const tabs: Array<{ id: PageType; label: string }> = [
-  // The index is the 信息流 (feed) board; themes live on the momentum page.
-  { id: 'index', label: '信息流' },
+  // The index is the 訊息流 (feed) board; themes live on the momentum page.
+  { id: 'index', label: '訊息流' },
   { id: 'momentum', label: '題材動能' },
   { id: 'watchlist', label: '個股雷達' },
   { id: 'flows', label: '資金流向' },
-  { id: 'sources', label: '源狀態' }
+  { id: 'sources', label: '來源狀態' }
 ];
 
 const ICON: Record<string, React.ReactNode> = {
@@ -36,12 +36,12 @@ const NavIcon: React.FC<{ id: string }> = ({ id }) => (
 
 export const NavTabBar: React.FC<NavTabBarProps> = ({ page, setPage, device, mobileTitle, theme, onToggleTheme }) => {
   const mobileTitles: Record<PageType, string> = {
-    index: '信息流',
+    index: '訊息流',
     momentum: '題材動能',
     watchlist: '個股雷達',
     flows: '三大法人資金流向',
     stock: '個股',
-    sources: '源狀態詳情'
+    sources: '來源狀態詳情'
   };
   const themeButton = (
     <button type="button" className="theme-toggle" onClick={onToggleTheme} aria-label={theme === 'dark' ? '切換為亮色' : '切換為暗色'}>
@@ -55,7 +55,7 @@ export const NavTabBar: React.FC<NavTabBarProps> = ({ page, setPage, device, mob
         <span className="brand-divider" aria-hidden="true" />
         <span className="brand-title">{device === 'mobile' ? (mobileTitle ?? mobileTitles[page]) : '台股題材雷達'}</span>
         {device === 'mobile' ? themeButton : null}
-        <a className="nav-feedback-mobile" href="https://forms.gle/KwFAL59UjcnEBCNj6" target="_blank" rel="noreferrer">功能反饋 ↗</a>
+        <a className="nav-feedback-mobile" href="https://forms.gle/KwFAL59UjcnEBCNj6" target="_blank" rel="noreferrer">意見回饋 ↗</a>
       </div>
       <div className="nav-tabs">
         {tabs.map((tab) => (
@@ -74,7 +74,7 @@ export const NavTabBar: React.FC<NavTabBarProps> = ({ page, setPage, device, mob
       {device === 'mobile' ? null : (
         <div className="side-foot">
           {themeButton}
-          <a className="nav-feedback" href="https://forms.gle/KwFAL59UjcnEBCNj6" target="_blank" rel="noreferrer">功能反饋 ↗</a>
+          <a className="nav-feedback" href="https://forms.gle/KwFAL59UjcnEBCNj6" target="_blank" rel="noreferrer">意見回饋 ↗</a>
         </div>
       )}
     </nav>
