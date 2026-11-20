@@ -331,6 +331,7 @@ export const StockWatchlist: React.FC<StockWatchlistProps> = ({
   const main = (
     <div className="fd-main">
       <PageHero title="個股雷達" sentence={heroSentence} meta={`法人 ${shortDate(institutionalAsOf)}，當沖 ${shortDate(dayTradingAsOf)}`} />
+      <div className="fd-section fd-watch-body">
 
       {view === 'search' ? (
         <div className="watchlist-search">
@@ -390,6 +391,7 @@ export const StockWatchlist: React.FC<StockWatchlistProps> = ({
       {!loading && !error && view === 'search' && searchResults.length ? <div className="watchlist-table watchlist-search-table">{searchResults.map(renderSearchItem)}</div> : null}
 
       <p className="disclaimer">關注分數衡量題材、籌碼與基本面訊號強度，不代表預測漲跌，也不構成投資建議。</p>
+      </div>
     </div>
   );
 
