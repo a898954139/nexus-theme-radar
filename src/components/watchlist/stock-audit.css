@@ -29,7 +29,7 @@
 .stock-audit-generated {
   margin-top: 12px !important;
   color: var(--muted) !important;
-  font: 400 12px/1.5 'IBM Plex Mono', ui-monospace, monospace !important;
+  font: 400 12px/1.5 var(--font-num) !important;
 }
 
 .stock-audit-report {
@@ -53,7 +53,7 @@
 .stock-audit-section-header h3 {
   margin: 0;
   color: var(--text-hi);
-  font-family: 'Noto Sans TC', sans-serif;
+  font-family: var(--font-sans);
   font-weight: 500;
   letter-spacing: -.02em;
 }
@@ -82,7 +82,7 @@
 .stock-audit-summary {
   margin: 0;
   color: var(--text);
-  font: 400 14px/1.85 'Noto Sans TC', sans-serif;
+  font: 400 14px/1.85 var(--font-sans);
 }
 
 .stock-audit-page .page-intro p:not(.stock-audit-generated) {
@@ -204,7 +204,7 @@
   left: 16px;
   color: var(--gold);
   content: '＋';
-  font: 500 16px/1 'IBM Plex Mono', monospace;
+  font: 500 16px/1 var(--font-num);
 }
 
 .stock-audit-card[open] > summary {
@@ -251,7 +251,7 @@
 .stock-audit-card-identity strong {
   overflow-wrap: anywhere;
   color: var(--text-hi);
-  font: 500 14px/1.35 'Noto Sans TC', sans-serif;
+  font: 500 14px/1.35 var(--font-sans);
 }
 
 .stock-audit-card-identity small {
@@ -274,7 +274,7 @@
 .stock-audit-card-price small {
   margin-top: 4px;
   color: var(--muted);
-  font: 400 12px 'IBM Plex Mono', monospace;
+  font: 400 12px var(--font-num);
 }
 
 .stock-audit-card-content {
@@ -284,7 +284,7 @@
 .stock-audit-card-source {
   padding: 10px 0 2px;
   color: var(--muted);
-  font: 400 12px 'IBM Plex Mono', monospace;
+  font: 400 12px var(--font-num);
   text-align: right;
 }
 
@@ -330,7 +330,7 @@
   margin-top: 6px;
   overflow-wrap: anywhere;
   color: var(--text-hi);
-  font: 600 15px/1.35 'IBM Plex Mono', monospace;
+  font: 600 15px/1.35 var(--font-num);
 }
 
 .stock-audit-metric > small {
@@ -360,7 +360,7 @@
 }
 
 .stock-audit-valuation-callout > strong {
-  font: 600 18px 'IBM Plex Mono', monospace;
+  font: 600 18px var(--font-num);
 }
 
 .stock-audit-valuation-callout > small {
@@ -374,7 +374,7 @@
 .stock-audit-section-lead {
   margin: 12px 0 0;
   color: var(--muted);
-  font: 400 13px/1.75 'Noto Sans TC', sans-serif;
+  font: 400 13px/1.75 var(--font-sans);
 }
 
 .stock-audit-section-lead {
@@ -390,7 +390,7 @@
   gap: 5px 12px;
   margin: 12px 0 0;
   color: var(--muted);
-  font: 400 12px/1.5 'IBM Plex Mono', monospace;
+  font: 400 12px/1.5 var(--font-num);
 }
 
 .stock-audit-source a {
@@ -421,7 +421,7 @@
 
 .stock-audit-operation > header strong {
   color: var(--gold-hover);
-  font: 600 13px 'Noto Sans TC', sans-serif;
+  font: 600 13px var(--font-sans);
 }
 
 .stock-audit-operation > header span {
@@ -537,7 +537,7 @@
 .stock-audit-chart-frame {
   overflow: hidden;
   border: 1px solid var(--line);
-  background: #151922;
+  background: var(--card-bg);
 }
 
 .stock-audit-chart svg {
@@ -556,7 +556,7 @@
 .stock-audit-chart-axis text,
 .stock-audit-chart-date-ticks text {
   fill: var(--muted);
-  font: 11px 'IBM Plex Mono', monospace;
+  font: 11px var(--font-num);
 }
 
 .stock-audit-chart-levels line {
@@ -582,7 +582,7 @@
 }
 
 .stock-audit-chart-levels text {
-  font: 11px 'IBM Plex Mono', monospace;
+  font: 11px var(--font-num);
 }
 
 .stock-audit-chart-levels .is-support-label {
@@ -650,7 +650,7 @@
   gap: 8px 12px;
   margin-top: 8px;
   color: var(--muted);
-  font: 400 12px 'IBM Plex Mono', monospace;
+  font: 400 12px var(--font-num);
 }
 
 .stock-audit-chart-legend {
@@ -692,7 +692,7 @@
   margin: 0;
   padding: 16px 0 2px;
   color: var(--muted);
-  font: 400 12px/1.7 'Noto Sans TC', sans-serif;
+  font: 400 12px/1.7 var(--font-sans);
 }
 
 .stock-audit-state {
@@ -701,7 +701,7 @@
 
 .stock-audit-state > h2 {
   color: var(--text-hi);
-  font: 500 17px 'Noto Sans TC', sans-serif;
+  font: 500 17px var(--font-sans);
 }
 
 .stock-audit-state > p {

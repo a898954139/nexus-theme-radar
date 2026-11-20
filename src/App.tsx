@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { EmptyState } from './components/common/EmptyState';
-import { NavTabBar } from './components/common/NavTabBar';
+import { NavTabBar, ThemeMode } from './components/common/NavTabBar';
 import { StatusBar } from './components/common/StatusBar';
 import { WavePhysicsLoader } from './components/common/WavePhysicsLoader';
 import { InstitutionalFlows } from './components/flows/InstitutionalFlows';
@@ -23,6 +23,17 @@ interface RouteState {
 }
 
 const DATA_REFRESH_INTERVAL_MS = 5 * 60 * 1000;
+const THEME_STORAGE_KEY = 'nexusThemeMode';
+
+function readThemeMode(): ThemeMode {
+  try {
+    const saved = window.localStorage.getItem(THEME_STORAGE_KEY);
+    if (saved === 'light' || saved === 'dark') return saved;
+  } catch {
+    // Storage blocked (private mode): fall through to the system preference.
+  }
+  return window.matchMedia?.('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+}
 
 function readRoute(): RouteState {
   const params = new URLSearchParams(window.location.hash.replace(/^#/, ''));
@@ -57,6 +68,7 @@ function instrumentForCode(data: RadarData | null, code: string, exchange?: stri
 export const App: React.FC = () => {
   const [route, setRoute] = useState<RouteState>(readRoute);
   const [device, setDevice] = useState<DeviceType>(() => window.innerWidth < 720 ? 'mobile' : 'desktop');
+  const [themeMode, setThemeMode] = useState<ThemeMode>(readThemeMode);
   const [radarData, setRadarData] = useState<RadarData | null>(null);
   const [preMarket, setPreMarket] = useState<PreMarketData | null>(null);
   const [themeFocus, setThemeFocus] = useState<ThemeFocusData | null>(null);
@@ -115,6 +127,24 @@ export const App: React.FC = () => {
     window.addEventListener('resize', updateDevice);
     return () => window.removeEventListener('resize', updateDevice);
   }, []);
+
+  useEffect(() => {
+    document.documentElement.dataset.theme = themeMode;
+    // index.html paints a pre-load background; hand it back to the CSS tokens.
+    document.documentElement.style.background = '';
+  }, [themeMode]);
+
+  const toggleTheme = () => {
+    setThemeMode((current) => {
+      const next: ThemeMode = current === 'dark' ? 'light' : 'dark';
+      try {
+        window.localStorage.setItem(THEME_STORAGE_KEY, next);
+      } catch {
+        // Not persisted; the toggle still applies for this visit.
+      }
+      return next;
+    });
+  };
 
   useEffect(() => {
     const onHashChange = () => setRoute(readRoute());
@@ -294,6 +324,8 @@ export const App: React.FC = () => {
             : updateHash(page)}
           device={device}
           mobileTitle={route.page === 'stock' ? `${stockCode}${stockInstrument?.name_zh ? ` ${stockInstrument.name_zh}` : ''}` : undefined}
+          theme={themeMode}
+          onToggleTheme={toggleTheme}
         />
         <StatusBar
           device={device}
@@ -329,8 +361,10 @@ export const App: React.FC = () => {
                 data={radarData}
                 preMarket={preMarket}
                 watchlist={watchlistData}
+                focus={themeFocus}
                 device={device}
                 onGoMomentum={() => updateHash('momentum')}
+                onGoWatchlist={() => updateWatchlistHash('short')}
                 onGoStock={goStock}
               />
             ) : null}

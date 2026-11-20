@@ -16,8 +16,12 @@
           y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
       })(window, document, "clarity", "script", "xz7wk63q2s");
     </script>
+    <script>
+      // Apply the saved or system theme before first paint (see App.tsx readThemeMode).
+      (function(){var m='dark';try{var s=localStorage.getItem('nexusThemeMode');if(s==='light'||s==='dark'){m=s}else if(window.matchMedia&&matchMedia('(prefers-color-scheme: light)').matches){m='light'}}catch(e){}document.documentElement.dataset.theme=m;document.documentElement.style.background=m==='light'?'#FFFFFF':'#141619';})();
+    </script>
   </head>
-  <body style="margin:0;background:#13161D;color:#EDEFF3;font-family:'IBM Plex Sans','Noto Sans TC',sans-serif;-webkit-font-smoothing:antialiased;">
+  <body>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>
