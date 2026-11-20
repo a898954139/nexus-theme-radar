@@ -1,5 +1,6 @@
 import React, { useMemo, useState } from 'react';
 import {
+  DeviceType,
   SearchableStock,
   StockFlag,
   StockFlagKey,
@@ -11,6 +12,8 @@ import {
 } from '../../types';
 import { rankedFocusThemes, shortDate, stanceTone } from '../common/ThemeFocusBoard';
 import '../common/focus.css';
+import { PageHero } from '../common/FeedKit';
+import { SectionHead } from '../home/FeedBlocks';
 import { daysBetween, watchlistSourceDates } from '../../lib/freshness';
 
 export type WatchlistView = 'short' | 'long' | 'search';
@@ -27,6 +30,7 @@ export interface StockWatchlistProps {
   error?: boolean;
   onRetry?: () => void;
   onGoHome?: () => void;
+  device?: DeviceType;
 }
 
 const SEARCH_RESULT_LIMIT = 30;
@@ -166,8 +170,7 @@ export const StockWatchlist: React.FC<StockWatchlistProps> = ({
   loading = false,
   error = false,
   onRetry,
-  onGoHome
-}) => {
+  onGoHome, device = 'desktop' }) => {
   const [showMethodology, setShowMethodology] = useState(false);
   const [themeFilter, setThemeFilter] = useState('');
   const [showAll, setShowAll] = useState(false);
@@ -280,33 +283,54 @@ export const StockWatchlist: React.FC<StockWatchlistProps> = ({
   const { institutional: institutionalAsOf, dayTrading: dayTradingAsOf } = watchlistSourceDates(payload);
   const referenceDate = focus?.flow_as_of ?? null;
 
-  return (
-    <div className="page-content watchlist-page watchlist-no-horizontal-scroll">
-      <section className="page-intro is-compact">
-        <div>
-          <span className="page-kicker">STOCK RADAR · 個股雷達</span>
-          <h1>個股雷達</h1>
-        </div>
-        <p>依題材、法人、當沖與基本面排序的 Top 50。先挑題材，再看前幾名；點列進入個股分析。</p>
-      </section>
+  const mobile = device === 'mobile';
+  const top3 = rankedItems.slice(0, 3).map((item) => item.instrument.name_zh).join('、');
+  const directionCount = rankedItems.reduce((acc, item) => {
+    const dir = item.institutional.direction;
+    if (dir === 'positive') acc.up += 1; else if (dir === 'negative') acc.down += 1; else acc.other += 1;
+    return acc;
+  }, { up: 0, down: 0, other: 0 });
+  const heroSentence = view === 'search'
+    ? '搜尋完整題材候選池，包含未進入 Top 50 的股票。'
+    : top3
+      ? `${view === 'long' ? '長線' : '短線'}前三是${top3}；Top ${rankedItems.length} 中 ${directionCount.up} 檔法人 5 日偏多、${directionCount.down} 檔偏空。`
+      : '依題材、法人、當沖與基本面排序的 Top 50。';
+  const maxChip = Math.max(1, ...themeChips.map((chip) => chip.count));
+  const directionTotal = Math.max(1, directionCount.up + directionCount.down + directionCount.other);
 
-      <div className="watchlist-tabs" role="tablist" aria-label="個股雷達檢視">
-        {views.map((candidate) => (
-          <button
-            id={`watchlist-tab-${candidate.id}`}
-            className={view === candidate.id ? 'is-selected' : ''}
-            type="button"
-            role="tab"
-            aria-selected={view === candidate.id}
-            tabIndex={view === candidate.id ? 0 : -1}
-            onClick={() => onViewChange(candidate.id)}
-            onKeyDown={handleTabKeyDown}
-            key={candidate.id}
-          >
-            {candidate.label}
-          </button>
-        ))}
-      </div>
+  const rail = view !== 'search' && rankedItems.length > 0 ? (
+    <aside className="fd-rail" aria-label="個股雷達概覽">
+      <section className="fd-rail-block">
+        <SectionHead level={3} title="法人 5 日方向" note={`Top ${rankedItems.length}`} />
+        <div className="fd-risk-bar" aria-hidden="true">
+          <span className="is-up" style={{ width: `${(directionCount.up / directionTotal) * 100}%` }} />
+          <span className="is-down" style={{ width: `${(directionCount.down / directionTotal) * 100}%` }} />
+        </div>
+        <p className="fd-risk-legend"><span>偏多 <b className="is-up">{directionCount.up}</b></span><span>偏空 <b className="is-down">{directionCount.down}</b></span><span>持平或不足 {directionCount.other}</span></p>
+      </section>
+      <section className="fd-rail-block">
+        <SectionHead level={3} title="題材分布" note="點題材篩選" />
+        <ol className="fd-rank-list">
+          {themeChips.slice(0, 10).map((chip, index) => (
+            <li key={chip.id}>
+              <span className="fd-rank">{index + 1}</span>
+              <button type="button" className={`fd-rank-name fd-link${themeFilter === chip.id ? ' is-active' : ''}`} onClick={() => setThemeFilter(themeFilter === chip.id ? '' : chip.id)}>{chip.name}</button>
+              <span className="fd-meter"><span className="fd-meter-track"><span style={{ width: `${(chip.count / maxChip) * 100}%` }} /></span><span className="fd-num">{chip.count}</span></span>
+              <span className="fd-faint fd-rank-stage">{focusOrder.get(chip.id)?.stance_label ?? ''}</span>
+            </li>
+          ))}
+        </ol>
+      </section>
+      <section className="fd-rail-block">
+        <SectionHead level={3} title="評分方式" />
+        <p className="fd-desc">{view === 'long' ? '60% 基本面品質、20% 法人支持、15% 題材延續性、5% 交易籌碼穩定度。' : '55% 題材關注度、20% 法人短期動向、15% 當沖活躍度、10% 基本面防守。'}缺值會重新分配有效權重，不補 0。</p>
+      </section>
+    </aside>
+  ) : null;
+
+  const main = (
+    <div className="fd-main">
+      <PageHero title="個股雷達" sentence={heroSentence} meta={`法人 ${shortDate(institutionalAsOf)}，當沖 ${shortDate(dayTradingAsOf)}`} />
 
       {view === 'search' ? (
         <div className="watchlist-search">
@@ -366,6 +390,29 @@ export const StockWatchlist: React.FC<StockWatchlistProps> = ({
       {!loading && !error && view === 'search' && searchResults.length ? <div className="watchlist-table watchlist-search-table">{searchResults.map(renderSearchItem)}</div> : null}
 
       <p className="disclaimer">關注分數衡量題材、籌碼與基本面訊號強度，不代表預測漲跌，也不構成投資建議。</p>
+    </div>
+  );
+
+  return (
+    <div className={`page-content watchlist-page watchlist-no-horizontal-scroll fd fd-page${mobile ? ' is-mobile' : ''}`}>
+      <div className="watchlist-tabs fd-tabs" role="tablist" aria-label="個股雷達檢視">
+        {views.map((candidate) => (
+          <button
+            id={`watchlist-tab-${candidate.id}`}
+            className={view === candidate.id ? 'is-selected is-active' : ''}
+            type="button"
+            role="tab"
+            aria-selected={view === candidate.id}
+            tabIndex={view === candidate.id ? 0 : -1}
+            onClick={() => onViewChange(candidate.id)}
+            onKeyDown={handleTabKeyDown}
+            key={candidate.id}
+          >
+            {candidate.label}
+          </button>
+        ))}
+      </div>
+      {mobile ? <>{main}{rail}</> : <div className="fd-cols">{main}{rail}</div>}
     </div>
   );
 };

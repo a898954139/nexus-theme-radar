@@ -1,0 +1,180 @@
+/* Feed layout applied to the inner pages (題材動能, 個股雷達, 資金流向).
+   The pages keep their legacy component markup; these rules re-skin it to
+   the feed pattern: open rule-divided rows, text tabs, boxes only on data.
+   Prefixed with .app-root .fd.fd-page so they win over the legacy mobile
+   overrides in index.css without !important. */
+
+.app-root .fd.fd-page .fd-section.is-first { padding-top: 4px; border-top: 0; }
+.app-root .fd.fd-page .disclaimer { padding: 28px 0 0; border-top: 0; text-align: left; font-size: 12px; }
+.app-root .fd.fd-page .page-kicker { display: none; }
+
+/* compact segmented text switch used inside section heads */
+.fd-seg { display: inline-flex; gap: 2px; margin-left: auto; padding: 2px; border: 1px solid var(--line); border-radius: 8px; }
+.app-root .fd .fd-seg { padding: 2px; border-bottom: 1px solid var(--line); }
+.app-root .fd .fd-seg button {
+  min-width: 44px; min-height: 30px; padding: 0 10px; border: 0; border-radius: 6px;
+  background: transparent; color: var(--muted); font-size: 13px; font-weight: 400;
+}
+.app-root .fd .fd-seg button.is-selected { background: var(--surface-bg); color: var(--text-hi); font-weight: 600; }
+
+/* 題材 × 法人 table */
+.fd-focus .fd-tr { grid-template-columns: 24px minmax(0, 1.5fr) 48px 132px 104px 76px 76px minmax(180px, 1.9fr); }
+.fd-focus .fd-stance { white-space: normal; display: inline-block; line-height: 1.4; }
+.fd-focus .fd-tr.is-selected { background: var(--surface-bg); }
+.fd-focus .fd-score { color: var(--text-hi); font-size: 16px; }
+.fd-theme-pick { padding: 0; border: 0; background: transparent; color: inherit; text-align: left; }
+.fd-theme-pick:hover strong { color: var(--gold); }
+.fd-theme-name a { min-width: 0; overflow: hidden; }
+.fd-theme-name a small { display: block; }
+.fd-focus .fd-picks button { display: block; }
+
+/* rail rank list */
+.fd-rank-list { margin: 0; padding: 0; list-style: none; }
+.fd-rank-list li { display: grid; grid-template-columns: 20px minmax(0, 1fr) 96px minmax(40px, auto); gap: 8px; align-items: center; min-height: 36px; border-bottom: 1px solid var(--line); font-size: 14px; }
+.fd-rank-list li:last-child { border-bottom: 0; }
+.fd-rank-name { overflow: hidden; color: var(--text); text-overflow: ellipsis; white-space: nowrap; }
+.fd-rank-stage { font-size: 12px; text-align: right; }
+.fd-bar-row.is-button { width: 100%; padding: 0; border: 0; background: transparent; color: inherit; text-align: left; }
+.fd-bar-row.is-button:hover .fd-bar-name { color: var(--gold); }
+
+/* ---------- 題材動能 ---------- */
+.app-root .fd.fd-page .momentum-latest-section,
+.app-root .fd.fd-page .momentum-history-section { border-bottom: 0; }
+.app-root .fd.fd-page .momentum-table-head,
+.app-root .fd.fd-page .momentum-row { grid-template-columns: 28px minmax(140px, 1fr) minmax(260px, 2.4fr) 64px 56px 64px; padding: 8px 0; }
+.app-root .fd.fd-page .momentum-table-head { min-height: 34px; color: var(--faint); font: 400 12px var(--font-sans); }
+.app-root .fd.fd-page .momentum-row { min-height: 60px; border-bottom: 1px solid var(--line); }
+.app-root .fd.fd-page .momentum-row .rank-num { color: var(--faint); font-size: 14px; }
+.app-root .fd.fd-page .momentum-theme-name strong { color: var(--text-hi); font: 600 15px var(--font-sans); }
+.app-root .fd.fd-page .momentum-theme-name span { color: var(--faint); font: 400 12px var(--font-sans); }
+.app-root .fd.fd-page .momentum-stock-chips { gap: 4px 16px; flex-wrap: wrap; }
+.app-root .fd.fd-page .momentum-stock-chip { flex: 0 1 auto; min-height: 28px; border: 0; border-radius: 0; background: transparent; }
+.app-root .fd.fd-page .stock-code-link { gap: 6px; padding: 0; font-size: 13px; }
+.app-root .fd.fd-page .stock-code-link b { color: var(--text-hi); font-size: 13px; font-weight: 500; }
+.app-root .fd.fd-page .chip-color-bar { display: none; }
+.app-root .fd.fd-page .chip-flow-link { flex: 0 0 auto; min-width: 0; padding: 0 0 0 6px; border-left: 0; color: var(--gold); font-size: 12px; }
+.app-root .fd.fd-page .more-chip { min-height: 28px; padding: 0 6px; border: 0; color: var(--muted); font-size: 13px; }
+.app-root .fd.fd-page .momentum-value, .app-root .fd.fd-page .heat-value { font-size: 15px; font-weight: 600; }
+.app-root .fd.fd-page .stage-value { color: var(--muted); font-size: 13px; }
+.app-root .fd.fd-page .history-legend { gap: 4px 18px; padding: 0 0 14px; }
+.app-root .fd.fd-page .legend-chip { min-height: 32px; padding: 0; border: 0; border-bottom: 2px solid transparent; border-radius: 0; background: transparent; font-size: 13px; }
+.app-root .fd.fd-page .legend-chip.is-active { border-bottom-color: var(--gold); color: var(--text-hi); }
+.app-root .fd.fd-page .history-box { padding: 14px 16px 10px; }
+.app-root .fd.fd-page .history-chart-scroll { margin: 0; }
+.app-root .fd.fd-page .history-chart-wrap { border-top: 0; }
+.app-root .fd.fd-page .momentum-news-details { border: 0; }
+.app-root .fd.fd-page .momentum-news-details > summary {
+  display: flex; align-items: center; gap: 14px; padding: 0; cursor: pointer; list-style: none;
+}
+.app-root .fd.fd-page .momentum-news-details > summary::-webkit-details-marker { display: none; }
+.fd-summary-title { position: relative; padding-left: 14px; color: var(--text-hi); font-size: 28px; font-weight: 600; line-height: 1.2; }
+.fd-summary-title::before { content: ''; position: absolute; top: 50%; left: 0; width: 4px; height: 26px; transform: translateY(-50%); border-radius: 2px; background: var(--gold-deep); }
+.fd-summary-title::after { content: '展開'; margin-left: 14px; color: var(--muted); font-size: 13px; font-weight: 400; }
+details[open] > summary .fd-summary-title::after { content: '收合'; }
+.app-root .fd.fd-page .momentum-news-details[open] > summary { margin-bottom: 20px; }
+
+/* ---------- 個股雷達 ---------- */
+.app-root .fd.fd-page.watchlist-page .page-intro { display: none; }
+.app-root .fd.fd-page .watchlist-tabs.fd-tabs { gap: 4px; padding-top: 0; padding-bottom: 0; background: var(--page-bg); }
+.app-root .fd.fd-page .watchlist-tabs.fd-tabs button {
+  flex: 0 0 auto; min-width: 0; min-height: 52px; padding: 0 14px; border: 0; border-bottom: 2px solid transparent; border-radius: 0;
+  background: transparent; color: var(--muted); font-size: 15px; font-weight: 400;
+}
+.app-root .fd.fd-page .watchlist-tabs.fd-tabs button.is-active { border-bottom-color: var(--gold); color: var(--text-hi); font-weight: 600; }
+.fd-link { padding: 0; border: 0; background: transparent; text-align: left; cursor: pointer; }
+.fd-link:hover, .fd-link.is-active { color: var(--gold); }
+.app-root .fd.fd-page .watchlist-search { padding: 0 0 16px; border-bottom: 0; }
+.app-root .fd.fd-page .theme-filter { display: flex; flex-wrap: wrap; gap: 4px 18px; padding: 0 0 16px; border-bottom: 0; background: transparent; }
+.app-root .fd.fd-page .theme-filter > span { color: var(--faint); font-size: 13px; }
+.app-root .fd.fd-page .theme-filter button {
+  min-height: 32px; padding: 0; border: 0; border-bottom: 2px solid transparent; border-radius: 0;
+  background: transparent; color: var(--muted); font-size: 14px; font-weight: 400;
+}
+.app-root .fd.fd-page .theme-filter button.is-selected { border-bottom-color: var(--gold); background: transparent; color: var(--text-hi); font-weight: 600; }
+.app-root .fd.fd-page .theme-filter button em { margin-left: 4px; color: var(--faint); font-style: normal; font-size: 12px; }
+.app-root .fd.fd-page .watchlist-list-heading { padding: 0 0 12px; border-bottom: 0; background: transparent; }
+.app-root .fd.fd-page .watchlist-result-count { padding: 0 0 8px; border-bottom: 0; }
+.app-root .fd.fd-page .watchlist-methodology { padding: 0 0 16px; border: 0; background: transparent; }
+.app-root .fd.fd-page .watchlist-table { border-top: 1px solid var(--line); }
+.app-root .fd.fd-page .watchlist-table-head { padding-left: 0; padding-right: 0; background: transparent; color: var(--faint); font: 400 12px var(--font-sans); }
+.app-root .fd.fd-page .watchlist-row { padding-left: 0; padding-right: 0; border-bottom: 1px solid var(--line); background: transparent; font-size: 13px; }
+.app-root .fd.fd-page .watchlist-row:hover { background: var(--surface-bg); }
+.app-root .fd.fd-page .watchlist-stock-name b { color: var(--text-hi); font-size: 15px; font-weight: 600; }
+.app-root .fd.fd-page .watchlist-score { color: var(--text-hi); font-size: 18px; font-weight: 600; }
+.app-root .fd.fd-page .watchlist-flag { border: 0; border-radius: 4px; background: var(--surface-bg); color: var(--muted); }
+.app-root .fd.fd-page .watchlist-flag.is-risk { background: color-mix(in srgb, var(--warn) 14%, transparent); color: var(--warn); }
+.app-root .fd.fd-page .watchlist-flag.is-positive { background: color-mix(in srgb, var(--up) 14%, transparent); color: var(--up); }
+.app-root .fd.fd-page .watchlist-mobile-card { padding: 14px 0; border: 0; border-bottom: 1px solid var(--line); border-radius: 0; background: transparent; }
+.app-root .fd.fd-page .list-more { padding: 12px 0; border: 0; }
+.app-root .fd.fd-page .list-more button { border: 0; background: transparent; color: var(--muted); }
+.app-root .fd.fd-page .watchlist-state { padding: 28px 0; border: 0; background: transparent; text-align: left; }
+
+/* ---------- 資金流向 ---------- */
+.app-root .fd.fd-page.flows-page .page-intro,
+.app-root .fd.fd-page .flow-mode-tabs { display: none; }
+.app-root .fd.fd-page .theme-flow-panel,
+.app-root .fd.fd-page .flow-controls,
+.app-root .fd.fd-page .flow-lookup,
+.app-root .fd.fd-page .broker-flows-panel { padding-left: 0; padding-right: 0; border-bottom: 0; background: transparent; }
+.app-root .fd.fd-page .theme-flow-panel .focus-board-head { display: none; }
+.app-root .fd.fd-page .theme-flow-row { padding-left: 0; padding-right: 0; border-bottom: 1px solid var(--line); background: transparent; font-size: 13px; }
+.app-root .fd.fd-page .theme-flow-row.is-head { color: var(--faint); font-size: 12px; }
+.app-root .fd.fd-page .theme-flow-row.is-selected { background: var(--surface-bg); }
+.app-root .fd.fd-page .focus-method { padding: 12px 0 0; color: var(--faint); font-size: 12px; }
+.app-root .fd.fd-page .flow-controls-row { padding-left: 0; padding-right: 0; border-bottom: 0; }
+.app-root .fd.fd-page .flow-control-options { gap: 2px; padding: 2px; border: 1px solid var(--line); border-radius: 8px; }
+.app-root .fd.fd-page .flow-control-options button,
+.app-root .fd.fd-page .flow-view-tabs button,
+.app-root .fd.fd-page .broker-sort-options button {
+  min-height: 30px; border: 0; border-radius: 6px; background: transparent; color: var(--muted); font-size: 13px;
+}
+.app-root .fd.fd-page .flow-control-options button.is-selected,
+.app-root .fd.fd-page .flow-view-tabs button.is-selected,
+.app-root .fd.fd-page .broker-sort-options button.is-selected { background: var(--surface-bg); color: var(--text-hi); font-weight: 600; }
+.app-root .fd.fd-page .flow-board, .app-root .fd.fd-page .flow-table-panel, .app-root .fd.fd-page .flow-matrix-panel { border: 0; background: transparent; }
+.app-root .fd.fd-page .flow-bars-head, .app-root .fd.fd-page .flow-bar-main { padding-left: 0; padding-right: 0; }
+.app-root .fd.fd-page .flow-bars-head { color: var(--faint); font: 400 12px var(--font-sans); }
+.app-root .fd.fd-page .flow-bar-row { border-bottom: 1px solid var(--line); }
+.app-root .fd.fd-page .flow-stock-label b { color: var(--text-hi); }
+.app-root .fd.fd-page .broker-kpi { border: 1px solid var(--line); border-radius: 8px; background: var(--card-bg); }
+.app-root .fd.fd-page .broker-stat-row { padding-left: 0; padding-right: 0; border-bottom: 1px solid var(--line); background: transparent; }
+.app-root .fd.fd-page .broker-stock-chip { border: 0; background: transparent; padding: 0 8px 0 0; }
+.app-root .fd.fd-page .flow-lookup { display: flex; align-items: center; gap: 16px; padding-top: 0; }
+
+/* phone */
+.app-root .fd.fd-page.is-mobile .fd-focus .fd-tr { grid-template-columns: 20px minmax(0, 1fr) auto; row-gap: 6px; }
+.app-root .fd.fd-page.is-mobile .fd-focus .fd-tr.is-head { display: none; }
+.app-root .fd.fd-page.is-mobile .fd-focus .fd-tr > :nth-child(3) { grid-column: 3; grid-row: 1; }
+.app-root .fd.fd-page.is-mobile .fd-focus .fd-tr > :nth-child(4) { grid-column: 2; }
+.app-root .fd.fd-page.is-mobile .fd-focus .fd-tr > :nth-child(5) { grid-column: 3; }
+.app-root .fd.fd-page.is-mobile .fd-focus .fd-tr > :nth-child(6),
+.app-root .fd.fd-page.is-mobile .fd-focus .fd-tr > :nth-child(7) { display: none; }
+.app-root .fd.fd-page.is-mobile .fd-focus .fd-tr > :nth-child(8) { grid-column: 2 / 4; }
+.app-root .fd.fd-page.is-mobile .momentum-row { grid-template-columns: 22px 1fr auto auto; gap: 6px 10px; padding: 12px 0; }
+.app-root .fd.fd-page.is-mobile .momentum-stock-chips { grid-column: 2 / -1; display: flex; }
+.app-root .fd.fd-page.is-mobile .momentum-stock-chip { min-height: 32px; }
+.app-root .fd.fd-page.is-mobile .fd-head { flex-wrap: wrap; }
+.app-root .fd.fd-page.is-mobile .fd-summary-title { font-size: 22px; }
+.app-root .fd.fd-page.is-mobile .history-chart-scroll { overflow-x: auto; }
+.app-root .fd.fd-page.is-mobile .fd-rail { padding-top: 0; }
+.app-root .fd.fd-page.is-mobile .theme-flow-row { font-size: 12px; }
+.app-root .fd.fd-page.is-mobile .flow-lookup { flex-direction: column; align-items: stretch; }
+
+/* flows: open theme table and wrapping controls */
+.app-root .fd.fd-page .theme-flow-table { border: 0; border-radius: 0; border-top: 1px solid var(--line); }
+.app-root .fd.fd-page .theme-flow-row { min-height: 48px; border-left: 0; box-shadow: none; }
+.app-root .fd.fd-page .theme-flow-row.is-head { min-height: 34px; background: transparent; }
+.app-root .fd.fd-page .theme-flow-row strong { font-size: 15px; font-weight: 600; }
+.app-root .fd.fd-page .theme-flow-stance { color: var(--tone); font-size: 12px; }
+.app-root .fd.fd-page .flow-controls { display: flex; flex-wrap: wrap; gap: 12px 28px; padding: 0 0 16px; border: 0; background: transparent; }
+.app-root .fd.fd-page .flow-controls-row { display: flex; flex-wrap: wrap; align-items: flex-end; gap: 12px 28px; padding: 0; border: 0; overflow: visible; }
+.app-root .fd.fd-page .flow-control-group { flex: 0 0 auto; width: auto; padding: 0; border: 0; }
+.app-root .fd.fd-page .flow-control-group .field-label { display: block; margin-bottom: 6px; color: var(--faint); font-size: 12px; letter-spacing: 0; }
+.app-root .fd.fd-page .flow-control-options { display: inline-flex; flex-wrap: nowrap; }
+.app-root .fd.fd-page .flow-etf-toggle { min-width: 0; min-height: 36px; padding: 0; border: 0; font-size: 13px; }
+.app-root .fd.fd-page .flow-view-tabs { padding-left: 0; padding-right: 0; }
+.app-root .fd.fd-page .flow-filter-note { padding: 8px 0; border: 0; background: transparent; }
+.app-root .fd.fd-page .flow-lookup form { display: flex; gap: 8px; width: 100%; }
+.app-root .fd.fd-page .flow-lookup input { flex: 1 1 auto; min-height: 40px; padding: 0 12px; border: 1px solid var(--line); border-radius: 8px; background: var(--card-bg); color: var(--text-hi); }
+.app-root .fd.fd-page .flow-lookup button { min-height: 40px; padding: 0 14px; border: 0; border-radius: 8px; background: var(--gold); color: var(--on-accent); font-weight: 600; }
+.app-root .fd.fd-page.is-mobile .flow-controls-row { flex-wrap: wrap; }

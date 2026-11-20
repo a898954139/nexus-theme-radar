@@ -1,7 +1,10 @@
-import React, { useMemo, useState } from 'react';
+import React, { useMemo, useRef, useState } from 'react';
 import { ThemeStocksCanvas } from '../common/ThemeStocksCanvas';
 import { ThemeCarousel } from '../common/ThemeCarousel';
-import { ThemeFocusBoard } from '../common/ThemeFocusBoard';
+import { FocusTable } from '../common/FocusTable';
+import { DivergingBars, PageHero, PageTabs, scrollToRef } from '../common/FeedKit';
+import { formatLots, rankedFocusThemes, shortDate } from '../common/ThemeFocusBoard';
+import { SectionHead } from '../home/FeedBlocks';
 import { buildThemeStockEntries, mergeInstrumentRefs } from '../../lib/themeStocks';
 import { DeviceType, MomentumTheme, RadarData, ThemeFocusData } from '../../types';
 
@@ -121,55 +124,77 @@ export const ThemeMomentum: React.FC<ThemeMomentumProps> = ({ data, focus = null
     return source.filter((point) => new Date(point.observed_hour).getTime() >= cutoff);
   }, [data.momentumHistory.observations, rangeHours]);
 
-  return (
-    <div className="page-content momentum-page">
-      <header className="page-intro is-compact">
-        <div>
-          <span className="page-kicker">THEME MOMENTUM · 題材動能</span>
-          <h1>哪些題材值得關注？</h1>
+  const focusThemes = useMemo(() => rankedFocusThemes(focus), [focus]);
+  const focusRef = useRef<HTMLElement>(null);
+  const latestRef = useRef<HTMLElement>(null);
+  const historyRef = useRef<HTMLElement>(null);
+  const newsRef = useRef<HTMLElement>(null);
+  const [activeTab, setActiveTab] = useState('focus');
+  const [newsOpen, setNewsOpen] = useState(false);
+  const mobile = device === 'mobile';
+  const go = (id: string, ref: React.RefObject<HTMLElement>) => { setActiveTab(id); if (id === 'news') setNewsOpen(true); scrollToRef(ref); };
+
+  const aligned = focusThemes.filter((theme) => theme.stance === 'focus').length;
+  const outflow = focusThemes.filter((theme) => theme.stance === 'outflow').length;
+  const topFocus = focusThemes[0];
+  const sentence = topFocus
+    ? `關注分最高是${topFocus.name_zh}（${topFocus.focus_score}，${topFocus.stance_label}）；${aligned} 個題材新聞與法人同向，${outflow} 個遭法人調節。`
+    : `${themes[0]?.name_zh ?? '—'} 熱度最高。`;
+  const heatRank = data.momentumLatest.themes.slice().sort((a, b) => b.heat_score - a.heat_score).slice(0, 10);
+  const foreignBars = focusThemes.slice().sort((a, b) => b.flow.foreign_5d - a.flow.foreign_5d)
+    .map((theme) => ({ name: theme.name_zh, value: theme.flow.foreign_5d, label: formatLots(theme.flow.foreign_5d) }));
+  const themeNews = data.themeRanking.themes.filter((theme) => theme.representative_news).slice(0, 6);
+
+  const focusSection = (
+    <section className="fd-section is-first" ref={focusRef} aria-label="可關注題材">
+      <SectionHead title="可關注題材" note={focus ? `法人 ${focus.flow_window_days} 日，資料日 ${shortDate(focus.flow_as_of)}，單位：張` : undefined} />
+      <FocusTable data={focus} onGoStock={onGoStock} limit={mobile ? 5 : 8} />
+      <p className="fd-meta">關注分 = 0.5 × 新聞熱度 + 0.5 × 法人買超家數占比。只描述新聞與籌碼是否同向，不代表預測漲跌。</p>
+    </section>
+  );
+
+  const latestSection = (
+    <section className="fd-section momentum-latest-section" ref={latestRef} aria-label="動能排行">
+      <div className="fd-head">
+        <h2>動能排行</h2>
+        <span className="fd-head-note">公開彙總，點代號看基本面、點「法人」看資金流向</span>
+        <div className="fd-seg range-tabs" role="tablist" aria-label="動能區間">
+          {(['24h', '72h', '7d'] as const).map((value) => <button className={range === value ? 'is-selected' : ''} key={value} type="button" onClick={() => setRange(value)}>{value}</button>)}
         </div>
-        <p>先看「新聞熱度 × 法人買盤」是否同向，再看動能與熱度走勢。點代號看基本面、點「法人」看資金流向；不構成投資建議。</p>
-      </header>
-
-      <ThemeFocusBoard data={focus} onGoStock={onGoStock} showHeadline />
-
-      <div className="range-tabs" role="tablist" aria-label="動能區間">
-        {(['24h', '72h', '7d'] as const).map((value) => <button className={range === value ? 'is-selected' : ''} key={value} type="button" onClick={() => setRange(value)}>{value}</button>)}
       </div>
+      <div className="momentum-table-wrap">
+        <div className="momentum-table-head"><span>#</span><span>題材</span><span>相關個股</span><span>動能</span><span>熱度</span><span>階段</span></div>
+        {themes.map((theme) => (
+          <article className="momentum-row" key={theme.theme_id}>
+            <span className="rank-num mono-num">{theme.rank}</span>
+            <div className="momentum-theme-name"><strong>{theme.name_zh}</strong><span>{theme.qualification_status === 'qualified' ? '已達門檻' : '接近門檻'}</span></div>
+            <ThemeStockChips theme={theme} onGoStock={onGoStock} />
+            <strong className={`momentum-value mono-num ${theme.momentum_score >= 0 ? 'positive' : 'negative'}`}>{signed(theme.momentum_score)}</strong>
+            <strong className="heat-value mono-num">{theme.heat_score}</strong>
+            <span className="stage-value">{stageLabel(theme.lifecycle_stage)}</span>
+          </article>
+        ))}
+      </div>
+    </section>
+  );
 
-      <section className="momentum-latest-section">
-        <div className="section-heading momentum-heading"><span className="page-kicker">LATEST · 最新題材動能 · {range}</span><span className="section-note">公開彙總</span></div>
-        <div className="momentum-table-wrap">
-          <div className="momentum-table-head"><span>#</span><span>題材</span><span>相關個股（點代號看基本面 · 點法人看資金流向）</span><span>動能</span><span>熱度</span><span>階段</span></div>
-          {themes.map((theme) => (
-            <article className="momentum-row" key={theme.theme_id}>
-              <span className="rank-num mono-num">{String(theme.rank).padStart(2, '0')}</span>
-              <div className="momentum-theme-name"><strong>{theme.name_zh}</strong><span>{theme.qualification_status === 'qualified' ? 'qualified' : 'near threshold'}</span></div>
-              <ThemeStockChips theme={theme} onGoStock={onGoStock} />
-              <strong className={`momentum-value mono-num ${theme.momentum_score >= 0 ? 'positive' : 'negative'}`}>{signed(theme.momentum_score)}</strong>
-              <strong className="heat-value mono-num">{theme.heat_score}</strong>
-              <span className="stage-value">{stageLabel(theme.lifecycle_stage)}</span>
-            </article>
-          ))}
-        </div>
-      </section>
-
-      <section className="momentum-history-section">
-        <div className="section-heading"><span className="page-kicker">HISTORY · 五題材同框折線圖</span><span className="section-note mono-num">{observations.length} observations</span></div>
-        <div className="history-context"><span>五大題材 · 動能分數 · 逐小時（缺少的小時保留為斷點）</span><span className="mono-num">{historyRangeLabel(observations)}</span></div>
-        <div className="history-legend">
-          {themes.map((theme, index) => {
-            const active = selectedThemeId === theme.theme_id;
-            return (
-              <button className={`legend-chip ${active ? 'is-active' : ''}`} key={theme.theme_id} type="button" onClick={() => setSelectedThemeId(active ? '' : theme.theme_id)}>
-                <span className="legend-swatch" style={{ background: lineColors[index] }} />
-                <span>{theme.name_zh}</span>
-                <b className="mono-num">{theme.heat_score}</b>
-                <em className={theme.momentum_score >= 0 ? 'positive' : 'negative'}>{signed(theme.momentum_score)}</em>
-              </button>
-            );
-          })}
-        </div>
+  const historySection = (
+    <section className="fd-section momentum-history-section" ref={historyRef} aria-label="熱度走勢">
+      <SectionHead title="熱度走勢" note={`五大題材，逐小時，${historyRangeLabel(observations)}，缺少的小時保留為斷點`} />
+      <div className="history-legend">
+        {themes.map((theme, index) => {
+          const active = selectedThemeId === theme.theme_id;
+          return (
+            <button className={`legend-chip ${active ? 'is-active' : ''}`} key={theme.theme_id} type="button" onClick={() => setSelectedThemeId(active ? '' : theme.theme_id)}>
+              <span className="legend-swatch" style={{ background: lineColors[index] }} />
+              <span>{theme.name_zh}</span>
+              <b className="mono-num">{theme.heat_score}</b>
+              <em className={theme.momentum_score >= 0 ? 'positive' : 'negative'}>{signed(theme.momentum_score)}</em>
+            </button>
+          );
+        })}
+      </div>
+      <div className="fd-box history-box">
         <div className="history-chart-scroll">
           <div className="history-chart-wrap">
             <svg viewBox="0 0 600 140" role="img" aria-label="五題材熱度歷史折線圖" preserveAspectRatio="none">
@@ -187,13 +212,84 @@ export const ThemeMomentum: React.FC<ThemeMomentumProps> = ({ data, focus = null
           </div>
           <div className="history-axis-labels" style={{ gridTemplateColumns: `repeat(${Math.max(observations.length, 1)}, minmax(0, 1fr))` }}>{observations.map((point) => <span key={point.observed_hour}>{historyHour(point.observed_hour)}</span>)}</div>
         </div>
-        {device === 'mobile' ? <p className="chart-mobile-note">左右滑動可查看完整圖表與圖例。</p> : null}
-      </section>
+      </div>
+      <p className="fd-meta fd-num">{observations.length} 個觀測點{mobile ? '，左右滑動可查看完整圖表' : ''}</p>
+    </section>
+  );
 
-      <details className="momentum-news-details">
-        <summary>題材新聞與完整成分股<span className="section-note">逐題材查看代表新聞、直接提及與供應鏈個股</span></summary>
+  const newsSection = (
+    <section className="fd-section" ref={newsRef} aria-label="題材新聞與成分股">
+      <details className="momentum-news-details" open={newsOpen} onToggle={(event) => setNewsOpen((event.target as HTMLDetailsElement).open)}>
+        <summary><span className="fd-summary-title">題材新聞與完整成分股</span><span className="fd-head-note">逐題材查看代表新聞、直接提及與供應鏈個股</span></summary>
         <ThemeCarousel data={data} device={device} onGoStock={onGoStock} />
       </details>
+    </section>
+  );
+
+  const rail = (
+    <aside className="fd-rail" aria-label="題材概覽">
+      <section className="fd-rail-block">
+        <SectionHead level={3} title="熱度排行" note={`${data.momentumLatest.themes.length} 個題材`} />
+        <ol className="fd-rank-list">
+          {heatRank.map((theme, index) => (
+            <li key={theme.theme_id}>
+              <span className="fd-rank">{index + 1}</span>
+              <span className="fd-rank-name">{theme.name_zh}</span>
+              <span className="fd-meter"><span className="fd-meter-track"><span style={{ width: `${Math.min(100, theme.heat_score)}%` }} /></span><span className="fd-num">{theme.heat_score}</span></span>
+              <span className="fd-faint fd-rank-stage">{stageLabel(theme.lifecycle_stage)}</span>
+            </li>
+          ))}
+        </ol>
+      </section>
+      {foreignBars.length > 0 ? (
+        <section className="fd-rail-block">
+          <SectionHead level={3} title="外資流向" note={focus ? `${focus.flow_window_days} 日，張` : undefined} />
+          <DivergingBars title="外資買賣超，依題材" note={shortDate(focus?.flow_as_of)} bars={foreignBars} />
+        </section>
+      ) : null}
+      {themeNews.length > 0 ? (
+        <section className="fd-rail-block">
+          <SectionHead level={3} title="題材代表新聞" />
+          <div className="fd-news">
+            {themeNews.map((theme) => (
+              <article className="fd-news-row" key={theme.theme_id}>
+                <a href={theme.representative_news!.canonical_url} target="_blank" rel="noreferrer">{theme.representative_news!.title_zh}</a>
+                <div className="fd-news-meta"><span>{theme.name_zh}</span><span>{theme.representative_news!.source}</span></div>
+              </article>
+            ))}
+          </div>
+        </section>
+      ) : null}
+    </aside>
+  );
+
+  const tabs = (
+    <PageTabs label="題材動能分區" tabs={[
+      { id: 'focus', label: '可關注題材', active: activeTab === 'focus', onClick: () => go('focus', focusRef) },
+      { id: 'latest', label: '動能排行', active: activeTab === 'latest', onClick: () => go('latest', latestRef) },
+      { id: 'history', label: '熱度走勢', active: activeTab === 'history', onClick: () => go('history', historyRef) },
+      { id: 'news', label: '新聞與成分股', active: activeTab === 'news', onClick: () => go('news', newsRef) },
+    ]} />
+  );
+  const hero = <PageHero title="題材動能" sentence={sentence} meta={focus ? `法人資料 ${shortDate(focus.flow_as_of)}，題材 ${shortDate(focus.theme_generated_at ?? focus.generated_at)}` : undefined} />;
+
+  if (mobile) {
+    return (
+      <div className="page-content momentum-page fd fd-page is-mobile">
+        {tabs}{hero}{focusSection}{latestSection}{rail}{historySection}{newsSection}
+        <p className="disclaimer">不構成投資建議。</p>
+      </div>
+    );
+  }
+  return (
+    <div className="page-content momentum-page fd fd-page">
+      {tabs}
+      <div className="fd-cols">
+        <div className="fd-main">{hero}{focusSection}{latestSection}{historySection}{newsSection}
+          <p className="disclaimer">不構成投資建議。</p>
+        </div>
+        {rail}
+      </div>
     </div>
   );
 };
