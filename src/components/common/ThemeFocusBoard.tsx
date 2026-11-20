@@ -17,8 +17,8 @@ const stanceHint: Record<ThemeFocusStance, string> = {
   focus: '新聞熱度與法人買盤同向，優先研究',
   money_first: '新聞還沒熱，法人已在布局',
   news_only: '話題熱但買盤不廣，等資金確認',
-  outflow: '多數成分股遭法人調節，避開追價',
-  watch: '訊號不足，持續觀察'
+  outflow: '多數成分股法人賣超，偏空',
+  watch: '訊號不足，方向不明'
 };
 
 export function formatLots(value: number): string {

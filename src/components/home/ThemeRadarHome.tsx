@@ -197,8 +197,8 @@ export const ThemeRadarHome: React.FC<ThemeRadarHomeProps> = ({ data, preMarket,
   ) : null;
 
   const riskBlock = risk ? (
-    <section className="fd-rail-block" aria-label="風險偏好">
-      <SectionHead level={3} title="風險偏好" note={`近 ${risk.windowHours} 小時新聞多空`} />
+    <section className="fd-rail-block" aria-label="新聞多空">
+      <SectionHead level={3} title="新聞多空" note={`近 ${risk.windowHours} 小時`} />
       <RiskBlock risk={risk} marketLean={preMarket?.market?.market.lean ?? null} />
     </section>
   ) : null;

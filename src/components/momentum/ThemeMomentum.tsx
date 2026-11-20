@@ -138,7 +138,7 @@ export const ThemeMomentum: React.FC<ThemeMomentumProps> = ({ data, focus = null
   const outflow = focusThemes.filter((theme) => theme.stance === 'outflow').length;
   const topFocus = focusThemes[0];
   const sentence = topFocus
-    ? `關注分最高是${topFocus.name_zh}（${topFocus.focus_score}，${topFocus.stance_label}）；${aligned} 個題材新聞與法人同向，${outflow} 個遭法人調節。`
+    ? `關注分最高是${topFocus.name_zh}（${topFocus.focus_score}，${topFocus.stance_label}）；${aligned} 個題材新聞與法人同向，${outflow} 個法人賣超。`
     : `${themes[0]?.name_zh ?? '—'} 熱度最高。`;
   const heatRank = data.momentumLatest.themes.slice().sort((a, b) => b.heat_score - a.heat_score).slice(0, 10);
   const foreignBars = focusThemes.slice().sort((a, b) => b.flow.foreign_5d - a.flow.foreign_5d)

@@ -367,7 +367,7 @@ export const CalendarList: React.FC<{ data: CalendarData; limit: number }> = ({ 
   const today = upcoming.filter((item) => item.day === data.today && item.impact !== 'low');
   const base = today.length > 0 ? today : upcoming.filter((item) => item.impact !== 'low');
   const shown = showAll ? upcoming : base.slice(0, limit);
-  if (shown.length === 0) return <p className="fd-faint fd-empty">本週已無待公布的經濟數據</p>;
+  if (shown.length === 0) return <p className="fd-faint fd-empty">本週已無待公布的經濟指標</p>;
   return (
     <>
       <div className="fd-cal">
@@ -389,7 +389,7 @@ export const CalendarList: React.FC<{ data: CalendarData; limit: number }> = ({ 
       </div>
       {upcoming.length > shown.length || showAll ? (
         <button type="button" className="fd-more" onClick={() => setShowAll((value) => !value)}>
-          {showAll ? '只看重要數據' : `本週全部 ${upcoming.length} 項`}
+          {showAll ? '只看重要指標' : `本週全部 ${upcoming.length} 項`}
         </button>
       ) : null}
     </>

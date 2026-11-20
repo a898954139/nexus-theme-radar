@@ -7,7 +7,7 @@ const PAGE_LABELS: Record<string, string> = {
   momentum: '題材動能',
   flows: '資金流向',
   stock: '個股',
-  sources: '源狀態'
+  sources: '來源狀態'
 };
 
 type ClarityFn = (...args: unknown[]) => void;

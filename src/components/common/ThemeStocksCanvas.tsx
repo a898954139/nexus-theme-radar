@@ -43,7 +43,7 @@ export const ThemeStocksCanvas: React.FC<ThemeStocksCanvasProps> = ({ themeName,
           <div>
             <span className="page-kicker">THEME STOCKS · 題材個股</span>
             <h2 id="theme-stocks-canvas-title">{themeName} · 題材股票</h2>
-            <p>全部標的已直接展開；內容較多時可在畫布內向下捲動，點擊代號可查看個股頁。</p>
+            <p>全部標的已直接展開；內容較多時可在畫布內向下捲動，點選代號可查看個股頁。</p>
           </div>
           <button type="button" className="theme-stocks-canvas-close" aria-label="關閉題材股票畫布" onClick={onClose}>×</button>
         </header>

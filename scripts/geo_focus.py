@@ -176,7 +176,7 @@ ACT_TYPES: tuple[tuple[str, float, str, tuple[str, ...]], ...] = (
         r"(close|attack|strike|hit|target|retaliat|ban|sanction|tariff)",
         r"if .{0,40}(arises|happens|continues|again)", r"no shortage of",
         r"warn(s|ed|ing)?\b", r"not be reopened")),
-    ("data", 0.78, "數據發布", (
+    ("data", 0.78, "經濟指標公布", (
         r"\b(cpi|ppi|gdp|pmi|nfp)\b",
         r"\b(rose|fell|declined|increased|up|down)\b.{0,22}\b(to|by)\b.{0,14}[\d.]+\s*(%|bln|trln|mln)",
         r"(report|index|survey|reading).{0,14}\b(shows?|at|hits?)\b",

@@ -123,6 +123,27 @@ def fetch_feed(
     return entries
 
 
+# Google's zh-TW output still carries a few mainland terms and s2t slips; the
+# site is read in Taiwan financial usage.
+TW_TERM_FIXES: tuple[tuple[str, str], ...] = (
+    ("幹預", "干預"),
+    ("信息", "資訊"),
+    ("數據中心", "資料中心"),
+    ("芯片", "晶片"),
+    ("美聯儲", "聯準會"),
+    ("互聯網", "網際網路"),
+    ("視頻", "影片"),
+    ("軟件", "軟體"),
+    ("硬件", "硬體"),
+)
+
+
+def tw_terms(text: str) -> str:
+    for source, target in TW_TERM_FIXES:
+        text = text.replace(source, target)
+    return text
+
+
 def translate_zh_tw(session: requests.Session, text: str, timeout: int = 12) -> str | None:
     """Translate to Traditional Chinese, Taiwan locale.
 
@@ -143,7 +164,7 @@ def translate_zh_tw(session: requests.Session, text: str, timeout: int = 12) -> 
     except (requests.RequestException, ValueError, IndexError, KeyError) as exc:
         LOGGER.warning("translation failed (%s): %s", type(exc).__name__, exc)
         return None
-    return translated or None
+    return tw_terms(translated) or None
 
 
 def load_json(path: Path, default: Any) -> Any:
@@ -213,7 +234,9 @@ def archive_expired(expired: list[dict[str, Any]], archive_dir: Path) -> None:
 def build_payload(output_dir: Path, now: datetime, skip_translate: bool = False) -> dict[str, Any]:
     session = requests.Session()
     cache_path = output_dir / TRANSLATION_CACHE
-    translations: dict[str, str] = load_json(cache_path, {})
+    translations: dict[str, str] = {
+        title: tw_terms(rendered) for title, rendered in load_json(cache_path, {}).items()
+    }
 
     try:
         entries = fetch_feed(session)
