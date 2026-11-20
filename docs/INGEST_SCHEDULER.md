@@ -1,5 +1,7 @@
 # High-frequency ingest scheduler (issue #7)
 
+> **2026-11-20:** scheduling moved to the Mac (`ops/mac/jobs.conf`, job `ingest`). The pg_cron jobs below are unscheduled; `radar.invoke_ingest` and `/api/cron/ingest` remain as a manual fallback. See `ops/mac/README.md`.
+
 GitHub Actions `schedule` fires every 4–8 hours in practice, not hourly. News
 ingestion therefore moves to a scheduler that reliably runs every 5 minutes and
 writes straight to the private `radar` schema.
