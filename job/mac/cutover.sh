@@ -112,7 +112,7 @@ have() { grep -qE "^(export )?$1=." "$ENV_FILE"; }
 ask() {  # $1 name, $2 hint, $3 required(1/0)
   if have "$1"; then ok "$1 set"; return; fi
   printf '   %s（%s）%s: ' "$1" "$2" "$([ "$3" = 1 ] && echo '' || echo '，可直接 Enter 跳過')"
-  local v; IFS= read -rs v; echo
+  local v=""; IFS= read -rs v || true; echo
   if [ -z "$v" ]; then [ "$3" = 1 ] && fail "$1 is required"; warn "$1 skipped"; return; fi
   printf '%s=%s\n' "$1" "$v" >> "$ENV_FILE"; ok "$1 saved"
 }
@@ -165,7 +165,7 @@ for e in json.load(open(sys.argv[1])).get("envs",[]):
   [ -z "$VAL" ] && [ "$key" = RADAR_TRACKING_API_KEYS ] && VAL=${RADAR_TRACKING_API_KEYS:-}
   if [ -z "$VAL" ] && [ "$key" = RADAR_API_DATABASE_URL ]; then
     printf '   RADAR_API_DATABASE_URL 讀不回來（敏感變數）。請貼上 radar_api 唯讀連線字串: '
-    IFS= read -rs VAL; echo
+    IFS= read -rs VAL || true; echo
     [ -n "$VAL" ] || fail "RADAR_API_DATABASE_URL is required for the backend"
   fi
   if [ -z "$VAL" ]; then [ -n "$EID" ] && warn "$key unreadable, not copied" || true; continue; fi
@@ -286,7 +286,7 @@ NTR status || true
 # ---------- 9 電源 ----------
 step "9 Power (optional, needs sudo)"
 pmset -g custom 2>/dev/null | grep -E '^ *(sleep|disksleep) ' | sed 's/^/   now: /' || true
-printf '   插電時不睡眠 + 每天 05:55 喚醒？[y/N] '; read -r yn
+printf '   插電時不睡眠 + 每天 05:55 喚醒？[y/N] '; read -r yn || yn=n
 if [ "$yn" = y ] || [ "$yn" = Y ]; then
   sudo pmset -c sleep 0 disksleep 0 && sudo pmset repeat wakeorpoweron MTWRFSU 05:55:00 && ok "pmset set" || warn "pmset failed"
 else
