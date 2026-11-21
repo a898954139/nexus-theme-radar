@@ -155,6 +155,7 @@ fi
 
 # 從前端專案複製 API 需要的 env（敏感值讀不回來時改問你）
 vapi "https://api.vercel.com/v9/projects/$FRONT_PROJECT/env?$Q" > "$TMP/envs.json"
+vapi "https://api.vercel.com/v9/projects/$API_ID/env?$Q" > "$TMP/api-envs.json"
 [ -f "$CFG/vercel-secrets.env" ] && . "$CFG/vercel-secrets.env"
 for key in $API_ENV_KEYS; do
   EID=$(python3 -c 'import json,sys
@@ -163,6 +164,10 @@ for e in json.load(open(sys.argv[1])).get("envs",[]):
   VAL=""
   [ -n "$EID" ] && VAL=$(vapi "https://api.vercel.com/v1/projects/$FRONT_PROJECT/env/$EID?$Q" | jget value)
   [ -z "$VAL" ] && [ "$key" = RADAR_TRACKING_API_KEYS ] && VAL=${RADAR_TRACKING_API_KEYS:-}
+  if [ -z "$VAL" ] && python3 -c 'import json,sys
+sys.exit(0 if any(e["key"]==sys.argv[2] for e in json.load(open(sys.argv[1])).get("envs",[])) else 1)' "$TMP/api-envs.json" "$key"; then
+    ok "env $key already on $API_PROJECT (kept)"; continue
+  fi
   if [ -z "$VAL" ] && [ "$key" = RADAR_API_DATABASE_URL ]; then
     printf '   RADAR_API_DATABASE_URL 讀不回來（敏感變數）。請貼上 radar_api 唯讀連線字串: '
     IFS= read -rs VAL || true; echo
