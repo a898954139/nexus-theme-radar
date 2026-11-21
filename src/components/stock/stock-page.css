@@ -1,0 +1,84 @@
+/* Single-stock page: dense flow tab, compact fundamentals, and (dark only)
+   a solid backdrop under the data so the decorative K-line artwork never
+   sits behind real numbers. Taiwan colours: red = up, green = down. */
+
+/* ---------- three-institution flow tab ---------- */
+.sf { padding: 14px 20px 20px; }
+.sf-head { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 6px 16px; margin-bottom: 10px; }
+.sf-unit { color: var(--faint); font: 400 11px var(--font-num); }
+.sf-grid { display: grid; grid-template-columns: minmax(0, 1fr); gap: 16px; }
+@media (min-width: 1180px) {
+  .sf-grid { grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr); align-items: start; }
+}
+.sf-left { display: grid; gap: 14px; min-width: 0; }
+
+.sf-table { width: 100%; border-collapse: collapse; font-size: 12px; font-variant-numeric: tabular-nums; }
+.sf-table th, .sf-table td { padding: 5px 10px; border-bottom: 1px solid var(--sub-line); text-align: right; white-space: nowrap; }
+.sf-table thead th { color: var(--faint); font: 400 11px var(--font-sans); border-bottom-color: var(--line); }
+.sf-table th:first-child { text-align: left; }
+.sf-table tbody th { color: var(--text); font-weight: 400; }
+.sf-table tbody tr:hover { background: color-mix(in srgb, var(--text) 4%, transparent); }
+.sf-table .sf-total { font-weight: 600; }
+.sf-window tbody th { color: var(--muted); }
+.sf-window .sf-streak td { font-size: 11px; }
+.sf-window .sf-streak th, .sf-window .sf-streak td { border-bottom: 0; padding-top: 7px; }
+
+.sf-bar-col { width: 18%; min-width: 90px; }
+.sf-bar { position: relative; display: block; height: 10px; }
+.sf-bar::before { content: ''; position: absolute; top: -2px; bottom: -2px; left: 50%; width: 1px; background: var(--line); }
+.sf-bar i { position: absolute; top: 0; height: 100%; border-radius: 1px; opacity: .85; }
+.sf-bar i.up { background: var(--up); }
+.sf-bar i.down { background: var(--down); }
+
+.sf-more { display: block; width: 100%; margin-top: 6px; padding: 7px 0; border: 1px dashed var(--line); border-radius: 6px; background: transparent; color: var(--muted); font-size: 11px; cursor: pointer; }
+.sf-more:hover { border-color: var(--gold); color: var(--gold-hover); }
+
+.sf-chart { padding: 10px 12px 6px; border: 1px solid var(--line); border-radius: 8px; }
+.sf-chart-head { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 6px 12px; color: var(--muted); font-size: 11px; }
+.sf-legend { display: flex; flex-wrap: wrap; gap: 12px; }
+.sf-legend > span { display: inline-flex; align-items: center; gap: 5px; }
+.sf-legend i { display: inline-block; width: 9px; height: 9px; border-radius: 1px; }
+.sf-legend .sf-legend-up { background: var(--up); }
+.sf-legend .sf-legend-down { background: var(--down); }
+.sf-legend .sf-legend-line { width: 12px; height: 2px; background: var(--gold); }
+.sf-legend b { font: 600 11px var(--font-num); }
+.sf-chart svg { display: block; width: 100%; height: 170px; margin-top: 6px; }
+
+/* ---------- fundamentals: one dense row of metrics ---------- */
+.stock-page .stock-body .metric-grid { grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 8px; padding: 12px 20px; }
+.stock-page .stock-body .metric-card { min-height: 0; gap: 6px; padding: 10px 12px; }
+.stock-page .stock-body .metric-card strong { font-size: 20px; }
+.trend-bar-faint { fill: var(--faint); opacity: .75; }
+
+/* ---------- K-line: use the screen height ---------- */
+.stock-page .stock-body .tradingview-chart-shell { height: max(520px, calc(100vh - 330px)); }
+
+/* ---------- pre-market line (only when a report exists or stock is not listed) ---------- */
+.stock-page .stock-body .daily-report.is-slim { margin: 10px 20px 0; padding: 6px 12px; }
+
+@media (max-width: 719px) {
+  .sf { padding: 12px 16px 16px; }
+  .sf-table th, .sf-table td { padding: 5px 6px; font-size: 11px; }
+  .sf-daily { overflow-x: auto; }
+  .sf-daily .sf-table { min-width: 560px; }
+  .stock-page .stock-body .metric-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); padding: 12px 16px; }
+  .stock-page .stock-body .tradingview-chart-shell { height: 440px; }
+}
+
+/* ---------- v10 dark: solid panel under every tab's data ---------- */
+:root:not([data-theme="light"]) .app-root .stock-page .stock-body {
+  --shell-bg: #120e0a;
+  --surface-bg: rgba(255, 240, 210, 0.05);
+  --card-bg: rgba(255, 240, 210, 0.035);
+  margin: 0 0 12px;
+  padding-bottom: 8px;
+  border-top: 1px solid var(--glass-border);
+  border-bottom: 1px solid var(--glass-border);
+  background: rgba(13, 10, 7, 0.94);
+  box-shadow: 0 18px 44px rgba(0, 0, 0, 0.35);
+  -webkit-backdrop-filter: blur(24px);
+  backdrop-filter: blur(24px);
+}
+:root:not([data-theme="light"]) .app-root .stock-page .stock-tabs {
+  background: rgba(13, 10, 7, 0.9);
+}

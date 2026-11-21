@@ -35,6 +35,7 @@ export const TradingViewChart: React.FC<TradingViewChartProps> = ({ code, exchan
       };
     }
 
+    const isLight = document.documentElement.dataset.theme === 'light';
     const widget = document.createElement('div');
     widget.className = 'tradingview-widget-container__widget';
     container.appendChild(widget);
@@ -54,7 +55,10 @@ export const TradingViewChart: React.FC<TradingViewChartProps> = ({ code, exchan
       symbol: `${safeExchange}:${safeCode}`,
       interval: 'D',
       timezone: 'exchange',
-      theme: 'dark',
+      // follow the site theme; dark matches the v10 panel backdrop
+      theme: isLight ? 'light' : 'dark',
+      backgroundColor: isLight ? '#FFFFFF' : '#0E0B08',
+      gridColor: isLight ? 'rgba(0, 0, 0, 0.06)' : 'rgba(255, 225, 170, 0.06)',
       style: '1',
       locale: 'zh_TW',
       allow_symbol_change: false,
