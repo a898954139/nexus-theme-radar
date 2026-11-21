@@ -2,16 +2,16 @@
   "schema_version": "nexus_public_theme_ranking.v0.8",
   "ranking_rule_version": "public_theme_heat_v0.8",
   "company_rule_version": "public_company_evidence_v0.8",
-  "generated_at": "2026-11-21T02:19:08.491629Z",
+  "generated_at": "2026-11-21T11:07:57.357526Z",
   "market_id": "TW_EQUITY",
   "market_scope": [
     "TW_EQUITY"
   ],
   "window_hours": 72,
   "max_themes": 5,
-  "qualified_theme_count": 6,
-  "displayed_theme_count": 5,
-  "threshold_note": null,
+  "qualified_theme_count": 3,
+  "displayed_theme_count": 3,
+  "threshold_note": "目前僅 3 個題材達到上榜門檻",
   "generation_status": "complete",
   "failed_source_count": 0,
   "official_evidence_status": "available",
@@ -20,17 +20,17 @@
       "rank": 1,
       "theme_id": "statementdog_tag_1517",
       "name_zh": "AI",
-      "heat_score": 76,
+      "heat_score": 79,
       "summaries": {
-        "event_count": 27,
+        "event_count": 29,
         "source_count": 4,
         "tracking_candidate_count": 0,
-        "taiwan_mapping_count": 100
+        "taiwan_mapping_count": 128
       },
       "heat_reason": {
         "rule_version": "public_theme_heat_v0.8",
         "event_component": {
-          "input": 27,
+          "input": 29,
           "normalized": 100.0,
           "weighted": 25.0
         },
@@ -45,14 +45,14 @@
           "weighted": 0.0
         },
         "mapping_component": {
-          "mapping_count": 100,
-          "direct_mapping_event_count": 4,
+          "mapping_count": 128,
+          "direct_mapping_event_count": 5,
           "normalized": 100.0,
           "weighted": 30.0
         },
-        "single_source_concentration": 0.704,
-        "concentration_penalty": 3.889,
-        "raw_score": 76.111
+        "single_source_concentration": 0.633,
+        "concentration_penalty": 1.25,
+        "raw_score": 78.75
       },
       "direct_mentions": [
         {
@@ -60,8 +60,24 @@
           "symbol": "2455",
           "exchange": "TWSE",
           "name_zh": "全新",
-          "direct_event_count": 3,
-          "latest_mentioned_at": "2026-11-21T02:02:22Z"
+          "direct_event_count": 2,
+          "latest_mentioned_at": "2026-11-21T05:30:16Z"
+        },
+        {
+          "instrument_id": "TWSE:2330",
+          "symbol": "2330",
+          "exchange": "TWSE",
+          "name_zh": "台積電",
+          "direct_event_count": 1,
+          "latest_mentioned_at": "2026-11-21T10:12:26Z"
+        },
+        {
+          "instrument_id": "TPEX:4160",
+          "symbol": "4160",
+          "exchange": "TPEX",
+          "name_zh": "訊聯基因",
+          "direct_event_count": 1,
+          "latest_mentioned_at": "2026-11-21T03:12:41Z"
         },
         {
           "instrument_id": "TPEX:8299",
@@ -73,6 +89,17 @@
         }
       ],
       "supply_chain_candidates": [
+        {
+          "instrument_id": "TWSE:2330",
+          "symbol": "2330",
+          "exchange": "TWSE",
+          "name_zh": "台積電",
+          "direct_event_count": 1,
+          "official_evidence_count": 0,
+          "company_rank_score": 5,
+          "latest_mentioned_at": "2026-11-21T10:12:26Z",
+          "latest_official_at": null
+        },
         {
           "instrument_id": "TPEX:3081",
           "symbol": "3081",
@@ -94,362 +121,21 @@
           "company_rank_score": 1,
           "latest_mentioned_at": null,
           "latest_official_at": null
-        },
-        {
-          "instrument_id": "TPEX:3363",
-          "symbol": "3363",
-          "exchange": "TPEX",
-          "name_zh": "上詮",
-          "direct_event_count": 0,
-          "official_evidence_count": 0,
-          "company_rank_score": 1,
-          "latest_mentioned_at": null,
-          "latest_official_at": null
         }
       ],
       "representative_news": {
-        "cluster_id": "cluster-760305b0029d2b77",
-        "id": "yahoo_finance_tw-05ec9dd583b4",
-        "title_zh": "Google搜尋首頁大改版 導入Gemini側邊欄與AI捷徑",
-        "summary": "商傳媒｜葉安庭／綜合外電報導維持簡約風格超過二十年的Google搜尋首頁迎來重大改版。科技媒體《Chrome Unboxed》報導，Google正針對電腦版搜尋首頁推出全新設計，全面整合旗下人工智慧模",
-        "source_id": "yahoo_finance_tw",
-        "source": "Yahoo Finance Taiwan",
-        "published_at": "2026-11-21T02:02:22Z",
-        "canonical_url": "https://tw.stock.yahoo.com/news/google%E6%90%9C%E5%B0%8B%E9%A6%96%E9%A0%81%E5%A4%A7%E6%94%B9%E7%89%88-%E5%B0%8E%E5%85%A5gemini%E5%81%B4%E9%82%8A%E6%AC%84%E8%88%87ai%E6%8D%B7%E5%BE%91-020222139.html"
+        "cluster_id": "cluster-cc939dbfc5aebd70",
+        "id": "cnyes-e3d0489c5a00",
+        "title_zh": "台積電周線重挫15.8%！台股創36年最慘單周紀錄、美收緊AI晶片出口管制添壓",
+        "summary": "台積電股價疲弱，台股周五跌6.23%，本周累跌約17.5%，創1990年來最大單周跌幅&#10;美國商務部對海外資料中心出租AI運算能力、向中國企業提供服務加嚴出口管制，BIS新規11月19日生效&#10;台積電ADR收318.71美元，跌至4月2日來低點，已跌破200日均線並較20日均線低約15.8%",
+        "source_id": "cnyes",
+        "source": "鉅亨網 Cnyes",
+        "published_at": "2026-11-21T10:12:26Z",
+        "canonical_url": "https://news.cnyes.com/news/id/6669709"
       }
     },
     {
       "rank": 2,
-      "theme_id": "statementdog_tag_2163",
-      "name_zh": "半導體",
-      "heat_score": 59,
-      "summaries": {
-        "event_count": 4,
-        "source_count": 2,
-        "tracking_candidate_count": 0,
-        "taiwan_mapping_count": 25
-      },
-      "heat_reason": {
-        "rule_version": "public_theme_heat_v0.8",
-        "event_component": {
-          "input": 4,
-          "normalized": 66.667,
-          "weighted": 16.667
-        },
-        "source_component": {
-          "input": 2,
-          "normalized": 50.0,
-          "weighted": 12.5
-        },
-        "candidate_component": {
-          "input": 0,
-          "normalized": 0.0,
-          "weighted": 0.0
-        },
-        "mapping_component": {
-          "mapping_count": 25,
-          "direct_mapping_event_count": 3,
-          "normalized": 100.0,
-          "weighted": 30.0
-        },
-        "single_source_concentration": 0.5,
-        "concentration_penalty": 0.0,
-        "raw_score": 59.167
-      },
-      "direct_mentions": [
-        {
-          "instrument_id": "TWSE:2308",
-          "symbol": "2308",
-          "exchange": "TWSE",
-          "name_zh": "台達電",
-          "direct_event_count": 1,
-          "latest_mentioned_at": "2026-11-20T10:45:16Z"
-        },
-        {
-          "instrument_id": "TWSE:3533",
-          "symbol": "3533",
-          "exchange": "TWSE",
-          "name_zh": "嘉澤",
-          "direct_event_count": 1,
-          "latest_mentioned_at": "2026-11-20T08:30:02Z"
-        },
-        {
-          "instrument_id": "TWSE:3550",
-          "symbol": "3550",
-          "exchange": "TWSE",
-          "name_zh": "聯穎",
-          "direct_event_count": 1,
-          "latest_mentioned_at": "2026-11-20T08:30:02Z"
-        },
-        {
-          "instrument_id": "TWSE:5234",
-          "symbol": "5234",
-          "exchange": "TWSE",
-          "name_zh": "達興材料",
-          "direct_event_count": 1,
-          "latest_mentioned_at": "2026-11-20T08:30:02Z"
-        },
-        {
-          "instrument_id": "TWSE:2049",
-          "symbol": "2049",
-          "exchange": "TWSE",
-          "name_zh": "上銀",
-          "direct_event_count": 1,
-          "latest_mentioned_at": "2026-11-19T18:50:42Z"
-        }
-      ],
-      "supply_chain_candidates": [
-        {
-          "instrument_id": "TPEX:3131",
-          "symbol": "3131",
-          "exchange": "TPEX",
-          "name_zh": "弘塑",
-          "direct_event_count": 0,
-          "official_evidence_count": 0,
-          "company_rank_score": 1,
-          "latest_mentioned_at": null,
-          "latest_official_at": null
-        },
-        {
-          "instrument_id": "TPEX:3680",
-          "symbol": "3680",
-          "exchange": "TPEX",
-          "name_zh": "家登",
-          "direct_event_count": 0,
-          "official_evidence_count": 0,
-          "company_rank_score": 1,
-          "latest_mentioned_at": null,
-          "latest_official_at": null
-        },
-        {
-          "instrument_id": "TPEX:6488",
-          "symbol": "6488",
-          "exchange": "TPEX",
-          "name_zh": "環球晶",
-          "direct_event_count": 0,
-          "official_evidence_count": 0,
-          "company_rank_score": 1,
-          "latest_mentioned_at": null,
-          "latest_official_at": null
-        }
-      ],
-      "representative_news": {
-        "cluster_id": "cluster-8af32815f6d16140",
-        "id": "cnyes-52a7fe2390c1",
-        "title_zh": "〈數位至匯登興櫃〉從半導體、創投轉戰移工匯兌 引進台達電等長線資金打造服務生態圈",
-        "summary": "數位至匯魏仁裕2022年初掌舵後，轉攻移工跨境金融，起點來自照顧病父時陪外籍看護匯款的體悟。&#10;公司引進台達電、佳世達等長期資金，並以扁平組織加速取得執照、開辦多國業務。&#10;他稱合法匯兌外仍有20%至30%黑市空間，越南管控地下匯兌後合規匯款成長加速。",
-        "source_id": "cnyes",
-        "source": "鉅亨網 Cnyes",
-        "published_at": "2026-11-20T10:45:16Z",
-        "canonical_url": "https://news.cnyes.com/news/id/6669300"
-      }
-    },
-    {
-      "rank": 3,
-      "theme_id": "memory_hbm",
-      "name_zh": "記憶體與 HBM",
-      "heat_score": 57,
-      "summaries": {
-        "event_count": 3,
-        "source_count": 2,
-        "tracking_candidate_count": 2,
-        "taiwan_mapping_count": 15
-      },
-      "heat_reason": {
-        "rule_version": "public_theme_heat_v0.8",
-        "event_component": {
-          "input": 3,
-          "normalized": 50.0,
-          "weighted": 12.5
-        },
-        "source_component": {
-          "input": 2,
-          "normalized": 50.0,
-          "weighted": 12.5
-        },
-        "candidate_component": {
-          "input": 2,
-          "normalized": 50.0,
-          "weighted": 10.0
-        },
-        "mapping_component": {
-          "mapping_count": 15,
-          "direct_mapping_event_count": 1,
-          "normalized": 80.0,
-          "weighted": 24.0
-        },
-        "single_source_concentration": 0.667,
-        "concentration_penalty": 2.5,
-        "raw_score": 56.5
-      },
-      "direct_mentions": [
-        {
-          "instrument_id": "TWSE:2408",
-          "symbol": "2408",
-          "exchange": "TWSE",
-          "name_zh": "南亞科",
-          "direct_event_count": 1,
-          "latest_mentioned_at": "2026-11-19T18:16:08Z"
-        }
-      ],
-      "supply_chain_candidates": [
-        {
-          "instrument_id": "TWSE:2408",
-          "symbol": "2408",
-          "exchange": "TWSE",
-          "name_zh": "南亞科",
-          "direct_event_count": 1,
-          "official_evidence_count": 0,
-          "company_rank_score": 5,
-          "latest_mentioned_at": "2026-11-19T18:16:08Z",
-          "latest_official_at": null
-        },
-        {
-          "instrument_id": "TPEX:3260",
-          "symbol": "3260",
-          "exchange": "TPEX",
-          "name_zh": "威剛",
-          "direct_event_count": 0,
-          "official_evidence_count": 0,
-          "company_rank_score": 1,
-          "latest_mentioned_at": null,
-          "latest_official_at": null
-        },
-        {
-          "instrument_id": "TPEX:4973",
-          "symbol": "4973",
-          "exchange": "TPEX",
-          "name_zh": "廣穎電通",
-          "direct_event_count": 0,
-          "official_evidence_count": 0,
-          "company_rank_score": 1,
-          "latest_mentioned_at": null,
-          "latest_official_at": null
-        }
-      ],
-      "representative_news": {
-        "cluster_id": "cluster-eae002bc59c94aff",
-        "id": "digitimes_tw-d24d107c66f1",
-        "title_zh": "美國管制漏洞？　中國繞道新加坡進口HBM設備　擬複製SK海力士技術",
-        "summary": "中國記憶體企業為規避美國出口管制，正透過新加坡大量進口半導體設備。據悉，其尤其集中引進與SK海力士（SK Hynix）高頻寬記憶體（HBM）關鍵封裝技術MR-MUF相關的設備。分析認為，中國不再只是擴大半導體",
-        "source_id": "digitimes_tw",
-        "source": "DIGITIMES",
-        "published_at": "2026-11-20T01:39:21Z",
-        "canonical_url": "https://www.digitimes.com.tw/tech/dt/n/shwnws.asp?id=0000775474_5WH5N4Q46P7XBY5EW15Y6"
-      }
-    },
-    {
-      "rank": 4,
-      "theme_id": "optical_cpo",
-      "name_zh": "矽光子 CPO",
-      "heat_score": 48,
-      "summaries": {
-        "event_count": 4,
-        "source_count": 2,
-        "tracking_candidate_count": 0,
-        "taiwan_mapping_count": 20
-      },
-      "heat_reason": {
-        "rule_version": "public_theme_heat_v0.8",
-        "event_component": {
-          "input": 4,
-          "normalized": 66.667,
-          "weighted": 16.667
-        },
-        "source_component": {
-          "input": 2,
-          "normalized": 50.0,
-          "weighted": 12.5
-        },
-        "candidate_component": {
-          "input": 0,
-          "normalized": 0.0,
-          "weighted": 0.0
-        },
-        "mapping_component": {
-          "mapping_count": 20,
-          "direct_mapping_event_count": 1,
-          "normalized": 80.0,
-          "weighted": 24.0
-        },
-        "single_source_concentration": 0.75,
-        "concentration_penalty": 5.625,
-        "raw_score": 47.542
-      },
-      "direct_mentions": [
-        {
-          "instrument_id": "TPEX:3081",
-          "symbol": "3081",
-          "exchange": "TPEX",
-          "name_zh": "聯亞",
-          "direct_event_count": 1,
-          "latest_mentioned_at": "2026-11-20T05:15:25Z"
-        },
-        {
-          "instrument_id": "TPEX:3163",
-          "symbol": "3163",
-          "exchange": "TPEX",
-          "name_zh": "波若威",
-          "direct_event_count": 1,
-          "latest_mentioned_at": "2026-11-20T05:15:25Z"
-        },
-        {
-          "instrument_id": "TWSE:6442",
-          "symbol": "6442",
-          "exchange": "TWSE",
-          "name_zh": "光聖",
-          "direct_event_count": 1,
-          "latest_mentioned_at": "2026-11-20T05:15:25Z"
-        }
-      ],
-      "supply_chain_candidates": [
-        {
-          "instrument_id": "TPEX:3289",
-          "symbol": "3289",
-          "exchange": "TPEX",
-          "name_zh": "宜特",
-          "direct_event_count": 0,
-          "official_evidence_count": 0,
-          "company_rank_score": 1,
-          "latest_mentioned_at": null,
-          "latest_official_at": null
-        },
-        {
-          "instrument_id": "TPEX:3587",
-          "symbol": "3587",
-          "exchange": "TPEX",
-          "name_zh": "閎康",
-          "direct_event_count": 0,
-          "official_evidence_count": 0,
-          "company_rank_score": 1,
-          "latest_mentioned_at": null,
-          "latest_official_at": null
-        },
-        {
-          "instrument_id": "TPEX:4971",
-          "symbol": "4971",
-          "exchange": "TPEX",
-          "name_zh": "IET-KY",
-          "direct_event_count": 0,
-          "official_evidence_count": 0,
-          "company_rank_score": 1,
-          "latest_mentioned_at": null,
-          "latest_official_at": null
-        }
-      ],
-      "representative_news": {
-        "cluster_id": "cluster-71f78850f3c3543d",
-        "id": "cnyes-e6579060f163",
-        "title_zh": "〈晶呈法說〉晶呈展2項光纖專利新技術布局市場 不受AI需求疑放緩減少擴產",
-        "summary": "晶呈科今法說稱AI客戶需求未變，TGV擴產如期推進，2027年底前將完成12條產線。&#10;公司展示2項光纖自動化組裝專利，盼提升FAU效率與良率，加速CPO產品商業化。&#10;晶呈指TGV客戶集中通訊ASIC與CPO FAU，專利布局至2026/10/31已取得103件、申請中49件。",
-        "source_id": "cnyes",
-        "source": "鉅亨網 Cnyes",
-        "published_at": "2026-11-20T12:38:14Z",
-        "canonical_url": "https://news.cnyes.com/news/id/6669422"
-      }
-    },
-    {
-      "rank": 5,
       "theme_id": "energy_grid",
       "name_zh": "能源與電網",
       "heat_score": 45,
@@ -540,6 +226,91 @@
         "source": "TechNews",
         "published_at": "2026-11-20T09:10:16Z",
         "canonical_url": "https://technews.tw/2026/11/20/iea-warned-data-center-power-use-could-double-by-2030-straining-grids/"
+      }
+    },
+    {
+      "rank": 3,
+      "theme_id": "statementdog_tag_1404",
+      "name_zh": "寵物",
+      "heat_score": 39,
+      "summaries": {
+        "event_count": 2,
+        "source_count": 2,
+        "tracking_candidate_count": 0,
+        "taiwan_mapping_count": 6
+      },
+      "heat_reason": {
+        "rule_version": "public_theme_heat_v0.8",
+        "event_component": {
+          "input": 2,
+          "normalized": 33.333,
+          "weighted": 8.333
+        },
+        "source_component": {
+          "input": 2,
+          "normalized": 50.0,
+          "weighted": 12.5
+        },
+        "candidate_component": {
+          "input": 0,
+          "normalized": 0.0,
+          "weighted": 0.0
+        },
+        "mapping_component": {
+          "mapping_count": 6,
+          "direct_mapping_event_count": 0,
+          "normalized": 60.0,
+          "weighted": 18.0
+        },
+        "single_source_concentration": 0.5,
+        "concentration_penalty": 0.0,
+        "raw_score": 38.833
+      },
+      "direct_mentions": [],
+      "supply_chain_candidates": [
+        {
+          "instrument_id": "TPEX:6469",
+          "symbol": "6469",
+          "exchange": "TPEX",
+          "name_zh": "大樹",
+          "direct_event_count": 0,
+          "official_evidence_count": 0,
+          "company_rank_score": 1,
+          "latest_mentioned_at": null,
+          "latest_official_at": null
+        },
+        {
+          "instrument_id": "TPEX:6617",
+          "symbol": "6617",
+          "exchange": "TPEX",
+          "name_zh": "共信-KY",
+          "direct_event_count": 0,
+          "official_evidence_count": 0,
+          "company_rank_score": 1,
+          "latest_mentioned_at": null,
+          "latest_official_at": null
+        },
+        {
+          "instrument_id": "TPEX:6968",
+          "symbol": "6968",
+          "exchange": "TPEX",
+          "name_zh": "萬達寵物",
+          "direct_event_count": 0,
+          "official_evidence_count": 0,
+          "company_rank_score": 1,
+          "latest_mentioned_at": null,
+          "latest_official_at": null
+        }
+      ],
+      "representative_news": {
+        "cluster_id": "cluster-c9c3284852f6cda2",
+        "id": "yahoo_finance_tw-7da747b048e2",
+        "title_zh": "整合病歷與雙登入系統 寵物照護App奪蘇格蘭創業賽冠軍",
+        "summary": "圖／示意圖商傳媒｜簡明心／綜合外電報導寵物照護與數位科技整合成為新創領域的焦點。在英國蘇格蘭北拉納克郡（North Lanarkshire）舉辦的 2026 年「龍穴」（Dragon’s Lair）青",
+        "source_id": "yahoo_finance_tw",
+        "source": "Yahoo Finance Taiwan",
+        "published_at": "2026-11-21T08:55:28Z",
+        "canonical_url": "https://tw.stock.yahoo.com/news/%E6%95%B4%E5%90%88%E7%97%85%E6%AD%B7%E8%88%87%E9%9B%99%E7%99%BB%E5%85%A5%E7%B3%BB%E7%B5%B1-%E5%AF%B5%E7%89%A9%E7%85%A7%E8%AD%B7app%E5%A5%AA%E8%98%87%E6%A0%BC%E8%98%AD%E5%89%B5%E6%A5%AD%E8%B3%BD%E5%86%A0%E8%BB%8D-085528519.html"
       }
     }
   ]
