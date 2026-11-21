@@ -1,38 +1,19 @@
-# Data files not fetched by the frontend (exact paths; keep the 7 required JSONs)
-data/archive.json
-data/title-zh-cache.json
-data/persona-cache.json
-data/merge-log.json
-data/paid-source-state.json
-# Pipeline inputs never served by the site or read by api/ (2.4k+ small files;
-# the free-plan CLI upload limit is 5,000 files/day, so every file counts).
-data/flows/
-data/backtest/
-data/market/
-data/pre-market-archive/
-data/pre-market-title-zh.json
-data/latest-24h-all-raw.json
-data/theme-symbol-fundamentals.json
-data/fundamental-commentary.json
-
-# Non-site directories
-# scripts/ and requirements.txt are NOT ignored: the Python functions under api/
-# import scripts/ingest_runner.py and Vercel installs requirements.txt for them.
-# vercel.json redirects /scripts/* so the source is not browsable as static files.
+# Root project = the FRONT layer only (vercel.json builds front/).
+# The backend deploys as its own Vercel project (root directory: backend/).
+backend/
+db/
 tests/
 docs/
-reports/
-feeds/
-examples/
+skills/
 .github/
 .agents/
-
-# Local dev artifacts
 .venv/
 .pytest_cache/
-
-# Repo metadata / dev files
-requirements-dev.txt
+front/node_modules/
+front/dist/
+# job/ is pipeline code and state; only its static reports are copied into the site.
+job/*
+!job/reports/
 AGENTS.md
 CLAUDE.md
 skills-lock.json

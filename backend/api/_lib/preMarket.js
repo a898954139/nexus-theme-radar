@@ -2,7 +2,7 @@
 // can be contract-tested with a fake query (tests/js/pre-market-api.test.mjs).
 // Files under api/_lib are not deployed as functions (leading underscore).
 
-import { isPreMarketPayload } from '../../src/lib/preMarketContract.js';
+import { isPreMarketPayload } from './preMarketContract.js';
 
 export const CACHE_CONTROL_OK = 'public, s-maxage=60, stale-while-revalidate=300';
 export const CACHE_CONTROL_ERROR = 'no-store';

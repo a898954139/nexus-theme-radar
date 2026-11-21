@@ -25,8 +25,7 @@ on:
         required: false
         default: "60"
         type: string
-  schedule:
-    - cron: "20 9 * * 1-5"
+  # Scheduled runs moved to the Mac (job/mac/jobs.conf). Manual fallback only.
 
 concurrency:
   # Two runs would race on the same 2,388 symbol files and the loser's writes
@@ -37,6 +36,11 @@ concurrency:
 
 permissions:
   contents: write
+
+# Pipeline code and state live in the job layer (job/).
+defaults:
+  run:
+    working-directory: job
 
 jobs:
   update:
@@ -53,7 +57,7 @@ jobs:
         with:
           python-version: "3.11"
           cache: "pip"
-          cache-dependency-path: "requirements.txt"
+          cache-dependency-path: "job/requirements.txt"
 
       - name: Install dependencies
         run: |

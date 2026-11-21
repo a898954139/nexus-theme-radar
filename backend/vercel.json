@@ -1,0 +1,41 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "framework": null,
+  "installCommand": "npm ci",
+  "buildCommand": "echo \"api-only project: functions under api/\"",
+  "outputDirectory": "public",
+  "functions": {
+    "api/pre-market.js": {
+      "maxDuration": 10
+    },
+    "api/source-health.py": {
+      "maxDuration": 10
+    },
+    "api/v1/tracking-candidates.js": {
+      "maxDuration": 10
+    },
+    "api/v1/[dataset].js": {
+      "maxDuration": 10
+    },
+    "api/calendar.js": {
+      "maxDuration": 10
+    },
+    "api/quotes.js": {
+      "maxDuration": 10
+    },
+    "api/candles.js": {
+      "maxDuration": 10
+    }
+  },
+  "headers": [
+    {
+      "source": "/api/(.*)",
+      "headers": [
+        {
+          "key": "X-Robots-Tag",
+          "value": "noindex"
+        }
+      ]
+    }
+  ]
+}

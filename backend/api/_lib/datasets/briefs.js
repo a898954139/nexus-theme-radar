@@ -1,5 +1,5 @@
 // Brief datasets:
-//   GET /api/v1/pre-market   -> PreMarketData (src/lib/preMarketContract.js)
+//   GET /api/v1/pre-market   -> PreMarketData (api/_lib/preMarketContract.js; copy of front/src/lib/preMarketContract.js)
 //   GET /api/v1/stock-audit  -> StockAuditReport (src/services/stockAudit.ts)
 import { latestSnapshot } from './common.js';
 

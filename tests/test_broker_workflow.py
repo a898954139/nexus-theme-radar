@@ -23,6 +23,6 @@ def test_pages_is_a_redirect_and_publishes_no_data() -> None:
     assert "workflow_call:" not in workflow
     assert "copy_runtime_data.sh" not in workflow
     assert "https://nexus-theme-radar.vercel.app/" in workflow
-    script = (ROOT / "scripts" / "copy_runtime_data.sh").read_text()
+    script = (ROOT / "front" / "copy_reports.sh").read_text()
     assert "broker" not in script
     assert "data/" not in script.split("set -eu", 1)[1]

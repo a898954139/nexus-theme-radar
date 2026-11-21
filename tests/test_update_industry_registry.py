@@ -204,8 +204,8 @@ def test_catalog_lists_every_supply_chain_with_stage_counts() -> None:
 
 
 def test_checked_in_industry_and_symbol_snapshots_are_complete_and_joinable() -> None:
-    industry_path = ROOT / "config" / "industry_supply_chains.tw.json"
-    symbol_path = ROOT / "config" / "symbol_registry.tw.json"
+    industry_path = ROOT / "job/config" / "industry_supply_chains.tw.json"
+    symbol_path = ROOT / "job/config" / "symbol_registry.tw.json"
     catalog_path = ROOT / "docs" / "INDUSTRY_SUPPLY_CHAIN_CATALOG.md"
     if not industry_path.exists() or not symbol_path.exists() or not catalog_path.exists():
         pytest.skip("generated industry snapshots have not been built yet")

@@ -14,7 +14,7 @@ ROOT = Path(__file__).parents[1]
 @pytest.fixture(scope='module')
 def compiled_service(tmp_path_factory):
     out=tmp_path_factory.mktemp('audit-service')
-    subprocess.run([str(ROOT/'node_modules/.bin/tsc'),str(ROOT/'src/services/stockAudit.ts'),
+    subprocess.run([str(ROOT/'front/node_modules/.bin/tsc'),str(ROOT/'front/src/services/stockAudit.ts'),
                     '--target','ES2020','--module','commonjs','--moduleResolution','node',
                     '--strict','--skipLibCheck','--outDir',str(out)],check=True,cwd=ROOT,capture_output=True,text=True)
     return out/'stockAudit.js'
@@ -24,7 +24,7 @@ def run(compiled_service, body):
     script=f"""
 const assert=require('node:assert/strict');
 const {{validateStockAuditReport:validate}}=require({json.dumps(str(compiled_service))});
-const original=JSON.parse(require('node:fs').readFileSync('data/stock-audit-latest.json'));
+const original=JSON.parse(require('node:fs').readFileSync('job/data/stock-audit-latest.json'));
 const fresh=()=>structuredClone(original);
 {body}
 """

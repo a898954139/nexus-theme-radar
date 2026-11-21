@@ -35,7 +35,7 @@ from scripts.prepare_analysis_queue import (
 
 
 ROOT = Path(__file__).resolve().parents[1]
-MIGRATION = ROOT / "supabase" / "migrations" / "20261118090200_create_analysis_report.sql"
+MIGRATION = ROOT / "db/supabase" / "migrations" / "20261118090200_create_analysis_report.sql"
 REPORT_DATE = date(2026, 11, 19)
 DATA_AS_OF = date(2026, 11, 18)
 
@@ -131,7 +131,7 @@ def test_selection_backfills_when_a_pool_runs_dry() -> None:
 
 
 def test_candidate_pools_follow_watchlist_ranks() -> None:
-    watchlist = json.loads((ROOT / "data" / "public-stock-watchlist-v1.json").read_text(encoding="utf-8"))
+    watchlist = json.loads((ROOT / "job/data" / "public-stock-watchlist-v1.json").read_text(encoding="utf-8"))
     short, long = candidate_pools(watchlist)
     assert short and long
     assert [c.short_rank for c in short[:5]] == sorted(c.short_rank for c in short[:5])
@@ -299,32 +299,35 @@ def test_writer_cannot_write_reports_and_tables_are_rerunnable() -> None:
 @pytest.mark.parametrize("script", ["prepare_analysis_queue.py", "local_analysis_report.py"])
 def test_entrypoints_import_like_ci(script: str) -> None:
     # Invoked by path, as CI and the local task do: `scripts.` is not importable.
-    result = subprocess.run([sys.executable, f"scripts/{script}", "--help"], cwd=ROOT,
+    result = subprocess.run([sys.executable, f"scripts/{script}", "--help"], cwd=ROOT / "job",
                             capture_output=True, text=True, check=False)
     assert result.returncode == 0, result.stderr
 
 
 def test_prepare_without_credential_skips_cleanly() -> None:
     env = {k: v for k, v in os.environ.items() if k != "THEME_RADAR_DATABASE_URL"}
-    result = subprocess.run([sys.executable, "scripts/prepare_analysis_queue.py"], cwd=ROOT, env=env,
+    result = subprocess.run([sys.executable, "scripts/prepare_analysis_queue.py"], cwd=ROOT / "job", env=env,
                             capture_output=True, text=True, check=False)
     assert result.returncode == 0
     assert json.loads(result.stdout.strip().splitlines()[-1]) == {"analysis_queue": "skipped"}
 
 
-def test_workflow_slots_precede_seven_am_taipei() -> None:
+def test_prepare_slots_precede_seven_am_taipei() -> None:
+    """Scheduled on the Mac now; the workflow is the manual fallback."""
+    conf = (ROOT / "job" / "mac" / "jobs.conf").read_text(encoding="utf-8")
+    assert "analysis-prepare | weekdays 06:10,06:40" in conf  # before the 07:30 local report
     workflow = (ROOT / ".github" / "workflows" / "prepare-analysis-queue.yml").read_text(encoding="utf-8")
-    assert '"5,35,50 22 * * 0-4"' in workflow  # 06:05/06:35/06:50 Taipei, Mon-Fri
+    assert "schedule:" not in workflow
     assert "secrets.THEME_RADAR_DATABASE_URL" in workflow
     assert "RADAR_ANALYST" not in workflow and "service_role" not in workflow
     assert "contents: read" in workflow
 
 
 def test_front_end_never_shows_an_old_edition_as_today() -> None:
-    service = (ROOT / "src" / "services" / "analysisReport.ts").read_text(encoding="utf-8")
-    card = (ROOT / "src" / "components" / "stock" / "DailyReportCard.tsx").read_text(encoding="utf-8")
-    detail = (ROOT / "src" / "components" / "stock" / "StockDetail.tsx").read_text(encoding="utf-8")
-    api = (ROOT / "api" / "analysis-report.js").read_text(encoding="utf-8")
+    service = (ROOT / "front/src" / "services" / "analysisReport.ts").read_text(encoding="utf-8")
+    card = (ROOT / "front/src" / "components" / "stock" / "DailyReportCard.tsx").read_text(encoding="utf-8")
+    detail = (ROOT / "front/src" / "components" / "stock" / "StockDetail.tsx").read_text(encoding="utf-8")
+    api = (ROOT / "backend/api" / "analysis-report.js").read_text(encoding="utf-8")
     assert "if (payload.report_date !== today) return { kind: 'not_produced', today };" in service
     assert "payload.report.report_date === today" in service
     assert "今日報告未產出" in card

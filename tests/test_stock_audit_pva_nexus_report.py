@@ -13,11 +13,11 @@ ROOT = Path(__file__).parents[1]
 
 
 def snapshot():
-    return json.loads((ROOT/'reports/stock-audit-2026-10-21.json').read_text())
+    return json.loads((ROOT/'job/reports/stock-audit-2026-10-21.json').read_text())
 
 
 def test_public_report_is_based_on_executed_pva_and_nexus_not_old_disclaimers():
-    soup = BeautifulSoup((ROOT/'reports/stock-audit-2026-10-21.html').read_text(),'html.parser')
+    soup = BeautifulSoup((ROOT/'job/reports/stock-audit-2026-10-21.html').read_text(),'html.parser')
     assert len(soup.select('details.stock')) == 5
     for card in soup.select('details.stock'):
         assert card.select_one('.technical-summary [data-method="pva"]') is not None

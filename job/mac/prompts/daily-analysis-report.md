@@ -4,8 +4,9 @@ run: nobody will answer questions, so never stop to ask.
 Report date: {{REPORT_DATE}}
 Work dir: {{WORK_DIR}}
 
-1. Read `skills/daily-analysis-report/SKILL.md` in this repository and follow
-   its steps exactly, using the report date and work dir above.
+1. Your working directory is the repository's `job/` folder. Read
+   `../skills/daily-analysis-report/SKILL.md` and follow its steps exactly,
+   running its commands from here, with the report date and work dir above.
 2. For the per-stock judgement, read and apply
    `~/.agents/skills/nexus-market-analysis/SKILL.md`.
 3. If `pull` exits 3, stop: there is no list today.

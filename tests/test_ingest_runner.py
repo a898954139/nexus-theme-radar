@@ -44,8 +44,7 @@ def _load_module(relative: str, name: str) -> Any:
     return module
 
 
-INGEST_API = _load_module("api/cron/ingest.py", "api_cron_ingest")
-HEALTH_API = _load_module("api/source-health.py", "api_source_health")
+HEALTH_API = _load_module("backend/api/source-health.py", "api_source_health")
 
 
 # --- fakes -------------------------------------------------------------------
@@ -116,7 +115,7 @@ def test_repo_config_resolves_every_group_to_rss_sources() -> None:
     registry_ids = {s["source_id"] for s in config["registry_sources"]}
     assert "financialjuice" in registry_ids
     # Every active RSS source of the hourly run is covered by some group.
-    registry = json.loads((ROOT / "config/source_registry.tw.json").read_text("utf-8"))
+    registry = json.loads((ROOT / "job/config/source_registry.tw.json").read_text("utf-8"))
     active_rss = {
         s["source_id"] for s in registry["sources"]
         if s.get("status") == "active" and s.get("fetch_method") == "rss"
@@ -277,75 +276,8 @@ def test_connection_factory_requires_credential() -> None:
     assert callable(connection_factory_from_environment({"RADAR_INGEST_DATABASE_URL": "host=x"}))
 
 
-# --- HTTP endpoint -------------------------------------------------------------------
-
-
-def _env(**extra: str) -> dict[str, str]:
-    return {"RADAR_INGEST_CRON_SECRET": SECRET, "RADAR_INGEST_DATABASE_URL": "host=x", **extra}
-
-
-def _never_runs(*_args, **_kwargs):
-    raise AssertionError("runner must not be called")
-
-
-@pytest.mark.parametrize("headers", [
-    {},
-    {"Authorization": "Bearer wrong"},
-    {"Authorization": SECRET},
-    {"Authorization": f"Basic {SECRET}"},
-])
-def test_ingest_endpoint_401_without_correct_secret(headers: dict[str, str]) -> None:
-    status, body = INGEST_API.handle_ingest(
-        "GET", "/api/cron/ingest?group=tw-news-a", headers, env=_env(), runner=_never_runs)
-    assert status == 401
-    assert SECRET not in json.dumps(body)
-
-
-def test_ingest_endpoint_fails_closed_without_strong_secret() -> None:
-    for env in ({}, {"RADAR_INGEST_CRON_SECRET": "short"}):
-        status, _ = INGEST_API.handle_ingest(
-            "GET", "/api/cron/ingest?group=tw-news-a",
-            {"Authorization": "Bearer short"}, env=env, runner=_never_runs)
-        assert status == 503
-
-
-def test_ingest_endpoint_validates_group_and_db() -> None:
-    auth = {"Authorization": f"Bearer {SECRET}"}
-    assert INGEST_API.handle_ingest("GET", "/api/cron/ingest?group=../x", auth,
-                                    env=_env(), runner=_never_runs)[0] == 400
-    assert INGEST_API.handle_ingest("GET", "/api/cron/ingest?group=a", auth,
-                                    env={"RADAR_INGEST_CRON_SECRET": SECRET},
-                                    runner=_never_runs)[0] == 503
-    assert INGEST_API.handle_ingest("DELETE", "/api/cron/ingest?group=a", auth,
-                                    env=_env(), runner=_never_runs)[0] == 405
-
-
-def test_ingest_endpoint_runs_group_and_redacts_failures(caplog: pytest.LogCaptureFixture) -> None:
-    auth = {"Authorization": f"Bearer {SECRET}"}
-    seen: list[str] = []
-
-    def ok_runner(group, *, connection_factory):
-        seen.append(group)
-        return {"group": group, "result": "written"}
-
-    status, body = INGEST_API.handle_ingest(
-        "GET", "/api/cron/ingest?group=tw-news-b", auth, env=_env(), runner=ok_runner)
-    assert (status, body["result"], seen) == (200, "written", ["tw-news-b"])
-
-    def unknown(group, *, connection_factory):
-        raise UnknownGroupError(group)
-
-    assert INGEST_API.handle_ingest("GET", "/api/cron/ingest?group=zzz", auth,
-                                    env=_env(), runner=unknown)[0] == 404
-
-    def broken(group, *, connection_factory):
-        raise RuntimeError("connect postgresql://w:hunter2@db.invalid/postgres failed")
-
-    with caplog.at_level(logging.ERROR):
-        status, body = INGEST_API.handle_ingest(
-            "GET", "/api/cron/ingest?group=tw-news-b", auth, env=_env(), runner=broken)
-    assert status == 500
-    assert "hunter2" not in caplog.text and "hunter2" not in json.dumps(body)
+# The Vercel /api/cron/ingest endpoint was removed: ingest runs on the Mac
+# (job/mac/jobs.conf, job `ingest`) calling scripts/ingest_runner.py directly.
 
 
 # --- source health endpoint ---------------------------------------------------------
@@ -407,8 +339,8 @@ def test_source_health_503_without_credential_and_502_on_db_error() -> None:
 
 
 def test_no_secret_material_in_scheduler_sql() -> None:
-    migration = (ROOT / "supabase/migrations/20261118090100_radar_ingest_scheduler.sql").read_text("utf-8").lower()
-    manual = (ROOT / "supabase/manual/radar_ingest_schedule.sql").read_text("utf-8").lower()
+    migration = (ROOT / "db/supabase/migrations/20261118090100_radar_ingest_scheduler.sql").read_text("utf-8").lower()
+    manual = (ROOT / "db/supabase/manual/radar_ingest_schedule.sql").read_text("utf-8").lower()
     assert "cron.schedule" not in migration, "schedules are an operational switch, not a migration"
     assert "vault.decrypted_secrets" in migration
     assert "revoke all on function radar.invoke_ingest(text) from public" in migration
@@ -416,15 +348,6 @@ def test_no_secret_material_in_scheduler_sql() -> None:
     for text in (migration, manual):
         assert "bearer " not in text.replace("'bearer ' ||", "")
         assert "postgres://" not in text and "postgresql://" not in text
-
-
-def test_vercel_config_bounds_ingest_function() -> None:
-    config = json.loads((ROOT / "vercel.json").read_text("utf-8"))
-    ingest = config["functions"]["api/cron/ingest.py"]
-    assert ingest["maxDuration"] <= 60
-    assert "data" in ingest["excludeFiles"]
-    ignored = (ROOT / ".vercelignore").read_text("utf-8").splitlines()
-    assert "scripts/" not in ignored and "requirements.txt" not in ignored
 
 
 # --- live Postgres (opt-in, same convention as test_radar_store) --------------------

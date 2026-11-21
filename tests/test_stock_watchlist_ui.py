@@ -5,12 +5,12 @@ from pathlib import Path
 
 
 ROOT = Path(__file__).resolve().parents[1]
-COMPONENT = ROOT / "src" / "components" / "watchlist" / "StockWatchlist.tsx"
-APP = ROOT / "src" / "App.tsx"
-NAV = ROOT / "src" / "components" / "common" / "NavTabBar.tsx"
-SERVICE = ROOT / "src" / "services" / "dataService.ts"
-TYPES = ROOT / "src" / "types.ts"
-CSS = ROOT / "src" / "index.css"
+COMPONENT = ROOT / "front/src" / "components" / "watchlist" / "StockWatchlist.tsx"
+APP = ROOT / "front/src" / "App.tsx"
+NAV = ROOT / "front/src" / "components" / "common" / "NavTabBar.tsx"
+SERVICE = ROOT / "front/src" / "services" / "dataService.ts"
+TYPES = ROOT / "front/src" / "types.ts"
+CSS = ROOT / "front/src" / "index.css"
 
 
 def _read(path: Path) -> str:
@@ -105,7 +105,7 @@ def test_stock_audit_renders_fixed_order_and_one_expandable_detail() -> None:
 
 def test_stock_audit_fields_and_quality_semantics_are_visible() -> None:
     source = _read(COMPONENT)
-    chart = _read(ROOT / "src" / "components" / "watchlist" / "StockAuditChart.tsx")
+    chart = _read(ROOT / "front/src" / "components" / "watchlist" / "StockAuditChart.tsx")
 
     for marker in (
         '現價', '資料來源', '營收', 'EPS', '本益比 PE', '估值相對位置',
@@ -123,7 +123,7 @@ def test_stock_audit_fields_and_quality_semantics_are_visible() -> None:
 
 
 def test_stock_audit_fetch_and_contract_fail_closed_at_browser_boundary() -> None:
-    service = _read(ROOT / "src" / "services" / "stockAudit.ts")
+    service = _read(ROOT / "front/src" / "services" / "stockAudit.ts")
 
     for marker in (
         "STOCK_AUDIT_DATA_PATH = '/api/v1/stock-audit'",
@@ -144,7 +144,7 @@ def test_stock_audit_fetch_and_contract_fail_closed_at_browser_boundary() -> Non
 
 def test_stock_audit_screen_is_mobile_first_and_touch_safe() -> None:
     source = _read(COMPONENT)
-    css = _read(ROOT / "src" / "components" / "watchlist" / "stock-audit.css")
+    css = _read(ROOT / "front/src" / "components" / "watchlist" / "stock-audit.css")
 
     assert 'className="page-content stock-audit-page' in source
     assert 'className="stock-audit-card"' in source

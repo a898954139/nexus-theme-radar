@@ -31,7 +31,7 @@ from requests.adapters import HTTPAdapter
 ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_INDUSTRY_OUTPUT = ROOT / "config" / "industry_supply_chains.tw.json"
 DEFAULT_SYMBOL_OUTPUT = ROOT / "config" / "symbol_registry.tw.json"
-DEFAULT_CATALOG_OUTPUT = ROOT / "docs" / "INDUSTRY_SUPPLY_CHAIN_CATALOG.md"
+DEFAULT_CATALOG_OUTPUT = ROOT.parent / "docs" / "INDUSTRY_SUPPLY_CHAIN_CATALOG.md"
 STATEMENTDOG_SITEMAP_URL = "https://statementdog.com/sitemap.xml.gz"
 STATEMENTDOG_TAG_PATTERN = re.compile(r"https://statementdog\.com/tags/(?P<tag_id>\d+)$")
 STATEMENTDOG_COMPANY_PATTERN = re.compile(r"^/analysis/(?P<symbol>[0-9A-Za-z.-]+)$")

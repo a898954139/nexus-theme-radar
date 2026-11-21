@@ -12,7 +12,7 @@ BLOCK_END = "const PUBLIC_THEME_RANKING_CONTRACT = Object.freeze({"
 
 
 def _homepage_momentum_source() -> str:
-    source = (ROOT / "assets" / "app.js").read_text(encoding="utf-8")
+    source = (ROOT / "front/assets" / "app.js").read_text(encoding="utf-8")
     assert BLOCK_START in source, "homepage momentum entry implementation block missing"
     assert BLOCK_END in source, "public theme ranking boundary missing"
     return source[source.index(BLOCK_START) : source.index(BLOCK_END)]
@@ -34,13 +34,13 @@ def _function_body(source: str, name: str) -> str:
 
 
 def test_homepage_has_one_primary_card_and_preserves_secondary_link() -> None:
-    html = (ROOT / "index.html").read_text(encoding="utf-8")
-    app = (ROOT / "src" / "App.tsx").read_text(encoding="utf-8")
-    nav = (ROOT / "src" / "components" / "common" / "NavTabBar.tsx").read_text(encoding="utf-8")
-    home = (ROOT / "src" / "components" / "home" / "ThemeRadarHome.tsx").read_text(encoding="utf-8")
+    html = (ROOT / "front/index.html").read_text(encoding="utf-8")
+    app = (ROOT / "front/src" / "App.tsx").read_text(encoding="utf-8")
+    nav = (ROOT / "front/src" / "components" / "common" / "NavTabBar.tsx").read_text(encoding="utf-8")
+    home = (ROOT / "front/src" / "components" / "home" / "ThemeRadarHome.tsx").read_text(encoding="utf-8")
     # The theme carousel moved to a shared component so the momentum page can
     # host it; the homepage is now the pre-market news board.
-    carousel = (ROOT / "src" / "components" / "common" / "ThemeCarousel.tsx").read_text(encoding="utf-8")
+    carousel = (ROOT / "front/src" / "components" / "common" / "ThemeCarousel.tsx").read_text(encoding="utf-8")
 
     assert '<div id="root"></div>' in html
     assert "{ id: 'momentum', label: '題材動能' }" in nav
@@ -83,8 +83,8 @@ def test_card_renders_valid_summary_and_fails_closed_on_errors() -> None:
     node_assertions = r'''
 const assert = require("node:assert/strict");
 const fs = require("node:fs");
-const latest = JSON.parse(fs.readFileSync("data/public-theme-momentum-latest-v0.9.json", "utf8"));
-const history = JSON.parse(fs.readFileSync("data/public-theme-momentum-history-v0.9.json", "utf8"));
+const latest = JSON.parse(fs.readFileSync("job/data/public-theme-momentum-latest-v0.9.json", "utf8"));
+const history = JSON.parse(fs.readFileSync("job/data/public-theme-momentum-history-v0.9.json", "utf8"));
 
 function createElement(textContent = "") {
   return {
@@ -194,8 +194,8 @@ def test_card_falls_back_when_latest_payload_is_stale() -> None:
     node_assertions = r'''
 const assert = require("node:assert/strict");
 const fs = require("node:fs");
-const latest = JSON.parse(fs.readFileSync("data/public-theme-momentum-latest-v0.9.json", "utf8"));
-const history = JSON.parse(fs.readFileSync("data/public-theme-momentum-history-v0.9.json", "utf8"));
+const latest = JSON.parse(fs.readFileSync("job/data/public-theme-momentum-latest-v0.9.json", "utf8"));
+const history = JSON.parse(fs.readFileSync("job/data/public-theme-momentum-history-v0.9.json", "utf8"));
 
 function createElement(textContent = "") {
   return {
@@ -263,7 +263,7 @@ async function fetch(url) {
 
 
 def test_card_styles_cover_focus_responsive_layout_and_reduced_motion() -> None:
-    css = (ROOT / "assets" / "styles.css").read_text(encoding="utf-8")
+    css = (ROOT / "front/assets" / "styles.css").read_text(encoding="utf-8")
 
     assert ".theme-momentum-entry:focus-visible" in css
     assert "outline-offset" in css
@@ -285,7 +285,7 @@ def test_card_accepts_the_symbol_and_news_fields_the_pipeline_publishes() -> Non
     node_assertions = r'''
 const assert = require("node:assert/strict");
 const fs = require("node:fs");
-const latest = JSON.parse(fs.readFileSync("data/public-theme-momentum-latest-v0.9.json", "utf8"));
+const latest = JSON.parse(fs.readFileSync("job/data/public-theme-momentum-latest-v0.9.json", "utf8"));
 
 assert.ok(latest.themes.length > 0, "fixture must carry themes");
 for (const field of ["direct_symbols", "related_symbols", "representative_news"]) {

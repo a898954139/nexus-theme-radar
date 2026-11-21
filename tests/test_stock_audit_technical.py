@@ -313,7 +313,7 @@ def test_analyzer_marks_source_drift_unavailable_without_fake_pass(tmp_path: Pat
 
 def test_cli_writes_unavailable_evidence_but_returns_nonzero(tmp_path: Path):
     legacy_input = tmp_path / "legacy.json"
-    source = json.loads((ROOT / "reports/stock-audit-2026-10-21.json").read_text())
+    source = json.loads((ROOT / "job/reports/stock-audit-2026-10-21.json").read_text())
     for stock in source.get("stocks", []):
         stock.pop("technical_candles", None)
         stock.pop("technical_data_notes", None)

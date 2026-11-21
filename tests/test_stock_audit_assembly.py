@@ -58,7 +58,7 @@ def test_cli_rejects_review_of_different_computed_bytes(tmp_path):
     import sys
     review=tmp_path/'review.json';review.write_text('{"computed_sha256":"wrong"}')
     computed=tmp_path/'computed.json';computed.write_text('{}')
-    result=subprocess.run([sys.executable,str(Path(__file__).resolve().parents[1]/'scripts/assemble_stock_audit_day.py'),
+    result=subprocess.run([sys.executable,str(Path(__file__).resolve().parents[1]/'job/scripts/assemble_stock_audit_day.py'),
         '--computed',str(computed),'--review',str(review),'--market',str(computed),
         '--baseline',str(computed),'--financial-review',str(computed),'--output',str(tmp_path/'out.json')],capture_output=True,text=True)
     assert result.returncode!=0 and 'computed_sha256' in result.stderr

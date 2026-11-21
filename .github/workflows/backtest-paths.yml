@@ -17,8 +17,7 @@ on:
         required: false
         default: "all"
         type: string
-  schedule:
-    - cron: "50 9 * * 1-5"
+  # Scheduled runs moved to the Mac (job/mac/jobs.conf). Manual fallback only.
 
 concurrency:
   group: backtest-paths-${{ github.ref }}
@@ -26,6 +25,11 @@ concurrency:
 
 permissions:
   contents: write
+
+# Pipeline code and state live in the job layer (job/).
+defaults:
+  run:
+    working-directory: job
 
 jobs:
   backtest:
@@ -40,7 +44,7 @@ jobs:
         with:
           python-version: "3.11"
           cache: "pip"
-          cache-dependency-path: "requirements.txt"
+          cache-dependency-path: "job/requirements.txt"
 
       - name: Install dependencies
         run: pip install -r requirements.txt

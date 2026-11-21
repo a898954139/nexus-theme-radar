@@ -130,7 +130,7 @@ def test_build_theme_focus_joins_themes_flows_and_watch_scores(tmp_path: Path) -
 
 def test_entrypoint_runs_by_path_like_ci(tmp_path: Path) -> None:
     result = subprocess.run(
-        [sys.executable, str(ROOT / "scripts" / "build_theme_focus.py"), "--data-dir", str(tmp_path)],
+        [sys.executable, str(ROOT / "job/scripts" / "build_theme_focus.py"), "--data-dir", str(tmp_path)],
         capture_output=True, text=True, check=False,
     )
     assert result.returncode == 0, result.stderr
@@ -138,7 +138,7 @@ def test_entrypoint_runs_by_path_like_ci(tmp_path: Path) -> None:
 
 
 def test_runtime_copy_and_workflows_publish_theme_focus() -> None:
-    copy = (ROOT / "scripts" / "copy_runtime_data.sh").read_text(encoding="utf-8")
+    copy = (ROOT / "front" / "copy_reports.sh").read_text(encoding="utf-8")
     assert "theme-focus.json" not in copy
     radar = (ROOT / ".github" / "workflows" / "update-theme-radar.yml").read_text(encoding="utf-8")
     flows = (ROOT / ".github" / "workflows" / "update-institutional-flows.yml").read_text(encoding="utf-8")

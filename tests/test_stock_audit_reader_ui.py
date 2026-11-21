@@ -6,7 +6,7 @@ from scripts import render_stock_audit as renderer
 ROOT=Path(__file__).parents[1]
 
 def test_technical_details_omit_process_narration_and_method_fingerprints():
-    data=json.loads((ROOT/'reports/stock-audit-2026-10-21.json').read_text())
+    data=json.loads((ROOT/'job/reports/stock-audit-2026-10-21.json').read_text())
     soup=BeautifulSoup(renderer.render(data),'html.parser')
     assert not soup.select('.technical-basis')
     for forbidden in ['此版本與 Pine v2.1','EMA seed 後有','方法指紋：','另逐檔依市場拒絕','detector']:
@@ -15,7 +15,7 @@ def test_technical_details_omit_process_narration_and_method_fingerprints():
 
 
 def test_numbers_have_sign_and_role_semantics_without_color_only_meaning():
-    soup=BeautifulSoup(renderer.render(json.loads((ROOT/'reports/stock-audit-2026-10-21.json').read_text())),'html.parser')
+    soup=BeautifulSoup(renderer.render(json.loads((ROOT/'job/reports/stock-audit-2026-10-21.json').read_text())),'html.parser')
     assert soup.select('.metric-positive') and soup.select('.metric-negative')
     for node in soup.select('.method-summary[data-method="pva"] .metric-positive'):
         assert '+' in node.text
@@ -28,13 +28,13 @@ def test_sign_classes_treat_zero_as_neutral_and_keep_original_palette_roles():
     assert renderer.metric_sign_class(0)=='metric-neutral'
     assert renderer.metric_sign_class(-1)=='metric-negative'
     assert renderer.metric_sign_class(1)=='metric-positive'
-    css=(ROOT/'reports/stock-audit.css').read_text()
+    css=(ROOT/'job/reports/stock-audit.css').read_text()
     for cls,token in [('positive','red'),('negative','green'),('entry','gold'),('neutral','text'),('muted','muted')]:
         assert f'.metric-{cls} {{ color: var(--{token}); }}' in css
 
 
 def test_zone_directions_and_break_date_meaning_survive_without_colors():
-    data=json.loads((ROOT/'reports/stock-audit-2026-10-21.json').read_text())
+    data=json.loads((ROOT/'job/reports/stock-audit-2026-10-21.json').read_text())
     soup=BeautifulSoup(renderer.render(data),'html.parser')
     for stock in data['stocks']:
         card=soup.select_one('#stock-'+stock['symbol'])
@@ -46,7 +46,7 @@ def test_zone_directions_and_break_date_meaning_survive_without_colors():
 
 
 def test_taiwan_signed_values_use_red_up_green_down_and_risk_is_separate():
-    css=(ROOT/'reports/stock-audit.css').read_text()
+    css=(ROOT/'job/reports/stock-audit.css').read_text()
     assert '.metric-positive { color: var(--red); }' in css
     assert '.metric-negative { color: var(--green); }' in css
     assert '.metric-risk { color: var(--red); }' in css
@@ -55,14 +55,14 @@ def test_taiwan_signed_values_use_red_up_green_down_and_risk_is_separate():
 
 
 def test_raised_market_red_override_is_screen_only_so_print_stays_neutral():
-    css=(ROOT/'reports/stock-audit.css').read_text()
+    css=(ROOT/'job/reports/stock-audit.css').read_text()
     assert '@media screen { .market-row .metric-positive { color: var(--red-readable); } }' in css
     assert '.metric-entry, .metric-risk, .metric-neutral, .metric-muted { color: var(--text); }' in css
 
 
 def test_numeric_text_roles_meet_small_text_contrast_on_their_surfaces():
     import re
-    css=(ROOT/'reports/stock-audit.css').read_text()
+    css=(ROOT/'job/reports/stock-audit.css').read_text()
     tokens=dict(re.findall(r'(--[a-z-]+):\s*(#[0-9a-fA-F]{6})',css.split('}',1)[0]))
     def luminance(hex_color):
         channels=[int(hex_color[i:i+2],16)/255 for i in [1,3,5]]

@@ -2,6 +2,19 @@
 
 # Taiwan Equity Theme Radar
 
+## 專案分層（2026-11-21）
+
+同一個 repo，分四層、各自部署：
+
+| 資料夾 | 內容 | 部署 / 執行 |
+|---|---|---|
+| `front/` | 網站前端（Vite + React，靜態） | Vercel 專案（repo 根目錄的 `vercel.json`），`/api/*` 轉給 backend |
+| `backend/` | API（`backend/api`，讀 Supabase radar 資料表） | 獨立 Vercel 專案，Root Directory = `backend` |
+| `job/` | 資料管線、設定、`job/data` 中繼狀態、排程 | 擁有者的 Mac，launchd（`job/mac/jobs.conf`） |
+| `db/` | Supabase migrations（`db/supabase`） | 三層共用的資料契約 |
+
+Python 指令一律在 `job/` 底下執行；跨層測試在根目錄 `tests/`。下文舊路徑（`scripts/`、`data/`、`api/`、`src/`）請對應到上表的資料夾。
+
 ## 台股題材雷達｜Theme → Symbol 靜態雷達
 
 **每小時把公開新聞整理成台股題材熱度與候選股映射，全部產出靜態 JSON，前端直接讀，沒有後端伺服器。**

@@ -22,7 +22,7 @@ from scripts import analyze_stock_audit_technical as mod
 ROOT = Path(__file__).parents[1]
 PACKAGE_DIR = mod.DETECTOR_PACKAGE_DIR
 PACKAGED_SOURCE = PACKAGE_DIR / "src/nexusStructureDetector.js"
-PARITY_REPORTS = ("reports/stock-audit-2026-10-21.json", "reports/stock-audit-2026-10-22.json")
+PARITY_REPORTS = ("job/reports/stock-audit-2026-10-21.json", "job/reports/stock-audit-2026-10-22.json")
 NODE = shutil.which("node")
 PACKAGE_INSTALLED = (PACKAGE_DIR / "package.json").exists() and PACKAGED_SOURCE.exists()
 requires_package = pytest.mark.skipif(

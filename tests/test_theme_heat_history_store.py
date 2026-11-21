@@ -100,7 +100,7 @@ class FakeConnection:
 
 def _migration_text() -> str:
     matches = sorted(
-        (ROOT / "supabase" / "migrations").glob(
+        (ROOT / "db/supabase" / "migrations").glob(
             "*_create_theme_radar_hourly_heat.sql"
         )
     )

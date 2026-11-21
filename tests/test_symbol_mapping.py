@@ -11,8 +11,8 @@ from scripts.theme_relevance import load_theme_taxonomy
 
 
 ROOT = Path(__file__).resolve().parents[1]
-ALIASES_PATH = ROOT / "config" / "symbol_aliases.tw.json"
-TAXONOMY_PATH = ROOT / "config" / "theme_taxonomy.tw.json"
+ALIASES_PATH = ROOT / "job/config" / "symbol_aliases.tw.json"
+TAXONOMY_PATH = ROOT / "job/config" / "theme_taxonomy.tw.json"
 
 
 def test_alias_seed_covers_current_taxonomy_symbols() -> None:

@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # Daily pre-market report, local half (skills/daily-analysis-report).
-# Scheduled by ops/mac/jobs.conf (analysis-report). Runs headless Claude Code
+# Scheduled by job/mac/jobs.conf (analysis-report). Runs headless Claude Code
 # with a narrow tool allowlist, then checks the result in the DB itself so a
 # chatty-but-failed Claude run is still reported as a failure.
 #
@@ -24,11 +24,11 @@ case $? in
   *) echo "analysis-report: status check failed"; exit 1 ;;
 esac
 
-PROMPT=$(sed -e "s/{{REPORT_DATE}}/$D/g" -e "s#{{WORK_DIR}}#$W#g" ops/mac/prompts/daily-analysis-report.md)
+PROMPT=$(sed -e "s/{{REPORT_DATE}}/$D/g" -e "s#{{WORK_DIR}}#$W#g" mac/prompts/daily-analysis-report.md)
 
 "$CLAUDE_BIN" -p "$PROMPT" \
   --permission-mode acceptEdits \
-  --add-dir "$HOME/.nexus-radar" --add-dir "$HOME/.agents/skills" \
+  --add-dir .. --add-dir "$HOME/.nexus-radar" --add-dir "$HOME/.agents/skills" \
   --allowedTools \
     "Read" "Write" "Edit" "Glob" "Grep" \
     "Bash(.venv/bin/python scripts/local_analysis_report.py:*)" \

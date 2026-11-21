@@ -13,7 +13,7 @@ import subprocess
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-SCRIPT = ROOT / "assets" / "theme-momentum.js"
+SCRIPT = ROOT / "front/assets" / "theme-momentum.js"
 
 
 def _run_node(assertions: str) -> subprocess.CompletedProcess:
@@ -147,7 +147,7 @@ def test_validator_accepts_the_real_published_feed() -> None:
         "const assert = require('node:assert/strict');\n"
         "const fs = require('node:fs');\n"
         "const live = JSON.parse(fs.readFileSync("
-        "'data/public-theme-momentum-latest-v0.9.json','utf8'));\n"
+        "'job/data/public-theme-momentum-latest-v0.9.json','utf8'));\n"
         "assert.doesNotThrow(() => validateLatest(live));\n"
     )
     assert result.returncode == 0, result.stderr

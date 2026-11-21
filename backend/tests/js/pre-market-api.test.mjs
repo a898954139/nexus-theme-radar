@@ -12,10 +12,10 @@ import {
   LATEST_SNAPSHOT_SQL,
   handlePreMarket,
 } from '../../api/_lib/preMarket.js';
-import { isPreMarketPayload } from '../../src/lib/preMarketContract.js';
+import { isPreMarketPayload } from '../../api/_lib/preMarketContract.js';
 
 const fixture = JSON.parse(
-  readFileSync(new URL('../../data/pre-market-latest.json', import.meta.url), 'utf8'),
+  readFileSync(new URL('../../../job/data/pre-market-latest.json', import.meta.url), 'utf8'),
 );
 const fresh = new Date(Date.parse(fixture.generated_at) + 5 * 60000);
 const silent = () => {};

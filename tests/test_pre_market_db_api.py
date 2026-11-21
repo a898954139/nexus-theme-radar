@@ -17,7 +17,7 @@ import pytest
 import yaml
 
 ROOT = Path(__file__).resolve().parents[1]
-sys.path.insert(0, str(ROOT / "scripts"))
+sys.path.insert(0, str(ROOT / "job/scripts"))
 
 from radar_store import (  # noqa: E402
     PRE_MARKET_UPSERT_SQL,
@@ -26,8 +26,8 @@ from radar_store import (  # noqa: E402
 )
 from update_pre_market import run_pre_market_dual_write  # noqa: E402
 
-PAYLOAD_PATH = ROOT / "data" / "pre-market-latest.json"
-MIGRATION = ROOT / "supabase" / "migrations" / "20261118090000_create_radar_pre_market_snapshot.sql"
+PAYLOAD_PATH = ROOT / "job/data" / "pre-market-latest.json"
+MIGRATION = ROOT / "db/supabase" / "migrations" / "20261118090000_create_radar_pre_market_snapshot.sql"
 
 
 def _payload() -> dict:
@@ -198,7 +198,7 @@ FORBIDDEN = ("service_role", "postgres://", "postgresql://", "radar_api_database
 
 
 def _client_sources() -> list[Path]:
-    return [p for p in (ROOT / "src").rglob("*") if p.suffix in {".ts", ".tsx", ".js"}]
+    return [p for p in (ROOT / "front/src").rglob("*") if p.suffix in {".ts", ".tsx", ".js"}]
 
 
 def test_client_sources_never_reference_db_credentials_or_driver() -> None:
@@ -212,22 +212,22 @@ def test_client_sources_never_reference_db_credentials_or_driver() -> None:
 
 def test_client_bundle_has_no_vite_env_flags() -> None:
     vite_vars = set()
-    for path in [*_client_sources(), ROOT / "vercel.json", ROOT / "vite.config.ts"]:
+    for path in [*_client_sources(), ROOT / "vercel.json", ROOT / "front/vite.config.ts"]:
         vite_vars |= set(re.findall(r"VITE_[A-Z0-9_]+", path.read_text(encoding="utf-8")))
     # The source switch is gone: the page always reads /api/v1.
     assert vite_vars == set()
 
 
 def test_api_reads_credentials_from_server_env_only() -> None:
-    api = (ROOT / "api" / "pre-market.js").read_text(encoding="utf-8")
+    api = (ROOT / "backend/api" / "pre-market.js").read_text(encoding="utf-8")
     assert "process.env.RADAR_API_DATABASE_URL" in api
     for token in ("postgres://", "postgresql://", "service_role", "process.env.VITE_"):
         assert token not in api
 
 
-@pytest.mark.skipif(not (ROOT / "dist").is_dir(), reason="run `npm run build` first")
+@pytest.mark.skipif(not (ROOT / "front/dist").is_dir(), reason="run `npm run build` first")
 def test_built_assets_contain_no_credentials() -> None:
-    assets = [p for p in (ROOT / "dist").rglob("*") if p.suffix in {".js", ".html", ".css", ".map"}]
+    assets = [p for p in (ROOT / "front/dist").rglob("*") if p.suffix in {".js", ".html", ".css", ".map"}]
     assert assets, "dist has no built assets"
     for path in assets:
         text = path.read_text(encoding="utf-8", errors="ignore").casefold()
@@ -239,8 +239,15 @@ def test_built_assets_contain_no_credentials() -> None:
 
 
 def test_vercel_builds_the_app_and_serves_no_data_files() -> None:
+    """Root project = front layer (static); /api/* is proxied to the backend project."""
     config = json.loads((ROOT / "vercel.json").read_text(encoding="utf-8"))
-    assert config["outputDirectory"] == "dist"
-    assert "sh scripts/copy_runtime_data.sh dist" in config["buildCommand"]
-    assert "api/v1/[dataset].js" in config["functions"]
+    assert config["outputDirectory"] == "front/dist"
+    assert "sh copy_reports.sh dist" in config["buildCommand"]
+    assert "functions" not in config
+    assert any(r["source"] == "/api/:path*" and r["destination"].endswith("/api/:path*")
+               for r in config["rewrites"])
     assert {"source": "/data/:path*", "destination": "/", "permanent": False} in config["redirects"]
+    backend = json.loads((ROOT / "backend" / "vercel.json").read_text(encoding="utf-8"))
+    assert "api/v1/[dataset].js" in backend["functions"]
+    for name in backend["functions"]:
+        assert (ROOT / "backend" / name).is_file(), name

@@ -9,7 +9,7 @@ ROOT = Path(__file__).parents[1]
 
 
 def test_target_is_a_decision_card_not_a_research_collage():
-    soup = BeautifulSoup((ROOT / 'reports/stock-audit-2026-10-21.html').read_text(), 'html.parser')
+    soup = BeautifulSoup((ROOT / 'job/reports/stock-audit-2026-10-21.html').read_text(), 'html.parser')
     headings = [h.get_text(' ', strip=True) for h in soup.select('main > section > h2')]
     assert headings == ['今日結論', '明日市場預測', '重點標的', '其他標的', '今日執行清單']
     cards = soup.select('details.stock')
@@ -27,7 +27,7 @@ def test_target_is_a_decision_card_not_a_research_collage():
 
 
 def load_renderer():
-    spec = importlib.util.spec_from_file_location('audit_renderer', ROOT / 'scripts/render_stock_audit.py')
+    spec = importlib.util.spec_from_file_location('audit_renderer', ROOT / 'job/scripts/render_stock_audit.py')
     module = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(module)
     return module
@@ -35,7 +35,7 @@ def load_renderer():
 
 def source():
     import json
-    return json.loads((ROOT / 'reports/stock-audit-2026-10-21.json').read_text())
+    return json.loads((ROOT / 'job/reports/stock-audit-2026-10-21.json').read_text())
 
 
 def test_missing_research_excludes_stock_and_its_recommendation():
@@ -90,7 +90,7 @@ def test_curve_and_tick_calculations_have_independent_oracles():
 
 def test_published_target_matches_reproducible_input_and_all_source_values():
     m = load_renderer(); data = source()
-    assert m.render(data) == (ROOT / 'reports/stock-audit-2026-10-21.html').read_text()
+    assert m.render(data) == (ROOT / 'job/reports/stock-audit-2026-10-21.html').read_text()
     soup = BeautifulSoup(m.render(data), 'html.parser')
     for stock in data['stocks']:
         card = soup.select_one('#stock-' + stock['symbol'])
@@ -133,9 +133,9 @@ def test_corrupted_precomputed_research_is_excluded_before_render():
 def test_report_keeps_original_nexus_font_roles():
     """The main site's font faces and weights are the independent brand reference."""
     from urllib.parse import parse_qs, urlparse
-    css = (ROOT / 'reports/stock-audit.css').read_text()
-    main = BeautifulSoup((ROOT / 'index.html').read_text(), 'html.parser')
-    report = BeautifulSoup((ROOT / 'reports/stock-audit-2026-10-21.html').read_text(), 'html.parser')
+    css = (ROOT / 'job/reports/stock-audit.css').read_text()
+    main = BeautifulSoup((ROOT / 'front/index.html').read_text(), 'html.parser')
+    report = BeautifulSoup((ROOT / 'job/reports/stock-audit-2026-10-21.html').read_text(), 'html.parser')
     main_url = next(a['href'] for a in main.select('link[href]') if 'fonts.googleapis.com/css2' in a['href'])
     report_url = next(a['href'] for a in report.select('link[href]') if 'fonts.googleapis.com/css2' in a['href'])
     assert set(parse_qs(urlparse(report_url).query)['family']) == set(parse_qs(urlparse(main_url).query)['family'])
@@ -150,9 +150,9 @@ def test_report_keeps_original_nexus_font_roles():
 def test_report_versions_css_so_existing_readers_get_new_fonts():
     import hashlib
     from urllib.parse import parse_qs, urlparse
-    soup = BeautifulSoup((ROOT / 'reports/stock-audit-2026-10-21.html').read_text(), 'html.parser')
+    soup = BeautifulSoup((ROOT / 'job/reports/stock-audit-2026-10-21.html').read_text(), 'html.parser')
     stylesheet = next(a['href'] for a in soup.select('link[rel="stylesheet"]') if 'stock-audit.css' in a['href'])
-    expected = hashlib.sha256((ROOT / 'reports/stock-audit.css').read_bytes()).hexdigest()[:12]
+    expected = hashlib.sha256((ROOT / 'job/reports/stock-audit.css').read_bytes()).hexdigest()[:12]
     assert parse_qs(urlparse(stylesheet).query).get('v') == [expected]
 
 
@@ -161,8 +161,8 @@ def test_report_uses_original_nexus_palette_and_color_roles():
     def root_tokens(text):
         root = text.split(':root {', 1)[1].split('}', 1)[0]
         return {k: v.strip() for k, v in re.findall(r'(--[a-z-]+):\s*([^;]+);', root)}
-    main = root_tokens((ROOT / 'src/index.css').read_text())
-    css = (ROOT / 'reports/stock-audit.css').read_text()
+    main = root_tokens((ROOT / 'front/src/index.css').read_text())
+    css = (ROOT / 'job/reports/stock-audit.css').read_text()
     report = root_tokens(css)
     for key in ['--page-bg', '--shell-bg', '--surface-bg', '--card-bg', '--line', '--sub-line',
                 '--text-hi', '--text', '--muted', '--faint', '--gold', '--gold-hover',
@@ -180,7 +180,7 @@ def test_report_uses_original_nexus_palette_and_color_roles():
 
 def test_print_keeps_new_palette_roles_readable_on_white_paper():
     import re
-    css = (ROOT / 'reports/stock-audit.css').read_text()
+    css = (ROOT / 'job/reports/stock-audit.css').read_text()
     root = css.split('@media print {', 1)[1].split(':root {', 1)[1].split('}', 1)[0]
     tokens = {k:v.strip() for k,v in re.findall(r'(--[a-z-]+):\s*([^;]+);', root)}
     for key in ['--ground','--surface','--shell-bg','--surface-bg']:

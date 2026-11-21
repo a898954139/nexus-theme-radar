@@ -8,7 +8,7 @@ from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-sys.path.insert(0, str(ROOT / "scripts"))
+sys.path.insert(0, str(ROOT / "job/scripts"))
 
 from event_direction import PATH_RULES, RULE_VERSION, annotate, assess, impact_rows  # noqa: E402
 from geo_focus import PATH_ID_BY_LABEL, PATHS, build_focus_events  # noqa: E402
@@ -172,8 +172,8 @@ def test_impact_rows_match_the_event_impact_table() -> None:
 def test_page_renders_bull_and_bear_columns_and_keeps_neutral_in_full_list() -> None:
     """The feed must surface bullish news as readily as bearish (sentiment skew
     fix) and keep neutral events reachable in the full list."""
-    feed = (ROOT / "src" / "lib" / "feed.ts").read_text(encoding="utf-8")
-    home = (ROOT / "src" / "components" / "home" / "ThemeRadarHome.tsx").read_text(encoding="utf-8")
+    feed = (ROOT / "front/src" / "lib" / "feed.ts").read_text(encoding="utf-8")
+    home = (ROOT / "front/src" / "components" / "home" / "ThemeRadarHome.tsx").read_text(encoding="utf-8")
     assert "{ id: 'bull', label: '利多' }" in feed
     assert "{ id: 'bear', label: '利空' }" in feed
     assert "完整清單" in home
