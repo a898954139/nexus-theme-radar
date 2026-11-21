@@ -82,3 +82,26 @@
 :root:not([data-theme="light"]) .app-root .stock-page .stock-tabs {
   background: rgba(13, 10, 7, 0.9);
 }
+
+/* ---------- own K-line chart (lightweight-charts) ---------- */
+.kline { padding: 12px 20px 16px; }
+.kline-bar { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px 16px; margin-bottom: 8px; }
+.kline-legend { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 14px; min-height: 20px; color: var(--muted); font-size: 12px; }
+.kline-legend b { color: var(--text-hi); font-weight: 500; }
+.kline-date { color: var(--text); }
+.kline-ma { display: inline-flex; align-items: center; gap: 5px; }
+.kline-ma i { display: inline-block; width: 12px; height: 2px; }
+.kline-ranges { display: flex; gap: 4px; }
+.kline-ranges button { min-height: 28px; padding: 0 10px; border: 1px solid var(--line); border-radius: 6px; background: transparent; color: var(--muted); font-size: 11px; cursor: pointer; }
+.kline-ranges button.is-selected { border-color: var(--gold); background: var(--gold); color: var(--on-accent); font-weight: 600; }
+.kline-shell { position: relative; height: max(560px, calc(100vh - 330px)); overflow: hidden; border: 1px solid var(--line); border-radius: 8px; }
+.kline-host { position: absolute; inset: 0; }
+.kline-fallback { position: absolute; z-index: 2; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; color: var(--muted); font-size: 12px; }
+.kline-fallback strong { color: var(--text); font-size: 13px; }
+.kline-fallback a, .kline-foot a { color: var(--gold); text-decoration: none; }
+.kline-foot { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 6px; margin-top: 8px; color: var(--faint); font-size: 11px; }
+@media (max-width: 719px) {
+  .kline { padding: 10px 12px 14px; }
+  .kline-legend { gap: 2px 10px; font-size: 11px; }
+  .kline-shell { height: 460px; }
+}

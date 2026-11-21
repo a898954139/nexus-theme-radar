@@ -265,10 +265,8 @@ export const App: React.FC = () => {
 
   useEffect(() => {
     if (route.page !== 'stock') return;
-    if (route.tab === 'technical') {
-      setBrokerLoading(false);
-      return;
-    }
+    // The K-line tab also needs flows (法人 pane and the 法人 5 日 strip), so
+    // every tab loads fundamentals + flows; only the broker map is per-tab.
     let active = true;
     setBrokerLoading(route.tab === 'broker');
     Promise.all([
