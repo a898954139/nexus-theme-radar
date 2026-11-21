@@ -90,7 +90,11 @@ export const BrokerMap: React.FC<BrokerMapProps> = ({ code, name, device, data, 
     net: data?.brokers.reduce((sum, branch) => sum + branch.net, 0) ?? 0,
     broker_count: data?.brokers.length ?? 0,
   };
-  const rootY = layout.height / 2 - 63;
+  // Centre the stock node in the visible scroll window, not the whole canvas:
+  // with 30 branches the canvas is ~2,200px tall and a centred root sat
+  // far below the fold.
+  const viewportHeight = isMobile ? 460 : 520; // .broker-map-scroll height
+  const rootY = Math.max(20, Math.min(layout.height, viewportHeight) / 2 - 63);
 
   const toggleBranch = (branchId: string) => {
     setOpenBranches((current) => {

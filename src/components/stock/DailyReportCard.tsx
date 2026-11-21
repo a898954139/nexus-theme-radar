@@ -26,11 +26,14 @@ export const DailyReportCard: React.FC<{ code: string }> = ({ code }) => {
     return () => controller.abort();
   }, [code]);
 
-  if (view === null) return <section className="daily-report is-slim is-loading" aria-busy="true"><span className="page-kicker">PRE-MARKET REPORT · 盤前分析</span></section>;
+  // Loading: reserve no space; most stocks end up with no report.
+  if (view === null) return null;
   // No report to show for this stock today: one line, not a block that pushes
   // the stock's own data below the fold.
-  if (view.kind === 'unavailable' || view.kind === 'not_in_list') {
-    return <section className="daily-report is-slim is-empty"><span className="page-kicker">PRE-MARKET REPORT · 盤前分析</span><strong>{EMPTY_COPY[view.kind]}</strong></section>;
+  // Service switched off: show nothing rather than a row that only says so.
+  if (view.kind === 'unavailable') return null;
+  if (view.kind === 'not_in_list') {
+    return <section className="daily-report is-slim is-empty"><span className="page-kicker">盤前分析</span><strong>{EMPTY_COPY[view.kind]}</strong></section>;
   }
   if (view.kind !== 'produced') {
     const note = view.kind === 'not_produced' ? `${md(view.today)} 台股開盤分析尚未寫入，不顯示前一日報告。` : view.kind === 'no_batch' ? `${md(view.today)} 無待分析清單（非交易日或雲端清單未備妥）。` : null;
