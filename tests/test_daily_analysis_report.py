@@ -312,9 +312,12 @@ def test_prepare_without_credential_skips_cleanly() -> None:
     assert json.loads(result.stdout.strip().splitlines()[-1]) == {"analysis_queue": "skipped"}
 
 
-def test_workflow_slots_precede_seven_am_taipei() -> None:
+def test_prepare_slots_precede_seven_am_taipei() -> None:
+    """Scheduled on the Mac now; the workflow is the manual fallback."""
+    conf = (ROOT / "job" / "mac" / "jobs.conf").read_text(encoding="utf-8")
+    assert "analysis-prepare | weekdays 06:10,06:40" in conf  # before the 07:30 local report
     workflow = (ROOT / ".github" / "workflows" / "prepare-analysis-queue.yml").read_text(encoding="utf-8")
-    assert '"5,35,50 22 * * 0-4"' in workflow  # 06:05/06:35/06:50 Taipei, Mon-Fri
+    assert "schedule:" not in workflow
     assert "secrets.THEME_RADAR_DATABASE_URL" in workflow
     assert "RADAR_ANALYST" not in workflow and "service_role" not in workflow
     assert "contents: read" in workflow

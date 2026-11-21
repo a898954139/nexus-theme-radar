@@ -18,8 +18,8 @@ Before changing this project, read:
 | `db/` | Supabase migrations (`db/supabase`) | shared contract |
 
 A layer never imports another layer's code (`tests/test_layer_boundaries.py`).
-Schedules live only in `job/mac/jobs.conf` (the remaining GitHub `schedule:`
-blocks are removed at the Mac cut-over); never add pg_cron jobs.
+Schedules live only in `job/mac/jobs.conf`: no GitHub `schedule:` (workflows
+are manual `workflow_dispatch` fallbacks), never pg_cron.
 Python commands run from `job/` (`cd job && .venv/bin/python scripts/...`).
 Cross-layer tests stay in the root `tests/`.
 

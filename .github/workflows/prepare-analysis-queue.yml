@@ -17,9 +17,7 @@ on:
         type: choice
         options: [prepare, warm]
         default: prepare
-  schedule:
-    - cron: "5,35,50 22 * * 0-4"
-    - cron: "10 12 * * 1-5"
+  # Scheduled runs moved to the Mac (job/mac/jobs.conf). Manual fallback only.
 
 concurrency:
   group: prepare-analysis-queue

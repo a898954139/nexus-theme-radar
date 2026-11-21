@@ -17,8 +17,7 @@ on:
           - disabled
           - preview
           - production
-  schedule:
-    - cron: "17 * * * *"
+  # Scheduled runs moved to the Mac (job/mac/jobs.conf). Manual fallback only.
 
 concurrency:
   group: update-taiwan-theme-radar-${{ github.ref }}
