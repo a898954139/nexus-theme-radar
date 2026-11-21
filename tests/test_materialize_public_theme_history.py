@@ -26,7 +26,7 @@ from scripts.public_theme_momentum import (
 
 CURRENT_HOUR = datetime(2026, 7, 31, 4, tzinfo=timezone.utc)
 GENERATED_AT = CURRENT_HOUR + timedelta(minutes=8)
-REQUIREMENTS_PATH = Path(__file__).resolve().parents[1] / "requirements.txt"
+REQUIREMENTS_PATH = Path(__file__).resolve().parents[1] / "job" / "requirements.txt"
 
 
 def test_runtime_requirements_pin_psycopg_binary() -> None:

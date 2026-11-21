@@ -5,6 +5,10 @@ description: "Use when changing anything the hourly GitHub Actions run executes 
 
 # Changing the hourly pipeline
 
+> Layout: pipeline code is in `job/` (run every command below from `job/`);
+> the hourly run is scheduled on the Mac (`job/mac/jobs.conf`, job
+> `theme-radar`), which invokes the script by path exactly like the workflow.
+
 Local green does not mean CI green here. The two failure modes below have each
 already shipped a break to `master` that passed every local test.
 

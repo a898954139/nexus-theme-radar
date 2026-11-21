@@ -16,14 +16,14 @@ ROOT = Path(__file__).parents[1]
 
 
 def renderer():
-    spec = importlib.util.spec_from_file_location("stock_audit_renderer_dates", ROOT / "scripts/render_stock_audit.py")
+    spec = importlib.util.spec_from_file_location("stock_audit_renderer_dates", ROOT / "job/scripts/render_stock_audit.py")
     module = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(module)
     return module
 
 
 def source():
-    return json.loads((ROOT / "reports/stock-audit-2026-10-21.json").read_text())
+    return json.loads((ROOT / "job/reports/stock-audit-2026-10-21.json").read_text())
 
 
 def calendar_candles():
@@ -89,7 +89,7 @@ def morning_report_2022():
 
 def test_report_date_21_fallback_is_byte_identical():
     module = renderer()
-    expected = (ROOT / "reports/stock-audit-2026-10-21.html").read_text()
+    expected = (ROOT / "job/reports/stock-audit-2026-10-21.html").read_text()
     assert module.render(source()) == expected
 
 

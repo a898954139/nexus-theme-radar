@@ -19,7 +19,7 @@ import { handleDataset } from '../../api/_lib/router.js';
 
 const DSN = (process.env.RADAR_TEST_DATABASE_URL || '').trim();
 const skip = DSN ? false : 'RADAR_TEST_DATABASE_URL not set';
-const data = (name) => JSON.parse(readFileSync(new URL(`../../data/${name}`, import.meta.url), 'utf8'));
+const data = (name) => JSON.parse(readFileSync(new URL(`../../../job/data/${name}`, import.meta.url), 'utf8'));
 
 const ISO_FRACTION = /^(\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2})(?:\.(\d*?)0*)?(?:Z|\+00:00)$/;
 
@@ -76,7 +76,7 @@ test('institutional-rankings round-trips', { skip }, async () => {
 });
 
 test('institutional-flows serves the whole-market series per symbol', { skip }, async () => {
-  const files = readdirSync(new URL('../../data/flows/', import.meta.url)).filter((f) => f !== 'index.json');
+  const files = readdirSync(new URL('../../../job/data/flows/', import.meta.url)).filter((f) => f !== 'index.json');
   const sample = files.filter((_, i) => i % 97 === 0).concat(['TWSE-2330.json']);
   // radar.purge_snapshots() keeps 120 days; older rows (delisted or
   // suspended symbols) are intentionally gone.
@@ -247,7 +247,7 @@ test('stock-watchlist rebuilds the exact-key v1 payload', { skip }, async () => 
 });
 
 test('fundamentals rebuild each per-stock file', { skip }, async () => {
-  const files = readdirSync(new URL('../../data/fundamentals/', import.meta.url));
+  const files = readdirSync(new URL('../../../job/data/fundamentals/', import.meta.url));
   const sample = files.filter((_, i) => i % 53 === 0).concat(['TWSE-2330.json']);
   for (const file of sample) {
     const [exchange, code] = file.replace('.json', '').split('-');
@@ -264,7 +264,7 @@ test('fundamentals rebuild each per-stock file', { skip }, async () => {
 test('pre-market rebuilds the board and passes the shared contract', { skip }, async () => {
   const { status, body } = await call('pre-market');
   assert.equal(status, 200);
-  const { isPreMarketPayload } = await import('../../src/lib/preMarketContract.js');
+  const { isPreMarketPayload } = await import('../../api/_lib/preMarketContract.js');
   assert.equal(isPreMarketPayload(body), true);
   assert.deepEqual(normalize(body), normalize(data('pre-market-latest.json')));
 });

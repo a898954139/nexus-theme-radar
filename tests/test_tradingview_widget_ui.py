@@ -5,10 +5,10 @@ from pathlib import Path
 
 
 ROOT = Path(__file__).resolve().parents[1]
-COMPONENT = ROOT / "src" / "components" / "stock" / "TradingViewChart.tsx"
-STOCK_DETAIL = ROOT / "src" / "components" / "stock" / "StockDetail.tsx"
-APP = ROOT / "src" / "App.tsx"
-TYPES = ROOT / "src" / "types.ts"
+COMPONENT = ROOT / "front/src" / "components" / "stock" / "TradingViewChart.tsx"
+STOCK_DETAIL = ROOT / "front/src" / "components" / "stock" / "StockDetail.tsx"
+APP = ROOT / "front/src" / "App.tsx"
+TYPES = ROOT / "front/src" / "types.ts"
 
 
 def _read(path: Path) -> str:

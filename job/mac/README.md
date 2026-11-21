@@ -1,13 +1,16 @@
 # Mac scheduler (the only scheduler)
 
 Every recurring nexus-theme-radar job runs on the owner's Mac through launchd.
+This is the **job layer** (`job/`); see the repository README for the
+front / backend / job / db split.
 GitHub workflows keep `workflow_dispatch` only (manual fallback), and pg_cron
 has no radar jobs. One file decides what runs when: [`jobs.conf`](jobs.conf).
 
 | Path on the Mac | What |
 |---|---|
-| `~/.nexus-radar/runner` | dedicated clone of `master` that the jobs run from (not the iCloud dev clone) |
-| `~/.nexus-radar/runner/data/` | phase 1: local pipeline state (previous snapshots / history the scripts read). Not committed anywhere. |
+| `~/.nexus-radar/runner` | dedicated clone of `master`; jobs run from its `job/` folder (not the iCloud dev clone) |
+| `~/.nexus-radar/runner/job/.venv` | Python venv for the job layer |
+| `~/.nexus-radar/runner/job/data/` | phase 1: local pipeline state (previous snapshots / history the scripts read). Not committed anywhere. |
 | `~/.config/nexus-theme-radar/runner.env` | `THEME_RADAR_DATABASE_URL` (radar_writer login), `FINNHUB_API_KEY`, optional `NTR_HC_PING_KEY`. Mode 600. |
 | `~/.config/nexus-theme-radar/analyst.env` | `RADAR_ANALYST_DATABASE_URL` for the 07:30 report (already created by the PRD setup) |
 | `~/Library/LaunchAgents/com.nexus.themeradar.*.plist` | generated; never edit by hand |
@@ -18,7 +21,7 @@ has no radar jobs. One file decides what runs when: [`jobs.conf`](jobs.conf).
 
 | Job | When | Replaces |
 |---|---|---|
-| ingest | every 5 min | pg_cron → Vercel `/api/cron/ingest` (3 jobs) |
+| ingest | every 5 min | pg_cron → Vercel `/api/cron/ingest` (3 jobs, removed) |
 | pre-market | 06:05, 07:05, 08:05, then hourly :35 | `update-pre-market.yml` |
 | analysis-prepare | Mon–Fri 06:10 (06:40 retry; first success freezes the list) | `prepare-analysis-queue.yml` |
 | analysis-report | Mon–Fri 07:30 | local Claude scheduled task |
@@ -33,12 +36,12 @@ has no radar jobs. One file decides what runs when: [`jobs.conf`](jobs.conf).
 ## Commands
 
 ```bash
-cd ~/.nexus-radar/runner
-.venv/bin/python ops/mac/ntr.py status        # loaded? last run? exit code
-.venv/bin/python ops/mac/ntr.py run theme-radar
+cd ~/.nexus-radar/runner/job
+.venv/bin/python mac/ntr.py status        # loaded? last run? exit code
+.venv/bin/python mac/ntr.py run theme-radar
 tail -f ~/Library/Logs/nexus-radar/theme-radar.log
-.venv/bin/python ops/mac/ntr.py install       # after editing jobs.conf by hand
-.venv/bin/python ops/mac/ntr.py uninstall     # rollback: stops every job
+.venv/bin/python mac/ntr.py install       # after editing jobs.conf by hand
+.venv/bin/python mac/ntr.py uninstall     # rollback: stops every job
 ```
 
 To change a schedule: edit `jobs.conf`, merge to `master`; the next `sync`
@@ -71,14 +74,14 @@ Lid closed or asleep = no data. Mitigations, in order of value:
 4. Cloud fallback stays available but off: `gh workflow run update-theme-radar.yml`
    (and the other workflows) still works by hand. Those runs commit `data/`
    to `master`; the Mac's next `sync` then refuses to fast-forward until the
-   runner's `data/` is reset (`git -C ~/.nexus-radar/runner checkout -- data && ntr.py sync`).
+   runner's `data/` is reset (`git -C ~/.nexus-radar/runner checkout -- job/data && ntr.py sync`).
 
 ## Rollback
 
 1. `ntr.py uninstall` (stops every Mac job immediately).
 2. Revert the PR that removed the workflow `schedule:` blocks (cloud jobs resume).
-3. News ingest: re-run section 4 of `supabase/manual/radar_ingest_schedule.sql`
-   on the radar project (`radar.invoke_ingest` and the Vercel endpoint are kept).
+3. News ingest has no cloud fallback any more (the Vercel `/api/cron/ingest`
+   endpoint was removed with the layer split); run `ntr.py run ingest` by hand.
 
 ## Phase 2 (not done yet)
 

@@ -17,7 +17,7 @@ from scripts.monthly_revenue import (
 
 
 ROOT = Path(__file__).resolve().parents[1]
-CONFIG_PATH = ROOT / "config" / "monthly_revenue_datasets.tw.json"
+CONFIG_PATH = ROOT / "job/config" / "monthly_revenue_datasets.tw.json"
 TWSE_URL = "https://openapi.twse.com.tw/v1/opendata/t187ap05_L"
 TPEX_URL = "https://www.tpex.org.tw/openapi/v1/mopsfe_t187ap05_O"
 # 2026-11-05 10:00 Taipei

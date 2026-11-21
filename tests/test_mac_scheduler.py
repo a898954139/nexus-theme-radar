@@ -1,4 +1,4 @@
-"""ops/mac: the single launchd schedule that replaced Actions + pg_cron jobs."""
+"""job/mac: the single launchd schedule that replaced Actions + pg_cron jobs."""
 
 from __future__ import annotations
 
@@ -11,7 +11,8 @@ from pathlib import Path
 import pytest
 
 ROOT = Path(__file__).resolve().parents[1]
-SPEC = importlib.util.spec_from_file_location("ntr", ROOT / "ops" / "mac" / "ntr.py")
+JOB = ROOT / "job"
+SPEC = importlib.util.spec_from_file_location("ntr", JOB / "mac" / "ntr.py")
 ntr = importlib.util.module_from_spec(SPEC)
 sys.modules["ntr"] = ntr
 SPEC.loader.exec_module(ntr)
@@ -36,8 +37,8 @@ def test_real_conf_parses_and_covers_every_former_schedule():
 
 def test_every_script_the_schedule_calls_exists():
     for job in ntr.load_jobs():
-        for script in re.findall(r"(?:python|bash) ((?:scripts|ops)/[\w/.-]+)", job.command):
-            assert (ROOT / script).is_file(), f"{job.name} calls missing {script}"
+        for script in re.findall(r"(?:python|bash) ((?:scripts|mac)/[\w/.-]+)", job.command):
+            assert (JOB / script).is_file(), f"{job.name} calls missing job/{script}"
 
 
 def test_publish_steps_match_the_workflows_they_replace():

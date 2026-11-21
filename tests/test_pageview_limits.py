@@ -17,7 +17,7 @@ import subprocess
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-LIMITS_PATH = ROOT / "supabase" / "functions" / "pageview" / "limits.ts"
+LIMITS_PATH = ROOT / "db/supabase" / "functions" / "pageview" / "limits.ts"
 
 
 def _limits_as_js() -> str:
@@ -124,7 +124,7 @@ def test_windows_match_the_spec() -> None:
     assert _evaluate("RATE_LIMIT_WINDOW_MS") == 60 * 1000
 
 
-INDEX_PATH = ROOT / "supabase" / "functions" / "pageview" / "index.ts"
+INDEX_PATH = ROOT / "db/supabase" / "functions" / "pageview" / "index.ts"
 
 
 def _index_source() -> str:

@@ -16,9 +16,9 @@ import pytest
 from scripts import radar_publish, radar_tables
 
 ROOT = Path(__file__).resolve().parents[1]
-DATA = ROOT / "data"
-MIGRATION = ROOT / "supabase" / "migrations" / "20261119150000_create_radar_relational_core.sql"
-RELATIONAL_MIGRATIONS = sorted((ROOT / "supabase" / "migrations").glob("20261119*_create_radar_relational_*.sql"))
+DATA = ROOT / "job/data"
+MIGRATION = ROOT / "db/supabase" / "migrations" / "20261119150000_create_radar_relational_core.sql"
+RELATIONAL_MIGRATIONS = sorted((ROOT / "db/supabase" / "migrations").glob("20261119*_create_radar_relational_*.sql"))
 
 
 def load(name: str):
@@ -138,7 +138,7 @@ def test_publish_redacts_connection_errors(tmp_path, caplog):
 
 def test_entrypoint_resolves_imports_the_way_ci_runs_it():
     result = subprocess.run(
-        [sys.executable, str(ROOT / "scripts" / "radar_publish.py"), "--help"],
+        [sys.executable, str(ROOT / "job/scripts" / "radar_publish.py"), "--help"],
         capture_output=True, text=True, cwd=ROOT,
     )
     assert result.returncode == 0, result.stderr

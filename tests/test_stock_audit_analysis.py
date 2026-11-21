@@ -36,7 +36,7 @@ def test_incomplete_prices_do_not_produce_analysis():
 def test_published_snapshot_has_real_observed_prices_and_distinct_source_clocks():
     import json
     from pathlib import Path
-    p=json.loads((Path(__file__).parents[1]/'data/stock-audit-latest.json').read_text())
+    p=json.loads((Path(__file__).parents[1]/'job/data/stock-audit-latest.json').read_text())
     assert p['report_date']=='2026-10-22'
     s=p['stocks'][0]
     assert s['symbol']=='2317'

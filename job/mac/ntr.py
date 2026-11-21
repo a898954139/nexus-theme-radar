@@ -1,15 +1,17 @@
 #!/usr/bin/env python3
 """Run every nexus-theme-radar scheduled job from one place: launchd on the Mac.
 
-    python ops/mac/ntr.py list                 # parsed schedule, Taipei time
-    python ops/mac/ntr.py install              # write + load LaunchAgents
-    python ops/mac/ntr.py uninstall            # unload + remove them (rollback)
-    python ops/mac/ntr.py status               # loaded?, last run, exit code
-    python ops/mac/ntr.py run <job>            # run one job now (what launchd calls)
-    python ops/mac/ntr.py sync                 # fast-forward code, reload schedule
-    python ops/mac/ntr.py prune-logs
+Run from the job layer (job/) of the runner clone:
 
-The schedule lives only in ops/mac/jobs.conf. Secrets live only in
+    .venv/bin/python mac/ntr.py list                 # parsed schedule, Taipei time
+    .venv/bin/python mac/ntr.py install              # write + load LaunchAgents
+    .venv/bin/python mac/ntr.py uninstall            # unload + remove them (rollback)
+    .venv/bin/python mac/ntr.py status               # loaded?, last run, exit code
+    .venv/bin/python mac/ntr.py run <job>            # run one job now (what launchd calls)
+    .venv/bin/python mac/ntr.py sync                 # fast-forward code, reload schedule
+    .venv/bin/python mac/ntr.py prune-logs
+
+The schedule lives only in job/mac/jobs.conf. Secrets live only in
 ~/.config/nexus-theme-radar/{runner,analyst}.env (mode 600), never in the repo.
 Standard library only: launchd runs this before anything is imported.
 """
@@ -33,8 +35,9 @@ from datetime import datetime
 from pathlib import Path
 from typing import Iterable
 
-REPO = Path(__file__).resolve().parents[2]
-CONF_PATH = REPO / "ops" / "mac" / "jobs.conf"
+# The job layer root (job/): jobs run from here, the venv lives here.
+REPO = Path(__file__).resolve().parents[1]
+CONF_PATH = REPO / "mac" / "jobs.conf"
 LABEL_PREFIX = "com.nexus.themeradar."
 HOME = Path.home()
 CONFIG_DIR = HOME / ".config" / "nexus-theme-radar"
@@ -201,7 +204,7 @@ def render_plist(job: Job, *, repo: Path, python: Path, path_env: str) -> bytes:
     log = str(LOG_DIR / f"{job.name}.log")
     plist: dict = {
         "Label": job.label,
-        "ProgramArguments": [str(python), str(repo / "ops" / "mac" / "ntr.py"), "run", job.name],
+        "ProgramArguments": [str(python), str(repo / "mac" / "ntr.py"), "run", job.name],
         "WorkingDirectory": str(repo),
         "EnvironmentVariables": {"PATH": path_env, "PYTHONUNBUFFERED": "1", "LANG": "en_US.UTF-8"},
         "StandardOutPath": log,
@@ -479,13 +482,13 @@ def cmd_sync(args: argparse.Namespace) -> int:
         return 1
     changed = set(_git("diff", "--name-only", before, target).stdout.split())
     print(f"[ntr] {before[:7]} -> {target[:7]} ({len(changed)} files)")
-    if "requirements.txt" in changed:
+    if "job/requirements.txt" in changed:
         pip = subprocess.run([str(REPO / ".venv" / "bin" / "pip"), "install", "-q", "-r", "requirements.txt"],
                              cwd=REPO, capture_output=True, text=True)
         print(f"[ntr] pip install exit={pip.returncode} {pip.stderr.strip()[-500:]}")
         if pip.returncode != 0:
             return 1
-    if changed & {"ops/mac/jobs.conf", "ops/mac/ntr.py"}:
+    if changed & {"job/mac/jobs.conf", "job/mac/ntr.py"}:
         return cmd_install(argparse.Namespace(allow_other_tz=False), skip_reload=SELF_RELOAD_EXEMPT)
     return 0
 

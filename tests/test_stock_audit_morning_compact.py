@@ -8,7 +8,7 @@ from scripts import render_stock_audit as renderer
 ROOT=Path(__file__).parents[1]
 
 def snapshot():
-    return json.loads((ROOT/'reports/stock-audit-2026-10-21.json').read_text())
+    return json.loads((ROOT/'job/reports/stock-audit-2026-10-21.json').read_text())
 
 
 def test_morning_cards_show_method_insights_and_numeric_entry_table():

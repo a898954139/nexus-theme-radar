@@ -14,18 +14,25 @@ from __future__ import annotations
 import json
 import logging
 import os
-import sys
+import re
 from collections.abc import Callable, Mapping
 from datetime import datetime
 from http.server import BaseHTTPRequestHandler
-from pathlib import Path
 from typing import Any
 
-ROOT = Path(__file__).resolve().parents[1]
-if str(ROOT) not in sys.path:
-    sys.path.insert(0, str(ROOT))
+# Same redaction as job/scripts/radar_store.redact_error; duplicated on purpose
+# so the backend deploys without the job layer.
+_DSN_PATTERN = re.compile(r"postgres(?:ql)?://\S+", re.IGNORECASE)
+_KV_SECRET_PATTERN = re.compile(r"(password|passwd|pwd)\s*=\s*\S+", re.IGNORECASE)
 
-from scripts.radar_store import redact_error  # noqa: E402
+
+def redact_error(error: BaseException) -> str:
+    """Return a log-safe error string: class name plus message with DSNs removed."""
+
+    message = _DSN_PATTERN.sub("<redacted-dsn>", str(error))
+    message = _KV_SECRET_PATTERN.sub(r"\1=<redacted>", message)
+    message = " ".join(message.split())[:300]
+    return f"{type(error).__name__}: {message}" if message else type(error).__name__
 
 LOGGER = logging.getLogger("api.source_health")
 DATABASE_URL_ENV = "RADAR_API_DATABASE_URL"

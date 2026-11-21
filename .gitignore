@@ -25,18 +25,18 @@ Vault/
 .gitnexus.json
 
 # Private source inputs
-feeds/follow.opml
-feeds/*.private.opml
-feeds/private*.opml
+job/feeds/follow.opml
+job/feeds/*.private.opml
+job/feeds/private*.opml
 
 # Optional private/generated digests
-data/email-digest.json
+job/data/email-digest.json
 
 # Pre-market events older than the published 72h window. The hot file
-# (data/pre-market-latest.json) stays tracked so each run can read the previous
+# (job/data/pre-market-latest.json) stays tracked so each run can read the previous
 # window and accumulate; these month files only grow, are never deployed, and
 # would otherwise turn an hourly job into unbounded history.
-data/pre-market-archive/
+job/data/pre-market-archive/
 
 # Planning docs that name the private Supabase project ref. The ref is not a
 # credential -- it appears in the dashboard's own public URL -- but this repo is
@@ -53,7 +53,7 @@ docs/prompts/NEXUS_THEME_RADAR_V0.9_SUPABASE_PLANNING_REVISION_PROMPT.md
 # `supabase link` writes the linked project ref and its pooler URL here. Same
 # reasoning as the planning docs above: not a credential, but an infrastructure
 # fingerprint that does not belong in a public repo.
-supabase/.temp/
+db/supabase/.temp/
 
 # Local OS/editor noise
 .DS_Store

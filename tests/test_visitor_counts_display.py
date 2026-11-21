@@ -16,9 +16,9 @@ import subprocess
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-COUNTS_PATH = ROOT / "src" / "lib" / "counts.ts"
-HOOK_PATH = ROOT / "src" / "hooks" / "useSiteMetrics.ts"
-STATUS_BAR_PATH = ROOT / "src" / "components" / "common" / "StatusBar.tsx"
+COUNTS_PATH = ROOT / "front/src" / "lib" / "counts.ts"
+HOOK_PATH = ROOT / "front/src" / "hooks" / "useSiteMetrics.ts"
+STATUS_BAR_PATH = ROOT / "front/src" / "components" / "common" / "StatusBar.tsx"
 
 
 def _counts_as_js() -> str:
@@ -102,7 +102,7 @@ def test_request_timeout_clears_measured_endpoint_latency() -> None:
     # The endpoint answers in ~2.5-3s because the database is in ap-southeast-2.
     # A timeout near that figure aborts healthy requests on slower connections,
     # which is what made the counter flicker.
-    service = (ROOT / "src" / "services" / "metricsService.ts").read_text(encoding="utf-8")
+    service = (ROOT / "front/src" / "services" / "metricsService.ts").read_text(encoding="utf-8")
     line = next(
         one for one in service.splitlines() if one.startswith("const REQUEST_TIMEOUT_MS")
     )

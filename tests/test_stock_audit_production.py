@@ -8,13 +8,13 @@ import pytest
 ROOT=Path(__file__).parents[1]
 
 def load(name):
-    spec=importlib.util.spec_from_file_location(name,ROOT/'scripts'/f'{name}.py')
+    spec=importlib.util.spec_from_file_location(name,ROOT/'job/scripts'/f'{name}.py')
     module=importlib.util.module_from_spec(spec);spec.loader.exec_module(module)
     return module
 
 
 def morning_data():
-    data = json.loads((ROOT/'reports/stock-audit-2026-10-21.json').read_text())
+    data = json.loads((ROOT/'job/reports/stock-audit-2026-10-21.json').read_text())
     data.update({
         'report_date': '2026-10-22',
         'data_as_of': '2026-10-21',
@@ -31,32 +31,32 @@ def morning_data():
 
 def test_format_detects_missing_entry_table():
     m=load('produce_stock_audit_report')
-    html=(ROOT/'reports/stock-audit-2026-10-21.html').read_text()
+    html=(ROOT/'job/reports/stock-audit-2026-10-21.html').read_text()
     assert m.same_format(html,html)
     assert not m.same_format(html,html.replace('class="entry-plan"','class="wrong"',1))
     assert not m.same_format(html,html.replace('stock-audit.css','other.css'))
 
 def test_producer_refuses_inputs_only_without_writing(tmp_path):
     m=load('produce_stock_audit_report')
-    data=json.loads((ROOT/'reports/stock-audit-2026-10-21.json').read_text())
+    data=json.loads((ROOT/'job/reports/stock-audit-2026-10-21.json').read_text())
     data['research_status']='inputs_only'
     with pytest.raises(ValueError,match='reviewed'):
-        m.produce(data,ROOT/'reports/stock-audit-2026-10-21.html',tmp_path)
+        m.produce(data,ROOT/'job/reports/stock-audit-2026-10-21.html',tmp_path)
     assert not list(tmp_path.iterdir())
 
 
 def test_producer_requires_explicit_data_as_of_for_new_publication(tmp_path):
     m=load('produce_stock_audit_report')
-    data=json.loads((ROOT/'reports/stock-audit-2026-10-21.json').read_text())
+    data=json.loads((ROOT/'job/reports/stock-audit-2026-10-21.json').read_text())
     data['research_status']='reviewed'
     with pytest.raises(ValueError,match='data_as_of'):
-        m.produce(data,ROOT/'reports/stock-audit-2026-10-21.html',tmp_path)
+        m.produce(data,ROOT/'job/reports/stock-audit-2026-10-21.html',tmp_path)
     assert not list(tmp_path.iterdir())
 
 
 def test_producer_uses_publication_date_but_validates_prior_session_data(tmp_path):
     m=load('produce_stock_audit_report')
-    result=m.produce(morning_data(),ROOT/'reports/stock-audit-2026-10-21.html',tmp_path)
+    result=m.produce(morning_data(),ROOT/'job/reports/stock-audit-2026-10-21.html',tmp_path)
     assert result['report_date']=='2026-10-22'
     html=(tmp_path/'stock-audit-2026-10-22.html').read_text()
     assert 'Stock Audit｜2026-10-22 台股投資決策卡' in html
@@ -76,12 +76,12 @@ def test_producer_rejects_future_morning_evidence_without_writing(tmp_path,mutat
     m=load('produce_stock_audit_report')
     data=morning_data(); mutate(data)
     with pytest.raises(ValueError,match=match):
-        m.produce(data,ROOT/'reports/stock-audit-2026-10-21.html',tmp_path)
+        m.produce(data,ROOT/'job/reports/stock-audit-2026-10-21.html',tmp_path)
     assert not list(tmp_path.iterdir())
 
 def test_collection_cannot_copy_decisions_or_fabricate_missing_session():
     m=load('prepare_stock_audit_day')
-    data=json.loads((ROOT/'reports/stock-audit-2026-10-21.json').read_text())
+    data=json.loads((ROOT/'job/reports/stock-audit-2026-10-21.json').read_text())
     cache=ROOT/'.omx/reviews/stock-audit-target-research/raw'
     if not cache.exists():pytest.skip('local official source fixture unavailable')
     result=m.prepare(data,'2026-10-22',cache)
@@ -95,7 +95,7 @@ def test_collection_cannot_copy_decisions_or_fabricate_missing_session():
 @pytest.mark.parametrize('broken,allowed', [('BROKEN',False),('--',True)])
 def test_collection_distinguishes_malformed_from_unpriced(monkeypatch,broken,allowed):
     m=load('prepare_stock_audit_day')
-    data=json.loads((ROOT/'reports/stock-audit-2026-10-21.json').read_text())
+    data=json.loads((ROOT/'job/reports/stock-audit-2026-10-21.json').read_text())
     def rows(symbol,endpoint,month,cache,receipts):
         if endpoint=='BWIBBU':return [['115年10月22日','','','16.15']]
         return [['115/10/17','0' if allowed else '100','',broken,broken,broken,broken],
@@ -110,7 +110,7 @@ def test_collection_distinguishes_malformed_from_unpriced(monkeypatch,broken,all
 
 def test_format_allows_data_dependent_method_badges():
     m=load('produce_stock_audit_report')
-    html=(ROOT/'reports/stock-audit-2026-10-21.html').read_text()
+    html=(ROOT/'job/reports/stock-audit-2026-10-21.html').read_text()
     assert m.same_format(html,html.replace('D1 · 多方 · 有效','W1 · 空方 · 耗盡'))
 
 
@@ -122,14 +122,14 @@ def test_explicit_empty_event_review_does_not_inherit_old_fomc():
 def test_format_accepts_three_to_five_cards_without_changing_components():
     from bs4 import BeautifulSoup
     m=load('produce_stock_audit_report')
-    html=(ROOT/'reports/stock-audit-2026-10-21.html').read_text()
+    html=(ROOT/'job/reports/stock-audit-2026-10-21.html').read_text()
     soup=BeautifulSoup(html,'html.parser');soup.select('details.stock')[-1].decompose()
     assert m.same_format(html,str(soup))
 
 
 def test_missing_pe_revision_cannot_retain_baseline_value(monkeypatch):
     m=load('prepare_stock_audit_day')
-    data=json.loads((ROOT/'reports/stock-audit-2026-10-21.json').read_text())
+    data=json.loads((ROOT/'job/reports/stock-audit-2026-10-21.json').read_text())
     def rows(symbol,endpoint,month,cache,receipts):
         if endpoint=='BWIBBU':return [['115年10月21日','','','--']]
         return []
@@ -140,7 +140,7 @@ def test_missing_pe_revision_cannot_retain_baseline_value(monkeypatch):
 
 def test_collector_baseline_uses_observed_date_not_morning_edition(monkeypatch):
     m=load('prepare_stock_audit_day')
-    data=json.loads((ROOT/'reports/stock-audit-2026-10-21.json').read_text())
+    data=json.loads((ROOT/'job/reports/stock-audit-2026-10-21.json').read_text())
     data.update(report_date='2026-10-22',data_as_of='2026-10-21',review_provenance={'stale':True})
     monkeypatch.setattr(m,'read_month',lambda *args: [])
     prepared=m.prepare(data,'2026-10-21',Path('/unused'))

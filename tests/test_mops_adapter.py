@@ -25,7 +25,7 @@ from scripts.update_theme_radar import (
 
 
 ROOT = Path(__file__).resolve().parents[1]
-CATALOG_PATH = ROOT / "config" / "mops_datasets.tw.json"
+CATALOG_PATH = ROOT / "job/config" / "mops_datasets.tw.json"
 FIXTURE_DIR = ROOT / "tests" / "fixtures" / "mops"
 SWAGGER_SHA256 = "2c2cecccb7a220ac9e263228a7659aa49b1ada5aea397650e601ad3dfcc48043"
 ANCHOR = datetime(2026, 7, 27, 9, 0, tzinfo=timezone.utc)
@@ -944,7 +944,7 @@ def test_run_update_keeps_official_rows_out_of_public_theme_projection(
 
 
 def test_checked_in_official_evidence_seed_is_bounded_and_compatible() -> None:
-    payload = json.loads((ROOT / "data" / "official-evidence.json").read_text(encoding="utf-8"))
+    payload = json.loads((ROOT / "job/data" / "official-evidence.json").read_text(encoding="utf-8"))
 
     assert {
         "generated_at",

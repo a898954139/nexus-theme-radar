@@ -37,8 +37,17 @@ def _first_text(row: dict[str, Any], fields: list[str] | tuple[str, ...]) -> str
     return None
 
 
+def resolve_job_path(path: str | Path) -> Path:
+    """Registry paths are relative to the job layer root (job/), whatever the cwd."""
+
+    candidate = Path(str(path))
+    if candidate.is_absolute() or candidate.exists():
+        return candidate
+    return Path(__file__).resolve().parents[1] / candidate
+
+
 def load_dataset_catalog(path: str | Path) -> dict[str, Any]:
-    payload = json.loads(Path(path).read_text(encoding="utf-8"))
+    payload = json.loads(resolve_job_path(path).read_text(encoding="utf-8"))
     datasets = payload.get("datasets")
     if not isinstance(datasets, list) or not datasets:
         raise ValueError("dataset catalog must contain a non-empty datasets array")
@@ -295,7 +304,7 @@ def fetch_twse_openapi_source(
     full_refresh: bool = False,
 ) -> dict[str, Any]:
     started = time.monotonic()
-    catalog_path = Path(str(source["catalog_path"]))
+    catalog_path = resolve_job_path(source["catalog_path"])
     catalog = load_dataset_catalog(catalog_path)
     base_url = str(source["base_url"])
     if base_url != TWSE_OPENAPI_BASE_URL:

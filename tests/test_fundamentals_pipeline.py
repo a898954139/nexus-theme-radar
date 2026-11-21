@@ -214,7 +214,7 @@ def test_frontends_lazy_load_per_symbol_fundamentals():
 
     root = Path(__file__).resolve().parents[1]
     # The SPA asks the API for one instrument; no static fundamentals files.
-    source = (root / "src/services/dataService.ts").read_text(encoding="utf-8")
+    source = (root / "front/src/services/dataService.ts").read_text(encoding="utf-8")
     assert "readApi<StockFundamentals>('fundamentals'" in source
     assert "theme-symbol-fundamentals.json" not in source
     assert "fundamentals-index.json" not in source
@@ -226,7 +226,7 @@ def test_workflows_publish_and_commit_split_fundamentals():
 
     root = Path(__file__).resolve().parents[1]
     # Fundamentals reach the site through the radar tables, not copied files.
-    deploy = (root / "scripts/copy_runtime_data.sh").read_text(encoding="utf-8")
+    deploy = (root / "front/copy_reports.sh").read_text(encoding="utf-8")
     backfill = (root / ".github/workflows/backfill-fundamentals.yml").read_text(
         encoding="utf-8"
     )
@@ -324,7 +324,7 @@ def test_modules_import_the_way_ci_runs_them():
     root = Path(__file__).resolve().parents[1]
     result = subprocess.run(
         [sys.executable, "-c", "import fundamentals_pipeline, theme_symbol_fundamentals, goodinfo_fundamentals"],
-        cwd=root / "scripts", capture_output=True, text=True, check=False,
+        cwd=root / "job/scripts", capture_output=True, text=True, check=False,
     )
 
     assert result.returncode == 0, result.stderr

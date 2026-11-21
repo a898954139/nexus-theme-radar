@@ -19,7 +19,7 @@ import {
 import { isTrackingCandidatesPayload } from '../../api/_lib/trackingCandidatesContract.js';
 
 const fixture = JSON.parse(
-  readFileSync(new URL('../../data/tracking-candidates.json', import.meta.url), 'utf8'),
+  readFileSync(new URL('../../../job/data/tracking-candidates.json', import.meta.url), 'utf8'),
 );
 const KEY = 'k'.repeat(MIN_KEY_LENGTH) + '-current';
 const NEXT_KEY = 'n'.repeat(MIN_KEY_LENGTH) + '-next';

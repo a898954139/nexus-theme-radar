@@ -62,7 +62,7 @@ def _function_body(source: str, name: str) -> str:
 
 
 def _probe(payload: dict[str, object]) -> dict[str, object]:
-    source_path = ROOT / "assets" / "app.js"
+    source_path = ROOT / "front/assets" / "app.js"
     harness = f"""
 const fs = require("fs");
 const vm = require("vm");
@@ -248,10 +248,10 @@ def _tags(node: dict[str, object]) -> list[str]:
 
 
 def test_markup_copy_and_first_section_preserve_lower_homepage() -> None:
-    html = (ROOT / "index.html").read_text()
-    app = (ROOT / "src" / "App.tsx").read_text()
-    home = (ROOT / "src" / "components" / "home" / "ThemeRadarHome.tsx").read_text()
-    carousel = (ROOT / "src" / "components" / "common" / "ThemeCarousel.tsx").read_text()
+    html = (ROOT / "front/index.html").read_text()
+    app = (ROOT / "front/src" / "App.tsx").read_text()
+    home = (ROOT / "front/src" / "components" / "home" / "ThemeRadarHome.tsx").read_text()
+    carousel = (ROOT / "front/src" / "components" / "common" / "ThemeCarousel.tsx").read_text()
 
     assert '<div id="root"></div>' in html
     assert "<ThemeRadarHome" in app
@@ -281,7 +281,7 @@ def test_markup_copy_and_first_section_preserve_lower_homepage() -> None:
 
 
 def test_styles_are_responsive_and_accessible_without_redesigning_the_page() -> None:
-    styles = (ROOT / "assets" / "styles.css").read_text()
+    styles = (ROOT / "front/assets" / "styles.css").read_text()
 
     assert ".public-theme-ranking" in styles
     assert ".public-theme-grid" in styles
@@ -295,7 +295,7 @@ def test_styles_are_responsive_and_accessible_without_redesigning_the_page() -> 
 
 
 def test_payload_loader_uses_only_server_built_ranking() -> None:
-    source = (ROOT / "assets" / "app.js").read_text()
+    source = (ROOT / "front/assets" / "app.js").read_text()
     loader = _function_body(source, "loadPublicThemeRankingData")
     renderer = _function_body(source, "renderPublicThemeRanking")
 

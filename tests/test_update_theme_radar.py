@@ -51,8 +51,8 @@ def _no_goodinfo_scraping(monkeypatch: pytest.MonkeyPatch) -> None:
 
 
 ROOT = Path(__file__).resolve().parents[1]
-REGISTRY_PATH = ROOT / "config" / "source_registry.tw.json"
-TAXONOMY_PATH = ROOT / "config" / "theme_taxonomy.tw.json"
+REGISTRY_PATH = ROOT / "job/config" / "source_registry.tw.json"
+TAXONOMY_PATH = ROOT / "job/config" / "theme_taxonomy.tw.json"
 CNYES_FIXTURE_PATH = ROOT / "tests" / "fixtures" / "cnyes_rss.xml"
 TECHNEWS_FIXTURE_PATH = ROOT / "tests" / "fixtures" / "technews_rss.xml"
 TECHNEWS_FIXTURE_MANIFEST_PATH = ROOT / "tests" / "fixtures" / "technews_rss.manifest.json"

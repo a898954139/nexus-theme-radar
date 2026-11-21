@@ -15,7 +15,7 @@ from scripts.theme_relevance import (
 
 
 ROOT = Path(__file__).resolve().parents[1]
-TAXONOMY_PATH = ROOT / "config" / "theme_taxonomy.tw.json"
+TAXONOMY_PATH = ROOT / "job/config" / "theme_taxonomy.tw.json"
 
 
 def test_taxonomy_contains_market_native_seed_themes() -> None:

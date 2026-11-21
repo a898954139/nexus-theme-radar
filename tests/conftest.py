@@ -1,12 +1,19 @@
+"""Cross-layer tests: pipeline code lives in job/, so `import scripts.x` resolves there.
+
+These tests stay at the repository root because many of them pin contracts
+between layers (job writes a dataset, backend serves it, front renders it).
+"""
+
 from __future__ import annotations
 
 import sys
 from pathlib import Path
 
-
 ROOT = Path(__file__).resolve().parents[1]
-if str(ROOT) not in sys.path:
-    sys.path.insert(0, str(ROOT))
+JOB = ROOT / "job"
+for path in (ROOT, JOB):
+    if str(path) not in sys.path:
+        sys.path.insert(0, str(path))
 
 
 import pytest

@@ -52,7 +52,7 @@ def _probe_primary_mode_pools(
     theme_events: list[dict[str, object]],
     legacy_stories: list[dict[str, object]],
 ) -> dict[str, object]:
-    source_path = ROOT / "assets" / "app.js"
+    source_path = ROOT / "front/assets" / "app.js"
     harness = f"""
 const fs = require("fs");
 const vm = require("vm");
@@ -166,7 +166,7 @@ process.stdout.write(JSON.stringify(result));
 
 
 def test_ui_tabs_use_v03_market_theme_taxonomy() -> None:
-    source = (ROOT / "assets" / "app.js").read_text()
+    source = (ROOT / "front/assets" / "app.js").read_text()
     section_block = source.split("const SECTION_DEFS = [", 1)[1].split("];", 1)[0]
     tabs = re.findall(r'\{\s*id: "([^"]+)",\s*label: "([^"]+)"', section_block)
 
@@ -174,7 +174,7 @@ def test_ui_tabs_use_v03_market_theme_taxonomy() -> None:
 
 
 def test_ui_compatibility_map_keeps_its_curated_shape() -> None:
-    source = (ROOT / "assets" / "app.js").read_text()
+    source = (ROOT / "front/assets" / "app.js").read_text()
     compat_block = _object_block(source, "THEME_SECTION_COMPAT")
     compat = dict(re.findall(r'([a-z0-9_]+): "([a-z0-9_]+)"', compat_block))
 

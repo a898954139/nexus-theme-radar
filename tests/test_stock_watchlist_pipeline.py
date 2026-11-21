@@ -10,7 +10,7 @@ ROOT = Path(__file__).resolve().parents[1]
 
 
 def test_hourly_entrypoint_uses_dual_imports_for_watchlist_modules() -> None:
-    source = (ROOT / "scripts" / "update_theme_radar.py").read_text(encoding="utf-8")
+    source = (ROOT / "job/scripts" / "update_theme_radar.py").read_text(encoding="utf-8")
 
     assert "from scripts.stock_watchlist import" in source
     assert "from stock_watchlist import" in source
@@ -19,7 +19,7 @@ def test_hourly_entrypoint_uses_dual_imports_for_watchlist_modules() -> None:
 
 
 def test_watchlist_is_published_before_the_optional_history_connection_return() -> None:
-    source = (ROOT / "scripts" / "update_theme_radar.py").read_text(encoding="utf-8")
+    source = (ROOT / "job/scripts" / "update_theme_radar.py").read_text(encoding="utf-8")
     start = source.index("def run_momentum_side_paths(")
     no_connection_return = source.index("if connection is None:", start)
 
@@ -40,14 +40,14 @@ def test_watchlist_is_published_to_the_radar_tables_not_copied() -> None:
     workflow = (ROOT / ".github" / "workflows" / "update-theme-radar.yml").read_text(
         encoding="utf-8"
     )
-    script = (ROOT / "scripts" / "copy_runtime_data.sh").read_text(encoding="utf-8")
+    script = (ROOT / "front" / "copy_reports.sh").read_text(encoding="utf-8")
 
     assert "--dataset stock-watchlist" in workflow
     assert "public-stock-watchlist-v1.json" not in script
 
 
 def test_repository_real_watchlist_payload_is_valid_and_not_mock_data() -> None:
-    path = ROOT / "data" / "public-stock-watchlist-v1.json"
+    path = ROOT / "job/data" / "public-stock-watchlist-v1.json"
     payload = json.loads(path.read_text(encoding="utf-8"))
 
     validate_stock_watchlist_payload(payload)

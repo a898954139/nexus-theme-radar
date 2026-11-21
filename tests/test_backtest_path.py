@@ -8,7 +8,7 @@ from datetime import date, datetime, timezone
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-sys.path.insert(0, str(ROOT / "scripts"))
+sys.path.insert(0, str(ROOT / "job/scripts"))
 
 import backtest_path as bt  # noqa: E402
 import sector_history as sh  # noqa: E402
@@ -189,6 +189,6 @@ def test_db_write_is_one_transaction_with_both_tables() -> None:
     assert counts["outcome_rows"] == 1
     summary_row = executed[0][1][0]
     assert summary_row["rule_version"] == bt.RULE_VERSION and 0 <= summary_row["hit_rate"] <= 1
-    migration = (ROOT / "supabase" / "migrations" / "20261119090000_create_radar_path_backtest.sql").read_text()
+    migration = (ROOT / "db/supabase" / "migrations" / "20261119090000_create_radar_path_backtest.sql").read_text()
     for column in ("hit_rate", "avg_signed_value", "trading_days", "foreign_t1", "excess_t5"):
         assert column in migration

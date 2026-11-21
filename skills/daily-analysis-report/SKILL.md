@@ -5,7 +5,7 @@ description: "Local half of the daily pre-market report (issue #8). Use from the
 
 # Daily pre-market analysis report (local)
 
-Run from the repository root on the user's machine. The cloud job has already
+Run from the repository's `job/` folder on the user's machine. The prepare job has already
 frozen today's list (`radar.analysis_batch` / `analysis_queue`) and the
 deterministic snapshots by 07:00 Taipei. Your job is judgement only: read the
 numbers, write one report per stock, push. Never fetch prices yourself and

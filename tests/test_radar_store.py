@@ -291,7 +291,7 @@ def test_redact_error_keeps_class_name() -> None:
 
 
 def _migration_text() -> str:
-    matches = sorted((ROOT / "supabase" / "migrations").glob(MIGRATION_GLOB))
+    matches = sorted((ROOT / "db/supabase" / "migrations").glob(MIGRATION_GLOB))
     assert len(matches) == 1
     return matches[0].read_text(encoding="utf-8").lower()
 
@@ -323,7 +323,7 @@ def test_migration_is_rerunnable_and_least_privilege() -> None:
 
 # --- tracking-candidates snapshot (#6) ---------------------------------------
 
-TRACKING_CANDIDATES_JSON = ROOT / "data" / "tracking-candidates.json"
+TRACKING_CANDIDATES_JSON = ROOT / "job/data" / "tracking-candidates.json"
 TRACKING_MIGRATION_GLOB = "*_create_radar_tracking_candidates_snapshot.sql"
 
 
@@ -352,7 +352,7 @@ def test_tracking_snapshot_rejects_contract_breaks_and_allows_additions() -> Non
 
 
 def test_tracking_required_keys_match_the_js_contract() -> None:
-    js = (ROOT / "api" / "_lib" / "trackingCandidatesContract.js").read_text(encoding="utf-8")
+    js = (ROOT / "backend/api" / "_lib" / "trackingCandidatesContract.js").read_text(encoding="utf-8")
     block = js.split("TRACKING_CANDIDATES_REQUIRED_KEYS = Object.freeze([", 1)[1].split("]);", 1)[0]
     js_keys = tuple(part.strip().strip("',") for part in block.split("\n") if part.strip())
     assert js_keys == TRACKING_CANDIDATES_REQUIRED_KEYS
@@ -413,7 +413,7 @@ def test_dual_write_passes_tracking_candidates_through() -> None:
 
 
 def test_tracking_migration_is_rerunnable_and_least_privilege() -> None:
-    paths = sorted((ROOT / "supabase" / "migrations").glob(TRACKING_MIGRATION_GLOB))
+    paths = sorted((ROOT / "db/supabase" / "migrations").glob(TRACKING_MIGRATION_GLOB))
     assert len(paths) == 1
     sql = paths[0].read_text(encoding="utf-8")
     assert "create table if not exists radar.tracking_candidates_snapshot (" in sql

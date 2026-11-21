@@ -25,7 +25,7 @@ def _function_body(source: str, name: str) -> str:
 
 
 def test_page_is_public_local_and_defaults_to_72_hours() -> None:
-    html = (ROOT / "theme-momentum.html").read_text(encoding="utf-8")
+    html = (ROOT / "front/theme-momentum.html").read_text(encoding="utf-8")
 
     assert '<html lang="zh-TW">' in html
     assert 'href="./assets/theme-momentum.css"' in html
@@ -41,7 +41,7 @@ def test_page_is_public_local_and_defaults_to_72_hours() -> None:
 
 
 def test_browser_fetches_only_the_two_public_static_payloads() -> None:
-    source = (ROOT / "assets" / "theme-momentum.js").read_text(encoding="utf-8")
+    source = (ROOT / "front/assets" / "theme-momentum.js").read_text(encoding="utf-8")
 
     assert '"./data/public-theme-momentum-latest-v0.9.json"' in source
     assert '"./data/public-theme-momentum-history-v0.9.json"' in source
@@ -58,7 +58,7 @@ def test_browser_fetches_only_the_two_public_static_payloads() -> None:
 
 
 def test_ui_preserves_producer_order_and_names_every_required_state() -> None:
-    source = (ROOT / "assets" / "theme-momentum.js").read_text(encoding="utf-8")
+    source = (ROOT / "front/assets" / "theme-momentum.js").read_text(encoding="utf-8")
     render_latest = _function_body(source, "renderLatest")
 
     assert ".sort(" not in render_latest
@@ -79,8 +79,8 @@ def test_ui_preserves_producer_order_and_names_every_required_state() -> None:
 
 
 def test_page_and_styles_include_accessibility_and_responsive_contracts() -> None:
-    html = (ROOT / "theme-momentum.html").read_text(encoding="utf-8")
-    css = (ROOT / "assets" / "theme-momentum.css").read_text(encoding="utf-8")
+    html = (ROOT / "front/theme-momentum.html").read_text(encoding="utf-8")
+    css = (ROOT / "front/assets" / "theme-momentum.css").read_text(encoding="utf-8")
 
     assert 'class="skip-link"' in html
     assert 'role="group"' in html
@@ -95,9 +95,9 @@ def test_page_and_styles_include_accessibility_and_responsive_contracts() -> Non
 
 
 def test_homepage_adds_only_the_approved_momentum_destination() -> None:
-    html = (ROOT / "index.html").read_text(encoding="utf-8")
-    app = (ROOT / "src" / "App.tsx").read_text(encoding="utf-8")
-    nav = (ROOT / "src" / "components" / "common" / "NavTabBar.tsx").read_text(encoding="utf-8")
+    html = (ROOT / "front/index.html").read_text(encoding="utf-8")
+    app = (ROOT / "front/src" / "App.tsx").read_text(encoding="utf-8")
+    nav = (ROOT / "front/src" / "components" / "common" / "NavTabBar.tsx").read_text(encoding="utf-8")
 
     assert "<ThemeMomentum" in app
     assert "updateHash('momentum')" in app
@@ -118,7 +118,7 @@ def test_both_pages_accept_exactly_the_fields_the_materializer_emits() -> None:
 
     import sys
 
-    sys.path.insert(0, str(ROOT / "scripts"))
+    sys.path.insert(0, str(ROOT / "job/scripts"))
     from materialize_public_theme_history import PUBLIC_THEME_FIELD_ORDER
 
     produced = set(PUBLIC_THEME_FIELD_ORDER)
@@ -128,11 +128,11 @@ def test_both_pages_accept_exactly_the_fields_the_materializer_emits() -> None:
         block = source[start : source.index("]", start)]
         return set(re.findall(r'"([a-z_]+)"', block))
 
-    momentum = (ROOT / "assets" / "theme-momentum.js").read_text(encoding="utf-8")
+    momentum = (ROOT / "front/assets" / "theme-momentum.js").read_text(encoding="utf-8")
     history_block = momentum[momentum.index("history theme fields are invalid") - 2000 :]
     momentum_keys = declared_keys(history_block, "const themeKeys = [")
 
-    homepage = (ROOT / "assets" / "app.js").read_text(encoding="utf-8")
+    homepage = (ROOT / "front/assets" / "app.js").read_text(encoding="utf-8")
     homepage_keys = declared_keys(
         homepage, "function validateHomepageMomentumHistoryTheme"
     )
@@ -149,7 +149,7 @@ def test_both_pages_accept_exactly_the_fields_the_materializer_emits() -> None:
 
 def test_javascript_is_syntactically_valid() -> None:
     completed = subprocess.run(
-        ["node", "--check", str(ROOT / "assets" / "theme-momentum.js")],
+        ["node", "--check", str(ROOT / "front/assets" / "theme-momentum.js")],
         check=False,
         capture_output=True,
         text=True,
@@ -158,7 +158,7 @@ def test_javascript_is_syntactically_valid() -> None:
 
 
 def test_react_history_chart_preserves_the_full_heat_score_range() -> None:
-    source = (ROOT / "src" / "components" / "momentum" / "ThemeMomentum.tsx").read_text(
+    source = (ROOT / "front/src" / "components" / "momentum" / "ThemeMomentum.tsx").read_text(
         encoding="utf-8"
     )
 
@@ -197,10 +197,10 @@ assert.equal(points.at(-1), context.chartY(values.at(-1), 110));
 
 
 def test_react_history_chart_keeps_original_compact_dimensions() -> None:
-    component = (ROOT / "src" / "components" / "momentum" / "ThemeMomentum.tsx").read_text(
+    component = (ROOT / "front/src" / "components" / "momentum" / "ThemeMomentum.tsx").read_text(
         encoding="utf-8"
     )
-    styles = (ROOT / "src" / "index.css").read_text(encoding="utf-8")
+    styles = (ROOT / "front/src" / "index.css").read_text(encoding="utf-8")
 
     assert "const CHART_HEIGHT = 110" in component
     assert 'viewBox="0 0 600 140"' in component

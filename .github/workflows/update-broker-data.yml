@@ -15,6 +15,11 @@ concurrency:
 permissions:
   contents: write
 
+# Pipeline code and state live in the job layer (job/).
+defaults:
+  run:
+    working-directory: job
+
 jobs:
   update:
     timeout-minutes: 180
@@ -30,7 +35,7 @@ jobs:
         with:
           python-version: "3.11"
           cache: "pip"
-          cache-dependency-path: "requirements.txt"
+          cache-dependency-path: "job/requirements.txt"
 
       - name: Install dependencies
         run: |
