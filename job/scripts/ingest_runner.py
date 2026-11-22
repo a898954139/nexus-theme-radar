@@ -242,6 +242,18 @@ def _budget_status(source: Mapping[str, Any], budget_seconds: int) -> dict[str, 
     }
 
 
+def _unpack_fetch_result(result: Any) -> tuple[list[dict[str, Any]], dict[str, Any]]:
+    """Accept both fetcher shapes: ``(records, status)`` and the envelope dict
+    ``{"records", "status", "feed_state"}`` that ``fetch_rss_source`` returns
+    since #30. Unpacking the dict as a tuple raised for every source, so every
+    ingest run recorded all sources as errors and wrote no articles."""
+
+    if isinstance(result, Mapping):
+        return list(result.get("records") or []), dict(result["status"])
+    records, status = result
+    return list(records), dict(status)
+
+
 def fetch_group(
     sources: Sequence[Mapping[str, Any]],
     fetched_at: datetime,
@@ -281,7 +293,7 @@ def fetch_group(
                 statuses.append(_budget_status(source, budget_seconds))
                 continue
             try:
-                items, status = future.result()
+                items, status = _unpack_fetch_result(future.result())
             except Exception as error:  # noqa: BLE001 - one source never fails the group
                 items = []
                 status = {

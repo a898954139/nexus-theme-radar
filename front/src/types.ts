@@ -491,6 +491,14 @@ export interface PathBacktestBadge {
   window: [string, string];
 }
 
+/** GET /api/v1/path-backtest: radar.path_backtest, per path and sector. */
+export interface PathBacktestTable {
+  rule_version: string;
+  computed_at: string;
+  min_sample: number;
+  paths: Record<string, Record<string, PathBacktestBadge>>;
+}
+
 export interface SectorChange {
   name: string;
   chg: number;

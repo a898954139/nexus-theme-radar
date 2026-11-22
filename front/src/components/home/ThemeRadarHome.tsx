@@ -2,7 +2,8 @@ import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { buildMacroFocus, buildThemeFocus } from '../../lib/focusThemes';
 import { FEED_TABS, FeedTab, feedAnalysis, feedHeadline, pathsForTab, relativeTime, riskAppetite } from '../../lib/feed';
 import { CalendarData, CryptoQuote, fetchCalendar, fetchCryptoQuotes, fetchUsQuotes, UsQuote } from '../../services/marketExtras';
-import { DeviceType, NewsItem, PreMarketData, RadarData, StockWatchlistData, ThemeFocusData } from '../../types';
+import { fetchPathBacktest } from '../../services/dataService';
+import { DeviceType, NewsItem, PathBacktestTable, PreMarketData, RadarData, StockWatchlistData, ThemeFocusData } from '../../types';
 import {
   AllEvents, AnalysisSection, CalendarList, LeadEvent, leadQuotes, MiniCards, overviewQuotes, PathList, PickTable,
   RiskBlock, SectionHead, SectorHeat, ThemeTable,
@@ -84,7 +85,13 @@ export const ThemeRadarHome: React.FC<ThemeRadarHomeProps> = ({ data, preMarket,
   const analysisRef = useRef<HTMLElement>(null);
 
   const now = preMarket ? Date.parse(preMarket.generated_at) || Date.now() : Date.now();
-  const macro = useMemo(() => (preMarket ? buildMacroFocus(preMarket, now) : []), [preMarket, now]);
+  const [backtestTable, setBacktestTable] = useState<PathBacktestTable | null>(null);
+  useEffect(() => {
+    let active = true;
+    fetchPathBacktest().then((table) => { if (active) setBacktestTable(table); });
+    return () => { active = false; };
+  }, []);
+  const macro = useMemo(() => (preMarket ? buildMacroFocus(preMarket, now, backtestTable) : []), [preMarket, now, backtestTable]);
   const themes = useMemo(() => buildThemeFocus(data, watchlist, macro), [data, watchlist, macro]);
   const risk = useMemo(() => riskAppetite(preMarket), [preMarket]);
   const headline = useMemo(() => feedHeadline(preMarket, macro), [preMarket, macro]);
