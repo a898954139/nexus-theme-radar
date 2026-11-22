@@ -359,7 +359,7 @@ def load_env(config_dir: Path = CONFIG_DIR) -> dict[str, str]:
         if path.stat().st_mode & 0o077:
             raise PermissionError(f"{path} must be chmod 600")
         env.update(parse_env_file(path.read_text(encoding="utf-8")))
-    # ingest_runner reads its own variable; on the Mac it is the same radar_writer login.
+    # ingest_runner reads its own variable; on the Mac it is the same theme_radar_app login (member of radar_writer).
     if env.get("THEME_RADAR_DATABASE_URL") and not env.get("RADAR_INGEST_DATABASE_URL"):
         env["RADAR_INGEST_DATABASE_URL"] = env["THEME_RADAR_DATABASE_URL"]
     return env

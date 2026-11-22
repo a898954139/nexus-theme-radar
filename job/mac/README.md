@@ -11,7 +11,7 @@ has no radar jobs. One file decides what runs when: [`jobs.conf`](jobs.conf).
 | `~/.nexus-radar/runner` | dedicated clone of `master`; jobs run from its `job/` folder (not the iCloud dev clone) |
 | `~/.nexus-radar/runner/job/.venv` | Python venv for the job layer |
 | `~/.nexus-radar/runner/job/data/` | phase 1: local pipeline state (previous snapshots / history the scripts read). Not committed anywhere. |
-| `~/.config/nexus-theme-radar/runner.env` | `THEME_RADAR_DATABASE_URL` (radar_writer login), `FINNHUB_API_KEY`, optional `NTR_HC_PING_KEY`. Mode 600. |
+| `~/.config/nexus-theme-radar/runner.env` | `THEME_RADAR_DATABASE_URL` (theme_radar_app login via the Session pooler, a member of radar_writer; see db/roles.json), `FINNHUB_API_KEY`, optional `NTR_HC_PING_KEY`. Mode 600. |
 | `~/.config/nexus-theme-radar/analyst.env` | `RADAR_ANALYST_DATABASE_URL` for the 07:30 report (already created by the PRD setup) |
 | `~/Library/LaunchAgents/com.nexus.themeradar.*.plist` | generated; never edit by hand |
 | `~/Library/Logs/nexus-radar/<job>.log` | one log per job, rotated at 5 MB by `prune-logs` |

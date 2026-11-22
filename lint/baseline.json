@@ -1,0 +1,21 @@
+{
+  "_doc": "Accepted findings: rule -> {key: reason}. Each entry is debt with a reason, not a pass. Remove an entry when the finding is fixed (check --all lists stale ones).",
+  "wording-taiwan": {
+    "front/classic/index.html": "Upstream AI-news-radar page (fork origin), simplified Chinese; not part of the TW radar UI. Remove the page or convert it, then drop this entry.",
+    "front/legacy/index.html": "Same upstream page kept as a legacy redirect target; convert or delete."
+  },
+  "no-pg-cron": {
+    "db/supabase/manual/radar_ingest_schedule.sql": "Manual, never-applied rollback reference from the pg_cron era (#7). Mac launchd owns scheduling; delete once the cloud fallback is retired."
+  },
+  "jobs-conf": {
+    "nolock-writer:broker-data": "Intentional: broker files are read only by broker-data's own publish step, so it skips the shared lock to avoid blocking the hourly radar (see jobs.conf comment)."
+  },
+  "table-has-reader": {
+    "radar.event_outcome": "BREAKPOINT (M014): per-event backtest outcomes; same fix as radar.path_backtest.",
+    "radar.event_impact": "Impact rows of radar.event; same decision as radar.event (read or stop writing).",
+    "radar.market_snapshot": "Pre-market market snapshot dual-write (#10); page reads pm_pulse. Decide: read or drop."
+  },
+  "dataset-has-caller": {
+    "api/v1/tracking-candidates": "External consumer (NexusDashboard, #6), authenticated; not meant for the radar front."
+  }
+}

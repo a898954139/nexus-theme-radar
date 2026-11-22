@@ -1,0 +1,8 @@
+#!/bin/sh
+# Repo lint on everything this branch changed vs origin/master + repo-wide rules.
+root="$(git rev-parse --show-toplevel)"
+python3 "$root/lint/repo_lint.py" check || exit 1
+# chain the pre-existing local hook (e.g. the pytest pre-push), passing stdin through
+legacy="$(git rev-parse --git-dir)/hooks/pre-push"
+[ -x "$legacy" ] && exec "$legacy" "$@"
+exit 0

@@ -1,0 +1,96 @@
+{
+  "_doc": "Canonical DB roles and connection facts (M009, M010, M011). Quote role names and hosts from here, never from memory. lint/repo_lint.py checks every role name and connection string in the repo against this file.",
+  "project": {
+    "ref": "xdixmdglgzaiugvfxmuw",
+    "retired_refs": [
+      "abtdxucfppnjdqkwqiqh"
+    ],
+    "retired_note": "abtdxucfppnjdqkwqiqh filled up and went read-only on 2026-11-20 (c15e054); the radar moved to xdixmdglgzaiugvfxmuw."
+  },
+  "connection": {
+    "use": "Session pooler",
+    "user_format": "<login_role>.xdixmdglgzaiugvfxmuw",
+    "host_format": "aws-1-ap-southeast-2.pooler.supabase.com",
+    "port": 5432,
+    "template": "postgresql://<login_role>.xdixmdglgzaiugvfxmuw:<password>@aws-1-ap-southeast-2.pooler.supabase.com:5432/postgres",
+    "never": "Direct connection db.<ref>.supabase.co is IPv6-only and does not resolve from the Mac (2026-11-21)."
+  },
+  "group_roles": {
+    "radar_writer": {
+      "login": false,
+      "logins": [
+        "theme_radar_app",
+        "radar_ingest_login"
+      ],
+      "grants": "write radar.*"
+    },
+    "radar_reader": {
+      "login": false,
+      "logins": [
+        "radar_api"
+      ],
+      "grants": "select radar.*"
+    },
+    "radar_analyst": {
+      "login": false,
+      "logins": [
+        "radar_analyst_login"
+      ],
+      "grants": "analysis queue/report"
+    },
+    "theme_radar_writer": {
+      "login": false,
+      "logins": [
+        "theme_radar_app"
+      ],
+      "grants": "write theme_radar.*"
+    },
+    "theme_radar_materializer": {
+      "login": false,
+      "logins": [
+        "theme_radar_app"
+      ],
+      "grants": "materialize theme history"
+    },
+    "site_metrics_writer": {
+      "login": false,
+      "logins": [],
+      "grants": "site_metrics.* (edge function)"
+    }
+  },
+  "login_roles": {
+    "theme_radar_app": {
+      "member_of": [
+        "radar_writer",
+        "theme_radar_writer"
+      ],
+      "env": "THEME_RADAR_DATABASE_URL",
+      "where": "Mac ~/.config/nexus-theme-radar/runner.env (+ GitHub secret for workflow_dispatch fallbacks)"
+    },
+    "radar_api": {
+      "member_of": [
+        "radar_reader"
+      ],
+      "env": "RADAR_API_DATABASE_URL",
+      "where": "Vercel project nexus-theme-radar-api (backend). Must stay read-only: do not point it at a writer login (M011)."
+    },
+    "radar_ingest_login": {
+      "member_of": [
+        "radar_writer"
+      ],
+      "env": "RADAR_INGEST_DATABASE_URL",
+      "where": "optional; ntr.py falls back to THEME_RADAR_DATABASE_URL"
+    },
+    "radar_analyst_login": {
+      "member_of": [
+        "radar_analyst"
+      ],
+      "env": "RADAR_ANALYST_DATABASE_URL",
+      "where": "Mac ~/.config/nexus-theme-radar/analyst.env"
+    }
+  },
+  "local_test_roles": [
+    "w_login",
+    "r_login"
+  ]
+}

@@ -1,0 +1,8 @@
+#!/bin/sh
+# Repo lint on staged files (docs/MISTAKES.md). Activate: python3 lint/repo_lint.py install-hooks
+root="$(git rev-parse --show-toplevel)"
+python3 "$root/lint/repo_lint.py" check --staged || exit 1
+# keep any hook that lived in .git/hooks before core.hooksPath pointed here
+legacy="$(git rev-parse --git-dir)/hooks/pre-commit"
+[ -x "$legacy" ] && exec "$legacy" "$@"
+exit 0
