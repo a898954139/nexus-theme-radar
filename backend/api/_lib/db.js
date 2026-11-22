@@ -1,4 +1,4 @@
-// Shared read-only Postgres pool for Vercel Functions (radar_reader login).
+// Shared read-only Postgres pool for Vercel Functions (radar_api login, a member of radar_reader; see db/roles.json).
 //
 // Server-side only. Environment (never VITE_-prefixed):
 //   RADAR_API_DATABASE_URL   login role granted radar_reader ONLY.

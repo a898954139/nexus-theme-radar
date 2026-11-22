@@ -1,0 +1,30 @@
+name: Repo lint (past mistakes)
+
+# Every rule cites an entry in docs/MISTAKES.md. Runs on PRs and pushes to
+# master; no schedule (schedules live only in job/mac/jobs.conf).
+
+on:
+  pull_request:
+  push:
+    branches: [master]
+    paths-ignore:
+      - job/data/**
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Repo lint (all tracked files)
+        run: python3 lint/repo_lint.py check --all
+      - name: Lint rule tests
+        run: |
+          python3 -m pip install --quiet pytest
+          python3 -m pytest -q tests/test_repo_lint.py

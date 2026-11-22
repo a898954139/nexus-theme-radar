@@ -116,7 +116,7 @@ ask() {  # $1 name, $2 hint, $3 required(1/0)
   if [ -z "$v" ]; then [ "$3" = 1 ] && fail "$1 is required"; warn "$1 skipped"; return; fi
   printf '%s=%s\n' "$1" "$v" >> "$ENV_FILE"; ok "$1 saved"
 }
-ask THEME_RADAR_DATABASE_URL "radar_writer 連線字串，與 GitHub secret THEME_RADAR_DATABASE_URL 相同" 1
+ask THEME_RADAR_DATABASE_URL "theme_radar_app 的 Session pooler 連線字串（帳號 theme_radar_app.xdixmdglgzaiugvfxmuw，不要用 db.*.supabase.co），與 GitHub secret THEME_RADAR_DATABASE_URL 相同" 1
 ask FINNHUB_API_KEY "盤前看板用，與 GitHub secret 相同" 0
 ask NTR_HC_PING_KEY "healthchecks.io 專案的 Ping key，斷線警報用" 0
 
@@ -133,7 +133,7 @@ for s in update_theme_radar update_pre_market ingest_runner radar_publish; do
   (cd "$JOB" && .venv/bin/python "scripts/$s.py" --help >/dev/null) || fail "job/scripts/$s.py --help"
 done
 NTR list >/dev/null || fail "job/mac/jobs.conf does not parse"
-ok "radar_writer login, imports, jobs.conf"
+ok "theme_radar_app login, imports, jobs.conf"
 
 # ---------- 2 backend 專案 ----------
 step "2 Vercel project $API_PROJECT (Root Directory = backend)"
