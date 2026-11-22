@@ -13,22 +13,50 @@ from pathlib import Path
 
 import pytest
 
-from scripts import radar_publish, radar_tables
+from scripts import moat_screen, radar_publish, radar_tables
 
 ROOT = Path(__file__).resolve().parents[1]
 DATA = ROOT / "job/data"
 MIGRATION = ROOT / "db/supabase" / "migrations" / "20261119150000_create_radar_relational_core.sql"
-RELATIONAL_MIGRATIONS = sorted((ROOT / "db/supabase" / "migrations").glob("20261119*_create_radar_relational_*.sql"))
+RELATIONAL_MIGRATIONS = sorted(
+    [
+        *(ROOT / "db/supabase" / "migrations").glob("20261119*_create_radar_relational_*.sql"),
+        ROOT / "db/supabase" / "migrations" / "20261122100000_create_radar_moat_screen.sql",
+    ]
+)
 
 
 def load(name: str):
     return json.loads((DATA / name).read_text(encoding="utf-8"))
 
 
+def moat_screen_payload():
+    """data/moat-screen.json is local run state (gitignored): rebuild it from
+    the committed fundamentals cache and watchlist, the way the hourly run does."""
+    screened = moat_screen.screen_universe(moat_screen.load_fundamentals_universe(DATA / "fundamentals"))
+    watchlist = load("public-stock-watchlist-v1.json")
+    if watchlist["methodology_version"] == "stock_watchlist_v1":
+        # The committed file predates the gate: drop the selections the gate would refuse.
+        for row in watchlist["searchable"]:
+            verdict = screened.get(row["instrument"]["instrument_id"])
+            if not (verdict and verdict["short_pass"]):
+                row.update(selected_top50=False, short_rank=None, long_rank=None)
+            elif not verdict["long_pass"]:
+                row["long_rank"] = None
+    return moat_screen.screen_summary(
+        screened,
+        generated_at=watchlist["generated_at"],
+        candidate_ids={row["instrument"]["instrument_id"] for row in watchlist["searchable"]},
+        searchable=watchlist["searchable"],
+    )
+
+
 @pytest.fixture(scope="module")
 def mapped():
     # broker-map/ is ~600MB of JSON: map the committed data once per module.
-    return {name: loader(DATA) for name, loader in radar_tables.DATASETS.items()}
+    out = {name: loader(DATA) for name, loader in radar_tables.DATASETS.items() if name != "moat-screen"}
+    out["moat-screen"] = radar_tables.map_moat_screen(moat_screen_payload())
+    return out
 
 
 def test_every_registered_dataset_maps_committed_data(mapped):
@@ -225,3 +253,31 @@ def test_pre_market_rejects_unknown_event_keys():
     payload["events"][0]["newField"] = 1
     with pytest.raises(ValueError, match="unexpected keys"):
         radar_tables.map_pre_market(payload)
+
+
+def test_moat_screen_report_maps_every_candidate_with_reasons():
+    payload = moat_screen_payload()
+    snapshot = radar_tables.map_moat_screen(payload)
+    tables = {c.table: c for c in snapshot.children}
+    candidates = tables["moat_screen_candidate"].rows
+    assert len(candidates) == len(payload["report"]) == snapshot.header["candidate_count"]
+    assert [r[0] for r in tables["moat_screen_rule"].rows] == list(radar_tables.MOAT_RULES)
+    columns = tables["moat_screen_candidate"].columns
+    short_pass = columns.index("short_pass")
+    failed_ids = {r[0] for r in tables["moat_screen_candidate_failure"].rows}
+    for row in candidates:
+        # a name that failed the short rules always carries at least one reason
+        assert row[short_pass] or row[0] in failed_ids
+
+
+def test_moat_screen_rejects_inconsistent_rows():
+    payload = moat_screen_payload()
+    bad = json.loads(json.dumps(payload))
+    row = next(r for r in bad["report"] if not r["short_pass"])
+    row["selected_top50"] = True
+    with pytest.raises(ValueError, match="selected without passing"):
+        radar_tables.map_moat_screen(bad)
+    bad = json.loads(json.dumps(payload))
+    bad["report"][0]["failed"] = ["vibes"]
+    with pytest.raises(ValueError, match="unknown failure"):
+        radar_tables.map_moat_screen(bad)

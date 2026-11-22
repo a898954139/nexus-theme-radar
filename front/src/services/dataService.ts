@@ -6,6 +6,7 @@ import {
   FlowMetric,
   InstitutionalRankingBoard,
   InstitutionalRankingsData,
+  MoatScreenData,
   MomentumHistoryData,
   MomentumLatestData,
   PathBacktestTable,
@@ -408,6 +409,61 @@ export async function fetchThemeFocus(cacheBust = false): Promise<ThemeFocusData
     const payload = await readApi<ThemeFocusData>('theme-focus', {}, cacheBust);
     if (payload?.schema_version !== 'nexus_theme_focus.v1' || !Array.isArray(payload.themes)) return null;
     return payload;
+  } catch {
+    return null;
+  }
+}
+
+const MOAT_RULES = ['roe_ttm', 'gross_margin_4q', 'debt_ratio', 'operating_cash_flow_ttm'] as const;
+const MOAT_FAILURES = new Set<string>([...MOAT_RULES, ...MOAT_RULES.map((rule) => `${rule}_missing`), 'no_fundamentals']);
+
+function isMoatScreenItem(value: unknown): boolean {
+  if (!isRecord(value)) return false;
+  if (!hasExactKeys(value, ['instrument', 'themes', 'has_fundamentals', 'metrics', 'failed', 'short_pass', 'long_pass',
+    'selected_top50', 'short_rank', 'long_rank'])) return false;
+  const metrics = value.metrics;
+  return isWatchlistInstrument(value.instrument)
+    && Array.isArray(value.themes)
+    && value.themes.every((theme) => isRecord(theme) && hasExactKeys(theme, ['theme_id', 'name_zh', 'relation'])
+      && typeof theme.theme_id === 'string' && typeof theme.name_zh === 'string'
+      && (theme.relation === 'direct' || theme.relation === 'related'))
+    && typeof value.has_fundamentals === 'boolean'
+    && isRecord(metrics) && hasExactKeys(metrics, MOAT_RULES) && MOAT_RULES.every((rule) => isNumberOrNull(metrics[rule]))
+    && Array.isArray(value.failed) && value.failed.every((rule) => typeof rule === 'string' && MOAT_FAILURES.has(rule))
+    && typeof value.short_pass === 'boolean' && typeof value.long_pass === 'boolean'
+    && typeof value.selected_top50 === 'boolean'
+    && isNumberOrNull(value.short_rank) && isNumberOrNull(value.long_rank)
+    && (value.short_pass || (!value.long_pass && !value.selected_top50));
+}
+
+export function isMoatScreenData(value: unknown): value is MoatScreenData {
+  if (!isRecord(value) || !hasExactKeys(value, ['rule_version', 'generated_at', 'thresholds', 'universe', 'candidates', 'rules', 'items'])) return false;
+  const { thresholds, universe, candidates, rules, items } = value;
+  const allNumbers = (record: unknown, keys: readonly string[]) =>
+    isRecord(record) && hasExactKeys(record, keys) && keys.every((key) => typeof record[key] === 'number');
+  return typeof value.rule_version === 'string'
+    && typeof value.generated_at === 'string'
+    && allNumbers(thresholds, ['roe_ttm_min', 'gross_margin_4q_min', 'debt_ratio_max', 'operating_cash_flow_ttm_min_exclusive'])
+    && allNumbers(universe, ['evaluated', 'short_pass', 'long_pass'])
+    && allNumbers(candidates, ['count', 'evaluated', 'short_pass', 'long_pass', 'no_fundamentals'])
+    && Array.isArray(rules) && rules.length === MOAT_RULES.length
+    && rules.every((rule, index) => isRecord(rule)
+      && hasExactKeys(rule, ['rule', 'in_short', 'in_long', 'universe_p25', 'universe_p50', 'universe_p75', 'universe_failed', 'universe_missing'])
+      && rule.rule === MOAT_RULES[index]
+      && typeof rule.in_short === 'boolean' && typeof rule.in_long === 'boolean'
+      && isNumberOrNull(rule.universe_p25) && isNumberOrNull(rule.universe_p50) && isNumberOrNull(rule.universe_p75)
+      && typeof rule.universe_failed === 'number' && typeof rule.universe_missing === 'number')
+    && Array.isArray(items) && items.every(isMoatScreenItem);
+}
+
+/**
+ * Moat screen report for the stock radar page. Null on any failure (including
+ * before its migration runs): the page then hides the report and still renders.
+ */
+export async function fetchMoatScreen(cacheBust = false): Promise<MoatScreenData | null> {
+  try {
+    const payload = await readApi<unknown>('moat-screen', {}, cacheBust);
+    return isMoatScreenData(payload) ? payload : null;
   } catch {
     return null;
   }

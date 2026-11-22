@@ -630,3 +630,47 @@ export interface ThemeFocusData {
   method: { focus_score: string; hot_heat: number; broad_breadth: number; weak_breadth: number };
   themes: ThemeFocusTheme[];
 }
+
+// GET /api/v1/moat-screen (rule moat_v1, job/scripts/moat_screen.py). Shown on
+// the stock radar page; the page renders without it.
+export type MoatRule = 'roe_ttm' | 'gross_margin_4q' | 'debt_ratio' | 'operating_cash_flow_ttm';
+export type MoatFailure = MoatRule | `${MoatRule}_missing` | 'no_fundamentals';
+
+export interface MoatScreenRuleStat {
+  rule: MoatRule;
+  in_short: boolean;
+  in_long: boolean;
+  universe_p25: number | null;
+  universe_p50: number | null;
+  universe_p75: number | null;
+  universe_failed: number;
+  universe_missing: number;
+}
+
+export interface MoatScreenItem {
+  instrument: WatchlistInstrument;
+  themes: Array<{ theme_id: string; name_zh: string; relation: 'direct' | 'related' }>;
+  has_fundamentals: boolean;
+  metrics: Record<MoatRule, number | null>;
+  failed: MoatFailure[];
+  short_pass: boolean;
+  long_pass: boolean;
+  selected_top50: boolean;
+  short_rank: number | null;
+  long_rank: number | null;
+}
+
+export interface MoatScreenData {
+  rule_version: string;
+  generated_at: string;
+  thresholds: {
+    roe_ttm_min: number;
+    gross_margin_4q_min: number;
+    debt_ratio_max: number;
+    operating_cash_flow_ttm_min_exclusive: number;
+  };
+  universe: { evaluated: number; short_pass: number; long_pass: number };
+  candidates: { count: number; evaluated: number; short_pass: number; long_pass: number; no_fundamentals: number };
+  rules: MoatScreenRuleStat[];
+  items: MoatScreenItem[];
+}

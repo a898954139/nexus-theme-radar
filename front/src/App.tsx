@@ -10,8 +10,8 @@ import { SourceStatus } from './components/sources/SourceStatus';
 import { StockDetail } from './components/stock/StockDetail';
 import { StockWatchlist, WatchlistView } from './components/watchlist/StockWatchlist';
 import { useSiteMetrics } from './hooks/useSiteMetrics';
-import { fetchStockWatchlist, loadRadarData, fetchBrokerMap, fetchInstitutionalFlows, fetchStockFundamentals, fetchPreMarket, fetchThemeFocus } from './services/dataService';
-import { DeviceType, PageType, PreMarketData, RadarData, StockTab, StockWatchlistData, ThemeFocusData } from './types';
+import { fetchMoatScreen, fetchStockWatchlist, loadRadarData, fetchBrokerMap, fetchInstitutionalFlows, fetchStockFundamentals, fetchPreMarket, fetchThemeFocus } from './services/dataService';
+import { DeviceType, MoatScreenData, PageType, PreMarketData, RadarData, StockTab, StockWatchlistData, ThemeFocusData } from './types';
 
 interface RouteState {
   page: PageType;
@@ -74,6 +74,7 @@ export const App: React.FC = () => {
   const [themeFocus, setThemeFocus] = useState<ThemeFocusData | null>(null);
   const [loadError, setLoadError] = useState(false);
   const [watchlistData, setWatchlistData] = useState<StockWatchlistData | null>(null);
+  const [moatScreen, setMoatScreen] = useState<MoatScreenData | null>(null);
   const [watchlistLoading, setWatchlistLoading] = useState(true);
   const [watchlistError, setWatchlistError] = useState(false);
   const [watchlistRequest, setWatchlistRequest] = useState(0);
@@ -161,6 +162,9 @@ export const App: React.FC = () => {
     let active = true;
     setWatchlistLoading(true);
     setWatchlistError(false);
+    fetchMoatScreen().then((data) => {
+      if (active) setMoatScreen(data);
+    });
     fetchStockWatchlist()
       .then((data) => {
         if (active) setWatchlistData(data);
@@ -238,6 +242,10 @@ export const App: React.FC = () => {
     const refreshWatchlist = () => {
       if (!active || watchlistRefreshInFlight.current) return;
       watchlistRefreshInFlight.current = true;
+      fetchMoatScreen(true).then((data) => {
+        // Keep the last good report on a transient failure.
+        if (active && data) setMoatScreen(data);
+      });
       fetchStockWatchlist(true)
         .then((data) => {
           if (!active) return;
@@ -340,6 +348,7 @@ export const App: React.FC = () => {
           <StockWatchlist
             payload={watchlistData}
             focus={themeFocus}
+            moatScreen={moatScreen}
             view={route.view}
             query={route.q}
             onViewChange={(view) => updateWatchlistHash(view, view === 'search' ? route.q : '')}

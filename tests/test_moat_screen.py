@@ -183,3 +183,29 @@ def test_fundamental_score_uses_the_fixed_universe_not_the_candidate_list():
         moat=moat,
     )
     assert score(second_payload) == first
+
+
+def test_report_explains_every_candidate_next_to_the_watchlist_outcome():
+    moat = {
+        "TWSE:2330": evaluate(_statement()),
+        "TPEX:6488": evaluate(_statement(operating=(-10, -10, 5, 5))),
+        "TWSE:2454": evaluate(_statement(gross=(0.096,) * 4)),
+    }
+    payload = _gated(moat)
+    summary = screen_summary(
+        moat,
+        generated_at=payload["generated_at"],
+        candidate_ids={row["instrument"]["instrument_id"] for row in payload["searchable"]},
+        searchable=payload["searchable"],
+    )
+    report = {row["instrument"]["instrument_id"]: row for row in summary["report"]}
+    assert set(report) == {"TWSE:2330", "TPEX:6488", "TWSE:2454"}
+    rejected = report["TWSE:2454"]
+    assert rejected["failed"] == ["gross_margin_4q"]
+    assert rejected["selected_top50"] is False and rejected["short_rank"] is None
+    assert rejected["metrics"]["gross_margin_4q"] == 0.096
+    short_only = report["TPEX:6488"]
+    assert short_only["short_pass"] and not short_only["long_pass"]
+    assert short_only["selected_top50"] and short_only["long_rank"] is None
+    assert [row["rule"] for row in summary["rule_stats"]] == list(LONG_RULES)
+    assert summary["rule_stats"][1]["universe_failed"] == 1

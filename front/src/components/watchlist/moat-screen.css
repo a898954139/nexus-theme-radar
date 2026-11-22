@@ -1,0 +1,59 @@
+/* Moat screen report on the stock radar page (rule moat_v1).
+   Pass/fail is not a price direction: pass uses the accent, fail uses --warn,
+   so red = up / green = down keeps its meaning site-wide. */
+.moat-summary { padding: 14px 0 16px; border-bottom: 1px solid var(--line); }
+.moat-lede { margin: 6px 0 12px; color: var(--muted); font-size: 13px; line-height: 1.6; }
+.moat-note { margin: 10px 0 12px; color: var(--faint); font-size: 12px; line-height: 1.6; }
+.moat-funnel { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 0; margin: 0; padding: 0; list-style: none; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+.moat-funnel li { position: relative; padding: 10px 12px; border-right: 1px solid var(--sub-line); }
+.moat-funnel li:last-child { border-right: 0; }
+.moat-funnel li:not(:last-child)::after { content: '→'; position: absolute; right: -7px; top: 50%; transform: translateY(-50%); color: var(--faint); font-size: 11px; background: var(--page-bg); }
+.moat-funnel b { display: block; color: var(--text-hi); font-size: 22px; font-weight: 600; }
+.moat-funnel span { color: var(--muted); font-size: 12px; }
+.moat-funnel li.is-on b { color: var(--gold); }
+.moat-rules { border-top: 1px solid var(--line); }
+.moat-rules-head, .moat-rules-row { display: grid; grid-template-columns: minmax(130px, 1.1fr) 70px 44px 44px minmax(150px, 1.1fr) 70px minmax(220px, 2.4fr); gap: 12px; align-items: baseline; padding: 8px 0; border-bottom: 1px solid var(--sub-line); }
+.moat-rules-head { color: var(--faint); font-size: 11px; }
+.moat-rules-row { color: var(--muted); font-size: 12px; }
+.moat-rules-row b { color: var(--text-hi); font-weight: 600; font-size: 13px; }
+.moat-threshold { color: var(--gold); font-weight: 600; }
+.moat-yes { color: var(--gold); }
+.moat-no { color: var(--faint); }
+.moat-basis { line-height: 1.55; }
+
+.moat-toggle { margin-top: 5px; padding: 1px 6px; border: 1px solid var(--gold-line); border-radius: 4px; background: transparent; color: var(--gold); font-size: 11px; cursor: pointer; white-space: nowrap; }
+.moat-toggle.is-open { background: var(--gold-bg); }
+.moat-detail { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 0; padding: 10px 0 12px 48px; border-bottom: 1px solid var(--line); background: color-mix(in srgb, var(--surface-bg) 60%, transparent); }
+.moat-cell { padding: 0 14px; border-left: 2px solid var(--gold); }
+.moat-cell.is-fail { border-left-color: var(--warn); }
+.moat-cell.is-off { opacity: .55; }
+.moat-cell small { display: block; color: var(--faint); font-size: 11px; }
+.moat-cell b { display: block; margin: 3px 0; color: var(--text-hi); font-size: 16px; font-weight: 600; }
+.moat-cell.is-fail b { color: var(--warn); }
+.moat-cell em { color: var(--muted); font-size: 11px; font-style: normal; }
+
+.moat-rejected { margin-top: 22px; padding-top: 6px; border-top: 1px solid var(--line); }
+.moat-rejected-head, .moat-rejected-row { display: grid; grid-template-columns: minmax(110px, 1fr) minmax(110px, 1fr) repeat(4, 76px) minmax(200px, 2fr); gap: 10px; align-items: center; padding: 8px 0; border-bottom: 1px solid var(--sub-line); }
+.moat-rejected-head { color: var(--faint); font-size: 11px; }
+.moat-rejected-row { color: var(--muted); font-size: 12px; }
+.moat-rejected-row .is-fail { color: var(--warn); font-weight: 600; }
+.moat-stock b, .moat-stock small { display: block; }
+.moat-stock b { color: var(--text-hi); font-size: 13px; font-weight: 600; }
+.moat-stock small { color: var(--faint); font-size: 11px; }
+.moat-themes { font-size: 12px; }
+.moat-reasons { color: var(--text); line-height: 1.5; }
+
+@media (max-width: 719px) {
+  .moat-funnel { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .moat-funnel li:nth-child(2)::after { content: none; }
+  .moat-rules-head { display: none; }
+  .moat-rules-row { grid-template-columns: 1fr auto; row-gap: 4px; }
+  .moat-rules-row > span:nth-child(3), .moat-rules-row > span:nth-child(4), .moat-rules-row > span:nth-child(6) { display: none; }
+  .moat-rules-row > span:nth-child(5), .moat-rules-row > .moat-basis { grid-column: 1 / -1; }
+  .moat-detail { grid-template-columns: repeat(2, minmax(0, 1fr)); row-gap: 10px; padding: 10px 0; }
+  .moat-rejected-head { display: none; }
+  .moat-rejected-row { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  .moat-rejected-row > .moat-stock, .moat-rejected-row > .moat-themes, .moat-rejected-row > .moat-reasons { grid-column: 1 / -1; }
+}
+@media (max-width: 719px) { .moat-detail-desktop { display: none; } }
+.watchlist-mobile-card .moat-detail { padding: 10px 12px; }

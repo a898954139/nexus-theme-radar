@@ -156,13 +156,81 @@ def screen_universe(universe: Mapping[str, Mapping[str, Any]]) -> dict[str, dict
     return {instrument_id: evaluate(payload) for instrument_id, payload in sorted(universe.items())}
 
 
+def _quantile(sorted_values: list[float], q: float) -> float | None:
+    """Linear-interpolated quantile (same as numpy's default)."""
+    if not sorted_values:
+        return None
+    position = (len(sorted_values) - 1) * q
+    lower = int(position)
+    upper = min(lower + 1, len(sorted_values) - 1)
+    return sorted_values[lower] + (sorted_values[upper] - sorted_values[lower]) * (position - lower)
+
+
+def rule_stats(screened: Mapping[str, Mapping[str, Any]]) -> list[dict[str, Any]]:
+    """Per rule: universe distribution (the basis for the threshold) and failures."""
+    rows = []
+    for rule in LONG_RULES:
+        values = sorted(v for r in screened.values() if (v := r["metrics"].get(rule)) is not None)
+        failed = sum(1 for r in screened.values() if rule in r["failed"])
+        missing = sum(1 for r in screened.values() if f"{rule}_missing" in r["failed"])
+        rows.append({
+            "rule": rule,
+            "short": rule in SHORT_RULES,
+            "long": True,
+            "universe_p25": _round(_quantile(values, 0.25)),
+            "universe_p50": _round(_quantile(values, 0.50)),
+            "universe_p75": _round(_quantile(values, 0.75)),
+            "universe_failed": failed,
+            "universe_missing": missing,
+        })
+    return rows
+
+
+def _round(value: float | None) -> float | None:
+    return round(value, 6) if value is not None else None
+
+
+def candidate_report(
+    screened: Mapping[str, Mapping[str, Any]],
+    searchable: list[Mapping[str, Any]],
+) -> list[dict[str, Any]]:
+    """One row per theme candidate (the watchlist ``searchable`` list): why it
+    passed or failed, next to what the watchlist then did with it."""
+    rows = []
+    for entry in searchable:
+        instrument = entry["instrument"]
+        row = screened.get(instrument["instrument_id"])
+        metrics = row["metrics"] if row else {rule: None for rule in LONG_RULES}
+        rows.append({
+            "instrument": {"instrument_id": instrument["instrument_id"], "name_zh": instrument.get("name_zh") or ""},
+            "themes": [
+                {"theme_id": t["theme_id"], "name_zh": t.get("name_zh") or "", "relation": t["relation"]}
+                for t in entry.get("themes") or []
+            ],
+            "has_fundamentals": row is not None,
+            "metrics": {k: _round(v) for k, v in metrics.items()},
+            "failed": list(row["failed"]) if row else ["no_fundamentals"],
+            "short_pass": bool(row and row["short_pass"]),
+            "long_pass": bool(row and row["long_pass"]),
+            "selected_top50": bool(entry.get("selected_top50")),
+            "short_rank": entry.get("short_rank"),
+            "long_rank": entry.get("long_rank"),
+        })
+    return rows
+
+
 def screen_summary(
     screened: Mapping[str, Mapping[str, Any]],
     *,
     generated_at: str,
     candidate_ids: set[str] | None = None,
+    searchable: list[Mapping[str, Any]] | None = None,
 ) -> dict[str, Any]:
-    """The local ``moat-screen.json`` state file: counts plus per-name detail."""
+    """The local ``moat-screen.json`` state file: counts plus per-name detail.
+
+    With ``searchable`` (the watchlist built from this screen) it also carries
+    ``rule_stats`` and ``report``, which radar_tables.map_moat_screen publishes.
+    """
     def counts(ids: set[str]) -> dict[str, int]:
         rows = [screened[i] for i in ids if i in screened]
         return {
@@ -185,6 +253,8 @@ def screen_summary(
         "universe": counts(set(screened)),
         "candidates": counts(candidate_ids) if candidate_ids is not None else None,
         "failure_counts": dict(sorted(failure_counts.items())),
+        "rule_stats": rule_stats(screened),
+        "report": candidate_report(screened, searchable) if searchable is not None else None,
         "symbols": {
             instrument_id: {
                 "short_pass": row["short_pass"],

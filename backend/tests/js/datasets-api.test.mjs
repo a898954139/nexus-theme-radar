@@ -13,7 +13,7 @@ const run = (dataset, query, qs = '') =>
 test('registry exposes the PR-A datasets', () => {
   assert.deepEqual(Object.keys(DATASETS).sort(), [
     'broker-coverage', 'broker-map', 'broker-stats', 'fundamentals', 'institutional-flows',
-    'institutional-rankings', 'path-backtest', 'pre-market', 'source-status', 'stock-audit', 'stock-watchlist', 'theme-events', 'theme-focus',
+    'institutional-rankings', 'moat-screen', 'path-backtest', 'pre-market', 'source-status', 'stock-audit', 'stock-watchlist', 'theme-events', 'theme-focus',
     'theme-momentum', 'theme-momentum-history', 'theme-ranking',
   ]);
 });
@@ -82,4 +82,43 @@ test('isoUtc keeps microseconds and converts any session offset to Z', () => {
   assert.equal(isoUtc('2026-11-19 09:30:00+00'), '2026-11-19T09:30:00Z');
   assert.equal(isoUtc('2026-11-19 15:00:00+05:30'), '2026-11-19T09:30:00Z');
   assert.equal(isoUtc(null), null);
+});
+
+test('moat-screen rebuilds the report with reasons per candidate', async () => {
+  const query = async (sql) => {
+    if (sql.includes('from radar.moat_screen_snapshot')) {
+      return { rows: [{ snapshot_id: 7, generated_at: '2026-11-22T09:17:00Z', rule_version: 'moat_v1',
+        roe_ttm_min: 0.08, gross_margin_4q_min: 0.15, debt_ratio_max: 0.6, operating_cash_flow_ttm_min_exclusive: 0,
+        universe_evaluated: 1974, universe_short_pass: 620, universe_long_pass: 545, candidate_count: 2,
+        candidate_evaluated: 2, candidate_short_pass: 1, candidate_long_pass: 1, candidate_no_fundamentals: 0 }] };
+    }
+    if (sql.includes('from radar.moat_screen_rule')) {
+      return { rows: [{ rule: 'roe_ttm', position: 0, in_short: true, in_long: true, universe_p25: 0.01,
+        universe_p50: 0.066, universe_p75: 0.132, universe_failed: 900, universe_missing: 12 }] };
+    }
+    if (sql.includes('from radar.moat_screen_candidate c')) {
+      return { rows: [
+        { instrument_id: 'TWSE:2408', symbol: '2408', exchange: 'TWSE', name_zh: '南亞科', has_fundamentals: true,
+          roe_ttm: 0.12, gross_margin_4q: 0.3, debt_ratio: 0.2, operating_cash_flow_ttm: 100,
+          short_pass: true, long_pass: true, selected_top50: true, short_rank: 4, long_rank: 1 },
+        { instrument_id: 'TWSE:6770', symbol: '6770', exchange: 'TWSE', name_zh: '力積電', has_fundamentals: true,
+          roe_ttm: -0.05, gross_margin_4q: 0.096, debt_ratio: 0.4, operating_cash_flow_ttm: 10,
+          short_pass: false, long_pass: false, selected_top50: false, short_rank: null, long_rank: null },
+      ] };
+    }
+    if (sql.includes('from radar.moat_screen_candidate_failure')) {
+      return { rows: [{ instrument_id: 'TWSE:6770', rule: 'roe_ttm' }, { instrument_id: 'TWSE:6770', rule: 'gross_margin_4q' }] };
+    }
+    return { rows: [{ instrument_id: 'TWSE:6770', theme_id: 'memory_hbm', name_zh: '記憶體', relation: 'related' }] };
+  };
+  const res = await run('moat-screen', query);
+  assert.equal(res.status, 200);
+  const body = JSON.parse(res.body);
+  assert.deepEqual(Object.keys(body), ['rule_version', 'generated_at', 'thresholds', 'universe', 'candidates', 'rules', 'items']);
+  assert.equal(body.items.length, 2);
+  const rejected = body.items[1];
+  assert.deepEqual(rejected.failed, ['roe_ttm', 'gross_margin_4q']);
+  assert.deepEqual(rejected.themes, [{ theme_id: 'memory_hbm', name_zh: '記憶體', relation: 'related' }]);
+  assert.equal(rejected.metrics.gross_margin_4q, 0.096);
+  assert.deepEqual(body.items[0].failed, []);
 });

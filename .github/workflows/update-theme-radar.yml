@@ -158,3 +158,14 @@ jobs:
                 && vars.THEME_RADAR_DB_HISTORY_AUTHORIZED_ENVIRONMENT == 'production'
                 && secrets.THEME_RADAR_DATABASE_URL || '' }}
         run: python scripts/radar_publish.py --data-dir data --dataset theme-focus --dataset source-status --dataset theme-events --dataset theme-ranking --dataset theme-momentum --dataset theme-momentum-history --dataset stock-watchlist --dataset fundamentals --dataset stock-audit --require
+      - name: Publish moat screen report
+        # Not --require: before its migration the table is missing and that
+        # must not fail the run (same as the Mac job theme-radar).
+        env:
+          THEME_RADAR_DATABASE_URL: >-
+            ${{ github.ref_type == 'branch'
+                && github.ref_name == 'master'
+                && vars.THEME_RADAR_DB_HISTORY_AUTHORIZED_BRANCH == github.ref_name
+                && vars.THEME_RADAR_DB_HISTORY_AUTHORIZED_ENVIRONMENT == 'production'
+                && secrets.THEME_RADAR_DATABASE_URL || '' }}
+        run: python scripts/radar_publish.py --data-dir data --dataset moat-screen
