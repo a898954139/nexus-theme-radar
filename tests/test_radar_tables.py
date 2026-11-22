@@ -188,9 +188,28 @@ def test_theme_events_symbols_reference_registered_instruments(mapped):
 
 def test_watchlist_rejects_short_and_long_lists_that_disagree():
     payload = load("public-stock-watchlist-v1.json")
-    payload["long"]["items"] = payload["long"]["items"][1:]
-    with pytest.raises(ValueError, match="different instruments"):
+    payload["short"]["items"] = payload["short"]["items"][1:]
+    with pytest.raises(ValueError, match="outside the short list"):
         radar_tables.map_stock_watchlist(payload)
+
+    # moat_v1: a name dropped from the long list must not keep its long rank
+    payload = load("public-stock-watchlist-v1.json")
+    payload["long"]["items"] = payload["long"]["items"][1:]
+    with pytest.raises(ValueError, match="carries a long rank"):
+        radar_tables.map_stock_watchlist(payload)
+
+
+def test_watchlist_maps_a_short_only_name_with_null_long_rank():
+    payload = load("public-stock-watchlist-v1.json")
+    dropped = payload["long"]["items"][0]["instrument"]["instrument_id"]
+    payload["long"]["items"] = payload["long"]["items"][1:]
+    for item in payload["short"]["items"]:
+        if item["instrument"]["instrument_id"] == dropped:
+            item["long"]["rank"] = None
+    snapshot = radar_tables.map_stock_watchlist(payload)
+    items = next(child for child in snapshot.children if child.table == "watchlist_item")
+    row = next(row for row in items.rows if row[0] == dropped)
+    assert row[3] is None
 
 
 def test_fundamentals_reject_unknown_statement_lines():

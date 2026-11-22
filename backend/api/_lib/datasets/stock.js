@@ -107,7 +107,8 @@ export const watchlist = {
       };
     });
     const shortItems = detail.slice().sort((a, b) => a.short.rank - b.short.rank);
-    const longItems = detail.slice().sort((a, b) => a.long.rank - b.long.rank);
+    // moat_v1: the long list is a subset of the short list; short-only names have no long rank.
+    const longItems = detail.filter((d) => d.long.rank !== null && d.long.rank !== undefined).sort((a, b) => a.long.rank - b.long.rank);
     const dayTrading = Object.fromEntries(day.rows.map((d) => [d.market, {
       as_of: d.as_of, finality: d.finality, numerator_url: d.numerator_url,
       denominator_url: d.denominator_url, status: d.status, error: d.error,

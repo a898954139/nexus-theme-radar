@@ -14,6 +14,16 @@ from typing import Any
 PUBLIC_STOCK_WATCHLIST_FILENAME = "public-stock-watchlist-v1.json"
 SCHEMA_VERSION = "nexus_stock_watchlist.v1"
 METHODOLOGY_VERSION = "stock_watchlist_v1"
+# v2: moat_v1 gate before the theme-attention mother set, and fundamental
+# percentiles over the fixed fundamentals universe instead of the hourly
+# candidate list (M018). See scripts/moat_screen.py.
+MOAT_METHODOLOGY_VERSION = "stock_watchlist_v2"
+TOP50_RULE_V1 = "theme-attention mother set shared by short and long"
+TOP50_RULE_V2 = (
+    "theme-attention top 50 of moat_v1 names (ROE TTM>=8%, 4Q gross margin>=15%, debt ratio<=60%); "
+    "long list keeps only those with TTM operating cash flow>0; "
+    "fundamental percentiles over the fixed fundamentals universe"
+)
 
 SHORT_WEIGHTS = {
     "theme_attention": 0.55,
@@ -406,7 +416,13 @@ def _available_weighted(values: Mapping[str, float | None], weights: Mapping[str
 
 def _fundamental_scores(
     fundamentals: Mapping[str, Mapping[str, Any]],
+    reference_metrics: Mapping[str, Mapping[str, Any]] | None = None,
 ) -> dict[str, dict[str, float | None]]:
+    """Percentile-rank each metric, over ``reference_metrics`` when given.
+
+    With a reference (the fixed fundamentals universe) a stock's percentile no
+    longer depends on which other names are candidates this hour (M018).
+    """
     metric_names = (
         "revenue_growth",
         "eps_growth",
@@ -419,8 +435,12 @@ def _fundamental_scores(
     percentiles = {
         metric: average_rank_percentiles(
             {
-                instrument_id: row["_metrics"].get(metric)
-                for instrument_id, row in fundamentals.items()
+                instrument_id: row.get(metric)
+                for instrument_id, row in (
+                    reference_metrics
+                    if reference_metrics is not None
+                    else {key: value["_metrics"] for key, value in fundamentals.items()}
+                ).items()
             }
         )
         for metric in metric_names
@@ -563,11 +583,34 @@ def build_stock_watchlist(
     generated_at: str,
     candidate_as_of: str,
     top_n: int = 50,
+    reference_fundamentals: Mapping[str, Mapping[str, Any]] | None = None,
+    moat: Mapping[str, Mapping[str, Any]] | None = None,
+    long_moat_gate: bool = True,
 ) -> dict[str, Any]:
+    """Rank the theme candidates for the short and long horizons.
+
+    ``moat`` (instrument_id -> {"short_pass", "long_pass"}, from
+    moat_screen.screen_universe) gates the mother set: only short-passing names
+    can be selected, and with ``long_moat_gate`` the long list keeps only the
+    long-passing ones. ``reference_fundamentals`` (the fixed universe of cached
+    statements) is the population for fundamental percentiles. Both None keeps
+    the v1 behaviour.
+    """
     candidates = _candidate_index(momentum_payload)
     ids = sorted(candidates)
     fundamentals = {key: _fundamentals(fundamentals_by_instrument.get(key)) for key in ids}
-    fundamental_scores = _fundamental_scores(fundamentals)
+    reference_metrics = (
+        {key: _fundamentals(value)["_metrics"] for key, value in reference_fundamentals.items()}
+        if reference_fundamentals is not None
+        else None
+    )
+    if reference_metrics is not None:
+        # A candidate whose statements are attached but not in the cache still
+        # gets ranked against the universe, never against the other candidates.
+        for key, row in fundamentals.items():
+            if key not in reference_metrics and row["_metrics"]:
+                reference_metrics[key] = row["_metrics"]
+    fundamental_scores = _fundamental_scores(fundamentals, reference_metrics)
     for instrument_id, row in fundamentals.items():
         quality = fundamental_scores[instrument_id]["fundamental_quality"]
         row["score"] = int(_round_half_up(quality, 0)) if quality is not None else None
@@ -687,8 +730,13 @@ def build_stock_watchlist(
         row["flags"] = _flags(row)
         items.append(row)
 
+    def _moat_pass(item: Mapping[str, Any], key: str) -> bool:
+        if moat is None:
+            return True
+        return bool((moat.get(item["instrument"]["instrument_id"]) or {}).get(key))
+
     mother_set = sorted(
-        items,
+        [item for item in items if _moat_pass(item, "short_pass")],
         key=lambda item: (
             item["short"]["components"]["theme_attention"]["raw"] is None,
             -float(item["short"]["components"]["theme_attention"]["raw"] or 0),
@@ -698,7 +746,14 @@ def build_stock_watchlist(
     selected_ids = {item["instrument"]["instrument_id"] for item in mother_set}
     selected_items = [item for item in items if item["instrument"]["instrument_id"] in selected_ids]
     short_items = _assign_ranks(selected_items, "short")
-    long_items = _assign_ranks(selected_items, "long")
+    long_items = _assign_ranks(
+        [
+            item
+            for item in selected_items
+            if not (moat is not None and long_moat_gate) or _moat_pass(item, "long_pass")
+        ],
+        "long",
+    )
     searchable = []
     short_rank_by_id = {
         item["instrument"]["instrument_id"]: item["short"]["rank"] for item in short_items
@@ -721,7 +776,7 @@ def build_stock_watchlist(
 
     payload = {
         "schema_version": SCHEMA_VERSION,
-        "methodology_version": METHODOLOGY_VERSION,
+        "methodology_version": MOAT_METHODOLOGY_VERSION if moat is not None else METHODOLOGY_VERSION,
         "generated_at": generated_at,
         "candidate_as_of": candidate_as_of,
         "sources": {
@@ -753,7 +808,7 @@ def build_stock_watchlist(
         },
         "methodology": {
             "missing_values": "available components are reweighted; missing values are never filled with zero",
-            "top50": "theme-attention mother set shared by short and long",
+            "top50": TOP50_RULE_V2 if moat is not None else TOP50_RULE_V1,
             "short_weights": SHORT_WEIGHTS,
             "long_weights": LONG_WEIGHTS,
             "fundamental_quality_weights": {"growth": 0.40, "profitability": 0.35, "structure": 0.25},
@@ -883,11 +938,21 @@ def validate_stock_watchlist_payload(payload: Mapping[str, Any]) -> None:
     long_ids = [item["instrument"]["instrument_id"] for item in long_items]
     if len(short_ids) != len(set(short_ids)) or len(long_ids) != len(set(long_ids)):
         raise ValueError("duplicate selected instrument")
-    if set(short_ids) != set(long_ids):
-        raise ValueError("short and long must contain same instrument set")
+    if not set(long_ids).issubset(short_ids):
+        raise ValueError("long list must be a subset of the short list")
     long_by_id = {item["instrument"]["instrument_id"]: item for item in long_items}
-    if any(item != long_by_id[item["instrument"]["instrument_id"]] for item in short_items):
+    if any(
+        item != long_by_id[item["instrument"]["instrument_id"]]
+        for item in short_items
+        if item["instrument"]["instrument_id"] in long_by_id
+    ):
         raise ValueError("short and long item payloads must match")
+    if any(
+        item["long"]["rank"] is not None
+        for item in short_items
+        if item["instrument"]["instrument_id"] not in long_by_id
+    ):
+        raise ValueError("a name outside the long list must not carry a long rank")
     for horizon, items in (("short", short_items), ("long", long_items)):
         ranks = [item[horizon]["rank"] for item in items]
         if ranks != list(range(1, len(items) + 1)):

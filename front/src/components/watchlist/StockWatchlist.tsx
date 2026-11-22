@@ -250,7 +250,7 @@ export const StockWatchlist: React.FC<StockWatchlistProps> = ({
       >
         <strong className="watchlist-rank mono-num">{item.selected_top50 ? `#${item.short_rank ?? '—'}` : '—'}</strong>
         <span className="watchlist-stock-name"><b>{item.instrument.name_zh}</b><small className="mono-num">{item.instrument.symbol} · {item.instrument.exchange}</small></span>
-        <span className="watchlist-search-status">{item.selected_top50 ? `短 #${item.short_rank} · 長 #${item.long_rank}` : '候選池'}</span>
+        <span className="watchlist-search-status">{item.selected_top50 ? `短 #${item.short_rank} · 長 #${item.long_rank ?? '—'}` : '候選池'}</span>
         <Themes item={item} />
         <FlagChips flags={item.flags} />
         <button type="button" onClick={(event) => { event.stopPropagation(); onGoStock(item.instrument.symbol, item.instrument.exchange); }}>查看分析 →</button>

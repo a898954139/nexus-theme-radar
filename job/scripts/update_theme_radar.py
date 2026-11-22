@@ -48,6 +48,12 @@ try:
         select_settled_target,
         validate_day_trading_cache,
     )
+    from scripts.moat_screen import (
+        MOAT_SCREEN_FILENAME,
+        load_fundamentals_universe,
+        screen_summary,
+        screen_universe,
+    )
     from scripts.stock_watchlist import (
         PUBLIC_STOCK_WATCHLIST_FILENAME,
         build_stock_watchlist,
@@ -120,6 +126,12 @@ except ModuleNotFoundError:
         refresh_day_trading_cache,
         select_settled_target,
         validate_day_trading_cache,
+    )
+    from moat_screen import (
+        MOAT_SCREEN_FILENAME,
+        load_fundamentals_universe,
+        screen_summary,
+        screen_universe,
     )
     from stock_watchlist import (
         PUBLIC_STOCK_WATCHLIST_FILENAME,
@@ -1817,11 +1829,78 @@ def _unavailable_day_trading_view(
     return {"sources": sources, "symbols": symbols}
 
 
+MOAT_FUNDAMENTALS_DIR = "fundamentals"
+
+
+def _long_rank_nullable(connection: Any | None) -> bool:
+    """Whether radar.watchlist_item.long_rank accepts NULL in the target DB.
+
+    The moat long gate leaves short-only names without a long rank. Until the
+    20261122090000 migration drops NOT NULL, publishing such a row would fail
+    the hourly run, so the long gate stays off (and says so) until then.
+    No database configured means nothing to break: the gate is on.
+    """
+    if connection is None:
+        return os.environ.get("THEME_RADAR_DATABASE_URL", "").strip() == ""
+    try:
+        cursor = connection.execute(
+            "select is_nullable from information_schema.columns "
+            "where table_schema = 'radar' and table_name = 'watchlist_item' and column_name = 'long_rank'"
+        )
+        row = cursor.fetchone()
+    except Exception as error:  # noqa: BLE001 - unknown schema keeps the safe v1 long list
+        LOGGER.warning("moat_long_gate_schema_check_failed error=%s", error)
+        try:
+            connection.rollback()
+        except Exception:  # noqa: BLE001
+            pass
+        return False
+    if row is None:
+        return False
+    value = row["is_nullable"] if isinstance(row, Mapping) else row[0]
+    return str(value).upper() == "YES"
+
+
+def _moat_inputs(
+    output_dir: Path,
+    candidate_ids: set[str],
+    generated_at_text: str,
+) -> tuple[dict[str, Any] | None, dict[str, Any] | None]:
+    """Screen the fixed fundamentals universe and write data/moat-screen.json.
+
+    Returns (universe payloads, screen) or (None, None) when there is no cache,
+    in which case the watchlist falls back to the v1 behaviour.
+    """
+    if os.environ.get("THEME_RADAR_MOAT", "1").strip().lower() in {"0", "false", "off"}:
+        LOGGER.warning("moat_screen_disabled env=THEME_RADAR_MOAT")
+        return None, None
+    universe = load_fundamentals_universe(output_dir / MOAT_FUNDAMENTALS_DIR)
+    if not universe:
+        LOGGER.warning("moat_screen_skipped reason=no_fundamentals_cache")
+        return None, None
+    screened = screen_universe(universe)
+    summary = screen_summary(screened, generated_at=generated_at_text, candidate_ids=candidate_ids)
+    (output_dir / MOAT_SCREEN_FILENAME).write_text(
+        json.dumps(summary, ensure_ascii=False, indent=1) + "\n", encoding="utf-8"
+    )
+    LOGGER.info(
+        "moat_screen universe=%s short_pass=%s long_pass=%s candidates=%s candidate_short_pass=%s candidate_long_pass=%s",
+        summary["universe"]["evaluated"],
+        summary["universe"]["short_pass"],
+        summary["universe"]["long_pass"],
+        len(candidate_ids),
+        summary["candidates"]["short_pass"],
+        summary["candidates"]["long_pass"],
+    )
+    return universe, screened
+
+
 def publish_stock_watchlist(
     *,
     output_dir: Path,
     momentum_payload: Mapping[str, Any],
     generated_at: datetime,
+    connection: Any | None = None,
 ) -> None:
     generated_at_text = generated_at.astimezone(timezone.utc).isoformat().replace("+00:00", "Z")
     institutional_flows = _load_institutional_flows(
@@ -1845,9 +1924,18 @@ def publish_stock_watchlist(
             LOGGER.warning("day_trading_activity_refresh_failed error=%s", error)
             day_trading_activity = _unavailable_day_trading_view(day_trading_activity, error)
 
+    universe, screened = _moat_inputs(
+        output_dir, _watchlist_instrument_ids(momentum_payload), generated_at_text
+    )
+    long_gate = screened is not None and _long_rank_nullable(connection)
+    if screened is not None and not long_gate:
+        LOGGER.warning("moat_long_gate_off reason=watchlist_item.long_rank_not_nullable")
     payload = build_stock_watchlist(
         momentum_payload=momentum_payload,
         fundamentals_by_instrument=_watchlist_fundamentals(momentum_payload),
+        reference_fundamentals=universe,
+        moat=screened,
+        long_moat_gate=long_gate,
         institutional_flows=institutional_flows,
         day_trading_activity=day_trading_activity,
         generated_at=generated_at_text,
@@ -2042,6 +2130,7 @@ def run_momentum_side_paths(
                 output_dir=output_dir,
                 momentum_payload=latest_payload,
                 generated_at=generated_at,
+                connection=connection,
             )
         except Exception as error:  # noqa: BLE001 - required watchlist publication must fail the run
             LOGGER.warning(
