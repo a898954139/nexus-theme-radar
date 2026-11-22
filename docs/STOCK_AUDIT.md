@@ -1,5 +1,18 @@
 # Stock Audit report
 
+## Daily automated snapshot (個股健檢)
+
+`job/mac/jobs.conf` runs `stock-audit` weekdays 17:40 Taipei:
+`build_stock_audit.py --max-stocks 6` then `radar_publish.py --dataset stock-audit`.
+It takes the top TWSE names of the stock watchlist (short and long lists
+interleaved, TPEx skipped because STOCK_DAY/BWIBBU are TWSE-only, names without
+a `data/fundamentals/TWSE-*.json` skipped), computes rule-based 2R breakout plans
+on TWSE tick sizes, and serves them on the stock page via `/api/v1/stock-audit`.
+A stock with any missing input is skipped; a weekday holiday exits 0 without
+writing; no complete stock exits 1 and keeps the previous report. Completed months
+are cached in `data/stock-audit-cache/`. This is the rule-based snapshot only; the
+LLM-reviewed morning report below stays a manual run.
+
 ## Standalone mobile decision card
 
 Target: `reports/stock-audit-2026-10-21.html`, with the original Nexus fonts,
