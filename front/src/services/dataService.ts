@@ -142,7 +142,8 @@ function isScoreSummary(value: unknown, withRiskAdjustment: boolean): boolean {
   const exact = hasExactKeys(value, withRiskAdjustment ? WATCHLIST_SCORE_WITH_RISK_KEYS : WATCHLIST_SCORE_KEYS);
   const expectedComponents = withRiskAdjustment ? WATCHLIST_SHORT_COMPONENT_KEYS : WATCHLIST_LONG_COMPONENT_KEYS;
   return exact
-    && typeof value.rank === 'number'
+    // moat_v1: a short-only name (outside the long list) carries long.rank = null.
+    && (typeof value.rank === 'number' || (!withRiskAdjustment && value.rank === null))
     && typeof value.score === 'number'
     && isRecord(value.components) && hasExactKeys(value.components, expectedComponents)
     && Object.values(value.components).every(isScoreComponent)
@@ -216,10 +217,11 @@ export function isStockWatchlistData(value: unknown): value is StockWatchlistDat
   if (!value.searchable.every(isSearchableItem)) return false;
   const shortIds = value.short.items.map((item) => (item.instrument as Record<string, unknown>).instrument_id);
   const longIds = value.long.items.map((item) => (item.instrument as Record<string, unknown>).instrument_id);
-  const sameSet = shortIds.length === longIds.length && shortIds.every((id) => longIds.includes(id));
+  // moat_v1: the long list is a subset of the short list.
+  const longWithinShort = longIds.every((id) => shortIds.includes(id));
   const ranksContinuous = value.short.items.every((item, index) => (item.short as Record<string, unknown>).rank === index + 1)
     && value.long.items.every((item, index) => (item.long as Record<string, unknown>).rank === index + 1);
-  return sameSet
+  return longWithinShort
     && ranksContinuous
     && typeof value.short.count === 'number'
     && typeof value.long.count === 'number'

@@ -145,8 +145,9 @@ Enforced by: `lint:front-api-only`.
 ### M018 Basic-score percentile computed over a changing candidate list
 
 The candidate set changes every hour, so percentiles (and scores) jumped hourly
-even when the stock did not change.
-Enforced by: `process` until a regression test pins a fixed reference universe.
+even when the stock did not change. Fixed 2026-11-22: percentiles run over the
+fixed fundamentals universe (`job/data/fundamentals`, scripts/moat_screen.py).
+Enforced by: `test:tests/test_moat_screen.py` (`test_fundamental_score_uses_the_fixed_universe_not_the_candidate_list`).
 
 ### M019 Sentiment skew: radar mostly negative while TAIEX was bullish
 

@@ -10,6 +10,7 @@ No quality statistic is a fundamentals selection predicate. No new dependencies.
 from __future__ import annotations
 
 import argparse
+import itertools
 from datetime import date, datetime, timedelta, timezone
 import json
 import math
@@ -264,8 +265,11 @@ def watchlist_candidates(path, limit):
     shorts = (payload.get('short') or {}).get('items') or []
     longs = (payload.get('long') or {}).get('items') or []
     picked, seen = [], set()
-    for pair in zip(shorts, longs):
+    # moat_v1: the long list can be shorter than the short list; keep pairing past its end.
+    for pair in itertools.zip_longest(shorts, longs):
         for item in pair:
+            if item is None:
+                continue
             inst = item.get('instrument') or {}
             symbol = str(inst.get('symbol') or '')
             if inst.get('exchange') != 'TWSE' or not symbol or symbol in seen:

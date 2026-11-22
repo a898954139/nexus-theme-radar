@@ -350,7 +350,8 @@ export interface ScoreComponent {
 }
 
 export interface ScoreSummary {
-  rank: number;
+  // null only for long: a short-only name outside the moat_v1 long list.
+  rank: number | null;
   score: number;
   components: Record<string, ScoreComponent>;
   risk_adjustment?: Record<string, {

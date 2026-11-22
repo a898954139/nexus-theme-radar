@@ -944,16 +944,18 @@ def map_stock_watchlist(payload: Mapping[str, Any]) -> Snapshot:
     short_items = _list(_dict(_require(payload, "short", label), "short").get("items"), "short.items")
     long_items = _list(_dict(_require(payload, "long", label), "long").get("items"), "long.items")
     long_by_id = {item["instrument"]["instrument_id"]: item for item in long_items}
-    if set(long_by_id) != {item["instrument"]["instrument_id"] for item in short_items}:
-        raise ValueError(f"{label}: short and long lists hold different instruments")
+    if not set(long_by_id).issubset({item["instrument"]["instrument_id"] for item in short_items}):
+        raise ValueError(f"{label}: long list holds names outside the short list")
     for position, item in enumerate(short_items):
         ilabel = f"{label}.short.items[{position}]"
         item = _dict(item, ilabel)
         iid = item["instrument"]["instrument_id"]
         if iid not in member_ids:
             raise ValueError(f"{ilabel}: {iid} missing from searchable")
-        if long_by_id[iid] != item:
+        if iid in long_by_id and long_by_id[iid] != item:
             raise ValueError(f"{ilabel}: short and long copies of {iid} differ")
+        if iid not in long_by_id and _dict(item["long"], f"{ilabel}.long").get("rank") is not None:
+            raise ValueError(f"{ilabel}: {iid} is outside the long list but carries a long rank")
         short = _dict(item["short"], f"{ilabel}.short")
         long = _dict(item["long"], f"{ilabel}.long")
         risk = _dict(_dict(short["risk_adjustment"], "risk_adjustment")["overnight_risk_adjustment"], "overnight")
@@ -963,7 +965,8 @@ def map_stock_watchlist(payload: Mapping[str, Any]) -> Snapshot:
         cov = _dict(item["coverage"], "coverage")
         items.rows.append((
             iid, _int(short["rank"], "short.rank"), _num(short["score"], "short.score"),
-            _int(long["rank"], "long.rank"), _num(long["score"], "long.score"),
+            None if iid not in long_by_id else _int(long["rank"], "long.rank"),
+            _num(long["score"], "long.score"),
             _opt_num(risk.get("value"), "overnight.value"), _num(risk["applied"], "overnight.applied"),
             _opt_str(risk.get("missing_reason")),
             _str(inst["direction"], "institutional.direction"), _opt_str(inst.get("as_of")),

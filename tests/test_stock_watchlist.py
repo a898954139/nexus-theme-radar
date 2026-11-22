@@ -494,10 +494,17 @@ def test_schema_validator_is_exact_and_checks_same_set_and_rank_continuity():
     with pytest.raises(ValueError, match="unexpected keys"):
         validate_stock_watchlist_payload(broken)
 
+    # moat_v1: the long list may be shorter, but a dropped name must not keep a long rank
     broken = copy.deepcopy(payload)
     broken["long"]["items"].pop()
     broken["long"]["count"] -= 1
-    with pytest.raises(ValueError, match="same instrument set"):
+    with pytest.raises(ValueError, match="must not carry a long rank"):
+        validate_stock_watchlist_payload(broken)
+
+    broken = copy.deepcopy(payload)
+    broken["short"]["items"].pop()
+    broken["short"]["count"] -= 1
+    with pytest.raises(ValueError, match="subset of the short list"):
         validate_stock_watchlist_payload(broken)
 
     broken = copy.deepcopy(payload)
