@@ -15,6 +15,7 @@ import type {
   InstrumentRef,
   MomentumTheme,
   PathBacktestBadge,
+  PathBacktestTable,
   PreMarketData,
   RadarData,
   RepresentativeNews,
@@ -43,6 +44,8 @@ export interface MacroFocus {
   sectors: string[];
   horizon: 'short' | 'long' | null;
   backtest: PathBacktestBadge | null;
+  /** Hit rate of every backtested sector on this path (radar.path_backtest). */
+  sectorBacktest: Record<string, PathBacktestBadge>;
   lead: FocusEvent;
   events: FocusEvent[];
   hasCritical: boolean;
@@ -96,7 +99,24 @@ function leanOf(net: number, bull: number, bear: number): Lean {
   return net > 0 ? 'bull' : net < 0 ? 'bear' : 'mixed';
 }
 
-export function buildMacroFocus(data: PreMarketData, now = Date.parse(data.generated_at) || Date.now()): MacroFocus[] {
+/** The path's headline badge: the sector the carried badge named, else the
+ *  strongest directional call that has a backtest, else the largest sample. */
+function headlineBacktest(
+  rows: Record<string, PathBacktestBadge>,
+  carried: PathBacktestBadge | null,
+  calls: SectorCall[],
+): PathBacktestBadge | null {
+  if (carried && rows[carried.target]) return rows[carried.target];
+  const called = calls.find((call) => rows[call.sector]);
+  if (called) return rows[called.sector];
+  return Object.values(rows).sort((a, b) => b.n - a.n)[0] ?? carried;
+}
+
+export function buildMacroFocus(
+  data: PreMarketData,
+  now = Date.parse(data.generated_at) || Date.now(),
+  backtestTable: PathBacktestTable | null = null,
+): MacroFocus[] {
   const groups = new Map<string, FocusEvent[]>();
   for (const event of data.events) {
     const key = event.pathId || event.pathLabel || 'other';
@@ -146,9 +166,14 @@ export function buildMacroFocus(data: PreMarketData, now = Date.parse(data.gener
       .map(([sector, value]) => ({ sector, direction: (value > 0 ? 1 : -1) as 1 | -1, weight: Math.abs(value) }))
       .sort((a, b) => b.weight - a.weight);
     const sectors = [...sectorSeen.entries()].sort((a, b) => b[1] - a[1]).map(([sector]) => sector);
-    const backtest = [...events]
+    const carried = [...events]
       .filter((event) => event.pathBacktest)
       .sort((a, b) => (b.pathBacktest!.n - a.pathBacktest!.n))[0]?.pathBacktest ?? null;
+    // Prefer the table (current as soon as the 17:50 backtest finishes) over
+    // the copy the last pre-market run carried on its events.
+    const tableRows = backtestTable?.paths?.[key] ?? null;
+    const sectorBacktest = tableRows ?? (carried ? { [carried.target]: carried } : {});
+    const backtest = tableRows ? headlineBacktest(tableRows, carried, calls) : carried;
     const sorted = [...events].sort((a, b) => Date.parse(b.publishedAt) - Date.parse(a.publishedAt));
 
     result.push({
@@ -163,6 +188,7 @@ export function buildMacroFocus(data: PreMarketData, now = Date.parse(data.gener
       sectors,
       horizon: horizons.short === 0 && horizons.long === 0 ? null : horizons.long > horizons.short ? 'long' : 'short',
       backtest,
+      sectorBacktest,
       lead,
       events: sorted,
       hasCritical: events.some((event) => event.tier === 'critical'),
