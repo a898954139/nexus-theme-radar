@@ -1013,6 +1013,90 @@ def map_stock_watchlist(payload: Mapping[str, Any]) -> Snapshot:
     )
 
 
+# ---------------------------------------------------------- moat screen
+
+MOAT_RULES = ("roe_ttm", "gross_margin_4q", "debt_ratio", "operating_cash_flow_ttm")
+MOAT_FAILURES = frozenset({*MOAT_RULES, *(f"{r}_missing" for r in MOAT_RULES), "no_fundamentals"})
+
+
+def map_moat_screen(payload: Mapping[str, Any]) -> Snapshot:
+    """data/moat-screen.json (moat_screen.screen_summary with ``report``)."""
+    label = "moat-screen"
+    instruments: dict[str, dict[str, Any]] = {}
+    thresholds = _dict(_require(payload, "thresholds", label), f"{label}.thresholds")
+    universe = _dict(_require(payload, "universe", label), f"{label}.universe")
+    candidates = _dict(_require(payload, "candidates", label), f"{label}.candidates")
+    report = _list(_require(payload, "report", label), f"{label}.report")
+
+    rules = ChildTable("moat_screen_rule", ("rule", "position", "in_short", "in_long", "universe_p25", "universe_p50",
+                                            "universe_p75", "universe_failed", "universe_missing"))
+    stats = _list(_require(payload, "rule_stats", label), f"{label}.rule_stats")
+    if [_dict(r, "rule_stats[]").get("rule") for r in stats] != list(MOAT_RULES):
+        raise ValueError(f"{label}: rule_stats must list {list(MOAT_RULES)} in order")
+    for position, stat in enumerate(stats):
+        rules.rows.append((stat["rule"], position, _bool(stat["short"], "short"), _bool(stat["long"], "long"),
+                           _opt_num(stat.get("universe_p25"), "p25"), _opt_num(stat.get("universe_p50"), "p50"),
+                           _opt_num(stat.get("universe_p75"), "p75"), _int(stat["universe_failed"], "universe_failed"),
+                           _int(stat["universe_missing"], "universe_missing")))
+
+    members = ChildTable("moat_screen_candidate",
+                         ("instrument_id", "position", "has_fundamentals", *MOAT_RULES, "short_pass", "long_pass",
+                          "selected_top50", "short_rank", "long_rank"))
+    failures = ChildTable("moat_screen_candidate_failure", ("instrument_id", "position", "rule"))
+    themes = ChildTable("moat_screen_candidate_theme", ("instrument_id", "position", "theme_id", "name_zh", "relation"))
+    for position, row in enumerate(report):
+        rlabel = f"{label}.report[{position}]"
+        row = _dict(row, rlabel)
+        inst = _dict(_require(row, "instrument", rlabel), f"{rlabel}.instrument")
+        iid = add_instrument(instruments, inst.get("instrument_id"), inst.get("name_zh"), label=rlabel)
+        metrics = _dict(_require(row, "metrics", rlabel), f"{rlabel}.metrics")
+        short_pass = _bool(_require(row, "short_pass", rlabel), "short_pass")
+        long_pass = _bool(_require(row, "long_pass", rlabel), "long_pass")
+        selected = _bool(_require(row, "selected_top50", rlabel), "selected_top50")
+        failed = [str(f) for f in _list(_require(row, "failed", rlabel), f"{rlabel}.failed")]
+        if not set(failed) <= MOAT_FAILURES:
+            raise ValueError(f"{rlabel}: unknown failure {sorted(set(failed) - MOAT_FAILURES)}")
+        if long_pass and not short_pass:
+            raise ValueError(f"{rlabel}: long_pass without short_pass")
+        if selected and not short_pass:
+            raise ValueError(f"{rlabel}: selected without passing the short rules")
+        members.rows.append((iid, position, _bool(_require(row, "has_fundamentals", rlabel), "has_fundamentals"),
+                             *(_opt_num(metrics.get(rule), f"{rlabel}.{rule}") for rule in MOAT_RULES),
+                             short_pass, long_pass, selected,
+                             _opt_int(row.get("short_rank"), "short_rank"), _opt_int(row.get("long_rank"), "long_rank")))
+        for fpos, rule in enumerate(failed):
+            failures.rows.append((iid, fpos, rule))
+        for tpos, theme in enumerate(_list(row.get("themes") or [], f"{rlabel}.themes")):
+            theme = _dict(theme, f"{rlabel}.themes[{tpos}]")
+            themes.rows.append((iid, tpos, _str(theme.get("theme_id"), "theme_id"), str(theme.get("name_zh") or ""),
+                                _str(theme.get("relation"), "relation")))
+
+    header = {
+        "generated_at": _str(_require(payload, "generated_at", label), "generated_at"),
+        "rule_version": _str(_require(payload, "rule_version", label), "rule_version"),
+        "roe_ttm_min": _num(_require(thresholds, "roe_ttm_min", label), "roe_ttm_min"),
+        "gross_margin_4q_min": _num(_require(thresholds, "gross_margin_4q_min", label), "gross_margin_4q_min"),
+        "debt_ratio_max": _num(_require(thresholds, "debt_ratio_max", label), "debt_ratio_max"),
+        "operating_cash_flow_ttm_min_exclusive": _num(
+            _require(thresholds, "operating_cash_flow_ttm_min_exclusive", label), "ocf_min"),
+        "universe_evaluated": _int(_require(universe, "evaluated", label), "universe.evaluated"),
+        "universe_short_pass": _int(_require(universe, "short_pass", label), "universe.short_pass"),
+        "universe_long_pass": _int(_require(universe, "long_pass", label), "universe.long_pass"),
+        "candidate_count": len(report),
+        "candidate_evaluated": _int(_require(candidates, "evaluated", label), "candidates.evaluated"),
+        "candidate_short_pass": _int(_require(candidates, "short_pass", label), "candidates.short_pass"),
+        "candidate_long_pass": _int(_require(candidates, "long_pass", label), "candidates.long_pass"),
+        "candidate_no_fundamentals": _int(_require(candidates, "no_fundamentals", label), "candidates.no_fundamentals"),
+    }
+    return Snapshot(
+        dataset="moat-screen",
+        header_table="moat_screen_snapshot",
+        header=header,
+        children=[rules, members, failures, themes],
+        instruments=instruments,
+    )
+
+
 # ---------------------------------------------------------- fundamentals
 
 INCOME_COLUMNS = ("revenue", "cost_of_sales", "gross_profit", "selling_expense", "admin_expense", "rd_expense",
@@ -1378,6 +1462,7 @@ DATASETS = {
     "theme-momentum": _json_file("public-theme-momentum-latest-v0.9.json", map_theme_momentum),
     "theme-momentum-history": _json_file("public-theme-momentum-history-v0.9.json", map_theme_momentum_history),
     "stock-watchlist": _json_file("public-stock-watchlist-v1.json", map_stock_watchlist),
+    "moat-screen": _json_file("moat-screen.json", map_moat_screen),
     "fundamentals": _load_fundamentals,
     "pre-market": _json_file("pre-market-latest.json", map_pre_market),
     "stock-audit": _json_file("stock-audit-latest.json", map_stock_audit),

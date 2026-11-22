@@ -1,6 +1,7 @@
 import React, { useMemo, useState } from 'react';
 import {
   DeviceType,
+  MoatScreenData,
   SearchableStock,
   StockFlag,
   StockFlagKey,
@@ -15,12 +16,14 @@ import '../common/focus.css';
 import { PageHero } from '../common/FeedKit';
 import { SectionHead } from '../home/FeedBlocks';
 import { daysBetween, watchlistSourceDates } from '../../lib/freshness';
+import { MoatDetail, MoatRejected, MoatSummary, MoatToggle, moatIndex } from './MoatScreen';
 
 export type WatchlistView = 'short' | 'long' | 'search';
 
 export interface StockWatchlistProps {
   payload: StockWatchlistData | null;
   focus?: ThemeFocusData | null;
+  moatScreen?: MoatScreenData | null;
   view: WatchlistView;
   query: string;
   onViewChange: (view: WatchlistView) => void;
@@ -162,6 +165,7 @@ const WatchlistMetrics: React.FC<{ item: WatchlistStock; view: Exclude<Watchlist
 export const StockWatchlist: React.FC<StockWatchlistProps> = ({
   payload,
   focus = null,
+  moatScreen = null,
   view,
   query,
   onViewChange,
@@ -174,6 +178,14 @@ export const StockWatchlist: React.FC<StockWatchlistProps> = ({
   const [showMethodology, setShowMethodology] = useState(false);
   const [themeFilter, setThemeFilter] = useState('');
   const [showAll, setShowAll] = useState(false);
+  const [openMoat, setOpenMoat] = useState<Set<string>>(() => new Set());
+  const moatById = useMemo(() => moatIndex(moatScreen), [moatScreen]);
+  const horizon: 'short' | 'long' = view === 'long' ? 'long' : 'short';
+  const toggleMoat = (id: string) => setOpenMoat((current) => {
+    const next = new Set(current);
+    if (next.has(id)) next.delete(id); else next.add(id);
+    return next;
+  });
   const searchResults = useMemo(() => {
     if (!payload || !query.trim()) return [];
     return payload.searchable
@@ -205,6 +217,10 @@ export const StockWatchlist: React.FC<StockWatchlistProps> = ({
   const renderItem = (item: WatchlistStock) => {
     const rank = view === 'long' ? item.long.rank : item.short.rank;
     const score = view === 'long' ? Math.round(item.long.score) : Math.round(item.short.score);
+    const moat = moatById.get(item.instrument.instrument_id);
+    const moatOpen = openMoat.has(item.instrument.instrument_id);
+    const toggle = <MoatToggle item={moat} horizon={horizon} open={moatOpen} onToggle={() => toggleMoat(item.instrument.instrument_id)} />;
+    const detail = moat && moatOpen && moatScreen ? <MoatDetail item={moat} data={moatScreen} horizon={horizon} /> : null;
     return (
       <React.Fragment key={item.instrument.instrument_id}>
         <div
@@ -215,13 +231,14 @@ export const StockWatchlist: React.FC<StockWatchlistProps> = ({
           onKeyDown={(event) => handleRowKeyDown(event, item.instrument)}
         >
           <strong className="watchlist-rank mono-num">#{rank}</strong>
-          <span className="watchlist-stock-name"><b>{item.instrument.name_zh}</b><small className="mono-num">{item.instrument.symbol} · {item.instrument.exchange}</small></span>
+          <span className="watchlist-stock-name"><b>{item.instrument.name_zh}</b><small className="mono-num">{item.instrument.symbol} · {item.instrument.exchange}</small>{toggle}</span>
           <strong className="watchlist-score mono-num">{score}</strong>
           <WatchlistMetrics item={item} view={view === 'long' ? 'long' : 'short'} />
           <Themes item={item} />
           <FlagChips flags={item.flags} />
           <button type="button" onClick={(event) => { event.stopPropagation(); onGoStock(item.instrument.symbol, item.instrument.exchange); }}>查看分析 →</button>
         </div>
+        {detail ? <div className="moat-detail-desktop">{detail}</div> : null}
         <article
           className="watchlist-mobile-card"
           role="link"
@@ -229,7 +246,8 @@ export const StockWatchlist: React.FC<StockWatchlistProps> = ({
           onClick={() => onGoStock(item.instrument.symbol, item.instrument.exchange)}
           onKeyDown={(event) => handleRowKeyDown(event, item.instrument)}
         >
-          <header><span><b>{item.instrument.name_zh}</b><small className="mono-num">{item.instrument.symbol} · {item.instrument.exchange}</small></span><strong className="mono-num">#{rank} · {score}</strong></header>
+          <header><span><b>{item.instrument.name_zh}</b><small className="mono-num">{item.instrument.symbol} · {item.instrument.exchange}</small>{toggle}</span><strong className="mono-num">#{rank} · {score}</strong></header>
+          {detail}
           <div className="watchlist-metric-grid"><WatchlistMetrics item={item} view={view === 'long' ? 'long' : 'short'} /></div>
           <Themes item={item} />
           <FlagChips flags={item.flags} />
@@ -250,7 +268,7 @@ export const StockWatchlist: React.FC<StockWatchlistProps> = ({
       >
         <strong className="watchlist-rank mono-num">{item.selected_top50 ? `#${item.short_rank ?? '—'}` : '—'}</strong>
         <span className="watchlist-stock-name"><b>{item.instrument.name_zh}</b><small className="mono-num">{item.instrument.symbol} · {item.instrument.exchange}</small></span>
-        <span className="watchlist-search-status">{item.selected_top50 ? `短 #${item.short_rank} · 長 #${item.long_rank ?? '—'}` : '候選池'}</span>
+        <span className="watchlist-search-status">{item.selected_top50 ? `短 #${item.short_rank} · 長 #${item.long_rank ?? '—'}` : moatById.get(item.instrument.instrument_id)?.short_pass === false ? '未過財報門檻' : '候選池'}</span>
         <Themes item={item} />
         <FlagChips flags={item.flags} />
         <button type="button" onClick={(event) => { event.stopPropagation(); onGoStock(item.instrument.symbol, item.instrument.exchange); }}>查看分析 →</button>
@@ -332,6 +350,7 @@ export const StockWatchlist: React.FC<StockWatchlistProps> = ({
     <div className="fd-main">
       <PageHero title="個股雷達" sentence={heroSentence} meta={`法人 ${shortDate(institutionalAsOf)}，當沖 ${shortDate(dayTradingAsOf)}`} />
       <div className="fd-section fd-watch-body">
+      {moatScreen && view !== 'search' && !loading && !error ? <MoatSummary data={moatScreen} horizon={horizon} /> : null}
 
       {view === 'search' ? (
         <div className="watchlist-search">
@@ -385,6 +404,7 @@ export const StockWatchlist: React.FC<StockWatchlistProps> = ({
       ) : null}
 
       {!loading && !error && view !== 'search' && !themeFilter && filteredItems.length > DEFAULT_VISIBLE_ROWS ? <div className="list-more"><button type="button" onClick={() => setShowAll((shown) => !shown)}>{showAll ? `收合至前 ${DEFAULT_VISIBLE_ROWS} 名` : `顯示全部 ${filteredItems.length} 檔`}</button></div> : null}
+      {moatScreen && view !== 'search' && !loading && !error ? <MoatRejected data={moatScreen} horizon={horizon} /> : null}
       {!loading && !error && view !== 'search' && (!payload || listItems.length === 0) ? <section className="watchlist-state"><h2>目前沒有可顯示的個股雷達資料</h2></section> : null}
       {!loading && !error && view === 'search' && !query.trim() ? <section className="watchlist-state"><h2>請輸入代號或公司名稱</h2><p>搜尋涵蓋完整題材候選池，包含未進入 Top 50 的股票。</p></section> : null}
       {!loading && !error && view === 'search' && query.trim() && searchResults.length === 0 ? <section className="watchlist-state"><h2>找不到「{query.trim()}」</h2><p>請改用股票代號或完整公司名稱。</p></section> : null}

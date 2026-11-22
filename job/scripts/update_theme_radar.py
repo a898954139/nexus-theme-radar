@@ -1866,7 +1866,8 @@ def _moat_inputs(
     candidate_ids: set[str],
     generated_at_text: str,
 ) -> tuple[dict[str, Any] | None, dict[str, Any] | None]:
-    """Screen the fixed fundamentals universe and write data/moat-screen.json.
+    """Screen the fixed fundamentals universe (data/moat-screen.json is written
+    by write_moat_screen once the watchlist exists).
 
     Returns (universe payloads, screen) or (None, None) when there is no cache,
     in which case the watchlist falls back to the v1 behaviour.
@@ -1880,9 +1881,6 @@ def _moat_inputs(
         return None, None
     screened = screen_universe(universe)
     summary = screen_summary(screened, generated_at=generated_at_text, candidate_ids=candidate_ids)
-    (output_dir / MOAT_SCREEN_FILENAME).write_text(
-        json.dumps(summary, ensure_ascii=False, indent=1) + "\n", encoding="utf-8"
-    )
     LOGGER.info(
         "moat_screen universe=%s short_pass=%s long_pass=%s candidates=%s candidate_short_pass=%s candidate_long_pass=%s",
         summary["universe"]["evaluated"],
@@ -1946,6 +1944,22 @@ def publish_stock_watchlist(
         ),
     )
     write_stock_watchlist(output_dir, payload)
+    if screened is not None:
+        write_moat_screen(output_dir, screened, payload)
+
+
+def write_moat_screen(output_dir: Path, screened: Mapping[str, Any], watchlist: Mapping[str, Any]) -> None:
+    """data/moat-screen.json: the screen plus a per-candidate report, keyed to
+    the watchlist it gated (same generated_at). Published as dataset moat-screen."""
+    summary = screen_summary(
+        screened,
+        generated_at=str(watchlist["generated_at"]),
+        candidate_ids={row["instrument"]["instrument_id"] for row in watchlist["searchable"]},
+        searchable=watchlist["searchable"],
+    )
+    (output_dir / MOAT_SCREEN_FILENAME).write_text(
+        json.dumps(summary, ensure_ascii=False, indent=1) + "\n", encoding="utf-8"
+    )
 
 
 def history_connection_factory_from_environment() -> Any | None:
