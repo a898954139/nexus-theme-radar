@@ -1,0 +1,16 @@
+/* 個股健檢 card on the stock page; base box comes from .daily-report. */
+.stock-audit-card .sa-up { color: var(--up); border-color: var(--up); }
+.stock-audit-card .sa-down { color: var(--down); border-color: var(--down); }
+.stock-audit-card .sa-flat { color: var(--muted); }
+.stock-audit-card .sa-toggle { display: flex; width: 100%; justify-content: space-between; gap: 12px; margin-top: 8px; padding: 6px 0; border: 0; background: none; color: var(--warn); font-size: 12px; cursor: pointer; text-align: left; }
+.stock-audit-card.is-stale { border-color: var(--line); background: var(--surface-bg); }
+.stock-audit-card .sa-ops { width: 100%; margin: 4px 0 10px; border-collapse: collapse; font-size: 12px; }
+.stock-audit-card .sa-ops th, .stock-audit-card .sa-ops td { padding: 6px 8px; border-bottom: 1px solid var(--sub-line); text-align: right; white-space: nowrap; }
+.stock-audit-card .sa-ops thead th { color: var(--muted); font-weight: 400; }
+.stock-audit-card .sa-ops tbody th { color: var(--text-hi); text-align: left; font-weight: 600; }
+.stock-audit-card .sa-ops small { display: block; color: var(--faint); font-size: 10px; font-weight: 400; }
+.stock-audit-card .sa-ops .sa-timing { min-width: 220px; color: var(--text); text-align: left; white-space: normal; line-height: 1.6; }
+.stock-audit-card .sa-ops thead th:last-child { text-align: left; }
+@media (max-width: 760px) {
+  .stock-audit-card .sa-ops .sa-timing { min-width: 180px; }
+}
