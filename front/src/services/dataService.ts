@@ -8,6 +8,7 @@ import {
   InstitutionalRankingsData,
   MomentumHistoryData,
   MomentumLatestData,
+  PathBacktestTable,
   PreMarketData,
   RadarData,
   SourceHealthData,
@@ -297,6 +298,19 @@ export async function fetchSourceHealth(): Promise<SourceHealthData | null> {
  * quote source are both third-party, and the homepage must still render its
  * theme and news sections when the board is unavailable.
  */
+/**
+ * Path backtest hit rates straight from radar.path_backtest. Null on any
+ * failure: the page then falls back to the copy each pre-market event carries.
+ */
+export async function fetchPathBacktest(cacheBust = false): Promise<PathBacktestTable | null> {
+  try {
+    const payload = await readApi<PathBacktestTable>('path-backtest', {}, cacheBust);
+    return payload && typeof payload === 'object' && payload.paths && typeof payload.paths === 'object' ? payload : null;
+  } catch {
+    return null;
+  }
+}
+
 export async function fetchPreMarket(cacheBust = false): Promise<PreMarketData | null> {
   try {
     const payload = await readApi<unknown>('pre-market', {}, cacheBust);

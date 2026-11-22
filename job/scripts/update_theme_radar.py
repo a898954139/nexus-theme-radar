@@ -77,6 +77,7 @@ try:
     )
     from scripts.monthly_revenue import run_monthly_revenue
     from scripts.radar_store import redact_error, write_radar_run
+    from scripts.ingested_articles import is_ingest_origin, load_ingested_results
     from scripts.source_adapters import (
         CONFLICT_TERMS,
         build_official_evidence_payload,
@@ -149,6 +150,7 @@ except ModuleNotFoundError:
     )
     from monthly_revenue import run_monthly_revenue
     from radar_store import redact_error, write_radar_run
+    from ingested_articles import is_ingest_origin, load_ingested_results
     from source_adapters import (
         CONFLICT_TERMS,
         build_official_evidence_payload,
@@ -2140,10 +2142,28 @@ def run_update(
     session.headers.update({"User-Agent": USER_AGENT})
     feed_state_path = output_dir / FEED_STATE_FILENAME
     feed_state = load_feed_state(feed_state_path)
+    connection_factory = (
+        history_connection_factory
+        if history_connection_factory is not None
+        else history_connection_factory_from_environment()
+    )
+    # Sources the 5-minute ingest keeps fresh are read from radar.article
+    # (full window, 5-minute freshness); stale or unreachable ones fall back
+    # to fetching the feed here, as before.
+    ingested = load_ingested_results(
+        connection_factory,
+        sources,
+        anchor,
+        window_hours=window_hours,
+    )
 
     results = dispatch_sources(
         session,
-        [*sources, *trial],
+        [
+            source
+            for source in [*sources, *trial]
+            if str(source["source_id"]) not in ingested
+        ],
         anchor,
         max_workers=max_workers,
         fetchers={
@@ -2151,6 +2171,10 @@ def run_update(
             "twse_openapi": fetch_twse_openapi_source,
         },
         full_refresh=full_refresh,
+    )
+    results = sorted(
+        [*results, *ingested.values()],
+        key=lambda result: str(result["status"]["source_id"]),
     )
     rss_records = [
         record
@@ -2313,11 +2337,9 @@ def run_update(
     except Exception as error:  # noqa: BLE001 - side files are best effort
         LOGGER.warning("rss feed state was not persisted: %s", error)
     producer_run_id = f"{anchor.strftime('%Y%m%dT%H%M%SZ')}-{uuid.uuid4().hex}"
-    connection_factory = (
-        history_connection_factory
-        if history_connection_factory is not None
-        else history_connection_factory_from_environment()
-    )
+    ingest_origin_ids = {
+        str(status["source_id"]) for status in statuses if is_ingest_origin(status)
+    }
     # JSON is already on disk above; the DB mirror runs strictly after it.
     radar_summary = run_radar_dual_write(
         connection_factory=connection_factory,
@@ -2325,8 +2347,15 @@ def run_update(
         started_at=anchor,
         window_hours=window_hours,
         registry_sources=list(registry.get("sources", [])),
-        statuses=statuses,
-        articles=discovery_records,
+        # Ingest-served sources were not fetched by this run: a source_run row
+        # would read as a fetch to the ingest's min-interval check, and their
+        # articles are already in radar.article.
+        statuses=[status for status in statuses if not is_ingest_origin(status)],
+        articles=[
+            record
+            for record in discovery_records
+            if str(record.get("source_id")) not in ingest_origin_ids
+        ],
         events=list(events["items"]),
         tracking_candidates=candidates,
     )

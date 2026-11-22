@@ -61,7 +61,8 @@ export const LeadEvent: React.FC<{ path: MacroFocus; now: number }> = ({ path, n
         <div className="fd-box fd-impact">
           <div className="fd-impact-row is-head"><span>受影響的台股族群</span><span>方向</span><span>隔日命中</span></div>
           {rows.map((row) => {
-            const hit = bt && bt.target === row.sector && bt.hitRate !== null ? `${Math.round(bt.hitRate * 100)}%` : '—';
+            const rowBt = path.sectorBacktest[row.sector] ?? (bt && bt.target === row.sector ? bt : null);
+            const hit = rowBt && rowBt.hitRate !== null ? `${Math.round(rowBt.hitRate * 100)}%` : '—';
             return (
               <div className="fd-impact-row" key={row.sector}>
                 <span className="fd-impact-name">{row.sector}</span>

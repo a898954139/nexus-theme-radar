@@ -3,6 +3,7 @@
 //   load({ query, params })  -> response body, or null when no snapshot exists
 // Adding a dataset = a typed table set (supabase/migrations), a mapper in
 // scripts/radar_tables.py, and a reader here.
+import * as backtest from './backtest.js';
 import * as briefs from './briefs.js';
 import * as broker from './broker.js';
 import * as institutionalFlows from './institutionalFlows.js';
@@ -28,4 +29,5 @@ export const DATASETS = {
   'fundamentals': stock.fundamentals,
   'pre-market': briefs.preMarket,
   'stock-audit': briefs.stockAudit,
+  'path-backtest': backtest.pathBacktest,
 };
