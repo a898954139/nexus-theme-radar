@@ -75,7 +75,7 @@ export function moatIndex(data: MoatScreenData | null): Map<string, MoatScreenIt
  */
 export const MoatInfo: React.FC<{ data: MoatScreenData; horizon: 'short' | 'long' }> = ({ data, horizon }) => {
   const [open, setOpen] = useState(false);
-  const wrap = useRef<HTMLSpanElement>(null);
+  const wrap = useRef<HTMLDivElement>(null);
   useEffect(() => {
     if (!open) return undefined;
     const onDown = (event: MouseEvent) => { if (wrap.current && !wrap.current.contains(event.target as Node)) setOpen(false); };
@@ -94,7 +94,7 @@ export const MoatInfo: React.FC<{ data: MoatScreenData; horizon: 'short' | 'long
     : updated.toLocaleString('zh-TW', { timeZone: 'Asia/Taipei', month: 'numeric', day: 'numeric', hour: '2-digit', minute: '2-digit', hour12: false });
   const rules = data.rules.filter((stat) => (horizon === 'short' ? stat.in_short : stat.in_long));
   return (
-    <span className="moat-info" ref={wrap}>
+    <div className="moat-info" ref={wrap}>
       <button
         type="button"
         className={`moat-info-btn${open ? ' is-open' : ''}`}
@@ -103,7 +103,7 @@ export const MoatInfo: React.FC<{ data: MoatScreenData; horizon: 'short' | 'long
         aria-label="怎麼篩選這些股票"
         title="怎麼篩選這些股票"
         onClick={() => setOpen((shown) => !shown)}
-      >?</button>
+      ><i aria-hidden="true">?</i></button>
       {open ? (
         <div className="moat-info-pop" id="moat-info-pop" role="dialog" aria-label="篩選方式">
           <div className="moat-info-title"><b>怎麼選出這些股票</b><small className="mono-num">{data.rule_version} · {time}</small></div>
@@ -117,7 +117,7 @@ export const MoatInfo: React.FC<{ data: MoatScreenData; horizon: 'short' | 'long
           <ul className="moat-info-rules">
             {rules.map((stat) => (
               <li key={stat.rule}>
-                <div><b>{ruleLabel[stat.rule]}</b><span className="mono-num moat-threshold">{thresholdText(stat.rule, data)}</span></div>
+                <div><b>{ruleLabel[stat.rule]}</b><em className="mono-num moat-threshold">{thresholdText(stat.rule, data)}</em></div>
                 <p>{ruleBasis[stat.rule]}</p>
               </li>
             ))}
@@ -125,7 +125,7 @@ export const MoatInfo: React.FC<{ data: MoatScreenData; horizon: 'short' | 'long
           <p className="moat-info-foot">每檔股票的「門檻」按鈕可看它每一條的實際數字。</p>
         </div>
       ) : null}
-    </span>
+    </div>
   );
 };
 
