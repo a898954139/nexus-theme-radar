@@ -1097,6 +1097,100 @@ def map_moat_screen(payload: Mapping[str, Any]) -> Snapshot:
     )
 
 
+# ------------------------------------------------------ nexus structure
+
+NEXUS_BIASES = frozenset({"偏多", "偏空", "中性", "分歧"})
+NEXUS_TF_COLUMNS = ("bias", "last_event", "event_dir", "event_price", "event_date", "inside_zone", "bar_count")
+NEXUS_LEVEL_KINDS = frozenset({"fvg", "ob", "swing_high", "swing_low"})
+NEXUS_LEVEL_SIDES = frozenset({"support", "resistance", "inside"})
+NEXUS_PVA_COLUMNS = ("P", "V", "A", "anchor", "ATR")
+
+
+def map_nexus_structure(payload: Mapping[str, Any]) -> Versioned:
+    """data/nexus-structure.json (job/scripts/nexus_structure.py): one current read per instrument."""
+    label = "nexus-structure"
+    instruments: dict[str, dict[str, Any]] = {}
+    fetched_at = _str(_require(payload, "generated_at", label), "generated_at")
+    method_version = _str(_require(payload, "method_version", label), "method_version")
+    method = _dict(_require(payload, "method", label), f"{label}.method")
+    revision = _opt_str(method.get("detector_revision"))
+    headers: list[dict[str, Any]] = []
+    levels = ChildTable("nexus_structure_level", ("instrument_id", "fetched_at", "position", "timeframe", "kind", "side",
+                                                  "dir", "low", "high", "formed_on", "state"))
+    breaks = ChildTable("nexus_structure_break", ("instrument_id", "fetched_at", "position", "timeframe", "label",
+                                                  "dir", "price", "strong", "confirmed_on"))
+    for index, item in enumerate(_list(_require(payload, "items", label), f"{label}.items")):
+        ilabel = f"{label}.items[{index}]"
+        item = _dict(item, ilabel)
+        inst = _dict(_require(item, "instrument", ilabel), f"{ilabel}.instrument")
+        iid = add_instrument(instruments, inst.get("instrument_id"), inst.get("name_zh"), label=ilabel)
+        bias = _str(_require(item, "bias", ilabel), "bias")
+        if bias not in NEXUS_BIASES:
+            raise ValueError(f"{ilabel}: unknown bias {bias!r}")
+        tfs = _dict(_require(item, "timeframes", ilabel), f"{ilabel}.timeframes")
+        if "D1" not in tfs or set(tfs) - {"D1", "W1"}:
+            raise ValueError(f"{ilabel}.timeframes: need D1 (and optionally W1), got {sorted(tfs)}")
+        header: dict[str, Any] = {
+            "instrument_id": iid, "fetched_at": fetched_at, "method_version": method_version,
+            "detector_revision": revision,
+            "as_of": _str(_require(item, "as_of", ilabel), "as_of"),
+            "close": _num(_require(item, "close", ilabel), "close"),
+            "bias": bias,
+        }
+        for tf in ("D1", "W1"):
+            read = tfs.get(tf)
+            prefix = tf.lower()
+            if read is None:
+                header.update({f"{prefix}_{c}": None for c in NEXUS_TF_COLUMNS})
+                continue
+            read = _dict(read, f"{ilabel}.{tf}")
+            tf_bias = _str(_require(read, "bias", ilabel), f"{tf}.bias")
+            if tf_bias not in NEXUS_BIASES:
+                raise ValueError(f"{ilabel}.{tf}: unknown bias {tf_bias!r}")
+            header.update({
+                f"{prefix}_bias": tf_bias,
+                f"{prefix}_last_event": _opt_str(read.get("last_event")),
+                f"{prefix}_event_dir": _opt_int(read.get("last_event_dir"), f"{tf}.last_event_dir"),
+                f"{prefix}_event_price": _opt_num(read.get("last_event_price"), f"{tf}.last_event_price"),
+                f"{prefix}_event_date": _opt_str(read.get("last_event_date")),
+                f"{prefix}_inside_zone": _bool(_require(read, "inside_zone", ilabel), f"{tf}.inside_zone"),
+                f"{prefix}_bar_count": _int(_require(read, "bar_count", ilabel), f"{tf}.bar_count"),
+            })
+        pva = _dict(_require(item, "pva", ilabel), f"{ilabel}.pva")
+        header["pva_status"] = _str(_require(pva, "status", ilabel), "pva.status")
+        header["pva_reason"] = _opt_str(pva.get("reason"))
+        for key in NEXUS_PVA_COLUMNS:
+            header[f"pva_{key.lower()}"] = _opt_num(pva.get(key), f"pva.{key}")
+        header["summary"] = _str(_require(item, "summary", ilabel), "summary")
+        headers.append(header)
+        for position, level in enumerate(_list(_require(item, "levels", ilabel), f"{ilabel}.levels")):
+            level = _dict(level, f"{ilabel}.levels[{position}]")
+            if level.get("kind") not in NEXUS_LEVEL_KINDS or level.get("side") not in NEXUS_LEVEL_SIDES:
+                raise ValueError(f"{ilabel}.levels[{position}]: bad kind/side {level.get('kind')!r}/{level.get('side')!r}")
+            if level.get("timeframe") not in ("D1", "W1"):
+                raise ValueError(f"{ilabel}.levels[{position}]: bad timeframe {level.get('timeframe')!r}")
+            levels.rows.append((iid, fetched_at, position, level["timeframe"], level["kind"], level["side"],
+                                _int(level.get("dir"), "level.dir"), _num(level.get("low"), "level.low"),
+                                _num(level.get("high"), "level.high"), _opt_str(level.get("formed_on")),
+                                _str(level.get("state"), "level.state")))
+        for position, brk in enumerate(_list(_require(item, "breaks", ilabel), f"{ilabel}.breaks")):
+            brk = _dict(brk, f"{ilabel}.breaks[{position}]")
+            if brk.get("timeframe") not in ("D1", "W1"):
+                raise ValueError(f"{ilabel}.breaks[{position}]: bad timeframe {brk.get('timeframe')!r}")
+            breaks.rows.append((iid, fetched_at, position, brk["timeframe"], _str(brk.get("label"), "break.label"),
+                                _int(brk.get("dir"), "break.dir"), _num(brk.get("price"), "break.price"),
+                                _bool(brk.get("strong"), "break.strong"), _str(brk.get("confirmed_on"), "break.confirmed_on")))
+    return Versioned(
+        dataset="nexus-structure",
+        header_table="nexus_structure",
+        key_column="instrument_id",
+        version_column="fetched_at",
+        headers=headers,
+        children=[levels, breaks],
+        instruments=instruments,
+    )
+
+
 # ---------------------------------------------------------- fundamentals
 
 INCOME_COLUMNS = ("revenue", "cost_of_sales", "gross_profit", "selling_expense", "admin_expense", "rd_expense",
@@ -1463,6 +1557,7 @@ DATASETS = {
     "theme-momentum-history": _json_file("public-theme-momentum-history-v0.9.json", map_theme_momentum_history),
     "stock-watchlist": _json_file("public-stock-watchlist-v1.json", map_stock_watchlist),
     "moat-screen": _json_file("moat-screen.json", map_moat_screen),
+    "nexus-structure": _json_file("nexus-structure.json", map_nexus_structure),
     "fundamentals": _load_fundamentals,
     "pre-market": _json_file("pre-market-latest.json", map_pre_market),
     "stock-audit": _json_file("stock-audit-latest.json", map_stock_audit),

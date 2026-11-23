@@ -13,7 +13,7 @@ const run = (dataset, query, qs = '') =>
 test('registry exposes the PR-A datasets', () => {
   assert.deepEqual(Object.keys(DATASETS).sort(), [
     'broker-coverage', 'broker-map', 'broker-stats', 'fundamentals', 'institutional-flows',
-    'institutional-rankings', 'moat-screen', 'path-backtest', 'pre-market', 'source-status', 'stock-audit', 'stock-watchlist', 'theme-events', 'theme-focus',
+    'institutional-rankings', 'moat-screen', 'nexus-structure', 'path-backtest', 'pre-market', 'source-status', 'stock-audit', 'stock-watchlist', 'theme-events', 'theme-focus',
     'theme-momentum', 'theme-momentum-history', 'theme-ranking',
   ]);
 });
@@ -121,4 +121,41 @@ test('moat-screen rebuilds the report with reasons per candidate', async () => {
   assert.deepEqual(rejected.themes, [{ theme_id: 'memory_hbm', name_zh: '記憶體', relation: 'related' }]);
   assert.equal(rejected.metrics.gross_margin_4q, 0.096);
   assert.deepEqual(body.items[0].failed, []);
+});
+
+test('nexus-structure returns one stock read with levels and breaks', async () => {
+  const seen = [];
+  const query = async (sql, values) => {
+    seen.push(values);
+    if (sql.includes('from radar.nexus_structure n')) {
+      return { rows: [{ instrument_id: 'TWSE:2317', symbol: '2317', exchange: 'TWSE', name_zh: '鴻海',
+        fetched_at: '2026-11-23T07:10:00Z', method_version: 'nexus_structure_v1', detector_revision: 'b1534508',
+        as_of: '2026-11-21', close: 250, bias: '分歧',
+        d1_bias: '偏空', d1_last_event: 'BOS', d1_event_dir: -1, d1_event_price: 237, d1_event_date: '2026-11-20',
+        d1_inside_zone: false, d1_bar_count: 1200,
+        w1_bias: '偏多', w1_last_event: 'CHoCH', w1_event_dir: 1, w1_event_price: 247, w1_event_date: '2026-10-16',
+        w1_inside_zone: false, w1_bar_count: 250,
+        pva_status: 'unavailable', pva_reason: 'PVA runtime not installed on this host',
+        pva_p: null, pva_v: null, pva_a: null, pva_anchor: null, pva_atr: null, summary: '週線偏多，日線偏空。' }] };
+    }
+    if (sql.includes('from radar.nexus_structure_level')) {
+      return { rows: [{ timeframe: 'D1', kind: 'swing_high', side: 'resistance', dir: -1, low: 257, high: 257,
+        formed_on: '2026-09-23', state: 'active' }] };
+    }
+    return { rows: [{ timeframe: 'D1', label: 'BOS', dir: -1, price: 237, strong: false, confirmed_on: '2026-11-20' }] };
+  };
+  const res = await run('nexus-structure', query, 'symbol=2317');
+  assert.equal(res.status, 200);
+  const body = JSON.parse(res.body);
+  assert.deepEqual(Object.keys(body), ['instrument', 'analyzed_at', 'method_version', 'detector_revision', 'as_of',
+    'close', 'bias', 'timeframes', 'pva', 'levels', 'breaks', 'summary']);
+  assert.equal(body.timeframes.W1.bias, '偏多');
+  assert.equal(body.timeframes.D1.last_event_price, 237);
+  assert.equal(body.levels[0].side, 'resistance');
+  assert.deepEqual(seen[0], [['TWSE:2317', 'TPEX:2317']]);
+  assert.deepEqual(seen[1], ['TWSE:2317', '2026-11-23T07:10:00Z']);
+
+  const missing = await run('nexus-structure', async () => ({ rows: [] }), 'symbol=9999');
+  assert.equal(missing.status, 404);
+  assert.equal((await run('nexus-structure', async () => { throw new Error('no'); }, 'symbol=../x')).status, 400);
 });
