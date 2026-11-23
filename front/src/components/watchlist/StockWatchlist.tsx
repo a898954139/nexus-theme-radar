@@ -16,7 +16,7 @@ import '../common/focus.css';
 import { PageHero } from '../common/FeedKit';
 import { SectionHead } from '../home/FeedBlocks';
 import { daysBetween, watchlistSourceDates } from '../../lib/freshness';
-import { MoatDetail, MoatRejected, MoatSummary, MoatToggle, moatIndex } from './MoatScreen';
+import { MoatDetail, MoatInfo, MoatRejected, MoatToggle, moatIndex } from './MoatScreen';
 
 export type WatchlistView = 'short' | 'long' | 'search';
 
@@ -350,7 +350,6 @@ export const StockWatchlist: React.FC<StockWatchlistProps> = ({
     <div className="fd-main">
       <PageHero title="個股雷達" sentence={heroSentence} meta={`法人 ${shortDate(institutionalAsOf)}，當沖 ${shortDate(dayTradingAsOf)}`} />
       <div className="fd-section fd-watch-body">
-      {moatScreen && view !== 'search' && !loading && !error ? <MoatSummary data={moatScreen} horizon={horizon} /> : null}
 
       {view === 'search' ? (
         <div className="watchlist-search">
@@ -373,7 +372,7 @@ export const StockWatchlist: React.FC<StockWatchlistProps> = ({
 
       <section className="watchlist-list-heading">
         <div>
-          <strong>{view === 'search' ? '搜尋結果' : view === 'long' ? '長線排行' : '短線排行'}</strong>
+          <div className="watchlist-heading-title"><strong>{view === 'search' ? '搜尋結果' : view === 'long' ? '長線排行' : '短線排行'}</strong>{moatScreen && view !== 'search' ? <MoatInfo data={moatScreen} horizon={horizon} /> : null}</div>
           <span className="watchlist-sources-line">
             <span>{resultCount} 檔</span>
             <span className={`asof-tag ${isStale(institutionalAsOf, referenceDate) ? 'is-stale' : ''}`}>法人 {shortDate(institutionalAsOf)}</span>

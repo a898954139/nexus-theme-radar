@@ -17,5 +17,9 @@
   },
   "dataset-has-caller": {
     "api/v1/tracking-candidates": "External consumer (NexusDashboard, #6), authenticated; not meant for the radar front."
+  },
+  "responsive-grid": {
+    "front/src/index.css:`.momentum-table-head, .momentum-row` needs 776px of fixed columns but the main column can be ~600px next to the rail; use minmax(0, …) tracks or collapse it in `@container fdmain (max-width: …)` (viewport @media is not enough)": "Legacy momentum table; on the 題材動能 page feed-pages.css restyles .momentum-row and collapses it with @container fdmain. Delete this legacy rule (or give it minmax(0, …)) when index.css is retired.",
+    "front/src/index.css:`.flow-controls` needs 870px of fixed columns but the main column can be ~600px next to the rail; use minmax(0, …) tracks or collapse it in `@container fdmain (max-width: …)` (viewport @media is not enough)": "Legacy grid; every page that renders .flow-controls is .fd-page, where feed-pages.css replaces it with a wrapping flex row. Delete with the legacy index.css rules."
   }
 }

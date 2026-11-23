@@ -350,6 +350,130 @@ def check_pg_cron(path: str, text: str):
             yield no, "pg_cron schedule; every schedule lives in job/mac/jobs.conf"
 
 
+# ---- M025 layouts must fit the main column, not just the viewport -------------------
+# The main column sits next to a 280-320px rail, so on a 1280-1440px laptop it
+# is ~600px wide while viewport media queries still say "desktop". A grid whose
+# fixed minimum track widths (+ gaps) exceed that overflows under the rail.
+RESPONSIVE_MAX_PX = 600
+_GRID_COLS = re.compile(r"grid-template-columns\s*:\s*([^;}]+)")
+_INLINE_GRID = re.compile(r"""gridTemplateColumns\s*:\s*[`'"]([^`'"]+)[`'"]""")
+_GAP = re.compile(r"(?:^|[;\s{])(?:column-)?gap\s*:\s*([\d.]+)px")
+_PX = re.compile(r"^([\d.]+)px$")
+
+
+def _split_top(value: str, sep: str = " ") -> list[str]:
+    out, depth, cur = [], 0, ""
+    for ch in value:
+        depth += ch == "("
+        depth -= ch == ")"
+        if ch == sep and depth == 0:
+            if cur.strip():
+                out.append(cur.strip())
+            cur = ""
+        else:
+            cur += ch
+    if cur.strip():
+        out.append(cur.strip())
+    return out
+
+
+def _track_min(track: str) -> tuple[float, int]:
+    """(minimum px, number of tracks) for one top-level track expression."""
+    track = track.strip()
+    m = _PX.match(track)
+    if m:
+        return float(m.group(1)), 1
+    if track.startswith("minmax(") and track.endswith(")"):
+        lo = _split_top(track[7:-1], ",")[0]
+        m = _PX.match(lo)
+        return (float(m.group(1)) if m else 0.0), 1
+    if track.startswith("repeat(") and track.endswith(")"):
+        parts = _split_top(track[7:-1], ",")
+        if len(parts) == 2 and parts[0].strip().isdigit():
+            n = int(parts[0])
+            inner = [_track_min(t) for t in _split_top(parts[1])]
+            return n * sum(p for p, _ in inner), n * sum(c for _, c in inner)
+        return 0.0, 1  # auto-fill / auto-fit wrap on their own
+    return 0.0, 1  # fr, auto, min-content, minmax(0, ...)
+
+
+def grid_min_width(value: str, gap: float = 0.0) -> float:
+    if "[" in value or "/" in value or value.strip() in ("none", "subgrid"):
+        return 0.0
+    tracks = [_track_min(t) for t in _split_top(value.strip())]
+    count = sum(c for _, c in tracks)
+    return sum(p for p, _ in tracks) + gap * max(count - 1, 0)
+
+
+def _css_blocks(text: str):
+    """Yield (selector, body, offset, inside_container) for each rule, one level of @-nesting."""
+    depth, i, stack = 0, 0, []
+    sel_start = 0
+    while i < len(text):
+        ch = text[i]
+        if ch == "/" and text.startswith("/*", i):
+            end = text.find("*/", i + 2)
+            i = len(text) if end < 0 else end + 2
+            sel_start = i if depth == len(stack) else sel_start
+            continue
+        if ch == "{":
+            selector = text[sel_start:i].strip()
+            if selector.startswith("@"):
+                stack.append(selector)
+                sel_start = i + 1
+            else:
+                end = text.find("}", i)
+                end = len(text) if end < 0 else end
+                yield selector, text[i + 1:end], i + 1, any(s.startswith("@container") for s in stack)
+                i = end
+                sel_start = end + 1
+            i += 1
+            continue
+        if ch == "}":
+            if stack:
+                stack.pop()
+            sel_start = i + 1
+        elif ch == ";" and not stack:
+            sel_start = i + 1
+        i += 1
+
+
+def _sel_tail(selector: str) -> str:
+    return " ".join(selector.split()[-2:])
+
+
+def check_responsive_grid(path: str, text: str):
+    if path.endswith(".css"):
+        blocks = list(_css_blocks(text))
+        container_sels = [part.strip() for sel, _, _, inside in blocks if inside for part in sel.split(",")]
+        for selector, body, offset, inside in blocks:
+            if inside or "lint-ok: responsive-grid" in body:
+                continue
+            match = _GRID_COLS.search(body)
+            if not match:
+                continue
+            gap_m = _GAP.search(body)
+            width = grid_min_width(match.group(1), float(gap_m.group(1)) if gap_m else 0.0)
+            if width <= RESPONSIVE_MAX_PX:
+                continue
+            if re.search(r"(?:^|[;\s{])min-width\s*:\s*\d", body):
+                continue  # explicit horizontal-scroll table; its wrapper owns overflow-x
+            parts = [p.strip() for p in selector.split(",") if p.strip()]
+            if parts and all(any(c.endswith(_sel_tail(p)) for c in container_sels) for p in parts):
+                continue  # collapsed by an @container rule in this file
+            no = text.count("\n", 0, offset + match.start()) + 1
+            yield no, (f"`{' '.join(selector.split())[:60]}` needs {width:.0f}px of fixed columns but the main column can be "
+                       f"~{RESPONSIVE_MAX_PX}px next to the rail; use minmax(0, …) tracks or collapse it in "
+                       f"`@container fdmain (max-width: …)` (viewport @media is not enough)")
+    else:
+        for no, line in _lines(text):
+            for match in _INLINE_GRID.finditer(line):
+                width = grid_min_width(match.group(1))
+                if width > RESPONSIVE_MAX_PX:
+                    yield no, (f"inline gridTemplateColumns needs {width:.0f}px; move it to CSS with an "
+                               f"@container fdmain fallback or use minmax(0, …) tracks")
+
+
 FILE_RULES: list[FileRule] = [
     FileRule("secrets", "M022", ("*",), check_secrets, exclude=("lint/*", "tests/test_repo_lint.py")),
     FileRule("supabase-direct-host", "M009", ("*",), check_direct_host, exclude=("lint/*", "tests/test_repo_lint.py", "docs/MISTAKES.md", "db/roles.json")),
@@ -365,6 +489,7 @@ FILE_RULES: list[FileRule] = [
     FileRule("job-dual-import", "M001", ("job/scripts/*.py",), check_dual_import),
     FileRule("no-github-schedule", "M013", (".github/workflows/*.yml", ".github/workflows/*.yaml"), check_workflow_schedule),
     FileRule("no-pg-cron", "M013", ("db/*.sql",), check_pg_cron),
+    FileRule("responsive-grid", "M025", ("front/src/*.css", "front/src/*.tsx"), check_responsive_grid),
 ]
 
 

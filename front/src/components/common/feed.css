@@ -39,7 +39,9 @@
 .fd-tabs button.is-active { color: var(--text-hi); font-weight: 600; border-bottom-color: var(--gold); }
 
 .fd-cols { display: grid; grid-template-columns: minmax(0, 1fr) 320px; gap: 40px; max-width: 1760px; margin: 0 auto; }
-.fd-main { min-width: 0; }
+/* fdmain container: sections collapse by the column width, which is ~600px
+   next to the rail on a laptop, not by the viewport (M025). */
+.fd-main { min-width: 0; container: fdmain / inline-size; }
 .fd-rail { min-width: 0; padding-top: 28px; }
 
 /* hero line */

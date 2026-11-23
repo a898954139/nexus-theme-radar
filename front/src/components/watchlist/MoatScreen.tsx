@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { MoatFailure, MoatRule, MoatScreenData, MoatScreenItem } from '../../types';
 import { SectionHead } from '../home/FeedBlocks';
 import './moat-screen.css';
@@ -69,51 +69,63 @@ export function moatIndex(data: MoatScreenData | null): Map<string, MoatScreenIt
   return new Map((data?.items ?? []).map((item) => [item.instrument.instrument_id, item]));
 }
 
-export const MoatSummary: React.FC<{ data: MoatScreenData; horizon: 'short' | 'long' }> = ({ data, horizon }) => {
+/**
+ * "?" next to the ranking title: a compact popover with how the list is
+ * screened and why. Replaces the full-width rule table (user: too heavy).
+ */
+export const MoatInfo: React.FC<{ data: MoatScreenData; horizon: 'short' | 'long' }> = ({ data, horizon }) => {
+  const [open, setOpen] = useState(false);
+  const wrap = useRef<HTMLSpanElement>(null);
+  useEffect(() => {
+    if (!open) return undefined;
+    const onDown = (event: MouseEvent) => { if (wrap.current && !wrap.current.contains(event.target as Node)) setOpen(false); };
+    const onKey = (event: KeyboardEvent) => { if (event.key === 'Escape') setOpen(false); };
+    document.addEventListener('mousedown', onDown);
+    document.addEventListener('keydown', onKey);
+    return () => { document.removeEventListener('mousedown', onDown); document.removeEventListener('keydown', onKey); };
+  }, [open]);
   const c = data.candidates;
-  const notSelected = data.items.filter((item) => item.short_pass && !item.selected_top50).length;
+  const ruleCount = horizon === 'short' ? 3 : 4;
+  const passed = horizon === 'short' ? c.short_pass : c.long_pass;
+  const notSelected = data.items.filter((item) => (horizon === 'short' ? item.short_pass : item.long_pass) && !item.selected_top50).length;
   const updated = new Date(data.generated_at);
   const time = Number.isNaN(updated.getTime())
     ? data.generated_at
     : updated.toLocaleString('zh-TW', { timeZone: 'Asia/Taipei', month: 'numeric', day: 'numeric', hour: '2-digit', minute: '2-digit', hour12: false });
+  const rules = data.rules.filter((stat) => (horizon === 'short' ? stat.in_short : stat.in_long));
   return (
-    <section className="moat-summary" aria-label="護城河篩選邏輯">
-      <SectionHead level={3} title="護城河篩選" note={`${data.rule_version} · 每小時更新 · ${time}`} />
-      <p className="moat-lede">
-        新聞只決定「看誰」，財報決定「能不能進榜」。題材帶到的股票先過下面的財報門檻，沒過的不管題材多熱都不排名；
-        短線看前三條，長線四條全過才算。
-      </p>
-      <ol className="moat-funnel" aria-label="本小時篩選漏斗">
-        <li><b className="mono-num">{c.count}</b><span>新聞帶到的候選股</span></li>
-        <li><b className="mono-num">{c.evaluated}</b><span>有財報可檢查</span></li>
-        <li className={horizon === 'short' ? 'is-on' : ''}><b className="mono-num">{c.short_pass}</b><span>過短線門檻（3 條）</span></li>
-        <li className={horizon === 'long' ? 'is-on' : ''}><b className="mono-num">{c.long_pass}</b><span>過長線門檻（4 條）</span></li>
-      </ol>
-      <p className="moat-note">
-        過門檻後依題材熱度排序取前 50；有 {notSelected} 檔過了門檻但熱度沒進前 50。全市場 {data.universe.evaluated.toLocaleString('zh-TW')} 檔有財報，
-        短線過 {data.universe.short_pass.toLocaleString('zh-TW')} 檔、長線過 {data.universe.long_pass.toLocaleString('zh-TW')} 檔。
-      </p>
-      <div className="moat-rules" role="table" aria-label="篩選規則">
-        <div className="moat-rules-head" role="row">
-          <span role="columnheader">規則</span><span role="columnheader">門檻</span><span role="columnheader">短線</span><span role="columnheader">長線</span>
-          <span role="columnheader">全市場分布（後25% / 中位數 / 前25%）</span><span role="columnheader">候選未過</span><span role="columnheader">為什麼這樣設</span>
+    <span className="moat-info" ref={wrap}>
+      <button
+        type="button"
+        className={`moat-info-btn${open ? ' is-open' : ''}`}
+        aria-expanded={open}
+        aria-controls="moat-info-pop"
+        aria-label="怎麼篩選這些股票"
+        title="怎麼篩選這些股票"
+        onClick={() => setOpen((shown) => !shown)}
+      >?</button>
+      {open ? (
+        <div className="moat-info-pop" id="moat-info-pop" role="dialog" aria-label="篩選方式">
+          <div className="moat-info-title"><b>怎麼選出這些股票</b><small className="mono-num">{data.rule_version} · {time}</small></div>
+          <ol className="moat-info-steps">
+            <li><b className="mono-num">{c.count}</b> 檔：新聞與題材帶到的股票</li>
+            <li><b className="mono-num">{c.evaluated}</b> 檔：有財報可以檢查</li>
+            <li><b className="mono-num">{passed}</b> 檔：過{horizon === 'short' ? '短線' : '長線'}財報門檻（{ruleCount} 條全過）</li>
+            <li>依題材熱度排序取前 50{notSelected ? `；另有 ${notSelected} 檔過門檻但熱度不夠` : ''}</li>
+          </ol>
+          <p className="moat-info-why">新聞只決定「看誰」，財報決定「能不能進榜」：題材再熱，財報不及格就不排名。</p>
+          <ul className="moat-info-rules">
+            {rules.map((stat) => (
+              <li key={stat.rule}>
+                <div><b>{ruleLabel[stat.rule]}</b><span className="mono-num moat-threshold">{thresholdText(stat.rule, data)}</span></div>
+                <p>{ruleBasis[stat.rule]}</p>
+              </li>
+            ))}
+          </ul>
+          <p className="moat-info-foot">每檔股票的「門檻」按鈕可看它每一條的實際數字。</p>
         </div>
-        {data.rules.map((stat) => {
-          const failedHere = data.items.filter((item) => ruleFailed(item, stat.rule)).length;
-          return (
-            <div className="moat-rules-row" role="row" key={stat.rule}>
-              <span role="cell"><b>{ruleLabel[stat.rule]}</b></span>
-              <span role="cell" className="mono-num moat-threshold">{thresholdText(stat.rule, data)}</span>
-              <span role="cell" className={stat.in_short ? 'moat-yes' : 'moat-no'}>{stat.in_short ? '✓' : '不看'}</span>
-              <span role="cell" className={stat.in_long ? 'moat-yes' : 'moat-no'}>{stat.in_long ? '✓' : '不看'}</span>
-              <span role="cell" className="mono-num">{formatValue(stat.rule, stat.universe_p25)} / {formatValue(stat.rule, stat.universe_p50)} / {formatValue(stat.rule, stat.universe_p75)}</span>
-              <span role="cell" className="mono-num">{failedHere} 檔</span>
-              <span role="cell" className="moat-basis">{ruleBasis[stat.rule]}</span>
-            </div>
-          );
-        })}
-      </div>
-    </section>
+      ) : null}
+    </span>
   );
 };
 

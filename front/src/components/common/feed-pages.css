@@ -142,17 +142,23 @@ details[open] > summary .fd-summary-title::after { content: '收合'; }
 .app-root .fd.fd-page .broker-stock-chip { border: 0; background: transparent; padding: 0 8px 0 0; }
 .app-root .fd.fd-page .flow-lookup { display: flex; align-items: center; gap: 16px; padding-top: 0; }
 
+/* narrow main column (phone, or laptop width next to the rail): stack the
+   wide rows. Container query on .fd-main, not a viewport media query (M025). */
+@container fdmain (max-width: 760px) {
+  .app-root .fd.fd-page .fd-focus .fd-tr { grid-template-columns: 20px minmax(0, 1fr) auto; row-gap: 6px; }
+  .app-root .fd.fd-page .fd-focus .fd-tr.is-head { display: none; }
+  .app-root .fd.fd-page .fd-focus .fd-tr > :nth-child(3) { grid-column: 3; grid-row: 1; }
+  .app-root .fd.fd-page .fd-focus .fd-tr > :nth-child(4) { grid-column: 2; }
+  .app-root .fd.fd-page .fd-focus .fd-tr > :nth-child(5) { grid-column: 3; }
+  .app-root .fd.fd-page .fd-focus .fd-tr > :nth-child(6),
+  .app-root .fd.fd-page .fd-focus .fd-tr > :nth-child(7) { display: none; }
+  .app-root .fd.fd-page .fd-focus .fd-tr > :nth-child(8) { grid-column: 2 / 4; }
+  .app-root .fd.fd-page .momentum-table-head { display: none; }
+  .app-root .fd.fd-page .momentum-row { grid-template-columns: 22px 1fr auto auto; gap: 6px 10px; padding: 12px 0; }
+  .app-root .fd.fd-page .momentum-stock-chips { grid-column: 2 / -1; display: flex; }
+}
+
 /* phone */
-.app-root .fd.fd-page.is-mobile .fd-focus .fd-tr { grid-template-columns: 20px minmax(0, 1fr) auto; row-gap: 6px; }
-.app-root .fd.fd-page.is-mobile .fd-focus .fd-tr.is-head { display: none; }
-.app-root .fd.fd-page.is-mobile .fd-focus .fd-tr > :nth-child(3) { grid-column: 3; grid-row: 1; }
-.app-root .fd.fd-page.is-mobile .fd-focus .fd-tr > :nth-child(4) { grid-column: 2; }
-.app-root .fd.fd-page.is-mobile .fd-focus .fd-tr > :nth-child(5) { grid-column: 3; }
-.app-root .fd.fd-page.is-mobile .fd-focus .fd-tr > :nth-child(6),
-.app-root .fd.fd-page.is-mobile .fd-focus .fd-tr > :nth-child(7) { display: none; }
-.app-root .fd.fd-page.is-mobile .fd-focus .fd-tr > :nth-child(8) { grid-column: 2 / 4; }
-.app-root .fd.fd-page.is-mobile .momentum-row { grid-template-columns: 22px 1fr auto auto; gap: 6px 10px; padding: 12px 0; }
-.app-root .fd.fd-page.is-mobile .momentum-stock-chips { grid-column: 2 / -1; display: flex; }
 .app-root .fd.fd-page.is-mobile .momentum-stock-chip { min-height: 32px; }
 .app-root .fd.fd-page.is-mobile .fd-head { flex-wrap: wrap; }
 .app-root .fd.fd-page.is-mobile .fd-summary-title { font-size: 22px; }
