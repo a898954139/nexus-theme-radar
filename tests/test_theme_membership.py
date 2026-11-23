@@ -80,3 +80,62 @@ def test_curated_themes_absorb_their_named_source_tags() -> None:
     assert "statementdog_tag_187" not in themes and "statementdog_tag_243" not in themes
     assert "2383" in themes["pcb_abf_hdi"]["seed_symbols"]
     assert "2330" not in themes["pcb_abf_hdi"]["seed_symbols"]
+
+
+SHIP_ALIASES = {
+    "market_id": "TW_EQUITY",
+    "symbols": {
+        code: {"exchange": "TWSE", "name_zh": name, "aliases": [name]}
+        for code, name in {
+            "2603": "長榮", "2609": "陽明", "2615": "萬海",
+            "2637": "慧洋-KY", "2606": "裕民", "2618": "長榮航",
+        }.items()
+    },
+}
+
+
+def test_a_ranked_theme_with_no_named_stock_falls_back_to_its_seeds() -> None:
+    """2026-11-23: 11 of 20 ranked themes published zero stocks (航空, 光電 ...),
+    so they never reached the stock radar. They now carry their own seeds,
+    round-robin across supply-chain stages, while a theme whose news did
+    name stocks keeps exactly those."""
+    taxonomy = {"themes": [
+        {
+            "theme_id": "shipping",
+            "seed_symbols": ["2603", "2609", "2615", "2637", "2606", "2618"],
+            "supply_chain": [
+                {"stage": "中游", "industry": "貨櫃", "symbols": ["2603", "2609", "2615"]},
+                {"stage": "中游", "industry": "散裝", "symbols": ["2637", "2606", "9999"]},
+                {"stage": "下游", "industry": "航空貨運", "symbols": ["2618"]},
+            ],
+        },
+        {"theme_id": "memory", "seed_symbols": ["2344"]},
+    ]}
+    momentum = {"themes": [{"theme_id": "shipping", "rank": 1}, {"theme_id": "memory", "rank": 2}]}
+    candidate = {
+        "id": "a", "primary_theme_id": "memory",
+        "direct_symbols": [], "related_symbols": [_seed("2344", "memory")],
+    }
+    payload = updater.enrich_momentum_latest(momentum, [candidate], taxonomy, SHIP_ALIASES)
+    shipping, memory = payload["themes"]
+    assert [item["symbol"] for item in shipping["related_symbols"]] == [
+        "2603", "2637", "2618", "2609", "2606", "2615",
+    ]
+    assert all(item["evidence"] == "taxonomy seed: shipping" for item in shipping["related_symbols"])
+    assert shipping["related_symbols"][0]["instrument_id"] == "TWSE:2603"
+    assert [item["symbol"] for item in memory["related_symbols"]] == ["2344"]
+    # Without aliases there is nothing to resolve seeds against: no fallback.
+    bare = updater.enrich_momentum_latest(momentum, [candidate], taxonomy)
+    assert bare["themes"][0]["related_symbols"] == []
+
+
+def test_shipping_news_maps_to_the_shipping_theme_and_its_stocks() -> None:
+    themes = {theme["theme_id"]: theme for theme in load_theme_taxonomy()["themes"]}
+    shipping = themes["shipping"]
+    assert {"2603", "2609", "2615"} <= set(shipping["seed_symbols"])
+    from scripts.theme_relevance import score_theme_relevance
+
+    taxonomy = load_theme_taxonomy()
+    for title in ("三利多撐運價 法人按讚長榮", "〈航運指數〉SCFI連3跌反映傳統淡季"):
+        matched = score_theme_relevance({"title_zh": title}, taxonomy)["matched_themes"]
+        assert "shipping" in {match["theme_id"] for match in matched}, title

@@ -592,3 +592,17 @@ def test_schema_validator_is_exact_and_checks_same_set_and_rank_continuity():
     broken["short"]["items"][0]["short"]["score"] += 1
     with pytest.raises(ValueError, match="invalid short composite score"):
         validate_stock_watchlist_payload(broken)
+
+
+def test_every_ranked_theme_keeps_a_seat_in_the_top_set():
+    """2026-11-23: the hottest themes filled all 50 seats, so a theme the site
+    called out (航運) showed no stock. Each theme now reserves its best name."""
+    momentum, fundamentals, flows, daytrade = _base_inputs()
+    momentum["themes"].append(
+        _theme("shipping", 10, 10, related=[_symbol("TWSE:2603", "長榮"), _symbol("TWSE:2609", "陽明")])
+    )
+    payload = _build(momentum=momentum, top_n=3)
+    ids = {item["instrument"]["instrument_id"] for item in payload["short"]["items"]}
+    assert "TWSE:2603" in ids  # shipping's best name, despite the lowest attention
+    assert "TWSE:2609" not in ids  # only one reserved seat per theme
+    assert "TWSE:2330" in ids and len(ids) == 3

@@ -34,6 +34,7 @@ def test_taxonomy_contains_market_native_seed_themes() -> None:
         "pcb_abf_hdi",
         "power_supply",
         "robotics",
+        "shipping",
         "thermal_cooling",
     }
     assert all(theme["name_zh"] for theme in themes)

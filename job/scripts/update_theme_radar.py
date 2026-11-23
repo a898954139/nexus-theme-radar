@@ -1591,14 +1591,61 @@ def _theme_related_symbols(
     return kept
 
 
+# A ranked theme whose news named no stock (and matched no tracking candidate)
+# used to publish zero symbols, so it never reached the stock radar: 11 of 20
+# ranked themes on 2026-11-23, including 航空 and the pre-market 航運 call.
+# Such a theme falls back to its own taxonomy seeds, taken round-robin across
+# its supply-chain stages so one segment cannot fill the list.
+SEED_FALLBACK_MAX = 8
+SEED_FALLBACK_REASON = "theme seed symbol (no stock named in this theme's news)"
+
+
+def _seed_fallback_symbols(
+    theme: Mapping[str, Any] | None,
+    symbol_aliases: Mapping[str, Any] | None,
+) -> list[dict[str, Any]]:
+    if not theme or not symbol_aliases or not isinstance(symbol_aliases.get("symbols"), Mapping):
+        return []
+    known = symbol_aliases["symbols"]
+    groups: list[list[str]] = []
+    for segment in theme.get("supply_chain") or []:
+        if isinstance(segment, Mapping):
+            groups.append([str(code) for code in segment.get("symbols") or []])
+    if not groups:
+        groups = [[str(code) for code in theme.get("seed_symbols") or []]]
+    ordered: list[str] = []
+    depth = max((len(group) for group in groups), default=0)
+    for index in range(depth):
+        for group in groups:
+            if index < len(group) and group[index] not in ordered:
+                ordered.append(group[index])
+    theme_id = str(theme.get("theme_id") or "")
+    return [
+        instrument_for_symbol(
+            code,
+            dict(symbol_aliases),
+            evidence=f"{_SEED_EVIDENCE_PREFIX}{theme_id}",
+            reason=SEED_FALLBACK_REASON,
+        )
+        for code in ordered
+        if code in known
+    ][:SEED_FALLBACK_MAX]
+
+
 def enrich_momentum_latest(
     momentum_payload: Mapping[str, Any],
     tracking_candidates: list[Mapping[str, Any]],
     taxonomy: Mapping[str, Any] | None = None,
+    symbol_aliases: Mapping[str, Any] | None = None,
 ) -> dict[str, Any]:
     """Add deterministic tracking-candidate context without changing momentum rank."""
 
     family = _theme_family(taxonomy)
+    taxonomy_by_id = {
+        str(theme.get("theme_id")): theme
+        for theme in (taxonomy or {}).get("themes", [])
+        if isinstance(theme, Mapping)
+    }
 
     candidates_by_theme: dict[str, list[Mapping[str, Any]]] = {}
     for candidate in tracking_candidates:
@@ -1607,7 +1654,16 @@ def enrich_momentum_latest(
 
     themes = []
     for theme in momentum_payload.get("themes", []):
-        theme_candidates = candidates_by_theme.get(str(theme.get("theme_id") or ""), [])
+        theme_id = str(theme.get("theme_id") or "")
+        theme_candidates = candidates_by_theme.get(theme_id, [])
+        direct_symbols = _deduplicated_candidate_symbols(theme_candidates, "direct_symbols")
+        related_symbols = _theme_related_symbols(
+            _deduplicated_candidate_symbols(theme_candidates, "related_symbols"),
+            theme_id,
+            family,
+        )
+        if not direct_symbols and not related_symbols:
+            related_symbols = _seed_fallback_symbols(taxonomy_by_id.get(theme_id), symbol_aliases)
         themes.append(
             {
                 **theme,
@@ -1616,15 +1672,8 @@ def enrich_momentum_latest(
                     if theme_candidates
                     else None
                 ),
-                "direct_symbols": _deduplicated_candidate_symbols(
-                    theme_candidates,
-                    "direct_symbols",
-                ),
-                "related_symbols": _theme_related_symbols(
-                    _deduplicated_candidate_symbols(theme_candidates, "related_symbols"),
-                    str(theme.get("theme_id") or ""),
-                    family,
-                ),
+                "direct_symbols": direct_symbols,
+                "related_symbols": related_symbols,
             }
         )
     return {**momentum_payload, "themes": themes}
@@ -2119,6 +2168,7 @@ def run_momentum_side_paths(
                 latest_payload,
                 projection.get("candidate_clusters", []),
                 taxonomy,
+                symbol_aliases,
             )
             latest_payload = _attach_quarterly_fundamentals(latest_payload, output_dir, generated_at)
         except Exception as error:  # noqa: BLE001 - query/validation is fail closed
