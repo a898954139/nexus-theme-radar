@@ -1,0 +1,33 @@
+{
+  "version": "market-movers-v1",
+  "note": "Names whose news moves Taiwan equities through the US open, foreign flows or a supply chain. Used to KEEP and RANK news by market impact before any theme match; tw_theme_ids only map a kept item onto TW stocks afterwards. weight: 1.0 = a single name that moves TAIEX on its own.",
+  "entities": [
+    {"id": "nvidia", "name_zh": "輝達", "kind": "us_equity", "weight": 1.0,
+     "aliases": ["輝達", "NVIDIA", "黃仁勳", "Jensen Huang", "NVDA"],
+     "tw_theme_ids": ["nvidia_supply_chain"], "pre_market_path": "us_tech_rally"},
+    {"id": "apple", "name_zh": "蘋果", "kind": "us_equity", "weight": 0.8,
+     "aliases": ["蘋果", "Apple", "庫克", "Tim Cook", "AAPL", "iPhone"],
+     "tw_theme_ids": ["statementdog_tag_52"], "pre_market_path": "us_tech_rally"},
+    {"id": "hyperscalers", "name_zh": "雲端四大", "kind": "us_equity", "weight": 0.8,
+     "aliases": ["微軟", "Microsoft", "谷歌", "Google", "Alphabet", "亞馬遜", "Amazon", "AWS", "Meta", "甲骨文", "Oracle", "OpenAI"],
+     "tw_theme_ids": ["ai_server"], "pre_market_path": "ai_capex"},
+    {"id": "amd", "name_zh": "超微", "kind": "us_equity", "weight": 0.7,
+     "aliases": ["超微", "AMD", "蘇姿丰", "Lisa Su"],
+     "tw_theme_ids": ["statementdog_tag_23833"], "pre_market_path": "us_tech_rally"},
+    {"id": "broadcom", "name_zh": "博通", "kind": "us_equity", "weight": 0.7,
+     "aliases": ["博通", "Broadcom", "AVGO"],
+     "tw_theme_ids": ["statementdog_tag_1466"], "pre_market_path": "us_tech_rally"},
+    {"id": "tesla", "name_zh": "特斯拉", "kind": "us_equity", "weight": 0.6,
+     "aliases": ["特斯拉", "Tesla", "TSLA"],
+     "tw_theme_ids": ["statementdog_tag_197"], "pre_market_path": "us_tech_rally"},
+    {"id": "us_index", "name_zh": "美股指數", "kind": "index", "weight": 0.6,
+     "aliases": ["費半", "費城半導體", "那斯達克", "那指", "道瓊", "標普", "美股期指", "Nasdaq", "S&P 500", "SOX", "Dow"],
+     "tw_theme_ids": [], "pre_market_path": "us_tech_rally"},
+    {"id": "fed", "name_zh": "聯準會", "kind": "macro", "weight": 0.6,
+     "aliases": ["聯準會", "Fed", "鮑爾", "Powell", "FOMC"],
+     "tw_theme_ids": [], "pre_market_path": "fed_rates"},
+    {"id": "us_president", "name_zh": "美國總統", "kind": "macro", "weight": 0.5,
+     "aliases": ["川普", "Trump", "白宮", "White House"],
+     "tw_theme_ids": [], "pre_market_path": null}
+  ]
+}

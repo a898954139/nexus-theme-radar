@@ -101,6 +101,12 @@ try:
         instrument_for_symbol,
         load_symbol_aliases,
     )
+    from scripts.market_impact import (
+        IMPACT_KEEP_MIN,
+        find_bursts,
+        load_market_movers,
+        score_impact,
+    )
 except ModuleNotFoundError:
     from public_theme_ranking import (
         PUBLIC_WINDOW_HOURS,
@@ -179,6 +185,12 @@ except ModuleNotFoundError:
         augment_symbol_aliases_with_registry,
         instrument_for_symbol,
         load_symbol_aliases,
+    )
+    from market_impact import (
+        IMPACT_KEEP_MIN,
+        find_bursts,
+        load_market_movers,
+        score_impact,
     )
 
 
@@ -984,8 +996,33 @@ def classify_taiwan_relevance(
             "tw_related_symbols": existing_ids,
         }
 
+    if record.get("kept_by") == "market_impact":
+        mapped = _configured_instrument_ids(
+            [item.get("symbol") for item in record.get("related_symbols") or [] if isinstance(item, dict)],
+            aliases,
+        )
+        signals = "; ".join(record.get("impact_signals") or [])
+        if mapped:
+            return {
+                **public_record,
+                "tw_relevance_status": "market_mover",
+                "tw_relevance_reason": f"market mover -> {record.get('primary_theme_id')}: {signals}",
+                "tw_related_symbols": mapped,
+            }
+        return {
+            **public_record,
+            "tw_relevance_status": "market_wide",
+            "tw_relevance_reason": f"market mover, no TW chain mapped: {signals}",
+            "tw_related_symbols": [],
+        }
+
     phase = _event_phase(record)
-    if phase in {"listing", "market_wrap", "price_performance", "target_price"}:
+    # A price move is the news itself when the market impact is high
+    # ("輝達盤前飆逾7%"): only low-impact price chatter is excluded here.
+    if (
+        phase in {"listing", "market_wrap", "price_performance", "target_price"}
+        and float(record.get("impact_score") or 0) < IMPACT_KEEP_MIN
+    ):
         return {
             **public_record,
             "tw_relevance_status": "excluded",
@@ -1077,6 +1114,79 @@ def _sort_counts(values: dict[str, int]) -> dict[str, int]:
     return dict(sorted(values.items()))
 
 
+def _map_market_mover(
+    item: dict[str, Any],
+    impact: Any,
+    themes_by_id: Mapping[str, Mapping[str, Any]],
+    aliases: dict[str, Any],
+) -> dict[str, Any]:
+    """Map a high-impact headline with no theme match onto Taiwan stocks."""
+
+    theme_ids: list[str] = []
+    for mover in impact.movers:
+        for theme_id in mover.tw_theme_ids:
+            if theme_id in themes_by_id and theme_id not in theme_ids:
+                theme_ids.append(theme_id)
+    names = [mover.id for mover in impact.movers]
+    reason = "market mover: " + "; ".join(impact.signals)
+    matched_themes = [
+        {
+            "theme_id": theme_id,
+            "name_zh": themes_by_id[theme_id].get("name_zh") or theme_id,
+            "score": impact.score,
+            "signals": names,
+            "reason": reason,
+        }
+        for theme_id in theme_ids
+    ]
+    related = list(item.get("related_symbols") or [])
+    seen = {str(symbol.get("instrument_id")) for symbol in related if isinstance(symbol, dict)}
+    for theme_id in theme_ids:
+        for code in themes_by_id[theme_id].get("seed_symbols") or []:
+            try:
+                instrument = instrument_for_symbol(
+                    str(code),
+                    aliases,
+                    evidence=f"market mover chain: {theme_id}",
+                    reason="market mover chain",
+                )
+            except (KeyError, ValueError):
+                continue
+            if instrument["instrument_id"] not in seen:
+                seen.add(instrument["instrument_id"])
+                related.append(instrument)
+    return {
+        **item,
+        "kept_by": "market_impact",
+        "matched_themes": matched_themes,
+        "primary_theme_id": theme_ids[0] if theme_ids else None,
+        "theme_score": impact.score,
+        "related_symbols": related,
+        "related_symbol_codes": [symbol["symbol"] for symbol in related],
+        "decision": "track_watch" if related else "market_wide",
+    }
+
+
+def _top_dropped(dropped: list[dict[str, Any]], limit: int = 15) -> list[dict[str, Any]]:
+    """The dropped headlines closest to the keep line, so a miss is visible."""
+
+    ranked = sorted(
+        dropped,
+        key=lambda item: (-float(item.get("impact_score") or 0), str(item.get("published_at") or "")),
+    )
+    return [
+        {
+            "title": _event_title(item),
+            "source_id": item.get("source_id"),
+            "published_at": item.get("published_at"),
+            "impact_score": item.get("impact_score"),
+            "impact_signals": item.get("impact_signals") or [],
+        }
+        for item in ranked[:limit]
+        if float(item.get("impact_score") or 0) > 0
+    ]
+
+
 def build_theme_projection(
     records: list[dict[str, Any]],
     taxonomy: dict[str, Any],
@@ -1087,6 +1197,7 @@ def build_theme_projection(
     max_candidates: int,
     source_authority: dict[str, int] | None = None,
     symbol_aliases: dict[str, Any] | None = None,
+    market_movers: list[Any] | None = None,
 ) -> tuple[dict[str, Any], dict[str, Any], dict[str, Any]]:
     if window_hours <= 0 or max_events <= 0 or max_candidates <= 0:
         raise ValueError("window item bounds must be positive")
@@ -1123,11 +1234,33 @@ def build_theme_projection(
                 theme_veto_distribution.get(str(theme_id), 0) + 1
             )
 
-    matched = [
-        item
-        for item in enriched
-        if item["matched_themes"] and item["theme_score"] >= SELECTED_THEME_SCORE_MIN
-    ]
+    # Keep by market impact first, map to Taiwan stocks second (M026). A theme
+    # match is one way in; a high market-impact headline is the other, and
+    # whatever is still dropped is counted and listed in the diagnostics.
+    active_movers = load_market_movers() if market_movers is None else market_movers
+    bursts = find_bursts(
+        in_window,
+        anchor=anchor,
+        window_hours=window_hours,
+        title_of=_event_title,
+        published_of=lambda record: parse_timestamp(str(record["published_at"])),
+        source_of=lambda record: record.get("source_id") or record.get("source"),
+    )
+    themes_by_id = {str(theme["theme_id"]): theme for theme in taxonomy.get("themes", [])}
+    matched = []
+    dropped: list[dict[str, Any]] = []
+    kept_by_impact = 0
+    for item in enriched:
+        impact = score_impact(_event_title(item), active_movers, bursts)
+        item["impact_score"] = impact.score
+        item["impact_signals"] = list(impact.signals)
+        if item["matched_themes"] and item["theme_score"] >= SELECTED_THEME_SCORE_MIN:
+            matched.append(item)
+        elif impact.keep:
+            matched.append(_map_market_mover(item, impact, themes_by_id, active_aliases))
+            kept_by_impact += 1
+        else:
+            dropped.append(item)
     classified = [
         classify_taiwan_relevance(item, taxonomy, active_aliases)
         for item in matched
@@ -1185,6 +1318,14 @@ def build_theme_projection(
         "structured_theme_count": structured_theme_count,
         "theme_match_distribution": _sort_counts(theme_match_distribution),
         "theme_veto_distribution": _sort_counts(theme_veto_distribution),
+        "impact_keep_min": IMPACT_KEEP_MIN,
+        "kept_by_impact_items": kept_by_impact,
+        "dropped_items": len(dropped),
+        "top_dropped_items": _top_dropped(dropped),
+        "burst_terms": [
+            {"term": burst.term, "headlines": burst.headlines, "sources": burst.sources, "ratio": burst.ratio}
+            for burst in sorted(bursts.values(), key=lambda b: (-b.headlines, b.term))[:20]
+        ],
     }
 
     retained_by_id: dict[str, dict[str, Any]] = {}
@@ -1221,11 +1362,19 @@ def build_theme_projection(
     if mapped_member_ids != set(retained_by_id):
         raise ValueError("every retained projection member must belong to a cluster")
 
+    # Theme ranking only ranks themes: market-wide items (no TW chain) stay in
+    # the event feed but are not handed to it.
+    themed_clusters = [event for event in clustered if event.get("primary_theme_id")]
+    themed_ids = {str(event.get("cluster_id")) for event in themed_clusters}
     projection = {
-        "retained_records": list(retained),
-        "clustered_events": list(clustered),
+        "retained_records": [item for item in retained if item.get("primary_theme_id")],
+        "clustered_events": themed_clusters,
         "candidate_clusters": list(candidates),
-        "cluster_members_by_id": cluster_members_by_id,
+        "cluster_members_by_id": {
+            cluster_id: members
+            for cluster_id, members in cluster_members_by_id.items()
+            if cluster_id in themed_ids
+        },
         "market_id": market_id,
         "market_scope": list(market_scope),
     }
