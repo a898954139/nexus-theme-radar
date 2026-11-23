@@ -22,6 +22,7 @@ RELATIONAL_MIGRATIONS = sorted(
     [
         *(ROOT / "db/supabase" / "migrations").glob("20261119*_create_radar_relational_*.sql"),
         ROOT / "db/supabase" / "migrations" / "20261122100000_create_radar_moat_screen.sql",
+        ROOT / "db/supabase" / "migrations" / "20261123090000_create_radar_nexus_structure.sql",
     ]
 )
 
@@ -51,11 +52,28 @@ def moat_screen_payload():
     )
 
 
+def nexus_structure_payload():
+    """A nexus_structure.build() run over the committed watchlist with the test's fake detector."""
+    from datetime import datetime, timezone
+
+    from scripts import nexus_structure
+    from test_nexus_structure import _candles, fake_detector
+
+    return nexus_structure.build(
+        DATA, detector=fake_detector, method={"detector_sha256": "x", "detector_revision": "test"},
+        pva_path=None, candles_for=lambda _inst: _candles(), now=datetime(2026, 11, 23, 7, 10, tzinfo=timezone.utc),
+        limit=3,
+    )
+
+
 @pytest.fixture(scope="module")
 def mapped():
     # broker-map/ is ~600MB of JSON: map the committed data once per module.
-    out = {name: loader(DATA) for name, loader in radar_tables.DATASETS.items() if name != "moat-screen"}
+    # moat-screen and nexus-structure are local run state (not committed): build them here.
+    out = {name: loader(DATA) for name, loader in radar_tables.DATASETS.items()
+           if name not in ("moat-screen", "nexus-structure")}
     out["moat-screen"] = radar_tables.map_moat_screen(moat_screen_payload())
+    out["nexus-structure"] = radar_tables.map_nexus_structure(nexus_structure_payload())
     return out
 
 

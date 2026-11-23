@@ -9,6 +9,7 @@ import * as broker from './broker.js';
 import * as institutionalFlows from './institutionalFlows.js';
 import * as institutionalRankings from './institutionalRankings.js';
 import * as moatScreen from './moatScreen.js';
+import * as nexusStructure from './nexusStructure.js';
 import * as sourceStatus from './sourceStatus.js';
 import * as stock from './stock.js';
 import * as themeFocus from './themeFocus.js';
@@ -28,6 +29,7 @@ export const DATASETS = {
   'theme-momentum-history': themes.momentumHistory,
   'stock-watchlist': stock.watchlist,
   'moat-screen': moatScreen,
+  'nexus-structure': nexusStructure,
   'fundamentals': stock.fundamentals,
   'pre-market': briefs.preMarket,
   'stock-audit': briefs.stockAudit,
