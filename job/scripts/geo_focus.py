@@ -28,8 +28,10 @@ from typing import Any, Iterable, Mapping
 
 try:  # pragma: no cover - real runs invoke the entrypoint by path
     from scripts.event_direction import annotate
+    from scripts.market_impact import load_market_movers, score_impact
 except ModuleNotFoundError:  # pragma: no cover
     from event_direction import annotate
+    from market_impact import load_market_movers, score_impact
 
 LOGGER = logging.getLogger(__name__)
 
@@ -301,22 +303,37 @@ def tier_of(score: float) -> str:
     return "normal"
 
 
+IMPACT_BOOST = 0.8
+
+
 def build_focus_events(
     entries: Iterable[Mapping[str, Any]],
     translations: Mapping[str, str],
     now: datetime | None = None,
+    market_movers: list[Any] | None = None,
 ) -> list[dict[str, Any]]:
     """Rank entries into the page's FocusEvent shape, newest-relevant first.
 
     `entries` items need `title`, `link` and `published_at` (aware datetime).
     """
     moment = now or datetime.now(timezone.utc)
+    movers = load_market_movers() if market_movers is None else market_movers
+    paths_by_id = {path["id"]: path for path in PATHS}
     staged: list[dict[str, Any]] = []
     for entry in entries:
         title = strip_prefix(entry.get("title"))
         if not title or is_noise(title):
             continue
         paths = match_paths(title)
+        impact = score_impact(title, movers)
+        if not paths and impact.keep:
+            # M026: a market mover with no keyword path used to be dropped
+            # here. Route it through its configured transmission path instead.
+            paths = [
+                paths_by_id[mover.pre_market_path]
+                for mover in impact.movers
+                if mover.pre_market_path in paths_by_id
+            ][:1]
         if not paths:
             continue
         published = entry.get("published_at")
@@ -329,6 +346,8 @@ def build_focus_events(
             "title": title, "path": path, "act": act_key, "act_weight": act_weight,
             "act_label": act_label, "speaker": speaker, "speaker_weight": speaker_weight,
             "voice": _canonical_voice(title), "published": published,
+            # High market impact lifts an event toward the lead slot.
+            "impact_boost": 1.0 + IMPACT_BOOST * impact.score if impact.keep else 1.0,
             "url": entry.get("link") or "",
         })
 
@@ -351,7 +370,8 @@ def build_focus_events(
         corroboration = min(1.0, 0.62 + 0.13 * voices)
         score = round(
             lead["path"]["weight"] * lead["act_weight"] * lead["speaker_weight"]
-            * corroboration * decay(lead["published"], moment),
+            * corroboration * decay(lead["published"], moment)
+            * lead["impact_boost"],
             3,
         )
         events.append(annotate({

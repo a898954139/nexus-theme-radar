@@ -196,16 +196,24 @@ minimum tracks + gaps exceed 600px must use `minmax(0, …)`, be collapsed by an
 `@container` rule in the same file, or declare `min-width` as an explicit
 horizontal-scroll table).
 
-### M026 Market-moving company/person news dropped: matcher only knew sector words (2026-11-23)
+### M026 Market-moving news dropped before its impact was judged (2026-11-23)
 
-黃仁勳 left and then returned as NVIDIA CEO (TAIEX swung 1,200+ points). Ingest
-stored about 120 such headlines in two days, but the theme matcher only had
-sector keywords (AI 伺服器, CoWoS, 散熱 ...) and no NVIDIA/輝達/黃仁勳 entry, so
-"黃仁勳回鍋輝達執行長" scored 0 and was dropped before the TW-relevance step,
-where nothing counts drops. The pre-market path table matched NVIDIA only with
-order/ban words, so the English headline had no path either. Fixed: curated
-theme `nvidia_supply_chain` (輝達供應鏈) and NVIDIA leadership patterns in
-`us_tech_rally`.
-Enforced by: `test:tests/test_theme_membership.py`
-(`test_nvidia_and_jensen_huang_news_reaches_the_tw_supply_chain`),
-`test:tests/test_pre_market.py` (`test_nvidia_leadership_news_has_a_path`).
+黃仁勳 left and then returned as NVIDIA CEO; it drove the US open and a 1,200+
+point TAIEX swing. Ingest stored about 120 such headlines in two days, and the
+theme radar discarded every one: an item with no theme keyword was dropped at
+score 0 *before* TW relevance, uncounted, and a price-reaction headline
+("輝達盤前飆逾7%") was excluded as `price_performance` even when it was the
+news. The pre-market board dropped any headline with no transmission-path
+keyword the same way. Adding a 輝達 theme (PR #58) only patched one name.
+
+Fix: `job/scripts/market_impact.py` keeps news by market impact first and maps
+it to Taiwan stocks second. Impact = market mover named
+(`job/config/market_movers.json`) + market reaction (暴漲/重挫/+7%) +
+high-impact event (CEO 下台/回鍋, 調查, 制裁) + a data-driven coverage burst
+(catches stories nobody configured). Kept items map through the mover's
+`tw_theme_ids` (status `market_mover`) or stay market-wide (`market_wide`).
+Every run now reports `kept_by_impact_items`, `dropped_items`,
+`top_dropped_items` and `burst_terms` in theme-events.json.
+Enforced by: `test:tests/test_market_impact.py` (real headlines in
+`tests/fixtures/market_impact/`), `test:tests/test_theme_membership.py`,
+`test:tests/test_pre_market.py`.

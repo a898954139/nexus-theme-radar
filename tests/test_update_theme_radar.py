@@ -96,9 +96,17 @@ PRE_V0_7_TOPLEVEL_ADDITIVE_KEYS = {
     "structured_theme_count",
     "theme_match_distribution",
     "theme_veto_distribution",
+    # M026 market-impact gate diagnostics
+    "impact_keep_min",
+    "kept_by_impact_items",
+    "dropped_items",
+    "top_dropped_items",
+    "burst_terms",
 }
 
 PRE_V0_7_EVENT_ITEM_KEYS = {
+    "impact_score",
+    "impact_signals",
     "cluster_event_ids",
     "cluster_id",
     "cluster_size",
