@@ -60,16 +60,31 @@ export function isNexusStructure(value: unknown): value is NexusStructure {
     && typeof v.summary === 'string' && !!v.pva;
 }
 
-/** null on 404 (stock never analyzed), API off, or a malformed payload: the card then renders nothing. */
-export async function fetchNexusStructure(symbol: string, exchange: string | undefined, signal?: AbortSignal): Promise<NexusStructure | null> {
-  const search = new URLSearchParams({ symbol });
-  if (exchange === 'TWSE' || exchange === 'TPEX') search.set('exchange', exchange);
+const cache = new Map<string, Promise<NexusStructure | null>>();
+
+async function load(search: URLSearchParams): Promise<NexusStructure | null> {
   try {
-    const response = await fetch(`${NEXUS_STRUCTURE_PATH}?${search}`, { signal });
+    const response = await fetch(`${NEXUS_STRUCTURE_PATH}?${search}`);
     if (!response.ok || !(response.headers.get('content-type') ?? '').includes('application/json')) return null;
     const body: unknown = await response.json();
     return isNexusStructure(body) ? body : null;
   } catch {
     return null;
   }
+}
+
+/**
+ * null on 404 (stock never analyzed), API off, or a malformed payload: callers then render nothing.
+ * One request per stock per page load, shared by the card and the K-line overlay.
+ */
+export function fetchNexusStructure(symbol: string, exchange: string | undefined): Promise<NexusStructure | null> {
+  const search = new URLSearchParams({ symbol });
+  if (exchange === 'TWSE' || exchange === 'TPEX') search.set('exchange', exchange);
+  const key = search.toString();
+  let pending = cache.get(key);
+  if (!pending) {
+    pending = load(search).then((value) => { if (value === null) cache.delete(key); return value; });
+    cache.set(key, pending);
+  }
+  return pending;
 }
