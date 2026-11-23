@@ -49,12 +49,10 @@ const LevelRow: React.FC<{ level: NexusLevel; close: number }> = ({ level, close
 export const NexusStructureCard: React.FC<{ code: string; exchange?: string }> = ({ code, exchange }) => {
   const [read, setRead] = useState<NexusStructure | null>(null);
   useEffect(() => {
-    const controller = new AbortController();
+    let active = true;
     setRead(null);
-    fetchNexusStructure(code, exchange, controller.signal).then((value) => {
-      if (!controller.signal.aborted) setRead(value);
-    });
-    return () => controller.abort();
+    fetchNexusStructure(code, exchange).then((value) => { if (active) setRead(value); });
+    return () => { active = false; };
   }, [code, exchange]);
 
   if (!read) return null;
