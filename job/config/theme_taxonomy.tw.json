@@ -156,6 +156,23 @@
       "keywords": ["power grid", "smart grid", "energy storage", "電網", "重電", "儲能", "電力設備"],
       "related_industries": ["重電設備", "電網工程", "儲能"],
       "seed_symbols": ["1503", "1513", "1519"]
+    },
+    {
+      "theme_id": "shipping",
+      "name_zh": "航運（貨櫃／散裝）",
+      "market_scope": ["TW_EQUITY"],
+      "keywords": [
+        "貨櫃航運", "貨櫃三雄", "貨櫃輪", "散裝航運", "散裝船", "航運股", "航商", "海運運價",
+        "運價", "SCFI", "BDI", "波羅的海", "紅海", "蘇伊士", "好望角",
+        "container shipping", "freight rate", "dry bulk"
+      ],
+      "related_industries": ["貨櫃航運", "散裝航運", "航空貨運與物流"],
+      "seed_symbols": ["2603", "2609", "2615", "2637", "2606", "5608", "2605", "2618", "2610", "2636"],
+      "supply_chain": [
+        {"stage": "中游", "industry": "貨櫃航運", "symbols": ["2603", "2609", "2615"]},
+        {"stage": "中游", "industry": "散裝航運", "symbols": ["2637", "2606", "5608", "2605"]},
+        {"stage": "下游", "industry": "航空貨運與物流", "symbols": ["2618", "2610", "2636"]}
+      ]
     }
   ]
 }

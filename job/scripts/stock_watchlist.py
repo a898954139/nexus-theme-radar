@@ -20,7 +20,8 @@ METHODOLOGY_VERSION = "stock_watchlist_v1"
 MOAT_METHODOLOGY_VERSION = "stock_watchlist_v2"
 TOP50_RULE_V1 = "theme-attention mother set shared by short and long"
 TOP50_RULE_V2 = (
-    "theme-attention top 50 of moat_v1 names (ROE TTM>=8%, 4Q gross margin>=15%, debt ratio<=60%); "
+    "theme-attention top 50 of moat_v1 names (ROE TTM>=8%, 4Q gross margin>=15%, debt ratio<=60%), "
+    "with one seat reserved for the best passing name of every ranked theme; "
     "long list keeps only those with TTM operating cash flow>0; "
     "fundamental percentiles over the fixed fundamentals universe"
 )
@@ -574,6 +575,46 @@ def _assign_ranks(items: list[dict[str, Any]], horizon: str) -> list[dict[str, A
     return sorted_items
 
 
+def _select_mother_set(
+    passing: list[dict[str, Any]],
+    momentum_payload: Mapping[str, Any],
+    top_n: int,
+) -> set[str]:
+    """Top ``top_n`` by theme attention, but every ranked theme keeps a seat.
+
+    Ranking purely by attention let the two or three hottest themes fill all
+    50 seats, so a theme the site called out (航運 on 2026-11-23) showed no
+    stock at all. Each ranked theme, hottest first, first reserves its best
+    passing name; the remaining seats go by attention as before. ``passing`` is
+    already in attention order.
+    """
+    selected: list[str] = []
+    chosen: set[str] = set()
+    themes = sorted(
+        (theme for theme in momentum_payload.get("themes", []) if isinstance(theme, Mapping)),
+        key=lambda theme: (-float(_number(theme.get("heat_score")) or 0), str(theme.get("theme_id") or "")),
+    )
+    for theme in themes:
+        if len(selected) >= top_n:
+            break
+        theme_id = str(theme.get("theme_id") or "")
+        members = [item for item in passing if any(t["theme_id"] == theme_id for t in item["themes"])]
+        if any(item["instrument"]["instrument_id"] in chosen for item in members):
+            continue
+        if members:
+            instrument_id = members[0]["instrument"]["instrument_id"]
+            selected.append(instrument_id)
+            chosen.add(instrument_id)
+    for item in passing:
+        if len(selected) >= top_n:
+            break
+        instrument_id = item["instrument"]["instrument_id"]
+        if instrument_id not in chosen:
+            selected.append(instrument_id)
+            chosen.add(instrument_id)
+    return chosen
+
+
 def build_stock_watchlist(
     *,
     momentum_payload: Mapping[str, Any],
@@ -735,15 +776,15 @@ def build_stock_watchlist(
             return True
         return bool((moat.get(item["instrument"]["instrument_id"]) or {}).get(key))
 
-    mother_set = sorted(
+    passing = sorted(
         [item for item in items if _moat_pass(item, "short_pass")],
         key=lambda item: (
             item["short"]["components"]["theme_attention"]["raw"] is None,
             -float(item["short"]["components"]["theme_attention"]["raw"] or 0),
             item["instrument"]["instrument_id"],
         ),
-    )[: max(top_n, 0)]
-    selected_ids = {item["instrument"]["instrument_id"] for item in mother_set}
+    )
+    selected_ids = _select_mother_set(passing, momentum_payload, max(top_n, 0))
     selected_items = [item for item in items if item["instrument"]["instrument_id"] in selected_ids]
     short_items = _assign_ranks(selected_items, "short")
     long_items = _assign_ranks(
