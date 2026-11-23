@@ -52,6 +52,14 @@ class TestTransmissionPaths:
         )
         assert "shipping_lane" in {p["id"] for p in paths}
 
+    def test_nvidia_leadership_news_has_a_path(self):
+        """M026: the 2026-11-23 Huang-back-as-CEO headline matched no path."""
+        for title in (
+            "Nvidia board reinstates Jensen Huang as CEO, effective immediately",
+            "Trump urges Nvidia board to bring back its chief executive",
+        ):
+            assert "us_tech_rally" in {p["id"] for p in match_paths(title)}, title
+
     def test_export_control_outranks_china_macro(self):
         weights = {p["id"]: p["weight"] for p in ()} or {
             p["id"]: p["weight"] for p in match_paths("chip export control on China")

@@ -1998,11 +1998,11 @@ def test_build_theme_payloads_exposes_matcher_diagnostics_without_changing_contr
 
     assert events["matcher_contract"] == "hybrid_required_any_v1"
     assert events["taxonomy_version"] == "v0.7"
-    assert events["legacy_theme_count"] == 11
+    assert events["legacy_theme_count"] == 12
     assert events["structured_theme_count"] == 0
     assert candidates["matcher_contract"] == "hybrid_required_any_v1"
     assert candidates["taxonomy_version"] == "v0.7"
-    assert candidates["legacy_theme_count"] == 11
+    assert candidates["legacy_theme_count"] == 12
     assert candidates["structured_theme_count"] == 0
 
     assert list(events["theme_match_distribution"].keys()) == [

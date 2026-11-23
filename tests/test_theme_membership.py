@@ -139,3 +139,31 @@ def test_shipping_news_maps_to_the_shipping_theme_and_its_stocks() -> None:
     for title in ("三利多撐運價 法人按讚長榮", "〈航運指數〉SCFI連3跌反映傳統淡季"):
         matched = score_theme_relevance({"title_zh": title}, taxonomy)["matched_themes"]
         assert "shipping" in {match["theme_id"] for match in matched}, title
+
+
+# M026 (2026-11-23): ~120 headlines about 黃仁勳 leaving and returning as
+# NVIDIA CEO were ingested over two days, but the matcher only knew sector
+# words (AI 伺服器, CoWoS ...), so "黃仁勳回鍋輝達執行長" matched no theme and
+# was dropped before the TW-relevance step. These are real titles from that day.
+NVIDIA_HEADLINES = (
+    "黃仁勳回鍋輝達執行長！董事會一致通過即刻生效",
+    "川普喊話找回黃仁勳！輝達盤前飆逾7% 能終結7連跌？",
+    "漲停宴變股災週！黃仁勳下台全球股市崩",
+    "NVIDIA代理CEO走鋼索　能保住AI引擎、放下融資循環包袱？",
+)
+
+
+def test_nvidia_and_jensen_huang_news_reaches_the_tw_supply_chain() -> None:
+    from scripts.theme_relevance import enrich_item_with_themes
+
+    taxonomy = load_theme_taxonomy()
+    chain = {theme["theme_id"]: theme for theme in taxonomy["themes"]}["nvidia_supply_chain"]
+    assert {"2330", "2317", "2382", "3231", "6669"} <= set(chain["seed_symbols"])
+    for title in NVIDIA_HEADLINES:
+        item = enrich_item_with_themes({"title_zh": title}, taxonomy)
+        assert "nvidia_supply_chain" in {m["theme_id"] for m in item["matched_themes"]}, title
+        assert item["theme_score"] >= updater.SELECTED_THEME_SCORE_MIN, title
+        assert item["decision"] == "track_watch", title
+    # Naming both the person and the company is a tracking candidate on its own.
+    item = enrich_item_with_themes({"title_zh": NVIDIA_HEADLINES[0]}, taxonomy)
+    assert item["theme_score"] >= updater.CANDIDATE_THEME_SCORE_MIN

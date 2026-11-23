@@ -30,6 +30,7 @@ def test_taxonomy_contains_market_native_seed_themes() -> None:
         "defense_drone",
         "energy_grid",
         "memory_hbm",
+        "nvidia_supply_chain",
         "optical_cpo",
         "pcb_abf_hdi",
         "power_supply",
