@@ -60,6 +60,11 @@ BAD = [
     ("job/config/x.py", "URL = 'postgresql://theme_radar_app.ref:" + PW + "@host:5432/postgres'\n", "secrets"),
     ("job/config/x.py", "KEY = 'sk-" + "ant-" + "a" * 30 + "'\n", "secrets"),
     ("job/.env", "X=1\n", "secrets"),
+    # M025 wide grid overflowing the main column next to the rail
+    ("front/src/components/watchlist/moat-screen.css",
+     ".moat-rules-row { display: grid; grid-template-columns: minmax(130px, 1.1fr) 70px 44px 44px minmax(150px, 1.1fr) 70px minmax(220px, 2.4fr); gap: 12px; }\n"
+     "@media (max-width: 719px) { .moat-rules-row { grid-template-columns: 1fr auto; } }\n", "responsive-grid"),
+    ("front/src/components/x/Wide.tsx", "<div style={{ gridTemplateColumns: 'repeat(4, 160px) 200px' }} />\n", "responsive-grid"),
 ]
 
 
@@ -76,6 +81,11 @@ GOOD = [
     ("docs/SETUP.md", "postgresql://theme_radar_app.xdixmdglgzaiugvfxmuw:<password>@aws-1-ap-southeast-2.pooler.supabase.com:5432/postgres\n"),
     ("front/src/services/dataService.ts", "const r = await fetch(`${API}/api/v1/theme-focus`);\n"),
     ("tests/test_x.py", "url = 'postgresql://u:p@h/db'\n"),
+    ("front/src/components/x/x.css", ".r { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) repeat(4, minmax(0, 68px)) minmax(0, 2fr); gap: 10px; }\n"),
+    ("front/src/components/x/x.css", ".t .r { grid-template-columns: 20px minmax(104px, 1.4fr) 40px 120px 96px 70px 70px minmax(150px, 1.6fr); gap: 10px; }\n"
+     "@container fdmain (max-width: 760px) { .app .t .r { grid-template-columns: 20px minmax(0, 1fr) auto; } }\n"),
+    ("front/src/components/x/x.css", ".scroll-table { grid-template-columns: 34px 300px 300px 200px; min-width: 850px; }\n"),
+    ("front/src/components/x/x.css", ".g { grid-template-columns: repeat(auto-fill, minmax(204px, 1fr)); }\n"),
 ]
 
 
@@ -138,3 +148,9 @@ def test_claude_post_hook_blocks_a_bad_edit(tmp_path):
 def test_claude_hooks_ignore_unrelated_calls():
     assert _hook("claude-post", {"tool_input": {"file_path": "/tmp/elsewhere.ts"}}).returncode == 0
     assert _hook("claude-bash", {"tool_input": {"command": "ls -la"}}).returncode == 0
+
+
+def test_grid_min_width_sums_fixed_tracks_and_gaps():
+    assert lint.grid_min_width("minmax(130px, 1.1fr) 70px 44px 44px minmax(150px, 1.1fr) 70px minmax(220px, 2.4fr)", 12) == 800
+    assert lint.grid_min_width("repeat(4, 76px) minmax(0, 2fr)", 10) == 344
+    assert lint.grid_min_width("repeat(auto-fit, minmax(150px, 1fr))") == 0

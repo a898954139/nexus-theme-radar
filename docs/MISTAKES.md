@@ -179,3 +179,19 @@ Enforced by: `process`; add a test when the flows view is next touched.
 ### M024 A layer imported another layer's code
 
 Enforced by: `test:tests/test_layer_boundaries.py`.
+
+### M025 Wide grid overflowed under the right rail (護城河篩選, 題材 × 法人)
+
+PR #52 shipped the moat rule table with ~800px of fixed grid columns
+(`minmax(130px, …) 70px 44px … minmax(220px, …)`). The main column sits next to
+the 280-320px rail, so on a 1280-1440px laptop it is ~600-670px wide; the table
+spilled under the rail and the 「為什麼這樣設」 column was clipped. The 題材 × 法人
+table on 題材動能 had the same problem. Root cause: responsiveness was done only
+with viewport `@media (max-width: 719px)`, which never fires at laptop width
+even though the column is narrow; nobody checked the sum of the fixed tracks.
+Fixed 2026-11-23: `.fd-main` is a named container (`fdmain`), wide rows collapse
+in `@container fdmain (max-width: …)`, moat block replaced by a ? popover.
+Enforced by: `lint:responsive-grid` (a `grid-template-columns` whose fixed
+minimum tracks + gaps exceed 600px must use `minmax(0, …)`, be collapsed by an
+`@container` rule in the same file, or declare `min-width` as an explicit
+horizontal-scroll table).
