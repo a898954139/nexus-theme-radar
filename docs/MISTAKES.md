@@ -195,3 +195,17 @@ Enforced by: `lint:responsive-grid` (a `grid-template-columns` whose fixed
 minimum tracks + gaps exceed 600px must use `minmax(0, …)`, be collapsed by an
 `@container` rule in the same file, or declare `min-width` as an explicit
 horizontal-scroll table).
+
+### M026 Market-moving company/person news dropped: matcher only knew sector words (2026-11-23)
+
+黃仁勳 left and then returned as NVIDIA CEO (TAIEX swung 1,200+ points). Ingest
+stored about 120 such headlines in two days, but the theme matcher only had
+sector keywords (AI 伺服器, CoWoS, 散熱 ...) and no NVIDIA/輝達/黃仁勳 entry, so
+"黃仁勳回鍋輝達執行長" scored 0 and was dropped before the TW-relevance step,
+where nothing counts drops. The pre-market path table matched NVIDIA only with
+order/ban words, so the English headline had no path either. Fixed: curated
+theme `nvidia_supply_chain` (輝達供應鏈) and NVIDIA leadership patterns in
+`us_tech_rally`.
+Enforced by: `test:tests/test_theme_membership.py`
+(`test_nvidia_and_jensen_huang_news_reaches_the_tw_supply_chain`),
+`test:tests/test_pre_market.py` (`test_nvidia_leadership_news_has_a_path`).

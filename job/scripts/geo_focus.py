@@ -137,7 +137,10 @@ PATHS: tuple[dict[str, Any], ...] = (
         "kw": (r"nasdaq|\bsox\b|philadelphia semiconductor|semiconductor index",
                r"\btsm\b|tsmc adr|taiwan semi.{0,20}(adr|shares)",
                r"(chip|tech|semiconductor|nvidia|ai) (stocks?|shares)",
-               r"magnificent (7|seven)"),
+               r"magnificent (7|seven)",
+               # Leadership news at the one US name the TW AI chain hangs off
+               # (M026: the 2026-11-23 "Huang back as CEO" headline matched no path).
+               r"jensen huang", r"nvidia.{0,30}(ceo|chief executive|board|reinstat)"),
     },
     {
         "id": "tw_fundamental", "label": "台廠基本面", "weight": 0.76,
