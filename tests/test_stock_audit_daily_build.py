@@ -136,3 +136,13 @@ def test_watchlist_candidates_are_twse_only_and_deduped(tmp_path) -> None:
     picked = [s for s, _ in b.watchlist_candidates(path, 6)]
     assert "3081" not in picked and picked.count("2317") == 1
     assert "9999" not in picked  # no fundamentals cache -> not a candidate
+
+
+def test_number_accepts_an_already_signed_down_value() -> None:
+    """2026-11-23 17:40: TAIFEX sent '▼-5.25'; number() made it '--5.25' (M027)."""
+    parse_number = b.number
+    assert parse_number("▼-5.25") == -5.25
+    assert parse_number("▼5.25") == -5.25
+    assert parse_number("-▼0.30%") == -0.30
+    assert parse_number("▲1,234.5") == 1234.5
+    assert parse_number("-12") == -12.0

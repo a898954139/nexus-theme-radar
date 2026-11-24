@@ -29,7 +29,11 @@ TZ = ZoneInfo('Asia/Taipei')
 
 
 def number(value):
-    n = float(str(value).replace(',', '').replace('▲', '').replace('▼', '-').replace('%', ''))
+    text = str(value).replace(',', '').replace('%', '').strip()
+    down = '▼' in text
+    n = float(text.replace('▲', '').replace('▼', '').strip())
+    if down and n > 0:  # TAIFEX may already sign the value: '▼-5.25' (M027)
+        n = -n
     if not math.isfinite(n):
         raise ValueError('Non-finite source value')
     return n
