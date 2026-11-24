@@ -217,3 +217,22 @@ Every run now reports `kept_by_impact_items`, `dropped_items`,
 Enforced by: `test:tests/test_market_impact.py` (real headlines in
 `tests/fixtures/market_impact/`), `test:tests/test_theme_membership.py`,
 `test:tests/test_pre_market.py`.
+
+### M027 Theme radar crashed every hour after M026 shipped (2026-11-24)
+
+PR #59 let a headline in on market impact alone. A macro mover with no TW
+chain (聯準會, 川普) plus a stock name ("聯準會意外升息 台積電暴跌") produced an
+item with `matched_themes == []`, `related_symbols` set and `theme_score`
+≥ 0.5, so the candidate builder in `build_theme_projection` read
+`matched_themes[0]` and raised `IndexError`. theme-radar exited 1 every hour
+from 00:17 to 13:17 (14 runs); theme-events / ranking / focus froze at the
+11-23 23:17 run while ingest and pre-market stayed green. Root cause: the new
+path created a shape (kept, stock-mapped, themeless) that an old `[0]` assumed
+impossible, and the tests only fed headlines whose mover had a TW chain.
+Same day, stock-audit failed on TAIFEX `'▼-5.25'` (number() turned it into
+`--5.25`).
+Fix: candidates require a theme (themeless items stay in the event feed);
+`number()` negates ▼ only when the value is not already negative.
+Enforced by: `test:tests/test_market_impact.py`
+(`test_impact_kept_stock_headline_with_no_theme_does_not_crash_candidates`),
+`test:tests/test_stock_audit_daily_build.py`.

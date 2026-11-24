@@ -1271,10 +1271,15 @@ def build_theme_projection(
         retained,
         source_authority=source_authority or {},
     )
+    # A headline kept by market impact alone (macro mover with no TW chain, or a
+    # burst) can name a stock yet carry no theme: it stays in the event feed but
+    # is not a theme tracking candidate (theme-radar crashed hourly on it, M027).
     candidates = [
         {**item, "tracking_reason": item["matched_themes"][0]["reason"]}
         for item in clustered
-        if item["theme_score"] >= CANDIDATE_THEME_SCORE_MIN and item.get("related_symbols")
+        if item.get("matched_themes")
+        and item["theme_score"] >= CANDIDATE_THEME_SCORE_MIN
+        and item.get("related_symbols")
     ]
 
     market_id = str(taxonomy.get("market_id") or "TW_EQUITY")

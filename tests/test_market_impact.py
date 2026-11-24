@@ -155,3 +155,22 @@ def test_pre_market_routes_a_mover_with_no_keyword_path() -> None:
     }]
     events = build_focus_events(entries, {}, now=now)
     assert [event["pathId"] for event in events] == ["us_tech_rally"]
+
+
+def test_impact_kept_stock_headline_with_no_theme_does_not_crash_candidates() -> None:
+    """2026-11-24: theme-radar exited 1 every hour since #59.
+
+    A headline kept by impact alone (no theme, no mover chain) that still names
+    a listed stock reached the candidate list, which read matched_themes[0].
+    It stays in the feed but is not a theme tracking candidate.
+    """
+    taxonomy = _taxonomy_without_entity_keywords()
+    taxonomy["themes"] = [
+        theme for theme in taxonomy["themes"] if theme["theme_id"] == "nvidia_supply_chain"
+    ]
+    title = "聯準會意外升息 台積電暴跌"
+    events, candidates, projection = _project([_record(0, title)], taxonomy)
+    item = next(item for item in events["items"] if item["title_zh"] == title)
+    assert item["matched_themes"] == []
+    assert item["related_symbols"], "repro needs a stock mention"
+    assert all(candidate["matched_themes"] for candidate in candidates["items"])
