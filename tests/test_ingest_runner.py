@@ -217,7 +217,13 @@ def test_fetch_group_contains_fetcher_exceptions() -> None:
 
 def test_run_ingest_group_writes_one_ingest_run() -> None:
     config = load_ingest_config()
-    connection = IngestConnection([("moneydj", NOW - timedelta(minutes=1))])
+    # The 2026-11-25 promoted sources poll every 15 min; 10 min ago is not due.
+    connection = IngestConnection([
+        ("moneydj", NOW - timedelta(minutes=1)),
+        ("udn_money_stock", NOW - timedelta(minutes=10)),
+        ("ctee_stock", NOW - timedelta(minutes=10)),
+        ("cna_finance", NOW - timedelta(minutes=10)),
+    ])
     fetcher = _fake_fetcher(failing={"yahoo_finance_tw"})
     summary = run_ingest_group(
         "tw-news-a", connection_factory=lambda: connection, config=config,
@@ -225,7 +231,8 @@ def test_run_ingest_group_writes_one_ingest_run() -> None:
     )
     assert summary["result"] == "written"
     assert sorted(fetcher.calls) == ["cnyes", "yahoo_finance_tw"]
-    assert [s["source_id"] for s in summary["skipped"]] == ["moneydj"]
+    assert sorted(s["source_id"] for s in summary["skipped"]) == [
+        "cna_finance", "ctee_stock", "moneydj", "udn_money_stock"]
     assert summary["db_article_count"] == 2
     assert summary["failed_source_count"] == 1
     assert summary["run_id"].startswith("ingest-tw-news-a-20261118T080503Z-")

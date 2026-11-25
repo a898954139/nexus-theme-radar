@@ -154,6 +154,10 @@ def test_registry_exposes_only_active_rss_sources() -> None:
         "cnyes",
         "technews",
         "digitimes_tw",
+        # Promoted from trial on 2026-11-25 (issue #3).
+        "udn_money_stock",
+        "ctee_stock",
+        "cna_finance",
     }
     assert all(source["feed_url"].startswith("https://") for source in sources)
     assert all(source["fetch_method"] == "rss" for source in sources)

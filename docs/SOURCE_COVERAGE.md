@@ -121,6 +121,21 @@ Trial since 2026-11-18, verified from GitHub Actions on that date
 | `ctee_stock` | `https://www.ctee.com.tw/rss_web/livenews/stock` | 15 | 工商時報 證券; stamps Taipei time as `+0000`, corrected by `published_at_offset_hours: -8` |
 | `cna_finance` | `https://feeds.feedburner.com/rsscna/finance` | 20 | 中央社 財經; sends Last-Modified but answers 200 to revalidation |
 
+**Promoted to active on 2026-11-25.** Evidence came from the last committed
+`job/data` snapshot, because the repo split (#44) moved the job state to the
+Mac. It covers 2026-11-18 14:02Z to 2026-11-21 11:07Z: 14 hourly runs and
+1,859 baseline items.
+
+| source_id | items | duplicate rate | runs / success |
+|---|---|---|---|
+| `udn_money_stock` | 144 | 0.7% | 14 / 100% |
+| `ctee_stock` | 96 | 1.0% | 14 / 100% |
+| `cna_finance` | 152 | 23.7% (31 of 36 matches are `yahoo_finance_tw`, which syndicates CNA) | 14 / 100% |
+
+All three joined ingest group `tw-news-a` with `min_interval_minutes: 15`.
+None of them supports 304, so 5-minute polling would cost 288 full GETs per day
+per feed.
+
 Rejected: `ctee.com.tw/feed` (403), `cna.com.tw/rss/aie.xml` (404). The
 經濟日報 要聞/國際 channels (5588/5591) largely republish CNA wire copy, so only
 the 證券 channel is on trial. CNBC/MarketWatch also work but stay out of Phase 1
